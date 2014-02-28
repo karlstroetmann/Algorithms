@@ -1,0 +1,28 @@
+program main;
+
+    print( root(2, 1000) );
+
+    -- Compute the square root of n up to k digits.
+    -- n needs to be less than 100.
+    procedure root(n, k);
+        d := 0;
+        while (d + 1) * (d + 1) <= n loop
+            d := d + 1;
+        end loop;
+        r := d;
+        while (k > 0) loop
+            k := k - 1;
+            n := n * 100;
+            r := r * 10;
+            d := 0;
+            while (r + d + 1) * (r + d + 1) <= n loop
+                d := d + 1;
+            end loop;
+            r := r + d;
+        end loop;
+        result := "" + r;
+        result(2..1) := ".";
+        return result;
+    end root;
+
+end main;

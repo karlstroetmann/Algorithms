@@ -1,0 +1,21 @@
+digraph G {
+//    rankdir=LR;    
+    size = "4,8"
+    Start->0;
+    
+    Start [shape = plaintext];
+    0 -> 1 [ label = eps ];
+    1 -> 2 [ label = eps ];
+    1 -> 4 [ label = eps ];
+    2 -> 3 [ label = a ];
+    4 -> 5 [ label = b ];
+    3 -> 6 [ label = eps ];
+    5 -> 6 [ label = eps ];
+    6 -> 1 [ constraint = false, label = eps ];
+    6 -> 7 [label = eps ];
+    0 -> 7 [ label = eps ];
+    7 -> 8 [ label = a ];
+    8 -> 9 [ label = b ];
+    9 -> 10 [ label = b ];
+    10 [ peripheries = 2 ];
+}

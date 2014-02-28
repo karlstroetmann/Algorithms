@@ -1,0 +1,461 @@
+\documentclass{article}
+\usepackage{a4wide}
+\usepackage{german}
+\usepackage{amssymb}
+
+\newtheorem{Definition}{Definition}
+\newtheorem{Notation}[Definition]{Notation}
+\newtheorem{Korollar}[Definition]{Korollar}
+\newtheorem{Lemma}[Definition]{Lemma}
+\newtheorem{Satz}[Definition]{Satz}
+\newtheorem{Theorem}[Definition]{Theorem}
+
+
+\title{Beweis der Korrektheit von \texttt{minSort}}
+\begin{document}
+\maketitle
+
+\section{Die C--Implementierung}
+\noindent
+Der Algorithmus \texttt{minSort} kann wie folgt in \texttt{C} implementiert werden:
+\begin{verbatim}
+NodePtr getMin(List l) {
+    assert(l != 0);
+    Data first  = l->data;
+    if (l->nextPtr == 0) {
+        return l;
+    }
+    NodePtr min_rest = getMin(l->nextPtr);
+    Data    rest = min_rest->data;
+    int cmp = compareData(first, rest);
+    if (cmp <= 0) {
+        return l;
+    } else {
+        return min_rest;
+    }
+}
+List delete(List l, NodePtr ptr) {
+    if (l == ptr) {
+        return ptr->nextPtr;
+    }
+    l->nextPtr = delete(l->nextPtr, ptr);
+    return l;
+}
+List cons(NodePtr ptr, List l) {
+    ptr->nextPtr = l;
+    return ptr;
+}
+List minSort(List l1) {
+    List l2, l3, l4;
+    if (l1 == 0)
+        return l1;
+    NodePtr m = getMin(l1);
+    l2 = delete(l1, m);
+    l3 = minSort(l2);
+    l4 = cons(m, l3);
+    return l4;
+}
+\end{verbatim}
+
+\section{Überführung in bedingte Gleichungen}
+Um den Algorithmus verifizieren zu können, überführen wir ihn zunächst in bedingte
+Gleichungen:
+
+\begin{enumerate}
+\item Transformation von \texttt{minSort}:
+    \begin{enumerate}
+    \item $\mathtt{minSort}([]) = []$
+    \item $l \not=[] \rightarrow \mathtt{minSort}(l) \;=\; [\; \mathtt{getMin}(l) \;|\; \mathtt{minSort}(\,\mathtt{delete}(l, \mathtt{getMin}(l))\,)\;]$
+    \end{enumerate}
+\item Transformation von \texttt{delete}:
+    \begin{enumerate}
+    \item $\texttt{delete}([],d) = []$
+    \item $d_1 = d_2 \rightarrow \mathtt{delete}([d_1|r_1], d_2) = r_1$
+    \item $d_1 \not= d_2 \rightarrow \mathtt{delete}([d_1|r_1], d_2) = [\;d_1 \;|\; \mathtt{delete}(r_1, d_2)\;]$
+    \end{enumerate}
+\item Transformation von \texttt{getMin}:
+    \begin{enumerate}
+    \item $\mathtt{getMin}([d]) = d$
+    \item $d \leq \mathtt{getMin}(r) \rightarrow \mathtt{getMin}([d|r]) = d$
+    \item $d >    \mathtt{getMin}(r) \rightarrow \mathtt{getMin}([d|r]) = \mathtt{getMin}(r)$
+    \end{enumerate}
+\item Definition: $\leq : \textsl{Data} \times \textsl{List} \rightarrow \mathbb{B}$
+    \begin{enumerate}
+    \item $x \leq []$
+    \item $x \leq [d|r] \;\leftrightarrow\; x \leq d \wedge x \leq r$
+    \end{enumerate}
+\item Definition von $\texttt{ordered}: \textsl{List} \rightarrow \mathbb{B}$
+\begin{enumerate}
+\item $\mathtt{ordered}([]) \leftrightarrow \mathtt{true}$
+\item $\mathtt{ordered}([d|r]) \leftrightarrow d \leq r \wedge \mathtt{ordered}(r)$
+\end{enumerate}
+\end{enumerate}
+
+\section{Nachweis der Korrektheit}
+Um den Nachweis der Korrektheit erbringen zu können, brauchen wir eine Reihe von
+Hilfssätzen.
+\begin{Lemma}[Transitivität] \label{l1}
+Für beliebige Daten $x$, $y$ und Listen $l$ gilt: \\[0.1cm]
+\hspace*{1.3cm} $x \leq y \wedge y \leq l \rightarrow x \leq l$.
+\end{Lemma}
+\textbf{Beweis}:  Wir führen den Beweis durch Induktion über die Länge der Liste $l$.
+\begin{enumerate}
+\item Fall: $l = []$
+
+      Zu zeigen ist $x \leq []$. Dies folgt unmittelbar aus der Definition von $\leq$.
+\item Fall: $l = [d|r]$
+
+      Als Voraussetzung haben wir \\[0.1cm]
+      \hspace*{1.3cm} $x \leq y$ \quad und \hspace*{\fill} (1) \\[0.1cm]
+      \hspace*{1.3cm} $y \leq [\,d\,|\,r\,]$. \hspace*{\fill} (2) \\[0.1cm]
+      Aus (2) folgt nach Definition von $\leq$ \\[0.1cm]
+      \hspace*{1.3cm} $y \leq d$ \quad und \hspace*{\fill} (3) \\[0.1cm]
+      \hspace*{1.3cm} $y \leq r$. \hspace*{\fill} (4) \\[0.1cm]
+      Aus (1) und (3) folgt \\[0.1cm]
+      \hspace*{1.3cm} $x \leq d$ \hspace*{\fill} (5) \\[0.1cm]
+      Aus (1) und (4) folgt nach Induktions--Voraussetzung \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$. \hspace*{\fill} (6) \\[0.1cm]
+      Aus (5) und (6) folgt nach Definition von $\leq$ \\[0.1cm]
+      \hspace*{1.3cm} $y \leq [\,d\,|\,r\,]$. \hspace*{\fill} $_\Box$ \\[0.1cm]
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{getMin} und $\leq$] \label{l2}
+Für beliebige Daten $x$ und Listen $l \not= []$ gilt: \\[0.1cm]
+\hspace*{1.3cm} $x \leq l \leftrightarrow x \leq \mathtt{getMin}(l)$
+\end{Lemma}
+\textbf{Beweis}:  Wir führen den Beweis durch Induktion über die Länge der Liste $l$.
+\begin{enumerate}
+\item Fall: $l = [d]$
+    
+      Wir müssen zeigen \\[0.1cm]
+      \hspace*{1.3cm} $x \leq [d] \leftrightarrow x \leq \mathtt{getMin}([d])$ \\[0.1cm]
+      Wegen $\mathtt{getMin}([d]) = d$ ist dies äquivalent zu \\[0.1cm]
+      \hspace*{1.3cm} $x \leq [d] \leftrightarrow x \leq d$ \\[0.1cm]
+      Dies folgt unmittelbar aus der Definition von $\leq$.
+\item Fall: $l = [\,d\,|\,r\,]$ mit $r \not = []$ und $d \leq \mathtt{getMin}(r)$
+
+      Zu zeigen ist $x \leq [\,d\,|\,r\,] \leftrightarrow x \leq \mathtt{getMin}([\,d\,|\,r\,])$.
+
+      Wir nehmen zunächst an, dass $x \leq [\,d\,|\,r\,]$ gilt und zeigen, dass daraus \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ \\[0.1cm]
+      folgt.  Aus $x \leq [\,d\,|\,r\,]$ folgt \\[0.1cm]
+      \hspace*{1.3cm} $x \leq d$.   \hspace*{\fill} (1) \\[0.1cm]
+      Wegen $d \leq \mathtt{getMin}(r)$ gilt $\mathtt{getMin}([\,d\,|\,r\,]) = d$ und wegen (1)
+      folgt daraus \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}([\,d\,|\,r\,])$.
+     
+      Wir nehmen nun an, dass  $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ gilt und zeigen,
+      dass daraus \\[0.1cm]
+      \hspace*{1.3cm}  $x \leq [\,d\,|\,r\,]$ \\[0.1cm]
+      folgt.  Aus $\mathtt{getMin}([\,d\,|\,r\,]) = d$ und der Annahme
+        $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ folgt \\[0.1cm]
+       \hspace*{1.3cm} $x \leq d$. \hspace*{\fill} (2) \\[0.1cm]
+      Aus $x\leq d$ und $d \leq \mathtt{getMin}(r)$  folgt       \\[0.1cm] 
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}(r)$. \hspace*{\fill} (3) \\[0.1cm]
+      Aus $(3)$ folgt mit der Induktions--Voraussetzung dann \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$. \hspace*{\fill} (4) \\[0.1cm]
+      Aus (2) und (4) folgt nun \\[0.1cm]
+      \hspace*{1.3cm} $x \leq [\,d\,|\,r\,]$.
+
+\item Fall: $l = [\,d\,|\,r\,]$ mit $r \not = []$ und $d > \mathtt{getMin}(r)$
+
+      Zu zeigen ist $x \leq [\,d\,|\,r\,] \leftrightarrow x \leq \mathtt{getMin}([\,d\,|\,r\,])$.
+
+      Wir nehmen zunächst an, dass $x \leq [\,d\,|\,r\,]$ gilt und zeigen, dass daraus \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ \\[0.1cm]
+      folgt.  Aus $x \leq [\,d\,|\,r\,]$ folgt nach Definition von $\leq$ \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$.   \hspace*{\fill} (1) \\[0.1cm]
+      Wegen $r\not=[]$ folgt daraus mit Induktions--Voraussetzung \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}(r)$. \hspace*{\fill} (2) \\[0.1cm]
+      Wegen $d > \mathtt{getMin}(r)$ gilt $\mathtt{getMin}([\,d\,|\,r\,]) = \mathtt{getMin}(r)$ und wegen (2)
+      folgt daraus \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{getMin}([\,d\,|\,r\,])$.
+     
+      Wir nehmen nun an, dass  $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ gilt und zeigen,
+      dass daraus \\[0.1cm]
+      \hspace*{1.3cm}  $x \leq [\,d\,|\,r\,]$  \\[0.1cm]
+      folgt.  Aus $\mathtt{getMin}([\,d\,|\,r\,]) = \mathtt{getMin}(r)$ und der Annahme
+        $x \leq \mathtt{getMin}([\,d\,|\,r\,])$ folgt \\[0.1cm]
+       \hspace*{1.3cm} $x \leq \mathtt{getMin}(r)$. \hspace*{\fill} (2) \\[0.1cm]
+      Aus  $x \leq \mathtt{getMin}(r)$ und $r \not= []$ folgt wegen der
+      Induktions--Voraussetzung \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$. \hspace*{\fill} (3) \\[0.1cm]
+      Aus der Voraussetzung $d > \mathtt{getMin}(r)$ folgt mit (2) sofort \\[0.1cm]
+      \hspace*{1.3cm} $x \leq d$. \hspace*{\fill} (4) \\[0.1cm]
+      Aus (4) und (3) folgt nun \\[0.1cm]
+      \hspace*{1.3cm} $x \leq [\,d\,|\,r\,]$. \hspace*{\fill} $_\Box$
+\end{enumerate}
+
+\begin{Lemma}[Minimalität von \texttt{getMin}] \label{l3}
+Falls $l \not= []$ ist, so gilt $\mathtt{getMin}(l) \leq l$.
+\end{Lemma}
+\textbf{Beweis}:  Wir führen den Beweis durch Induktion über die Länge der Liste $l$.
+\begin{enumerate}
+\item $l = [d]$
+
+      Wegen $\mathtt{getMin}([d]) = d$ ist die Behauptung dann äquivalent zu \\[0.1cm]
+      \hspace*{1.3cm} $d \leq [d]$ \\[0.1cm]
+      und das folgt sofort aus der Definition von $\leq$.
+\item $l = [\,d\,|\,r\,]$, $r \not= []$ und $d \leq \mathtt{getMin}(r)$
+
+      Aus $d \leq \mathtt{getMin}(r)$ folgt mit Lemma \ref{l2} \\[0.1cm]
+      \hspace*{1.3cm} $d \leq r$. \hspace*{\fill} (1) \\[0.1cm]
+      Wegen $d = \mathtt{getMin}([\,d\,|\,r\,])$ und $d \leq d$ folgt daraus sofort \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{getMin}([\,d\,|\,r\,]) \leq [\,d\,|\,r\,]$.
+\item $l = [\,d\,|\,r\,]$, $r \not= []$ und $d > \mathtt{getMin}(r)$
+
+     Nach Induktions--Voraussetzung gilt \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{getMin}(r) \leq r$. \hspace*{\fill} (1) \\[0.1cm]
+     Wegen $d > \mathtt{getMin}(r)$ gilt erst recht \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{getMin}(r) \leq d$. \hspace*{\fill} (2) \\[0.1cm]
+     Aus (1) und (2) folgt \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{getMin}(r) \leq [\,d\,|\,r\,]$. \hspace*{\fill}  \\[0.1cm]
+     Wegen $\mathtt{getMin}([\,d\,|\,r\,]) = \mathtt{getMin}(r)$ ist das die Behauptung. \hspace*{\fill}  $_\Box$
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{delete} und $\leq$] 
+\label{l4}
+Für beliebige Daten $x$, $y$   und Listen $l$ gilt: \\[0.1cm]
+\hspace*{1.3cm} $x \leq l \rightarrow x \leq \mathtt{delete}(l,y)$
+\end{Lemma}
+\textbf{Beweis} durch Induktion über die Länge der Liste $l$:
+\begin{enumerate}
+\item Fall: $l = []$
+
+      Wegen $\mathtt{delete}([],y) = []$ folgt die Behauptung unmittelbar aus der
+      Definition von $[]$.
+\item Fall: $l = [\,d\,|\,r\,]$ und $y = d$
+
+      Aus $x \leq l$ folgt sofort \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$. \hspace*{\fill} (1) \\[0.1cm]
+      Wegen $\mathtt{delete}([\,d\,|\,r\,],d) = r$ ist das die Behauptung.
+\item Fall:  $l = [\,d\,|\,r\,]$ und $y \not= d$
+
+      Aus $x \leq l$ folgt sofort \\[0.1cm]
+      \hspace*{1.3cm} $x \leq d$ \quad und \hspace*{\fill} (1) \\[0.1cm]
+      \hspace*{1.3cm} $x \leq r$. \hspace*{\fill} (2) \\[0.1cm]
+      Nach Induktions--Voraussetzung folgt aus (2) \\[0.1cm]
+      \hspace*{1.3cm} $x \leq \mathtt{delete}(r,y)$. \hspace*{\fill} (3) \\[0.1cm]
+      Aus (1) und (3) folgt nun \\[0.1cm]
+      \hspace*{1.3cm} $x \leq [\;d\;|\;\mathtt{delete}(r,y)\;]$ \\[0.1cm]
+      Wegen $\mathtt{delete}([\,d\,|\,r\,],y) = [\;d\;|\;\mathtt{delete}(r,y)\;]$ ist das die Behauptung.
+      \hspace*{\fill} $_\Box$
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{minSort} und $\leq$] \hspace*{\fill} \\
+\label{l6}
+Sei ein Datum $x$ und eine Liste $l$ mit $x \leq l$ gegeben. Dann gilt \\[0.1cm]
+\hspace*{1.3cm} $x \leq \mathtt{minSort}(l)$
+\end{Lemma}
+\textbf{Beweis} durch Induktion über die Anzahl der Rechenschritte in der Berechnung
+von $\texttt{minSort}(l)$:
+\begin{enumerate}
+\item Fall: $l = []$
+
+      Aus $\mathtt{minSort}([]) = []$ und der Definition von $\leq$ folgt die Behauptung
+      unmittelbar.
+\item Fall: $l \not= []$
+
+     Aus der Voraussetzung $x \leq l$ folgt mit Lemma \ref{l4} \\[0.1cm]
+     \hspace*{1.3cm} $x \leq  \mathtt{delete}(l, \mathtt{getMin}(l))$ \hspace*{\fill} (1) \\[0.1cm]
+     Weil zur Berechnung von $\mathtt{minSort}(l)$ rekursiv die Berechnung von \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{minSort}(\mathtt{delete}(l, \mathtt{getMin}(l)))$ \\[0.1cm]
+     durchgeführt wird,
+     werden zur Durchführung der Berechnung von  $\mathtt{getMin}(\mathtt{delete}(l, \mathtt{getMin}(l)))$
+     weniger Rechenschritte benötigt als für die Berechnung von $\mathtt{minSort}(l)$.
+     Wegen (1) können wir also die Induktions--Voraussetzung auf die Liste \\
+     $\mathtt{delete}(l, \mathtt{getMin}(l))$ anwenden und finden \\[0.1cm]
+     \hspace*{1.3cm}  $x \leq  \mathtt{minSort}(\mathtt{delete}(l, \mathtt{getMin}(l)))$ \hspace*{\fill} (2) \\[0.1cm]
+     Aus der Voraussetzung $x \leq l$ folgt mit Lemma \ref{l2} \\[0.1cm]
+     \hspace*{1.3cm} $x \leq \mathtt{getMin}(l)$  \hspace*{\fill} (3) \\[0.1cm]
+     Aus (2) und (3) folgt mit der Definition von $\leq$ \\[0.1cm]
+     \hspace*{1.3cm}      $x \leq [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$   \\[0.1cm]
+     und wegen $\mathtt{minSort}(l) =  [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$ 
+     ist das die Behauptung. \hspace*{\fill} $_\Box$
+\end{enumerate}
+
+\noindent
+\textbf{Bemerkung}: Einen Beweis, der durch Induktion über die Anzahl der Rechenschritte in der Berechnung
+einer Funktion $f$ durchgeführt wird, bezeichnen wir auch als Beweis durch 
+\emph{Wertverlaufs--Induktion} nach der Definition der Funktion $f$.
+
+\begin{Satz}[1. Korrektheits--Eigenschaft von \texttt{minSort}] 
+Für beliebige Listen $l$ gilt: \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{ordered}(\mathtt{minSort}(l))$
+\end{Satz}
+\textbf{Beweis} durch Wertverlaufs--Induktion nach der Definition der Funktion \texttt{minSort}:
+\begin{enumerate}
+\item Fall: $l=[]$
+
+      Es gilt $\mathtt{minSort}([]) = []$ und wegen $\mathtt{ordered}([])$ folgt daraus die Behauptung.
+\item Fall: $l \not= []$
+
+      Es gilt \\[0.1cm]
+      \hspace*{1.3cm}  $\mathtt{minSort}(l) = [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$. \hspace*{\fill} (1) \\[0.1cm]
+      Daher folgt aus der Induktions--Voraussetzung \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{ordered}(\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))$ \hspace*{\fill} (2) \\[0.1cm]
+      Nach Lemma \ref{l3} gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{getMin}(l) \leq l$ \\[0.1cm]
+      Nach Lemma \ref{l4} folgt daraus \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{getMin}(l) \leq \mathtt{delete}(l,\mathtt{getMin}(l))$ \hspace*{\fill} (3) \\[0.1cm]
+      Wenn wir in Lemma \ref{l6} jetzt für $x$ den Wert $\mathtt{getMin}(l)$ einsetzen, so folgt aus (3) \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{getMin}(l) \leq \mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))$ \hspace*{\fill} (4)\\[0.1cm]
+      Nach der Definition von \texttt{ordered} folgt aus (2) und (4) jetzt \\[0.1cm]
+       \hspace*{1.3cm} $\mathtt{ordered}([\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$ \\[0.1cm]
+      und wegen (1) ist das ist die Behauptung. \hspace*{\fill} $_\Box$
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{delete} und $\in$] 
+\label{l8}
+Für beliebige Daten $x$, $y$ und Listen $l$, 
+für die $x\in l$ ist, gilt \\[0.1cm]
+\hspace*{1.3cm} $x = y \vee x \in \mathtt{delete}(l,y)$
+\end{Lemma}
+\textbf{Beweis} durch Wertverlaufs--Induktion nach der Definition der Funktion \texttt{delete}:
+\begin{enumerate}
+\item Fall: $l = []$
+
+      Wegen der Voraussetzung $x \in l$ kann dieser Fall nicht auftreten.
+\item Fall: $l = [\,d\,|\,r\,]$ und $y = d$
+
+      Aus der Voraussetzung $x \in l$ folgt \\[0.1cm]
+      \hspace*{1.3cm} $x = d \vee x \in r$.  \\[0.1cm]
+      Wir führen eine entsprechende Fallunterscheidung durch:
+      \begin{enumerate}
+      \item $x = d$.
+
+            Wegen $y = d$ folgt dann $x = y$, also die Behauptung.
+      \item $x \in r$
+
+            Da $\mathtt{delete}([\,d\,|\,r\,],d) = r$, folgt auch hier die Behauptung.
+      \end{enumerate}
+\item Fall: $l = [\,d\,|\,r\,]$ und $y \not= d$
+
+      Jetzt gilt $\mathtt{delete}([\,d\,|\,r\,],y) = [\;d\;|\;\mathtt{delete}(r,y)\;]$. 
+      Aus der Voraussetzung $x \in l$ folgt wieder \\[0.1cm]
+      \hspace*{1.3cm} $x = d \vee x \in r$.  \\[0.1cm]
+      Wir führen eine entsprechende Fallunterscheidung durch:
+      \begin{enumerate}
+      \item $x= d$
+
+            Dann folgt $x\in \mathtt{delete}([\,d\,|\,r\,],y)$ aus $\mathtt{delete}([\,d\,|\,r\,],y) = [\;d\;|\;\mathtt{delete}(r,y)\;]$. 
+      \item $x \in r$
+
+            Dann gilt nach Induktions--Voraussetzung \\[0.1cm]
+            \hspace*{1.3cm} $x = y \vee x \in \mathtt{delete}(r,y)$ \\[0.1cm]
+            Falls $x = y$ gilt, ist der Beweis abgeschlossen.  Sonst gilt also $x \in \mathtt{delete}(r,y)$
+            und damit naürlich auch \\[0.1cm]
+            \hspace*{1.3cm} $x \in [\;d\;|\;\mathtt{delete}(r,y)\;]$ \\[0.1cm]
+            was wegen  $\mathtt{delete}([\,d\,|\,r\,],y) = [\;d\;|\;\mathtt{delete}(r,y)\;]$ die Behauptung ist. 
+            \hspace*{\fill} $_\Box$
+      \end{enumerate}
+      \hspace*{1.3cm} 
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{delete} und $\in$] 
+\label{l9}
+Für beliebige Daten $x$, $y$ und Listen $l$, für die $x \in \mathtt{delete}(l,y)$ gilt, haben wir \\[0.1cm]
+\hspace*{1.3cm} $x \in l$.
+\end{Lemma}
+\textbf{Beweis} durch Wertverlaufs--Induktion nach der Definition der Funktion \texttt{delete}:
+\begin{enumerate}
+\item Fall: $l = []$
+
+      Wegen  $\mathtt{delete}([],y) = []$ und der Voraussetzung $x \in \mathtt{delete}(l,y)$ 
+      kann dieser Fall nicht auftreten.
+\item Fall: $l = [\,d\,|\,r\,]$ und $y = d$
+
+      Da $\mathtt{delete}([\,d\,|\,r\,],d) = r$ ist, folgt aus  $x \in \mathtt{delete}(l,y)$ sofort
+       $x \in r$ und das liefert wegen $l = [\,d\,|\,r\,]$ die Behauptung.
+\item Fall: $l = [\,d\,|\,r\,]$ und $y \not= d$
+
+      Jetzt gilt $\mathtt{delete}([\,d\,|\,r\,],y) = [\;d\;|\;\mathtt{delete}(r,y)\;]$. 
+      Aus der Voraussetzung $x \in \mathtt{delete}([\,d\,|\,r\,],y)$ folgt also \\[0.1cm]
+      \hspace*{1.3cm} $x = d \vee x \in \mathtt{delete}(r,y)$. 
+      \begin{enumerate}
+      \item $x= d$
+
+            Dann folgt sofort $x\in [\,d\,|\,r\,]$ und das ist die Behauptung.
+      \item $x \in \mathtt{delete}(r,y)$
+
+            Dann gilt nach Induktions--Voraussetzung \\[0.1cm]
+            \hspace*{1.3cm} $x \in r$ \\[0.1cm]
+            und also auch $x \in [\,d\,|\,r\,]$.
+            \hspace*{\fill} $_\Box$
+      \end{enumerate}
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{getMin} und $\in$]
+\label{l10}
+Für alle Listen $l$ mit $l\not = []$ gilt \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{getMin}(l) \in l$
+\end{Lemma}
+\textbf{Beweis} durch Wertverlaufs--Induktion nach der Definition der Funktion \texttt{getMin}:
+\begin{enumerate}
+\item $l = [d]$
+
+      In diesem Fall gilt die Behauptung wegen $\mathtt{getMin}([d]) = d$.
+\item $l = [\,d\,|\,r\,]$ und $d \leq \mathtt{getMin}(r)$
+
+      Dann gilt $\mathtt{getMin}([\,d\,|\,r\,]) = d$ und die Behauptung ist offensichtlich.
+\item $l = [\,d\,|\,r\,]$ und $d > \mathtt{getMin}(r)$
+
+      Dann gilt $\mathtt{getMin}([\,d\,|\,r\,]) = \mathtt{getMin}(r)$.  Aus der
+      Induktions--Voraussetzung folgt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{getMin}(r) \in r$ \\[0.1cm]
+      Daraus folgt aber sofort $\mathtt{getMin}(r) \in [\,d\,|\,r\,]$ und wegen
+       $\mathtt{getMin}([\,d\,|\,r\,]) = \mathtt{getMin}(r)$ ist das die Behauptung.
+\end{enumerate}
+
+
+\begin{Satz}[2. Korrektheits--Eigenschaft von \texttt{minSort}] 
+Für beliebige Daten $x$ und Listen $l$ gilt \\[0.1cm]
+\hspace*{1.3cm} $x \in l \leftrightarrow x \in \mathtt{minSort}(l)$
+\end{Satz}
+\textbf{Beweis} durch Wertverlaufs--Induktion nach der Definition der Funktion \texttt{minSort}:
+\begin{enumerate}
+\item $l = []$
+
+      Zu zeigen ist $x \in \mathtt{minSort}([]) \leftrightarrow x \in []$ und das folgt wegen $\mathtt{minSort}([]) = []$.
+\item  $l \not= []$
+
+       Wir spalten den Beweis in zwei Teile auf und zeigen zunächst, dass aus  $x \in l$ \\[0.1cm]
+       \hspace*{1.3cm} $x \in \mathtt{minSort}(l)$ \\[0.1cm]
+       folgt.  Nach Lemma \ref{l8} folgt aus $x \in l$ \\[0.1cm]
+       \hspace*{1.3cm} $x = \mathtt{getMin}(l) \vee x \in \mathtt{delete}(l,\mathtt{getMin}(l))$ \\[0.1cm]
+       Wir führen eine Fallunterscheidung durch:
+       \begin{enumerate}
+       \item $x = \mathtt{getMin}(l)$
+
+             Wegen $\mathtt{minSort}(l) = [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$ 
+             folgt dann die Behauptung sofort.
+       \item $x \in \mathtt{delete}(l,\mathtt{getMin}(l))$
+
+             Dann gilt nach Induktions--Voraussetzung \\[0.1cm]
+             \hspace*{1.3cm} $x \in \mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))$ \\[0.1cm]
+             und die Behauptung folgt wieder aus $\mathtt{minSort}(l) = [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$. 
+       \end{enumerate}
+       Wir führen nun den zweiten Teil des Beweises und zeigen, dass aus $x \in \mathtt{minSort}(l)$
+       auf $x\in l$ geschlossen werden kann.  Wegen \\[0.1cm]
+       \hspace*{1.3cm}  $\mathtt{minSort}(l) = [\;\mathtt{getMin}(l)\;|\;\mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))\;]$  \\[0.1cm]
+       folgt aus der Voraussetzung $x \in \mathtt{minSort} (l)$ \\[0.1cm]
+       \hspace*{1.3cm} $x = \mathtt{getMin}(l) \vee \mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))]$ \\[0.1cm]
+       Wir führen eine Fallunterscheidung durch.
+       \begin{enumerate}
+       \item $x = \mathtt{getMin}(l)$
+
+             In diesem Fall folgt die Behauptung aus Lemma \ref{l10}.
+       \item $x \in \mathtt{minSort}(\mathtt{delete}(l,\mathtt{getMin}(l)))$
+
+             Dann gilt nach Induktions--Voraussetzung \\[0.1cm]
+             \hspace*{1.3cm} $x \in \mathtt{delete}(l,\mathtt{getMin}(l))$ \\[0.1cm]
+             Daraus folgt mit Lemma \ref{l9} aber sofort $x \in l$. \hspace*{\fill} $_\Box$
+       \end{enumerate}
+\end{enumerate}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "min-sort"
+%%% End: 

@@ -1,0 +1,26 @@
+binary := procedure(n) {
+    assert(n >= 0, "n must not be negative");
+    if (n == 0) {
+        return { [] };
+    }
+    r := binary(n-1);
+    return { [ 0 ] + l : l in r } + { [ 1 ] + l : l in r };
+};
+
+evalBinList := procedure(l) {
+    if (l == []) {
+        return 0;
+    }
+    match (l) {
+        case []    : return 0;
+        case [c|r] : return c * 2 ** #r + evalBinList(r);
+        default    : abort("Error in evalBinList($l$)");
+    }
+};
+
+b := binary(6);
+for (l in b) {
+    sl := [ "" ] + l;
+    print("$+/ sl$: $evalBinList(l)$");
+}
+    

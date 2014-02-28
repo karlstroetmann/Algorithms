@@ -1,0 +1,78 @@
+codingTree := procedure(m) {
+    while (#m > 1) {
+        a := first(m);
+        m -= { a };
+        b := first(m);
+        m -= { b };
+        m += { [ count(a) + count(b), Node(a, b) ] };
+    }
+    return arb(m);
+};
+
+count := p |-> p[1];
+
+// h is the coding tree to print, while p is the coding prefix, n is the indent
+toString := procedure(h, p, n) {
+    [ count, tree ] := h;
+    match (tree) {
+        case Leaf(chr): 
+             return " " * n + "\"$chr$\": $p$ ($count$) \n";
+        case Node(a, b):
+             return toString(a, p + "0", n + 4) + 
+                    " " * n + "O" + " ($count$)\n" +
+                    toString(b, p + "1", n + 4);
+        default: abort("toString($h$, $p$, $n$)");
+    }
+};
+
+decoding := procedure(h, p) {
+    [ count, tree ] := h;
+    match (tree) {
+        case Leaf(chr): 
+            return { [ chr, p, count] };
+        case Node(a, b):
+             return decoding(a, p + "0") + decoding(b, p + "1");
+        default: abort("decoding($h$, $p$)");
+    }    
+};
+
+doit := procedure(m) {
+    h := codingTree(m);
+    print("\n", m, "\n");
+    dcng := decoding(h, "");
+    for ([char, code, _] in dcng) {
+        print("\"$char$\": $code$");
+    }
+    costHuffman := +/ [ #p * cnt : [ _, p, cnt ] in dcng ];
+    cost7Bit    := +/ [ f * 7 : [f, _] in m ];
+    print("\ncost with Huffman encoding: $costHuffman$");
+    print("cost with 7-Bit   encoding: $cost7Bit$");
+    saving := 100.0 * (cost7Bit - costHuffman) / cost7Bit + "";
+    print("saving $saving[1..4]$% space when using Huffman code\n");
+    print("Huffman tree\n");
+    print(toString(h, "", 0), "\n");
+};
+
+doit({ [4, Leaf("a")], [9, Leaf("b")], [16, Leaf("c")], [25, Leaf("d")], [36, Leaf("e")], [49, Leaf("f")], [64, Leaf("g")] });
+
+demoFile := procedure(fn) {
+    data      := readFile(fn);
+    frequency := {};
+    for (line in data) {
+        cl := split(line + "\n", "");
+        for (c in cl) {
+            f := frequency[c];
+            if (f != om) {
+                frequency[c] := f + 1;
+            } else {
+                frequency[c] := 1;
+            }
+        }
+    }
+    m := { [ f, Leaf(c) ] : [c, f] in frequency };
+    doit(m);
+};
+
+// demoFile("alice.txt");
+// demoFile("moby-dick.txt");
+

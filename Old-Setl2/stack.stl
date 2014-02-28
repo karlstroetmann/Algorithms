@@ -1,0 +1,58 @@
+class Stack;
+    -- Constructor, creates an empty stack.
+    procedure create(); 
+
+    procedure push(x);
+    procedure pop();
+    procedure top();
+    procedure isEmpty();
+
+end Stack;
+        
+class body Stack;
+    -- The data structure to hold the values is a list.
+    var list;
+    
+    procedure create();
+        list := [];
+    end create;
+    
+    procedure push(x);
+        list := list + [x];
+    end push;
+
+    procedure pop();
+        list := list(1 .. #list-1);
+    end pop;
+
+    procedure top();
+        return list(#list);
+    end top;
+
+    procedure isEmpty();
+        return list = [];
+    end isEmpty;
+
+    procedure selfstr();
+        return str(list);
+    end selfstr;
+end Stack;
+
+-- test of Stack
+program main;
+    use Stack;
+        
+    S := Stack();
+    print("S = ", S);
+
+    for i in {1..12} loop
+        S.push(i);
+        print("S = ", S);
+    end loop;    
+
+    for i in {1..12} loop
+        S.pop();
+        print("S = ", S);
+    end loop;    
+end main;
+

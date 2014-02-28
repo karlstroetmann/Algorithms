@@ -1,0 +1,684 @@
+\documentclass{article}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+\usepackage{fancyvrb}
+\usepackage{a4wide}
+\usepackage{amssymb}
+\usepackage{epsfig}
+
+\setlength{\textwidth}{15cm}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle \raisebox{1pt}[0pt][-0pt]{$\,#1\,$}}{\displaystyle \raisebox{0pt}[9pt]{$\,#2\,$}}}
+\newcommand{\cq}{\symbol{34}}
+\newcommand{\Ll}{{\cal L}}
+\newcommand{\Rl}{{\cal R}}
+\newcommand{\NS}{{\cal N\!S}}
+\newcommand{\cl}[1]{{\cal #1}}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{\arabic{enumii}.}
+
+\begin{document}
+
+\noindent
+{\large Aufgaben mit Lösung zur Vorlesung  ``{\sl Algorithmen und Datenstrukturen}''}
+\vspace{0.5cm}
+
+
+\noindent
+\textbf{Aufgabe 1}:
+\begin{enumerate}
+\item Lösen Sie die Rekurrenz-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = a_n + 2$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
+      \hspace*{\fill} (10 Punkte)
+\item Lösen Sie die Rekurrenz-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = 2 \cdot a_n - a_{n+1}$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 3$.
+      \hspace*{\fill} (10 Punkte)
+\end{enumerate}
+\vspace{0.1cm}
+
+\noindent
+\textbf{Lösung}:
+\begin{enumerate}
+\item Es handelt sich um eine lineare, inhomogene Rekurrenz-Gleichung der Ordnung 2.
+      Das charakteristische Polynom lautet $\chi(x) = x^2 - 1 = (x-1)\cdot(x+1)$. 
+      Es gilt $\chi(1) = 0$. Wegen $\chi'(x) = 2\cdot x$ und $\chi'(1) = 2 \not=0$ erhalten wir
+      eine spezielle Lösung mit der Formel
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $a_n = \bruch{2}{2} \cdot n = n$.
+      \\[0.2cm]
+      Wegen $\chi(x) = (x-1)\cdot (x+1)$ lautet
+      die allgemeine Lösung 
+      \\[0.2cm]
+      \hspace*{1.3cm} $a_{n} = \alpha \cdot  1^n + \beta \cdot  (-1)^n + n$.
+      \\[0.2cm]
+      Die Koeffizienten $\alpha$ und $\beta$ bestimmen wir durch Einsetzen der
+      Anfangsbedingungen. Das führt auf das Gleichungs-System 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $
+      \left\{\begin{array}[c]{lcl}
+        2 = \alpha + \beta \\
+        1 = \alpha - \beta + 1 \\
+      \end{array}\right\} \quad \Leftrightarrow\quad
+      \left\{\begin{array}[c]{lcl}
+        3 = 2\cdot \alpha + 1 \\
+        1 = 2\cdot \beta  - 1 \\
+      \end{array}\right\} \quad \Leftrightarrow\quad
+      \left\{\begin{array}[c]{lcl}
+        1 = \alpha  \\
+        1 = \beta \\
+      \end{array}\right\} 
+      $
+      \\[0.2cm]
+      Damit lautet die Lösung 
+      \\[0.2cm]
+      \hspace*{1.3cm} $a_n = (-1)^n + n + 1$.
+\item Es handelt sich um eine lineare, homogene Rekurrenz-Gleichung der Ordnung 2.
+      Das charakteristische Polynom lautet $\chi(x) = x^2 + x - 2 = (x-1)\cdot (x+2)$. 
+      Damit lautet die allgemeine Lösung 
+      \\[0.2cm]
+      \hspace*{1.3cm} $a_n = \alpha \cdot  1^n + \beta \cdot  (-2)^n$. \\[0.2cm]
+      Wir bestimmen die Konstanten $\alpha$ und $\beta$ durch Einsetzen
+      der Anfangsbedingungen: 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+       $
+      \left\{\begin{array}[c]{lcl}
+        0 = \alpha + \beta \\
+        3 = \alpha - 2\cdot \beta \\
+      \end{array}\right\} \quad \Leftrightarrow\quad
+      \left\{\begin{array}[c]{lcl}
+        \alpha = -\beta \\
+        3 = -3\cdot \beta  \\
+      \end{array}\right\} \quad \Leftrightarrow\quad
+      \left\{\begin{array}[c]{lcl}
+        -1 = \beta  \\
+        1 = \alpha \\
+      \end{array}\right\} 
+      $
+      \\[0.2cm]
+      Damit lautet die Lösung 
+      \\[0.2cm]
+      \hspace*{1.3cm} $a_n = 1 - (-2)^n$.
+\end{enumerate}
+
+\noindent
+\textbf{Aufgabe 2}:
+Der geordnete binäre Baum $t$ sei durch den folgenden Term definiert,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+assoziiert sind, verzichtet wurde.
+\\[0.2cm]
+\hspace*{1.3cm}
+$t = \textsl{node}(11, \textsl{node}(10, \textsl{nil}, \textsl{nil}), \textsl{node}(15, \textsl{nil}, 
+  \textsl{node}(18, \textsl{node}(17, \textsl{nil}, \textsl{nil}), 
+  \textsl{node}(24, \textsl{nil}, \textsl{nil}))))
+$
+%\hspace*{1.3cm}\epsfig{file=aufgabe2,scale=0.5}
+\begin{enumerate}
+\item Fügen Sie in diesem Baum den Schlüssel \texttt{16} ein und geben Sie den
+      resultierenden Term an.  \\ 
+      \hspace*{\fill} (3 Punkte)
+\item Fügen Sie in dem in Teil (a) berechneten Baum den Schlüssel \texttt{13} ein und
+      geben Sie den resultierenden Term an.     
+      \hspace*{\fill} (3 Punkte)
+\item Löschen Sie aus dem in Teil (b) berechneten Baum den Schlüssel \texttt{15} und
+      geben Sie den resultierenden Term an. 
+      \hspace*{\fill} (4 Punkte)
+\end{enumerate}
+\textbf{Hinweis}: Bei der Lösung dieser und der folgenden Aufgabe sind selbstverständlich
+die in der Vorlesung vorgestellten Algorithmen zu verwenden.
+\vspace{0.3cm}
+
+\noindent
+\textbf{Lösung}:
+Wir wiederholen zunächst die Gleichungen, die das Einfügen und Löschen beschreiben:
+\begin{enumerate}
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\item Die Gleichungen für das Einfügen lauten:
+  \begin{enumerate}
+  \item $\textsl{nil}\mathtt{.}\textsl{insert}(k,v) = \textsl{node}(k,v, \textsl{nil}, \textsl{nil})$,
+  \item $\textsl{node}(k, v_2, l, r)\mathtt{.}\textsl{insert}(k,v_1) = \textsl{node}(k, v_1, l, r)$,
+  \item $k_1 < k_2 \rightarrow 
+          \textsl{node}(k_2, v_2, l, r)\mathtt{.}\textsl{insert}(k_1, v_1) =
+          \textsl{node}\bigl(k_2, v_2, l\mathtt{.}\textsl{insert}(k_1, v_1), r\bigr)$,
+  \item $k_1 > k_2 \rightarrow 
+         \textsl{node}(k_2, v_2, l, r)\mathtt{.}\textsl{insert}(k_1, v_1) = 
+         \textsl{node}\bigl(k_2, v_2, l, r\mathtt{.}\textsl{insert}(k_1, v_1)\bigr)$.
+\end{enumerate}
+\item Die Gleichungen für das Löschen lauten:
+  \begin{enumerate}
+  \item $\textsl{nil}\mathtt{.}\textsl{delete}(k) = \textsl{nil}$,
+  \item $\textsl{node}(k,v,\textsl{nil},r)\mathtt{.}\textsl{delete}(k) = r$,
+  \item $\textsl{node}(k,v,l,\textsl{nil})\mathtt{.}\textsl{delete}(k) = l$,
+  \item $l \not= \textsl{nil} \,\wedge\, r \not= \textsl{nil} \,\wedge\, r\mathtt{.}\textsl{delMin}() = [r',k_{min}, v_{min}]  \;\rightarrow$ \\[0.1cm]
+      \hspace*{1.3cm}
+      $\textsl{node}(k,v,l,r)\mathtt{.}\textsl{delete}(k) = \textsl{node}(k_{min},v_{min},l,r')$,
+  \item $k_1 < k_2 \rightarrow \textsl{node}(k_2,v_2,l,r)\mathtt{.}\textsl{delete}(k_1) = 
+       \textsl{node}\bigl(k_2,v_2,l\mathtt{.}\textsl{delete}(k_1),r\bigr)$,
+  \item $k_1 > k_2 \rightarrow \textsl{node}(k_2,v_2,l,r)\mathtt{.}\textsl{delete}(k_1) = 
+       \textsl{node}\bigl(k_2,v_2,l,r\mathtt{.}\textsl{delete}(k_1)\bigr)$.
+\end{enumerate}
+\end{enumerate}
+Damit können wir nun die Teilaufgaben lösen.  Um die Notation übersichtlich zu halten,
+kürzen wir $\textsl{node}()$ durch $\mathtt{n}()$ ab und statt $\textsl{nil}$ schreiben wir $\mathtt{*}$
+\begin{enumerate}
+\item \begin{verbatim}
+       t =  n(11, n(10, *, *),
+                  n(15, *, 
+                        n(18, n(17, n(16, *, *), *), 
+                              n(24, *, *))))
+       \end{verbatim}
+\item \begin{verbatim}
+       t =  n(11, n(10, *, *),
+                  n(15, node(13, *, *),
+                        n(18, n(17, n(16, *, *), *), 
+                              n(24, *, *))))
+      \end{verbatim}
+\item \begin{verbatim}
+       t =  n(11, n(10, *, *),
+                  n(16, node(13, *, *),
+                        n(18, n(17, *, *), 
+                              n(24, *, *))))
+      \end{verbatim}
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Aufgabe 3}: Der AVL-Baum $t$ sei durch den folgenden Term gegeben,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+assoziiert sind, verzichtet wurde.
+\\[0.2cm]
+\hspace*{1.3cm}
+$t = \textsl{node}(17, 
+           \textsl{node}(8, 
+               \textsl{node}(2, \textsl{nil}, \textsl{nil}),
+               \textsl{node}(10, \textsl{nil}, \textsl{nil})), 
+           \textsl{node}(23,\textsl{nil},\textsl{nil}))$
+%\epsfig{file=avl1,scale=0.5}
+\begin{enumerate}
+\item Fügen Sie  in diesem Baum den Schlüssel \texttt{13} ein und geben Sie den
+      resultierenden Baum an.   \\[0.2cm]
+      \hspace*{\fill} (6 Punkte)
+\item Fügen Sie in dem Baum aus Teil (b) den Schlüssel \texttt{15} ein und geben Sie den
+      resultierenden Baum an.
+      \hspace*{\fill} (3 Punkte)
+\item Entfernen Sie den Schlüssel 2 aus dem unter Teil (b) berechneten Baum und geben Sie
+      den resultierenden Baum an.
+      \hspace*{\fill} (4 Punkte)
+\end{enumerate}
+\pagebreak
+
+\noindent
+\textbf{Lösung}:
+Das Einfügen und Löschen in einem AVL-Baum unterscheidet sich von dem Einfügen und Löschen
+in einem binären Baum durch die zusätzliche Anwendung der Funktion $\textsl{restore}()$.
+Diese Funktion ist durch die folgenden Gleichungen spezifiziert:
+\begin{enumerate}
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\item $\textsl{nil}.\textsl{restore}() = \textsl{nil}$,
+\item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow \textsl{node}(k,v,l,r).\textsl{restore}() = \textsl{node}(k,v,l,r)$,
+\item $\begin{array}[t]{cl}
+              & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
+       \wedge & l_1 = \textsl{node}(k_2,v_2,l_2,r_2)               \\
+       \wedge & l_2.\textsl{height}() \geq r_2.\textsl{height}()     \\[0.2cm]
+       \rightarrow & \textsl{node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                     \textsl{node}\bigl(k_2,v_2,l_2,\textsl{node}(k_1,v_1,r_2,r_1)\bigr)
+       \end{array}
+      $
+\item $\begin{array}[t]{cl}
+               & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
+        \wedge & l_1 = \textsl{node}(k_2,v_2,l_2,r_2)               \\
+        \wedge & l_2.\textsl{height}() < r_2.\textsl{height}()     \\
+        \wedge & r_2 = \textsl{node}(k_3,v_3,l_3,r_3)               \\
+        \rightarrow & \textsl{node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                      \textsl{node}\bigl(k_3,v_3,\textsl{node}(k_2,v_2,l_2,l_3),\textsl{node}(k_1,v_1,r_3,r_1) \bigr)
+        \end{array}
+       $
+\item $\begin{array}[t]{cl}
+              & r_1.\textsl{height}() = l_1.\textsl{height}() + 2    \\ 
+       \wedge & r_1 = \textsl{node}(k_2,v_2,l_2,r_2)               \\
+       \wedge & r_2.\textsl{height}() \geq l_2.\textsl{height}()     \\[0.2cm]
+       \rightarrow & \textsl{node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                     \textsl{node}\bigl(k_2,v_2,\textsl{node}(k_1,v_1,l_1,l_2),r_2\bigr)
+       \end{array}
+      $
+\item $\begin{array}[t]{cl}
+               & r_1.\textsl{height}() = l_1.\textsl{height}() + 2    \\ 
+        \wedge & r_1 = \textsl{node}(k_2,v_2,l_2,r_2)               \\
+        \wedge & r_2.\textsl{height}() < l_2.\textsl{height}()     \\
+        \wedge & l_2 = \textsl{node}(k_3,v_3,l_3,r_3)               \\
+        \rightarrow & \textsl{restore}\bigl(\textsl{node}(k_1,v_1,l_1,r_1)\bigr) = 
+                      \textsl{node}\bigl(k_3,v_3,\textsl{node}(k_1,v_1,l_1,l_3),\textsl{node}(k_2,v_2,r_3,r_2) \bigr)
+        \end{array}
+       $
+\end{enumerate}
+Damit lautet die Lösung der Aufgaben:
+\begin{enumerate}
+\item Zunächst fügen wir den Schlüssel 13 ein, ohne auf die Balancierungs-Bedingung zu
+      achten.  Wir erhalten den folgenden Term, wobei wir die Knoten noch mit ihren Höhen
+      annotieren, um später die Balancierungs-Bedingung überprüfen zu können:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t = n(17, n(8, n(2, *, *):1,
+                    n(10, n(13, *, *):1, *):2):3,$ \\
+      \hspace*{2.75cm} $
+                n(23,*,*):1):4$
+      \\[0.2cm]
+      Damit sehen wir, dass die Balancierungs-Bedingung an der Wurzel dieses
+      Knotens verletzt ist, denn der linke Teilbaum hat eine Tiefe von drei, während der
+      rechte Teilbaum eine Tiefe von 1 hat.  Da der rechte Teilbaum des linken Teilbaums
+      eine größere Tiefe hat als der linke Teilbaum, liegt die in Gleichung 4 beschriebene
+      Situation vor.  Im einzelnen gilt:
+      \begin{enumerate}
+      \item $k_1 = 17$,
+      \item $l_1 = n(8, n(2, *, *), n(10, n(13, *, *), *))$,
+      \item $k_2 = 8$,
+      \item $l_2 = n(2, *, *)$,
+      \item $r_2 = n(10, n(13, *, *), *))$,
+      \item $k_3 = 10$,
+      \item $l_3 = n(13, *, *)$,
+      \item $r_3 = *$,
+      \item $r_1 = n(23,*,*))$.
+      \end{enumerate}
+      Damit erhalten wir den AVL-Baum
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t = n(10, 
+                n(8, 
+                    n(2, *, *),
+                    *),$ \\
+      \hspace*{2.75cm} $
+                n(17,n(13, *, *),n(23, *,*)))$
+\item Fügen wir den Schlüssel 15 ein, so erhalten wir 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t = n(10, 
+                n(8, 
+                    n(2, *, *),
+                    *),$ \\
+      \hspace*{2.75cm} $
+                n(17,
+                     n(13, 
+                            *, 
+                            n(15, *,*)),
+                     n(23, *,*)))$
+      \\[0.2cm]
+      Dies ist bereits ein AVL-Baum.
+\item Nachdem wir den Schlüssel $2$ entfernt haben, hat der Baum die Form
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t = n(10, 
+                n(8, 
+                    *,
+                    *),$ \\
+      \hspace*{2.75cm} $
+                n(17,
+                     n(13, 
+                            *, 
+                            n(15, *,*)),
+                     n(23, *,*)))$
+      \\[0.2cm]
+      Jetzt ist die Balancierungs-Bedingung an der Wurzel verletzt.
+      Ein Aufruf von $\textsl{restore}()$ liefert
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t = n(13, n(10, n(8, *, *), *),$ \\
+      \hspace*{2.75cm} $
+                n(17,
+                     n(15, *, *),
+                     n(23, *,*)))$.
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Aufgabe 4}:  Betrachten Sie das folgende \texttt{C}-Programm:
+\begin{verbatim}
+    unsigned sum(unsigned n) {
+        if (n == 0)
+            return 0;
+        return n + sum(n-1);
+    }
+\end{verbatim}
+Weisen Sie mit Wertverlaufs-Induktion nach, dass die Funktion $\textsl{sum}()$  die
+folgende Spezifikation erfüllt:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$.
+\vspace{0.3cm}
+
+\noindent
+\textbf{Lösung}:
+\begin{enumerate}
+\item[I.A.:] Die Rekursion bricht ab, wenn $n$ den Wert $0$ hat.  Dann liefert die Funktion
+             als Ergebnis 0.  Damit haben wir
+             $\textsl{sum}(0) = 0 = \frac{1}{2} \cdot 0 \cdot (0 + 1).\quad \surd$
+\item[I.S.:] Wenn $n > 0$ ist haben wir
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             $
+             \begin{array}[t]{lcl}
+               \textsl{sum}(n) & = & n + \textsl{sum}(n-1)  \\
+                               & \stackrel{IV}{=} 
+                               & n + \frac{1}{2} \cdot (n-1) \cdot \bigl((n-1) + 1\bigr)  \\[0.2cm]
+                               & = & n + \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n  \\[0.2cm]
+                               & = & \frac{1}{2} \cdot n^2 + \frac{1}{2} \cdot n  \\[0.2cm]
+                               & = & \frac{1}{2} \cdot n \cdot (n + 1) \quad \surd \\[0.2cm]
+             \end{array}
+             $
+\end{enumerate}
+\pagebreak
+
+\noindent
+\textbf{Aufgabe 5}:  Betrachten Sie das folgende Programm:
+\begin{verbatim}
+    unsigned sum(unsigned n) {
+        unsigned i = 0;
+        unsigned s = 0;
+        while (i <= n) {
+            s = i + s;
+            i = i + 1;
+        }
+        return s;
+    }
+\end{verbatim}
+Die Funktion $\textsl{sum}()$ soll die folgende Spezifikation erfüllen:
+\\[0.2cm]
+\hspace*{1.3cm} $\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$
+\begin{enumerate}
+\item Weisen Sie mit Hilfe des Hoare-Kalküls nach, dass das Programm korrekt ist.
+\item Beweisen Sie mit Hilfe der Methode der symbolischen Programm-Ausführung nach,
+      dass das Programm korrekt ist.
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Lösung}:
+\begin{enumerate}
+\item Zunächst der Hoare-Kalkül:
+\begin{enumerate}
+      \renewcommand{\labelenumii}{\arabic{enumii}.}
+\item Wir zeigen als erstes, dass die \texttt{while}-Schleife der Invariante 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $I := \bigl(s = \frac{1}{2} \cdot i \cdot (i - 1) \wedge i \leq n + 1\bigr)$ 
+      \\[0.2cm]
+      genügt.  
+      Für die erste Zuweisung in der Schleife gilt
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\{ I \wedge i \leq n \}$ \quad \texttt{s = s + i;} \quad $\{ (I \wedge i \leq n)[s \mapsto s - i] \}$
+      \\[0.2cm]
+      Wir formen den Ausdruck $\bigl(I \wedge i \leq n\bigr)[s \mapsto s - i]$ um:
+      \begin{eqnarray*}
+        \bigl(I \wedge i \leq n\bigr)[s \mapsto s - i] 
+        & \leftrightarrow & \bigl(s = \frac{1}{2} \cdot i \cdot (i-1) \wedge i \leq n+1 \wedge i \leq n\bigr)[s \mapsto s - i] \\
+        & \leftrightarrow & s - i = \frac{1}{2} \cdot i \cdot (i-1) \wedge i \leq n \\
+        & \leftrightarrow & s = \frac{1}{2} \cdot i \cdot (i-1) + i \wedge i \leq n \\
+        & \leftrightarrow & s = \frac{1}{2} \cdot i \cdot (i+1) \wedge i \leq n \\
+      \end{eqnarray*}
+      Als nächstes betrachten wir die Zuweisung \texttt{i = i + 1;}:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\{ s = \frac{1}{2} \cdot i \cdot (i+1) \wedge i \leq n \}$ \quad \texttt{i = i + 1;} \quad
+      $\{ \bigl(s = \frac{1}{2} \cdot i \cdot (i+1)\wedge i \leq n\bigr)[i \mapsto i - 1] \}$ 
+      \\[0.2cm]
+      Es gilt 
+      \begin{eqnarray*}        
+      &                 & \bigl(s = \frac{1}{2} \cdot i \cdot (i+1)\wedge i \leq n\bigr)[i \mapsto i - 1] \\
+      & \leftrightarrow & s = \frac{1}{2} \cdot (i-1) \cdot i \wedge i - 1 \leq n                         \\
+      & \leftrightarrow & s = \frac{1}{2} \cdot i \cdot (i-1) \wedge i \leq n + 1                         
+      \end{eqnarray*}
+      und damit haben wir die Invariante nachgewiesen.
+\item Die Invariante ist zu Beginn der Schleife erfüllt, denn zu Beginn der
+      Schleife gilt $s = 0$ und $i = 0$ und offenbar gilt
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $i = 0 \wedge s = 0 \rightarrow s = \frac{1}{2} \cdot (i-1) \cdot i \wedge i \leq n + 1$
+\item Nach Beendigung der Schleife gilt dann
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s = \frac{1}{2} \cdot (i-1) \cdot i \wedge i \leq n + 1 \wedge \neg (i \leq n)$
+      \\[0.2cm]
+      Es gilt 
+      \\
+      \hspace*{1.3cm}
+      $i \leq n + 1 \wedge \neg (i \leq n) \rightarrow i = n + 1$
+      \\[0.2cm]
+      Damit erfüllt das Programm die Spezifikation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s = \frac{1}{2} \cdot n \cdot (n+1)$.
+\end{enumerate}
+\item Jetzt die symbolische Programm-Ausführung:
+      \begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 1.3cm,
+                  xrightmargin  = 1.3cm,
+                  codes         = {\catcode`_=8\catcode`$=3},
+                  commandchars  = \\\{\},
+                ]
+    unsigned sum(unsigned n) \{
+        unsigned i$_0$ = 0;
+        unsigned s$_0$ = 0;
+        while (i$_0$ <= n) \{
+            s$_{k+1}$ = i$_k$ + s$_k$;
+            i$_{k+1}$ = i$_k$ + 1;
+        \}
+        return s$_{K}$;
+    \}
+    \end{Verbatim} 
+    %\$
+      Wir zeigen nun, dass die \texttt{while}-Schleife die folgende Invariante hat: 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s_k = \frac{1}{2} \cdot (i_{k}-1) \cdot i_k$.
+      \renewcommand{\labelenumii}{\arabic{enumii}.}
+      \begin{enumerate}
+      \item[I.A.:] $k=0$.
+
+            Es gilt $s_0 = 0$ und $i_0 = 0$ und damit folgt sofort
+            \\[0.2cm]
+            \hspace*{1.3cm} $s_0 = \frac{1}{2} \cdot (i_{0}-1) \cdot i_0$.
+      \item[I.S.:] $k \mapsto k+1$ 
+
+            Offenbar gilt $i_{k+1} = i_k + 1$ und damit haben wir 
+            \begin{eqnarray*}
+              s_{k+1} & = & i_k + s_k \\
+            & \stackrel{IV}{=} & i_k + \frac{1}{2} \cdot (i_{k}-1) \cdot i_k \\
+            & = & \frac{1}{2} \cdot i_{k} \cdot (i_k + 1) \\
+            & = & \frac{1}{2} \cdot (i_{k+1} - 1) \cdot i_{k+1}.
+            \end{eqnarray*}
+      \end{enumerate}
+      Die Schleife wird offenbar $n+1$ mal durchlaufen und es gilt $i_K = n+1$.  Daraus folgt
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s_K = s_{n+1} = \frac{1}{2} \cdot (i_{n+1} - 1) \cdot i_{n+1} = \frac{1}{2} \cdot n \cdot (n+1)$.
+\end{enumerate}
+\vspace{0.3cm}
+\pagebreak
+
+
+\noindent
+\textbf{Aufgabe 6}:  Im Abschnitt 8.2 des Skriptes
+werden Gleichungen angegeben, die das Einfügen und Löschen in einem Heap beschreiben.
+In diesem Zusammenhang sollen Sie in dieser Aufgabe  einige zusätzliche Methoden auf
+binären Bäumen durch bedingte Gleichungen spezifizieren.
+\begin{enumerate}
+\item Spezifizieren Sie eine Methode \textsl{isHeap}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isHeap}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Heap-Bedingung} erfüllt.  \hspace*{\fill} (10 Punkte)
+\item Implementieren Sie eine Methode \textsl{isBalanced}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isBalanced}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Balancierungs-Bedingung} für \emph{Heaps} erfüllt.  
+      \hspace*{\fill} (5 Punkte)
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Lösung}:
+\begin{enumerate}
+\item Um die Methode \textsl{isHeap} leicht spezifizieren zu können, definieren wir zunächst
+      eine Hilfsfunktion
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\leq : \textsl{Key} \times \mathcal{B} \rightarrow \mathbb{B}$.
+      \\[0.2cm]
+      Für einen Schlüssel $k$ und einen binären Baum $b$ soll $k \leq b$ genau dann gelten,
+      wenn $k$ kleiner-gleich als alle Schlüssel sind, die in $b$ auftreten.
+      Diese Funktion wird durch Gleichungen spezifiziert:
+      \begin{enumerate}
+      \item $k \leq \textsl{nil}$,
+      \item $k \leq \textsl{node}(k_1,v_1,l,r) = \bigl(k \leq k_1 \wedge k \leq l \wedge k \leq r\bigr)$.
+      \end{enumerate}
+      Damit läßt sich jetzt die Methode $\textsl{isHeap}()$ durch Gleichungen spezifizieren:
+      \begin{enumerate}
+      \item $\textsl{nil}.\textsl{isHeap}() = \mathtt{true}$,
+      \item $\textsl{node}(k,v,l,r).\textsl{isHeap}() = 
+             \bigl(k \leq l \wedge k \leq r \wedge l.\textsl{isHeap}() \wedge r.\textsl{isHeap}()\bigr)$.
+      \end{enumerate}
+\item Wir definieren die Methode $\textsl{isBalanced}()$ induktiv.
+      \begin{enumerate}
+      \item $\textsl{nil}.\textsl{isBalanced}() = \mathtt{true}$,
+      \item $\textsl{node}(k,v,l,r).\textsl{isBalanced}() =$ \\[0.1cm]
+            \hspace*{\fill}
+            $\bigl(|l.\textsl{count}() - r.\textsl{count}()| \leq 1 
+             \wedge l.\textsl{isBalanced}()\wedge r.\textsl{isBalanced}()\bigr)$.
+      \end{enumerate}
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Aufgabe 7}:
+\begin{enumerate}
+\item Zeigen Sie $\log_2(n) \in \mathcal{O}\bigl(\ln(\sqrt{n})\bigr)$. \hspace*{\fill} (4  Punkte)
+\item Zeigen Sie $\bigl|\sin(n)\bigr| \in \mathcal{O}\bigl(1\bigr)$. \hspace*{\fill} (4 Punkte)
+\item Es sei 
+      $f(n) := \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n)$.
+      Zeigen Sie $f(n)\in \mathcal{O}\bigl(1\bigr)$. \hspace*{\fill} (12 Punkte)
+      
+      \textbf{Hinweis}:  Zeigen Sie 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $0 \leq \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n) \leq 1$.
+\end{enumerate}
+\pagebreak
+
+\textbf{Lösung}:
+\begin{enumerate}
+\item Zunächst bemerken wir, dass gilt:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\log_2(n) = \bruch{\ln(n)}{\ln(2)}$ \quad und \quad
+      $\ln(\sqrt{n}) = \ln\bigl(n^\frac{1}{2}\bigr) = \frac{1}{2} \cdot \ln(n)$.
+      \\[0.2cm]
+      Wir zeigen die Behauptung nun mit dem Grenzwertsatz:
+      \begin{eqnarray*}
+              \lim\limits_{n \rightarrow \infty} \bruch{\log_2(n)}{\ln(\sqrt{n})}
+        & = & \lim\limits_{n \rightarrow \infty} \bruch{\frac{\ln(n)}{\ln(2)}}{\frac{1}{2}\ln(n)} \\[0.4cm]
+        & = & \lim\limits_{n \rightarrow \infty} \bruch{\frac{1}{\ln(2)}}{\frac{1}{2}} \\[0.2cm]
+        & = & \lim\limits_{x \rightarrow \infty} \bruch{2}{\ln(2)} \\[0.2cm]
+        & = & \bruch{2}{\ln(2)} 
+      \end{eqnarray*}
+      Da der Grenzwert existiert, folgt die Behauptung aus dem Grenzwertsatz.
+\item Das ist eigentlich eine Scherzaufgabe.  Aus der Geometrie wissen wir, dass 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $0 \leq | \sin(n) | \leq 1$ \quad für alle $n \in \mathbb{N}$ 
+      \\[0.2cm]
+      gilt, woraus die Behauptung unmittelbar folgt.  Die Aufgabe ist ein Beispiel, bei dem
+      der Grenzwertsatz versagt.
+\item Für alle $x \in [i-1,i]$ gilt:
+      \begin{eqnarray*}
+      &             & x \leq i \\[0.3cm]
+      & \Rightarrow & \bruch{1}{x} \geq \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & \int_{i-1}^i \bruch{1}{x} dx \geq \int_{i-1}^i \bruch{1}{i} dx \\[0.2cm]
+      & \Rightarrow & \int_{i-1}^i \bruch{1}{x} dx \geq \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & \sum\limits_{i=2}^{n} \int_{i-1}^i \bruch{1}{x} dx \geq 
+                      \sum\limits_{i=2}^{n} \bruch{1}{i}                      \\[0.2cm]
+      & \Rightarrow & \int_{1}^n \bruch{1}{x} dx \geq \sum\limits_{i=2}^{n} \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & \ln(n) - \ln(1) \geq \sum\limits_{i=2}^{n} \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & \ln(n) + 1 \geq \sum\limits_{i=1}^{n} \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & \sum\limits_{i=1}^{n} \bruch{1}{i} - \ln(n) \leq 1 
+      \end{eqnarray*}
+      Analog gilt für alle $x \in [i-1,i]$:
+      \begin{eqnarray*}
+      &             & x \geq i - 1 \\[0.3cm]
+      & \Rightarrow & \bruch{1}{x} \leq \bruch{1}{i-1} \\[0.2cm]
+      & \Rightarrow & \int_{i-1}^i \bruch{1}{x} dx \leq \int_{i-1}^i \bruch{1}{i-1} dx \\[0.2cm]
+      & \Rightarrow & \int_{i-1}^i \bruch{1}{x} dx \leq \bruch{1}{i-1} \\[0.2cm]
+      & \Rightarrow & \sum\limits_{i=2}^{n} \int_{i-1}^i \bruch{1}{x} dx \leq 
+                      \sum\limits_{i=2}^{n} \bruch{1}{i-1}                      \\[0.2cm]
+      & \Rightarrow & \int_{1}^n \bruch{1}{x} dx \leq \sum\limits_{i=2}^{n} \bruch{1}{i-1} \\[0.2cm]
+      & \Rightarrow & \ln(n) - \ln(1) \leq \sum\limits_{i=2}^{n} \bruch{1}{i-1} \\[0.2cm]
+      & \Rightarrow & \ln(n) \leq \sum\limits_{i=1}^{n-1} \bruch{1}{i} \\[0.2cm]
+      & \Rightarrow & 0 \leq \sum\limits_{i=1}^{n-1} \bruch{1}{i} - \ln(n) \\[0.2cm]
+      & \Rightarrow & 0 \leq \sum\limits_{i=1}^{n} \bruch{1}{i} - \ln(n) 
+      \end{eqnarray*}
+      Insgesamt haben wir damit die Ungleichungs-Kette
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $0 \leq \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n) \leq 1$
+      \\[0.2cm]
+      bewiesen und daraus folgt die Behauptung unmittelbar.
+\end{enumerate}
+\pagebreak
+
+
+\noindent
+\textbf{Aufgabe 8}:
+Es gelte $\Sigma = \{ \mathtt{a},\,\mathtt{b},\,\mathtt{c},\,\mathtt{d},\,\mathtt{e},\,\mathtt{f} \}$.
+Die Häufigkeit, mit der diese Buchstaben in dem zu kodierenden String $s$ auftreten, sei durch die
+folgende Tabelle gegeben:
+
+\begin{center}
+\begin{tabular}[t]{|l|r|r|r|r|r|r|}
+\hline
+Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} \\
+\hline
+Häufigkeit &          8 &          9 &         10 &         11 &         12 &         13 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item Berechnen sie einen optimalen Kodierungs-Baum für die angegebenen Häufigkeiten.
+\item Geben die Kodierung der einzelnen Buchstaben an, die sich aus diesem Baum ergibt.
+\end{enumerate}
+
+\noindent
+\textbf{Lösung}:
+\begin{enumerate}
+\item Wir wenden den Huffman-Algorithmus an und erhalten die folgenden Mengen.  Zur Abkürzung
+      schreiben wir dort $l(a,f)$ statt $\textsl{leaf}(a,f)$ und $n(l,r)$ statt $\textsl{node}(l,r)$.
+      \begin{enumerate}
+      \item $\{ l(a,8), l(b,9), l(c,10), l(d,11), l(e,12), l(f,13) \}$
+      \item $\{ n(l(a,8), l(b,9)):17, l(c,10), l(d,11), l(e,12), l(f,13) \}$
+      \item $\{ n(l(a,8), l(b,9)):17, n(l(c,10), l(d,11)):21, l(e,12), l(f,13) \}$
+      \item $\{ n(l(a,8), l(b,9)):17, n(l(c,10), l(d,11)):21, n(l(e,12), l(f,13)):25 \}$
+      \item $\{ n(l(e,12), l(f,13)):25, n(n(l(a,8), l(b,9)):17, n(l(c,10), l(d,11))):38 \}$
+      \item $\{ n(n(l(e,12), l(f,13)):25, n(n(l(a,8), l(b,9)):17, n(l(c,10), l(d,11)))):63 \}$
+      \end{enumerate}
+      Damit ist 
+      \\[0.2cm]
+      \hspace*{1.3cm} $n(n(l(e,12), l(f,13)), n(n(l(a,8), l(b,9)), n(l(c,10), l(d,11))))$
+      \\[0.2cm]
+      der gesuchte Kodierungsbaum.
+\item Damit ergibt sich die folgende Kodierung für die einzelnen Buchstaben:
+      \begin{verbatim}
+      e = 00, f = 01, a = 100, b = 101, c = 110, d = 111.
+      \end{verbatim}
+\end{enumerate}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

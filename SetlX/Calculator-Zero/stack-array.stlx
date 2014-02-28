@@ -1,0 +1,48 @@
+class stack() {
+    mStackElements := [];
+
+  static {  
+    push := procedure(e) {
+        this.mStackElements += [e];
+    };
+    pop := procedure() {
+        assert(#mStackElements > 0, "popping empty stack");
+        this.mStackElements := mStackElements[1 .. #mStackElements - 1];
+    };
+    top := procedure() {
+        assert(#mStackElements > 0, "top of empty stack");
+        return mStackElements[#mStackElements];
+    };
+    isEmpty := procedure() {
+        return mStackElements == [];
+    };
+    f_str := procedure() {
+         copy   := this;
+         result := convert(copy);
+         dashes := "\n";
+         for (i in {1 .. #result}) {
+              dashes += "-";
+         }
+         return dashes + "\n" + result + dashes + "\n";
+    };
+    // private member function
+    convert := procedure(s) {
+        if (s.isEmpty()) {
+            return "|";
+        } 
+        top := s.top();
+        s.pop();
+        return convert(s) + " " + top + " |";
+    };
+  }
+}
+
+// create a stack containing the elements of l in reverse order
+createStack := procedure(l) {
+    result := stack();
+    n := #l;
+    for (i in [n, n-1 .. 1]) {
+        result.push(l[i]);
+    }
+    return result;
+};

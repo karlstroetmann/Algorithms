@@ -1,0 +1,22 @@
+digraph G {
+    1 -> 2;
+    1 -> 3;
+    1 -> 4;
+    1 [ label = Expr ];
+    2 [ label = Expr ];
+    3 [ label = "*" ];
+    4 [ label = Expr ];
+    2 -> 5;
+    2 -> 6;
+    2 -> 7;
+    5 [ label = Expr ];
+    6 [ label = "+" ];
+    7 [ label = Expr ];
+    4 -> 8;
+    8 [ label = number ];
+    5 -> 9;
+    7 -> 10;
+    9  [ label = number ];
+    10 [ label = number ];
+}
+

@@ -1,0 +1,796 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Darstellung des Schach--Bretts in \texttt{C}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Vorüberlegung:
+\begin{itemize}
+\item  alle Damen müssen in verschiedenen Reihen stehen
+\item  es müssen 8 Damen gesetzt werden 
+\item  also muß in jeder Reihe eine Dame stehen.
+\item  Reihen werden sukkzessive besetzt
+\item  Zählung fängt bei 0 an
+\end{itemize}
+
+Darstellung des Bretts als \texttt{C} \texttt{struct} mit 2 Komponenten
+\begin{enumerate}
+\item Anzahl der bereits gesetzten Damen \\[0.3cm]
+      \hspace*{1.3cm} \texttt{numberQueens}
+\item Spezifikation der Spalten, in denen Damen gesetzt sind durch
+      Feld \\[0.3cm]
+      \hspace*{1.3cm} \texttt{column[8]} \\[0.3cm]
+      Dame in $i$-ter Zeile steht in Spalte $\mathtt{column}[i]$
+\end{enumerate}
+
+\begin{verbatim}
+    #define BOARD_SIZE 8
+
+    typedef struct {
+        unsigned numberQueens;  
+        unsigned column[BOARD_SIZE];
+    } Board;
+\end{verbatim}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Graphische Darstellung des Schach--Bretts
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+
+\begin{verbatim}
+             Board = {
+                       4,
+                       { 7, 1, 3, 6 }
+                     }
+\end{verbatim}
+\begin{itemize}
+\item 4 Damen sind gesetzt
+\item Dame in der 0--ten Reihe steht in Spalte 7
+\item Dame in der 1--ten Reihe steht in Spalte 1
+\item Dame in der 2--ten Reihe steht in Spalte 3
+\item Dame in der 3--ten Reihe steht in Spalte 6
+\end{itemize}
+Zählung beginnt bei 0, wegen \texttt{C} Indizierung der Felder
+\vspace*{0.5cm}
+
+\hspace*{4cm}
+\vbox{\offinterlineskip
+   \hrule height1pt
+   \hbox{\vrule width1pt\chess
+         \vbox{\hbox{0Z0Z0Z0L}
+               \hbox{ZQZ0Z0Z0}
+               \hbox{0Z0L0Z0Z}
+               \hbox{Z0Z0Z0L0}
+               \hbox{0Z0Z0Z0Z}
+               \hbox{Z0Z0Z0Z0}
+               \hbox{0Z0Z0Z0Z}
+               \hbox{Z0Z0Z0Z0}}%
+         \vrule width1pt}
+   \hrule height1pt}
+
+
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\footnotesize
+\setlength{\unitlength}{1.5cm}
+
+\begin{picture}(10,10)
+
+\thicklines
+\put(1,1){\line(1,0){8}}
+\put(1,1){\line(0,1){8}}
+\put(1,9){\line(1,0){8}}
+\put(9,1){\line(0,1){8}}
+
+\thinlines
+\multiput(1,2)(0,1){7}{\line(1,0){8}}
+\multiput(2,1)(1,0){7}{\line(0,1){8}}
+\put(2.15,7.15){{\chess Q}}
+\put(1.15,2.15){{\chess Q}}
+\put(8.15,1.15){{\chess Q}}
+\multiput(3.3,6.6)(0.15,-0.15){3}{$.$}
+\multiput(2.35,3.35)(0.15,+0.15){3}{$.$}
+\multiput(3.35,4.35)(0.15,+0.15){3}{$.$}
+\put(1.05,8.35){{\tiny $\langle 0, 0 \rangle$}}
+\put(4.02,5.35){{\scriptsize $\langle x, y \rangle$}}
+\put(5.02,4.55){{\tiny $\langle x\!+\!1, $}}
+\put(5.12,4.15){{\tiny $y\!+\!1\rangle$}}
+\multiput(6.3,3.6)(0.15,-0.15){3}{$.$}
+\put(7.05,2.55){{\tiny $\langle x\!+\!d,$}}
+\put(7.15,2.15){{\tiny $y\!+\!d\rangle$}}
+
+\put(5.02,6.55){{\tiny $\langle x\!+\!1,$}}
+\put(5.15,6.15){{\tiny $y\!-\!1 \rangle$}}
+\put(6.35,7.35){$.^{\mbox{$.^{\mbox{$.$}}$}}$}
+\put(7.02,8.55){{\tiny $\langle x\!+\!d,$}}
+\put(7.15,8.15){{\tiny $ y\!-\!d \rangle$}}
+\end{picture}
+\vspace*{-1.0cm}
+
+\begin{enumerate}
+\item  Steigende  Diagonale: \\[0.3cm]
+      \hspace*{0.3cm} 
+      $x + y = (x + 1) + (y - 1) = \cdots = (x + d) + (y - d)$ \\[0.3cm]
+      Damen in Zeile $i$ und Zeile $j$ in selber steigender Diag. \\[0.3cm]
+      \hspace*{1.3cm}      $i + \mathtt{column}[i] = j + \mathtt{column}[j]$
+\item Fallende Diagonale: \\[0.3cm]
+      \hspace*{0.3cm} 
+      $x - y = (x + 1) - (y + 1) = \cdots = (x + d) - (y + d)$ \\[0.3cm]
+      Damen in Zeile $i$ und Zeile $j$ in selber fallender Diag. \\[0.3cm]
+      \hspace*{1.3cm}  $i - \mathtt{column}[i] = j - \mathtt{column}[j]$
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Test, ob Dame gesetzt werden kann
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{tabular}{ll}
+\textbf{Gegeben}: & \begin{tabular}[t]{ll}
+                   Brett & \texttt{board} \\
+                   Zeile & $x=\texttt{board->numberQueens}$ \\
+                   Spalte & $y=\texttt{nextColumn}$ \\[0.3cm]
+                    \end{tabular} \\
+\textbf{Frage}:   & Kann Dame  in $\langle x, y \rangle$ gesetzt werden? \\[0.3cm]
+\textbf{Vorgehen:} & 1. Überprüfe Spalte \texttt{nextColumn} \\[0.3cm]
+                  & 2. Überprüfe fallende Diagonale \\[0.3cm]
+                  & 3. Überprüfe steigende Diagonale \\[0.3cm]
+\end{tabular}
+
+\begin{verbatim}
+bool check(Board* board, unsigned nextColumn) 
+{
+    unsigned row = board->numberQueens;
+    for (unsigned i = 0; i < board->numberQueens; ++i)
+    {
+        if (board->column[i] == nextColumn) 
+        {
+            return false;
+        }
+        if (i - board->column[i] == row - nextColumn) 
+        {
+            return false;
+        }
+        if (i + board->column[i] == row + nextColumn)  
+        {
+            return false;
+        }
+    }
+    return true;
+}
+\end{verbatim}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Hilfs--Funktionen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+
+Erzeugung eines leeren Bretts
+\begin{enumerate}
+\item Speicherplatz allozieren
+\item \texttt{numberQueens} mit 0 initialisieren
+\end{enumerate}
+\begin{verbatim}
+Board* createEmpty()
+{
+    Board* newBoard = malloc( sizeof(Board) );
+    newBoard->numberQueens = 0;
+    return newBoard;
+}
+\end{verbatim}
+
+Hinzufügen einer Dame (erzeugt neues Brett)
+\begin{enumerate}
+\item Speicherplatz für neues Brett allozieren
+\item \texttt{numberQueens} initialisieren
+\item vorhandene Damen kopieren
+\item neue Dame hinzufügen
+\end{enumerate}
+
+\begin{verbatim}
+Board* addQueen(Board* board, unsigned nextColumn)
+{
+    Board* newBoard = malloc( sizeof(Board) );
+    newBoard->numberQueens = board->numberQueens + 1;
+    for (unsigned i = 0; i < board->numberQueens; ++i) {
+        newBoard->column[i] = board->column[i];
+    }
+    newBoard->column[board->numberQueens] = nextColumn;
+    return newBoard;
+}
+\end{verbatim}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Backtracking
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Algorithmus
+\begin{enumerate}
+\item Wenn alle Damen auf dem Brett sind: fertig!
+\item Finde nächste Spalte, in die Dame gesetzt werden kann
+      und setze Dame: neues Brett.
+\item Rekursiv: Versuche, neues Brett zu vervollständigen.
+\item Funktioniert: fertig.
+\item Sonst: versuche nächste Spalte
+\end{enumerate}
+
+\begin{verbatim}
+Board* complete(Board* board)
+{
+    if (board->numberQueens == BOARD_SIZE) {
+        return board;
+    }
+    for (unsigned i = 0; i < BOARD_SIZE; ++i) {
+        if (check(board, i)) {
+            Board* nextBoard = addQueen(board, i);
+            printBoard(nextBoard);
+            Board* result = complete(nextBoard);
+            if (result != 0) {
+                return result;
+            } else {
+                // !!! backtrack !!!
+                printBoard(board);
+                free(nextBoard);
+                continue;
+            }
+        }
+    }
+    return 0;
+}
+\end{verbatim}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Backtracking: Anwendung
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Grammatik für arithmetische Ausdrücke: \\[0.3cm]
+\hspace*{1.3cm} $G_{\mathtt{calc}} = \langle T, N, R, S \rangle$ 
+\begin{enumerate}
+\item $T = \{ \mathbf{number} \}$
+\item $N = \{ \textsl{Sum}, \textsl{Prod}, \textsl{Factor} \}$
+\item Die Menge der Regeln ist wie folgt gegeben: \\[0.3cm]
+      \hspace*{1.3cm} $
+      \begin{array}{lcl}
+         \textsl{Sum}  & \rightarrow & \textsl{Sum}\; ``\mathtt{+}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Sum}\; ``\mathtt{-}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Prod}                                      \\[0.3cm]
+         \textsl{Prod} & \rightarrow & \textsl{Prod}\; ``\mathtt{*}\cq \; \textsl{Factor} \\
+                       & |           & \textsl{Prod}\; ``\mathtt{/}\cq \; \textsl{Factor} \\
+                       & |           & \textsl{Factor}                                    \\[0.3cm]
+       \textsl{Factor} & \rightarrow & ``\mathtt{(}\cq \;\textsl{Sum}\; ``\mathtt{)}\cq   \\
+                       & |           & \mathbf{number}                                    \\
+      \end{array}
+      $
+\item $S = \textsl{Sum}$ 
+\end{enumerate}
+Vorteile dieser Grammatik
+\begin{enumerate}
+\item Grammatik ist \emph{eindeutig}: Jeder Ausdruck aus $\Ll(G_{\mathtt{calc}})$
+      hat genau einen Parse--Baum.
+\item Grammatik berücksichtigt 
+      \begin{enumerate}
+      \item \emph{Punkt vor Strich}: \\[0.3cm]
+             \hspace*{1.3cm} $x+y*z = x + (y*z)$
+      \item Links--Assoziativität von ``\texttt{-}'' und ``\texttt{/}'' \\[0.3cm]
+            \hspace*{1.3cm} $x - y - z = (x - y) - z$
+      \end{enumerate}
+\end{enumerate}
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Projekt: Taschenrechner
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{tabular}{ll}
+\textbf{Ziel}:     & Sprache $\Ll(G_{\mathtt{calc}})$ der arithmetische Ausdrücke    \\
+                  & mit \emph{recursive descent} Parser auswerten  \\[0.3cm]
+\textbf{Problem}:  & Grammatik $G_{\mathtt{calc}}$ ist links--rekursiv                 \\[0.3cm]
+\textbf{Lösung}:   & Recursive Descent Parser muß backtracken!          \\[0.3cm]
+\textbf{Nachteil}: & resultierender Parser nicht sehr effizient          \\[0.3cm]
+\textbf{Vorteil}:  & einfach zu implementieren                         
+\end{tabular}
+
+\textbf{Vorgehen}:
+\begin{enumerate}
+\item Festlegung der Daten--Strukturen
+
+      Jedem Nicht--Terminal $X \in N$ entspricht eine \texttt{struct} \\[0.3cm]
+      \hspace*{1.3cm} $\mathtt{typedef\ struct} \;X\mathtt{*}\;\;  X\mathtt{Ptr;}$
+      \begin{enumerate}
+      \item \textsl{Sum} entspricht  \texttt{struct Sum}
+      \item \textsl{Prod} entspricht \texttt{struct Prod}
+      \item \textsl{Factor} entspricht \texttt{struct Factor}
+      \end{enumerate}
+\item Festlegung der Funktionen
+
+      Jedem Nicht--Terminal $X \in N$ entspricht  Funktion \\[0.3cm]
+      \hspace*{1.3cm} $X\mathtt{Ptr\ }\mathtt{parse}X(\mathtt{char*\ begin,\ char*\ end})$
+      \\[0.3cm]
+      die die Sprache $\Ll(X)$  erkennt. \\[0.3cm]
+        \hspace*{1.3cm} 
+      \begin{tabular}{ll}
+       \texttt{begin}: & Pointer auf erstes Zeichen   \\
+       \texttt{end}:   & Pointer \textbf{hinter} letztes Zeichen  \\
+      \end{tabular} \\[0.3cm]
+      Funktion erfolgreich, wenn \\[0.3cm]
+      \hspace*{1.3cm} $\texttt{*begin}\;\texttt{*(begin+1)}\;\cdots\;\texttt{*(end-1)} \in \Ll(X)$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Festlegung der Daten--Strukturen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Genaue Analogie zwischen Grammatik und Daten--Struktur: \\[0.3cm]
+\hspace*{1.3cm} 
+$\begin{array}{lcl}
+         \textsl{Sum}  & \rightarrow & \textsl{Sum}\; ``\mathtt{+}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Sum}\; ``\mathtt{-}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Prod}                                      \\[0.3cm]
+      \end{array}
+      $    
+
+\begin{verbatim}
+    struct Sum {
+        char     operation; 
+        SumPtr   arg1;
+        ProdPtr  arg2;
+        unsigned ctr;  
+    };
+\end{verbatim}
+
+Bedeutung der Komponenten \\[0.3cm]
+\hspace*{0.3cm} 
+\begin{tabular}{ll}
+ \texttt{operation}: & entweder ``\texttt{+}'' oder ``\texttt{-}'' \\[0.3cm]
+ \texttt{arg1}:      & erstes Argument oder 0                      \\[0.3cm]
+ \texttt{arg2}:      & zweites Argument oder einziges Argument     \\[0.3cm]
+ \texttt{ctr}:       & nur zur graphischen Ausgabe 
+\end{tabular}
+
+Semantik: 
+\begin{enumerate}
+\item Fall: \texttt{arg1 != 0}: \\[0.3cm]
+      Fall liegt vor, wenn eine der ersten beiden Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathtt{arg1} \; \mathtt{operation} \; \mathtt{arg2}$
+\item Fall: \texttt{arg1 == 0}: \\[0.3cm]
+      Fall liegt vor, wenn die letzte Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathtt{arg2}$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Festlegung der Daten--Strukturen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Grammatik--Regeln für \textsl{Prod} \\[0.3cm]
+\hspace*{1.3cm} 
+$\begin{array}{lcl}
+         \textsl{Prod} & \rightarrow & \textsl{Prod}\; ``\mathtt{*}\cq \; \textsl{Factor} \\
+                       & |           & \textsl{Prod}\; ``\mathtt{/}\cq \; \textsl{Factor} \\
+                       & |           & \textsl{Factor}                                    \\
+ \end{array}$    
+
+\begin{verbatim}
+    struct Prod {
+        char      operation; 
+        ProdPtr   arg1;
+        FactorPtr arg2;
+        unsigned ctr; 
+    };
+\end{verbatim}
+
+Bedeutung der Komponenten \\[0.3cm]
+\hspace*{0.3cm} 
+\begin{tabular}{ll}
+ \texttt{operation}: & entweder ``\texttt{*}'' oder ``\texttt{/}'' \\[0.3cm]
+ \texttt{arg1}:      & erstes Argument oder 0                      \\[0.3cm]
+ \texttt{arg2}:      & zweites Argument oder einziges Argument \\[0.3cm]
+ \texttt{ctr}:       & nur zur graphischen Ausgabe 
+\end{tabular}
+
+Semantik: 
+\begin{enumerate}
+\item Fall: \texttt{arg1 != 0}: \\[0.3cm]
+      Fall liegt vor, wenn eine der ersten beiden Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathtt{arg1} \; \mathtt{operation} \; \mathtt{arg2}$
+\item Fall: \texttt{arg1 == 0}: \\[0.3cm]
+      Fall liegt vor, wenn die letzte Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathtt{arg2}$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Festlegung der Daten--Strukturen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Grammatik--Regeln für \textsl{Factor} \\[0.3cm]
+\hspace*{1.3cm} $\begin{array}{lcl}
+       \textsl{Factor} & \rightarrow & ``\mathtt{(}\cq \;\textsl{Sum}\; ``\mathtt{)}\cq   \\
+                       & |           & \mathbf{number}                                    \\
+ \end{array}$    
+
+\begin{verbatim}
+    struct Factor {
+        int      number;
+        SumPtr   sumPtr;
+        unsigned ctr; 
+    };
+\end{verbatim}
+
+Bedeutung der Komponenten \\[0.3cm]
+\hspace*{1.3cm} 
+\begin{tabular}{ll}
+ \texttt{number}:    & Zahl, falls zweite Regel verwendet wurde                    \\[0.3cm]
+ \texttt{sumPtr}:    & geklammerter Ausdruck, falls erste Regel \\
+                     & verwendet wurde                    \\[0.3cm]
+ \texttt{ctr}:       & nur zur graphischen Ausgabe 
+\end{tabular}
+
+Semantik: 
+\begin{enumerate}
+\item Fall: \texttt{sumPtr != 0}: \\[0.3cm]
+      Fall liegt vor, wenn die erste Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathtt{sumPtr}$
+\item Fall: \texttt{sumPtr == 0}: \\[0.3cm]
+      Fall liegt vor, wenn die letzte Grammatik Regeln verwendet wurde.
+      Semantik: \\[0.3cm]
+      \hspace*{1.3cm}  $\mathbf{number}$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Parsen von \textsl{Sum}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\textbf{Grammatik--Regeln} \\[0.3cm]
+\hspace*{1.3cm} 
+$\begin{array}{lcl}
+         \textsl{Sum}  & \rightarrow & \textsl{Sum}\; ``\mathtt{+}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Sum}\; ``\mathtt{-}\cq \; \textsl{Prod}    \\
+                       & |           & \textsl{Prod}                                      \\[0.3cm]
+      \end{array}
+      $    
+
+\textbf{Algorithmus}
+\begin{enumerate}
+\item Versuche, letzte Regel anzuwenden
+
+      Falls erfolgreich: fertig!
+\item Suche  Zeichen ``\texttt{+}'' oder ``\texttt{-}'' in Intervall  \\[0.3cm]
+      \hspace*{1.3cm} \texttt{[begin, end-1]} \\[0.3cm]
+      Sei \texttt{ptr} gefunden mit 
+      \begin{enumerate}
+      \item \texttt{begin < ptr < end}
+      \item $\texttt{*ptr} \in \{ ``\mathtt{+}\cq, ``\mathtt{-}\cq \}$
+      \end{enumerate}
+      Falls erfogreich:
+      \begin{enumerate}
+      \item Parse rekursiv \texttt{[begin,ptr]} als \textsl{Sum}
+      \item Parse rekursiv \texttt{[ptr+1,end]} als \textsl{Prod}
+      \end{enumerate}
+      Falls erfogreich: fertig
+
+      Sonst backtracken: Gehe zu 2. und suche nächstes Zeichen ``\texttt{+}'' oder ``\texttt{-}''.
+\item Falls Suche nach ``\texttt{+}'' oder ``\texttt{-}'' scheitert: 
+
+      Parsen von \textsl{Sum} nicht möglich \\[0.3cm]
+      \hspace*{1.3cm} \texttt{return 0;}
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Parsen von \textsl{Sum}\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{verbatim}
+SumPtr parseSum(char* begin, char* end)
+{
+    ProdPtr prod = parseProd(begin, end);
+    if (prod != 0) {
+        SumPtr sum = malloc( sizeof(struct Sum) );
+        sum->arg1 = 0;
+        sum->arg2 = prod;
+        sum->ctr  = nodeCounter++;
+        return sum;
+    }
+    for (char* ptr = begin + 1; ptr < end; ++ptr) 
+    {
+        if (*ptr == '+' || *ptr == '-') {
+            SumPtr firstSum = parseSum(begin, ptr);
+            if (firstSum != 0) {
+                ProdPtr prod = parseProd(ptr + 1, end);
+                if (prod != 0) {
+                    SumPtr sum = 
+                        malloc( sizeof(struct Sum) );
+                    sum->operation = *ptr;
+                    sum->arg1 = firstSum;
+                    sum->arg2 = prod;
+                    sum->ctr  = nodeCounter++;
+                    return sum;
+                } else {
+                    free(firstSum);
+                }
+            }
+        }
+    }
+    return 0;
+}
+\end{verbatim}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Parsen von \textsl{Fact}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\textbf{Grammatik--Regeln} \\[0.3cm]
+\hspace*{1.3cm} 
+$\begin{array}{lcl}
+         \textsl{Factor} & \rightarrow & ``\mathtt{(}\cq \;\textsl{Sum}\; ``\mathtt{)}\cq   \\
+                         & |           & \mathbf{number}                                    \\
+ \end{array}$
+
+\textbf{Algorithmus}:
+\begin{enumerate}
+\item Falls erstes Zeichen ``\texttt{(}'' ist, wende erste Regel an.
+      \begin{enumerate}
+      \item Parse rekursiv \textsl{Sum}: \\[0.3cm]
+            \hspace*{1.3cm} \texttt{parseSum(begin + 1, end - 1);}
+      \item Überprüfe, ob letztes Zeichen ``\texttt{)}'' ist.
+      \end{enumerate}
+\item Falls erstes Zeichen Ziffer ist, wende zweite Regel an.
+    
+      Werte der Ziffern im {\sc Ascii}--Alphabet \\[0.8cm]
+\hspace*{-1.3cm} 
+      \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+      \hline
+          \texttt{'0'} & \texttt{'1'} &\texttt{'2'} &\texttt{'3'} &\texttt{'4'} &\texttt{'5'} &\texttt{'6'} &\texttt{'7'} &\texttt{'8'} &\texttt{'9'} \\
+      \hline
+          48 & 49 & 50 & 51 & 52 & 53 & 54 & 55 & 56 & 57 \\
+      \hline
+      \end{tabular}
+      \vspace*{0.8cm}
+
+      \textbf{Beobachtung}: Werte sind kontinuierlich verteilt. 
+      \begin{verbatim}
+      unsigned char2unsigned(char c) {
+           return c - '0';
+      }
+      \end{verbatim}
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Parsen von \textsl{Fact}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{verbatim}
+FactorPtr parseFactor(char* begin, char* end) {
+    if (*begin == '(') {
+        SumPtr sum = parseSum(begin + 1, end - 1);
+        if (sum != 0 && *(end-1) == ')') {
+            FactorPtr factor = 
+                malloc( sizeof(struct Factor) );
+            factor->sumPtr = sum;
+            factor->ctr    = nodeCounter++;
+            return factor;
+        } else {
+            free(sum);
+            return 0;
+        }
+    } 
+    if (isdigit(*begin)) {
+        int num = 0;
+        while (isdigit(*begin) && begin < end) {
+            num = 10 * num + *begin - '0';
+            ++begin;
+        }
+        if (begin == end) {
+            FactorPtr factor = 
+                malloc( sizeof(struct Factor) );
+            factor->number = num;
+            factor->sumPtr = 0;
+            factor->ctr    = nodeCounter++;
+            return factor;
+        } 
+    }
+    return 0;
+}
+\end{verbatim}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "backtracking.tex"
+%%% End: 

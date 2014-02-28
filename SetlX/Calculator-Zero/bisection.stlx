@@ -1,0 +1,29 @@
+// This function implements the Illinois-method to compute the zero of
+// the function f in the interval [a,b].  The parameter eps specifies
+bisection := procedure(f, a, b, eps) {
+    assert(a < b, "a has to be less than b");
+    [ fa, fb ] := [ f(a), f(b) ];
+    assert(fa < 0 && 0 < fb, "We need f(a) < 0 and 0 < f(b)!");
+    while (b - a > eps) {
+        c  := (a + b) / 2;
+        fc := f(c);
+        print("fa = $1.0 * fa$, fb = $1.0 * fb$");
+        if (fc < 0) {
+            a := c; fa := fc; 
+        } else if (fc > 0) {
+            b := c; fb := fc; 
+        } else {
+            return c;
+        }
+        if (isRational(a) && isRational(b)) {
+            print("a = $nDecimalPlaces(a, 41)$, b = $nDecimalPlaces(b, 41)$");
+        } else {
+            print("a = $a$, b = $b$");
+        }
+    }
+    c := (a + b) / 2;
+    print("c = $nDecimalPlaces(c, 100)$");
+    return c;
+};
+ 
+

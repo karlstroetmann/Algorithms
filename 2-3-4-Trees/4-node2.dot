@@ -1,0 +1,4 @@
+digraph G {
+    node [ ordering = out ];
+    n [ shape = Mrecord, label = "<f1> 2|<f2> 4| <f3> 6" ];
+}

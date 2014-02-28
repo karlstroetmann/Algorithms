@@ -1,0 +1,7 @@
+digraph G {
+    n [ shape = Mrecord, label = "k" ];
+    n -> l;
+    n -> r;
+    l [ shape = triangle ];
+    r [ shape = triangle ];
+}

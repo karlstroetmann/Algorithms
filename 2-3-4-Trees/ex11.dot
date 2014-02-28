@@ -1,0 +1,15 @@
+digraph G {
+1 [ shape = Mrecord, label = "5" ];
+1 -> 2 [headport = n];
+1 -> 5 [headport = n];
+2 [ shape = Mrecord, label = "3" ];
+2 -> 3 [headport = n];
+2 -> 4 [headport = n];
+3 [ shape = Mrecord, label = "<f1> 1" ];
+4 [ shape = Mrecord, label = "4" ];
+5 [ shape = Mrecord, label = "7" ];
+5 -> 6 [headport = n];
+5 -> 7 [headport = n];
+6 [ shape = Mrecord, label = "6" ];
+7 [ shape = Mrecord, label = "<f1> 8|<f2> 9" ];
+}

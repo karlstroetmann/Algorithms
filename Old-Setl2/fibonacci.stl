@@ -1,0 +1,17 @@
+program main;
+    
+    for n in { 0 .. 50 } loop
+        print("fib(", n, ") = ", fib(n) );
+    end loop;
+
+    procedure fib(n);
+        if n = 0 then
+            return 1;
+        elseif n = 1 then
+            return 1;
+        else 
+            return fib(n - 1) + fib(n-2);
+        end if;
+    end fib;
+
+end main;

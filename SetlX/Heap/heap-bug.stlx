@@ -1,0 +1,163 @@
+class heap(parent) {
+    mPriority := om;
+    mValue    := om;
+    mLeft     := om;
+    mRight    := om;
+    mParent   := parent;
+    mCount    := 0;
+
+    static {
+        sValueMap := {};
+
+        top := procedure() {
+            return [mPriority, mValue];
+        };
+        insert := procedure(priority, value) {
+            if (isEmpty()) {
+                this.mPriority := priority;
+                this.mValue    := value;
+                this.mLeft     := heap(this);
+                this.mRight    := heap(this);
+                this.mCount    := 1;
+                sValueMap[value] := this;
+                return;
+            }
+            this.mCount += 1;
+            if (priority < mPriority) {                         
+                if (mLeft.mCount > mRight.mCount) {
+                    mRight.insert(mPriority, mValue);
+                } else {
+                    mLeft.insert(mPriority, mValue);
+                }
+                this.mPriority := priority;
+                this.mValue    := value;
+                sValueMap[value] := this;
+            } else {
+                if (mLeft.mCount > mRight.mCount) { 
+                    mRight.insert(priority, value);
+                } else {
+                    mLeft.insert(priority, value);
+                }
+            }
+        };
+        remove := procedure() {
+            assert(mCount > 0, "mCount == 0");
+            sValueMap[mValue] := om;
+            if (mCount == 1) {
+                this.mPriority := om;
+                this.mValue    := om;
+                this.mLeft     := om;
+                this.mRight    := om;
+                this.mCount    := 0;
+                return;
+            }
+            this.mCount -= 1;
+            if (mLeft.isEmpty()) { 
+                update(mRight); 
+                return;
+            } 
+            if (mRight.isEmpty()) { 
+                update(mLeft ); 
+                return;
+            }
+            if (mLeft.mPriority < mRight.mPriority) {
+                this.mPriority := mLeft.mPriority;
+                this.mValue    := mLeft.mValue;
+                mLeft.remove();
+            } else {
+                this.mPriority := mRight.mPriority;
+                this.mValue    := mRight.mValue;
+                mRight.remove();
+            }
+        };
+        change := procedure(value, priority) {
+            node := sValueMap[value];
+            print("node found: \n$node$");
+            node.mPriority := priority;
+            print("node changed: \n$node$");
+            print("this: \n$this$");
+            node.upheap();
+        };
+        upheap := procedure() {
+            if (!isObject(mParent)) {  // this node has no parent node
+                return;
+            }
+            if (this.mPriority < mParent.mPriority) {
+                [tp, tv] := [mPriority, mValue];
+                [pp, pv] := [mParent.mPriority, mParent.mValue];
+                [this.mPriority, mParent.mPriority] := [pp, tp];
+                [this.mValue,    mParent.mValue   ] := [pv, tv];
+                sValueMap[tv] := mParent;
+                sValueMap[pv] := this;
+                mParent.upheap();
+            }
+        };
+        update := procedure(t) {
+            this.mPriority := t.mPriority;
+            this.mValue    := t.mValue;
+            this.mLeft     := t.mLeft;
+            this.mRight    := t.mRight;
+            this.mCount    := t.mCount;
+        };
+        
+        
+        isEmpty := [] |-> mCount == 0;
+
+        f_str := [] |-> toString(0);
+        toString := procedure(n) {
+            if (isEmpty()) {
+                return " " * n + "Nil";
+            } else {
+                return mLeft.toString(n + 4) + "\n" + 
+                       " " * n + "<" + mValue + ", " + mPriority + ">\n" +
+                       mRight.toString(n + 4);
+            }
+        };
+    }
+}
+
+createHeap := procedure(priority, value) {
+    h := heap();
+    h.mPriority := priority;
+    h.mValue    := value;
+    h.mLeft     := heap();
+    h.mRight    := heap();
+    h.mCount    := 1;
+};
+
+heapSort := procedure(l) {
+    h := heap(om);    
+    for (x in l) {
+        h.insert(x, x);
+    }
+    print(h);
+    s := [];
+    while (!h.isEmpty()) {
+        s += [ h.top()[1] ];
+        h.remove();
+    }
+    return s;
+};
+
+demoHeapSort := procedure() {
+    l := [ rnd({1 .. 99}) : n in [1 .. 10] ];
+    print(l);
+    s := heapSort(l);
+    print(s);
+};
+
+demoHeapSort();
+    
+demoChange := procedure(n) {
+    h := heap(om);
+    for (i in [1 .. n]) {
+        h.insert(i, i);
+        for ([v, n] in h.sValueMap) {
+            print("value $v$ at node \n$n$");
+        }
+    }
+    return h;
+};
+
+h := demoChange(3);
+h.change(3, 0);

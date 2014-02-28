@@ -1,0 +1,19 @@
+// Fuse two adjacent 2-nodes (here node 1 and 2) and move one of the key from the parent down.
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "<f1> p1|<f2> p2" ];
+    "p":f1 -> k [tailport = se, headport = n ];
+    p -> l [headport = n ];
+    "p":f2 -> e [tailport = sw, headport = n ];
+    k [ shape = Mrecord ];
+    l [ shape = Mrecord ];
+    k -> a;
+    k -> b;
+    l -> c;
+    l -> d;
+    a [ shape = triangle ];
+    b [ shape = triangle ];
+    c [ shape = triangle ];
+    d [ shape = triangle ];
+    e [ shape = triangle ];
+}

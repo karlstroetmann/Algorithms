@@ -1,0 +1,102 @@
+\begin{thebibliography}{CLRS01}
+
+\bibitem[AHU87]{aho:87}
+Alfred~V. Aho, John~E. Hopcraft, and Jeffrey~D. Ullman.
+\newblock {\em Data Structures and Algorithms}.
+\newblock Addison-Wesley, 1987.
+
+\bibitem[AVL62]{adelson:62}
+Georgii~M. Adel'son-Vel'ski\u{\i} and Evgenii~M. Landis.
+\newblock An algorithm for the organization of information.
+\newblock {\em Soviet Mathematics Doklady}, 3:1259--1263, 1962.
+
+\bibitem[BM93]{bentley:93}
+Jon~Louis Bentley and M.~Douglas McIlroy.
+\newblock Engineering a sort function.
+\newblock {\em Software - Practice and Experience}, 23(11):1249--1265, 1993.
+
+\bibitem[BS03]{boerger:2003}
+Egon Börger and Robert Stärk.
+\newblock {\em Abstract State Machines}.
+\newblock Springer-Verlag, 2003.
+
+\bibitem[CLRS01]{cormen:01}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronal~L. Rivest, and Clifford Stein.
+\newblock {\em Introduction to Algorithms}.
+\newblock MIT Press, second edition, 2001.
+
+\bibitem[CP03]{carrano:02}
+Frank~M. Carrano and Janet~J. Prichard.
+\newblock {\em Data Abstraction and Problem Solving with \textsl{Java}}.
+\newblock Prentice Hall, 2003.
+
+\bibitem[Dij59]{dijkstra:59}
+Edsger~W. Dijkstra.
+\newblock A note on two problems in connexion with graphs.
+\newblock {\em Numerische Mathematik}, 1:269--271, 1959.
+
+\bibitem[dlB59]{briandais:59}
+Ren{\'e} de~la Briandais.
+\newblock File {S}earching {U}sing {V}ariable {L}ength {K}eys.
+\newblock In {\em Proceedings of the Western Joint Computer Conference}, pages
+  195--298, 1959.
+
+\bibitem[Gur91]{gurevich:91}
+Yuri Gurevich.
+\newblock Evolving algebras.
+\newblock {\em Bull.~EATCS}, 43:264--284, 1991.
+
+\bibitem[Hoa61]{hoare:61}
+C.~Antony~R. Hoare.
+\newblock Algorithm 64: Quicksort.
+\newblock {\em Communications of the {ACM}}, 4:321, 1961.
+
+\bibitem[Hoa69]{hoare:69}
+C.~Antony~R. Hoare.
+\newblock An axiomatic basis for computer programming.
+\newblock {\em Communications of the ACM}, 12(10):576--580, 1969.
+
+\bibitem[Huf52]{huffman:52}
+David~A. Huffman.
+\newblock A {M}ethod for the {C}onstruction of {M}inimum-{R}edundancy {C}odes.
+\newblock {\em Proceedings of the IRE}, 40(9):1098--1101, 1952.
+
+\bibitem[IdFF96]{Ieru96a}
+Roberto Ierusalimschy, Luiz~Henrique de~Figueiredo, and Waldemar~Celes Filho.
+\newblock Lua --- an extensible extension language.
+\newblock {\em Software: Practice and Experience}, 26(6):635--652, 1996.
+
+\bibitem[Ier06]{ierusalimschy:2006}
+Roberto Ierusalimschy.
+\newblock {\em Programming in Lua}.
+\newblock Lua.Org, 2nd edition, 2006.
+
+\bibitem[Moo59]{moore:59}
+Edward~F. Moore.
+\newblock The shortest path through a maze.
+\newblock In {\em Proceedings of the International Symposium on the Theory of
+  Switching}, pages 285--292. Harvard University Press, 1959.
+
+\bibitem[Ric53]{rice:53}
+Henry~G. Rice.
+\newblock Classes of recursively enumerable sets and their decision problems.
+\newblock {\em Transactions of the American Mathematical Society}, 83, 1953.
+
+\bibitem[Sed02]{sedgewick:02}
+Robert Sedgewick.
+\newblock {\em Algorithms in \textsl{Java}}.
+\newblock Pearson, 2002.
+
+\bibitem[Tur36]{turing:36}
+Alan~M. Turing.
+\newblock On computable numbers, with an application to the
+  ``{E}ntscheidungsproblem''.
+\newblock {\em Proceedings of the London Mathematical Society}, 42(2):230--265,
+  1936.
+
+\bibitem[WS92]{Wall92}
+Larry Wall and Randal~L. Schwartz.
+\newblock {\em Programming Perl.}
+\newblock O'Reilly and Assoc., 1992.
+
+\end{thebibliography}

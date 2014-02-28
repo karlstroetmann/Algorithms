@@ -1,0 +1,87 @@
+1. Die Abbruch-Bedingung der Šu§eren while Schleife ist falsch.  Sie schreiben
+
+   do {
+       ...
+   } while (partArray != mArray.length / 2 * 2 * 2)
+
+   partArray ist immer eine Zweierpotenz.  Wenn nun mArray.length / 2 keine Zweierpotenz ist,
+   dann wird die Bedingung partArray != mArray.length / 2 * 2 * 2 immer wahr sein, so dass die 
+   Schleife nicht abbricht.  Es kommt dann zu einem Zugriff auf ein nicht existierendes Element
+   des Feldes.  Die richtige Bedingung lautet "partArray < mArray.length".
+
+2. Die Abbruchbedingung "i<((mArray.length)/2)*2" in der for-Schleife ist ebenfalls falsch.  
+   Was Sie wollen ist, dass das erste Element des zweiten Teilfeldes noch in dem zu 
+   sortierenden Feld liegt. Diese Bedingung lautet aber einfach "i + partArray / 2 < mArray.length".
+
+3. Die Abbruchbedingung "(second!=(i+partArray))&&(first!=(i+(partArray/2)))" in der inneren while-Schleife
+   ist auch falsch, denn Sie mŸssen sicherzustellen, dass der Array-Zugriff "copy[second]" 
+   innerhalb der Feldgrenzen liegt. Folglich brauchen Sie hier noch eine zusŠtzliche Bedingung,
+   die das sicherstellt.
+   
+   Entsprechend mŸssen Sie dann auch die Bedingung in dem ersten if-Statement
+   nach der inneren while-Schleife anpassen.
+
+4. In der vorletzten for-Schleife ist die Bedingung "x < i + partArray" falsch.
+   Richtig wŠre "x < i + partArray && x < mArray.length".  Die selbe Bemerkung
+   gilt auch fŸr die letzte for-Schleife.
+   
+5. Der peinlichste Fehler ist ist, dass Sie den Befehl arraycopy nur ein einziges
+   Mal aufrufen.  Das Feld muss natŸrlich bei jedem Schleifendurchlauf kopiert werden.
+
+
+import java.util.Comparator;
+
+public class MergeSort extends SortingAlgorithm
+{
+
+    MergeSort(Double[] array, Comparator<Double> comparator) {
+        super(array, comparator);
+    }
+    
+
+    public void sort() {
+        
+        int partArray = 0;
+        int first;
+        int second;
+        int help;
+        Double[] copy = new Double[mArray.length];
+        if (mArray.length >= 2) 
+            partArray = 2;
+        do {
+            System.arraycopy(mArray, 0, copy, 0, mArray.length);
+            for (int i = 0; i + partArray / 2 < mArray.length; i += partArray) {
+                first  = i;
+                second = i + partArray / 2;
+                help   = first;
+                 do {    
+                    if (copy[first] < copy[second]) {
+                         mArray[help] = copy[first];
+                         first++;
+                         help++;
+                     } else {
+                         mArray[help] = copy[second];
+                         second++;
+                         help++;
+                         
+                     } 
+                 } while (second <  mArray.length    &&
+                         second != i + partArray    &&
+                         first  != i + partArray / 2  );
+                if (second == mArray.length || second == i + partArray) {
+                    for (int x = help; x < i + partArray && x < mArray.length; x++) {
+                        mArray[x] = copy[first];
+                        first++;
+                    }
+                } else if (first == i + partArray/2) {
+                    for (int x = help; x < i + partArray && x < mArray.length; x++) {
+                        mArray[x] = copy[second];
+                        second++;
+                    }
+                }
+            }
+            partArray *= 2;
+        } while (partArray / 2 < mArray.length); 
+        // Teilfeld ist dann doppelt so gro§ wie ursprŸngliches Feld, darf nicht sein!
+    }
+}

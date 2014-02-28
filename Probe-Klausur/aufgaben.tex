@@ -1,0 +1,219 @@
+\documentclass{article}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+
+\usepackage{a4wide}
+\usepackage{amssymb}
+\usepackage{epsfig}
+
+\setlength{\textwidth}{15cm}
+
+\newcommand{\cq}{\symbol{34}}
+\newcommand{\Ll}{{\cal L}}
+\newcommand{\Rl}{{\cal R}}
+\newcommand{\NS}{{\cal N\!S}}
+\newcommand{\cl}[1]{{\cal #1}}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\newcounter{aufgabe}
+
+\newcommand{\exercise}{\vspace*{0.1cm}
+\stepcounter{aufgabe}
+
+\noindent
+\textbf{Aufgabe \arabic{aufgabe}}: }
+
+
+\begin{document}
+
+\noindent
+{\large Aufgaben zur Vorlesung  ``{\sl Algorithmen und Datenstrukturen}''}
+\vspace{0.5cm}
+
+
+\exercise
+\begin{enumerate}
+\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = a_n + 2$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
+      \hspace*{\fill} (10 Punkte)
+\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = 2 \cdot a_n - a_{n+1}$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 3$.
+      \hspace*{\fill} (10 Punkte)
+\end{enumerate}
+\vspace{0.3cm}
+
+\textbf{Hinweis}: 
+\begin{enumerate}
+\item Bei der Lösung der folgenden Aufgabe sind selbstverständlich
+      die in der Vorlesung vorgestellten Algorithmen zu verwenden.
+\item Sie können bei der folgenden Aufgabe das Ergebnis 
+      graphisch als Baum angeben.
+\end{enumerate}
+\vspace{0.2cm}
+
+\exercise
+Der AVL-Baum $t$ sei durch den folgenden Term gegeben,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+assoziiert sind, verzichtet wurde.
+\\[0.2cm]
+\hspace*{1.3cm}
+$t = \textsl{node}(17, \textsl{node}(8, \textsl{node}(2, \textsl{nil}, \textsl{nil}),
+ \textsl{node}(10, \textsl{nil}, \textsl{nil})), \textsl{node}(23,\textsl{nil},\textsl{nil}))$
+%\epsfig{file=avl1,scale=0.5}
+\begin{enumerate}
+\item Fügen Sie  in diesem Baum den Schlüssel \texttt{13} ein und geben Sie den
+      resultierenden Baum an.   \\[0.2cm]
+      \hspace*{\fill} (4 Punkte)
+\item Fügen Sie in dem Baum aus Teil den Schlüssel \texttt{15} ein und geben Sie den
+      resultierenden Baum an.
+      \hspace*{\fill} (3 Punkte)
+\item Entfernen Sie den Schlüssel 2 aus dem unter Teil (b) berechneten Baum und geben Sie
+      den resultierenden Baum an.
+      \hspace*{\fill} (4 Punkte)
+\end{enumerate}
+
+%\exercise
+%\begin{enumerate}
+%\item Zeigen Sie, dass für die Funktion \textsl{merge}, die wir im Skript definiert haben,
+%      folgende Gleichung gilt:
+%      \\
+%      \hspace*{1.3cm}
+%      $\textsl{count}(x, \textsl{merge}(L_1, L_2)) = \textsl{count}(x, L_1) + \textsl{count}(x, L_2)$
+%      \hspace*{\fill} (8 Punkte)
+%\item Zeigen Sie, dass für die Funktion \textsl{split}, die wir im Skript definiert haben,
+%      folgende Gleichung gilt:
+%      \\
+%      \hspace*{1.3cm}
+%      $\textsl{split}(L) = [L_1, L_2] \rightarrow \textsl{count}(x, L) = \textsl{count}(x, L_1) + \textsl{count}(x, L_2)$
+%      \hspace*{\fill} (7 Punkte)
+%\end{enumerate}
+\pagebreak
+
+\exercise
+Betrachten Sie das folgende Programm:
+\begin{verbatim}
+    sum := procedure(n) {
+        i := 0;
+        s := 0;
+        while (i <= n) {
+            s := i + s;
+            i := i + 1;
+        }
+        return s;
+    }
+\end{verbatim}
+Die Funktion $\textsl{sum}$  soll die folgende Spezifikation erfüllen:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$
+\begin{enumerate}
+\item Weisen Sie mit Hilfe des Hoare-Kalküls nach, dass das Programm korrekt ist.
+\item Beweisen Sie mit Hilfe der Methode der symbolischen Programm-Ausführung,
+      dass das Programm korrekt ist.
+\end{enumerate}
+\vspace{0.3cm}
+
+\exercise
+Im Abschnitt 8.2 des Skriptes
+werden Gleichungen angegeben, die das Einfügen und Löschen in einem Heap beschreiben.
+In diesem Zusammenhang sollen Sie in dieser Aufgabe  einige zusätzliche Methoden auf
+binären Bäumen durch bedingte Gleichungen spezifizieren.
+\begin{enumerate}
+\item Spezifizieren Sie eine Methode \textsl{isHeap}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isHeap}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Heap-Bedingung} erfüllt.      
+\item Spezifizieren Sie eine Methode \textsl{isBalanced}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isBalanced}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Balancierungs-Bedingung} für \emph{Heaps} erfüllt.  
+      \hspace*{\fill} (10 Punkte)
+\end{enumerate}
+\vspace{0.3cm}
+
+\exercise
+Es sei $f(n) := \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n)$.
+Zeigen Sie $f(n)\in \mathcal{O}\bigl(1\bigr)$. \hspace*{\fill} (12 Punkte)
+      
+\noindent
+\textbf{Hinweis}: Zeigen Sie die Ungleichung
+\\[0.2cm]
+\hspace*{1.3cm}
+$0 \leq \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n) \leq 1$
+\\[0.2cm]
+indem Sie die Summe $\sum\limits_{i=1}^n \frac{1}{i}$ durch geeignete Integrale abschätzen.
+\vspace{0.3cm}
+\pagebreak
+
+
+\exercise
+Es sei $\mathcal{B}$ die Menge der binären Bäume, die im Skript definiert wird.  
+\begin{enumerate}
+\item Spezifizieren Sie eine Methode \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{isOrdered}: \mathcal{B} \rightarrow \mathbb{B}$
+      \\[0.2cm]
+      durch bedingte Gleichungen.  Für einen binären Baum $b$ soll der Aufruf
+      $b.\textsl{isOrdered}()$ genau dann \texttt{true} zurück liefern, wenn $b\in \mathcal{B}_<$
+      gilt.
+      \hspace*{\fill} (8 Punkte)
+
+      \textbf{Hinweis}: Definieren Sie sich geeignete Hilfsfunktionen.
+\item Es sei $\textsl{insert}()$ die in Abschnitt 6.1 definierte Methode.
+      Nehmen Sie an, dass Sie für alle $b\in \mathcal{B}_<$, alle Schlüssel $k$ und alle Werte
+      $v$ die Gleichung
+      \\[0.2cm]
+      \hspace*{1.3cm} $b.\textsl{insert}(k,v).\textsl{isOrdered}() = \texttt{true}$
+      \\[0.2cm]
+      beweisen sollen.  Geben Sie an, welche Lemmata über die in Teil (a) definierten
+      Hilfsfunktionen zu einem solchen Beweis benötigt werden.
+      \hspace*{\fill} (4 Punkte)
+\item Zeigen Sie nun für geordnete binäre Bäume die Gleichung
+      \\[0.2cm]
+      \hspace*{1.3cm} $b.\textsl{insert}(k,v).\textsl{isOrdered}() = \texttt{true}$ 
+      \hspace*{\fill} (12 Punkte)
+      \\[0.2cm]
+      Sie dürfen dabei die Lemmata, die Sie in Teil (b) angeben sollen, benutzen.
+\end{enumerate}
+\vspace{0.3cm}
+
+\exercise
+Es gelte $\Sigma = \{ \mathtt{a},\,\mathtt{b},\,\mathtt{c},\,\mathtt{d},\,\mathtt{e},\,\mathtt{f} \}$.
+Die Häufigkeit, mit der diese Buchstaben in dem zu kodierenden String $s$ auftreten, sei durch die
+folgende Tabelle gegeben:
+
+\begin{center}
+\begin{tabular}[t]{|l|r|r|r|r|r|r|}
+\hline
+Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} \\
+\hline
+Häufigkeit &          8 &          9 &         10 &         11 &         12 &         13 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item Berechnen sie einen optimalen Kodierungs-Baum für die angegebenen Häufigkeiten.
+\item Geben Sie die Kodierung der einzelnen Buchstaben an, die sich aus diesem Baum ergibt.
+\end{enumerate}
+
+\exercise
+\begin{enumerate}
+\item Use the LZW algorithm to encode the string ``\texttt{aabbaaabbb}''.  Compute the
+      compression factor for this string.
+\item Decode the list 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $[97, 98, 98, 128, 131]$
+      \\[0.2cm]
+      using the LZW algorithm.
+\end{enumerate}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

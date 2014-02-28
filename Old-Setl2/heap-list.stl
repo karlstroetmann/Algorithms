@@ -1,0 +1,222 @@
+-- This data structure is similar to a heap, but it is different from
+-- those data structures that are defined as heaps in the literature,
+-- because I do not work with complete binary trees but with a variant.  
+
+class Heap;
+
+    procedure create();
+
+    procedure insert(k, v);
+    procedure top();
+    procedure remove();
+    -- Change the priority associated with value v to be k. The priority
+    -- can only increase, so a value can only be pushed upwards.
+    procedure change(v, k);
+
+    procedure isEmpty();    
+
+    procedure isHeap();
+    procedure show();
+
+end Heap;
+
+class body Heap;
+
+    -- This variable is shared by all instances of the class Heap.
+    -- It is needed to generate unique file names for the dot files.
+    class var fileCount    := 0;
+    class var counterZeros := 0;
+
+    -- Representation:
+    --  L(i) = Omega -> repr(L,i) = nil,
+    --  L(i) = [k,v] -> repr(L,i) = node(k,v,repr(L,2*i),repr(L,2*i+1)).
+    var L;
+    -- Counts is a list giving the number of nodes of the heap located
+    -- at index [1 .. #l].  Formally, we have Counts(i) = # repr(L, I)
+    var Counts;
+    -- nodeIndex is a binary relation. For every value v such that the 
+    -- pair [k,v] is a node of L, nodeIndex(v) yields the index i such 
+    -- that L(i) = [k, v].  Therefore we have L(nodeIndex(v)) = [k, v].
+    var nodeIndex;
+
+    -- create the empty tree
+    procedure create();
+        L      := [];
+        Counts := [];
+        nodeIndex := {};
+    end create;
+
+    procedure insert(k, v);
+        insertIndex(k, v, 1);
+    end insert;
+
+    procedure insertIndex(k, v, idx);
+        if L(idx) = om then
+            L(idx) := [ k, v ];
+            Counts(idx) := 1;
+            Counts(2 * idx) := 0;
+            Counts(2 * idx + 1) := 0;
+            nodeIndex(v) := idx;
+            return;
+        end if;
+        Counts(idx) +:= 1;
+        [ k1, v1 ] := L(idx);
+        -- If k1 <= k we have to insert the pair <k, v> either in l or r.
+        if k1 <= k then
+            if Counts(2 * idx + 1) < Counts(2 * idx) then
+                insertIndex(k, v, 2 * idx + 1);
+            else 
+                insertIndex(k, v, 2 * idx);
+            end if;
+            return;
+        end if;
+        -- Otherwise, the pair <k, v> has to be inserted at the top.
+        -- Then the old top has to be moved down into either l or r.
+        L(idx) := [k, v];
+        nodeIndex(v)  := idx;
+        nodeIndex(v1) := om;
+        if Counts(2 * idx + 1) < Counts(2 * idx) then
+            insertIndex(k1, v1, 2 * idx + 1);
+        else
+            insertIndex(k1, v1, 2 * idx);
+        end if;
+    end insertIndex;
+
+    procedure change(v, k);
+        idx := nodeIndex(v);
+        if idx = 1 then
+            L(1) := [k, v];
+        else
+            parentIdx := idx / 2;
+            -- check whether parent has higher priority
+            [ kp, vp ] := L(parentIdx);
+            -- If the new priority k is smaller than the priority kp
+            -- of the parent, v has to move upwards.
+            if k < kp then
+                L(idx)       := [ kp, vp ];
+                L(parentIdx) := [ k, v ];
+                nodeIndex(vp) := idx;
+                nodeIndex(v)  := parentIdx;
+                -- maybe we have to move v even further up:
+                change(v, k);
+            else 
+                -- node stays in the same position, need to change its priority
+                L(idx) := [ k, v ];
+            end if;
+        end if;
+    end change;
+
+    procedure top();
+        return L(1);
+    end top;
+
+    procedure remove();
+        removeIndex(1);
+    end remove;
+
+    procedure removeIndex(idx);
+        if L(idx) = om then
+            return;
+        end if;
+        Counts(idx) -:= 1;
+        [k, v] := L(idx);
+        nodeIndex(v) := om;
+        if L(2 * idx) = om and L(2 * idx + 1) = om then
+            L(idx) := om;
+            Counts(2 * idx) := om;
+            Counts(2 * idx + 1) := om;
+            return;
+        end if;
+        if L(2 * idx) /= om and L(2 * idx + 1) = om then
+            [k1, v1] := L(2 * idx);
+            L(idx) := L(2 * idx);
+            removeIndex(2 * idx);
+            nodeIndex(v1) := idx;
+            return;
+        end if;
+        if L(2 * idx) = om and L(2 * idx + 1) /= om then
+            [k2, v2] := L(2 * idx + 1);
+            L(idx) := L(2 * idx + 1);
+            removeIndex(2 * idx + 1);
+            nodeIndex(v2) := idx;
+            return;
+        end if;
+        [ k1, v1 ] := L(2 * idx);
+        [ k2, v2 ] := L(2 * idx + 1);
+        if k1 <= k2 then
+            L(idx) := [ k1, v1 ];
+            removeIndex(2 * idx);
+            nodeIndex(v1) := idx;
+        else
+            L(idx) := [ k2, v2 ];
+            removeIndex(2 * idx + 1);
+            nodeIndex(v2) := idx;
+        end if;
+    end removeIndex;
+
+    procedure isEmpty();
+        return L(1) = om;
+    end isEmpty;
+
+    procedure isHeap();
+        for i in [1 .. #L] loop
+            -- check Heap condition
+            if L(i) /= om and i > 1 then
+                [ k1, v1 ] := L(i);
+                [ k2, v2 ] := L(i/2);
+                if (k1 < k2) then
+                    print("Error: ", self);
+                end if;
+            end if;
+            -- check nodeIndex
+            if L(i) /= om then
+                [k, v] := L(i);
+                j := nodeIndex(v);
+                if (i /= j) then
+                    print("Error: ", self);
+                end if;
+            end if;
+        end loop;
+    end isHeap;
+
+    -- Produce and display a postscript file showing the binary tree.
+    procedure show();
+        fileCount +:= 1;
+        counterZeros := 0;
+        fileName := "graph" + str(fileCount) + ".dot";
+        handle   := open(fileName, "TEXT-OUT");
+        printa(handle, "digraph G {\n");
+        printa(handle, "    size = \"5,7\";");
+        printTreeDot(handle, 1);
+        for i in [1..counterZeros] loop
+            printa(handle, "    " + -i + " [label = \"\", height = 0.1, width = 0.1, style = filled, fillcolor = black];\n");
+        end loop;
+        printa(handle, "}\n");
+        close(handle);
+        print("L = ", L);
+        system("dot -Tps " + fileName + " -o graph" + fileCount + ".ps; gv graph" + fileCount + ".ps");
+    end show;
+
+    procedure printTreeDot(handle, idx);
+        if L(idx) = om then
+            return;
+        end if;
+        [ k, v ] := L(idx);
+        printa(handle, "    " + k + " [ shape = Mrecord, label = \"{ " + k + " | " + v + "}\" ] ;\n");
+        if L(2 * idx) /= om then
+            printa(handle, "    " + k + "  -> " + L(2 * idx)(1) + ";\n");
+        else 
+            counterZeros +:= 1;
+            printa(handle, "    " + k + " -> " + -counterZeros + ";\n");
+        end if;
+        if L(2 * idx + 1) /= om then
+            printa(handle, "    " + k + " -> " + L(2 * idx + 1)(1) + ";\n");
+        else
+            counterZeros +:= 1;
+            printa(handle, "    " + k + " -> " + -counterZeros + ";\n");
+        end if;
+        printTreeDot(handle, 2 * idx);
+        printTreeDot(handle, 2 * idx + 1);
+    end printTreeDot;
+
+end Heap;

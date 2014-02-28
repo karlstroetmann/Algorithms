@@ -1,0 +1,92 @@
+// This class provides encoding according to Lempel, Ziv, and Welch.
+class lzw() {
+    mDictionary := { [ char(i), i ] : i in [0 .. 127] };
+    mInverse    := { [ i, char(i) ] : i in [0 .. 127] };
+    mNextCode   := 128;
+
+    static {
+        // encode the string s as a list of numbers
+        compress := procedure(s) {
+            result := [];
+            idx    := 1;
+            while (idx <= #s) {
+                p := longestPrefix(s, idx);
+                result += [ mDictionary[s[idx..p]] ];
+                if (p < #s) {
+                    mDictionary[s[idx..p+1]] := mNextCode;
+                    this.mNextCode += 1;
+                }
+                idx := p + 1;
+            }
+            return result;
+        };
+        // compute the index k such that the dictionary mDictionary has 
+        // an entry for the substring s[i..k]
+        longestPrefix := procedure(s, i) {
+           oldK := i;
+           k    := i+1;
+           while (k <= #s && mDictionary[s[i..k]] != om) {
+               oldK := k;
+               k    += 1;
+           }
+           return oldK;
+        };
+        // decode the list l into a string
+        uncompress := procedure(l) {
+            result := "";
+            idx    := 1;
+            code   := l[idx]; 
+            old    := mInverse[code];
+            while (idx < #l) {
+                result += old;
+                idx  += 1;
+                code := l[idx];
+                next := mInverse[code];
+                if (next == om) {
+                    next := old + old[1];
+                }
+                mInverse[mNextCode] := old + next[1];
+                this.mNextCode += 1;
+                old := next;
+            }
+            result += old;
+            return result;
+        };
+    }
+}
+
+demo := procedure(s) {
+    if (#s < 1000) {
+        print("now compressing \"$s$\"");
+    }
+    compressor := lzw();
+    l := compressor.compress(s);
+    if (#s < 1000) {
+        print("$s$ |-> $l$");
+    }
+    print("size of dictionary: $compressor.mNextCode$");
+    expander := lzw();
+    s2 := expander.uncompress(l);
+    if (#s < 1000) {
+        print("$l$ |-> $s2$");
+    }
+    assert(s == s2, "s == s2");
+    print("decompression correct\n\n");
+};
+
+while (true) {
+    s := read("enter string to encode (\"stop\" terminates loop): ");
+    if (s == "stop") {
+        break;
+    }
+    demo(s);
+}
+
+fileDemo := procedure(f) {
+    print("compressing file $f$");
+    s := +/ readFile(f);
+    demo(s);
+};
+
+fileDemo("alice.txt");
+fileDemo("lzw.stlx");

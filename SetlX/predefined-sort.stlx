@@ -1,0 +1,19 @@
+computeTimes := procedure(a, b) {
+    n := a;
+    while (n <= b) {
+        resetRandom();
+        time := 0;
+        for (i in [1 .. 1]) {
+            l := [ rnd(2 * n) : i in [1 .. n] ];
+            start := now();
+            sort(l);
+            stop := now();
+            time += stop - start;
+        }
+        print("n = $n$, t = $0.001*time$, $time / (n * log(n))$");
+        n := ceil(n * 1.2);
+    }
+};
+
+computeTimes(10, 500000);
+

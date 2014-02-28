@@ -1,0 +1,18 @@
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "<f1> p1|<f2> p2" ];
+    "p":f1 -> o1 [tailport = se, headport = n ];
+    p -> n  [headport = n ];
+    "p":f2 -> o2 [tailport = sw, headport = n ];
+    o1 [ shape = triangle ];
+    o2 [ shape = triangle ];
+    n [ shape = Mrecord, label = "<f1> k1|<f2> k2| <f3> k3" ];
+    "n":f1 -> l  [ tailport = sw, headport = n ];
+    "n":f2 -> ml [ tailport = sw ];
+    "n":f2 -> mr [ tailport = se ];
+    "n":f3 -> r  [ tailport = se, headport = n ];
+    l  [ shape = triangle ];
+    ml [ shape = triangle ];
+    mr [ shape = triangle ];
+    r  [ shape = triangle ];
+}

@@ -1,0 +1,71 @@
+#define Point     ComparableSet<String>
+#define PointPair Pair<Point, Point>
+
+public class WolfZiegeKohl 
+{    
+    public static void main(String args[]) {
+        // all := { "Bauer", "Wolf", "Ziege", "Kohl" };
+        Point all = new Point();
+        all.add("Bauer");
+        all.add("Wolf");
+        all.add("Ziege");
+        all.add("Kohl");
+    	// P := pow All;
+        ComparableSet<Point> p = all.powerSet();
+        ComparableSet<PointPair> r = new ComparableSet<PointPair>();
+        // R1 := { [ S, S - B ] : S in P, B in pow S |
+        //         "Bauer" in B and #B <= 2 and not problem(S - B) 
+        //       };
+        for (Point s: p) {
+            for (Point b : s.powerSet()) {
+	         	Point sb = s.difference(b);
+                if ( b.member("Bauer")          && 
+                     b.size() <= 2              && 
+                     !problem(sb)
+                    ) 
+                {
+                    PointPair ssb = new PointPair(s, sb);
+                    r.add(ssb); 
+                }
+            }
+        }
+        // R2 := { [ S, S + B ] : S in P, B in pow (All - S) |
+        //         "Bauer" in B and #B <= 2 and not problem(All - S - B) 
+        //        };
+        for (Point s: p) {
+	        Point as = all.difference(s);
+            for (Point b : as.powerSet()) {
+                if ( b.member("Bauer")          && 
+                     b.size() <= 2              && 
+                     !problem(as.difference(b))
+                   ) 
+                {
+		            Point sb = s.union(b);
+                    PointPair ssb = new PointPair(s, sb);
+                    r.add(ssb); 
+                }
+            }
+        }
+        for (PointPair xy: r) {
+            System.out.println(xy);
+        }
+
+        Point goal = new Point();
+    	Relation<Point> relation = new Relation(r);
+        ComparableList<Point> path = relation.findPath(all, goal);
+        System.out.println("\n\nLösung:\n");
+        for (Point left : path) {
+	    Point right = all.difference(left);
+            System.out.println(left + ", " + right);
+        }
+    }
+
+    static boolean problem(Point s) {
+        return (s.member("Ziege") && s.member("Kohl")) || 
+               (s.member("Wolf") && s.member("Ziege"));
+    }
+}
+
+
+
+    

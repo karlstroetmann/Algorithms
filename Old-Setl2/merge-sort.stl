@@ -1,0 +1,78 @@
+program main;
+    -- We need some random numbers to test our sirtung algorithm.
+    use Random;
+
+    -- Create a random number generator.
+    RandomGen := Random(10, 58); 
+
+    -- create a list with 1000 random integers
+    list := [ RandomGen.nextRandom(): i in {1..20}]; 
+
+    print(list);
+    sorted := mergeSort(list);
+    print(sorted);
+
+    if list2Bag(list) = list2Bag(sorted) and isSorted(sorted) then
+        print("Everything is fine.");
+    else
+        print("ERROR");
+    end if;
+
+    -- Convert a list L into a set of pairs. The first component of every pair is the
+    -- element of L, the second number shows how often this element occurs in L.
+    procedure list2Bag(L);
+        R := { [x, 0] : x in L };
+        for x in L loop    
+            R(x) +:= 1;
+        end loop;
+        return R;
+    end list2Bag;
+
+    -- Check whether a list is sorted.
+    procedure isSorted(L);
+        if #L < 2 then
+            return true;
+        end if;
+        return L(1) <= L(2) and isSorted( L(2..) );
+    end isSorted;
+
+    -- Sort the given list using the merge sort algorithm.
+    procedure mergeSort(L);
+        if #L < 2 then
+            return L;
+        end if;
+        [ L1, L2 ] := split(L);
+        S1 := mergeSort(L1);
+        S2 := mergeSort(L2);
+        return merge(S1, S2);
+    end mergeSort;
+
+    -- split a list into two lists of roughly equal size
+    procedure split(L);
+        if L = [] then
+            return [ [], [] ];
+        end if;
+        if #L = 1 then
+            return [ [ L(1) ], [] ];
+        end if;
+        x := L(1); y := L(2); R := L(3..);
+        [ L1, L2 ] := split(R);
+        return [ [x] + L1, [y] + L2 ];
+    end split;
+
+    procedure merge(L1, L2);
+        if L1 = [] then
+            return L2;
+        end if;
+        if L2 = [] then
+            return L1;
+        end if;
+        x1 := L1(1);  R1 := L1(2..); 
+        x2 := L2(1);  R2 := L2(2..);
+        if x1 <= x2 then
+            return [x1] + merge(R1, L2);
+        else
+            return [x2] + merge(L1, R2);
+        end if;
+    end merge;
+end main;

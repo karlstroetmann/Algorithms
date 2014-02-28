@@ -1,0 +1,13 @@
+program main;
+
+    use Map;
+
+    m := Map();
+    for x in { 1 .. 8000 } loop
+        m.insert(x, x*x);
+    end loop;
+    for x in { 5 .. 8000 } loop
+        m.delete(x);
+    end loop;
+    print(m);
+end main;

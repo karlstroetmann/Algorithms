@@ -1,0 +1,12 @@
+power := procedure(m, n) {
+    r := 1;
+    for (i in {1 .. n}) {
+        r := r * m;
+    }
+    return r;
+};
+
+for (n in [1 .. 64]) {
+    print( power(2, n) );
+    print( power(3, n) );
+}

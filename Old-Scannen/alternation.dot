@@ -1,0 +1,18 @@
+digraph G {
+    rankdir=LR;    
+    Start->q0;
+    
+    Start [shape = plaintext];
+    subgraph cluster0 {
+        q1 -> f1 [ color = white ];
+    };
+    subgraph cluster1 {
+        q2 -> f2 [ color = white ];
+    };
+    q0 -> q1 [ label = eps ];
+    q0 -> q2 [ label = eps ];
+    f1 -> f0 [ label = eps ];
+    f2 -> f0 [ label = eps ];    
+    f0 [ peripheries = 2 ];
+
+}

@@ -1,0 +1,42 @@
+stops := procedure(f, x) {
+    try {
+        if (f(x) != om) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } catch (e) {
+        return 2;
+    }
+};
+
+alan := procedure(x) {
+    result := stops(x, x);
+    if (result == 1) {
+        while (true) {
+            print("... looping ...");
+        }
+    }
+    return result;
+};
+
+f := procedure(s) {
+    return 1;
+};
+
+loop := procedure(s) {
+    x := 1;
+    while (true) {
+        x := x + 1;
+    }
+    return x;
+};
+
+loop2 := procedure(s) {
+    return loop2(s);
+};
+
+
+print(stops(f, "test"));
+print(stops(loop2, "hugo"));
+print(stops(loop, "hugo"));

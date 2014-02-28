@@ -1,0 +1,61 @@
+sort := procedure(l) {
+    if (#l < 2) {
+        return l;
+    }
+    [ l1, l2 ] := split(l);
+    return merge(sort(l1), sort(l2));
+};
+split := procedure(l) {
+    match (l) {
+        case []      : return [ [], [] ];
+        case [x]     : return [ [x], [] ];
+        case [x,y|r] : [r1,r2] := split(r);
+                       return [ [x] + r1, [y] + r2 ];
+    }
+};
+merge := procedure(l1, l2) {
+    stop("merge");
+    match ([l1, l2]) {
+        case [ [], l2 ]         : return l2;
+        case [ l1, [] ]         : return l1;
+        case [ [x|r1], [y|r2] ] : if (x <= y) {
+                                      return [x] + merge(r1, l2);
+                                  } else {
+                                      return [y] + merge(l1, r2);
+                                  }
+    }
+};
+
+// code for testing
+demo := procedure() {
+    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("l = $l$");
+    s := sort(l);
+    print("s = $s$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd(2 * k) : x in [1 .. k] ];
+        s := sort(l);
+        isOrdered(s);
+        sameElements(s, l);
+        print(".");
+    }
+    print("All tests successful!");
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    assert(collect(l) == collect(s), "wrong elements");
+};
+
+demo();
+
+testSort(100, 20);

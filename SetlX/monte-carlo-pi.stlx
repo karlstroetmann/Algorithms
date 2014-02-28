@@ -1,0 +1,34 @@
+/**
+ * Calculate Pi using the Monte-Carlo method
+ * @param   n: number of trials
+ * @return  an approximation of pi
+ */
+approximatePi := procedure(n) {
+    k := 0;  // k is the number of points that are inside the circle
+    i := 0;
+    while (i < n) {
+        x := 2 * random() - 1;
+        y := 2 * random() - 1;
+        r := x * x + y * y;
+        if (r <= 1) {
+            k += 1;
+        }
+        i += 1;
+    }
+    return 4.0 * k / n;
+};
+
+main := procedure() {
+    n := 10; 
+    i := 7;
+    while (n < 1000000000000) {
+        p  := approximatePi(n);
+        pi := mathConst("Pi"); 
+        blanks := " " * i;
+        print("n = $blanks$ $n$: p = $blanks$ $p$, error = $p - pi$\n");
+        n *= 10;
+        i -= 1;
+    }
+};
+
+main();

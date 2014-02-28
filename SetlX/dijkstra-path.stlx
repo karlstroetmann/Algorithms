@@ -1,0 +1,50 @@
+// Dijkstra's algorithm for computing the shortest path function.
+// This version returns the shortest path that leads from source to goal.
+shortestPath := procedure(source, goal, edges) {
+    dist     := { [source, 0] };
+    fringe   := { [0, source] };
+    backEdge := {};
+    while (fringe != {}) {
+        [d, u] := first(fringe);
+        fringe -= { [d, u] };
+        if (u == goal) {
+            return constructPath(source, goal, backEdge);    
+        }
+        n := { [v,l] : [v,l] in edges[u] | dist[v] == om || d + l < dist[v] };
+        for ([v,l] in n) {
+            fringe  -= { [dist[v], v] };
+            dist[v] := d + l;
+            fringe  += { [d + l, v] };
+            backEdge[v] := u;
+        }
+    }
+};
+
+constructPath := procedure(source, goal, backEdge) {
+    if (source == goal) {
+        return [source];
+    }
+    n := backEdge[goal];
+    return constructPath(source, n, backEdge) + [ goal ];
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Code for testing.                                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
+edges := { ["a", {["b", 2], ["c", 3]}], 
+           ["b", {["d", 1]} ],
+           ["c", {["e", 3]} ],  
+           ["d", {["e", 2], ["f", 4]} ],  
+           ["e", {["f", 1]} ],
+           ["f", {} ]
+         };
+
+s  := "a";
+g  := "f";
+sp := shortestPath(s, g, edges);
+
+print("shortest path from $s$ to $g$ is $sp$");

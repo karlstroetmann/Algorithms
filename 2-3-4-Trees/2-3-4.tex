@@ -1,0 +1,72 @@
+\documentclass{slides}
+\usepackage[latin1]{inputenc}
+\usepackage{german}
+\usepackage{epsfig}
+\usepackage{amssymb}
+
+\pagestyle{empty}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle\;#1\;}{\displaystyle\;#2\;}}
+\newcommand{\Oh}{\mathcal{O}}
+
+\newcounter{mypage}
+
+\begin{document}
+
+\begin{center}
+2--3--4 B"aume
+\end{center}
+
+\rule{17cm}{1mm}
+
+\footnotesize
+\textbf{Problem}: 
+
+ Bin"are B"aume k"onnen entarten, wenn Schl"ussel nicht zuf"allig sind.
+
+      Worst--Case Performance: $\Oh(n)$
+
+\textbf{L"osung}: Aufweichung des Konzeptes bin"arer B"aume
+
+ Knoten k"onnen 0, 2, 3, oder 4 Schl"ussel enthalten
+
+\begin{enumerate}
+\item 0--Knoten: leerer Baum, H"ohe 0
+
+\item 2--Knoten mit S"ohnen der H"ohe $h$ gibt Baum der H"ohe $h+1$:
+
+\hspace*{3cm} \epsfig{file=2-node.ps}
+\begin{enumerate}
+\item $l$ ist 2--3--4 Baum der H"ohe $h$
+\item $r$ ist 2--3--4 Baum der H"ohe $h$
+\item alle Schl"ussel im Teilbaum $l$ kleiner als $k$
+\item $k$ kleiner als alle Schl"ussel im Teilbaum $r$ 
+\end{enumerate}
+ $$ l < k < r $$
+
+\end{enumerate}
+
+\vspace*{0.2cm}
+
+\scriptsize
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+  \hspace*{\fill} Seite \arabic{mypage}
+
+\include{2-3-4-slides}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

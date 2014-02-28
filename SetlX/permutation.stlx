@@ -1,0 +1,11 @@
+permute := procedure(l) {
+    if (#l == 1) {
+        return l;
+    }
+    k := rnd([1..#l]);
+    return permute(l[..k-1] + l[k+1..]) + [l[k]];
+};
+
+for (i in [1 .. 50]) {
+    print(permute([1..10]));
+}

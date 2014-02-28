@@ -1,0 +1,14 @@
+main := procedure() {
+    legendre := n |-> exists (k in [n**2..(n+1)**2] | isPrime(k));
+
+    n := read("input a natural number: ");
+    if (!legendre(n)) {
+        while (true) {
+            print("looping");
+        } 
+    }
+    print("legendre was right for n = $n$!");
+};
+
+main();
+

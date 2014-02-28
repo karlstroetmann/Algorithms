@@ -1,0 +1,164 @@
+load("string-compare.stlx");
+
+class map(cmp) {
+    mKey    := om;
+    mValue  := om; 
+    mLeft   := om;
+    mRight  := om;
+    mHeight := 0;
+    mCmpFct := cmp;  // function to compare keys
+
+  static {
+    isEmpty := [] |-> mKey == om;
+    find := procedure(k) {
+        if      (isEmpty())        { return;                }
+        else if (mKey == k)        { return mValue;         }
+        else if (mCmpFct(k, mKey)) { return mLeft .find(k); }
+        else                       { return mRight.find(k); }
+    };
+    insert := procedure(k, v) {
+        if (isEmpty()) { 
+            this.mKey    := k;
+            this.mValue  := v; 
+            this.mLeft   := map(mCmpFct);
+            this.mRight  := map(mCmpFct);
+            this.mHeight := 1;
+        } else if (mKey == k) { 
+            this.mValue := v; 
+        } else if (mCmpFct(k, mKey)) { 
+            mLeft.insert(k, v); 
+            restore();
+        } else { 
+            mRight.insert(k, v); 
+            restore();
+        }
+    };
+    delMin := procedure() {
+        if (mLeft.isEmpty()) { 
+            return [ mRight, mKey, mValue ]; 
+        } else {
+             [ ls, km, vm ] := mLeft.delMin();
+             this.mLeft := ls;
+             restore();
+             return [ this, km, vm ];
+        }
+    };
+    delete := procedure(k) {
+        if (isEmpty())  { 
+            return; 
+        } else if (k == mKey) {
+            if (mLeft.isEmpty()) {
+                update(mRight);
+            } else if (mRight.isEmpty()) {
+                update(mLeft);
+            } else {
+                [ rs, km, vm ] := mRight.delMin();
+                [ this.mKey, this.mValue, this.mRight ] := [km, vm, rs];
+                restore();
+            }
+        } else if (mCmpFct(k, mKey)) {
+            mLeft.delete(k);
+            restore();
+        } else {
+            mRight.delete(k);
+            restore();
+        }
+    };
+    update := procedure(t) {
+        this.mKey    := t.mKey;
+        this.mValue  := t.mValue;
+        this.mLeft   := t.mLeft;
+        this.mRight  := t.mRight;
+        this.mHeight := t.mHeight;
+    };
+    // restore a binary tree so that the balancing condition is satisfied 
+    // and recompute the height
+    restore := procedure() {
+        if (abs(mLeft.mHeight - mRight.mHeight) <= 1) {
+            restoreHeight();
+            return;
+        }
+        if (mLeft.mHeight > mRight.mHeight) {
+            [ k1, v1, l1, r1 ] := [ mKey, mValue, mLeft, mRight ];
+            [ k2, v2, l2, r2 ] := [ l1.mKey, l1.mValue, l1.mLeft, l1.mRight ];
+            if (l2.mHeight >= r2.mHeight) {
+                setValues(k2, v2, l2, createNode(k1, v1, r2, r1, mCmpFct));
+            } else {
+                [ k3, v3, l3, r3 ] := [r2.mKey,r2.mValue,r2.mLeft,r2.mRight];
+                setValues(k3, v3, createNode(k2, v2, l2, l3, mCmpFct),
+                                  createNode(k1, v1, r3, r1, mCmpFct) );
+            }
+        } else if (mRight.mHeight > mLeft.mHeight) {
+            [ k1, v1, l1, r1 ] := [ mKey, mValue, mLeft, mRight ];
+            [ k2, v2, l2, r2 ] := [ r1.mKey, r1.mValue, r1.mLeft, r1.mRight ];
+            if (r2.mHeight >= l2.mHeight) {
+                setValues(k2, v2, createNode(k1, v1, l1, l2, mCmpFct), r2);
+            } else {
+                [ k3, v3, l3, r3 ] := [l2.mKey,l2.mValue,l2.mLeft,l2.mRight];
+                setValues(k3, v3, createNode(k1, v1, l1, l3, mCmpFct),
+                                  createNode(k2, v2, r3, r2, mCmpFct) );
+            }
+        }
+        restoreHeight();
+    };
+    setValues := procedure(k, v, l, r) {
+        this.mKey   := k;
+        this.mValue := v;
+        this.mLeft  := l;
+        this.mRight := r;
+    };
+    restoreHeight := procedure() {
+        this.mHeight := 1 + max({ mLeft.mHeight, mRight.mHeight });
+    };
+
+    f_str := [] |-> toString(0);
+    toString := procedure(n) {
+        if (isEmpty()) {
+            return " " * n + "Nil";
+        } else {
+           return mLeft.toString(n + 4) + "\n" + 
+                  " " * n + "<" + mKey + " |-> " + mValue + ">\n" +
+                  mRight.toString(n + 4);
+        }
+    };
+  }
+}
+
+createNode :=  procedure(key, value, left, right, cmp) {
+    node         := map(cmp);
+    node.mKey    := key;
+    node.mValue  := value;
+    node.mLeft   := left;
+    node.mRight  := right;
+    node.mCmpFct := cmp;
+    node.mHeight := 1 + max({ left.mHeight, right.mHeight });
+    return node;
+};
+    
+demo := procedure(cmp) {
+    data := readFile("data.txt");
+    m := map(cmp);
+    for (line in data) {
+        [k, v] := split(line, ":");
+        v := removeWS(v);
+        print("insert($k$, $v$)");
+        m.insert(k, v);
+        // print(m);
+    }
+    print(m);
+    while (true) {
+        k := read("zu löschenden Schlüssel eingeben: ");
+        m.delete(k);
+        print(m);
+    }
+};
+
+removeWS := procedure(s) {
+    ws := { " ", "\t", "\n", "\r", "\v" };
+    return +/ [ s[i] : i in [1 .. #s] | s[i] notin ws ];
+};      
+
+demo(lessThan);
+
+
+

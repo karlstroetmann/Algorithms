@@ -1,0 +1,57 @@
+class linkedList(data, next) {
+    mData := data;
+    mNext := next;
+
+  static {    
+    equals := procedure(rhs) {
+        if (rhs == -1) {
+            return false;
+        }
+        return mData == rhs.mData && mNext == rhs.mNext;
+    };
+  }      
+}
+    
+class stack() {
+    mPointer := -1;
+
+  static {
+    push := procedure(e) {
+        this.mPointer := linkedList(e, mPointer);
+    };
+    pop := procedure() {
+        assert(mPointer != -1, "popping empty stack");
+        this.mPointer := mPointer.mNext;
+    };
+    top := procedure() {
+        assert(mPointer != -1, "top of empty stack");
+        return mPointer.mData;
+    };
+    isEmpty := procedure() {
+        return mPointer == -1;
+    };
+    f_str := procedure() {
+         copy   := this;
+         result := convert(copy);
+         dashes := "\n";
+         for (i in {1 .. #result}) {
+              dashes += "-";
+         }
+         return dashes + "\n" + result + dashes + "\n";
+    };
+    // private member function
+    convert := procedure(s) {
+        if (s.isEmpty()) {
+            return "|";
+        } 
+        top := s.top();
+        s.pop();
+        return convert(s) + " " + top + " |";
+    };
+  }  
+}
+
+
+
+
+

@@ -1,0 +1,1024 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Fibonacci--Zahlen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Kaninchen--Farm: Business--Plan für Bunnies Incorporated
+\begin{enumerate}
+\item Jedes Kaninchen--Weibchen bringt jeden Monat ein
+      neues Kaninchen--Paar  zur Welt.
+\item Junge Kaninchen haben nach 2 Monaten Junge.
+\item Vereinfachung: Kaninchen leben ewig. 
+\end{enumerate}
+Wie entwickelt sich nach $n$ Monaten die Zahl $k(n)$ der Kaninchen--Paare , wenn im ersten Monat
+1 Paar junge Kaninchen eingekauft wird?
+
+Lösung: Rekursions--Gleichung
+\begin{enumerate}
+\item $k(1) = 1$
+\item $k(2) = 1$
+\item $k(3) = 2$ (Paar hat erstes Mal Junge)
+\item Allgemein: \\[0.3cm]
+      \hspace*{1.3cm} $k(n+2) = k(n + 1) + k(n)$ 
+      \begin{enumerate}
+      \item Alle Kaninchen--Paare, die es im Monat $n + 1$ gab, gibt es auch noch
+            im Monat $n + 2$.
+      \item Alle Kaninchen--Paare, die es schon im Monat $n$ gab, bringen im Monat
+            $n + 2$ ein neues Paar zur Welt.
+      \end{enumerate}
+\end{enumerate}
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Rekursive Implementierung:
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+
+\begin{verbatim}
+double fibonacci(unsigned n) {
+    if (n == 1) return 1;
+    if (n == 2) return 1;
+    return fib(n - 1) + fib(n - 2);
+}
+\end{verbatim}
+Rechenzeiten:
+
+\begin{tabular}{|l|r|}
+\hline
+ $n$  &  Zeiteinheiten \\
+\hline
+\hline
+31 & 2  \\
+32 & 3  \\
+33 & 5  \\
+34 & 8  \\
+35 & 13  \\
+36 & 21  \\
+37 & 34  \\
+38 & 55  \\
+39 & 96  \\
+40 & 162  \\
+41 & 238  \\
+42 & 389  \\
+43 & 648  \\
+44 & 1054 \\
+45 & 1673  \\
+46 & 2744  \\
+47 & 4446  \\
+48 & 7092  \\
+49 & 11553  \\
+\hline 
+\end{tabular}
+\hspace*{1cm}
+\begin{minipage}{8cm}
+Schlechter Algorithmus: \\[0.3cm]
+Zeiten wachsen \\[0.3cm]
+ \textbf{exponentiell}!
+\end{minipage}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Analyse des rekursiven Algorithmus
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{verbatim}
+double fib(unsigned n) {
+    if (n == 1) return 1;
+    if (n == 2) return 1;
+    return fib(n - 1) + fib(n - 2);
+}
+\end{verbatim}
+Frage: Wieviel Additionen $a_n$ werden zur Berechnung von $\texttt{fib}(n)$ benötigt?
+\begin{enumerate}
+\item $a_1 = 0$.
+\item $a_2 = 0$.
+\item[$n$.] $a_n = 1 + a_{n - 1} + a_{n - 2}$.
+\end{enumerate}
+Gleichung $a_n = 1 + a_{n-2} + a_{n-1}$ ist eine \emph{Rekurrenz--Gleichung}.
+
+Lösung einer Rekurrenz--Gleichung durch \emph{Ansätze}:
+\begin{enumerate}
+\item $a_n = c$
+
+      $c = 1 + c + c \quad\Rightarrow\quad c = - 1$
+\item  $a_n = \lambda^n - 1$
+      $$
+      \begin{array}{ccll}
+        \lambda^n - 1 & = & 1 + \lambda^{n-1} - 1 + \lambda^{n-2} - 1 & \\[0.3cm]
+        \lambda^n     & = & \lambda^{n-1} + \lambda^{n-2}             & |\;\div \lambda^{n-2} \\[0.3cm]
+        \lambda^2     & = & \lambda + 1                               & |\;- \lambda \\[0.3cm]
+        \lambda^2 - 2 * \frac{1}{2} \lambda & = & 1                   & |\;+ \frac{1}{4} \\[0.3cm]
+        \lambda^2 - 2 * \frac{1}{2} \lambda + \Big(\frac{1}{2}\Big)^2 & = &  \frac{5}{4} &  \\[0.3cm]
+        \Big(\lambda -\frac{1}{2}\Big)^2 & = & \frac{5}{4}         & |\;\sqrt{\;\;} \\[0.3cm]
+        \lambda_{1/2}  & = & \frac{1}{2} (1 \pm \sqrt{5}) & \\
+      \end{array}
+      $$  
+
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Lösung von $a_1 = a_2 = 0$, $a_n = 1 + a_{n-1} + a_{n-2}$
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Sei $\lambda_1 = \frac{1}{2}(1 + \sqrt{5})$ und $\lambda_2 = \frac{1}{2}(1 - \sqrt{5})$.
+
+Beobachtung: $\lambda_1 + \lambda_2 = 1$, $\lambda_1 - \lambda_2 = \sqrt{5}$.
+
+Allgemeiner Ansatz: \\[0.3cm]
+\hspace*{1.3cm} $a_n = \alpha * \lambda_1^{n-1} + \beta * \lambda_2^{n-1} - 1$
+
+Bestimmung von $\alpha$ und $\beta$ durch Rand--Bedingungen:
+\begin{enumerate}
+\item $a_1 = 0$: \quad $\alpha + \beta - 1 = 0$ \\[0.3cm]
+      \hspace*{1.3cm} $\Rightarrow \quad \beta = 1 - \alpha$
+\item $a_2 = 0$: \quad $\alpha * \lambda_1 + \beta * \lambda_2 - 1 = 0$ 
+      $$
+      \begin{array}{lcll}
+         \alpha * \lambda_1 + \beta * \lambda_2         & = & 1 \\[0.3cm]
+         \alpha * \lambda_1 + (1 - \alpha) * \lambda_2  & = & 1 \\[0.3cm]
+         \alpha * (\lambda_1 - \lambda_2) + \lambda_2   & = & 1              &  \mid \; - \lambda_2 \\[0.3cm]
+         \alpha * (\lambda_1 - \lambda_2)               & = & 1 - \lambda_2  &   \\[0.3cm]
+         \alpha * (\lambda_1 - \lambda_2)               & = & \lambda_1      &  \mid \; \div (\lambda_1 - \lambda_2) \\[0.3cm]
+         \alpha                                         & = & \frac{\displaystyle \lambda_1}{\displaystyle \lambda_1 - \lambda_2} &   \\
+      \end{array}
+      $$
+      Also $\alpha = \frac{\displaystyle \lambda_1}{\displaystyle \sqrt{5}}$.
+
+\item $\beta = 1 - \alpha = \frac{\displaystyle \lambda_1 - \lambda_2 - \lambda_1}{\displaystyle\lambda_1 - \lambda_2}
+             = - \frac{\displaystyle \lambda_2}{\displaystyle \sqrt{5}}$
+\end{enumerate}
+Ergebnis: 
+$$ a_n =  \bruch{1}{\sqrt{5}} * \bigg(\lambda_1^n - \lambda_2^n \bigg) - 1, \;\;\mbox{mit}\;\;
+\lambda_{1/2} = \frac{1}{2}(1 \pm \sqrt{5}) $$
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+Es gilt $\lambda_1 = \frac{1}{2}(1 + \sqrt{5}) \approx 1.61803$,  $\lambda_2 = \frac{1}{2}(1 - \sqrt{5}) \approx -0.61803$
+
+Also $a_n =  \bruch{1}{\sqrt{5}} * \bigg(\lambda_1^n - \lambda_2^n \bigg) - 1 \;_{\displaystyle \longrightarrow \atop {n \rightarrow \infty}}\;
+             \bruch{1}{\sqrt{5}} * \lambda_1^n  - 1$
+      
+
+\normalsize
+\begin{center}
+Besserer Algorithmus
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{verbatim}
+double fib(unsigned n) {
+    if (n == 1) return 1;
+    if (n == 2) return 1;
+    return fib(n - 2) + fib(n - 1);
+}
+\end{verbatim}
+\textbf{Problem}: Bei Berechnung von $\texttt{fib}(n-1)$ wird $\texttt{fib}(n-2)$ noch mal berechnet.
+
+\textbf{Lösung}: Merken der berechneten Werte!
+
+\begin{verbatim}
+double fibonacci(unsigned n) {
+    if (n <= 2) return 1;
+    double fib[n];
+    fib[0] = 1;  
+    fib[1] = 1;  
+    for (unsigned i = 0; i < n - 2; ++i)
+        fib[i + 2] = fib[i] + fib[i + 1];
+    return fib[n - 1];
+}
+\end{verbatim}
+Zahl der Additionen: $b_n = 4 * (n - 2) + c$
+
+Hier ist $c$ Konstante wegen eventueller Additionen, die beim 
+Befehl ``\texttt{double fib[n]}'' durchgeführt werden.
+
+$c$ hängt nicht von $n$ ab!
+
+Speicherverbrauch: $8 * n + d$ Byte, wobei $d$ nicht von $n$ anhängt.
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Speicherverbrauch reduzieren
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{verbatim}
+double fibonacci(unsigned n) {
+    if (n <= 2) return 1;
+    double a, b, c;
+    b = 1;
+    c = 1;
+    for (unsigned i = 2; i < n; ++i) {
+        a = b; 
+        b = c;
+        c = a + b;
+    }
+    return c;
+}
+\end{verbatim}
+Speicherverbrauch konstant!
+
+Geht es schneller? Ja, denn \normalsize \\[0.3cm]
+\hspace*{1.3cm} $\mathtt{fibonacci}(n) = \bruch{1}{\sqrt{5}}* \bigg( \lambda_1^n - \lambda_2^n \bigg)$ \\[0.3cm]
+\footnotesize 
+mit \quad $\lambda_1 = \frac{1}{2}(1 + \sqrt{5})$ \quad 
+und \quad $\lambda_2 = \frac{1}{2}(1 - \sqrt{5})$.
+
+\begin{verbatim}
+double fibonacci(unsigned n) {
+    double w5 = sqrt(5.0);
+    double l1 = 0.5 * (1 + w5);
+    double l2 = 0.5 * (1 - w5);
+    return (pow(l1, n) - pow(l2, n)) / w5;  
+}
+\end{verbatim}
+
+Rechenzeit: unabhängig von $n$!
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Exkurs: Lineare Rekurrenz--Gleichung
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Lineare homogene Rekurrenz--Gleichung hat die Form \\[0.3cm]
+\hspace*{0.3cm} $a_{n+k+1} = c_k * a_{n+k} + c_{k-1} * a_{n+k-1} + \cdots + c_1 * a_{n+1} + c_0 * a_{n}$ \\[0.3cm]
+Zusätzlich sind Werte für $a_0$, $\cdots$, $a_k$ gegeben, die \\
+\emph{\sl Anfangs--Bedingungen}.
+
+Der Ansatz $a_n = \lambda^n$ liefert Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\lambda^{n+k+1} = c_k * \lambda^{n+k} + c_{k-1} * \lambda^{n+k-1} + \cdots + c_1 * \lambda^{n+1} + c_0 * \lambda^{n}$
+
+Division durch $\lambda^n$ liefert Polynom vom Grad $k+1$: \\[0.3cm]
+\hspace*{1.3cm} $\lambda^{k+1} = c_k * \lambda^{k} + c_{k-1} * \lambda^{k-1} + \cdots + c_1 * \lambda^{1} + c_0 * \lambda^{0}$ 
+
+Dieses Polynon heißt \emph{charakteristisches Polynom} der Rekurrenz--Gleichung.
+
+Diese Polynom hat i.a.~$k+1$ verschiedene Lösungen: \\[0.3cm]
+\hspace*{1.3cm}  $\lambda_0$, $\lambda_1$, $\cdots$, $\lambda_k$.
+
+Allgemeine Lösung ist dann: \\[0.3cm]
+\hspace*{1.3cm} $a_n = \alpha_0 \lambda_0^n + \cdots + \alpha_k \lambda_k^n$
+
+Die Koeffizienten $\alpha_0$ bis $\alpha_k$ sind so zu wählen, dass die Anfangsbedingungen 
+erfüllt sind.  Das liefert lineares Gleichungs--System für $\alpha_0$, $\cdots$, $\alpha_k$:
+$$
+\begin{array}{lcl}
+  a_0 & = & \lambda_0^0 * \alpha_0 + \cdots +   \lambda_k^0 * \alpha_k \\[0.3cm]
+  a_1 & = & \lambda_0^1 * \alpha_0 + \cdots +   \lambda_k^1 * \alpha_k \\[0.3cm]
+  \vdots &  & \vdots                                                   \\[0.3cm]
+  a_k & = & \lambda_0^k * \alpha_0 + \cdots +   \lambda_k^k * \alpha_k \\[0.3cm]
+\end{array}
+$$
+
+Aufgabe: $a_0 = 3$, $a_1 = \bruch{5}{2}$, $2 * a_{n+2} = 3 * a_{n+1} - a_n$.
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Entartete Rekurrenz--Gleichungen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Sei \\[0.3cm]
+\hspace*{0.3cm} $a_{n+k+1} = c_k * a_{n+k} + c_{k-1} * a_{n+k-1} + \cdots + c_1 * a_{n+1} + c_0 * a_{n}$ \\[0.3cm]
+mit \textbf{Anfangsbedingungen} $a_0$, $\cdots$, $a_k$ gegeben.
+
+Was tun, wenn das charakteristisches Polynom \\[0.3cm]
+\hspace*{1.3cm}  $\lambda^{k+1} - c_k * \lambda^{k} - c_{k-1} * \lambda^{k-1} - \cdots - c_1 * \lambda^{1} - c_0 * \lambda^{0}$ \\[0.3cm]
+weniger als $k+1$ Lösungen hat?
+
+\textbf{Beispiel}: $a_{n+2} = 4 * a_{n+1} - 4 * a_n$ mit $a_1 = 1$, $a_2 = 3$
+
+Ansatz: $a_n = \lambda^n$ liefert \\[0.3cm]
+ $$  
+ \begin{array}{lcl}
+  \lambda^2 & = & 4 * \lambda - 4    \\
+  \lambda^2 - 4 * \lambda + 4& = & 0 \\
+  (\lambda  - 2)^2 & = & 0 \\
+  \lambda  & = & 2 \\
+ \end{array}
+$$
+Das gibt nur eine Lösung.  Neuer Ansatz: $a_n = n * \lambda^n$ mit $\lambda = 2$.
+Das liefert
+$$
+\begin{array}{lcll}
+  (n+2) * 2^{n+2} & = & 4 * (n+1) * 2^{n+1} - 4 * n * 2^n & \mid\; \div 2^n \\
+  (n+2) * 2^{2} & = & 4 * (n+1) * 2^{1} - 4 * n  &  \\
+  4 * n + 8 & = & 8 * n + 8 - 4 * n  &  \\
+\end{array}
+$$
+Also ist $n*2^n$ Lösung der obigen Rekurrenz--Gleichung.
+
+Allgemeine Lösung:\\[0.3cm]
+\hspace*{1.3cm}  $a_n = \alpha * 2^n + \beta * n * 2^n$. \\[0.3cm]
+Mit $\alpha = \bruch{1}{4}$ und $\beta = \bruch{1}{4}$ gilt  $a_1 = 1$, $a_2 = 3$.
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Theorie der Rekurrenz--Gleichungen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Betrachte Rekurrenz--Gleichung \\[0.3cm]
+\hspace*{0.3cm} $a_{n+k+1} = c_k * a_{n+k} + c_{k-1} * a_{n+k-1} + \cdots + c_0 * a_{n}$ \hspace*{\fill} (*)\\[0.3cm]
+mit \textbf{Anfangsbedingungen} $a_0$, $\cdots$, $a_k$.
+
+Das \textbf{charakteristisches Polynom} $\chi(x)$ ist \\[0.3cm]
+\hspace*{1.3cm}  $\chi(x) := x^{k+1} - c_k * x^{k} - c_{k-1} * x^{k-1} - \cdots - c_1 * x^{1} - c_0$ 
+
+Das charakteristisches Polynom ist \textbf{nicht entartet} falls $\lambda_0, \cdots, \lambda_k$ paarweise verschieden existieren mit\\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = (x - \lambda_0) * \cdots * (x - \lambda_k)$ \\[0.3cm]
+Dann hat die allgemeine Lösung der Rekurrenz--Gleichung (*) die Form \\[0.3cm]
+\hspace*{1.3cm} $a_n = \alpha_0 * \lambda_0^n + \cdots + \alpha_k * \lambda_k^n$ \\[0.3cm]
+Die $\alpha_i$ sind dabei so zu bestimmen, dass die Anfangsbedingungen gelten.  Das liefert lineares Gleichungs--System:
+$$
+\begin{array}{lcl}
+  a_1 & = & \alpha_0 * \lambda_0^1 + \cdots + \alpha_k * \lambda_k^1 \\[0.3cm]
+  a_2 & = & \alpha_0 * \lambda_0^2 + \cdots + \alpha_k * \lambda_k^2 \\[0.3cm]
+   \vdots & & \vdots                                                 \\[0.3cm]
+  a_k & = & \alpha_0 * \lambda_0^k + \cdots + \alpha_k * \lambda_k^k \\[0.3cm]
+\end{array}
+$$
+Wegen der Annahme dass die $\lambda_i$ paarweise verschieden sind, hat diese Gleichungs--System immer eine
+eindeutige Lösung.
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Theorie der Rekurrenz--Gleichungen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Betrachte Rekurrenz--Gleichung \\[0.3cm]
+\hspace*{0.3cm} $a_{n+k+1} = c_k * a_{n+k} + c_{k-1} * a_{n+k-1} + \cdots + c_0 * a_{n}$ \hspace*{\fill} (*)\\[0.3cm]
+mit \textbf{Anfangsbedingungen} $a_0$, $\cdots$, $a_k$.
+
+Das \textbf{charakteristisches Polynom} $\chi(x)$ ist \\[0.3cm]
+\hspace*{1.3cm}  $\chi(x) := x^{k+1} - c_k * x^{k} - c_{k-1} * x^{k-1} - \cdots - c_1 * x^{1} - c_0$ 
+
+Gilt $\chi(\lambda) = 0$, so ist das charakteristisches Polynom für $\lambda$  \textbf{$m$--fach entartet}, 
+falls es ein Polynom $\varphi(x)$ gibt mit 
+\\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = (x - \lambda)^m * \varphi(x)$ \\[0.3cm]
+Dann sind   für $i=1,\cdots,m$ die Folgen $a^{(i)}$ mit   \\[0.3cm]
+\hspace*{1.3cm} $a^{(i)}_n = n^{i-1} * \lambda^n$ \\[0.3cm]
+Lösungen der Rekurrenz--Gleichung (*).  Die restlichen Lösungen der Rekurrenz--Gleichung (*) können aus dem Polynom $\varphi$
+gewonnen werden.
+
+\textbf{Beispiel}: $a_{n+3} = a_{n+2} + a_{n+1} - a_n$
+
+Anfangsbedingungen: $a_1 = 0$, $a_2 = 3$, $a_3 = 2$.
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^3 - x^2 - x + 1 = (x - 1)^2 * (x + 1)$
+
+Lösungen der Rekurrenz--Gleichung sind also:
+\begin{enumerate}
+\item $a^{(1)}_n = n^0 * 1^n = 1$
+\item $a^{(2)}_n = n^1 * 1^n = n$
+\item $a^{(3)}_n = (-1)^n$
+\end{enumerate}
+
+
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Lösung der Anfangsbedingungen durch Linear--Kombination dieser Lösungen: \\[0.3cm]
+\hspace*{1.3cm} 
+$a_n = \alpha_1 * a^{(1)}_n + \alpha_2 * a^{(2)}_n + \alpha_3 * a^{(3)}_n$
+
+Einsetzen für $n=1,2,3$ liefert lineares Gleichungs--System: 
+$$
+\begin{array}{lcl}
+  0 & = & \alpha_1 * 1 + \alpha_2 * 1 + \alpha_3 * (-1)^1  \\
+  3 & = & \alpha_1 * 1 + \alpha_2 * 2 + \alpha_3 * (-1)^2  \\
+  2 & = & \alpha_1 * 1 + \alpha_2 * 3 + \alpha_3 * (-1)^3  \\
+\end{array}
+$$
+Vereinfachung liefert:
+$$
+\begin{array}{lcrcrcr}
+  0 & = & \alpha_1 & + &     \alpha_2 & - & \alpha_3   \\
+  3 & = & \alpha_1 & + & 2 * \alpha_2 & + &\alpha_3  \\
+  2 & = & \alpha_1 & + & 3 * \alpha_2 & -& \alpha_3  \\
+\end{array}
+$$
+Abziehen der ersten Zeile von der zweite und der zweiten von der dritten:
+$$
+\begin{array}{rcrcrcr}
+  0 & = & \alpha_1 & + & \alpha_2 & - &     \alpha_3   \\
+  3 & = &          &   & \alpha_2 & + & 2 * \alpha_3  \\
+ -1 & = &          &   & \alpha_2 & - & 2 * \alpha_3  \\
+\end{array}
+$$
+Abziehen der zweiten Zeile von der dritten liefert \\[0.3cm]
+\hspace*{1.3cm} $- 4 = - 4 * \alpha_3$, \quad also $\alpha_3 = 1$.
+
+Einsetzen in letzte Gleichungs von $\alpha_3 = 1$ gibt \\[0.3cm]
+\hspace*{1.3cm} $3 = \alpha_2 + 2$, \quad also $\alpha_2 = 1$.
+
+Einsetzen in erste Gleichungs von $\alpha_3 = 1$ und $\alpha_2 = 1$ gibt \\[0.3cm]
+\hspace*{1.3cm} $0 = \alpha_1 + 1 - 1$, \quad also \quad $\alpha_1 = 0$.
+
+\textbf{Lösung}: \\[0.3cm]
+\hspace*{1.3cm} $a_n = n + (-1)^n$.
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\footnotesize
+
+\begin{center}
+Rückführung linearer \underline{inhomo}g\underline{ener} Rek.--Gl. auf \\[0.3cm]
+lineare \underline{homo}g\underline{ene} Rek.--Gl.
+\end{center}
+\vspace*{0.5cm}
+
+Betrachte \\[0.3cm]
+\hspace*{1.3cm} $a_{n+1} = 2 * a_n + n$ \quad mit $a_0 = 0$
+
+Mit Ersetzung $n \mapsto n + 1$ erhalten wir \\[0.3cm]
+\hspace*{1.3cm} $a_{n+2} = 2 * a_{n+1} + n + 1$
+
+Abziehen der ursprünglichen Gleichung liefert \\[0.3cm]
+\hspace*{1.3cm} $a_{n+2} - a_{n+1} = 2 * a_{n+1} - 2 * a_n + n + 1 - n$ \quad also \\[0.3cm]
+\hspace*{1.3cm} $a_{n+2} = 3 * a_{n+1} - 2 * a_n + 1$ \hspace*{\fill} (A)
+
+Wir setzen nochmal $n \mapsto n + 1$ und erhalten \\[0.3cm]
+\hspace*{1.3cm} $a_{n+3} = 3 * a_{n+2} - 2 * a_{n+1} + 1$ \hspace*{\fill} (B)
+
+Wir subtrahieren (B) von (A): \\[0.3cm]
+\hspace*{1.3cm} $a_{n+3} - a_{n+2} = 3 * a_{n+2} - 3 * a_{n + 1} - 2 * a_{n + 1} + 2 * a_n$\\[0.3cm]
+Also haben wir für Folge $(a_n)_n$ homogene Rek.--Gl. \\[0.3cm]
+\hspace*{1.3cm} $a_{n+3} = 4 * a_{n+2} - 5 * a_{n + 1} + 2 * a_n$ 
+
+Das charakteristische Polynom lautet: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^3 - 4 * x^2 + 5 * x - 2$ 
+
+Wir sehen $\chi(1) = 0$.  Ploynom--Division liefert: \\[0.3cm]
+\hspace*{1.3cm} $(x^3 - 4 * x^2 + 5 * x - 2) \div (x - 1) = x^2 - 3*x + 2$
+
+Also \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = (x - 1) * (x^2 - 3*x + 2) = (x - 1) * (x - 1) * (x - 2)$ 
+
+\hspace*{1.3cm} $\chi(x) = (x - 1)^2 * (x - 2)$
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+
+\footnotesize
+Allgemeine Lösung der Rek.--Gl. (C): \\[0.3cm]
+\hspace*{1.3cm} $a_n = \alpha * 1^n + \beta * n * 1^n + \gamma * 2^n$ \\[0.3cm]
+\hspace*{1.3cm} $a_n = \alpha  + \beta * n + \gamma * 2^n$
+
+Berechnung $\alpha$, $\beta$, $\gamma$ durch Vergleich mit Anf.--Bed.:
+$$
+\begin{array}[l]{ll}
+  n = 0:      & a_0 = 0 \\[0.3cm]
+  \Rightarrow & 0 = \alpha + \gamma \\
+  \Rightarrow & \gamma = - \alpha \\
+  n = 1:      & a_1 = 2 * a_0 + 0 = 0 \\[0.3cm]
+  \Rightarrow & 0 = \alpha + \beta + 2 * \gamma \\
+  \Rightarrow & 0 = \alpha + \beta - 2 * \alpha \\
+  \Rightarrow & \beta = \alpha  \\
+  n = 2:      & a_2 = 2 * a_1 + 1 = 1 \\[0.3cm]
+  \Rightarrow & 1 = \alpha + 2 * \beta + 4 * \gamma \\
+  \Rightarrow & 1 = \alpha + 2 * \alpha - 4 * \alpha \\
+  \Rightarrow & \alpha =  - 1,\quad \beta = -1, \gamma = 1 \\
+\end{array}
+$$
+
+Also lautet Lösung der Rek.--Gl. \\[0.3cm]
+\hspace*{1.3cm} $a_n = -1 - n + 2^n$
+\vspace*{1cm}
+
+\textbf{Aufgabe}: $a_{n + 1} = a_n + 2 * n$ \quad mit $a_0 = 0$
+\vspace*{1cm}
+
+\textbf{Lösung}: $a_n = n * (n - 1)$.
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+
+\footnotesize
+\begin{center}
+Rückführung nicht--linearer Rekursions--Gleichungen auf lineare Rekursions--Gleichungen
+\end{center}
+\vspace*{0.5cm}
+
+\textbf{Gegeben}: \quad $a_n = a_{n/2} + n$ mit Anfangsbedingung $a_1 = 0$.
+
+\textbf{Ansatz}: \quad $b_k = a_{2^k}$
+
+Das liefert Rekursions--Gleichungen für Folge $(b_k)_k$: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+1} = a_{2^{k+1}} = a_{2^{k+1}/2} + 2^{k+1} = a_{2^{k}} + 2^{k+1} = b_k + 2^{k+1}$ 
+
+\hspace*{1.3cm} $b_{k+1} = b_k + 2^{k+1}$ \hspace*{\fill} (A)
+
+mit Anf.--Bed. $b_0 = a_{2^0} = a_1 = 1$
+
+Setze $k \mapsto k + 1$ in (A): \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = b_{k+1} + 2^{k+2}$ \hspace*{\fill} (B)
+
+\hspace*{1.3cm} $b_{k+2} - 2 * b_{k+1} = b_{k+1} - 2 * b_k$
+
+Multipliziere (A) mit 2, subtrahiere Ergebnis von (B): \\[0.3cm]
+
+Das liefert \underline{lineare} Rek.--Gleichung 2. Ordnung \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = 3 * b_{k+1} - 2 * b_k$ \hspace*{\fill} (C)
+
+Anfangs--Bedingungen: $b_0 = 0$, $b_1 = b_0 + 2^1 = 2$
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^2 - 3*x + 2 = (x-1) * (x-2)$
+
+Nullstellen: $\lambda_1 = 1$, $\lambda_2 = 2$
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Allgemeine Lösung der Rek.--Gleichung (C): \\[0.3cm]
+\hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * 2^k$ 
+
+Bestimmung von $\alpha$, $\beta$ über Anfangs--Bedingungen: \\[0.3cm]
+\hspace*{1.3cm} $k = 0: \quad 0 = \alpha + \beta$ \\[0.3cm]
+\hspace*{1.3cm} $k = 1: \quad 2 = \alpha + 2 * \beta$ \\[0.3cm]
+\hspace*{1.3cm} $\Rightarrow \quad \alpha = - \beta \quad \& \quad 2 = - \beta + 2 * \beta$ \\[0.3cm]
+\hspace*{1.3cm} $\Rightarrow \quad \beta = 2 \quad \& \quad \alpha = -2$
+
+Lösung der Rek.--Gleichung (C): \\[0.3cm]
+\hspace*{1.3cm} $b_k = -2 + 2 * 2^k$ \\[0.3cm]
+Damit haben wir für Folge $(a_n)_n$:\\[0.3cm]
+\hspace*{1.3cm} $a_{2^k} = - 2 + 2 * 2^k$ \\[0.3cm]
+Setzen wir $n = 2^k$, so folgt \\[0.3cm]
+\hspace*{1.3cm} $a_n = -2 + 2 * n = 2 * (n - 1)$ \hspace*{\fill} (D)
+
+\textbf{Aufgabe}: Lösen Sie die Rek.--Gleichung \\[0.3cm]
+\hspace*{1.3cm} $a_n = a_{n/2} + 1$ \quad mit $a_1 = 1$
+
+\textbf{Lösung}: $a_{2^k} = 1 + k$ 
+
+Setzen wir $n = 2^k$, also $k = \log_2(n)$, so folgt \\[0.3cm]
+\hspace*{1.3cm} $a_n = 1 + \log_2(n)$
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+$\Oh$--Notation
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Rechen--Zeiten  zur Berechnung der Fibonacci--Zahlen:
+\begin{enumerate}
+\item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $\bruch{1}{\sqrt{5}} * (\lambda_1^n - \lambda_2^n) - 1$ Additionen
+
+      mit $\lambda_{1/2} = \bruch{1}{2}(1 \pm \sqrt{5})$
+\item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $4 * (n - 2) + c$ Additionen, \\[0.3cm]
+      mit $c$ unabhängig von $n$.
+\item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      2 Potenzen, $d$ Additionen, \\[0.3cm]
+      mit $d$ unabhängig von $n$.
+\end{enumerate}
+Gesucht: Notation, die von Details abstrahiert: 
+\begin{enumerate}
+\item Terme niedriger Ordnung (Konstante $c$ im 2. Fall)
+\item konstante Faktoren ($\bruch{1}{\sqrt{5}}$ im 1. Fall)
+\end{enumerate}
+\textbf{Definition}: Es sei $f: \mathbb{N} \rightarrow \mathbb{N}$.  
+
+$\Oh(f)$: Menge der Funktionen, die bis auf Faktoren genauso schnell wachsen wie $f$: \\[0.3cm]
+\hspace*{-0.5cm}
+ $\bigg\{ g: \mathbb{N} \rightarrow \mathbb{N} \mid \exists c_0,n_0\in\mathbb{N}:\forall n\in\mathbb{N}:n \geq n_0 \rightarrow  g(n) \leq c_0*f(n) \bigg\}$
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Eigenschaften der $\Oh$--Notation
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\textbf{Satz}: Seien $f_1,f_2,g,h: \mathbb{N} \rightarrow \mathbb{N}$ und $c \in \mathbb{N}$. Dann gilt:
+\begin{enumerate}
+\item $f \in \Oh(f)$
+\item $g \in \Oh(f) \Rightarrow c * g \in \Oh(f)$
+\item $g \in \Oh(f) \Rightarrow g + c \in \Oh(f)$, falls $1 \in \Oh(f)$
+\item $f \in \Oh(h) \;\&\; g \in \Oh(h) \Rightarrow f + g \in \Oh(h)$
+\item $f \in \Oh(g) \;\&\; g \in \Oh(h) \Rightarrow f \in \Oh(h)$
+\item $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}\; \mbox{existiert}
+       \Rightarrow f \in \Oh(g)$
+  
+\end{enumerate}
+
+Seien $f:\mathbb{N} \rightarrow  \mathbb{N}$, \ $g:\mathbb{N} \rightarrow  \mathbb{N}$, \ und \ $h:\mathbb{N} \rightarrow  \mathbb{N}$.
+
+\textbf{Schreibweise}: $f(n) = g(n) + O\bigg(h(n)\bigg)$ g.d.w \\[0.3cm]
+\hspace*{1.3cm} $f(n) - g(n) \in O\bigg(h(n)\bigg)$.
+
+\textbf{Beispiel}: $f(n) = n^2 + 5 * n*log(n) + 3*n$: \\[0.3cm]
+\hspace*{1.3cm}   $f(n) = n^2 + \Oh(n*log(n))$ 
+
+
+\begin{enumerate}
+\item Kompexität des 1. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $\bruch{1}{\sqrt{5}} * (\lambda_1^n - \lambda_2^n) - 1 \;\in\;\Oh(\lambda_1^n)$
+\item Kompexität des 2. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} $4 * (n - 2) + c \;\in\; \Oh(n)$
+\item Kompexität des 3. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} $d \in \Oh(1)$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+
+\footnotesize
+Sei $k \in \mathbb{N}$ fest.
+\begin{enumerate}
+\item $n^k \in \Oh(n^{k+1})$, \quad denn $\lim\limits_{n \rightarrow \infty} \bruch{n^k}{n^{k+1}} = 0$
+\item $n^k \in \Oh(\lambda^n)$ falls $\lambda > 1$, denn  $\lim\limits_{n \rightarrow \infty} \bruch{n^k}{\lambda^n} = 0$ 
+\item $\log_2(n) = \Oh(n)$, denn $\lim\limits_{n \rightarrow \infty} \bruch{\log_2(n)}{n} = 0$
+\end{enumerate}
+
+\textbf{Aufgabe}: Zeigen Sie \\[0.3cm]
+\hspace*{1.3cm} $\log_{2}(n) \in \Oh(\log_{10}(n))$
+
+Konkrete Beispiele:
+\begin{enumerate}
+\item $3 * n^2 + 5 * n + \sqrt{n} \in \Oh(n^2)$
+\item $7 * n + \log_2(n)^2 \in \Oh(n)$
+\item $\sqrt{n} + \log_2(n) \in \Oh\left(\sqrt{n}\right)$
+\end{enumerate}
+
+\textbf{Sprechweisen}: $f:\mathbb{N} \rightarrow  \mathbb{N}$ sei Rechenzeit eines Alg.
+\begin{enumerate}
+\item $f\in \Oh(n)$: linearer Algorithmus
+\item $f\in \Oh(n^2)$: quadratischer Algorithmus
+\item $f\in \Oh(\log_2(n))$: logarithmischer Algorithmus
+\item $f\in \Oh(\lambda^n)$ mit $\lambda > 1$: exponentieller Algorithmus
+\item $f\in \Oh(n*\log(n))$: n--log(n) Algorithmus
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Teile und Herrsche
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Programm zur Berechnung von $x^n$ für $n \in \mathbb{n}$
+\begin{verbatim}
+double power(double x, unsigned n) {
+    if (n == 0)
+        return 1;
+    double y = power(x, n / 2);
+    if (n % 2 == 0) {
+        return y * y;
+    } else {
+        return x * y * y;
+    }
+}
+\end{verbatim}
+\textbf{Beh}.: \quad $\texttt{power}(x, n) = x^n$
+
+\textbf{Beweis}: Induktion über $n$
+\begin{enumerate}
+\item I.A.: $n = 0$ 
+
+      $\mathtt{power}(x, 0) = 1 = x^0$
+\item Fallunterscheidung nach $n \;\%\; 2$:
+  \begin{enumerate}
+  \item $n \;\%\; 2 = 0$, also $n = 2 * m$, $n/2 = m$.
+        $$
+        \begin{array}{lcl}
+        \mathtt{power}(x,2*m) & =                & \mathtt{power}(x,m) * \mathtt{power}(x,m) \\
+                              & \stackrel{IV}{=} & x^m * x^m = x^{2m} \\
+        \end{array}
+        $$
+  \item $n \;\%\; 2 = 1$, also $n = 2 * m + 1$, $n/2 = m$.
+        $$
+        \begin{array}{lcl}
+        \mathtt{power}(x,2*m+1) & =                & x * \mathtt{power}(x,m) * \mathtt{power}(x,m) \\
+                                & \stackrel{IV}{=} & x* x^m * x^m = x^{2m+1} \\
+        \end{array}
+        $$\hspace*{\fill} $\Box$
+  \end{enumerate}
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Komplexitäts--Abschätzung
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Günstigster Fall:  $n\;\%\;2 = 0$ für jeden rekursiven Aufruf.
+
+$a_n$: Anzahl Multiplikationen bei Berechnung $\mathtt{power}(x,n)$ \\[0.3cm]
+\hspace*{1.3cm} $a_n = a_{n/2} + 1$ \quad mit $a_0 = 0$
+ 
+Ansatz: $n = 2^k$, $b_k := a_{2^k}$ liefert \\[0.3cm]
+\hspace*{1.3cm} $b_{k+1} = b_k + 1$ \quad mit $b_0 = a_{2^0} = a_1 = 1$.
+
+Setze $k \mapsto k + 1$: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = b_{k+1} + 1$
+
+Subtraktion: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} - b_{k+1} = b_{k+1} - b_k$ 
+
+Also: $b_{k+2} = 2 * b_{k+1} - b_k$
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
+
+Allgemeine Lösung: \\[0.3cm]
+\hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
+
+Rand--Bedingungen: \\[0.3cm]
+\hspace*{1.3cm} $b_0 = 1 = \alpha$ \\[0.3cm]
+\hspace*{1.3cm} $b_1 = b_0 + 1 = 2 = \alpha + \beta$
+
+Also: $\alpha = 1$ und $\beta = 1$
+
+Lösung: $b_k = k + 1$, folglich $a_{2^k} = k + 1$
+
+Setze $n = 2^k$, also $k = \log_2(n)$, dann: \\[0.3cm]
+\hspace*{1.3cm} $a_n = \log_2(n) + 1 \in \Oh\left(\log_2(n)\right)$
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Komplexitäts--Abschätzung (Fortsetzung)
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Ungünstigster Fall: $n = 2^k - 1$, denn $n/2 = 2^{k-1} - 1$ \\[0.3cm]
+\hspace*{1.3cm} $a_n = a_{n/2} + 2$ mit $a_0 = 0$
+
+Setze $b_k := a_{2^k - 1}$ \\[0.3cm]
+\hspace*{1.3cm} $b_{k+1} = a_{(2^{k+1} - 1)/2} + 2 = a_{2^k - 1} + 2 = b_k + 2$
+
+Rand--Bedingungen: $b_0 = a_0 = 0$, $b_1 = a_1 = 2$
+
+Setze $k \mapsto k + 1$: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = b_{k+1} + 2$
+
+Subtraktion: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = 2 * b_{k+1} - b_k$
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
+
+Allgemeine Lösung: \\[0.3cm]
+\hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
+
+Rand--Bedingungen: \\[0.3cm]
+\hspace*{1.3cm} $b_0 = 0 = \alpha$ \\[0.3cm]
+\hspace*{1.3cm} $b_1 = 2 = \alpha + \beta$
+
+Also: $\alpha = 0$ und $\beta = 2$
+
+Lösung: $b_k = 2 * k$, folglich $a_{2^k-1} = 2*k$
+
+Setze $n = 2^k-1$, also $k = \log_2(n+1)$, dann: \\[0.3cm]
+\hspace*{1.3cm} $a_n = 2*\log_2(n + 1)  \in \Oh\left(\log_2(n)\right)$
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "einfuehrung.tex"
+%%% End: 

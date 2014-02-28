@@ -1,0 +1,743 @@
+\documentclass{slides}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+
+\pagestyle{empty}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{-0.5cm}
+
+
+\newcounter{mypage}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle#1}{\displaystyle#2}}
+\newcommand{\Oh}{\mathcal{O}}
+
+\begin{document}
+
+\begin{center}
+Algorithmen und Daten--Strukturen
+\end{center}
+
+
+\rule{17cm}{1mm}
+
+\footnotesize
+Überblick 
+\begin{enumerate}
+\item Unlösbarkeit des Halte-Problems
+\item Komplexität von Algorithmen
+      \begin{enumerate}
+      \item Rekurrenz-Gleichungen
+      \item $O$-Schreibweise
+      \end{enumerate}
+\item Abstrakte Daten-Typen und elementare Daten-Strukturen
+  
+      Stacks, später Abbildungen, Prioritäts-Warteschlangen
+\item Sortier-Algorithmen
+
+      Minsort, Bubble-Sort, Quick-Sort, Merge-Sort, $\cdots$
+\item Abbildungen
+  \begin{enumerate}
+  \item AVL-Bäume
+  \item Hashing
+  \end{enumerate}
+\item Graphen 
+
+      Algorithmus von Dijkstra \\
+      Berechnung kürzester Wege
+\end{enumerate}
+
+\begin{center}
+\framebox{Ziel: selbständig Algorithmen entwickeln und analysieren}
+\end{center}
+
+\vspace*{0.2cm}
+
+\scriptsize
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Algorithmen und Daten-Strukturen  \hspace*{\fill} Seite \arabic{mypage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Algorithmen und Programme
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{enumerate}
+\item \emph{Algorithmus}
+  \begin{enumerate}
+  \item abstrakt
+  \item läßt vieles offen
+  \item Beschreibung durch 
+    \begin{enumerate}
+    \item natürlich sprachlichen Text
+    \item mathematische Formeln
+    \item Pseudo-Code, Programm
+    \end{enumerate}
+  \end{enumerate}
+\item \emph{Programm}
+  \begin{enumerate}
+  \item konkret
+  \item eindeutige Semantik
+  \end{enumerate}
+\end{enumerate}
+Analogie: \emph{Idee} versus \emph{Text}
+$$
+\begin{array}{lcl}
+  \emph{Idee} & \cong & \emph{Algorithmus} \\
+  \emph{Text} & \cong & \emph{Programm} \\
+
+\end{array}
+$$
+Beschreibung von Algorithmen in Vorlesung
+\begin{enumerate}
+\item mathematische Formeln (Sprache der Mengen-Lehre)
+\item \textsl{Setl2}-Programme
+\item \textsl{Java}-Programme (Übungen)
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Einführung \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Literatur
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{enumerate}
+\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, \textsl{Jeffrey D.~Ullman}:
+      \emph{The Design and Analysis of Computer Algorithms}. 
+
+\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, \textsl{Jeffrey D.~Ullman}:
+      \emph{Data Structures and Algorithms}. 
+
+      primäre Quelle für Vorlesung
+\item \textsl{Frank M.~Carrano}: \\
+      \emph{Data Abstraction and Problem Solving with \texttt{C++}}.
+
+      gute Darstellungen der Algorithmen, kaum Theorie
+\item \textsl{Frank M.~Carrano} and \emph{Janet Prichard}: \\
+      \emph{Data Abstraction and Problem Solving with \textsl{Java}: Walls and Mirrors}.
+
+      Neuauflage von 3., \textsl{Java} statt \texttt{C++}.
+
+\item \textsl{Thomas H.~Cormen} and \textsl{Charles E.~Leiserson}: \\
+      \emph{Introduction to Algorithms}. 
+
+      sehr theroretisch, sehr viele Algorithmen, gut zum Nachschlagen.
+
+\item \textsl{Robert Sedgewick}: 
+      \emph{Algorithms in \texttt{C}}.
+
+\item \textsl{Robert Sedgewick}: 
+      \emph{Algorithms in \textsl{Java}, Part 1--4}.
+    
+      wie oben, \textsl{Java} statt \texttt{C}
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Einführung \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Beispiele für Test-Funktionen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+
+\begin{enumerate}
+\item $s_1$ = ``{\tt int simple(char* x) \{ return 0; \}}''
+
+      Test-Funktion mit dem Namen \texttt{simple}.
+\item $s_2$ = ``{\tt int loop(char* x) \{ while (1) ++x; \}}''
+
+      Test-Funktion mit dem Namen \texttt{loop}. 
+\item $s_3$ = ``{\tt int loop(char* x);}''
+
+      keine Test-Funktion: \\[0.3cm]
+      \hspace*{1.3cm}  nur Deklaration, keine Definition.
+\item $s_4$ = ``{\tt int hugo(char* x) begin i := 1; end;}''
+
+      keine Test-Funktion: läßt sich nicht parsen.
+\item $s_5$ = ``{\tt int hugo(int x) \{ return i*i; \}}''
+
+      keine Test-Funktion: \\[0.3cm]
+      Argument hat Typ \texttt{int} statt \texttt{char*}.
+\end{enumerate}
+
+Es gilt:
+\begin{enumerate}
+\item {\tt simple(\symbol{34}emil\symbol{34}) $\leadsto 0$}
+\item {\tt simple(\symbol{34}emil\symbol{34}) $\downarrow$}
+\item {\tt loop(\symbol{34}hugo\symbol{34}) $\uparrow$}
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Test-Funktionen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Halte-Problem
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Gibt es \texttt{C}-Funktion \\[0.3cm]
+\hspace*{1.3cm} 
+$\texttt{int stops}(\texttt{char*}\;t,\;\texttt{char*}\;a)$ \\[0.3cm]
+mit folgenden Eigenschaften:
+\begin{enumerate}
+\item $t \not\in T\!F \quad\Leftrightarrow\quad \mathtt{stops}(t, a) \leadsto 2$.
+\item $t \in T\!F \,\wedge\, \mathtt{name}(t) = n \,\wedge\, n(a)\downarrow  \quad\Leftrightarrow\;$ 
+      $\mathtt{stops}(t, a) \leadsto 1$.
+\item $t \in T\!F \,\wedge\, \mathtt{name}(t) = n \,\wedge\, n(a)\uparrow \quad\Leftrightarrow\;$ 
+      $\mathtt{stops}(t, a) \leadsto 0$.
+\end{enumerate}
+
+
+\footnotesize
+Betrachte Test-Funktion \textsl{Turing}
+\begin{verbatim}
+    Turing := "int turing(char* x) {
+                   int result = stops(x, x);
+                   if (result == 1) {
+                       while (1) {
+                           ++result;
+                       }
+                   }
+                   return result;
+               }"
+\end{verbatim}
+Es gilt: $\textsl{Turing}\in T\!F$ und $\mathtt{name}(\textsl{Turing}) = \mathtt{turing}$.
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Halte-Problem  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Äquivalenz-Problem
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\textbf{Geg.}: $n_1$, $n_2$: Namen zweier $k$-stelliger \texttt{C}-Funktionen \\[0.1cm]
+\hspace*{1.8cm} $a_1$, $\cdots$, $a_k$: Argumente für $n_1$ und $n_2$
+
+\textbf{Def.}: $n_1(a_1,\cdots,a_k) \simeq n_2(a_1,\cdots,a_k)$ \\[0.1cm]
+g.d.w. einer der beiden folgen Fälle auftritt:
+\begin{enumerate}
+\item $n_1(a_1,\cdots,a_k)\uparrow \quad\wedge\quad n_2(a_1,\cdots,a_k)\uparrow$
+\item $\exists r: n_1(a_1,\cdots,a_k) \leadsto r \quad\wedge\quad n_2(a_1,\cdots,a_k) \leadsto r$
+\end{enumerate}
+
+\begin{verbatim}
+       int equal(char* p1, char* p2, char* a)
+\end{verbatim}
+löst \emph{Äquivalenz-Problem} falls gilt:
+\begin{enumerate}
+\item $p_1 \not\in T\!F \;\vee\; p_2 \not\in T\!F \quad\Leftrightarrow\quad \mathtt{equal}(p_1, p_2, a) \leadsto 2$.
+\item Falls 
+  \begin{enumerate}
+  \item $p_1 \in T\!F \;\wedge\; \mathtt{name}(p_1) = n_1$,
+  \item $p_2 \in T\!F \;\wedge\; \mathtt{name}(p_2) = n_2$ \quad und
+  \item $n_1(a) \simeq n_2(a)$
+  \end{enumerate}
+    gilt, dann muß gelten: \\[0.1cm]
+   \hspace*{1.3cm}  $\mathtt{equal}(p_1, p_2, a) \leadsto 1$.
+\item Ansonsten gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{equal}(p_1, p_2, a) \leadsto 0$.
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Äquivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Unlösbarkeit des Äquivalenz-Problems
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+   int stops(char* p, char* a) {
+       int e = 
+       equal("int loop(char* x) { while (1) ++x; }", 
+             p, a);
+       if (e == 2) {
+           return 2;
+       } else {
+           return 1 - e;
+       }
+   }
+\end{Verbatim}
+
+\textbf{Behauptung}: \texttt{stops} löst Halte-Problem.
+
+Setze: \textsl{Loop} := \texttt{\symbol{34}int loop(char* x) \{ while (1) ++x; \}\symbol{34}}
+
+Betrachte $\texttt{stops}(p, a)$.
+\begin{enumerate}
+\item Fall: $p \not\in T\!F$
+
+      Dann $\texttt{equal}(\textsl{Loop}, p, a) = 2$.
+
+      Also $\texttt{stops}(p,a) = 2$
+\item Fall: $p \in T\!F$ und $\mathtt{name}(p) = n$ und $n(a) \downarrow$
+
+      Dann $e = \mathtt{equal}(\textsl{Loop}, p, a) = 0$.
+
+      Also $\texttt{stops}(p,a) = 1 - 0 = 1$
+\item Fall: $p \in T\!F$ und $\mathtt{name}(p) = n$ und $n(a)\uparrow$
+
+      Dann $e = \mathtt{equal}(\textsl{Loop}, p, a) = 0$.
+
+      Also $\texttt{stops}(p,a) = 1 - 1 = 0$
+\end{enumerate}
+Damit löst \texttt{stops} das Halte-Problem!
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Äquivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Fibonacci--Zahlen
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Kaninchen-Farm: Business-Plan für 
+$$\textsl{Bunnies Incorporated}^{\,T\!M}$$
+\begin{enumerate}
+\item Jedes Kaninchen-Weibchen bringt jeden Monat ein
+      neues Kaninchen-Paar  zur Welt.
+\item Junge Kaninchen haben nach 2 Monaten Junge.
+\item Vereinfachung: Kaninchen leben ewig. 
+\end{enumerate}
+Wie entwickelt sich nach $n$ Monaten die Zahl $k(n)$ der Kaninchen-Paare, wenn im ersten Monat
+1 Paar junge Kaninchen eingekauft wird?
+
+Lösung: Rekursions-Gleichung
+\begin{enumerate}
+\item $k(0) = 1$
+\item $k(1) = 1$
+\item $k(2) = 2$ (Paar hat erstes Mal Junge)
+\item Allgemein: \\[0.3cm]
+      \hspace*{1.3cm} $k(n+2) = k(n + 1) + k(n)$ 
+      \begin{enumerate}
+      \item Alle Kaninchen-Paare, die es im Monat $n + 1$ gab, gibt es auch noch
+            im Monat $n + 2$.
+      \item Alle Kaninchen-Paare, die es schon im Monat $n$ gab, bringen im Monat
+            $n + 2$ ein neues Paar zur Welt.
+      \end{enumerate}
+\end{enumerate}
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Berechnung der Rechenzeit eines Algorithmus
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Mögliches Vorgehen:
+\begin{enumerate}
+\item Implementiere Algorithmus in Programmiersprache
+\item Zähle alle Operationen (RG aufstellen, lösen)
+      \begin{enumerate}
+      \item Zuweisungen,
+      \item arithmetische Operationen,
+      \item $\cdots$
+      \end{enumerate}
+\item Schlage Ausführungs-Zeiten im Prozessorhandbuch nach    
+\end{enumerate}
+
+Probleme dieses Verfahrens
+\begin{enumerate}
+\item sehr aufwendig
+\item praktisch bei modernen Prozessoren gar nicht durchführbar,
+      da Verhalten des Caches kaum vorhersehbar
+\item Ergebnis vom Prozessor abhängig
+\item Ergebnis beschreibt Programm statt Algorithmus
+\end{enumerate}
+
+\framebox{\framebox{
+\begin{minipage}[c]{16cm}
+    Wir brauchen abstrakten Begriff der Rechenzeit, um Komplexität abstrakter Algorithmen zu
+    untersuchen.
+\end{minipage}
+}}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+$\Oh$-Notation
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Rechen-Zeiten  verschiedener Algorithmen zur Berechnung der Fibonacci-Zahlen:
+\begin{enumerate}
+\item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $\bruch{1}{\sqrt{5}} * (\lambda_1^n - \lambda_2^n) - 1$ Additionen
+
+      mit $\lambda_{1/2} = \bruch{1}{2}(1 \pm \sqrt{5})$
+\item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $4 * (n - 2) + 5$ Additionen, \\[0.3cm]
+      mit $c$ unabhängig von $n$.
+\end{enumerate}
+Gesucht: Komplexitäts-Begriff, der
+\begin{enumerate}
+\item \underline{Wachstum} der Funktionen erfaßt.
+\item Terme niedriger Ordnung vernachlässigt.
+
+      ($\lambda_2^n$ im 1. Fall, Konstante $5$ im 2. Fall)
+\item Konstante Faktoren vernachlässigt.
+
+      (Faktor $\bruch{1}{\sqrt{5}}$ im 1. Fall, Faktor 4 im zweiten Fall)
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Eigenschaften der $\Oh$-Notation
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+\textbf{Satz}: Seien $f_1,f_2,g,h: \mathbb{N} \rightarrow \mathbb{N}$ und $c \in \mathbb{N}$. Dann gilt:
+\begin{enumerate}
+\item $f \in \Oh(f)$
+\item $g \in \Oh(f) \Rightarrow c * g \in \Oh(f)$
+\item $g \in \Oh(f) \Rightarrow g + c \in \Oh(f)$, falls $1 \in \Oh(f)$
+\item $f \in \Oh(h) \;\&\; g \in \Oh(h) \Rightarrow f + g \in \Oh(h)$
+\item $f \in \Oh(g) \;\&\; g \in \Oh(h) \Rightarrow f \in \Oh(h)$
+\item $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}\; \mbox{existiert}
+       \Rightarrow f \in \Oh(g)$
+  
+\end{enumerate}
+
+Seien $f:\mathbb{N} \rightarrow  \mathbb{N}$, \ $g:\mathbb{N} \rightarrow  \mathbb{N}$, \ und \ $h:\mathbb{N} \rightarrow  \mathbb{N}$.
+
+\textbf{Schreibweise}: $f(n) = g(n) + O\bigg(h(n)\bigg)$ g.d.w \\[0.3cm]
+\hspace*{1.3cm} $f(n) - g(n) \in O\bigg(h(n)\bigg)$.
+
+\textbf{Beispiel}: $f(n) = n^2 + 5 * n*log(n) + 3*n$: \\[0.3cm]
+\hspace*{1.3cm}   $f(n) = n^2 + \Oh(n*log(n))$ 
+
+
+\begin{enumerate}
+\item Kompexität des 1. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} 
+      $\bruch{1}{\sqrt{5}} * (\lambda_1^n - \lambda_2^n) - 1 \;\in\;\Oh(\lambda_1^n)$
+\item Kompexität des 2. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} $4 * (n - 2) + c \;\in\; \Oh(n)$
+\item Kompexität des 3. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+      \hspace*{1.3cm} $d \in \Oh(1)$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+
+\footnotesize
+Sei $k \in \mathbb{N}$ fest.
+\begin{enumerate}
+\item $n^k \in \Oh(n^{k+1})$, \quad denn $\lim\limits_{n \rightarrow \infty} \bruch{n^k}{n^{k+1}} = 0$
+\item $n^k \in \Oh(\lambda^n)$ falls $\lambda > 1$, denn  $\lim\limits_{n \rightarrow \infty} \bruch{n^k}{\lambda^n} = 0$ 
+\item $\log_2(n) = \Oh(n)$, denn $\lim\limits_{n \rightarrow \infty} \bruch{\log_2(n)}{n} = 0$
+\end{enumerate}
+
+\textbf{Aufgabe}: Zeigen Sie \\[0.3cm]
+\hspace*{1.3cm} $\log_{2}(n) \in \Oh(\log_{10}(n))$
+
+Konkrete Beispiele:
+\begin{enumerate}
+\item $3 * n^2 + 5 * n + \sqrt{n} \in \Oh(n^2)$
+\item $7 * n + \log_2(n)^2 \in \Oh(n)$
+\item $\sqrt{n} + \log_2(n) \in \Oh\left(\sqrt{n}\right)$
+\end{enumerate}
+
+\textbf{Sprechweisen}: $f:\mathbb{N} \rightarrow  \mathbb{N}$ sei Rechenzeit eines Alg.
+\begin{enumerate}
+\item $f\in \Oh(n)$: linearer Algorithmus
+\item $f\in \Oh(n^2)$: quadratischer Algorithmus
+\item $f\in \Oh(\log_2(n))$: logarithmischer Algorithmus
+\item $f\in \Oh(\lambda^n)$ mit $\lambda > 1$: exponentieller Algorithmus
+\item $f\in \Oh(n*\log(n))$: n-log(n) Algorithmus
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Teile und Herrsche
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Programm zur Berechnung von $x^n$ für $n \in \mathbb{n}$
+\begin{verbatim}
+double power(double x, unsigned n) {
+    if (n == 0)
+        return 1;
+    double y = power(x, n / 2);
+    if (n % 2 == 0) {
+        return y * y;
+    } else {
+        return x * y * y;
+    }
+}
+\end{verbatim}
+\textbf{Beh}.: \quad $\texttt{power}(x, n) = x^n$
+
+\textbf{Beweis}: Induktion über $n$
+\begin{enumerate}
+\item I.A.: $n = 0$ 
+
+      $\mathtt{power}(x, 0) = 1 = x^0$
+\item Fallunterscheidung nach $n \;\%\; 2$:
+  \begin{enumerate}
+  \item $n \;\%\; 2 = 0$, also $n = 2 * m$, $n/2 = m$.
+        $$
+        \begin{array}{lcl}
+        \mathtt{power}(x,2*m) & =                & \mathtt{power}(x,m) * \mathtt{power}(x,m) \\
+                              & \stackrel{IV}{=} & x^m * x^m = x^{2m} \\
+        \end{array}
+        $$
+  \item $n \;\%\; 2 = 1$, also $n = 2 * m + 1$, $n/2 = m$.
+        $$
+        \begin{array}{lcl}
+        \mathtt{power}(x,2*m+1) & =                & x * \mathtt{power}(x,m) * \mathtt{power}(x,m) \\
+                                & \stackrel{IV}{=} & x* x^m * x^m = x^{2m+1} \\
+        \end{array}
+        $$\hspace*{\fill} $\Box$
+  \end{enumerate}
+\end{enumerate}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Komplexitäts-Abschätzung
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Günstigster Fall:  $n\;\%\;2 = 0$ für jeden rekursiven Aufruf.
+
+$a_n$: Anzahl Multiplikationen bei Berechnung $\mathtt{power}(x,n)$ \\[0.3cm]
+\hspace*{1.3cm} $a_n = a_{n/2} + 1$ \quad mit $a_0 = 0$
+ 
+Ansatz: $n = 2^k$, $b_k := a_{2^k}$ liefert \\[0.3cm]
+\hspace*{1.3cm} $b_{k+1} = b_k + 1$ \quad mit $b_0 = a_{2^0} = a_1 = 1$.
+
+Setze $k \mapsto k + 1$: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = b_{k+1} + 1$
+
+Subtraktion: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} - b_{k+1} = b_{k+1} - b_k$ 
+
+Also: $b_{k+2} = 2 * b_{k+1} - b_k$
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
+
+Allgemeine Lösung: \\[0.3cm]
+\hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
+
+Rand-Bedingungen: \\[0.3cm]
+\hspace*{1.3cm} $b_0 = 1 = \alpha$ \\[0.3cm]
+\hspace*{1.3cm} $b_1 = b_0 + 1 = 2 = \alpha + \beta$
+
+Also: $\alpha = 1$ und $\beta = 1$
+
+Lösung: $b_k = k + 1$, folglich $a_{2^k} = k + 1$
+
+Setze $n = 2^k$, also $k = \log_2(n)$, dann: \\[0.3cm]
+\hspace*{1.3cm} $a_n = \log_2(n) + 1 \in \Oh\left(\log_2(n)\right)$
+
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+Komplexitäts-Abschätzung (Fortsetzung)
+\end{center}
+\vspace*{0.5cm}
+
+\footnotesize
+Ungünstigster Fall: $n = 2^k - 1$, denn $n/2 = 2^{k-1} - 1$ \\[0.3cm]
+\hspace*{1.3cm} $a_n = a_{n/2} + 2$ mit $a_0 = 0$
+
+Setze $b_k := a_{2^k - 1}$ \\[0.3cm]
+\hspace*{1.3cm} $b_{k+1} = a_{(2^{k+1} - 1)/2} + 2 = a_{2^k - 1} + 2 = b_k + 2$
+
+Rand-Bedingungen: $b_0 = a_0 = 0$, $b_1 = a_1 = 2$
+
+Setze $k \mapsto k + 1$: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = b_{k+1} + 2$
+
+Subtraktion: \\[0.3cm]
+\hspace*{1.3cm} $b_{k+2} = 2 * b_{k+1} - b_k$
+
+Charakteristisches Polynom: \\[0.3cm]
+\hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
+
+Allgemeine Lösung: \\[0.3cm]
+\hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
+
+Rand-Bedingungen: \\[0.3cm]
+\hspace*{1.3cm} $b_0 = 0 = \alpha$ \\[0.3cm]
+\hspace*{1.3cm} $b_1 = 2 = \alpha + \beta$
+
+Also: $\alpha = 0$ und $\beta = 2$
+
+Lösung: $b_k = 2 * k$, folglich $a_{2^k-1} = 2*k$
+
+Setze $n = 2^k-1$, also $k = \log_2(n+1)$, dann: \\[0.3cm]
+\hspace*{1.3cm} $a_n = 2*\log_2(n + 1)  \in \Oh\left(\log_2(n)\right)$
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

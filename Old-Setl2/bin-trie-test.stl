@@ -1,0 +1,58 @@
+program main;
+
+    use BinTrie;
+    use Random;
+
+    -- Create a random number generator.  The first value is the maximal size
+    -- of the generated numbers, The second value is used as a seed.
+    RandomGen := Random(1000, 1); 
+
+    m := BinTrie();
+    count := 30;
+    L := [ RandomGen.nextRandom(): i in {1..count}]; 
+
+    for i in L loop
+        m.insert(i, binaryStr(i));
+    end loop;
+    m.show(); 
+    for i in L loop
+        m.delete(i);
+    end loop;
+    m.show(); 
+       
+    while true loop
+        print("insert (i) or delete (d) ?");
+        read(a);
+        if a = "i" then
+            print("Enter number");
+            read(key);
+            print("Enter value");
+            read(value);
+            m.insert(key, value);
+            m.show();
+        else
+            print("Enter number");
+            read(key);
+            m.delete(key);
+            m.show();
+        end if;            
+    end loop;
+
+    -- This procedure converts the argument to a binary string.
+    procedure binaryStr(n);
+        if n = 0 then
+            return "0";
+        end if;
+        m := n / 2;
+        if m = 0 then
+            mStr := "";
+        else
+            mStr := binaryStr(m);
+        end if; 
+        if n mod 2 = 0 then
+            return mStr + "0";
+        else
+            return mStr + "1";
+        end if;
+    end binaryStr;
+end main;

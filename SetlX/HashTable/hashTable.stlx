@@ -1,0 +1,102 @@
+class hashTable(n) {
+    mSize    := n;
+    mEntries := 0;  // number of entries
+    mArray   := [ {} : i in [1 .. mSize] ];
+    mAlpha   := 2;  // load factor
+
+    static {
+        sOrd := { [ char(i), i ] : i in [ 0 .. 127 ] };
+        sPrimes := [ 3, 7, 13, 31, 61, 127, 251, 509, 1021, 2039, 4093, 
+                     8191, 16381, 32749, 65521, 131071, 262139, 524287, 
+                     1048573, 2097143, 4194301, 8388593, 16777213, 
+                     33554393, 67108859, 134217689, 268435399, 
+                     536870909, 1073741789, 2147483647 
+                   ];
+        hashCode := procedure(s) {
+            return hashCodeAux(s) + 1;
+        };
+        hashCodeAux := procedure(s) {
+            if (s == "") {
+                return 0;
+            }
+            return (sOrd[s[1]] + 128 * hashCodeAux(s[2..])) % mSize;
+        };
+        find := procedure(key) {
+             index := hashCode(key);
+             aList := mArray[index];
+             return aList[key];
+        };
+        insert := procedure(key, value) {
+             if (mEntries > mSize * mAlpha) {
+                 rehash();
+             }
+             index      := hashCode(key);
+             aList      := mArray[index];
+             oldSz      := #aList;
+             aList[key] := value;
+             newSz      := #aList;
+             this.mArray[index] := aList;
+             if (newSz > oldSz) {
+                 this.mEntries += 1;
+             }    
+        };
+        // sPrimes is an array of prime numbers that roughly double in size
+        rehash := procedure() {
+             prime  := min({ p : p in sPrimes | p * mAlpha > mEntries });
+             bigMap := hashTable(prime);
+             for (aList in mArray) {
+                 for ([k, v] in aList) {
+                     bigMap.insert(k, v);
+                 }    
+             }
+             this.mSize  := prime;
+             this.mArray := bigMap.mArray;
+        };
+        // Delete the given key from map.
+        delete := procedure(key) {
+             index      := hashCode(key);
+             aList      := mArray[index];
+             oldSz      := #aList;
+             aList[key] := om;
+             newSz      := #aList;
+             this.mArray[index] := aList;
+             if (newSz < oldSz) {
+                 this.mEntries -= 1;
+             }    
+        };
+
+        f_str := procedure() {
+             result := "";
+             for (i in [1 .. #mArray]) {
+                 result += "$i$: $mArray[i]$\n";
+             }
+             return result;
+        };
+    }
+}
+
+demo := procedure() {
+    data := readFile("data.txt");
+    m := hashTable(3);
+    keySet := {};
+    for (line in data) {
+        [k, v] := split(line, ":");
+        keySet += { k };
+        v := removeWS(v);
+        print("insert($k$, $v$)");
+        m.insert(k, v);
+        print("\n$m$\n");
+    }
+    for (k in keySet) {
+        print("delete($k$)");
+        m.delete(k);
+        print("\n$m$\n"); 
+    }
+};
+
+removeWS := procedure(s) {
+    ws := { " ", "\t", "\n", "\r", "\v" };
+    return +/ [ s[i] : i in [1 .. #s] | s[i] notin ws ];
+};      
+
+demo();

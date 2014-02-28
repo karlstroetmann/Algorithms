@@ -1,0 +1,20 @@
+sort := procedure(l) {
+    if (l == []) {
+        return [];
+    }
+    x := min(l);
+    return [x] + sort(delete(x,l));
+};
+delete := procedure(x, l) {
+    match (l) {
+        case []    : assert(false, "element $x$ not in list $l$");
+        case [x|r] : return r;
+        case [y|r] : return [y] + delete(x,r);
+    }
+};
+
+l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+print("l = $l$");
+s := sort(l);
+print("s = $s$");
+

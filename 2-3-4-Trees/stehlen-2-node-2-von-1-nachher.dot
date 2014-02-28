@@ -1,0 +1,21 @@
+//  steeling a key from the brother to the right.
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "<f1> l2|<f2> p2" ];
+    "p":f1 -> br [tailport = se, headport = n ];
+    p -> k [headport = n ];
+    "p":f2 -> r [tailport = sw, headport = n ];
+    br [ shape = Mrecord, label = "l1" ];
+    "br" -> a;
+    "br" -> b;
+    k [ shape = Mrecord, label = "<f1> p1|<f2> k" ];
+    "k":f1 -> c [tailport = se, headport = n ];
+    k -> d;
+    "k":f2 -> e [tailport = sw, headport = n ];
+    a [ shape = triangle ];
+    b [ shape = triangle ];
+    c [ shape = triangle ];
+    d [ shape = triangle ];
+    e [ shape = triangle ];
+    r [ shape = triangle ];
+}

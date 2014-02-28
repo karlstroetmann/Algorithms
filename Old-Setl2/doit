@@ -1,0 +1,11 @@
+stll -c setl2.lib
+stlc /usr/local/share/setl2/string_utility_pak.stl
+stlc /usr/local/share/setl2/grlib.stl
+stlc /usr/local/share/setl2/tk.stl
+stlc ~/setl/distribution/packages_to_compile/image_class.stl
+stlc ~/setl/distribution/packages_to_compile/SORT_PAK.STL
+stlc ~/setl/distribution/packages_to_compile/atkw_class_w_test.stl
+stlc ~/setl/distribution/packages_to_compile/map_slider.stl
+stlc ~/setl/distribution/labs_Perception/lab_cafe_wall.stl
+
+stlx test

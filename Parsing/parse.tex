@@ -1,0 +1,77 @@
+\documentclass{slides}
+\usepackage{german}
+\usepackage{epsfig}
+\usepackage{amssymb}
+
+\pagestyle{empty}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+
+\newcommand{\cq}{\symbol{34}}
+\newcommand{\Ll}{{\cal L}}
+\newcommand{\Rl}{{\cal R}}
+\newcommand{\NS}{{\cal N\!S}}
+\newcommand{\cl}[1]{{\cal #1}}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle\;#1\;}{\displaystyle\;#2\;}}
+\newcommand{\Oh}{\mathcal{O}}
+
+
+\newcounter{mypage}
+
+\begin{document}
+
+\begin{center}
+Kontext--freie Grammatik
+\end{center}
+
+
+\rule{17cm}{1mm}
+
+\footnotesize
+\vspace*{0.2cm}
+\textbf{Definition}: Eine \emph{kontext--freie} Grammatik $G$ ist ein \\
+\hspace*{3.5cm} 4--Tupel der Form \\[0.3cm]
+\hspace*{4.3cm} $G = \langle T, N, R, S \rangle$ \\[0.3cm]
+wobei die Bedeutung der Komponenten wie folgt ist:
+\begin{enumerate}
+\item $T$ ist die Menge der \emph{Terminale}
+\item $N$ ist die Menge der \emph{Nicht--Terminale}
+
+      Die Vereinigung von $T$ und $N$ wird mit $V$ bezeichnet: \\[0.3cm]
+      \hspace*{1.3cm} $V := T \cup N$ \\[0.3cm]
+      Die Menge $V$ hei\3t auch das \emph{Vokabular}.
+\item $R \subseteq N \times V^*$ 
+
+      ist die Menge der \emph{Regeln}:
+      \begin{enumerate}
+      \item Die erste Komponente ist ein Nicht--Terminal.
+      \item Die zweite Komponente ist ein Wort aus  Nicht--Terminalen und Terminalen.
+      \end{enumerate}
+      Statt $\langle X, \alpha \rangle \in R$ schreiben wir \\[0.3cm]
+      \hspace*{1.3cm} $X \rightarrow \alpha$.
+\item $S \in N$ ist das Start--Symbol.
+\end{enumerate}
+\textbf{Bedeutung}: Grammatiken werden zur Beschreibung von Programmier--Sprachen benutzt.
+
+\scriptsize
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
+
+
+\include{parse-slides}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

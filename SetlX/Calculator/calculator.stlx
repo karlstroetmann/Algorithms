@@ -1,0 +1,81 @@
+load("stack-array.stlx");
+
+extractTokens := procedure(s) {
+    tokenList := [];
+    scan (s) {
+        regex '0|[1-9][0-9]*' as [ number ]: tokenList += [ int(number) ];
+        regex '\*\*'          as operator  : tokenList += operator;
+        regex '[+\-*/%()]'    as operator  : tokenList += operator;
+        regex '[ \t]'                      : // skip
+    }
+    return tokenList;
+};
+
+class calculator(s) {
+    mTokenStack := createStack(extractTokens(s));
+    mArguments  := stack();
+    mOperators  := stack();
+
+  static {
+    evaluate := procedure() {
+        while (!mTokenStack.isEmpty()) {
+            //stop("evaluate");
+            if (isInteger(mTokenStack.top())) {
+                number := mTokenStack.top(); mTokenStack.pop();
+                mArguments.push(number);
+                continue;
+            } 
+            nextOp := mTokenStack.top(); mTokenStack.pop();
+            if (mOperators.isEmpty() || nextOp == "(") {
+                mOperators.push(nextOp);
+                continue;
+            }
+            stackOp := mOperators.top();
+            if (stackOp == "(" && nextOp == ")") {
+                mOperators.pop();
+            } else if (nextOp == ")") {
+                popAndEvaluate();
+                mTokenStack.push(nextOp);
+            } else if (evalBefore(stackOp, nextOp)) {
+                popAndEvaluate();
+                mTokenStack.push(nextOp);
+            } else {
+                mOperators.push(nextOp);
+            }
+        }
+        while (!mOperators.isEmpty()) { popAndEvaluate(); }
+        return mArguments.top();
+    };
+    evalBefore := procedure(stackOp, nextOp) {
+        prec := { ["+", 1], ["-", 1], ["*", 2], ["/", 2], ["%", 2], ["**",3] };
+        if (stackOp == "(") { return false;  }
+        if (prec[stackOp] > prec[nextOp]) {
+            return true;
+        } else if (prec[stackOp] == prec[nextOp]) {
+            if (stackOp == nextOp) {
+                return stackOp in { "+", "-", "*", "/", "%" };
+            }
+            return true;
+        } 
+        return false;
+    };
+    popAndEvaluate := procedure() {
+        rhs := mArguments.top(); mArguments.pop();
+        lhs := mArguments.top(); mArguments.pop();
+        op  := mOperators.top(); mOperators.pop();
+        match (op) {
+            case "+" : result := lhs + rhs;
+            case "-" : result := lhs - rhs;
+            case "*" : result := lhs * rhs;
+            case "/" : result := lhs / rhs;
+            case "%" : result := lhs % rhs;
+            case "**": result := lhs ** rhs;       
+            default: abort("ERROR: *** Unknown Operator *** $op$");
+        }
+        mArguments.push(result);
+    };    
+  }
+}
+
+c := calculator("1+2*3**4-5/2");
+c.evaluate();

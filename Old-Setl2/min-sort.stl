@@ -1,0 +1,76 @@
+program main;
+    -- We need some random numbers to test our sirtung algorithm.
+    use Random;
+
+    -- Create a random number generator.
+    RandomGen := Random(10, 58); 
+
+    -- create a list with 1000 random integers
+    list := [ RandomGen.nextRandom(): i in {1..20}]; 
+
+    print(list);
+    sorted := minSort(list);
+    print(sorted);
+
+    if list2Bag(list) = list2Bag(sorted) and isSorted(sorted) then
+        print("Everything is fine.");
+    else
+        print("ERROR");
+    end if;
+
+    -- Convert a list L into a set of pairs. The first component of every pair is the
+    -- element of L, the second number shows how often this element occurs in L.
+    procedure list2Bag(L);
+        R := { [x, 0] : x in L };
+        for x in L loop    
+            R(x) +:= 1;
+        end loop;
+        return R;
+    end list2Bag;
+
+    -- Check whether a list is sorted.
+    procedure isSorted(L);
+        if #L <= 1 then
+            return true;
+        end if;
+        return L(1) <= L(2) and isSorted( L(2..) );
+    end isSorted;
+
+    -- Sort the given list using the insertion sort algorithm.
+    procedure minSort(L);
+        if L = [] then
+            return L;
+        end if;
+        minValue := minList(L);
+        L := delete(minValue, L);
+        return [ minValue ] + minSort(L);
+    end minSort;
+
+    -- delete the first occurrence of x in L
+    procedure delete(x, L);
+        y := L(1); R := L(2..);
+        return if x = y then R else [y] + delete(x, R) end if;
+    end delete;
+
+    -- find a minimal value of a list
+    procedure minList(L);
+        if L = [] then
+            return;     -- return Omega
+        end if;
+        x := L(1); R := L(2..);
+        return minPair(x, minList(R));
+    end minList;
+
+    procedure minPair(x, y);
+        if x = om then
+            return y;
+        elseif y = om then
+            return x;
+        elseif x <= y then
+            return x;
+        else 
+            return y;
+        end if;
+    end minPair;
+    
+end main;

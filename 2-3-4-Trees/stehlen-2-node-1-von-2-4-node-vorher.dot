@@ -1,0 +1,23 @@
+// Need to steel a key from the brother to the right.
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "<f1> p1|<f2> p2" ];
+    "p":f1 -> k [tailport = se, headport = n ];
+    p -> br [headport = n ];
+    "p":f2 -> g [tailport = sw, headport = n ];
+    br [ shape = Mrecord, label = "<f1> l1|<f2> l2|<f3> l3" ];
+    "br":f1 -> c [tailport = se, headport = n ];
+    "br":f2 -> d [tailport = se, headport = n ];
+    "br":f2 -> e [tailport = sw, headport = n ];
+    "br":f3 -> f [tailport = sw, headport = n ];
+    k [ shape = Mrecord ];
+    k -> a;
+    k -> b;
+    a [ shape = triangle ];
+    b [ shape = triangle ];
+    c [ shape = triangle ];
+    d [ shape = triangle ];
+    e [ shape = triangle ];
+    f [ shape = triangle ];
+    g [ shape = triangle ];
+}

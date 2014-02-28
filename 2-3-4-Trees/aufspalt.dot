@@ -1,0 +1,16 @@
+digraph G {
+    node [ ordering = out ];
+    n  [ shape = Mrecord, label = "k2" ];
+    n1 [ shape = Mrecord, label = "k1" ];
+    n2 [ shape = Mrecord, label = "k3" ];
+    n -> n1;
+    n -> n2;
+    n1 -> l;
+    n1 -> ml;
+    n2 -> mr;
+    n2 -> r;
+    l  [ shape = triangle ];
+    ml [ shape = triangle ];
+    mr [ shape = triangle ];
+    r  [ shape = triangle ];
+}

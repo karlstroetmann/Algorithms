@@ -1,0 +1,83 @@
+class Map;
+    procedure create();
+    procedure find(n, v);
+    procedure insert(n, v);
+    procedure delete(n);
+end Map;
+
+class body Map;
+    var table;
+
+    procedure create();
+        table := [];
+    end create;
+
+    procedure find(n, v);
+        idx := cmpIndex(n);
+        return table(idx);
+    end find;
+
+    procedure insert(n, v);
+        idx := cmpIndex(n);
+        table(idx) := v;
+    end insert;
+
+    procedure delete(n);
+        idx := cmpIndex(n);
+        table(idx) := om;
+    end delete;
+
+    procedure cmpIndex(name);
+        index := 0;
+        for i in [ 1 .. 8 ] loop
+            if name(i) = " " then
+                value := 0;
+            else 
+                value := abs(name(i)) - abs("a") + 1;
+            end if;
+            index := index * 27 + value;
+        end loop;
+        return index + 1;
+    end cmpIndex;
+end Map;
+
+program main;
+    use Map;
+
+    m := Map();
+    L := { [ "bell    ", "it03119" ],
+           [ "benke   ", "it03136" ],
+           [ "grabellu", "it03130" ],
+           [ "graber  ", "it03135" ],
+           [ "hertle  ", "it03120" ],
+           [ "huhndorf", "it03132" ],
+           [ "huonker ", "it03121" ],
+           [ "jung    ", "it03122" ],
+           [ "keutel  ", "it03123" ],
+           [ "kissel  ", "it03131" ],
+           [ "kivelip ", "it03124" ],
+           [ "kunze   ", "it03133" ],
+           [ "marenke ", "it03125" ],
+           [ "meier   ", "it03126" ],
+           [ "mueller ", "it03127" ],
+           [ "pierer  ", "it03128" ],
+           [ "plattner", "it03112" ],
+           [ "rath    ", "it03117" ],
+           [ "reichle ", "it03118" ],
+           [ "scharm  ", "it03115" ],
+           [ "schnaut ", "it03116" ],
+           [ "schnupp " , "it03134" ],
+           [ "stoeger ", "it03138" ],
+           [ "wunderli", "it03129" ]
+         };
+
+    for [ name, uid ] in L loop
+        m.insert(name, uid);
+        print(m);
+    end loop;
+    print(m);
+    for [ name, uid ] in L loop
+        m.delete(name);
+    end loop;
+    print(m);
+end main;

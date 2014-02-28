@@ -1,0 +1,34 @@
+--
+--  RANDOM NUMBERS
+--  This class implements an ADT that can be used as a generator for pseudo
+--  random numbers.
+
+class Random;
+
+    -- The random number generator will produce random numbers satisfiying
+    -- 0 <= n < range.
+    procedure create(maximum, first);
+
+    -- Return a new random number.
+    procedure nextRandom();
+
+end Random;
+
+class body Random;
+
+   var modulus, multiplier, increment, seed, maxValue;
+
+   procedure create(maximum, first);
+       maxValue     := maximum;
+       modulus      := 2 ** 64 - 59;
+       multiplier   := 2 ** 60 - 93;
+       increment    := 2 ** 15 - 19;
+       seed         := first;
+   end create;
+
+   procedure nextRandom();
+      seed := (seed * multiplier + increment) mod modulus;
+      return seed mod maxValue;
+   end nextRandom;
+
+end Random;

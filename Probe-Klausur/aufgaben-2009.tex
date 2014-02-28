@@ -1,0 +1,192 @@
+\documentclass{article}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+
+\usepackage{a4wide}
+\usepackage{amssymb}
+\usepackage{epsfig}
+
+\setlength{\textwidth}{15cm}
+
+\newcommand{\cq}{\symbol{34}}
+\newcommand{\Ll}{{\cal L}}
+\newcommand{\Rl}{{\cal R}}
+\newcommand{\NS}{{\cal N\!S}}
+\newcommand{\cl}[1]{{\cal #1}}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\begin{document}
+
+\noindent
+{\large Aufgaben zur Vorlesung  ``{\sl Algorithmen und Datenstrukturen}''}
+\vspace{0.5cm}
+
+
+\noindent
+\textbf{Aufgabe 1}:
+\begin{enumerate}
+\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = a_n + 2$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
+      \hspace*{\fill} (10 Punkte)
+\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+      \hspace*{1.3cm} $a_{n+2} = 2 \cdot a_n - a_{n+1}$ \\[0.2cm]
+      für die Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 3$.
+      \hspace*{\fill} (10 Punkte)
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Aufgabe 2}:
+Der geordnete binäre Baum $t$ sei durch den folgenden Term definiert,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+assoziiert sind, verzichtet wurde.
+\\[0.2cm]
+\hspace*{1.3cm}
+$t = \textsl{node}(11, \textsl{node}(10, \textsl{nil}, \textsl{nil}), \textsl{node}(15, \textsl{nil}, 
+  \textsl{node}(18, \textsl{node}(17, \textsl{nil}, \textsl{nil}), 
+  \textsl{node}(24, \textsl{nil}, \textsl{nil}))))
+$
+%\hspace*{1.3cm}\epsfig{file=aufgabe2,scale=0.5}
+\begin{enumerate}
+\item Fügen Sie in diesem Baum den Schlüssel \texttt{16} ein und geben Sie den
+      resultierenden Term an.  \\ 
+      \hspace*{\fill} (3 Punkte)
+\item Fügen Sie in dem in Teil (a) berechneten Baum den Schlüssel \texttt{13} ein und
+      geben Sie den resultierenden Baum an.     
+      \hspace*{\fill} (3 Punkte)
+\item Löschen Sie aus dem in Teil (b) berechneten Baum den Schlüssel \texttt{15} und
+      geben Sie den resultierenden Baum. 
+      \hspace*{\fill} (4 Punkte)
+\end{enumerate}
+\textbf{Hinweis}: Bei der Lösung dieser und der folgenden Aufgabe sind selbstverständlich
+die in der Vorlesung vorgestellten Algorithmen zu verwenden.
+\vspace{0.2cm}
+
+\noindent
+\textbf{Aufgabe 3}: Der AVL-Baum $t$ sei durch den folgenden Term gegeben,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+assoziiert sind, verzichtet wurde.
+\\[0.2cm]
+\hspace*{1.3cm}
+$t = \textsl{node}(17, \textsl{node}(8, \textsl{node}(2, \textsl{nil}, \textsl{nil}),
+ \textsl{node}(10, \textsl{nil}, \textsl{nil})), \textsl{node}(23,\textsl{nil},\textsl{nil}))$
+%\epsfig{file=avl1,scale=0.5}
+\begin{enumerate}
+\item Fügen Sie  in diesem Baum den Schlüssel \texttt{13} ein und geben Sie den
+      resultierenden Baum an.   \\[0.2cm]
+      \hspace*{\fill} (4 Punkte)
+\item Fügen Sie in dem Baum aus Teil den Schlüssel \texttt{15} ein und geben Sie den
+      resultierenden Baum an.
+      \hspace*{\fill} (3 Punkte)
+\item Entfernen Sie den Schlüssel 2 aus dem unter Teil (b) berechneten Baum und geben Sie
+      den resultierenden Baum an.
+      \hspace*{\fill} (4 Punkte)
+\end{enumerate}
+
+\noindent
+\textbf{Aufgabe 4}:  Betrachten Sie das folgende \texttt{C}-Programm:
+\begin{verbatim}
+    unsigned sum(unsigned n) {
+        if (n == 0)
+            return 0;
+        return n + sum(n-1);
+    }
+\end{verbatim}
+Weisen Sie mit Wertverlaufs-Induktion nach, dass die Funktion $\textsl{sum}()$  die
+folgende Spezifikation erfüllt:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$.
+\vspace{0.3cm}
+\pagebreak
+
+\noindent
+\textbf{Aufgabe 5}:  Betrachten Sie das folgende \texttt{C}-Programm:
+\begin{verbatim}
+    unsigned sum(unsigned n) {
+        unsigned i = 0;
+        unsigned s = 0;
+        while (i <= n) {
+            s = i + s;
+            i = i + 1;
+        }
+        return s;
+    }
+\end{verbatim}
+Die Funktion $\textsl{sum}()$  soll die folgende Spezifikation erfüllen:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$
+\begin{enumerate}
+\item Weisen Sie mit Hilfe des Hoare-Kalküls nach, dass das Programm korrekt ist.
+\item Beweisen Sie mit Hilfe der Methode der symbolischen Programm-Ausführung nach,
+      dass das Programm korrekt ist.
+\end{enumerate}
+\vspace{0.3cm}
+
+\noindent
+\textbf{Aufgabe 6}:
+\begin{enumerate}
+\item Zeigen Sie $\log_2(n) \in \mathcal{O}\bigl(\ln(\sqrt{n})\bigr)$. \hspace*{\fill} (4  Punkte)
+\item Zeigen Sie $\bigl|\sin(n)\bigr| \in \mathcal{O}\bigl(1\bigr)$. \hspace*{\fill} (4 Punkte)
+\item Es sei 
+      $f(n) := \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n)$.
+      Zeigen Sie $f(n)\in \mathcal{O}\bigl(1\bigr)$. \hspace*{\fill} (12 Punkte)
+      
+      \textbf{Hinweis}: Zeigen Sie die Ungleichung
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $0 \leq \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n) \leq 1$
+      \\[0.2cm]
+      indem Sie die Summe $\sum\limits_{i=1}^n \frac{1}{i}$ durch geeignete Integrale abschätzen.
+\end{enumerate}
+\vspace{0.3cm}
+
+
+\noindent
+\textbf{Aufgabe 7}:  Im Abschnitt 8.2 des Skriptes
+werden Gleichungen angegeben, die das Einfügen und Löschen in einem Heap beschreiben.
+In diesem Zusammenhang sollen Sie in dieser Aufgabe  einige zusätzliche Methoden auf
+binären Bäumen durch bedingte Gleichungen spezifizieren.
+\begin{enumerate}
+\item Spezifizieren Sie eine Methode \textsl{isHeap}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isHeap}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Heap-Bedingung} erfüllt.  \hspace*{\fill} (10 Punkte)
+\item Implementieren Sie eine Methode \textsl{isBalanced}, so
+      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      $b.\mathtt{isBalanced}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
+      \emph{Balancierungs-Bedingung} für \emph{Heaps} erfüllt.  
+      \hspace*{\fill} (5 Punkte)
+\end{enumerate}
+\vspace{0.3cm}
+
+
+\noindent
+\textbf{Aufgabe 8}:
+Es gelte $\Sigma = \{ \mathtt{a},\,\mathtt{b},\,\mathtt{c},\,\mathtt{d},\,\mathtt{e},\,\mathtt{f} \}$.
+Die Häufigkeit, mit der diese Buchstaben in dem zu kodierenden String $s$ auftreten, sei durch die
+folgende Tabelle gegeben:
+
+\begin{center}
+\begin{tabular}[t]{|l|r|r|r|r|r|r|}
+\hline
+Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} \\
+\hline
+Häufigkeit &          8 &          9 &         10 &         11 &         12 &         13 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item Berechnen sie einen optimalen Kodierungs-Baum für die angegebenen Häufigkeiten.
+\item Geben die Kodierung der einzelnen Buchstaben an, die sich aus diesem Baum ergibt.
+\end{enumerate}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

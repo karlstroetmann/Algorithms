@@ -1,0 +1,72 @@
+sort := procedure(rw l) {
+    a := l;
+    mergeSort(l, 1, #l + 1, a); 
+};
+// Sort list l in place starting at index start up to but not including
+// index end.  The list a is used as an auxilliary field.
+mergeSort := procedure(rw l, start, end, rw a) {
+    if (end - start < 2) { return; }
+    middle := (start + end) \ 2;
+    mergeSort(l, start,  middle, a);  
+    mergeSort(l, middle, end   , a);   
+    merge(l, start, middle, end, a); 
+};
+merge := procedure(rw l, start, middle, end, rw a) {    
+    for (i in [start .. end-1]) { a[i] := l[i]; }
+    idx1 := start;
+    idx2 := middle;
+    i    := start;
+    while (idx1 < middle && idx2 < end) {
+        if (a[idx1] <= a[idx2]) {
+            l[i] := a[idx1]; idx1 += 1;
+        } else {
+            l[i] := a[idx2]; idx2 += 1;
+        }
+        i += 1; 
+    }
+    while (idx1 < middle) { 
+        l[i] := a[idx1]; idx1 += 1; i += 1; 
+    }
+    while (idx2 < end   ) { 
+        l[i] := a[idx2]; idx2 += 1; i += 1; 
+    }
+    assert(idx1 == middle && idx2 == end, "idx1 == middle && idx2 == end failed");
+};
+
+sort([5,3,8,9,1,7,0,2,6,4]);
+
+// code for testing
+
+demo := procedure() {
+    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("l = $l$");
+    sort(l);
+    print("l = $l$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        c := l;  // copy
+        sort(l);
+        isOrdered(l);
+        sameElements(c, l);
+        print(".");
+    }
+    print("All tests successful!");
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    assert(collect(l) == collect(s), "wrong elements");
+};
+
+// demo();
+
+testSort(100, 20);

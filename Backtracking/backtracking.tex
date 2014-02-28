@@ -1,0 +1,91 @@
+\documentclass{slides}
+\usepackage{german}
+\usepackage{epsfig}
+\usepackage{amssymb}
+
+\pagestyle{empty}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+
+\newfont{\chess}{chess30}
+\newcommand{\chf}{\baselineskip30pt\lineskip0pt\chess}
+
+\newcommand{\cq}{\symbol{34}}
+\newcommand{\Ll}{{\cal L}}
+\newcommand{\Rl}{{\cal R}}
+\newcommand{\NS}{{\cal N\!S}}
+\newcommand{\cl}[1]{{\cal #1}}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle\;#1\;}{\displaystyle\;#2\;}}
+\newcommand{\Oh}{\mathcal{O}}
+
+\newcounter{mypage}
+
+\begin{document}
+
+\footnotesize
+\textbf{8--Damen Problem}: K"onnen 8 Damen so auf einem \\
+Schach--Brett
+aufgestellt werden, dass keine Dame eine andere Dame schlagen kann?
+
+Eine Dame kann eine andere schlagen falls diese
+\begin{itemize}
+\item in der selben Reihe steht,
+\item in der selben Spalte steht, oder
+\item in der selben Diagonale steht.
+\end{itemize}
+\vspace*{-1.0cm}
+
+\footnotesize
+\setlength{\unitlength}{1.5cm}
+
+\begin{picture}(10,10)
+
+\thicklines
+\put(1,1){\line(1,0){8}}
+\put(1,1){\line(0,1){8}}
+\put(1,9){\line(1,0){8}}
+\put(9,1){\line(0,1){8}}
+\put(4.666,6.000){\line(1, 1){0.333}}
+\put(4.000,6.666){\line(1, 1){0.333}}
+\put(4.000,6.333){\line(1,-1){0.333}}
+\put(4.666,7.000){\line(1,-1){0.333}}
+
+\thinlines
+\multiput(1,2)(0,1){7}{\line(1,0){8}}
+\multiput(2,1)(1,0){7}{\line(0,1){8}}
+\put(4.15,6.15){{\chess Q}}
+\multiput(5.25,6.5)(1,0){4}{\vector(1,0){0.5}}
+\multiput(3.75,6.5)(-1,0){3}{\vector(-1,0){0.5}}
+\multiput(5.25,7.25)(1,1){2}{\vector(1,1){0.5}}
+\multiput(5.25,5.75)(1,-1){4}{\vector(1,-1){0.5}}
+\multiput(3.75,5.75)(-1,-1){3}{\vector(-1,-1){0.5}}
+\multiput(3.75,7.25)(-1,1){2}{\vector(-1,1){0.5}}
+\multiput(4.5,7.25)(0,1){2}{\vector(0,1){0.5}}
+\multiput(4.5,5.75)(0,-1){5}{\vector(0,-1){0.5}}
+\end{picture}
+\vspace*{-1.0cm}
+
+Sultan \emph{Suleimann Oktogamos}, 436 -- 512 \\
+Wesir \ \emph{Zacharias Ben Schacharias} 
+
+\scriptsize
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Backtracking  \hspace*{\fill} Seite \arabic{mypage}
+
+
+\include{backtracking-slides}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

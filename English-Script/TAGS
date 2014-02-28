@@ -1,0 +1,677 @@
+
+adt.tex,3104
+\chapter{Abstrakte Daten-Typen und elementare Daten-Stukturen}1,1
+\section{Abstrakte Daten-Typen}16,997
+\section{Darstellung abstrakter Daten-Typen in \textsl{Java}}153,8525
+durch eine abstrakte Klasse, die in Abbildung \ref{fig:stack.java} auf Seite156,8820
+  \label{fig:stack.java}210,10669
+\section{Implementierung eines Stacks mit Hilfe eines \emph{Arrays}}327,17412
+Abbildung \ref{fig:ArrayStack.java} auf Seite \pageref{fig:ArrayStack.java} zeigt eine solche332,17720
+  \label{fig:ArrayStack.java}381,19320
+Abbildung \ref{fig:StackTest.java} auf Seite \pageref{fig:StackTest.java}438,22749
+  \label{fig:StackTest.java}477,24150
+\section{Eine Listen-basierte Implementierung von Stacks}480,24192
+Abbildung \ref{fig:ListStack.java} auf Seite \pageref{fig:ListStack.java} zeigt die483,24400
+  \label{fig:ListStack.java}547,26487
+6 in der Implementierung der Klasse \texttt{StackTest} in Abbildung \ref{fig:StackTest.java}585,29117
+\section{Auswertung arithmetischer Ausdrücke}603,30094
+\subsection{Ein einführendes Beispiel}654,33698
+\subsection{Ein Algorithmus zur Auswertung arithmetischer Ausdrücke \label{algo-arith}}760,41045
+  \label{fig:calculator.java}863,45691
+Die Abbildungen \ref{fig:calculator.java}, \ref{fig:calculator2.java} und867,45760
+\ref{fig:calculator3.java}868,45818
+der Operator bindet. Tabelle \ref{tab:predence} zeigt die Präzedenzen der von uns883,46844
+  \label{tab:predence}902,47337
+$\texttt{evalBefore}(\mathtt{op1},\mathtt{op2})$ in  Abbildung \ref{fig:calculator.java}  verstehen.934,49508
+unmittelbar aus der Tabelle \ref{tab:predence} auf Seite \pageref{tab:predence}.958,50981
+Abbildung \ref{fig:calculator2.java} auf Seite \pageref{fig:calculator2.java} zeigt die967,51494
+  \label{fig:calculator2.java}1014,53382
+  \label{fig:calculator3.java}1072,55581
+Damit können wir die in Abbildung \ref{fig:calculator3.java} gezeigte1075,55667
+Aus Gründen der Vollständigkeit zeigen wir in Abbildung \ref{fig:myscanner.java}1136,59711
+  \label{fig:myscanner.java}1191,62149
+\section{Nutzen abstrakter Daten-Typen}1199,62195
+%\section{Abstrakte Daten-Typen in \textsc{Setl2}}1237,64390
+%\subsection{Stacks in \textsc{Setl2}}1245,64851
+%  \label{fig:stack-setl}1295,66532
+%Abbildung \ref{fig:stack-setl} auf Seite \pageref{fig:stack-setl} zeigt, wie der ADT1299,66593
+%      Abbildung \ref{fig:stack-setl} zeigt in den Zeilen 1 -- 7 die Deklaration der Klasse1318,67905
+%            In Abbildung \ref{fig:stack-setl} wird in Zeile 10 festgelegt, dass ein Stack1333,68812
+%            In Abbildung \ref{fig:stack-setl} wird \texttt{selfstr()} mit Hilfe der1348,69814
+%  \label{fig:stack-setl-use}1383,70859
+%enthalten.  Abbildung \ref{fig:stack-setl-use} zeigt ein solches Programm mit der1391,71266
+%\subsection{Realisierung von komplexen Zahlen in \textsc{Setl2}}1404,72179
+%Abbildung \ref{fig:complex-setl} auf Seite \pageref{fig:complex-setl}1410,72589
+%  \label{fig:complex-setl}1464,74379
+%Das Programm in Abbildung \ref{fig:complex-test.setl} zeigt, dass mit Hilfe der so1487,75841
+%  \label{fig:complex-test.setl}1517,77024
+
+algorithms.tex,0
+
+complexity.tex,8811
+\chapter{Komplexität von Algorithmen} 1,1
+\section{Die Fibonacci-Zahlen}10,476
+\ref{fig:fibonacci} auf Seite \pageref{fig:fibonacci} berechnet diese Zahlen.45,2289
+  \label{fig:fibonacci}75,3269
+\ref{fig:fibonacci}, so müssen wir \texttt{fibonacci(4)} und \texttt{fibonacci(3)} berechnen.184,9162
+Abbildung \ref{fig:fibonacci.eps} zeigt den sogenannten \emph{Rekursions-Baum} für den187,9454
+  \label{fig:fibonacci.eps}194,9796
+ Dies führt zu dem in Abbildung \ref{fig:fibonacci-dynamic}200,10036
+  \label{fig:fibonacci-dynamic}248,11833
+\section{Lineare Rekurrenz-Gleichung \label{sec:lineare-RG}}252,11879
+    \label{eq:lhrg}264,12564
+alle weiteren Werte können dann durch die Rekurrenz-Gleichung (\ref{eq:lhrg}) bestimmt werden.285,13479
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) heißt \emph{linear}, weil die Glieder der Folge $(a_n)_n$ nur288,13589
+      linear in der Gleichung (\ref{eq:lhrg}) auftreten.  Ein Beispiel für eine289,13697
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) heißt \emph{homogen}, weil auf der rechten Seite293,14014
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hat \emph{konstante Koeffizienten}, weil die299,14500
+Einsetzen dieses Ansatzes in (\ref{eq:lhrg}) führt auf die Gleichung \\[0.1cm]309,15253
+ heißt \emph{charakteristisches Polynom} der Rekurrenz-Gleichung (\ref{eq:lhrg}).320,15735
+Nullstellen hat.  In diesem Fall sagen, dass die Rekurrenz-Gleichung (\ref{eq:lhrg}) 322,15910
+für alle $j=1,\cdots,k$ eine Lösung der Rekurrenz-Gleichung (\ref{eq:lhrg}).332,16343
+Außerdem ist auch jede Linear-Kombination dieser Lösungen eine Lösung von (\ref{eq:lhrg}):333,16434
+$(a_n)_n$ die Gleichung (\ref{eq:lhrg}).  Die oben definierte Folge $(a_n)_n$ bezeichnen wir als337,16717
+die  \emph{allgemeine Lösung} der Rekurrenz-Gleichung (\ref{eq:lhrg}): \\[0.1cm]338,16844
+ haben wir dann die Lösung der Rekurrenz-Gleichung (\ref{eq:lhrg}) gefunden.373,18584
+\subsection{Entartete Rekurrenz-Gleichungen}449,21941
+Rekurrenz-Gleichung (\ref{eq:lhrg}) insgesamt $k$ verschiedene Nullstellen hat.   Dies muss451,22092
+  \label{eq:erg}454,22255
+Rekurrenz-Gleichung (\ref{eq:erg}) lautet daher \\[0.1cm]460,22633
+Rekurrenz-Gleichung (\ref{eq:erg}) mit den Anfangs-Bedingungen $a_0 = 1$ und $a_2 = 4$ \\[0.1cm]492,24018
+Lösungen der Rekurrenz-Gleichung (\ref{eq:erg}).  Durch eine geeignete Linear-Kombination dieser510,25057
+\subsection{Inhomogene Rekurrenz-Gleichungen}    524,25646
+  \label{eq:lihrg}529,25943
+Wie läßt sich die inhomogene Rekurrenz-Gleichung (\ref{eq:lihrg}) lösen? Wir zeigen542,26596
+zunächst, wie sich eine \emph{spezielle Lösung} der Rekurrenz-Gleichung (\ref{eq:lihrg})543,26703
+      Dann erhalten wir eine spezielle Lösung von (\ref{eq:lihrg}) durch den Ansatz \\[0.1cm]557,27281
+      und damit lautet eine spezielle Lösung von (\ref{eq:lihrg}) \\[0.1cm]568,27946
+      In diesem Fall versuchen wir, eine spezielle Lösung von (\ref{eq:lihrg}) durch den576,28345
+      der Gleichung (\ref{eq:lihrg}) gefunden: \\[0.1cm]616,30342
+      Rekurrenz-Gleichung (\ref{eq:lihrg}) gefunden.  Andernfalls können wir die Reihe nach die623,30796
+      so führt der Ansatz $a_n = \varepsilon \cdot n^r$ zu einer speziellen Lösung von (\ref{eq:lihrg}).627,31193
+\subsection{Lineare inhomogene Rekurrenz-Gleichungen mit veränderlichen Inhomogenitäten}682,34089
+  \label{eq:dd}688,34508
+      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) für $n$ den Wert $n + 1$ ein und695,34866
+        \label{eq:dd2}698,34959
+      Substitutions-Schritt erhaltenen Rekurrenz-Gleichung (\ref{eq:dd2}) die ursprüngliche702,35211
+      gegebene Rekurrenz-Gleichung (\ref{eq:dd}) ab.  In unserem Fall erhalten wir \\[0.1cm]703,35279
+        \label{eq:dd3}709,35579
+\item Berechnung zusätzlicher Anfangs-Bedingungen: Die Rekurrenz-Gleichung (\ref{eq:dd3})714,35905
+      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) für $n$ den Wert 0 einsetzen: \\[0.1cm]719,36260
+      Das charakteristische Polynom der Rekurrenz-Gleichung (\ref{eq:dd3}) lautet: \\[0.1cm]722,36503
+      (\ref{eq:dd3}) zu erhalten, machen wir daher den Ansatz \\[0.1cm]726,36732
+      Damit lautet die allgemeine Lösung der Rekurrenz-Gleichung (\ref{eq:dd3}): \\[0.1cm]735,37202
+      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) mit der Anfangs-Bedingung $a_0 = 0$ 749,37898
+  \label{eq:expdd}783,39539
+mit der Anfangs-Bedingungen $a_0 = 0$.   Setzen wir in (\ref{eq:expdd}) für $n$ den Wert $n+1$786,39682
+  \label{eq:expdd2}789,39759
+Würden wir von Gleichung (\ref{eq:expdd2}) die Gleichung (\ref{eq:expdd}) subtrahieren, so würde792,39881
+von Gleichung (\ref{eq:expdd2}) 2 mal die Gleichung (\ref{eq:expdd})  subtrahieren: \\[0.1cm]794,40055
+  \label{eq:expdd3}800,40339
+Anfangs-Bedingung.  Diese erhalten wir, indem wir in der Gleichung (\ref{eq:expdd}) für $n$810,40876
+Damit lautet die Lösung der Rekurrenz-Gleichung (\ref{eq:expdd}) mit der Anfangs-Bedingung821,41248
+\subsection{Die Substitutions-Methode}826,41345
+  \label{eq:wrg}833,41820
+ursprüngliche Rekurrenz-Gleichung (\ref{eq:wrg}) ein, so erhalten wir \\[0.1cm]840,42178
+  \label{eq:wrg2}847,42474
+setzen in (\ref{eq:wrg2}) für $k$ den Wert $k+1$852,42734
+  \label{eq:wrg3}855,42809
+Wir multiplizieren nun die Rekurrenz-Gleichung (\ref{eq:wrg2}) mit 2 und ziehen das Ergebnis858,42952
+von Gleichung  (\ref{eq:wrg3}) ab: \\[0.1cm]859,43013
+  \label{eq:wrg4}865,43229
+Die Anfangs-Bedingung für $k=1$ berechnen wir aus (\ref{eq:wrg2}) \\[0.1cm]868,43387
+Damit lautet die allgemeine Lösung der Rekurrenz-Gleichung (\ref{eq:wrg4}) \\[0.1cm]874,43812
+Mit $n = 2^k$ erhalten wir die Lösung der Rekurrenz-Gleichung (\ref{eq:wrg}) mit der wir 889,44618
+\subsection{Das Teleskop-Verfahren}908,45167
+\subsection{Berechnung von Summen}953,47133
+  \label{eq:sum1}960,47611
+Dies erreichen wir dadurch, dass wir in Gleichung (\ref{eq:sum1}) für $n$ den Wert $n+1$ einsetzen.  Wir966,48033
+  \label{eq:sum2}969,48134
+\subsection{Weitere Rekurrenz-Gleichungen}1003,49651
+  \label{eq:cqs2}1012,50301
+  \label{eq:cqs3}1019,50681
+Wir multiplizieren nun Gleichung (\ref{eq:cqs3}) mit $n+2$ und Gleichung (\ref{eq:cqs2}) mit $n+1$ und1022,50809
+  \label{eq:cqs4}1025,50908
+  \label{eq:cqs5}1027,51020
+Wir bilden die Differenz der Gleichungen (\ref{eq:cqs4}) und (\ref{eq:cqs5}) und beachten,1030,51162
+  \label{eq:cqs6}1034,51331
+  \label{eq:cqs7}1039,51522
+  \label{eq:cqs8}1044,51730
+  \label{eq:cqs9}1052,52102
+Damit können wir die Gleichung (\ref{eq:cqs9}) als 1070,52983
+  \label{eq:cqs10}1072,53022
+  \label{eq:cqs11}1077,53215
+  \label{eq:chomogen}1124,55739
+Gleichung (\ref{eq:chomogen}) erfüllt ist. Dazu schreiben wir diese Gleichung als Rekurrenz-Gleichung für1142,56459
+die aus der Rekurrenz-Gleichung (\ref{eq:cqs7}) durch die Substitution $n \mapsto n-2$ hervorgeht,1168,57612
+\section{Die $\Oh$-Notation}1191,58544
+  \label{eq:u1}1280,63478
+  \label{eq:u2}1285,63583
+folgt. Erheben wir beide Seiten der  Ungleichung (\ref{eq:u1}) in die dritte Potenz, so sehen wir,1288,63714
+  \label{eq:u3pre}1291,63788
+  \label{eq:u3}1296,63939
+Multiplizieren wir die Ungleichung (\ref{eq:u1}) mit $2\cdot n^2$, so erhalten wir 1299,64025
+  \label{eq:u4}1301,64092
+  \label{eq:u5}1306,64206
+Die Addition der Ungleichungen (\ref{eq:u3}), (\ref{eq:u4}) und (\ref{eq:u5}) liefert nun \\[0.1cm]1309,64298
+\begin{Satz}[Grenzwert-Satz] \label{limit}1418,69102
+  \label{eq:star}1466,70979
+\textbf{Beweis}: Wir benutzen Satz \ref{limit} und zeigen mit der Regel von L'Hospital,1507,73103
+\section{Fallstudie: Effiziente Berechnung der Potenz}1567,75337
+Abbildung \ref{fig:power-naive} zeigt ein naives Programm zur Berechnung von $m^n$.1570,75569
+  \label{fig:power-naive}1598,76469
+Abbildung \ref{fig:power} zeigt das Ergebnis.  Es berechnet die Potenz $m^n$ nicht durch eine1616,77567
+  \label{fig:power}1656,78878
+Da es keineswegs offensichtlich ist, dass das Programm in \ref{fig:power} 1659,78969
+\section{Der Hauptsatz der Laufzeit-Funktionen}1818,87670
+(Englisch:~\textsl{Master Theorem}) \cite{cormen:01} bietet eine Methode zur Gewinnung von Abschätzungen,1824,88187
+  \label{eq:master}1889,91128
+Berücksichtigen wir, dass $b_k = g(n)$ ist, so liefert Gleichung (\ref{eq:master}) also 1894,91321
+  \label{eq:master2}1896,91363
+  \label{eq:master1}1901,91480
+durchgeführt haben, ist auch die erste Gleichung richtig und wir haben Gleichung (\ref{eq:master1}) gezeigt.1916,92300
+  \label{eq:master_u1}1984,95697
+  \label{eq:master_u2}1989,95892
+Wir multiplizieren nun die Ungleichung (\ref{eq:master_u2}) mit $\alpha$ und1992,96052
+Ungleichung (\ref{eq:master_u1}) mit $\gamma$ und erhalten die Ungleichungen1993,96102
+  \label{eq:master_u3}2003,96629
+nun die Ungleichung (\ref{eq:master_u3}), so erhalten wir die Ungleichungen2032,98234
+
+graph.tex,630
+\chapter{Graphentheorie}1,1
+\section{Die Berechnung kürzester Wege}6,167
+\subsection{Der Algorithmus von Moore}51,2244
+Wir betrachten zunächst den Algorithmus von Moore \cite{moore:59} zur Berechnung des kürzeste-Wege-Problems.52,2333
+Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in \textsc{SetlX}.53,2402
+  \label{fig:moore.stlx}82,3369
+\subsection{Der Algorithmus von Dijkstra}131,6145
+\label{fig:dijkstra.stlx}167,7359
+Algorithmus \cite{dijkstra:59}174,7653
+Abbildung \ref{fig:dijkstra.stlx} auf Seite \pageref{fig:dijkstra.stlx} zeigt die 179,7955
+\subsection{Komplexität}261,12299
+
+hoare.tex,2719
+\chapter{Der Hoare-Kalkül} 1,1
+\cite{hoare:69} vorgestellt wurde.5,243
+\section{Vor- und Nachbedingungen}7,279
+bezeichnet, denn diese Notation wurde von Sir Charles Antony Richard Hoare (geb.~1934) \cite{hoare:69}19,1106
+\subsection{Spezifikation von Zuweisungen}61,3025
+\subsection{Die Abschwächungs-Regel}144,7752
+\subsection{Zusammengesetze Anweisungen}160,8590
+\label{fig:swap}197,10293
+Abbildung \ref{fig:swap} gezeigte Programm-Fragment.  Wir analysieren nun die Wirkung205,10403
+  \label{eq:swap1}216,11064
+  \label{eq:swap2}230,11749
+  \label{eq:swap3}245,12467
+Fassen wir die Hoare-Tripel (\ref{eq:swap1}), (\ref{eq:swap2}) und (\ref{eq:swap3})248,12635
+  \label{eq:swap}251,12735
+Das Hoare-Tripel (\ref{eq:swap}) zeigt, dass das Programm-Fragment aus Abbildung255,12921
+\ref{fig:swap} die Werte der Variablen $x$ und $y$ vertauscht: Wenn vor der Ausführung256,12984
+\ref{fig:swap} gezeigte Trick wurde früher 259,13250
+\subsection{Alternativ-Anweisungen}264,13504
+  \label{eq:hoareIf}276,14069
+  \label{eq:abschwaechung1}283,14432
+Abschwächungs-Regel (\ref{eq:abschwaechung1})291,14925
+Verifikations-Regel (\ref{eq:hoareIf}) anwenden zu können.295,15146
+\subsection{Schleifen}340,17170
+\section{Der Euklid'sche Algorithmus}364,18498
+Korrektheit der in Abbildung \ref{fig:ggt.c} auf Seite \pageref{fig:ggt.c} gezeigten367,18742
+\subsection{Nachweis der Korrektheit des Euklid'schen Algorithmus}376,19228
+\ref{fig:ggt.c} gezeigt wird, nachweisen zu können.379,19400
+\label{fig:ggt.c}404,20119
+  \label{eq:if1}444,22407
+  \label{eq:if2}467,23544
+gezeigt.  Aus den beiden Hoare-Tripeln (\ref{eq:if1}) und (\ref{eq:if2})470,23676
+\ref{fig:power.c} gezeigten Funktion $\texttt{power}(x,y)$ für gegebene natürliche Zahlen $x$520,25949
+\label{fig:power.c}548,26761
+\subsection{Maschinelle Programm-Verifikation}739,34565
+Benutzer-Eingabe hat in diesem Fall die in Abbildung \ref{fig:Power.ver} gezeigte Form.759,36032
+\label{fig:Power.ver}800,37563
+Abbildung \ref{fig:power.c} gezeigten Programms geführt haben, wiederholen wir sie hier826,38929
+\section{Symbolische Programm-Ausführung}830,39028
+demonstrieren diese Methode an Hand des in Abbildung \ref{fig:power.c} gezeigten834,39379
+\label{fig:PowerIterative.iter}864,40321
+Beispiel in Abbildung \ref{fig:PowerIterative.iter}.  Hier hat die Variable \texttt{r} auf880,41386
+  \label{eq:powerInv}890,41934
+Damit ist die Gleichung (\ref{eq:powerInv}) bewiesen.   Wenn die \texttt{while}-Schleife926,43915
+abbricht, dann muss $y_N = 0$ gelten.  Gleichung (\ref{eq:powerInv}) liefert für $n=N$:927,44029
+Korrektheit der in Abbildung \ref{fig:gcd.c} gezeigten effizienteren Version des941,44617
+\label{fig:gcd.c}972,45554
+
+huffman.tex,2138
+\chapter{Daten-Kompression}1,1
+Bits zu verwenden.  Tabelle \ref{tab:coding} zeigt eine Kodierung, die von dieser Idee31,2326
+  \label{tab:coding}44,2696
+Abbildung \ref{fig:coding-tree} als Baum dar.  Die inneren 48,2808
+  \label{fig:coding-tree}71,4258
+\section{Der Algorithmus von Huffman}88,5127
+      Gegenüber Abbildung \ref{fig:coding-tree} kommen hier bei den Blättern noch die101,5950
+Ausgangs-Punkt des von David A.~Huffman (1925 -- 1999) \cite{huffman:52} angegebenen148,8672
+  \label{eq:huffmann1}155,9103
+\label{fig:huffman.stlx}213,12216
+Die in Abbildung \ref{fig:huffman.stlx} gezeigte Funktion $\mathtt{codingTree}(m)$217,12286
+  \label{tab:frequency}313,17668
+Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwenden.317,17795
+      \ref{fig:coding-tree2} gezeigte Ergebnis.  Wir haben hier jeden Knoten $n$402,21919
+      wird in Tabelle \ref{tab:coding2} gezeigt.406,22127
+  \label{fig:coding-tree2}413,22306
+  \label{tab:coding2}428,22680
+  \label{tab:aufgabe-huffman}448,23340
+\section{Optimalität des Huffman'schen Kodierungsbaums}459,23820
+  \label{eq:cost}472,24925
+  \label{huffman:l1}489,25713
+  \label{eq:huffmannL0}510,26897
+    \label{eq:huffmannL1a}518,27279
+    \label{eq:huffmannL1b}520,27359
+    \label{eq:huffmannL1c}522,27439
+    \label{eq:huffmannL1d}524,27519
+  \label{eq:huffmannL1e}530,27758
+  \label{eq:huffmannL2a}535,27929
+  \label{eq:huffmannL2b}537,28051
+Unter Berücksichtigung der Gleichungen (\ref{eq:huffmannL1a}) bis (\ref{eq:huffmannL1e}) können wir dies551,28837
+Hier gilt $\textsl{freq}(a) - \textsl{freq}(x) \geq 0$ wegen Ungleichung \ref{eq:huffmannL0},604,31614
+die Ungleichung $\textsl{depth}(a) - \textsl{depth}(x) \geq 0$ folgt aus Ungleichung \ref{eq:huffmannL2a},605,31720
+die Ungleichung $\textsl{freq}(b) - \textsl{freq}(y) \geq 0$ folgt aus Ungleichung \ref{eq:huffmannL0}606,31825
+folgt aus Ungleichung \ref{eq:huffmannL2b}.608,31935
+  ist.  Nach Lemma \ref{huffman:l1} können wir o.B.d.A. voraussetzen, dass sich die Kodierung der 663,34587
+    \label{eq:huffmanns1}695,36379
+    \label{eq:huffmanns2}701,36666
+
+introduction.tex,220
+\chapter{Einführung}1,1
+\section{Motivation}2,22
+\subsection{Überblick}12,674
+\section{Algorithmen und Programme}103,5927
+\section{Eigenschaften von Algorithmen und Programmen}148,9701
+\section{Literatur}171,10955
+
+limits.tex,512
+\chapter{Grenzen der Berechenbarkeit}1,1
+\section{Das Halte-Problem}6,309
+\ref{fig:turing-string} gezeigt.107,5187
+  \label{fig:turing-string}132,6022
+\cite{turing:36} erbracht.  Turing hat das Problem damals natürlich nicht für die Sprache183,8969
+\section{Unlösbarkeit des Äquivalenz-Problems}225,10907
+\ref{fig:stops} angegeben Implementierung der Funktion \texttt{stops}.283,13564
+  \label{fig:stops}311,14475
+Problem folgen aus einem 1953 von Henry G.~Rice \cite{rice:53} bewiesenen Satz.335,15560
+
+map-avl.tex,4227
+\section{AVL-Bäume}2,2
+abhängt.  Eine solche Variante sind die \emph{AVL-Bäume} \cite{adelson:62}, die nach ihren Erfindern5,249
+      Um diese Gleichung zu verstehen, betrachten wir Abbildung \ref{fig:casell}72,3432
+        \label{fig:casell}93,4668
+      \ref{fig:casell} gezeigte Baum auch tatsächlich ein AVL-Baum ist.   Was die97,4791
+        Die linke Seite der  Gleichung wird durch die Abbildung \ref{fig:caselr} auf Seite122,6491
+  \label{fig:caselr}133,7062
+     \ref{fig:caselr-nach} auf Seite \pageref{fig:caselr-nach}.  Der auf dieser137,7174
+  \label{fig:caselr-nach}1147,7560
+\subsection{Implementierung von AVL-Bäumen in \textsc{SetlX}}216,11561
+die in Abbildung \ref{fig:avl-tree.stlx:insert} gezeigte Implementierung der Funktion 227,12208
+  \label{fig:avl-tree.stlx:insert}260,13590
+Gegenüber der in Abbildung \ref{fig:binary-tree.stlx-1} gibt es die folgenden Änderungen:263,13664
+      \ref{fig:avl-tree.stlx:height} gezeigt wird.  Diese Hilfsfunktion hat die Aufgabe,269,14102
+  \label{fig:avl-tree.stlx:height}300,15353
+Abbildung  \ref{fig:avl-tree.stlx:delMin} zeigt die Implementierung der Funktion $\textsl{delMin}()$.304,15412
+  \label{fig:avl-tree.stlx:delMin}336,16790
+Abbildung  \ref{fig:avl-tree.stlx:delete} zeigt die Implementierung der Funktion339,16848
+  \label{fig:avl-tree.stlx:delete}378,18391
+Abbildung  \ref{fig:avl-tree.stlx:restore} zeigt schließlich die Implementierung der Funktion382,18450
+  \label{fig:avl-tree.stlx:restore}477,22576
+\subsection{Analyse der Komplexität}486,22666
+\ref{fig:avl-worst-case} zeigt einen AVL-Baum der Höhe 6, für den das Verhältnis von Höhe zur Anzahl593,28199
+zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.595,28432
+  \label{fig:avl-worst-case}602,28612
+\section{Tries}610,28693
+\cite{briandais:59} vorgeschlagen.618,29302
+  \label{fig:trie}690,33038
+Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.711,34042
+\subsection{Einfügen in Tries}729,35260
+\subsection{Löschen in Tries}776,37970
+\subsection{Implementierung in \textsc{SetlX}}859,41871
+  \label{fig:trie.stlx-find}899,43219
+Die Abbildung \ref{fig:trie.stlx-find} zeigt die Realisierung der Funktion904,43360
+\label{fig:trie.stlx-insert}970,46530
+Die Abbildung \ref{fig:trie.stlx-insert} zeigt die Realisierung der Funktion973,46587
+\label{fig:trie.stlx-delete}1049,50287
+Die Abbildung \ref{fig:trie.stlx-delete} zeigt die Realisierung der Funktion1052,50344
+\section{Hash-Tabellen}1149,55435
+  \label{fig:hash-example}1190,57720
+Abbildung \ref{fig:hash-example} auf Seite \pageref{fig:hash-example} zeigt, wie ein Feld,1232,59795
+  \label{fig:hashTable.stlx-hashCode}1264,60796
+Abbildung \ref{fig:hashTable.stlx-hashCode} zeigt die Implementierung.  1268,60943
+\label{fig:hashTable.stlx-createHashMap}1342,64642
+Die in Abbildung \ref{fig:hashTable.stlx-createHashMap} definierte Funktion $\textsl{createHashMap}(n)$ 1345,64714
+Abbildung \ref{fig:hashTable.stlx-insert} zeigt die Implementierung der Funktion 1350,64927
+\label{fig:hashTable.stlx-insert}1413,68022
+\label{fig:hashTable.stlx-rehash}1451,69412
+Abbildung \ref{fig:hashTable.stlx-rehash} zeigt die Implementierung der Funktion1454,69470
+\label{fig:hashTable.stlx-delete}1502,71556
+$\mathtt{delete}(\textsl{map}, \textsl{key})$, die in Abbildung \ref{fig:hashTable.stlx-delete}1506,71728
+\section{Mengen und Abbildungen in Java}1532,73688
+\subsection{Das Interface \texttt{Collection<E>}}1540,74150
+      wurde, in ein anderes Feld zu casten.  In Abbildung \ref{fig:TestCast.java}1681,81542
+\label{fig:TestCast.java}1719,83015
+      müssen wir daher anders vorgehen.  Abbildung \ref{fig:TestCast2.java}1722,83193
+\label{fig:TestCast2.java}1752,84131
+\subsection{Anwendungen von Mengen}1969,95800
+Abbildung \ref{fig:Primes.java} auf Seite \pageref{fig:Primes.java} zeigt das1977,96167
+\label{fig:Primes.java}2029,97906
+\subsection{Die Schnittstelle \texttt{Map<K,V>}}2056,99190
+\subsubsection{Die Klasse \texttt{TreeMap<K,V>}}2139,103694
+\subsubsection{Die Klasse \texttt{HashMap<K,V>}} 2174,105431
+\subsection{Anwendungen}2199,106673
+\cite{Wall92} wird2203,106950
+implementiert, in \textsl{Lua} \cite{ierusalimschy:2006,Ieru96a} 2205,107090
+
+map.tex,1884
+\chapter{Mengen und Abbildungen}1,1
+\section{Der abstrakte Daten-Typ der \emph{Abbildung}} 34,1905
+Abbildung \ref{fig:map-trivial.stlx} zeigt127,7147
+  \label{fig:map-trivial.stlx}160,8005
+\section{Geordnete binäre Bäume}164,8050
+Abbildung \ref{fig:graph1} zeigt ein Beispiel für einen233,11506
+  \label{fig:graph1}247,12179
+\ref{fig:graph1} den Knoten mit der Markierung $\pair(4,16)$ löschen wollen,320,16328
+\ref{fig:graph2} auf Seite \pageref{fig:graph2} zeigt das Ergebnis.325,16724
+          \ref{fig:graph1} nach dem Entfernen des Knotens mit der Markierung $\pair(4,16)$.}331,16928
+  \label{fig:graph2}332,17013
+\subsection{Implementierung geordneter binärer Bäume in \textsc{SetlX}}383,19862
+Die Abbildungen \ref{fig:binary-tree.stlx-1} und \ref{fig:binary-tree.stlx-2} zeigen die384,19950
+  \label{fig:binary-tree.stlx-1}440,22203
+Die Abbildungen \ref{fig:binary-tree.stlx-1} enthält die Implementierung der Funktionen443,22264
+Die Implementierung der restlichen in Abbildung \ref{fig:binary-tree.stlx-2} gezeigten Funktionen496,25431
+  \label{fig:binary-tree.stlx-2}546,27200
+\subsection{Analyse der Komplexität}552,27248
+\ref{fig:degenerated} zeigt den geordneten binären Baum der dann entsteht, wenn die Paare555,27461
+\ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem557,27594
+  \label{fig:degenerated}566,28057
+Bei der letzten Umformung haben wir die Gleichung (\ref{eq:qssum}) \\[0.2cm]745,36752
+  \label{eq:bin1}750,37000
+Zur Lösung von Gleichung (\ref{eq:bin1}) führen wir die Substitution $n \mapsto n+1$ durch und erhalten 754,37184
+  \label{eq:bin2}756,37282
+Wir multiplizieren nun Gleichung (\ref{eq:bin1}) mit $(n+1)^2$ und Gleichung (\ref{eq:bin2}) 759,37437
+  \label{eq:bin3}762,37558
+  \label{eq:bin4}764,37657
+Subtrahieren wir Gleichung (\ref{eq:bin3}) von Gleichung (\ref{eq:bin4}),767,37797
+
+monte-carlo.tex,816
+\chapter{Die Monte-Carlo-Methode}1,1
+\section{Berechnung der Kreiszahl $\pi$}25,1767
+\label{fig:CalculatePi.java}91,5069
+Abbildung \ref{fig:CalculatePi.java} zeigt die Implementierung der Klasse \texttt{CalculatePi}, die das94,5122
+  \label{tab:pi}110,6215
+Lassen wir das Progamm laufen, so erhalten wir die in Tabelle \ref{tab:pi} gezeigten Ergebnisse.139,6989
+\section{Theoretischer Hintergrund}157,7798
+wir wegen $p = \frac{\pi}{4}$ die in Abbildung \ref{tab:Precision.java} gezeigten Ergebnisse.207,11476
+  \label{tab:Precision.java}241,12246
+\section{Erzeugung zufälliger Permutationen}280,13851
+\label{fig:RandomPermutation.java}341,16677
+Abbildung \ref{fig:RandomPermutation.java} zeigt die Umsetzung dieser Idee in \textsl{Java}.344,16736
+finden Sie beispielsweise in \cite{cormen:01}.361,18083
+
+oh-notation.tex,1992
+\chapter{Die $\mathcal{O}$-Notation} 1,1
+\section{Motivation}7,256
+  \label{eq:u1}96,5180
+  \label{eq:u2}101,5285
+folgt. Erheben wir beide Seiten der  Ungleichung (\ref{eq:u1}) in die dritte Potenz, so sehen wir,104,5416
+  \label{eq:u3pre}107,5490
+  \label{eq:u3}112,5641
+Multiplizieren wir die Ungleichung (\ref{eq:u1}) mit $2\cdot n^2$, so erhalten wir 115,5727
+  \label{eq:u4}117,5794
+  \label{eq:u5}122,5908
+Die Addition der Ungleichungen (\ref{eq:u3}), (\ref{eq:u4}) und (\ref{eq:u5}) liefert nun \\[0.1cm]125,6000
+\begin{Satz}[Grenzwert-Satz] \label{limit}234,10786
+  \label{eq:star}282,12663
+\textbf{Beweis}: Wir benutzen Satz \ref{limit} und zeigen mit der Regel von L'Hospital,323,14787
+\section{Fallstudie: Effiziente Berechnung der Potenz}380,16973
+Abbildung \ref{fig:power-naive.stlx} zeigt ein naives Programm zur Berechnung von $m^n$.383,17205
+  \label{fig:power-naive.stlx}410,18050
+Abbildung \ref{fig:power.stlx} zeigt das Ergebnis.  Es berechnet die Potenz $m^n$ nicht durch eine428,19153
+  \label{fig:power.stlx}468,20411
+Da es keineswegs offensichtlich ist, dass das Programm in \ref{fig:power.stlx} 471,20507
+\section{Der Hauptsatz der Laufzeit-Funktionen}629,29195
+(Englisch:~\textsl{Master Theorem}) \cite{cormen:01} bietet eine Methode zur Gewinnung von Abschätzungen,635,29712
+  \label{eq:master}700,32653
+Berücksichtigen wir, dass $b_k = g(n)$ ist, so liefert Gleichung (\ref{eq:master}) also 705,32846
+  \label{eq:master2}707,32888
+  \label{eq:master1}712,33005
+durchgeführt haben, ist auch die erste Gleichung richtig und wir haben Gleichung (\ref{eq:master1}) gezeigt.727,33825
+  \label{eq:master_u1}795,37222
+  \label{eq:master_u2}800,37417
+Wir multiplizieren nun die Ungleichung (\ref{eq:master_u2}) mit $\alpha$ und803,37577
+Ungleichung (\ref{eq:master_u1}) mit $\gamma$ und erhalten die Ungleichungen804,37627
+  \label{eq:master_u3}814,38154
+nun die Ungleichung (\ref{eq:master_u3}), so erhalten wir die Ungleichungen843,39759
+
+prioqueue-list.tex,180
+\subsection{Repräsentierung von Heaps durch Listen}1,1
+Abbildung \ref{fig:heap-list} auf Seite \pageref{fig:heap-list} zeigt einen Heap, der die Zahlen $1, \cdots, 9$ als29,1676
+
+prioqueue.tex,1741
+\chapter{Prioritäts-Warteschlangen \label{chap:prioqueue}}1,1
+\section{Definition des ADT \textsl{PrioQueue}}20,1320
+\section{Die Daten-Struktur \emph{Heap}}137,8802
+\ref{fig:heap-list} auf Seite \pageref{fig:heap-list} zeigt einen einfachen Heap.188,11852
+  \label{fig:heap-list}196,12215
+\subsection{Implementierung der Methode \textsl{change}}297,18062
+Abbildungen \ref{fig:upheap.pseudo} zeigt den Pseudo-Code, den wir jetzt im Detail diskutieren.362,21928
+\label{fig:upheap.pseudo}398,23124
+\section{Implementierung in \textsc{SetlX}}421,24229
+\label{fig:array-heap.stlx-1}519,27626
+Abbildung \ref{fig:array-heap.stlx-1} auf Seite \pageref{fig:array-heap.stlx-1} zeigt die Implementierung523,27690
+\label{fig:array-heap.stlx-2}619,33024
+Abbildung \ref{fig:array-heap.stlx-2} auf Seite \pageref{fig:array-heap.stlx-2} zeigt die Implementierung623,33088
+\label{fig:array-heap.stlx-3}688,35895
+\label{fig:array-heap.stlx-4}749,38614
+Abbildung \ref{fig:array-heap.stlx-4} zeigt die Implementierung verschiedener Hilffunktionen.753,38678
+%\section{Prioritäts-Warteschlangen in \textsl{Java}}770,39718
+%      Abbildung \ref{fig:complete-tree.eps} zeigt einen vollständigen Baum der Tiefe 4.797,41504
+%        \label{fig:complete-tree.eps}808,41985
+%      Stellen wir den in Abbildung \ref{fig:complete-tree.eps} gezeigten Baum durch ein811,42072
+%      \ref{fig:nearly-complete-tree.eps} auf Seite \pageref{fig:nearly-complete-tree.eps}828,43212
+%      \ref{fig:complete-tree.eps} dadurch entsteht, dass die letzten drei Blätter830,43380
+%        \label{fig:nearly-complete-tree.eps}837,43650
+%      \ref{fig:not-nearly-complete-tree.eps} auf Seite847,44071
+%        \label{fig:not-nearly-complete-tree.eps}856,44528
+
+sorting-correct.tex,5008
+\chapter{Sortier-Algorithmen}1,1
+\section{Sortieren durch Einfügen}105,5786
+\ref{fig:insertion-sort} zeigt das resultierende Programm.132,7428
+  \label{fig:insertion-sort}212,10489
+\subsection{Nachweis der Korrektheit}215,10531
+\begin{Lemma}[Transitivität von \texttt{le}] \label{lemma:le-trans}322,16626
+\subsection{Komplexität}597,29381
+\ref{fig:insertion-sort} auf Seite \pageref{fig:insertion-sort} durchgeführt werden. Dazu600,29552
+\section{Sortieren durch Auswahl}681,34777
+\ref{fig:selection-sort} auf Seite \pageref{fig:selection-sort}.  Es war nicht notwendig,728,37176
+  \label{fig:selection-sort}774,38614
+\subsection{Nachweis der Korrektheit}777,38655
+\begin{Lemma}[Verträglichkeit von \texttt{min} und \texttt{le}] \label{l2} 781,38852
+\begin{Korollar} \label{l3}816,40343
+\label{l4} \hspace*{\fill} \\828,40803
+\begin{Lemma}[Distributivität von \texttt{le} über \texttt{sort}] \label{l6} 870,42978
+                        & & \mbox{Lemma \ref{l4}: $\mathtt{le}\Bigl(x, \mathtt{delete}(m,L) \Bigr) \leftrightarrow \mathtt{le}\bigl(x, L \bigr)$} \\894,44377
+                          \mbox{denn nach Lemma \ref{l2} gilt: $x \preceq \mathtt{min}(L) \leftrightarrow \mathtt{le}(x,L)$ } \\898,44781
+                          \mbox{nach Lemma \ref{l6}}     \\932,46669
+                          \mbox{wegen $m \preceq m$ nach Lemma \ref{l4}}     \\934,46805
+                          \mbox{nach Korollar \ref{l3}}     938,47049
+\subsection{Komplexität}1090,54007
+\subsection{Eine feldbasierte Implementierung}1126,56613
+Abbildung \ref{fig:MinSortAlgorithm.java} auf Seite \pageref{fig:MinSortAlgorithm.java} zeigt1132,57055
+\ref{fig:SortingAlgorithm.java} gezeigt wird.  Diese Schnittstelle schreibt die1137,57312
+  \label{fig:SortingAlgorithm.java}1159,58158
+\ref{fig:MinSortAlgorithm.java})1164,58285
+  \label{fig:MinSortAlgorithm.java}1229,60545
+\section{Sortieren durch Mischen}1274,63208
+Abbildung \ref{fig:merge-sort} zeigt die Umsetzung dieser sortierten Gleichungen 1291,64385
+Abbildung \ref{fig:merge-sort} verstehen:1303,65032
+  \label{fig:merge-sort}1330,65937
+Abbildung \ref{fig:split} auf Seite \pageref{fig:split} 1363,67702
+  \label{fig:split}1396,68697
+Abbildung \ref{fig:merge} auf Seite \pageref{fig:merge} 1441,71162
+  \label{fig:merge}1476,72325
+Zum Abschluß zeigen wir in Abbildung \ref{fig:MergeSort}, wie die eben diskutierten1497,73509
+\label{fig:MergeSort}1543,75008
+\subsection{Korrektheit}1547,75045
+      Da $x_1 \preceq x_2$ ist, folgt mit dem Lemma über die Transitivität von \texttt{le} (Lemma \ref{lemma:le-trans}): \\[0.1cm]1659,81767
+\subsection{Komplexität}1711,84183
+\subsection{Eine feldbasierte Implementierung}1801,89745
+Abbildung \ref{fig:MergeSortAlgorithm.java} auf Seite \pageref{fig:MergeSortAlgorithm.java}1802,89802
+  \label{fig:MergeSortAlgorithm.java}1879,92939
+\subsubsection{Eine nicht-rekursive Implementierung von \emph{Sortieren durch Mischen}}1934,96499
+  \label{fig:MergeSortNRAlgorithm.java}1960,97369
+Die in Abbildung \ref{fig:MergeSortAlgorithm.java} gezeigte Implementierung des1964,97448
+\ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}1972,98096
+Katajainen et.~al.~\cite{katajainen:96}.2021,101234
+\section{Der \emph{Quick-Sort}-Algorithmus}2023,101257
+Abbildung \ref{fig:quick-sort} zeigt die Umsetzung dieser Überlegung 2065,103524
+  \label{fig:quick-sort}2109,105212
+\subsection{Komplexität}2158,108043
+\subsubsection{Komplexität im schlechtesten Fall}2171,108640
+$\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort} durchgeführt2179,109254
+\subsubsection{Durchschnittliche Komplexität}2201,110460
+von Abbildung \ref{fig:quick-sort} berechnet wird, ein Element der Menge2207,110955
+  \label{eq:qs1}2217,111491
+ \label{eq:qssum}2230,112058
+Damit vereinfacht sich die Rekurrenz-Gleichung (\ref{eq:qs1}) zu 2233,112183
+  \label{eq:qs2}2235,112220
+  \label{eq:qs3}2240,112419
+Wir multiplizieren nun Gleichung (\ref{eq:qs3}) mit $n+2$ und Gleichung (\ref{eq:qs2}) mit $n+1$ und2243,112546
+  \label{eq:qs4}2246,112642
+  \label{eq:qs5}2248,112753
+Wir bilden die Differenz der Gleichungen (\ref{eq:qs4}) und (\ref{eq:qs5}) und beachten,2251,112894
+  \label{eq:qs6}2255,113067
+  \label{eq:qs7}2260,113256
+  \label{eq:qs8}2266,113475
+Damit können wir die Gleichung (\ref{eq:qs8}) als 2284,114422
+  \label{eq:qs9}2286,114460
+  \label{eq:qs10}2294,114832
+  \label{eq:qs11}2299,115002
+\subsection{Eine feldbasierte Implementierung von \emph{Quick-Sort}}2343,117366
+an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.2345,117541
+  \label{fig:QuickSort.java}2399,119389
+\subsection{Korrektheit}2527,127850
+\subsection{Mögliche Verbesserungen}2677,136723
+\cite{bentley:93} beschreibt diese und weitere Verbesserungen des Quick-Sort Algorithmus. 2695,137739
+\section{Bewertung der Algorithmen}2698,137891
+Der Quick-Sort-Algorithmus wurde von Charles Antony Richard Hoare \cite{hoare:61}2721,139761
+
+sorting.tex,3068
+\chapter{Sortier-Algorithmen}1,1
+\section{Sortieren durch Einfügen}94,5252
+  \label{fig:insertion-sort}156,7841
+\ref{fig:insertion-sort} zeigt das resultierende Programm.161,8000
+\subsection{Komplexität}187,9399
+\ref{fig:insertion-sort} auf Seite \pageref{fig:insertion-sort} durchgeführt werden. Dazu190,9570
+\section{Sortieren durch Auswahl}265,13579
+\ref{fig:selection-sort} auf Seite \pageref{fig:selection-sort}.  Es war nicht notwendig,312,16006
+  \label{fig:selection-sort}349,17471
+\subsection{Komplexität}352,17512
+\section{Sortieren durch Mischen}388,20153
+Abbildung \ref{fig:merge-sort} zeigt die Umsetzung dieser sortierten Gleichungen 405,21367
+Abbildung \ref{fig:merge-sort} verstehen:421,22010
+  \label{fig:merge-sort}469,23270
+\subsection{Komplexität}544,27182
+\subsection{Eine feldbasierte Implementierung}652,33318
+Abbildung \ref{fig:merge-sort-array.stlx} auf Seite \pageref{fig:merge-sort-array.stlx}661,34096
+  \label{fig:merge-sort-array.stlx}714,35809
+\subsection{Eine iterative Implementierung von \emph{Sortieren durch Mischen}}784,39959
+  \label{fig:merge-sort-nr.stlx}815,40876
+Die in Abbildung \ref{fig:merge-sort-array.stlx} gezeigte Implementierung des819,40948
+\ref{fig:merge-sort-nr.stlx} auf Seite \pageref{fig:merge-sort-nr.stlx}826,41499
+\section{Der \emph{Quick-Sort}-Algorithmus}886,44206
+Der von Tony Hoare entdeckte ``\emph{Quick-Sort}-Algorithmus'' \cite{hoare:61}887,44313
+  \label{fig:quick-sort.stlx}962,47578
+Abbildung \ref{fig:quick-sort.stlx} zeigt die Umsetzung dieser Überlegung 965,47630
+\subsection{Komplexität}995,49582
+\subsubsection{Komplexität im schlechtesten Fall}1008,50174
+$\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort.stlx} durchgeführt1016,50788
+\subsubsection{Durchschnittliche Komplexität}1040,52044
+von Abbildung \ref{fig:quick-sort.stlx} berechnet wird, ein Element der Menge1046,52539
+  \label{eq:qs1}1056,53095
+ \label{eq:qssum}1069,53662
+Damit vereinfacht sich die Rekurrenz-Gleichung (\ref{eq:qs1}) zu 1072,53787
+  \label{eq:qs2}1074,53824
+  \label{eq:qs3}1079,54023
+Wir multiplizieren nun Gleichung (\ref{eq:qs3}) mit $n+2$ und Gleichung (\ref{eq:qs2}) mit $n+1$ und1082,54150
+  \label{eq:qs4}1085,54246
+  \label{eq:qs5}1087,54357
+Wir bilden die Differenz der Gleichungen (\ref{eq:qs4}) und (\ref{eq:qs5}) und beachten,1090,54498
+  \label{eq:qs6}1094,54671
+  \label{eq:qs7}1099,54860
+  \label{eq:qs8}1105,55079
+Damit können wir die Gleichung (\ref{eq:qs8}) als 1123,56026
+  \label{eq:qs9}1125,56064
+  \label{eq:qs10}1133,56436
+  \label{eq:qs11}1138,56635
+\subsection{Eine feldbasierte Implementierung von \emph{Quick-Sort}}1185,59141
+an.  Abbildung \ref{fig:quick-sort-array.stlx} zeigt diese Implementierung.1187,59316
+  \label{fig:quick-sort-array.stlx}1232,60651
+\subsection{Korrektheit}1358,68739
+\subsection{Mögliche Verbesserungen}1514,77649
+\cite{bentley:93} beschreibt diese und weitere Verbesserungen des Quick-Sort Algorithmus. 1532,78665
+\section{Eine untere Schranke für die Anzahl der Vergleiche}1538,78827
+
+timsort.tex,1914
+\section{Timsort}2,2
+für die Vorlesung zu aufwendig wäre.  Abbildung \ref{fig:TimSort.java} zeigt die Struktur der Klasse75,4581
+\label{fig:TimSort.java}123,6492
+Wir beginnen mit der in Abbildung \ref{fig:TimSort.java:sort} gezeigten Methode $\textsl{sort}()$,149,8300
+\label{fig:TimSort.java:sort}191,9808
+\label{fig:TimSort.java:binarySort}273,14359
+Abbildung \ref{fig:TimSort.java:binarySort} zeigt die Methode $\textsl{binarySort}()$. Ein276,14419
+\label{fig:TimSort.java:countRunAndMakeAscending}444,22513
+identifizieren.  Die in Abbildung \ref{fig:TimSort.java:countRunAndMakeAscending} gezeigte450,22769
+Die in Abbildung \ref{fig:TimSort.java:reverseRange} gezeigte Methode506,25663
+\label{fig:TimSort.java:reverseRange}543,27100
+Die in Abbildung \ref{fig:TimSort.java:pushRun} gezeigte Methode $\textsl{pushRun}()$ hat die546,27169
+\label{fig:TimSort.java:pushRun}572,28257
+Abbildung \ref{fig:TimSort.java:mergeCollapse} zeigt die Methode $\textsl{mergeCollapse}()$.  Diese575,28314
+\label{fig:TimSort.java:mergeCollapse}638,30982
+\label{fig:TimSort.java:mergeForceCollapse}688,32991
+ist dann das aufsteigend sortierte Feld.  Die in Abbildung \ref{fig:TimSort.java:mergeForceCollapse}693,33300
+\label{fig:TimSort.java:mergeAt}725,34489
+Abbildung \ref{fig:TimSort.java:mergeAt} zeigt die Methode $\textsl{mergeAt}(i)$, welche die Aufgabe728,34546
+\label{fig:TimSort.java:gallop}791,36984
+Die in Abbildung \ref{fig:TimSort.java:gallop} gezeigte Methode $\textsl{gallop}()$ implementiert794,37047
+Wir diskutieren nun die Details der in Abbildung \ref{fig:TimSort.java:gallop} gezeigten Implementierung.824,38430
+\label{fig:TimSort.java:merge}937,43883
+Abbildung \ref{fig:TimSort.java:merge} zeigt die Implementierung der Methode $\textsl{merge}()$.940,43938
+\subsection{Bewertung}1004,48164
+Der Quick-Sort-Algorithmus wurde von Charles Antony Richard Hoare \cite{hoare:61}1011,48614
+
+wolf-ziege-kohl.tex,1903
+\section{Das Wolf-Ziege-Kohl-Problem}1,1
+\label{fig:wolf-ziege-kohl.stlx}69,2475
+\ref{fig:wolf-ziege-kohl.stlx} auf Seite \pageref{fig:wolf-ziege-kohl.stlx} gezeigte74,2567
+das Programm aus Abbildung \ref{fig:wolf-ziege-kohl.stlx} in \textsl{Java} umzusetzen,86,3318
+zu erzeugen und damit zu arbeiten.  Abbildung \ref{fig:SetOfSet.java} zeigt ein Programm,102,4027
+\label{fig:SetOfSet.java}147,5696
+\subsection{Die Klasse \texttt{ComparableSet}}152,5748
+\label{fig:ComparableSet-1}203,7731
+\label{fig:ComparableSet-2}266,10316
+\label{fig:ComparableSet-3}331,12750
+\label{fig:ComparableSet-4}386,14870
+\label{fig:ComparableSet-5}419,15982
+\ref{fig:ComparableSet-1}, \ref{fig:ComparableSet-2}, \ref{fig:ComparableSet-3},424,16042
+\ref{fig:ComparableSet-4} und \ref{fig:ComparableSet-5}425,16123
+      Abbildung  \ref{fig:Pair.java} auf Seite \pageref{fig:Pair.java} zeigt die Implementierung dieser Klasse.550,23282
+      \ref{fig:Selector.java} zeigt das Interface \texttt{Selector}.600,26218
+\label{fig:Selector.java}618,26782
+      \ref{fig:Transformer.java} zeigt das Interface \texttt{Transformer}.632,27350
+\label{fig:Transformer.java}652,28019
+      \ref{fig:Combinator.java} zeigt das Interface \texttt{Combinator}.666,28552
+\label{fig:Combinator.java}685,29128
+\label{fig:Pair.java}734,30594
+\label{fig:ComparableList.java}776,31961
+\subsection{Die Klasse \texttt{ComparableList}}779,32007
+\ref{fig:ComparableList.java} auf Seite \pageref{fig:ComparableList.java} gezeigt.  Bei der Lösung des783,32357
+\subsection{Lösung des Wolf-Ziege-Kohl-Problems in \textsl{Java}}790,32935
+\label{fig:WolfZiegeKohl.jpre}853,35257
+Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.861,35598
+      \ref{fig:WolfZiegeKohl.jpre} gezeigte Programm in einer Datei mit dem Namen888,37038
+\label{fig:Relation.java}1039,43994
+\label{fig:cyclic.java}1093,46406

@@ -1,0 +1,95 @@
+// sort the list l
+sort := procedure(rw l) {
+    quickSort(1, #l, l);
+};
+
+// sort the sublist l[a, b] in place
+// a: start index, b: end index
+quickSort := procedure(a, b, rw l) {
+    if (b <= a) {
+        return; // at most one element, nothing to do
+    }
+    m := partition(a, b, l);  // split index
+    quickSort(a, m - 1, l);
+    quickSort(m + 1, b, l);
+};
+
+// partition the sublist l[start, end] using l[start] as a pivot element
+partition := procedure(start, end, rw l) {
+    pivot := l[start];
+    left  := start + 1;
+    right := end;
+    while (true) {
+        while (left <= end && l[left] <= pivot) {
+            left += 1;
+        }
+        while (l[right] > pivot) {
+            right -= 1;
+        }
+        if (left >= right) {
+            break;
+        }
+        swap(left, right, l);
+    }
+    swap(start, right, l);
+    return right;
+};
+
+swap := procedure(x, y, rw l) {
+    [ l[x], l[y] ] := [ l[y], l[x] ];
+};
+
+// code for testing
+
+demo := procedure() {
+    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("l = $l$");
+    sort(l);
+    print("l = $l$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        c := l;  // save a copy
+        sort(l);
+        isOrdered(l);
+        sameElements(c, l);
+        print(".");
+    }
+    print("All tests passed!");
+    
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    for (x in l) {
+        assert(count(x, l) == count(x, s), "wrong count");
+    }
+    assert(#l == #s, "wrong size");
+};
+
+count := procedure(x, l) {
+    match (l) {
+        case []   : return 0;
+        case [y|r]: if (x == y) {
+                        return 1 + count(x, r);
+                    }
+                    return count(x, r);
+    }
+};
+
+demo();
+
+testSort(100, 100);
+
+
+
+    
+    

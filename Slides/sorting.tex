@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+\usepackage{a4wide}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+
+\pagestyle{empty}
+
+
+\newcommand{\bruch}[2]{\frac{\displaystyle#1}{\displaystyle#2}}
+\newcommand{\Oh}{\mathcal{O}}
+
+\begin{document}
+
+\begin{center}
+{\Large Sortieren durch Auswahl}
+\end{center}
+\vspace*{0.3cm}
+\large
+\begin{enumerate}
+\item $\mathtt{sort}([]) = []$
+\item $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr]
+      + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(L), L)\bigr)$
+\item $\mathtt{delete}(x, []) = []$.
+\item $\mathtt{delete}(x, [x] + R) = R$.
+\item $x \not = y \rightarrow \mathtt{delete}(x, [y] + R) = [y] + \mathtt{delete}(x,R)$.
+\item $\mathtt{min}([]) = \infty$.
+\item $\mathtt{min}([x] + R) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
+\item $\mathtt{min}(x,y) = \left\{
+      \begin{array}{ll}
+        x  & \mbox{falls $x \preceq y\,$;} \\
+        y  & \mbox{sonst.} \\
+      \end{array}\right.
+      $
+\end{enumerate}
+\vspace*{0.5cm}
+
+\begin{center}
+{\Large Eigenschaften des Algorithmus \emph{Sortieren durch Auswahl}}
+\end{center}
+\vspace*{0.3cm}
+
+\begin{enumerate}
+\item $\mathtt{le}(x, L) \leftrightarrow x \preceq \texttt{min}(L)$
+\item $\mathtt{le}\bigl(\mathtt{min}(L), L\bigr)$
+\item $x \preceq y \;\rightarrow\; \Bigl(\mathtt{le}\bigl(x,\mathtt{delete}(y,L)\bigr) \leftrightarrow \mathtt{le}(x, L)\Bigr)$
+\item $\mathtt{le}\bigl(x, \mathtt{sort}(L)\bigr) \leftrightarrow \mathtt{le}(x, L)$
+\item $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr)$
+\item $\mathtt{member}(x,[]) = 0$
+\item $\mathtt{member}(x,[x] + R) = 1$
+\item $x \not= y \;\rightarrow\; \mathtt{member}(x,[y] + R) = \mathtt{member}(x,R)$
+\item $\mathtt{count}\bigl(x, \mathtt{delete}(y,L)\bigr) = \mathtt{count}(x,L) - \mathtt{eq}(x,y)*\mathtt{member}(y,L)$
+\item $\mathtt{count}\bigl(x, \mathtt{sort}(L)\bigr) = \mathtt{count}(x, L)$
+\end{enumerate}
+\pagebreak
+
+\begin{center}
+{\Large Sortieren durch Mischen}
+\end{center}
+
+\begin{enumerate}
+\item $\#L < 2 \rightarrow \mathtt{sort}(L) = L$.
+\item $\#L \geq 2 \;\rightarrow \mathtt{sort}(L) = \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{split}_1(L)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(L)\bigr)\Bigr)$
+\item $\mathtt{split}(\texttt{[]}) = \mathtt{[} \texttt{[]}, \texttt{[]} \mathtt{]}$.
+\item $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
+\item $\mathtt{split}(R) = \mathtt{[}R_1, R_2\mathtt{]} \rightarrow
+       \mathtt{split}\bigl(\mathtt{[}x, y\mathtt{]} + R\bigr) = \bigl[ [x] + R_1, [y] + R_2 \bigr]$
+\item $\mathtt{merge}([], L_2) = L_2$.
+
+\item $\mathtt{merge}(L_1, []) = L_1$.
+
+\item $x \preceq y \;\rightarrow \mathtt{merge}\bigl([x]+R_1, [y]+R_2\bigr) = [x] + \mathtt{merge}\bigl(R_1,[y]+R_2\bigr)$.
+
+\item $\neg x \preceq y \;\rightarrow \mathtt{merge}\bigl([x]+R_1, [y]+R_2\bigr) = [y] + \mathtt{merge}\bigl([x] + R_1,R_2\bigr)$.
+\end{enumerate}
+\vspace*{0.3cm}
+
+\begin{center}
+{\Large Eigenschaften des Algorithmus \emph{Sortieren durch Mischen}}
+\end{center}
+
+\begin{enumerate}
+\item $\texttt{le}\bigl(x,\texttt{merge}(L_1,L_2)\bigr) \leftrightarrow \texttt{le}(x,L_1) \wedge \mathtt{le}(x,L_2)$.
+\item $\texttt{isSorted}\bigl(\texttt{merge}(L_1,L_2)\bigr) \leftrightarrow \mathtt{isSorted}(L_1) \wedge \mathtt{isSorted}(L_2)$.
+\item $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr)$.
+\item $\mathtt{count}\bigl(x,\mathtt{sort}(L)\bigr) = \mathtt{count}(x,L)$.
+\end{enumerate}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -1,0 +1,67 @@
+// A list based implementation of quick sort.
+sort := procedure(l) {
+    match (l) {
+        case []   : return [];
+        case [x|r]: 
+             [s,b] := partition(x, r);
+             return sort(s) + [x] + sort(b);
+    }
+};
+partition := procedure(p, l) {
+    match (l) {
+        case []   : return [ [], [] ];
+        case [x|r]: [ r1, r2 ] := partition(p, r);
+                    if (x <= p) {
+                        return [ [x] + r1, r2 ];
+                    } 
+                    return [ r1, [x] + r2 ];
+    }
+};
+
+// code for testing
+
+demo := procedure() {
+    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("l = $l$");
+    s := sort(l);
+    print("s = $s$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        s := sort(l);
+        isOrdered(s);
+        sameElements(s, l);
+        print(".");
+    }
+    print("All tests successful!");
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    for (x in l) {
+        assert(count(x, l) == count(x, s), "wrong count");
+    }
+    assert(#l == #s, "wrong size");
+};
+
+count := procedure(x, l) {
+    match (l) {
+        case []   : return 0;
+        case [y|r]: if (x == y) {
+                        return 1 + count(x, r);
+                    }
+                    return count(x, r);
+    }
+};
+
+demo();
+
+testSort(100, 20);

@@ -1,0 +1,102 @@
+load("string-compare.stlx");
+
+class map(cmp) {
+    mKey    := om;
+    mValue  := om; 
+    mLeft   := om;
+    mRight  := om;
+    mCmpFct := cmp;  // function to compare keys
+  static {
+    isEmpty := [] |-> mKey == om;
+    find := procedure(k) {
+        if      (isEmpty())        { return;                }
+        else if (mKey == k)        { return mValue;         }
+        else if (mCmpFct(k, mKey)) { return mLeft .find(k); }
+        else                       { return mRight.find(k); }
+    };
+    insert := procedure(k, v) {
+        if (isEmpty()) { 
+            this.mKey   := k;
+            this.mValue := v; 
+            this.mLeft  := map(mCmpFct);
+            this.mRight := map(mCmpFct);
+        } else if (mKey == k) { 
+            this.mValue := v; 
+        } else if (mCmpFct(k, mKey)) { 
+            mLeft .insert(k, v); 
+        } else { 
+            mRight.insert(k, v); 
+        }
+    };
+    delMin := procedure() {
+        if (mLeft.isEmpty()) { 
+            return [ mRight, mKey, mValue ]; 
+        } else {
+             [ ls, km, vm ] := mLeft.delMin();
+             this.mLeft := ls;
+             return [ this, km, vm ];
+        }
+    };
+    delete := procedure(k) {
+        if (isEmpty())  { 
+            return; 
+        } else if (k == mKey) {
+            if (mLeft.isEmpty()) {
+                update(mRight);
+            } else if (mRight.isEmpty()) {
+                update(mLeft); 
+            } else {
+                [ rs, km, vm ] := mRight.delMin();
+                [ this.mKey, this.mValue, this.mRight ] := [km, vm, rs];
+            }
+        } else if (mCmpFct(k, mKey)) {
+            mLeft.delete(k);
+        } else {
+            mRight.delete(k);
+        }
+    };
+    update := procedure(t) {
+        this.mKey   := t.mKey;
+        this.mValue := t.mValue;
+        this.mLeft  := t.mLeft;
+        this.mRight := t.mRight;
+    };
+    f_str := [] |-> toString(0);
+    toString := procedure(n) {
+        if (isEmpty()) {
+            return " " * n + "Nil";
+        } else {
+           return mLeft.toString(n + 4) + "\n" + 
+                  " " * n + "<" + mKey + " |-> " + mValue + ">\n" +
+                  mRight.toString(n + 4);
+        }
+    };
+  }
+}
+
+demo := procedure(cmp) {
+    m := map(cmp);
+    m.insert("anton",  123);
+    m.insert("hugo" ,  345);
+    m.insert("gustav", 789);
+    m.insert("jens",   234);
+    m.insert("hubert", 432);
+    m.insert("andre",  342);
+    m.insert("rene",   345);
+    print("\n$m$\n");
+    print("m.find(\"anton\" ) = $m.find(\"anton\" )$");
+    print("m.find(\"hugo\"  ) = $m.find(\"hugo\"  )$");
+    print("m.find(\"gustav\") = $m.find(\"gustav\")$");
+    print("m.find(\"jens\"  ) = $m.find(\"jens\"  )$");
+    m.delete("anton");
+    print("\n$m$\n");
+    print("m.find(\"anton\" ) = $m.find(\"anton\" )$");
+    print("m.find(\"hugo\"  ) = $m.find(\"hugo\")  $");
+    print("m.find(\"gustav\") = $m.find(\"gustav\")$");
+    print("m.find(\"jens\"  ) = $m.find(\"jens\")  $");
+    return m;
+};
+
+demo(lessThan);
+
+

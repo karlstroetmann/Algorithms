@@ -1,0 +1,109 @@
+// This class represents Tries.
+class trieMap() {
+    mValue := om;
+    mChars := [];
+    mTries := [];
+
+  static {
+    find := procedure(s) {
+        match (s) {
+            case ""   : return mValue;
+            case [c|r]: for (i in [1 .. #mChars]) {
+                            if (mChars[i] == c) {
+                                return mTries[i].find(r);
+                            }
+                        }
+                        return;  // not found
+        }
+    };
+    insert := procedure(s, v) {
+        match (s) {
+            case ""   : this.mValue := v;
+            case [c|r]: for (i in [1 .. #mChars]) {
+                            if (mChars[i] == c) {
+                                t := mTries[i];
+                                t.insert(r,v);
+                                this.mTries[i] := t;
+                                return;
+                            }
+                        }
+                        newTrie := trieMap();
+                        newTrie.insert(r, v);
+                        this.mChars += [ c ]; 
+                        this.mTries += [ newTrie ];
+        } 
+    };
+    delete := procedure(s) {
+        match (s) {
+            case "": this.mValue := om;
+            case [c|r]: 
+                for (i in [1 .. #mChars]) {
+                     if (mChars[i] == c) {
+                         t := mTries[i]; 
+                         t.delete(r);
+                         this.mTries[i] := t;
+                         if (mTries[i].isEmpty()) {
+                             this.mChars := removeIthElement(mChars, i);
+                             this.mTries := removeIthElement(mTries, i);
+                         }
+                         return;
+                     }
+                }
+        }
+    };
+    isEmpty := procedure() {
+        return mValue == om && mChars == [];
+    };
+    f_str := procedure() { return toString(0); };
+    toString := procedure(n) {
+        if (isEmpty()) {
+            return "Nil\n";
+        }
+        if (mValue != om) {
+            result := mValue + "\n";
+        } else {    
+            result := "Omega\n";
+        }
+        for (i in [1 .. #mChars]) {
+            result += " " * (n + 4) + mChars[i] + ": " + mTries[i].toString(n + 4);
+        }
+        return result;
+    };
+  }
+}
+
+removeIthElement := procedure(l, i) {
+    return l[1 .. i-1] + l[i+1 .. #l];
+};
+  
+demo := procedure() {
+    data := readFile("data.txt");
+    m := trieMap();
+    keys := {};
+    for (line in data) {
+        [k, v] := split(line, ":");
+        value := removeWS(v);
+        print("k = $k$, v = $v$");
+        keys  += { k };
+        m.insert(k, value);
+        print(m);
+    }
+    print(m);
+    for (k in keys) {
+        print("delete $k$");
+        m.delete(k);
+        print(m);
+    }
+};
+
+// Remove the white space from the string s.
+removeWS := procedure(s) {
+    ws := { " ", "\t", "\n", "\r", "\v" };
+    return +/ [ s[i] : i in [1 .. #s] | s[i] notin ws ];
+};      
+
+demo();
+
+
+
+

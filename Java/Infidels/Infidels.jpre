@@ -1,0 +1,102 @@
+#define Point     Triple<Integer, Integer, Integer>
+#define PointPair Pair<Point, Point>
+#define PointSet  ComparableSet<Point>
+#define PairSet   ComparableSet<PointPair>
+
+public class Infidels
+{    
+    public static void main(String args[]) {
+        PointSet P1 = new PointSet();
+	for (int m = 0; m <= 3; ++m) {
+	    for (int k = 0; k <= 3; ++k) {
+		if (!problem(m, k) && !problem(3 - m, 3 - k)) {
+		    P1.add(new Point(m, k, 1));
+		}
+	    }
+	}
+        PointSet P2 = new PointSet();
+	for (int m = 0; m <= 3; ++m) {
+	    for (int k = 0; k <= 3; ++k) {
+		if (!problem(m, k) && !problem(3 - m, 3 - k)) {
+		    P2.add(new Point(m, k, 0));
+		}
+	    }
+	}
+	PairSet r = new PairSet();	
+        // { [[M,K,1], [M-PM,K-PK,0]] : [M,K,B] in P, PM in {0..2}, PK in {0..2} 
+        //                            | PM + PK in {1,2}    and
+        //                              PM <= M             and
+        //                              PK <= K             and  
+        //                              [M-PM, K-PK,0] in P1 
+        // }  
+        for (Point mkb: P1) {
+	    for (int pm = 0; pm <= 2; ++pm) {
+		for (int pk = 0; pk <= 2; ++pk) {
+		    int m = mkb.getFirst();
+		    int k = mkb.getSecond();
+		    if (1 <= pm + pk && pm + pk <= 2 && pm <= m && pk <= k) 
+		    {
+			Point n = new Point(m - pm, k - pk, 0);
+			if (P2.member(n)) {
+			    r.add(new PointPair(mkb, n));
+			}
+		    }
+		}
+	    }
+	}   
+        // { [[M,K,0], [M+PM,K+PK,1]] : [M,K,B] in P, PM in {0..2}, PK in {0..2} 
+        //                            | PM + PK in {1,2}    and
+        //                              PM <= 3 - M         and
+        //                              PK <= 3 - K         and  
+        //                              [M+PM, K+PK,1] in P2 
+        // }  
+        for (Point mkb: P2) {
+	    for (int pm = 0; pm <= 2; ++pm) {
+		for (int pk = 0; pk <= 2; ++pk) {
+		    int m = mkb.getFirst();
+		    int k = mkb.getSecond();
+		    if (1 <= pm + pk && pm + pk <= 2 && pm <= 3-m && pk <= 3-k)
+		    {
+			Point n = new Point(m + pm, k + pk, 1);
+			if (P1.member(n)) {
+			    r.add(new PointPair(mkb, n));
+			}
+		    }
+		}
+	    }
+	}   
+	Point start = new Point(3, 3, 1);
+	Point goal  = new Point(0, 0, 0);
+    	Relation<Point> relation = new Relation(r);
+        ComparableList<Point> path = relation.findPath(start, goal);
+        System.out.println("\n\nLösung:\n");
+        for (int i = 0; i < path.size(); ++i) {
+	    Point left = path.get(i);
+	    int m = left.getFirst();
+	    int k = left.getSecond();
+	    int b = left.getThird();
+	    Point right = new Point(3 - m, 3 - k, 1 - b);
+            System.out.println(left + " ~~~ " + right);
+	    if (i + 1 < path.size()) {
+		Point next = path.get(i + 1);
+		if (b == 1) {
+		    int mb = m - next.getFirst();
+		    int kb = k - next.getSecond();
+		    System.out.println("   >>> { " + mb + ", " + kb + " } >>>");
+		} else {
+		    int mb = next.getFirst()  - m;
+		    int kb = next.getSecond() - k;
+		    System.out.println("   <<< { " + mb + ", " + kb + " } <<<");
+		}
+	    }
+	}
+    }
+
+    static boolean problem(int m, int k) {
+	return m > 0 && m < k;
+    }
+}
+
+
+
+    

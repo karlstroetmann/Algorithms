@@ -1,0 +1,6 @@
+#!/bin/bash
+java -cp /usr/share/java/jlex.jar:.. JLex.Main MyScanner.lex
+mv MyScanner.lex.java MyScanner.java
+javac -g MyScanner.java
+javac -g Calculator.java
+echo "(1+2)*(5+3**4)" | java Calculator

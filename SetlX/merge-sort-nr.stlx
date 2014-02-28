@@ -1,0 +1,94 @@
+sort := procedure(rw l) {
+    a := l;
+    mergeSort(l, a);
+};
+mergeSort := procedure(rw l, rw a) {
+    n := 1;
+    while (n < #l) {
+        k := 0;
+        while (n * (k + 1) + 1 <= #l) {
+            merge(l, n * k + 1, 
+                  n * (k + 1) + 1, 
+                  min([n * (k + 2), #l]) + 1, a);
+            k += 2;    
+        }
+        n *= 2;
+    }
+};
+merge := procedure(rw l, start, middle, end, rw a) {    
+    for (i in [start .. end-1]) {
+        a[i] := l[i]; 
+    }
+    idx1 := start;
+    idx2 := middle;
+    i    := start;
+    while (idx1 < middle && idx2 < end) {
+        if (a[idx1] <= a[idx2]) {
+            l[i] := a[idx1]; i += 1; idx1 += 1;
+        } else {
+            l[i] := a[idx2]; i += 1; idx2 += 1;
+        }
+    }
+    while (idx1 < middle) {
+        l[i] := a[idx1]; i += 1; idx1 += 1;
+    }
+    while (idx2 < end) {
+        l[i] := a[idx2]; i += 1; idx2 += 1;
+    }
+};
+
+// code for testing
+
+demo := procedure() {
+    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("l = $l$");
+    sort(l);
+    print("l = $l$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        c := l;  // save a copy
+        sort(l);
+        isOrdered(l);
+        sameElements(c, l);
+        print(".");
+    }
+    print("All tests passed!");    
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    assert(collect(l) == collect(s), "different elements in $l$ and $s$");
+};
+
+demo();
+
+testSort(100, 20);
+
+computeTimes := procedure(a, b) {
+    n := a;
+    while (n <= b) {
+        resetRandom();
+        time := 0;
+        for (i in [1 .. 1]) {
+            l := [ rnd(2 * n) : i in [1 .. n] ];
+            start := now();
+            sort(l);
+            stop := now();
+            time += stop - start;
+        }
+        print("n = $n$, t = $0.001*time$, $time / (n * log(n))$");
+        n := ceil(n * 1.2);
+    }
+};
+
+computeTimes(10, 100000);
+

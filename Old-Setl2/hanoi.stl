@@ -1,0 +1,168 @@
+program main;
+
+    use tk;
+    -- declare global variables
+    var TkInter, width, n, deltaT, diskHeight, towerList;
+
+
+    TkInter := tk_create(); 
+
+    tk_call(TkInter, "frame .upper"); 
+    tk_call(TkInter, "label .upper.label -text \"Specify number of disks: \"");
+    tk_call(TkInter, 
+      "entry .upper.entry -width 1 -relief sunken -bd 2 -textvariable number"); 
+    tk_call(TkInter, "pack .upper -side top");
+    tk_call(TkInter, "pack .upper.label -side left");
+    tk_call(TkInter, "pack .upper.entry -side left");
+
+    tk_createcommand(TkInter, "enter", set_number);
+
+    tk_call(TkInter, "pack .upper.entry -side left");
+    tk_call(TkInter, "bind .upper.entry <Return> enter");
+
+    tk_createcommand(TkInter, "run", call_hanoi);
+
+    tk_call(TkInter, "button .upper.start -text Run -command run"); 
+    tk_call(TkInter, "pack .upper.start -side right"); 
+
+    tk_mainloop(TkInter);
+
+    procedure set_number();
+        -- number of blocks   
+        n := str2number(tk_call(TkInter, "expr $number"));
+    end set_number;
+
+    procedure call_hanoi();
+        -- number of blocks   
+        n := str2number(tk_call(TkInter, "expr $number"));
+        -- time delay between moves
+        deltaT := 2;  
+    
+        -- block number n has a width of (2 * n + 1) * width in pixels
+        width := 30;
+        canvasWidth  := (3 * (2 * n + 1) + 4) * width;
+        canvasHeight := (n + 5) * width;
+        tk_call(TkInter, 
+          "font create myFont -size 18 -weight bold -family \"Engravers MT\"");
+
+        tk_call(TkInter, "canvas .cv -width " + canvasWidth + 
+                        " -height " + canvasHeight + " -bg black");
+        tk_call(TkInter, "pack .cv -side top");
+    
+        tk_call(TkInter, ".cv create rectangle " + 
+                         (1 * n + 1) * width + " " + 4 * width + " " + 
+                         (1 * n + 2) * width + " " + canvasHeight + 
+                         " -fill red");
+        tk_call(TkInter, ".cv create rectangle " + 
+                         (3 * n + 3) * width + " " + 4 * width + " " + 
+                         (3 * n + 4) * width + " " + canvasHeight + 
+                         " -fill red");
+        tk_call(TkInter, ".cv create rectangle " + 
+                         (5 * n + 5) * width + " " + 4 * width + " " + 
+                         (5 * n + 6) * width + " " + canvasHeight + 
+                         " -fill red");
+    
+
+        -- draw the n disks on the first tower
+        firstTower := [];
+        for i in [n, n-1 .. 1] loop
+            tk_call(TkInter, ".cv create rectangle " + 
+                             (n - i + 1) * width + 
+                             " " + (i + 5)     * width + 
+                             " " + (n + i + 2) * width +
+                             " " + (i + 4)     * width + 
+                             " -tag t" + i + 
+                             " -fill gold -width 1 -outline grey");
+            tk_call(TkInter, ".cv create text " + (n + 1.5) * width + 
+                             " " + (i + 4.5) * width + 
+                             " -fill blue -text " + i + 
+                             " -tag t" + i + 
+                             " -justify center -font myFont " );
+            firstTower(i) := "t" + i;
+        end loop;
+    
+        diskHeight := {};
+        diskHeight(0) := n;
+        diskHeight(1) := 0;
+        diskHeight(2) := 0;
+    
+        -- The variable towerList codes the state of the three towers.
+        towerList := {};
+        towerList(0) := firstTower;
+        towerList(1) := [];
+        towerList(2) := [];
+    
+        hanoi(0, 2, 1, n);
+    end call_hanoi;
+
+    procedure hanoi(start, goal, aux, count);
+        if count = 1 then
+            moveDisk(start, goal);
+            return;
+        end if;
+        newCount := count - 1;
+        hanoi(start, aux,  goal, newCount);
+        moveDisk(start, goal);
+        hanoi(aux, goal, start, newCount);
+    end hanoi;
+
+    procedure moveDisk(start, goal);
+        disk := getTop(start);
+        moveUp(disk, start);
+        fly(disk, start, goal);
+        moveDown(disk, goal);
+        towerList(start) := towerList(start)(2..);
+        towerList(goal)  := [ disk ] + towerList(goal);
+    end moveDisk;
+
+    procedure getTop(index);
+        tower := towerList(index);
+        return tower(1);
+    end getTop;
+    
+    procedure moveUp(disk, tower);
+        verticalDistance := n + 3 - diskHeight(tower);
+        for i in [0 .. verticalDistance * width - 1] loop 
+             tk_call(TkInter, "after " + deltaT);
+             tk_call(TkInter, ".cv move " + disk + " 0 -1");
+             tk_call(TkInter, "update");
+        end loop;
+        diskHeight(tower) -:= 1;
+    end moveUp;
+
+    procedure moveDown(disk, tower);
+        verticalDistance := n + 2 - diskHeight(tower);
+        for i in [0 .. verticalDistance * width - 1] loop 
+             tk_call(TkInter, "after " + deltaT);
+             tk_call(TkInter, ".cv move " + disk + " 0 1");
+             tk_call(TkInter, "update");
+        end loop;
+        diskHeight(tower) +:= 1;
+    end moveDown;
+
+    procedure fly(disk, start, goal);
+        if  start < goal then
+            horizontalDistance := (goal - start) * 2 * (n + 1);
+            for i in [0 .. horizontalDistance * width - 1] loop
+                tk_call(TkInter, "after " + deltaT);
+                tk_call(TkInter, ".cv move " + disk + " 1 0");
+                tk_call(TkInter, "update");
+            end loop;
+        else
+            horizontalDistance := (start - goal) * 2 * (n + 1);
+            for i in [0 .. horizontalDistance * width - 1] loop
+                tk_call(TkInter, "after " + deltaT);
+                tk_call(TkInter, ".cv move " + disk + " -1 0");
+                tk_call(TkInter, "update");
+            end loop;
+        end if;
+    end fly;
+
+    procedure str2number(s);
+        result := 0;
+        for i in [1 .. #s] loop
+            result := 10 * result + abs(s(i)) - 48;
+        end loop;
+        return result;
+    end str2number;
+end main;

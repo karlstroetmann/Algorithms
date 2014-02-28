@@ -1,0 +1,1755 @@
+
+\section{AVL-Bäume}
+Es gibt verschiedene Varianten von geordneten binären Bäumen, bei denen auch im
+schlechtesten Fall die Anzahl der Vergleiche nur logarithmisch von der Zahl der Schlüssel
+abhängt.  Eine solche Variante sind die \emph{AVL-Bäume} \cite{adelson:62}, die nach ihren Erfindern
+G.~M.~Adel'son-Vel'ski\u{\i} und E.~M.~Landis benannt sind.  Diese Variante stellen wir jetzt vor.
+Dazu definieren wir zunächst die \emph{Höhe} eines binären Baums:
+\begin{enumerate}
+\item $\textsl{Nil}.\textsl{height}() = 0$.
+\item $\textsl{Node}(k,v,l,r).\textsl{height}() = 
+       \max\bigl( l.\textsl{height}(), r.\textsl{height}() \bigr) + 1$.
+\end{enumerate}
+
+\begin{Definition}[AVL-Baum] \hspace*{\fill} \\
+{\em 
+  Wir definieren die Menge $\AVL$ der \emph{AVL-Bäume} induktiv:
+  \begin{enumerate}
+  \item $\textsl{Nil} \in \AVL$.
+  \item $\textsl{Node}(k,v,l,r) \in \AVL$ \quad g.d.w. 
+        \begin{enumerate}
+        \item $\textsl{Node}(k,v,l,r) \in \Bin_<$,
+        \item $l, r \in \AVL$ \quad und
+        \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1$.
+
+              Diese Bedingungen bezeichnen wir auch als die \emph{Balancierungs-Bedingung}.
+        \end{enumerate}
+        AVL-Bäume sind also geordnete binäre Bäume, für die sich an jedem Knoten
+        $\textsl{Node}(k,v,l,r)$ die Höhen der Teilbäume $l$ und $r$ maximal um 1
+        unterscheiden.  \hspace*{\fill} $\Box$
+  \end{enumerate}
+}  
+\end{Definition}
+
+
+Um  AVL-Bäume zu  implementieren, können wir auf unserer Implementierung der geordneten
+binären Bäume aufsetzen. 
+Neben den Methoden, die wir schon aus der Klasse \textsl{Map} kennen, brauchen wir noch
+die Methode \\[0.2cm]
+\hspace*{1.3cm} $\textsl{restore}: \Bin_< \rightarrow \AVL$, \\[0.2cm]
+mit der wir die Balancierungs-Bedingung wiederherstellen können, wenn diese beim Einfügen oder
+Löschen eines Elements verletzt wird.  
+Der Aufruf $b.\textsl{restore}()$ setzt voraus, dass $b$ ein geordneter binärer Baum ist,
+für den außer an der Wurzel überall die Balancierungs-Bedingung erfüllt ist.
+An der Wurzel kann die Höhe des linken Teilbaums um maximal 2 von der Höhe des rechten
+Teilbaums abweichen. Beim Aufruf der Methode $b.\textsl{restore}()$ liegt also einer der
+beiden folgenden Fälle vor: 
+\begin{enumerate}
+\item $b = \textsl{Nil}$ \quad oder
+\item $b = \textsl{Node}(k,v,l,r) \wedge l \in \AVL \wedge r \in \AVL \wedge
+       |l.\textsl{height}() - r.\textsl{height}()| \leq 2$.
+\end{enumerate}
+ Wir spezifizieren die Methode $\textsl{restore}$ durch
+bedingte Gleichungen.
+\begin{enumerate}
+\item $\textsl{Nil}.\textsl{restore}() = \textsl{Nil}$,
+
+      denn der leere Baum ist ein AVL-Baum.
+\item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow 
+       \textsl{Node}(k,v,l,r).\textsl{restore}() = \textsl{Node}(k,v,l,r)$,
+
+      denn wenn die Balancierungs-Bedingung bereits erfüllt ist,
+      braucht nichts getan werden.
+\item $\begin{array}[t]{cl}
+              & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
+       \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)                 \\
+       \wedge & l_2.\textsl{height}() \geq r_2.\textsl{height}()     \\[0.2cm]
+       \rightarrow & \textsl{Node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                     \textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)
+       \end{array}
+      $
+
+      Um diese Gleichung zu verstehen, betrachten wir Abbildung \ref{fig:casell}
+      auf Seite \pageref{fig:casell}.  Der linke Teil der Abbildung beschreibt die
+      Situation vor dem Ausbalancieren, es wird also der Baum \\[0.2cm]
+      \hspace*{1.3cm} $\textsl{Node}(k_1,v_1, \textsl{Node}(k_2,v_2,l_2,r_2), r_1)$ \\[0.2cm]
+      dargestellt.  Der rechte Teil der Abbildung zeigt das Ergebnis des
+      Ausba\-lancierens, es wird also der Baum \\[0.2cm]
+      \hspace*{1.3cm} $\textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)$ \\[0.2cm]
+      dargestellt. Wir haben hier die Höhen der einzelnen Teilbäume jeweils in die
+      zweiten Zeilen der entsprechenden Markierungen geschrieben.  Hier ist $h$ die Höhe
+      des Teilbaums $l_2$. Der Teilbaum $r_1$ hat die Höhe $h - 1$.  Der Teilbaum $r_2$
+      hat die Höhe $h'$ und es gilt $h' \leq h$. Da $r_2$ ein AVL-Baum ist, gilt also
+      entweder $h' = h$ oder $h' = h-1$.
+
+      Die gezeigte Situation kann entstehen,
+      wenn im linken Teilbaum $l_2$ ein Element eingefügt wird oder wenn im rechten
+      Teilbaum $r_1$ eine Element gelöscht wird.
+
+      \begin{figure}[!ht]
+        \centering
+        \framebox{\epsfig{file=casell,scale=0.7}} 
+        \caption{Ein unbalancierter Baum und der rebalancierte Baum}
+        \label{fig:casell}
+      \end{figure}
+
+      Wir müssen uns davon überzeugen, dass der im rechten Teil von Abbildung
+      \ref{fig:casell} gezeigte Baum auch tatsächlich ein AVL-Baum ist.   Was die
+      Balancierungs-Bedingung angeht, so rechnet man dies sofort nach.  Die Tatsache,
+      dass der mit $k_1$ markierte Knoten entweder die Höhe $h$ oder $h+1$ hat folgt
+      daraus, dass $r_1$ die Höhe $h-1$ hat und dass $h' \in \{h, h-1\}$ gilt.
+
+      Um zu sehen, dass
+      der Baum geordnet ist, können wir  folgende Ungleichung hinschreiben: \\[0.2cm]
+      \hspace*{1.3cm} $l_2 < k_2 < r_2 < k_1 < r_1$. \hspace*{\fill} $(\star)$\\[0.2cm]
+      Dabei  schreiben wir für einen Schlüssel $k$ und einen binären Baum $b$ \\[0.2cm]
+      \hspace*{1.3cm} $k < b$ \\[0.2cm]
+      um auzudrücken, dass $k$ kleiner ist als alle Schlüssel, die in dem Baum $b$ vorkommen.
+      Analog schreiben wir $b < k$ wenn alle Schlüssel, die in dem Baum $b$ vorkommen,
+      kleiner sind als der Schlüssel $k$.  Die Ungleichung $(\star)$ beschreibt die Anordnung
+      der Schlüssel sowohl für den im linken Teil der Abbildung gezeigten Baum als auch
+      für den Baum im rechten Teil der Abbildung und damit sind beide Bäume geordnet.
+\item $\begin{array}[t]{cl}
+               & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
+        \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)               \\
+        \wedge & l_2.\textsl{height}() < r_2.\textsl{height}()     \\
+        \wedge & r_2 = \textsl{Node}(k_3,v_3,l_3,r_3)               \\
+        \rightarrow & \textsl{Node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                      \textsl{Node}\bigl(k_3,v_3,\textsl{Node}(k_2,v_2,l_2,l_3),\textsl{Node}(k_1,v_1,r_3,r_1) \bigr)
+        \end{array}
+       $
+
+        Die linke Seite der  Gleichung wird durch die Abbildung \ref{fig:caselr} auf Seite
+        \pageref{fig:caselr}
+        illustriert.  Dieser Baum kann in der Form \\[0.2cm]
+        \hspace*{1.3cm} 
+        $\textsl{Node}\bigl(k_1,v_1,\textsl{Node}(k_2,v_2,l_2,\textsl{Node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$ \\[0.2cm]
+        geschrieben werden. Die Teilbäume $l_3$ und $r_3$ haben hier entweder die Höhe $h$ oder
+        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muß.
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=caselr,scale=0.7}} 
+  \caption{Ein unbalancierter Baum: 2. Fall}
+  \label{fig:caselr}
+\end{figure}
+
+     Die Situation der rechten Seite der obigen Gleichung zeigt Abbildung
+     \ref{fig:caselr-nach} auf Seite \pageref{fig:caselr-nach}.  Der auf dieser
+     Abbildung gezeigte Baum hat die Form \\[0.2cm]
+     \hspace*{1.3cm} 
+     $\textsl{Node}\bigl(k_3,v_3,\textsl{Node}(k_2,v_2,l_2,l_3),\textsl{Node}(k_1,v_1,r_3,r_1) \bigr)$.
+
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=caselr-nach,scale=0.7}} 
+  \caption{Der rebalancierte Baum im 2. Fall}
+  \label{fig:caselr-nach}
+\end{figure}
+
+      Die Ungleichung, die die Anordnung der Schlüssel sowohl im linken als auch rechten
+      Baum wieder gibt, lautet\\[0.2cm]
+      \hspace*{1.3cm} $l_2 < k_2 < l_3 < k_3 < r_3 < k_1 < r_1$.
+
+      Es gibt noch zwei weitere Fälle die auftreten, wenn der rechte Teilbaum um mehr als
+      Eins größer ist als der linke Teilbaum.  Diese beiden Fälle sind aber zu den beiden
+      vorherigen Fällen völlig analog, so dass wir die Gleichungen hier ohne weitere
+      Diskussion angeben.
+\item $\begin{array}[t]{cl}
+              & r_1.\textsl{height}() = l_1.\textsl{height}() + 2    \\ 
+       \wedge & r_1 = \textsl{Node}(k_2,v_2,l_2,r_2)               \\
+       \wedge & r_2.\textsl{height}() \geq l_2.\textsl{height}()     \\[0.2cm]
+       \rightarrow & \textsl{Node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                     \textsl{Node}\bigl(k_2,v_2,\textsl{Node}(k_1,v_1,l_1,l_2),r_2\bigr)
+       \end{array}
+      $
+\item $\begin{array}[t]{cl}
+               & r_1.\textsl{height}() = l_1.\textsl{height}() + 2    \\ 
+        \wedge & r_1 = \textsl{Node}(k_2,v_2,l_2,r_2)               \\
+        \wedge & r_2.\textsl{height}() < l_2.\textsl{height}()     \\
+        \wedge & l_2 = \textsl{Node}(k_3,v_3,l_3,r_3)               \\
+        \rightarrow & \textsl{Node}(k_1,v_1,l_1,r_1).\textsl{restore}() = 
+                      \textsl{Node}\bigl(k_3,v_3,\textsl{Node}(k_1,v_1,l_1,l_3),\textsl{Node}(k_2,v_2,r_3,r_2) \bigr)
+        \end{array}
+       $
+
+\end{enumerate}
+Damit können wir nun die Methode $\textsl{insert}()$ durch bedingte rekursive Gleichungen 
+beschreiben.  Dabei müssen wir die ursprünglich für geordnete Bäume angegebene Gleichungen
+dann ändern, wenn die Balancierungs-Bedingung durch das Einfügen eines neuen Elements
+verletzt werden kann.
+\begin{enumerate}
+\item $\textsl{Nil}.\textsl{insert}(k,v) = \textsl{Node}(k,v, \textsl{Nil}, \textsl{Nil})$.  
+\item $\textsl{Node}(k, v_2, l, r).\textsl{insert}(k,v_1) = \textsl{Node}(k, v_1, l, r)$.
+\item $k_1 < k_2 \rightarrow 
+          \textsl{Node}(k_2, v_2, l, r).\textsl{insert}(k_1, v_1) =
+          \textsl{Node}\bigl(k_2, v_2, l.\textsl{insert}(k_1,v_1), r\bigr).\textsl{restore}()$.
+\item $k_1 > k_2 \rightarrow 
+         \textsl{Node}(k_2, v_2, l, r).\textsl{insert}\bigl(k_1, v_1\bigr) = 
+         \textsl{Node}\bigl(k_2, v_2, l, r.\textsl{insert}(k_1,v_1)\bigr).\textsl{restore}()$.
+\end{enumerate}
+Analog ändern sich die Gleichungen für $\textsl{delMin}()$ wie folgt:
+\begin{enumerate}
+\item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = \langle r, k, v \rangle$.
+\item $l\not= \textsl{Nil} \wedge \langle l',k_{min}, v_{min}\rangle := l.\textsl{delMin}() 
+       \;\rightarrow$ \\[0.2cm]
+       \hspace*{1.3cm} 
+       $\textsl{Node}(k, v, l, r).\textsl{delMin}() = 
+        \langle \textsl{Node}(k, v, l', r).\textsl{restore}(), k_{min}, v_{min} \rangle$.
+\end{enumerate}
+Damit können wir die Gleichungen zur Spezifikation der  Methode $\mathtt{delete}()$ angeben.
+\begin{enumerate}
+\item $\textsl{Nil}.\textsl{delete}(k) = \textsl{Nil}$.
+\item $\textsl{Node}(k,v,\textsl{Nil},r).\textsl{delete}(k) = r$.
+\item $\textsl{Node}(k,v,l,\textsl{Nil}).\textsl{delete}(k) = l$.
+\item $l \not= \textsl{Nil} \,\wedge\, r \not= \textsl{Nil} \,\wedge\, 
+       \langle r',k_{min}, v_{min} \rangle := r.\textsl{delMin}()  \;\rightarrow$ \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{Node}(k,v,l,r).\textsl{delete}(k) = \textsl{Node}(k_{min},v_{min},l,r').\textsl{restore}()$.
+\item $k_1 < k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}(k_1) = 
+       \textsl{Node}\bigl(k_2,v_2,l.\textsl{delete}(k_1),r\bigr).\textsl{restore}()$.
+\item $k_1 > k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}(k_1) = 
+         \textsl{Node}\bigl(k_2,v_2,l,r.\textsl{delete}(k_1)\bigr).\textsl{restore}()$.
+\end{enumerate}
+\pagebreak
+
+\subsection{Implementing AVL-Trees in \textsc{SetlX}}
+If we want to implement AVL-trees in \textsc{SetlX} then we have to decide how to compute the height
+of the trees.  The idea is to store the height of every subtree in the corresponding node since it
+would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
+member variable \texttt{mHeight} to our class map.
+Figure \ref{fig:avl-tree.stlx:outline} shows an outline of the class \texttt{map}.  The variable
+\texttt{mHeight} is defined in line 6.  It is initialised as $0$ since the constructor \texttt{map}
+constructs an empty node.  
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    class map(cmp) {
+        mKey    := om;
+        mValue  := om; 
+        mLeft   := om;
+        mRight  := om;
+        mHeight := 0;
+        mCmpFct := cmp;  
+    
+      static {
+        isEmpty       := [] |-> mKey == om;
+        find          := procedure(k)          { ... };
+        insert        := procedure(k, v)       { ... };
+        delMin        := procedure()           { ... };
+        delete        := procedure(k)          { ... };
+        update        := procedure(t)          { ... };
+        restore       := procedure()           { ... };
+        setValues     := procedure(k, v, l, r) { ... };
+        restoreHeight := procedure()           { ... };
+      }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Outline of the class \texttt{map}.}
+  \label{fig:avl-tree.stlx:outline}
+\end{figure}
+
+
+Figure \ref{fig:avl-tree.stlx:find} show the implementation of the function \texttt{find}.
+Actually, the implementation is the same as the implementation in Figure
+\ref{fig:binary-tree.stlx-1}.  The reason is that every AVL tree is also an ordered binary tree and
+since searching for a key does not change the underlying tree there is no need to restore anything.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    find := procedure(k) {
+        if      (isEmpty())        { return;                }
+        else if (mKey == k)        { return mValue;         }
+        else if (mCmpFct(k, mKey)) { return mLeft .find(k); }
+        else                       { return mRight.find(k); }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of the method \texttt{find}.}
+\label{fig:avl-tree.stlx:find}
+\end{figure}
+\pagebreak
+
+Figure \ref{fig:avl-tree.stlx:insert} shows the implementation of the method \texttt{insert}.
+If we compare this implementation with the implementation for binary trees, we find three
+differences.
+\begin{enumerate}
+\item When inserting into an empty tree, we now have to update the member variable \texttt{mHeight}
+      to $1$.  This is done in line 7.
+\item After inserting a value into the left subtree \texttt{mLeft}, it might be necessary to 
+      rebalance the tree.  This is done in line 12.
+\item Similarly, if we insert a value into the right subtree \texttt{mRight}, we have to rebalance 
+      the tree.  This is done in line 15.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    insert := procedure(k, v) {
+        if (isEmpty()) { 
+            this.mKey    := k;
+            this.mValue  := v; 
+            this.mLeft   := map(mCmpFct);
+            this.mRight  := map(mCmpFct);
+            this.mHeight := 1;
+        } else if (mKey == k) { 
+            this.mValue := v; 
+        } else if (mCmpFct(k, mKey)) { 
+            mLeft.insert(k, v); 
+            restore();
+        } else { 
+            mRight.insert(k, v); 
+            restore();
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of the method \texttt{insert}.}
+\label{fig:avl-tree.stlx:insert}
+\end{figure}
+
+Figure \ref{fig:avl-tree.stlx:delMin} shows the implementation of the method \texttt{delMin}.
+The only change compared to the previous implementation for ordered binary trees is in line 7, where
+we have to take care of the fact that the balancing condition might be violated after deleting the
+smallest element in the left subtree.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    delMin := procedure() {
+        if (mLeft.isEmpty()) { 
+            return [ mRight, mKey, mValue ]; 
+        } else {
+             [ ls, km, vm ] := mLeft.delMin();
+             this.mLeft := ls;
+             restore();
+             return [ this, km, vm ];
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{delMin}.}
+\label{fig:avl-tree.stlx:delMin}
+\end{figure}
+
+\pagebreak
+Figure \ref{fig:avl-tree.stlx:delete} shows the implementation of the method \texttt{delete} and the
+implementation of the auxiliary method \texttt{update}.  Compared with Figure
+\ref{fig:binary-tree.stlx-2} there are only three differences:
+\begin{enumerate}
+\item If we delete the key at the root of the tree, we replace this key with the smallest key in the
+      right subtree.  Since this key is deleted in the right subtree, the height of the right
+      subtree might shrunk and hence the balancing condition at the root might be violated.
+      Therefore, we have to restore the balancing condition.  This is done in line 12.
+\item If we delete a key in the left subtree, the height of the left subtree might shrink.
+      Hence we have to rebalance the tree at the root in line 16.
+\item Similarly, if we delete a key in the right subtree, we have to restore the balancing
+      condition.  This is done in line 19.
+\end{enumerate}
+Of course, since the method \texttt{update} only sets the member variables of the tree, it does not
+change the structure of the tree.  Hence there is no need for a call to \texttt{restore} in this method.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    delete := procedure(k) {
+        if (isEmpty())  { 
+            return; 
+        } else if (k == mKey) {
+            if (mLeft.isEmpty()) {
+                update(mRight);
+            } else if (mRight.isEmpty()) {
+                update(mLeft);
+            } else {
+                [ rs, km, vm ] := mRight.delMin();
+                [this.mKey,this.mValue,this.mRight ] := [km,vm,rs];
+                restore();
+            }
+        } else if (mCmpFct(k, mKey)) {
+            mLeft.delete(k);
+            restore();
+        } else {
+            mRight.delete(k);
+            restore();
+        }
+    };
+    update := procedure(t) {
+        this.mKey    := t.mKey;
+        this.mValue  := t.mValue;
+        this.mLeft   := t.mLeft;
+        this.mRight  := t.mRight;
+        this.mHeight := t.mHeight;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The methods \texttt{delete} and \texttt{update}.}
+\label{fig:avl-tree.stlx:delete}
+\end{figure}
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    restore := procedure() {
+        if (abs(mLeft.mHeight - mRight.mHeight) <= 1) {
+            restoreHeight();
+            return;
+        }
+        if (mLeft.mHeight > mRight.mHeight) {
+            [ k1,v1,l1,r1 ] := [ mKey,mValue,mLeft,mRight ];
+            [ k2,v2,l2,r2 ] := [ l1.mKey,l1.mValue,l1.mLeft,l1.mRight ];
+            if (l2.mHeight >= r2.mHeight) {
+                setValues(k2,v2,l2,createNode(k1,v1,r2,r1,mCmpFct));
+            } else {
+                [ k3,v3,l3,r3 ] := [r2.mKey,r2.mValue,r2.mLeft,r2.mRight];
+                setValues(k3,v3,createNode(k2,v2,l2,l3,mCmpFct),
+                                createNode(k1,v1,r3,r1,mCmpFct) );
+            }
+        }
+        if (mRight.mHeight > mLeft.mHeight) {
+            [ k1,v1,l1,r1 ] := [ mKey,mValue,mLeft,mRight ];
+            [ k2,v2,l2,r2 ] := [ r1.mKey,r1.mValue,r1.mLeft,r1.mRight ];
+            if (r2.mHeight >= l2.mHeight) {
+                setValues(k2,v2,createNode(k1,v1,l1,l2,mCmpFct),r2);
+            } else {
+                [ k3,v3,l3,r3 ] := [l2.mKey,l2.mValue,l2.mLeft,l2.mRight];
+                setValues(k3,v3,createNode(k1,v1,l1,l3,mCmpFct),
+                                createNode(k2,v2,r3,r2,mCmpFct) );
+            }
+        }
+        restoreHeight();
+    };
+    setValues := procedure(k, v, l, r) {
+        this.mKey   := k;
+        this.mValue := v;
+        this.mLeft  := l;
+        this.mRight := r;
+    };
+    restoreHeight := procedure() {
+        this.mHeight := 1 + max({ mLeft.mHeight, mRight.mHeight });
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The implementation of \texttt{restore} and \texttt{restoreHeight}.}
+\label{fig:avl-tree.stlx:restore}
+\end{figure}
+
+\pagebreak
+Figure \ref{fig:avl-tree.stlx:restore} shows the implementation of the function \texttt{restore}.
+It is this method that makes most of the difference between ordered binary trees and AVL trees.  Let
+us discuss this method line by line.
+\begin{enumerate}
+\item In line 2 we check whether the balancing condition is satisfied.  If we are lucky,  this test 
+      is successful and hence we do not need to restore the structure of the tree.  However, we
+      still need to maintain the height of the tree since it is possible that variable
+      \texttt{mHeight} no longer contains the correct height.  For example, assume that the left subtree
+      initially has a height that is bigger by one than the height of the right subtree.  Assume
+      further that we have deleted a node in the left subtree so that its height shrinks.  Then the
+      balancing condition is still satisfied, as now the left subtree and the right subtree have the
+      same height.  However, the height of the complete tree has also shrink by one and therefore, 
+      the variable \texttt{mHeight} needs to be decremented.  This is done via the auxiliary method
+      \texttt{restoreHeight}.  This method is defined in line 36 and it recomputes \texttt{mHeight}
+      according to the definition of the height of a binary tree.
+\item If the check in line 2 fails, then we know that the balancing condition is violated.
+      However, we do not yet know which of the two subtrees is bigger.  
+
+      If the test in line 6 succeeds, then the left subtree must have a height that is bigger by
+      two than the height of the right subtree.  In order to be able to use the same variable names 
+      as the variable names given in the equations discussed in the previous subsection, we define
+      the variables \texttt{k1}, \texttt{v1}, $\cdots$, \texttt{l2}, and \texttt{r2} in line 7 and 8
+      so that these variable names correspond exactly to the variable names used in the Figures
+      \ref{fig:casell} and \ref{fig:caselr}.
+\item Next, the test in line 9 checks whether we have the case that is depicted in Figure
+      \ref{fig:casell}.  In this case, Figure \ref{fig:casell} tells us that the key \texttt{k2}
+      has to move to the root.  The left subtree is now \texttt{l2}, while the right subtree is a
+      new node that has the key \texttt{k1} at its root.  This new node is created by the call
+      of the function \texttt{createNode} in line 10.  The function \texttt{createNode} is shown in
+      Figure \ref{fig:avl-tree.stlx:createNode} on page \pageref{fig:avl-tree.stlx:createNode}.
+\item If the test in line 9 fails, the right subtree is bigger than the left subtree and we are in 
+      the case that is depicted in Figure \ref{fig:caselr}.  We have to create the tree that is
+      shown in Figure \ref{fig:caselr-nach}.  To this end we first define the variables 
+      \texttt{k3}, \texttt{v3}, \texttt{l3}, and \texttt{r3} in a way that these variables
+      correspond to the variables shown in Figure \ref{fig:caselr}.  Next, we create the tree
+      that is shown in Figure \ref{fig:caselr-nach}.
+\item Line 17 deals with the case that the right subtree is bigger than the left subtree. 
+      As this case is analogous to the case covered in line 6 to line 16, we won't discuss this case
+      any further.
+\item Finally, we recompute the variable \texttt{mHeight} since it is possible that the old value is
+      no longer correct.
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    createNode :=  procedure(key, value, left, right, cmp) {
+        node         := map(cmp);
+        node.mKey    := key;
+        node.mValue  := value;
+        node.mLeft   := left;
+        node.mRight  := right;
+        node.mCmpFct := cmp;
+        node.mHeight := 1 + max({ left.mHeight, right.mHeight });
+        return node;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{}
+\label{fig:avl-tree.stlx:createNode}
+\end{figure}
+
+The function \texttt{createNode} shown in Figure \ref{fig:avl-tree.stlx:createNode}
+constructs a node with given left and right subtrees.  In fact, this method serves as a second
+constructor for the class \texttt{map}.  The implementation should be obvious.
+
+
+\subsection{Analyse der Komplexität}
+Wir analysieren jetzt die Komplexität von AVL-Bäumen im schlechtesten Fall. Der
+schlechteste Fall tritt dann ein, wenn bei einer vorgegebenen Zahl von Schlüsseln die Höhe
+maximal wird.  Das ist aber das selbe wie wenn in einem Baum gegebener Höhe die Zahl der
+Schlüssel minimal wird.  Wir definieren daher $b_h(k)$ als einen AVL-Baum der Höhe $h$, der
+unter allen AVL-Bäumen der Höhe $h$ die minimale Anzahl von Schlüsseln hat.  Außerdem
+sollen alle Schlüssel, die in $b_h(k)$ auftreten, größer als der Schlüssel $k$ sein.
+Sowohl die Schlüssel als auch die Werte sind in diesem Zusammenhang eigentlich unwichtig,
+wir müssen nur darauf achten, dass die Ordnungs-Bedingung für binäre Bäume erfüllt ist.
+Wir werden für die Schlüssel natürliche Zahlen nehmen, für die Werte nehmen wir immer die
+Zahl $0$.  Bevor wir mit der Definition von $b_h(k)$ beginnen können, benötigen wir noch eine
+Hilfs-Funktion $\textsl{maxKey}()$ mit der Signatur  
+\[ \textsl{maxKey}:\mathcal{B}_< \rightarrow \textsl{Key} \]
+Für einen gegebenen geordneten nicht-leeren binären Baum $b$ 
+berechnet $b.\textsl{maxKey}()$ den größten Schlüssel, der in $b$ auftritt.  Die
+Definition von $b.\textsl{maxKey}()$ ist induktiv:
+\begin{enumerate}
+\item $\textsl{Node}(k,v,l,\textsl{Nil}).\textsl{maxKey}() = k$,
+\item $r \not= \textsl{Nil} \rightarrow \textsl{Node}(k,v,l,r).\textsl{maxKey}() = r.\textsl{maxKey}()$.
+\end{enumerate}
+Damit können wir nun die Bäume $b_h(k)$ durch Induktion nach der Höhe $h$ definieren.
+\begin{enumerate}
+\item $b_0(k) = Nil$,
+
+      denn es gibt genau einen AVL-Baum der Höhe $0$ und dieser enthält keinen Schlüssel.
+\item $b_1(k) = \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil})$,
+
+      denn es gibt genau einen AVL-Baum der Höhe $1$.
+\item $b_{h+1}(k).\textsl{maxKey}() = l \rightarrow 
+       b_{h+2}(k) = \textsl{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr)$,
+
+      denn um einen AVL-Baum der Höhe $h+2$ mit einer minimalen Anzahl an Schlüsseln zu
+      konstruieren, erzeugen wir zunächst den AVL-Baum $b_{h+1}(k)$ der Höhe $h+1$.
+      Dann bestimmen wir den maximalen Schlüssel $l$ in diesem Baum, der Schlüssel $l+1$
+      kommt nun an die Wurzel des zu erzeugenden Baums der Höhe $h+2$ und schließlich erzeugen wir noch
+      den Baum $b_h(l+1)$ der Höhe $h$, den wir als rechten Teilbaum in den neu zu
+      erzeugenden Baum der Höhe $h+2$  einfügen.
+\end{enumerate}
+Für einen beliebigen binären Baum $b$ bezeichne $\#\,b$ die Anzahl der Schlüssel, die in
+$b$ auftreten.  Dann definieren wir 
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_h := \#\, b_h(k)$
+\\[0.2cm]
+als die Anzahl der Schlüssel des Baums $b_h(k)$.  Wir werden sofort sehen, dass
+$\#\,b_h(k)$ nicht von $k$ abhängt.  Für $c_h$ finden wir in Analogie zu
+der induktiven Definition von $b_h(k)$ die folgenden Gleichungen.
+\begin{enumerate}
+\item $c_0 = \#\, b_0(k) = \#\, \textsl{Nil} = 0$,
+\item $c_1 = \#\, b_1(k) = \#\, \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil}) = 1$, 
+\item$\begin{array}[t]{lcl}
+       c_{h+2} & = & \#\, b_{h+2}(k) \\
+               & = & \#\,\textsl{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr) \\
+               & = & \#\, b_{h+1}(k) + \#\, b_h(l+1) + 1 \\
+               & = & c_{h+1} + c_h + 1.
+       \end{array}$
+\end{enumerate}
+Also haben wir zur Bestimmung von $c_h$ die Rekurrenz-Gleichung
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{mit den Anfangs-Bedingungen $c_0 = 0$ und $c_1 = 1$}$
+\\[0.2cm]
+zu lösen.  Das ist eine Rekurrenz-Gleichung,
+die wir, allerdings mit leicht veränderten Anfangs-Bedingungen, bereits im dritten Kapitel gelöst haben.
+Sie können leicht nachrechnen, dass die Lösung dieser Rekurrenz-Gleichung wie folgt
+lautet: 
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_h = \displaystyle \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
+1$  \quad mit
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda_1 = \displaystyle \frac{1}{2}(1 + \sqrt{5}) \approx  1.62$ \quad und \quad $\lambda_2 =
+\displaystyle \frac{1}{2}(1 - \sqrt{5}) \approx -0.62$.
+\\[0.2cm]
+Da $|\lambda_2| < 1$ ist, spielt der Wert $\displaystyle\lambda_2^{h+2}$
+für große Werte von $h$   praktisch keine Rolle und die
+minimale Zahl $n$ der Schlüssel in einem Baum der Höhe $h$ ist durch \\[0.2cm]
+\hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$ \\[0.2cm]
+gegeben.  Um diese Gleichung nach $h$ aufzulösen, bilden wir auf beiden Seiten den
+Logarithmus zur Basis 2.  Dann erhalten wir 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\log_2(n+1) = (h+2) \cdot \log_2(\lambda_1) - \frac{1}{2}\cdot \log_2(5)$
+\\[0.2cm]
+Daraus folgt nach Addition von $\frac{1}{2}\cdot \log_2(5)$
+\\[0.2cm]
+\hspace*{1.3cm}
+$\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$
+\\[0.2cm]
+Jetzt teilen wir durch $\log_2(\lambda_1)$.  Dann erhalten wir 
+\\[0.4cm]
+\hspace*{1.3cm}
+$\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$
+\\[0.2cm]
+Lösen wir diese Gleichung nach $h$ auf, so haben wir für große $n$
+das Ergebnis
+\\[0.4cm]
+\hspace*{1.3cm} 
+$
+\begin{array}[t]{lcl}
+h & = & \displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
+  & = & \bruch{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
+  & \approx & 1,44 \cdot \log_2(n) + \Oh(1)
+\end{array} 
+$
+\\[0.2cm]
+gewonnen. 
+Die Größe $h$ gibt aber die Zahl der Vergleiche an, die wir im ungünstigsten Fall bei
+einem Aufruf von \textsl{find} in einem AVL-Baum mit $n$ Schlüsseln durchführen müssen.
+Wir sehen also, dass bei einem AVL-Baum auch im schlechtesten Fall die Komplexität
+logarithmisch bleibt.  Abbildung
+\ref{fig:avl-worst-case} zeigt einen AVL-Baum der Höhe 6, für den das Verhältnis von Höhe zur Anzahl
+der Knoten maximal wird.  Wie man sieht ist auch dieser Baum noch sehr weit weg von dem
+zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.
+
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=avl}} 
+  \caption{Ein AVL-Baum mit dem ungünstigsten Verhältnis von Höhe zur Anzahl an Knoten}
+  \label{fig:avl-worst-case}
+\end{figure}
+
+\subsection{Further Reading}
+In practice, \emph{red-black trees} are slightly faster than \textsl{Avl} trees.  Similar to
+\textsl{Avl} trees, a  red-black
+  is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
+The children of a red tree have to be black.  In order to keep red-black trees approximately
+balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
+height of a tree.  The left and right subtree of a red-black tree are required to have the same 
+relaxed height.  A detailed and very readable exposition of red-black trees is given in \cite{sedgewick:2011}.
+
+
+
+\section{Tries}
+In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
+In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
+Form von Such-Bäumen, die auf diese Situation besonders angepaßt ist.  Diese Such-Bäume
+haben den Namen \emph{Tries}.  Dieses Wort ist von dem Englischen Wort
+\emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
+unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
+Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandais
+\cite{briandais:59} vorgeschlagen.
+
+
+Die Grundidee bei der Datenstruktur \emph{Trie} ist ein Baum, an dem jeder Knoten nicht
+nur zwei Nachfolger hat, wie das bei binären Bäumen der Fall ist, sondern statt dessen
+potentiell für jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
+können, nehmen wir zunächst an, dass folgendes gegeben ist:
+\begin{enumerate}
+\item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
+      bezeichnen. $\Sigma$ selbst heißt das \emph{Alphabet}.
+\item $\Sigma^*$ bezeichnet die Menge der \emph{Wörter} (engl.~\emph{strings}), die wir aus den Buchstaben
+      des Alphabets bilden können.  Mathematisch können wir Wörter als Listen von 
+      Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
+      $c$ der erste Buchstabe von $w$ ist und $r$ das Wort ist, das durch Löschen des
+      ersten Buchstabens aus $w$ entsteht.  
+\item $\varepsilon$ bezeichnet das leere Wort.  
+\item \textsl{Value} ist eine Menge von \emph{Werten}.  
+\end{enumerate}
+Die Menge $\mathbb{T}$ der Tries definieren wir nun induktiv mit Hilfe des 
+Konstruktors \\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}: \textsl{Value} \times \textsl{List}(\Sigma) \times
+\textsl{List}(\mathbb{T}) \rightarrow \mathbb{T}$. \\[0.2cm]
+Die induktive Definition besteht nur aus einer einzigen Klausel: Falls
+\begin{enumerate}
+\item $v \in \textsl{Value} \cup \{\Omega\}$
+\item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ eine Liste von Buchstaben der
+      Länge $n$ ist,
+\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ eine Liste von Tries der selben Länge $n$ ist, 
+\end{enumerate}
+dann gilt \\[0.2cm]
+\hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  \\[0.2cm]
+Als erstes fragen Sie sich
+vermutlich, wo bei dieser induktiven Definition der Induktions-Anfang ist.
+Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $L$ und $T$ leer.
+Als nächstes überlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
+\hspace*{1.3cm}  $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]) \in \mathbb{T}$ \\[0.2cm]
+dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen für die
+Methode \\[0.2cm]
+\hspace*{1.3cm} $\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
+\\[0.2cm]
+angeben.  Wir werden den Ausdruck $\texttt{Node}(v,L,T).\textsl{find}(s)$ durch
+Induktion über den String $s$ 
+definieren:
+\begin{enumerate}
+\item $\texttt{Node}(v, C, T).\textsl{find}(\varepsilon) = v$.
+
+      Der dem leeren String zugeordnete Wert wird also unmittelbar an der Wurzel
+      des Tries abgespeichert.
+\item $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{find}(cr) = 
+        \left\{
+        \begin{array}{ll}
+        t_1.\textsl{find}(r) & \mbox{falls} \quad c = c_1 \mbox{;} \\
+        \vdots &                                     \\
+        t_i.\textsl{find}(r) & \mbox{falls} \quad c = c_i \mbox{;} \\
+        \vdots &                                     \\
+        t_n.\textsl{find}(r) & \mbox{falls} \quad c = c_n \mbox{;} \\[0.2cm]
+        \Omega               & \mbox{falls} \quad c \notin \{c_1,\cdots,c_n\} \mbox{.}         
+        \end{array}
+       \right.$
+
+      Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enthält also genau
+      dann einen Wert zu dem Schlüssel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
+      eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
+      übereinstimmt  wenn außerdem der Trie $t_i$ einen Wert zu dem
+      Schlüssel $r$ enthält.
+\end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=trie}} 
+  \caption{Ein Beispiel Trie}
+  \label{fig:trie}
+\end{figure}
+
+Zum besseren Verständnis wollen wir Tries graphisch als Bäume darstellen.
+Nun ist es nicht sinnvoll, die Knoten dieser Bäume mit langen Listen zu beschriften.
+Wir behelfen uns mit einem Trick.  Um einen Knoten der Form \\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
+darzustellen, zeichnen wir einen Kreis,
+den wir durch einen horizontalen Strich in der Mitte aufteilen.
+Falls $v$ von $\Omega$ verschieden ist, schreiben wir den Wert $v$ in die untere Hälfte
+des Kreises.
+Das, was wir über dem Strich schreiben,
+hängt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abhängt, sehen wir gleich.
+Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
+Wurzeln der Bäume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
+Außerdem markieren wir die diese Knoten darstellenden Kreise in den oberen Hälfte 
+mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
+
+
+Zur Verdeutlichung geben wir ein Beispiel in 
+Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
+Die Funktion, die hier dargestellt wird, läßt sich wie folgt als binäre Relation
+schreiben: \\[0.2cm]
+\hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
+             \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
+\hspace*{1.5cm} $\langle \textrm{``Schulze''},   6  \rangle, \langle \textrm{``Schnaut''},   7  \rangle, 
+  \langle \textrm{``Schnupp''},   8  \rangle, 
+  \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
+Der Wurzel-Knoten ist hier leer, denn dieser Knoten hat keinen Vater-Knoten, von dem er
+eine Markierung erben könnte.  Diesem Knoten entspricht der Term \\[0.2cm]
+\hspace*{1.3cm} $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. \\[0.2cm]
+Dabei bezeichnet $t$ den Trie, dessen Wurzel mit dem Buchstaben `S' markiert ist.
+Diesen Trie können wir seinerseits durch den Term \\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$ \\[0.2cm]
+darstellen.  Daher hat dieser Knoten drei Söhne, die mit den Buchstaben `t', `a' und `c'
+markiert sind.
+
+\subsection{Einfügen in Tries}
+Wir stellen nun bedingte Gleichungen auf, mit denen wir das Einfügen eines Schlüssels mit
+einem zugehörigen Wert beschreiben können.  Bezeichnen wir die Methode für das Einfügen
+mit $\textsl{insert}()$, so hat diese Methode die Signatur
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{insert}: \mathbb{T} \times \Sigma^* \times V \rightarrow \mathbb{T}$.
+\\[0.2cm]
+Wir definieren den Wert von \\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(s,v)$
+\\[0.2cm]
+für ein Wort $w\in \Sigma^*$ und einen Wert $v \in V$
+durch Induktion nach der Länge des Wortes $w$.
+\begin{enumerate}
+\item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
+
+      Einfügen eines Wertes mit dem leeren String als Schlüssel überschreibt einfach
+      den an dem Wurzel-Knoten gespeicherten Wert. 
+\item $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\textsl{insert}(c_ir,v_2) =$ \\[0.2cm]
+      \hspace*{1.3cm}  
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\textsl{insert}(r,v_2),\cdots,t_n]\bigr)$.
+
+      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
+      $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
+      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muß der Wert $v_2$
+      rekursiv in dem Trie $t_i$ unter dem Schlüssel 
+      $r$ eingefügt werden.
+
+\item $c \not\in\{c_1,\cdots,c_n\} \;\rightarrow\;\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr).\textsl{insert}(cr,v_2) =$ \\[0.2cm]
+      \hspace*{1.3cm}  
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\texttt{Node}(\Omega,[],[]).\textsl{insert}(r,v_2)]\bigr)$.
+      
+      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$
+      ein Wert $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe
+      $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zunächst ein Trie
+      erzeugt, der die leere Abbildung repräsentiert.  Dieser Trie hat die Form \\[0.2cm]
+      \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
+      Anschließend wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schlüssel $r$
+      eingefügt. Zum Schluß hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
+      an und fügen den Trie  \\[0.2cm] 
+      \hspace*{1.3cm}
+      $\texttt{Node}(\Omega, [], []).\textsl{insert}(r,v_2)$ 
+      \\[0.2cm]
+      am Ende der Liste $[t_1,\cdots,t_n]$ ein.
+\end{enumerate}
+
+\subsection{Löschen in Tries}
+Als letztes stellen wir die bedingten Gleichungen auf, die das Löschen von
+Schlüsseln und den damit verknüpften Werten in einem Trie beschreiben.
+Um diese Gleichungen einfacher schreiben zu können, definieren wir zunächst eine
+Hilfs-Funktion 
+\\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$, 
+\\[0.2cm]
+so dass $t.\textsl{isEmpty}()$ genau dann $\mathtt{true}$ liefert, wenn der Trie
+$t$ die leere Funktion darstellt.  Wir definieren also: 
+\begin{enumerate}
+\item $\texttt{Node}(\Omega, [],[]).\textsl{isEmpty}() = \mathtt{true}$,
+\item $v \not= \Omega \rightarrow 
+       \texttt{Node}(v, [c_1,\cdots,c_n],[t_1,\cdots,t_n]).\textsl{isEmpty}() = \mathtt{false}$,
+\item $\texttt{Node}(\Omega, L, T).\textsl{isEmpty}() = \textsl{isEmptyList}(T)$
+\end{enumerate}
+In der letzten Gleichung haben wir eine weitere Hilfs-Funktion benutzt, die wir noch
+definieren müssen.  Die Funktion
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$
+\\[0.2cm]
+prüft für eine gegebene Liste von Tries, ob alle in der Liste vorhandenen Tries leer sind.
+Die Definition dieser Funktion erfolgt durch Induktion über die Länge der Liste.
+\begin{enumerate}
+\item $\textsl{isEmptyList}\bigl([]\bigr) = \mathtt{true}$,
+\item $\textsl{isEmptyList}\bigl([t] + r\bigr) = \bigl(t.\textsl{isEmpty}() \wedge \textsl{isEmptyList}(r)\bigr)$,
+
+      denn alle Tries in der Liste $[t]+r$ sind leer, wenn einerseits $t$ ein leerer
+      Trie ist und wenn andererseits auch alle Tries in $r$ leer sind.
+\end{enumerate}
+Nun können wir die Methode
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$
+\\[0.2cm]
+spezifizieren:  Wir definieren den Wert von \\[0.2cm]
+\hspace*{1.3cm} 
+$t.\textsl{delete}(w)$
+\\[0.2cm]
+für einen Trie $t \in \mathbb{B}$ und ein Wort $w \in \Sigma^*$
+durch Induktion nach der Länge des Wortes $w$.
+\begin{enumerate}
+\item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$,
+
+      denn der Wert, der unter dem leeren String $\varepsilon$ in einem Trie
+      gespeichert wird, befindet sich unmittelbar an der Wurzel des Tries und
+      kann dort sofort gelöscht werden.
+\item $\begin{array}[t]{ll}
+       t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
+       \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
+       & = \\
+       \qquad 
+       \texttt{Node}(v, [c_1,\cdots,c_{i-1},c_{i+1},\cdots,c_n],[t_1,\cdots,t_{i-1},t_{i+1},\cdots,t_n]).
+       \end{array}
+       $
+
+       Wenn der zu löschende String mit dem Buchstaben $c_i$ anfängt, und wenn
+       das Löschen des Schlüssels $r$ in dem $i$-ten Trie $t_i$ einen leeren
+       Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
+       korrespondierenden $i$-ten Trie $t_i$.
+\item $\begin{array}[t]{ll}
+       \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \wedge \\
+       \textsl{delete}\bigl(\texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]),c_ir\bigr) 
+       & = \\
+       \qquad \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i.\textsl{delete}(r),\cdots,t_n]).
+       \end{array}
+       $
+
+       Wenn der zu löschende String mit dem Buchstaben $c_i$ anfängt, und wenn
+       der Baum $t_i$, der durch das  Löschen des Schlüssels $r$ in dem $i$-ten
+       Trie $t_i$ entsteht nicht leer ist, dann löschen wir rekursiv in dem Baum $t_i$ den Schlüssel
+       $r$.
+\item $c \notin C \rightarrow \texttt{Node}(v, C, T).\textsl{delete}(cr) =
+       \texttt{Node}(v, C, T)$. 
+
+       Wenn der zu löschende String mit dem Buchstaben $c$ anfängt und wenn der
+       Buchstabe $c$ gar kein Element der Buchstaben-Liste $C$ des Tries
+       ist, dann verändert das Löschen den Trie nicht.
+\end{enumerate}
+
+\subsection{Implementing Tries in \textsc{SetlX}}
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    class map() {
+        mValue := om;
+        mChars := [];
+        mTries := [];
+    
+      static {
+        find    := procedure(s)    { ... };
+        insert  := procedure(s, v) { ... };
+        delete  := procedure(s)    { ... };
+        isEmpty := procedure()     { ... };
+      }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Outline of the class \texttt{trieMap}.}
+\label{fig:trie.stlx-outline}
+\end{figure}
+
+\noindent
+We proceed to discuss the implementation of tries.  Figure \ref{fig:trie.stlx-outline} shows the
+outline of the class \texttt{trie}.  This class supports three member variables.  In order to
+understand these member variables, remember that a trie has the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{Node}(v, C, T)$
+\\[0.2cm]
+where $v$ is the value stored at the root, $C$ is the list of characters, and $t$ is a list of
+tries.  Therefore, the member variables have the following semantics:
+\begin{enumerate}
+\item \texttt{mValue} represent the value $v$ stored at the root of this trie,  
+\item \texttt{mChars} represent the list  $C$ of characters.  If there is a string $cr$ such that
+      the trie stores a value associated with this string, then the character $c$ will be an element of
+      the list $C$.
+\item \texttt{mTries} represent the list of subtries $T$.  
+\end{enumerate}
+The methods \texttt{find}, \texttt{insert}, and \texttt{delete} are inherited from the abstract data
+type \texttt{map}.  The method \texttt{isEmpty} is an auxiliary method that is needed in the
+implementation of the method \texttt{delete}.  This method checks whether the given trie corresponds
+to the empty map.  The implementation of all these methods is given below.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    find := procedure(s) {
+        match (s) {
+            case ""   : return mValue;
+            case [c|r]: for (i in [1 .. #mChars]) {
+                            if (mChars[i] == c) {
+                                return mTries[i].find(r);
+                            }
+                        }
+                        return;  // not found
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{find} for tries.}
+\label{fig:trie.stlx-find}
+\end{figure}
+
+The method \texttt{find} takes a string $s$ as its sole argument and checks whether the given trie
+contains a value associated with the string $s$.  Essentially, the are two cases:
+\begin{enumerate}
+\item If $s$ is the empty string, the value associated with $s$ is stored in the member variable
+      \texttt{mValue} at the root of this trie.
+\item Otherwise, $s$ can be written as $s = cr$ where $c$ is the first character of $s$ while $r$
+      consists of the remaining characters.  In order to check whether the trie has a value stored
+      for $s$ we first have to check whether there is an index $i$ such that \texttt{mChars[$i$]} is
+      equal to $c$.  If this is the case, the subtrie \texttt{mTries[$i$]} contains the value
+      associated with $s$.  Then, we have to invoke \texttt{find} recursively on this subtrie.
+
+      If the loop in line 4 does not find $c$ in the list \texttt{mChars}, then the method
+      \texttt{find} will just return \texttt{om} in line 9.
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    insert := procedure(s, v) {
+        match (s) {
+            case ""   : this.mValue := v;
+            case [c|r]: for (i in [1 .. #mChars]) {
+                            if (mChars[i] == c) {
+                                t := mTries[i];
+                                t.insert(r,v);
+                                this.mTries[i] := t;
+                                return;
+                            }
+                        }
+                        newTrie := trieMap();
+                        newTrie.insert(r, v);
+                        this.mChars += [ c ]; 
+                        this.mTries += [ newTrie ];
+        } 
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{insert} for tries.}
+\label{fig:trie.stlx-insert}
+\end{figure}
+
+
+The method \texttt{insert} takes a string $s$ and an associated value $v$ that is to be inserted
+into the given trie.  The implementation of \texttt{insert} works somewhat similar to the
+implementation of \texttt{find}.
+\begin{enumerate}
+\item If the string $s$ is empty, then the value $v$ has to be positioned at the root of this trie.
+      Hence we just set \texttt{mValue} to $v$.
+\item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
+      consists of the remaining characters.  In this case, we need to check whether the list
+      \texttt{mChars} already contains the character $c$ or not.
+      \begin{enumerate}
+      \item If $c$ is the $i$-th character of \texttt{mChars}, then we have to insert the value $v$
+            in the trie \texttt{mTries[$i$]}.  However, this is a little tricky to do.
+            First, we retrieve the subtrie \texttt{mTries[$i$]} and store this trie into the
+            variable $t$.  Next, we can insert the value $v$ into the trie $t$ using the rest $r$ of the
+            string $s$ as the key.  Finally, we have to set \texttt{mTries[$i$]} to $t$.  At this point, you
+            might wonder why we couldn't have just used the statement
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            \texttt{this.mTries[i].insert(r,v);}
+            \\[0.2cm]
+            to achieve the same effect. Unfortunately, this does not work because the expression \texttt{this.mTries[i]} will
+            create a temporary value and inserting $v$ into this temporary value will not change the
+            original list \texttt{mTries}.
+       \item If $c$ does not occur in \texttt{mChars}, things are straightforward: We create a new
+             empty trie and insert $v$ into this trie.  Next, we append the character $c$ to
+             \texttt{mChars} and simultaneously append the newly created trie that contains $v$ to
+             \texttt{mTries}. 
+      \end{enumerate}
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    delete := procedure(s) {
+        match (s) {
+            case ""   : this.mValue := om;
+            case [c|r]: 
+                for (i in [1 .. #mChars]) {
+                     if (mChars[i] == c) {
+                         t := mTries[i]; 
+                         t.delete(r);
+                         this.mTries[i] := t;
+                         if (this.mTries[i].isEmpty()) {
+                             this.mChars := removeIthElement(mChars, i);
+                             this.mTries := removeIthElement(mTries, i);
+                         }
+                         return;
+                     }
+                }
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{delete} for tries.}
+\label{fig:trie.stlx-delete}
+\end{figure}
+
+The method \texttt{delete} takes a string and, provided there is a value associated with $s$, this
+value is deleted,
+\begin{enumerate}
+\item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
+      Hence, this value is set to \texttt{om}.
+\item Otherwise, $s$ can we written as $cr$ where $c$ is the first character of $s$ while $r$
+      consists of the remaining characters.  In this case, we need to check whether the list
+      \texttt{mChars} contains the character $c$ or not.
+ 
+      If $c$ is the $i$-th character of \texttt{mChars}, then we have to delete the value 
+      associated with $r$ in the trie \texttt{mTries[$i$]}.  Again, this is tricky to do.
+      First, we retrieve the subtrie \texttt{mTries[$i$]} and store this trie into the
+      variable $t$.  Next, the value associated with $r$ is deleted in $t$ and, finally, 
+      $t$ is written to \texttt{mTries[$i$]}.  
+
+      After the deletion, the subtrie  \texttt{mTries[$i$]} might well be empty.  In this case,
+      we remove the $i$-th character form \texttt{mChars} and also remove the $i$-th trie from the list
+      \texttt{mTries}.  This is done with the help of the function \texttt{removeIthElement},
+      which is shown in Figure \ref{fig:trie.stlx-removeIthElement}.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    isEmpty := procedure() {
+        return mValue == om && mChars == [];
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{isEmpty} for tries.}
+\label{fig:trie.stlx-isEmpty}
+\end{figure}
+
+In order to check whether a given trie is empty we have to check that no value is stored at the root
+and that the list \texttt{mChars} is empty, since then the list \texttt{mTries} will also be empty.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    removeIthElement := procedure(l, i) {
+        return l[1 .. i-1] + l[i+1 .. #l];
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The function to remove the $i$-th element from a list.}
+\label{fig:trie.stlx-removeIthElement}
+\end{figure}
+
+Finally, the implementation of \texttt{removeIthElement}, which is shown in Figure
+\ref{fig:trie.stlx-removeIthElement}, is straightforward. 
+
+
+\exercise
+\textbf{Binäre Tries}:  Wir nehmen im folgenden an, dass unser Alphabet nur aus den beiden
+Ziffern $0$ und $1$ besteht, es gilt also $\Sigma = \{0,1\}$.  Dann können wir natürliche
+Zahlen als Worte aus $\Sigma^*$ auffassen.  Wir wollen die Menge der \emph{binären Tries}
+mit $\BT$ bezeichnen und wie folgt induktiv definieren:
+\begin{enumerate}
+\item $\textsl{Nil} \in \BT$.
+\item $\textsl{Bin}(v,l,r) \in \BT$ falls
+      \begin{enumerate}
+      \item $v \in \textsl{Value} \cup \{\Omega\}$.
+      \item $l,r \in \BT$.
+      \end{enumerate}
+\end{enumerate}
+Die Semantik legen wir fest, indem wir eine Funktion
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$
+\\[0.2cm]
+definieren.  Für einen binären Trie $b$ und eine natürliche Zahl $n$ gibt
+$\textsl{find}(b,n)$ den Wert zurück, der unter dem Schlüssel $n$ in dem binären Trie $b$ gespeichert ist.
+Falls in dem binären Trie $b$ unter dem Schlüssel $n$ kein Wert gespeichert ist, wird
+$\Omega$ zurück gegeben.
+Formal definieren wir den Wert von $\textsl{find}(b,n)$ durch Induktion nach dem Aufbau
+von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
+\begin{enumerate}
+\item $\textsl{find}(\textsl{Nil},n) = \Omega$,
+
+      denn in dem leeren binären Trie finden wir keine Werte.
+\item $\textsl{find}\bigl(\textsl{Bin}(v,l,r),0\bigr) = v$,
+
+      denn der Schlüssel $0$ entspricht dem leeren String $\varepsilon$.
+\item $n \not= 0 \rightarrow \textsl{find}\bigl(\textsl{Bin}(v,l,r),2\!\cdot \!n\bigr) = \textsl{find}(l,n)$,
+
+      denn wenn wir Zahlen im Binärsystem darstellen, so hat bei geraden Zahlen das letzte
+      Bit den Wert 0 und die 0 soll dem linken Teilbaum entsprechen.
+\item $\textsl{find}\bigl(\textsl{Bin}(v,l,r),2\!\cdot \!n\!+\!1) = \textsl{find}(r,n)$,
+
+      denn wenn wir Zahlen im Binärsystem darstellen, so hat bei ungeraden Zahlen das letzte
+      Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
+\end{enumerate}
+Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
+\begin{enumerate}
+\item Stellen Sie Gleichungen auf, die das Einfügen und das Löschen in einem
+      binären Trie beschreiben.  Achten Sie beim Löschen darauf,
+      dass binäre Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
+      zu $\textsl{Nil}$ vereinfacht werden.
+
+      \textbf{Hinweis}:  Um die Gleichungen zur Spezifikation der Funktion
+      $\textsl{delete}()$ nicht zu komplex werden zu lassen ist es sinnvoll, eine
+      Hilfsfunktion zur Vereinfachung von binären Tries zu definieren.
+\item Implementieren Sie binäre Tries in \textsc{SetlX}.
+\end{enumerate}
+\textbf{Bemerkung}: Binäre Tries werden auch als \emph{digitale Suchbäume} bezeichnet.
+\pagebreak
+
+\section{Hash-Tabellen}
+Eine Abbildung \\[0.2cm]
+\hspace*{1.3cm} $f: \textsl{Key} \rightarrow \textsl{Value}$ \\[0.2cm]
+kann dann sehr einfach implementiert werden, wenn \\[0.2cm]
+\hspace*{1.3cm} $\textsl{Key} = \{ 1, 2, \cdots, n \}$ \\[0.2cm]
+gilt, denn dann reicht es aus, ein Feld der Größe $n$ zu verwenden.
+Abbildung \ref{fig:map-array.stlx} zeigt eine Umsetzung dieser Idee.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    class map(n) {
+        mArray := [1..n];
+      static {
+        find   := k |-> mArray[k];
+        insert := procedure(k, v) { this.mArray[k] := v;  };
+        delete := procedure(k)    { this.mArray[k] := om; };
+        f_str  := procedure()     { return str(mArray);   };
+      }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementing a map as an array.}
+\label{fig:map-array.stlx}
+\end{figure}
+
+
+
+
+Falls nun der Definitions-Bereich $D$ der darzustellenden Abbildung nicht die Form einer
+Menge der Gestalt $\{1, \cdots, n\}$ hat, 
+könnten wir versuchen, $D$ zunächst auf eine Menge der Form $\{1,\cdots,n\}$ abzubilden.
+Wir erläutern diese Idee  an einem einfachen Beispiel.
+Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
+\begin{enumerate}
+\item Wir machen zunächst die Annahme, dass alle Namen aus genau  
+      8 Buchstaben bestehen.  Dazu werden
+      kürzere Namen mit Blanks aufgefüllt und Namen die länger als 8 Buchstaben sind,
+      werden nach dem  8-ten Buchstaben abgeschnitten.
+\item Als nächstes übersetzen wir Namen in einen Index.  
+      Dazu fassen wir die einzelnen Buchstaben als Ziffern auf, die die Werte von 0 bis 26
+      annehmen können.  Dem Blank ordnen wir dabei den Wert 0 zu.   Nehmen wir an, dass
+      die Funktion $\textsl{ord}$ jedem Buchstaben aus der Menge 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\Sigma = \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \}$ 
+      \\[0.2cm]
+      einen Wert aus der Menge
+      $\{0,\cdots,26\}$ zuordnet \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\textsl{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$,
+      \\[0.2cm]
+      so läßt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
+      berechnen, die wie folgt definiert ist: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\textsl{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \textsl{ord}(c_i) \cdot 27^i$.
+      \\[0.2cm]
+      Die Menge \textsl{code} bildet die Menge aller Wörter mit 8 Buchstaben bijektiv
+      auf die Menge der Zahlen $\{1,\cdots,27^8\}$ ab.
+\end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=hash-table,scale=0.6}} 
+  \caption{Eine Hash-Tabelle}
+  \label{fig:hash-example}
+\end{figure}
+
+\noindent
+Leider hat diese naive Implementierung mehrere Probleme: 
+\begin{enumerate}
+\item Das Feld, das wir anlegen müssen, hat eine Größe von \\[0.2cm]
+      \hspace*{1.3cm} $27^8 = 282\,429\,536\,481$ \\[0.2cm]
+      Einträgen.  Selbst wenn jeder Eintrag nur die Größe zweier Maschinen-Worte hat und
+      ein Maschinen-Wort aus 4 Byte besteht, so bräuchten wir 
+      etwas mehr als ein Terabyte um eine
+      solche Tabelle anzulegen.
+\item Falls zwei Namen sich erst nach dem 8-ten Buchstaben unterscheiden, können 
+      wir zwischen diesen Namen nicht mehr unterscheiden. 
+\end{enumerate}
+Wir können diese Probleme wir folgt lösen:
+\begin{enumerate}
+\item Wir ändern die Funktion \texttt{code} so ab, dass das Ergebnis
+      immer kleiner-gleich einer vorgegebene Zahl \texttt{size} ist.  Die Zahl
+      \texttt{size} gibt dabei die Größe eines Feldes an und ist so klein,
+      dass wir ein solches Feld bequem anlegen können.
+
+      Eine einfache Möglichkeit, die Funktion \textsl{code} entsprechend abzuändern,
+      besteht in folgender Implementierung: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\textsl{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \textsl{ord}(c_i) \cdot
+        27^i\right) \;\%\; \texttt{size} + 1$.
+      \\[0.2cm]
+      Um einen Überlauf zu vermeiden, können wir für $k=n,n-1,\cdots,1,0$ die Teilsummen $s_k$
+      wie folgt induktiv definieren:
+      \begin{enumerate}
+      \item $s_n = \textsl{ord}(c_n)$
+      \item $s_{k} = \left(\textsl{ord}(c_{k}) + s_{k+1} \cdot 27 \right) \;\%\; \texttt{size}$
+      \end{enumerate}
+      Dann gilt
+      \hspace*{1.3cm} 
+      $s_0 + 1 = \left(\sum\limits_{i=0}^n \textsl{ord}(c_i) \cdot 27^i\right) \;\%\; \texttt{size} + 1$.
+\item In dem Feld der Größe \texttt{size} speichern wir nun nicht mehr die Werte, sondern statt dessen
+      Listen von Paaren aus Schlüsseln und Werten.  Dies ist notwendig, denn wir können
+      nicht verhindern, dass die Funktion \texttt{code}() für zwei verschiedene
+      Schlüssel den selben Index liefert.
+\end{enumerate}
+Abbildung \ref{fig:hash-example} auf Seite \pageref{fig:hash-example} zeigt, wie ein Feld,
+in dem Listen von Paaren abgebildet sind, aussehen kann.  Ein solches Feld bezeichnen wir
+als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \textsc{Setlx}.
+
+
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    class hashTable(n) {
+        mSize    := n;
+        mEntries := 0;  // number of entries
+        mArray   := [ {} : i in [1 .. mSize] ];
+        mAlpha   := 2;  // load factor
+    
+        static {
+            sOrd    := { [ char(i), i ] : i in [ 0 .. 127 ] };
+            sPrimes := [ 3, 7, 13, 31, 61, 127, 251, 509, 1021, 2039, 
+                         4093, 8191, 16381, 32749, 65521, 131071, 
+                         262139, 524287, 1048573, 2097143, 4194301, 
+                         8388593, 16777213, 33554393, 67108859, 
+                         134217689, 268435399, 536870909, 1073741789, 
+                         2147483647 
+                       ];    
+            hashCode := procedure(s)          { ... };
+            find     := procedure(key)        { ... };
+            insert   := procedure(key, value) { ... };
+            rehash   := procedure()           { ... };
+            delete   := procedure(key)        { ... };    
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Outline of the class \texttt{hashTable}.}
+  \label{fig:hashTable.stlx-outline}
+\end{figure}
+
+Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{hashTable}.  
+\begin{enumerate}
+\item The constructor is called with one argument.  This argument $n$ is the initial size
+      of the array storing the different key-value lists.  The constructor constructs an empty hash
+      table with the given capacity.
+\item \texttt{mSize} is the actual size of the array that stores the different key-value lists.
+      Although this variable is initialized as $n$, it can later be increased.  This happens
+      if the hash table becomes overcrowded.
+\item \texttt{mEntries} is the number key-value pairs that are stored in this hash map.
+      Since, initially, this map is entry, \texttt{mEntries} is  initialized as $0$.
+\item \texttt{mArray} is the array containing the list of key value pairs.
+
+      In our implementation, the key-value pairs are not stored in a list but, instead, they are
+      stored in a set.  Since every key occurs at most once, this set can be interpreted as a
+      functional relation.  Therefore, looking up a key is more efficient than it would be if we had
+      used a list.  Although we actually use a relation instead of a list, we will still call
+      the relation the \emph{list of key-value pairs}.
+
+      As the hash map is initially empty, all entries of \texttt{mArray} are initialized as empty sets.
+\item \texttt{mAlpha} is the \emph{load factor} of our hash table.  If at any point in time, we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{mEntries} > \texttt{mAlpha} \cdot \texttt{mSize}$,
+      \\[0.2cm]
+      then we consider our hash table to be \emph{overcrowded}.  In that case, we would increase the size
+      of the array \texttt{mArray}.  To determine the best value for \texttt{mAlpha}, we have to
+      make a tradeoff:  If \texttt{mAlpha} is too big, many entries in the array \texttt{mArray}
+      would be empty and thus we would waste space.  On the other hand, if \texttt{mAlpha} is too
+      small, the key-value lists would become very long and hence it would take too much time to
+      search for a given key in one of these lists.
+\item Our implementation maintains two static variables.
+  \begin{enumerate}
+  \item \texttt{sOrd} is a functional relation mapping characters to \textsc{Ascii} codes.
+        This relation is needed for the efficient computation of the method \texttt{hashCode}
+        discussed below.
+
+        In \texttt{SetlX} there is no function that returns the \textsc{Ascii} code of a given character.
+        Fortunately, it is easy to implement this function as a binary relation via the function
+        $\mathtt{char}(i)$.  Given a number $i \in \{0,\cdots,127\}$, the function $\mathtt{char}(i)$
+        returns the character that has \textsc{Ascii} code $i$.  The relation \texttt{sOrd} is the inverse
+        of the function \texttt{char}.
+  \item \texttt{sPrimes} is a list of prime numbers.  Roughly, these prime numbers double in size.
+        The reason is that performance of a hash table is best if the size of \texttt{mArray} is a
+        prime number.  When \texttt{mArray} get overcrowded, the idea is to, more or less, double
+        the size of \texttt{mArray}.  To achieve this, the variable \texttt{sPrimes} is needed.
+  \end{enumerate}
+\end{enumerate}
+Next, we discuss the implementation of the various methods.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+        hashCode := procedure(s) {
+            return hashCodeAux(s) + 1;
+        };
+        hashCodeAux := procedure(s) {
+            if (s == "") {
+                return 0;
+            }
+            return (sOrd[s[1]] + 128 * hashCodeAux(s[2..])) % mSize;
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of the method \texttt{hashCode}.}
+\label{fig:hashTable.stlx-hashCode}
+\end{figure}
+
+Figure gives the implementation of the method \texttt{hashCode}.
+\begin{enumerate}
+\item The function $\texttt{hashCode}(s)$ takes a string $s$ and computes a hash code for this string.
+      This hash code satisfies
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{hashCode}(s) \in \{ 1, \cdots, \mathtt{mSize} \}$.
+      \\[0.2cm]
+      Therefore, the hash code can be used to index into \texttt{mArray}.  The implementation of
+      \texttt{hashCode} works by calling $\texttt{hashCodeAux}(s)$.  As the values returned by
+      $\texttt{hashCodeAux}(s)$ are elements of the set
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{hashCode}(s,n) \in \{ 0, \cdots, \mathtt{mSize}-1 \}$      
+      \\[0.2cm]
+      we have to add $1$ so that the hash code is an element of 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{hashCode}(s,n) \in \{ 1, \cdots, \mathtt{mSize} \}$.      
+\item The function $\mathtt{hashCodeAux}(s)$ is defined by induction on the string $s$.
+      If the string $s$ has length $m$ we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{hashCodeAux}(s,n) := \left(\sum\limits_{i=1}^m \mathtt{ord}(s[i]) \cdot 128^{i-1}\right) \;\mathtt{\%}\; \mathtt{mSize}$.
+      \\[0.2cm]
+      Here, given an \textsc{Ascii} character $c$, the expression  $\mathtt{ord}(c)$ computes the
+      \textsc{Ascii} code of  $c$.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+        find := procedure(key) {
+             index := hashCode(key);
+             aList := mArray[index];
+             return aList[key];
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of \texttt{find}.}
+\label{fig:hashTable.stlx-find}
+\end{figure}
+
+Figure \ref{fig:hashTable.stlx-find} show the implementation of the method \texttt{find}.
+\begin{enumerate}
+\item First, we compute the index of the key-value list that is used to store the given
+      \texttt{key}.
+\item Next, we retrieve this key-value list from the array \texttt{mArray}.
+\item Finally, we look up the information stored under the given \texttt{key} in this 
+      key-value list.  Remember, that the key-value list is not an actual list but rather a binary
+      relation.  We can use the notation \texttt{aList[key]} to retrieve the value associated with
+      the given key.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+        insert := procedure(key, value) {
+             if (mEntries > mSize * mAlpha) {
+                 rehash();
+                 insert(key, value);
+                 return;
+             }
+             index      := hashCode(key);
+             aList      := mArray[index];
+             oldSz      := #aList;
+             aList[key] := value;
+             newSz      := #aList;
+             this.mArray[index] := aList;
+             if (newSz > oldSz) {
+                 this.mEntries += 1;
+             }    
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of the method \texttt{insert}.}
+\label{fig:hashTable.stlx-insert}
+\end{figure}
+
+Figure \ref{fig:hashTable.stlx-insert} shows the implementation of the method \texttt{insert}.
+The implementation works as follows.
+\begin{enumerate}
+\item First, we check whether our has table is already overcrowded.
+      In this case, we \emph{rehash}, which means we roughly double the size of \texttt{mArray}.
+      How the method \texttt{rehash} works in detail is explained later.
+      After rehashing, the \texttt{key} is inserted via a recursive call.
+\item If we don't have to rehash, we compute the index of the key-value list that has to store
+      \texttt{mKey}, retrieve the associated key-value list, and finally associate the
+      \texttt{value} with the given key.  When inserting the given key-value
+      pair into the key-value list there can be two cases.
+      \begin{enumerate}
+      \item The key-value list already stores information for the given \texttt{key}.
+            In this case, the number of entries of the hash table is not changed.
+      \item If the given \texttt{key} is not yet present in the given key-value list,
+            the number of entries needs to be incremented.
+      \end{enumerate}
+      In order to distinguish these two cases, we compare the size of the key-value list before
+      the insertion with the size after the insertion.     
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+        rehash := procedure() {
+             prime  := min({ p in sPrimes | p * mAlpha > mEntries });
+             bigMap := hashTable(prime);
+             for (aList in mArray) {
+                 for ([k, v] in aList) {
+                     bigMap.insert(k, v);
+                 }    
+             }
+             this.mSize  := prime;
+             this.mArray := bigMap.mArray;
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Implementation of the method \texttt{rehash}.}
+\label{fig:hashTable.stlx-rehash}
+\end{figure}
+
+
+Figure \ref{fig:hashTable.stlx-rehash} show the implementation of the method
+$\mathtt{rehash}()$.  This method is called if the hash table becomes overcrowded.  The idea is to
+roughly double the size of \texttt{mArray}.  Theoretical considerations that are  beyond the scope
+of this lecture show that it is beneficial if the size of \texttt{mArray} is a prime number.
+Hence, we look for the first prime number \texttt{prime} such that \texttt{prime} times the load
+factor \texttt{mAlpha} is bigger than the
+number of entries since this will assure that, on average, the number of entries in each key-value
+list is less than the load factor \texttt{mAlpha}.  After we have determined \texttt{prime}, we
+proceed as follows: 
+\begin{enumerate}
+\item We create a new empty hash table of size \texttt{prime}.
+\item Next, we move the key-value pairs from the given has table to the new hash table.
+\item Finally, the array stored in the new hash table is moved to the given hash table
+      and the size is adjusted correspondingly.
+\end{enumerate}
+
+
+
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = last,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+        delete := procedure(key) {
+             index      := hashCode(key);
+             aList      := mArray[index];
+             oldSz      := #aList;
+             aList[key] := om;
+             newSz      := #aList;
+             this.mArray[index] := aList;
+             if (newSz < oldSz) {
+                 this.mEntries -= 1;
+             }    
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Die Funktion $\mathtt{delete}(\textsl{map}, \textsl{key})$.}
+\label{fig:hashTable.stlx-delete}
+\end{figure}
+
+Finally, we discuss the implementation of the method \texttt{delete} that is shown in Figure
+\ref{fig:hashTable.stlx-delete}.  The implementation of this method is similar to the implementation
+of the method \texttt{insert}.   The implementation makes use of the fact that in order to delete
+a key-value pair from a function relation in \textsc{SetlX} it is possible to assign the value
+\texttt{om} to the \texttt{key} that needs to be deleted. Note, that we have to be careful to
+maintain the number of entries since we do not know whether the list of key-value pairs has an entry
+for the given \texttt{key}.
+
+However, there is one crucial difference compared to the implementation of \texttt{insert}.
+We do not rehash the hash table if the number of entries falls under certain thresh hold.
+Although this could be done and there are implementations of hash tables that readjust the size of the
+hash table if the hash table gets underpopulated, we don't do so here because often a table will
+grow again after it has shrunk and in that case rehashing would be counter productive.
+
+
+Falls wir in unserer Implementierung tatsächlich mit Listen und nicht mit Mengen arbeiten würden, dann
+könnte die Komplexität der Methoden \textsl{find}, \textsl{insert} und \textsl{delete}
+im ungünstigsten Fall linear mit der Anzahl der Einträge in der Hash-Tabelle wachsen.  Dieser
+Fall tritt dann auf, wenn die Funktion $\texttt{hashTable}(k,n)$ für alle Schlüssel $k$ den
+selben Wert berechnet.  Dieser Fall ist allerdings sehr unwahrscheinlich.  Der Normalfall
+ist der, dass alle Listen etwa gleich lang sind.  Die durchschnittliche Länge  einer Liste
+ist dann \\[0.2cm]
+\hspace*{1.3cm} $\alpha = \displaystyle \frac{\mathtt{count}}{\mathtt{size}}$. \\[0.2cm]
+Hierbei ist $\mathtt{count}$ die Gesamtzahl der Einträge in der Tabelle und \texttt{size}
+gibt die Größe der Tabelle an.  Das Verhältnis $\alpha$ dieser beiden Zahlen ist genau der
+ \emph{Auslastungs-Faktor} der Hash-Tabelle.  In der Praxis zeigt sich, dass
+$\alpha$ kleiner als 4 sein sollte.  In \textsl{Java} gibt es die Klasse \textsl{HashMap},
+die Abbildungen als Hash-Tabellen implementiert.  Dort hat der per Default eingestellte maximale
+Auslastungs-Faktor sogar nur den Wert \texttt{0.75}.
+
+
+\subsection{Further Reading}
+In this section, we have discussed hash tables only briefly.  The reason is that, although hash tables are very
+important in practice, a thorough treatment requires quite a lot of mathematics, see for example the
+third volume of Donald Knuth's ``The Art of Computer Programming'' \cite{knuth:1998b}.  For this
+reason, the design of a hash function is best left for experts.  In practice, hash tables are
+quite a bit faster than \textsl{AVL}-trees or \emph{red-black} trees.  However, this is only true if
+the hash function that is used is able to spread the keys uniformly.  If this assumption is
+violated, the use of a hash table can lead to serious performance 
+bugs\footnote{Da habe ich schon Pferde kotzen sehen,  direkt vor der Apotheke.}.  
+If, instead, a good
+implementation of red-black-trees is used, the program might be slower in general but are certain to
+be protected from the ugly surprises that can result from a poor hash function.  My advice for the reader
+therefore is to use hashing only if the performance is really critical and you are sure that your
+hash function is distributing the keys nicely.
+
+
+\section{Applications}
+Both \texttt{C++} and \textsl{Java} supply maps.  In \texttt{C++}, maps are part of the standard
+template library, while \textsl{Java} offers the interface \texttt{Map} that is implemented both by
+the class \texttt{TreeMap} and the class \texttt{HashMap}. Furthermore, all modern script languages provide maps.
+For example, in \textsl{Perl} \cite{Wall92}, maps are known as \emph{associative arrays}, in \textsl{Lua} 
+\cite{ierusalimschy:2006,Ieru96a} maps are called tables, and in \textsl{Python} 
+\cite{vanRossum:95,lutz:09} map are called \emph{dictionaries}.  
+
+Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see an
+application of maps.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End: 

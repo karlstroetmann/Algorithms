@@ -1,0 +1,6 @@
+TestNumber.java:4: incompatible types
+found   : java.lang.Integer
+required: Number
+	Number i = new Integer(1);
+	           ^
+1 error

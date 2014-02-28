@@ -1,0 +1,81 @@
+program main;
+
+    L := [ [ "Bell", "it03119" ],
+           [ "Benke", "it03136" ],
+           [ "Grabellus", "it03130" ],
+           [ "Graber", "it03135" ],
+           [ "Hertle", "it03120" ],
+           [ "Huhndorf", "it03132" ],
+           [ "Huonker", "it03121" ],
+           [ "Jung", "it03122" ],
+           [ "Keutel", "it03123" ],
+           [ "Kissel", "it03131" ],
+           [ "Kivelip", "it03124" ],
+           [ "Kunze", "it03133" ],
+           [ "Marenke", "it03125" ],
+           [ "Meier", "it03126" ],
+           [ "Mueller", "it03127" ],
+           [ "Pierer", "it03128" ],
+           [ "Plattner", "it03112" ],
+           [ "Rath", "it03117" ],
+           [ "Reichle", "it03118" ],
+           [ "Scharm", "it03115" ],
+           [ "Schnaut", "it03116" ],
+           [ "Schnupp", "it03134" ],
+           [ "Stoeger", "it03138" ],
+           [ "Wunderlich", "it03129" ]
+         ];
+    M := create();    
+    for [x,y] in L loop
+        print(M);
+        M := insert(M, x, y);
+    end loop;
+    print(M);
+    while true loop
+        print("Enter name to delete: ");
+        read(name);
+        M := delete(M,name);
+        print(M);
+    end loop;
+
+    procedure create();
+        return [];
+    end create;
+
+    procedure find(L, k);
+        if L = [] then
+            return;
+        end if;
+        [k1, v1] := L(1); R := L(2..);
+        if k = k1 then
+            return v1;
+        else
+            return find(R, k);
+        end if;
+    end find;
+
+    procedure insert(L, k, v);
+        if L = [] then
+            return [ [k, v] ];
+        end if;
+        [k1, v1] := L(1); R := L(2..);
+        if k = k1 then
+            return [ [k, v] ] + R;
+        else
+            return [ [k1, v1] ] + insert(R, k, v);
+        end if;
+    end insert;
+
+    procedure delete(L, k);
+        if L = [] then
+            return L;
+        end if;
+        [k1, v1] := L(1); R := L(2..);
+        if k = k1 then
+            return R;
+        else
+            return [ [k1, v1] ] + delete(R, k);
+        end if;
+    end delete;
+    
+end main;

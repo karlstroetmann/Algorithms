@@ -1,0 +1,366 @@
+\chapter{Die Monte-Carlo-Methode}
+Bestimmte Probleme sind so komplex, dass es mit vertretbarem Aufwand nicht möglich ist, eine exakte Lösung zu
+berechnen.  Oft läßt sich jedoch mit Hilfe einer Simulation das Problem zumindest näherungsweise lösen.  
+\begin{enumerate}
+\item Das Problem der Berechnung der Volumina von Körpern, die eine große Zahl von Begrenzungsflächen haben,
+      läßt sich auf die Berechnung mehrdiminsionalee Integrale zurückführen.  In der Regel können diese
+      Integrationen aber nicht analytisch ausgeführt werden.   Mit der Monte-Carlo-Methode läßt sich hier
+      zumindest ein Näherungswert bestimmen.
+\item Die Gesetzmäßigkeiten des Verhaltens komplexer Systeme, die zufälligen Einflüssen einer Umgebung
+      ausgesetzt sind, können oft nur durch Simulationen bestimmt werden.  Wird beispielsweise ein neues
+      U-Bahn-System geplant, so wird Kapazität eines projektierten Systems durch Simulationen ermittelt.
+\item Bei Glückspielen ist die exakte Berechnung bestimmter Wahrscheinlichkeiten oft nicht möglich.
+      Mit Hilfe von Simulationen lassen sich aber gute Näherungswerte bestimmen.  
+\end{enumerate}
+Die obige Liste könnte leicht fortgesetzt werden.  In diesem Kapitel werden wir zwei Beispiele betrachten.
+\begin{enumerate}
+\item Als einführendes Beispiel zeigen wir, wie sich mit Hilfe der Monte-Carlo-Methode Flächeninhalte bestimmen
+      lassen.  Konkret berechnen wir den Flächeninhalt eines Kreises und bestimmen auf diese Weise
+      die Zahl $\pi$.
+\item Als zweites Beispiel zeigen wir, wie sich Karten zufällig mischen lassen.
+      Damit kann beispielsweise die Wahrscheinlichkeit dafür berechnet werden, dass im Texas Hold'em Poker eine
+      gegebene Hand gegen eine zufällige Hand gewinnt.
+\end{enumerate}
+
+\section{Berechnung der Kreiszahl $\pi$}
+Eine sehr einfache Methode zur Berechnung einer Approximation der Zahl $\pi$ funktioniert wie folgt.
+Wir betrachten in der reellen Ebene den Einheits-Kreis $E$, der als die Menge
+\[ E = \{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \} \]
+definiert ist.  Hier gibt der Ausdruck $x^2 + y^2$ nach dem Satz des Pythagoras gerade den Abstand an,
+den der Punkt $\pair(x,y)$ vom Koordinatenursprung $\pair(0,0)$ hat.  Der Einheits-Kreis hat offenbar den
+Radius $r = 1$ damit gilt für die Fläche dieses Kreises
+\[ \textsl{Fläche}(E) = \pi \cdot r^2 = \pi. \]
+Wenn es uns gelingt, diese Fläche zu berechnen, dann haben wir also $\pi$ bestimmt.  Eine experimentelle
+Methode zur Bestimmung dieser Fläche besteht darin, dass wir in das Einheits-Quadrat $Q$, dass durch
+\[ Q = \{ \pair(x,y) \in \mathbb{R} \mid -1 \leq x \leq 1 \;\wedge\; -1 \leq x \leq 1 \} \]
+definiert ist, zufällig eine große Zahl $n$ von Sandkörnern werfen.  Wir notieren uns dabei die Zahl $k$ 
+der Sandkörner, die in den Einheits-Kreis fallen.  Die Wahrscheinlichkeit $p$ dafür, dass ein Sandkorn in den
+Einheits-Kreis fällt, wird nun proportional zur Fläche des Einheits-Kreises sein:
+\[ p = \frac{\textsl{Fläche}(E)}{\textsl{Fläche}(Q)}. \]
+Das Einheits-Quadrat die Seitenlänge 2 hat, gilt für die Fläche des Einheits-Quadrats $Q$ 
+\[ \textsl{Fläche}(Q) = 2^2 = 4. \]
+Auf der anderen Seite wird bei einer hohen Anzahl von Sandkörnern das Verhältnis $\frac{k}{n}$ gegen diese
+Wahrscheinlichkeit $p$ streben, so dass wir insgesamt
+\[ \frac{k}{n} \approx \frac{\pi}{4} \]
+haben, woraus sich für $\pi$ die Näherungsformel
+\[ \pi \approx 4 \cdot \frac{k}{n} \]
+ergibt.  Während die alten Ägypter bei dieser historischen Methode zur Berechung von $\pi$ noch Tonnen von
+Sand\footnote{So ist die Sahara entstanden.}
+benötigten,  können wir dieses Experiment heute einfacher mit Hilfe eines Computers durchführen.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    import java.util.*;
+    
+    public class CalculatePi {
+        private Random mRandom;
+        
+        public CalculatePi() {
+            mRandom = new Random();
+        }    
+        public double calcPi(long n) {
+            long k = 0;  // number of points inside the circle
+            for (long i = 0; i < n; ++i) {
+                double x = 2 * mRandom.nextDouble() - 1;
+                double y = 2 * mRandom.nextDouble() - 1;
+                double r = x * x + y * y;
+                if (r <= 1) { ++k; }
+            }
+            return 4.0 * k / n;
+        }    
+        public static void main(String[] args) {
+            CalculatePi c = new CalculatePi();
+            for (long n = 10; n < 1000000000000L; n = n * 10) {
+                double pi = c.calcPi(n);
+                System.out.printf("n = %14d: %g,  Fehler: %+f\n", 
+                                   n, pi, pi - Math.PI);
+            }
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Experimentelle Bestimmung von $\pi$ mit der Monte-Carlo-Methode.}
+\label{fig:CalculatePi.java}
+\end{figure}
+
+Abbildung \ref{fig:CalculatePi.java} zeigt die Implementierung der Klasse \texttt{CalculatePi}, die das
+Verfahren implementiert. 
+\begin{enumerate}
+\item Die Klasse hat eine Member-Variable \texttt{mRandom}.  Hierbei handelt es sich um einen
+      Zufallszahlen-Generator, der von der Klasse \texttt{java.util.Random} zur Verfügung gestellt wird.
+\item Die Methode $\textsl{calcPi}(n)$ führt $n$ Versuche zur Berechnung der Zahl $\pi$ durch.
+      Dazu werden mit Hilfe der Methode $\textsl{nextDouble}()$ zunächst Zufallszahlen erzeugt, die in dem
+      Intervall $[0,1]$ liegen.  Mit Hilfe der Transformation 
+      \[ t \mapsto 2 \cdot t - 1  \]
+      wird das Intervall $[0,1]$ in das Intervall $[-1, 1]$ transformiert, so dass die in den Zeilen 12 und 13 
+      berechneten Koordinaten \texttt{x} und \texttt{y} dann einen zufällig in das Einheits-Quadrat $Q$ 
+      geworfenes Sandkorn beschreiben.  Wir berechnen in Zeile 14 den Abstand dieses Sandkorns vom
+      Koordinatenursprung und überprüfen in Zeile 15, ob das Sandkorn innerhalb des Kreises liegt.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \label{tab:pi}
+  \centering
+  \begin{tabular}[t]{|r|r|r|}
+  \hline
+  n & Näherung für $\pi$ & Fehler der Näherung \\
+  \hline
+  \hline
+               $10$ & 2.40000 & -0.741593 \\
+\hline
+              $100$ & 3.28000 & +0.138407 \\
+\hline
+           $1\,000$ & 3.21600 & +0.074407 \\
+\hline
+          $10\,000$ & 3.13080 & -0.010793 \\
+\hline
+         $100\,000$ & 3.13832 & -0.003273 \\
+\hline
+      $1\,000\,000$ & 3.13933 & -0.002261 \\
+\hline
+     $10\,000\,000$ & 3.14095 & -0.000645 \\
+\hline
+    $100\,000\,000$ & 3.14155 & -0.000042 \\
+\hline
+ $1\,000\,000\,000$ & 3.14160 & +0.000011 \\
+\hline
+  \end{tabular}
+  \caption{Ergebnisse bei der Bestimmung von $\pi$ mit der Monte-Carlo-Methode}
+\end{table}
+
+Lassen wir das Progamm laufen, so erhalten wir die in Tabelle \ref{tab:pi} gezeigten Ergebnisse.
+Wir sehen, dass wir zur Berechnung auf eine Genauigkeit von zwei Stellen hinter dem Komma etwa $100\,000$
+Versuche brauchen, was angesichts der Rechenleistung heutiger Computer kein Problem darstellt.  Die Berechnung
+weiterer Stellen gestaltet sich jedoch sehr aufwendig:  Die Berechnung der dritten Stelle hinter dem Komma
+erfordert  $100\,000\,000$ Versuche. Grob geschätzt können wir
+sagen, dass sich der Aufwand bei der Berechnung einer weiteren Stelle verhundertfacht!  
+Wir halten folgende Beobachtung fest:
+
+\begin{center}
+  \framebox{
+  \framebox{
+  \begin{minipage}[t]{12cm}
+  Die Monte-Carlo-Methode ist gut geeignet, um einfache Abschätzungen zu berechnen, wird aber sehr aufwendig,
+  wenn eine hohe Genauigkeit gefordert ist.
+  \end{minipage}
+  }}
+\end{center}
+
+\section{Theoretischer Hintergrund}
+Wir diskutieren nun den theoretischen Hintergrund der Monte-Carlo-Methode.  Da im zweiten Semester noch
+keine detailierteren Kenntnisse aus der Wahrscheinlichkeitsrechnung vorhanden sind, beschränken wir
+uns darauf, die wesentlichen Ergebnisse anzugeben.  Eine Begründung dieser Ergebnisse erfolgt dann
+in der Mathematik-Vorlesung im vierten Semester. 
+
+Bei der Monte-Carlo-Methode wird ein Zufalls-Experiment, im gerade diskutierten Beispiel war es das Werfen
+eines Sandkorns, sehr oft wiederholt.  Für den Ausgang dieses Zufalls-Experiments gibt es dabei zwei
+Möglichkeiten:  Es ist entweder erfolgreich (im obigen Beispiel landet das Sandkorn im Kreis) oder nicht
+erfolgreich.  Ein solches Experiment bezeichnen wir als \emph{Bernoulli-Experiment}.
+ Hat die Wahrscheinlichkeit, dass das Experiment erfolgreich ist, den Wert $p$ und wird das
+Experiment $n$ mal ausgeführt, so ist die Wahrscheinlichkeit, dass genau $k$ dieser Versuche erfolgreich sind,
+durch die Formel
+\[ P(k) = \frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \]
+gegeben, die auch als \emph{Binomial-Verteilung} bekannt ist.  Für große Werte von $n$ ist die obige Formel
+sehr unhandlich, kann aber gut durch die \emph{Gauß-Verteilung} approximiert werden, es gilt
+\[ \frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \approx  
+   \frac{1}{\sqrt{2\cdot \pi \cdot n \cdot p \cdot (1-p)\;}} \cdot 
+   \exp\left(-\frac{(k - n \cdot p)^2}{2 \cdot n \cdot p \cdot (1 - p)}\right)
+\]
+Wird das Experiment $n$ mal durchgeführt, so erwarten wir im Durchschnitt natürlich, dass $n \cdot p$ der
+Versuche erfolgreich sein werden.  Darauf basiert unsere Schätzung für den Wert von $p$, denn wir approximieren
+$p$ durch die Formel
+\[ p \approx \frac{k}{n}, \]
+wobei $k$ die Anzahl der erfolgreichen Experimente bezeichnet.  Nun werden in der Regel nicht genau $n \cdot p$
+Versuche erfolgreich sein sondern zufallsbedingt werden ein Paar mehr oder ein Paar weniger Versuche
+erfolgreich sein.  Das führt dazu, dass unsere Schätzung von $p$ eine Ungenauigkeit aufweist, deren ungefähre
+Größe wir irgendwie abschätzen müssen um unsere Ergebnisse beurteilen zu können.
+
+Um eine Idee davon zu bekommen, wie sehr die Anzahl der erfolgreichen Versuche von dem Wert $\frac{k}{n}$
+abweicht,  führen wir den Begriff der \emph{Streuung} $\sigma$ ein, die für eine Gauß-verteilte Zufallsgröße
+durch die Formel
+\[ \sigma = \sqrt{n \cdot p \cdot (1 - p)} \]
+gegeben ist.  Die Streuung gibt ein Maß dafür, wie stark der gemessene Wert von $k$ von dem im Mittel
+erwarteten Wert $p \cdot n$ abweicht.  Es kann gezeigt werden, dass die Wahrscheinlichkeit, dass $k$ außerhalb
+des Intervalls
+\[ [ p \cdot n - 3 \cdot \sigma,\, p \cdot n + 3 \cdot \sigma ] \]
+liegt, also um mehr als das dreifache von dem erwarteten Wert abweicht, kleiner als $0.27 \%$ ist.  Für
+ die Genauigkeit unserer Schätzung $p \approx \frac{k}{n}$ heißt das, dass dieser Schätzwert mit hoher
+ Wahrscheinlichkeit ($99.73\%$) in dem Intervall
+\[  \left[ \frac{p \cdot n - 3 \cdot \sigma}{n},\, \frac{p \cdot n + 3 \cdot \sigma}{n} \right] 
+  = \left[ p - 3 \cdot \frac{\sigma}{n},\, p + 3 \cdot \frac{\sigma}{n} \right]
+\] 
+liegt.  Die Genauigkeit $\varepsilon(n)$ ist durch die halbe Länge dieses Intervalls gegeben und hat daher den
+Wert 
+\[ \varepsilon(n) = 3 \cdot \frac{\sigma}{n} = 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}}. \]
+Wir erkennen hier, dass zur Erhöhung der Genauigkeit den Faktor 10 die Zahl der Versuche um den Faktor 100
+vergrößert werden muss.
+
+Wenden wir die obige Formel auf die im letzen Abschnitt durchgeführte Berechnung der Zahl $\pi$ an, so erhalten
+wir wegen $p = \frac{\pi}{4}$ die in Abbildung \ref{tab:Precision.java} gezeigten Ergebnisse.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}[t]{|r|r|}
+\hline
+Anzahl Versuche $n$ & Genauigkeit $\varepsilon(n)$ \\
+\hline
+\hline
+                $10$ & 0.389478 \\
+\hline
+               $100$ & 0.123164 \\
+\hline
+            $1\,000$ & 0.0389478 \\
+\hline
+           $10\,000$ & 0.0123164 \\
+\hline
+          $100\,000$ & 0.00389478 \\
+\hline
+       $1\,000\,000$ & 0.00123164 \\
+\hline
+      $10\,000\,000$ & 0.000389478 \\
+\hline
+     $100\,000\,000$ & 0.000123164 \\
+\hline
+  $1\,000\,000\,000$ & 3.89478e-05 \\
+\hline
+ $10\,000\,000\,000$ & 1.23164e-05 \\
+\hline
+$100\,000\,000\,000$ & 3.89478e-06 \\
+\hline
+
+  \end{tabular}
+  \caption{Genauigkeit der Bestimung von $\pi$ bei einer Sicherheit von $99,73\%$.}
+  \label{tab:Precision.java}
+\end{table}
+
+\vspace*{0.3cm}
+
+\exercise
+Wieviel Tonnen Sand benötigte Pharao Ramses \texttt{II}, als er $\pi$ mit der Monte-Carlo-Methode auf 6
+Stellen hinter dem Komma berechnet hat?
+\pagebreak
+
+\noindent
+\textbf{Hinweise}: 
+\begin{enumerate}
+\item Ein Sandkorn wiegt im Durchschnitt etwa $\frac{1}{1000}$ Gramm.
+\item Um eine Genauigkeit von 6 Stellen hinter dem Komma zu haben, sollte der Fehler durch $10^{-7}$
+      abgeschätzt werden.  Das Ergebnis soll mit einer Wahrscheinlichkeit von $99,7\%$ korrekt sein.
+\end{enumerate}
+
+\solution
+Nach dem Hinweis soll 
+\[ \varepsilon(n) = 10^{-7} \]
+gelten. Setzen wir hier die Formel für $\varepsilon(n)$ ein, so erhalten wir
+\[  
+\begin{array}[t]{llcl}
+                & 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
+\Leftrightarrow & 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
+\Leftrightarrow & 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
+\end{array}
+\]
+Um an dieser Stelle weitermachen zu können, benötigen wir den Wert der Wahrscheinlichkeit $p$.  Der korrekte
+Wert von $p$ ist für unser Experiment durch $\frac{\pi}{4}$ gegeben.  Da wir $\pi$ ja erst berechnen wollen,
+nehmen wir als Abschätzung von $\pi$ den Wert $3$, so dass $p$ den Wert $\frac{3}{4}$ hat.  Da eine Tonne
+insgesamt $10^9$ Sandkörner enthält, bekommen wir für das Gewicht $g$ das Ergebnis
+\begin{eqnarray*}
+g & \approx & 9 \cdot \frac{3}{4} \cdot \frac{1}{4} \cdot 10^5\; \mbox{Tonnen} \\[0.2cm]
+  & \approx & 168\,750 \; \mbox{Tonnen} 
+\end{eqnarray*}
+Die Cheops-Pyramide ist 35 mal so schwer. \qed
+
+\section{Erzeugung zufälliger Permutationen}
+In diesem Abschnitt lernen wir ein Verfahren kennen, mit dem es möglich ist, eine gegebene
+Liste zufällig zu permutieren.  Anschaulich kann ein solches Verfahren mit dem Mischen von
+Karten verglichen werden.  Das Verfahren wird auch tatsächlich genau dazu eingesetzt:
+Bei der Berechnung von Gewinn-Wahrscheinlichkeiten bei Kartenspielen wie Poker wird das
+Mischen der Karten durch den gleich vorgestellten Algorithmus erledigt.  
+
+Um eine $n$-elementige Liste $L = [x_1,x_2, \cdots, x_n]$ zufällig zu permutieren,
+unterscheiden wir zwei Fälle:
+\begin{enumerate}
+\item Die Liste $L$ hat die Länge 1 und besteht folglich nur aus einem Element, $L = [x]$.
+      In diesem Fall gibt die Funktion $\textsl{permute}(L)$ die Liste unverändert zurück:
+      \[ \#L = 1 \rightarrow \textsl{permute}(L) = L \]
+\item Die Liste $L$ hat eine Länge, die größer als $1$ ist.  In diesem Fall wählen wir
+      zufällig ein Element aus, das hinterher  in der zu erzeugenden Permutation an der letzten Stelle
+      stehen soll.  Wir entfernen dieses Element aus der Liste und permutieren
+      anschließend die verbleibende Liste.  An die dabei erhaltene Permutation hängen wir
+      noch das anfangs ausgewählte Element an.  Haben wir eine Funktion
+      \[ \textsl{random}: \mathbb{N} \rightarrow \mathbb{N}, \]
+      so dass der Aufruf $\textsl{random}(n)$ zufällig eine Zahl aus der Menge $\{1,\cdots,n\}$
+      liefert, so können wir diese Überlegung wie folgt formalisieren:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $ \#L = n \wedge n > 1 \wedge \textsl{random}(n) = k \rightarrow 
+         \textsl{permute}(L) = \textsl{permute}\bigl(\textsl{delete}(L,k)\bigr) + \bigl[ L(k)
+         \bigr]
+      $.
+\\[0.2cm]
+      Der  Funktionsaufruf $\textsl{delete}(L,k)$ köscht dabei das $k$-te Element aus der Liste $L$,
+      wir könnten also schreiben
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{delete}(L,k) = L(1\,..\,k-1) + L(k+1\,..\,\#L)$.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    public static void permute(int[] array) {
+        Random random = new Random(0);
+        int    n      = array.length;
+        for (int i = n; i > 1; --i) {
+            int  k = random.nextInt(i);
+            swap(array, i - 1, k);
+        }
+    }
+    private static void swap(int[] array, int i, int j) {
+        int t = array[i];
+        array[i] = array[j];
+        array[j] = t;
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Berechnung zufälliger Permutationen eines Feldes}
+\label{fig:RandomPermutation.java}
+\end{figure}
+
+Abbildung \ref{fig:RandomPermutation.java} zeigt die Umsetzung dieser Idee in \textsl{Java}.
+Die dort gezeigte Methode \textsl{permute} erzeugt eine zufällige Permutation des Feldes \texttt{array}, das
+dieser Methode als Argument übergeben wird.
+\begin{enumerate}
+\item Zunächst wird in Zeile 2 ein Zufallszahlen-Generator erzeugt.
+\item Die Schleife in Zeile 4 läuft nun rückwärts über das Feld, denn wir wollen ja zunächst 
+      das letzte Element des Feldes bestimmen.  Beim $i$-ten Durchlauf gehen wir davon aus,
+      dass die Positionen $\mathtt{array}[i, \cdots, n-1]$ bereits bestimmt sind
+      und dass nur noch die Positionen $\mathtt{array}[0, \cdots, i-1]$ permutiert werden müssen.
+\item Der Aufruf $\texttt{random.nextInt}(i)$ liefert eine Zufallszahl $k$ aus der Menge 
+      $\{0, \cdots, i-1)$.  Diese Zahl gibt an, welches Element an die $(i-1)$-te Position der
+      erzeugten Permutation gesetzt wird. Dieses Element wird dann durch den Aufruf von
+      \texttt{swap} an die Position $i-1$ gesetzt und das Element, das vorher an der Position $i-1$
+      stand, wird an der Position $k$ gespeichert.
+\end{enumerate}
+Es kann gezeigt werden, dass der oben vorgestellte Algorithmus tatsächlich alle Permutationen einer
+gegebenen Liste mit der selben Wahrscheinlichkeit erzeugt.  Einen Beweis dieser Behauptung
+finden Sie beispielsweise in \cite{cormen:01}.
+
+%%% LOCAL Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithmen"
+%%% End: 

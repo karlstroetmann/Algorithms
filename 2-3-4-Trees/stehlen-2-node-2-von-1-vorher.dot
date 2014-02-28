@@ -1,0 +1,22 @@
+// The parent is a 2-node. We need to steel a key from the brother to the left.
+// This brother is 2-node.
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "<f1> p1|<f2> p2" ];
+    "p":f1 -> br [ headport = n ];
+    p -> k [tailport = se, headport = n ]; 
+    "p":f2 -> r [tailport = sw, headport = n ];
+    br [ shape = Mrecord, label = "<f1> l1|<f2> l2" ];
+    "br":f1 -> a [tailport = se, headport = n ];
+    br -> b [headport = n ];
+    "br":f2 -> c [tailport = sw, headport = n ];
+    k [ shape = Mrecord ];
+    k -> d;
+    k -> e;
+    a [ shape = triangle ];
+    b [ shape = triangle ];
+    c [ shape = triangle ];
+    d [ shape = triangle ];
+    e [ shape = triangle ];
+    r [ shape = triangle ];
+}

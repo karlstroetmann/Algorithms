@@ -1,0 +1,18 @@
+program main;
+    
+    n := 1000000;
+    print( "fib(", n, ") = ", fib(n) );
+
+    procedure fib(n);
+        a_n_minus_2 := 1;
+        a_n_minus_1 := 1;
+        
+        for i in { 2 .. n } loop
+            a_n := a_n_minus_1 + a_n_minus_2;
+            a_n_minus_2 := a_n_minus_1;
+            a_n_minus_1 := a_n;
+        end loop;
+        return a_n;
+    end fib;
+
+end main;

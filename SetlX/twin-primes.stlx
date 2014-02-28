@@ -1,0 +1,30 @@
+main := procedure() {
+    // The call twinPrimes(n) terminates iff there exists a pair [p, p+2]
+    // such that n <= p and both p and p+2 are prime numbers.
+    testTwinPrimes     := "twinPrimes := procedure(n) {
+                              if (isPrime(n) && isPrime(n + 2)) {
+                                  return n;
+                              }
+                              return twinPrimes(n + 1);
+                           };";
+
+    // The call counterExample(x) loops iff there are infinitely many twin 
+    // primes.  If there is a number x such that there is no pair of primes
+    // [p, p+2] above x, then the call counterExample(x) terminates.
+    testCounterExample := "counterExample := procedure(x) {
+                               while (true) {
+                                   if (stops(testTwinPrimes, x) == 0) {
+                                       return false  // only finitely many pairs of primes;
+                                   }
+                                   x += 1;
+                               }
+                           };";
+      
+    if (stops(testCounterExample, 1) == 1) {
+        print("There is a biggest pair of primes.");
+    } else {
+        print("There are infinitely many pairs of primes.");
+    }
+};    
+
+

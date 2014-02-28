@@ -1,0 +1,35 @@
+// This function implements the Illinois-method to compute the zero of
+// the function f in the interval [a,b].  The parameter eps specifies
+illinois := procedure(f, a, b, eps) {
+    assert(a < b, "a has to be less than b");
+    [ fa, fb, side ] := [ f(a), f(b), "none" ];
+    assert(fa < 0 && 0 < fb, "We need f(a) < 0 and 0 < f(b)!");
+    while (b - a > eps) {
+        c  := (fb * a - fa * b) / (fb - fa);
+        fc := f(c);
+        print("fa = $1.0 * fa$, fb = $1.0 * fb$, side = $side$");
+        if (fc < 0) {
+            a := c; fa := fc; 
+            if (side == "left") {
+                fb /= 2;
+            }
+            side := "left";
+        } else if (fc > 0) {
+            b := c; fb := fc; 
+            if (side == "right") {
+                fa /= 2;
+            }
+            side := "right";
+        } else {
+            return c;
+        }
+        if (isRational(a) && isRational(b)) {
+            print("a = $nDecimalPlaces(a, 41)$, b = $nDecimalPlaces(b, 41)$");
+        } else {
+            print("a = $a$, b = $b$");
+        }
+    }
+    return (a + b) / 2;
+};
+ 
+

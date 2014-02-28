@@ -1,0 +1,40 @@
+class Map;
+    procedure create();
+    procedure find(n, v);
+    procedure insert(n, v);
+    procedure delete(n);
+end Map;
+
+class body Map;
+    var table;
+
+    procedure create();
+        table := [];
+    end create;
+
+    procedure find(n, v);
+        return table(n);
+    end find;
+
+    procedure insert(n, v);
+        table(n) := v;
+    end insert;
+
+    procedure delete(n);
+        table(n) := om;
+    end delete;
+end Map;
+
+program main;
+    use Map;
+
+    m := Map();
+    for i in { 1 .. 20 } loop
+        m.insert(i, i*i);
+    end loop;
+    print(m);
+    for i in { 1 .. 20 } loop
+        m.delete(i);
+    end loop;
+    print(m);
+end main;

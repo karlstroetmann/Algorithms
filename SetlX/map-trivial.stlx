@@ -1,0 +1,29 @@
+class map() {
+    mRelation := {};
+  static {
+    find   := k |-> mRelation[k];
+    insert := procedure(k, v) { this.mRelation[k] := v;  };
+    delete := procedure(k)    { this.mRelation[k] := om; };
+    f_str  := procedure()     { return str(mRelation);   };
+  }
+}
+
+telefonBuch := map();
+telefonBuch.insert("hugo",   123);
+telefonBuch.insert("anton",  345);
+telefonBuch.insert("gustav", 678);
+print("telefonBuch = $telefonBuch$");
+print("telefonBuch.find(\"hugo\")   = $telefonBuch.find(\"hugo\")$");
+print("telefonBuch.find(\"anton\")  = $telefonBuch.find(\"anton\")$");
+print("telefonBuch.find(\"gustav\") = $telefonBuch.find(\"gustav\")$");
+telefonBuch.delete("hugo");
+print("telefonBuch = $telefonBuch$");
+print("telefonBuch.find(\"hugo\")   = $telefonBuch.find(\"hugo\")$");
+print("telefonBuch.find(\"anton\")  = $telefonBuch.find(\"anton\")$");
+print("telefonBuch.find(\"gustav\") = $telefonBuch.find(\"gustav\")$");
+
+
+
+
+
+    

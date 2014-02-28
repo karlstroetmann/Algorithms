@@ -1,0 +1,58 @@
+// A list based implementation of quick sort.
+sort := procedure(l) {
+    match (l) {
+    case []     : return [];
+    case [x]    : return [x];
+    case [x,y|r]: [p1, p2] := [min({x,y}), max({x,y})];
+                  [l1,l2,l3] := partition(p1, p2, r);
+                  return sort(l1) + [p1] + sort(l2) + [p2] + sort(l3);
+    }
+};
+partition := procedure(p1, p2, l) {
+    match (l) {
+    case []   : return [ [], [], [] ];
+    case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
+                if (x < p1) {
+                    return [ [x] + r1, r2, r3 ];
+                } else if (x <= p2) {
+                    return [ r1, [x] + r2, r3 ];
+                } else {
+                    return [ r1, r2, [x] + r3 ];
+                }
+    }
+};
+
+// code for testing
+
+demo := procedure() {
+    l := [ rnd({1 .. 20}) : n in [1 .. 20] ];
+    print("l = $l$");
+    s := sort(l);
+    print("s = $s$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        s := sort(l);
+        isOrdered(s);
+        sameElements(s, l);
+        print(".");
+    }
+    print("All tests successful!");
+};
+
+isOrdered := procedure(l) {
+    for (i in [1 .. #l-1]) {
+        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+    }
+};
+
+sameElements := procedure(l, s) {
+    assert(collect(l) == collect(s), "different elements in $l$ and $s$");
+};
+
+demo();
+
+testSort(100, 200);

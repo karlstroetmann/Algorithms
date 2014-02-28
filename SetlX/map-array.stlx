@@ -1,0 +1,28 @@
+class map(n) {
+    mArray := [1..n];
+  static {
+    find   := k |-> mArray[k];
+    insert := procedure(k, v) { this.mArray[k] := v;  };
+    delete := procedure(k)    { this.mArray[k] := om; };
+    f_str  := procedure()     { return str(mArray);   };
+  }
+}
+
+squares := map(10);
+for (i in [1 .. 10]) {
+    squares.insert(i, i * i);
+}
+for (i in [1 .. 10]) {
+    print("find($i$) = $squares.find(i)$");
+}
+for (i in [1 .. 10]) {
+    squares.delete(i);
+}
+print("squares = $squares$");
+
+
+
+
+
+
+    

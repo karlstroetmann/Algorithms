@@ -1,0 +1,120 @@
+// This class provides encoding according to Lempel, Ziv, and Welch.
+class lzw(watch) {
+    mDictionary := { [ char(i), i ] : i in [0 .. 127] };
+    mInverse    := { [ i, char(i) ] : i in [0 .. 127] };
+    mNextCode   := 128;
+    mBitNumber  := 8;
+    mCodeSize   := 0;
+    mWatch      := watch;
+
+    static {
+        // encode the string s as a list of numbers
+        compress := procedure(s) {
+            result := [];
+            idx    := 1;
+            while (idx <= #s) {
+                p := longestPrefix(s, idx);
+                result[#result+1] := mDictionary[s[idx..p]];
+                this.mCodeSize += mBitNumber;
+                wPrint("$mDictionary[s[idx..p]]$ codes $s[idx..p]$");
+                if (p < #s) {
+                    mDictionary[s[idx..p+1]] := mNextCode;
+                    wPrint("adding $s[idx..p+1]$ |-> $mNextCode$");
+                    this.mNextCode += 1;
+                    incrementBitNumber();
+                }
+                idx := p + 1;
+            }
+            return result;
+        };
+        // compute the index k such that the dictionary mDictionary has 
+        // an entry for the substring s[i..k]
+        longestPrefix := procedure(s, i) {
+           oldK := i;
+           k    := i+1;
+           while (k <= #s && mDictionary[s[i..k]] != om) {
+               oldK := k;
+               k    += 1;
+           }
+           return oldK;
+        };
+        incrementBitNumber := procedure() {
+            if (2 ** mBitNumber <= mNextCode) {
+                this.mBitNumber += 1;
+            }
+        };
+        // decode the list l into a string
+        uncompress := procedure(l) {
+            result := "";
+            idx    := 1;
+            code   := l[idx]; 
+            old    := mInverse[code];
+            idx    += 1;
+            wPrint("$code$ codes $old$");
+            while (idx <= #l) {
+                result += old;
+                code := l[idx];
+                idx  += 1;
+                next := mInverse[code];
+                wPrint("$code$ codes $next$");
+                if (next == om) {
+                    next := old + old[1];
+                }
+                mInverse[mNextCode] := old + next[1];
+                wPrint("adding $mNextCode$ |-> $old + next[1]$");
+                this.mNextCode += 1;
+                old := next;
+            }
+            result += old;
+            return result;
+        };
+        wPrint := procedure(s) {
+            if (mWatch) {
+                print(s);
+            }
+        };
+    }
+}
+
+demo := procedure(s, w) {
+    if (#s < 1000) {
+        print("now compressing \"$s$\"");
+    }
+    compressor := lzw(w);
+    l := compressor.compress(s);
+    if (#s < 1000) {
+        print("$s$ |-> $l$");
+    }
+    print("size of dictionary: $compressor.mNextCode$");
+    numberBits := compressor.mCodeSize;
+    print("bits needed: $numberBits$");
+    print("compression factor: $1.0 *  (#s * 7) / numberBits$");
+    expander := lzw(w);
+    s2 := expander.uncompress(l);
+    if (#s < 1000) {
+        print("$l$ |-> $s2$");
+    }
+    assert(s == s2, "s == s2");
+    print("decompression correct\n\n");
+};
+
+
+while (true) {
+    s := read("enter string to encode (\"stop\" terminates loop): ");
+    if (s == "stop") {
+        break;
+    }
+    demo(s, true);
+}
+
+fileDemo := procedure(f) {
+    print("compressing file $f$");
+    s := +/ readFile(f);
+    demo(s, false);
+};
+
+fileDemo("alice.txt");
+fileDemo("lzw.stlx");
+fileDemo("ComparableSet.java");
+
+

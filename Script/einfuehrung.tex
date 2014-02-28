@@ -1,0 +1,226 @@
+\chapter{Einführung}
+\section{Motivation}
+Im ersten Semester haben wir gesehen, wie sich Probleme durch die Benutzung von Mengen und
+Relationen formulieren und lösen lassen.  Eine Frage blieb dabei allerdings unbeantwortet:
+Mit welchen Datenstrukturen lassen sich Mengen und Relationen am besten darstellen und mit welchen
+Algorithmen lassen sich die Operationen, mit denen wir in der Mengenlehre gearbeitet haben, am
+effizientesten realisieren? 
+Die Vorlesung \emph{Algorithmen und Datenstrukturen} beantwortet diese Frage sowohl für die
+Datenstrukturen Mengen und Relationen als auch für einige andere Datenstrukturen, die in der
+Informatik eine wichtige Rolle spielen.
+
+\subsection{Überblick}
+Die Vorlesung \emph{Algorithmen und Datenstrukturen} beschäftigt sich mit dem Design und
+der Analyse von Algorithmen und den diesen Algorithmen zugrunde liegenden
+Daten-Strukturen.  Im Detail werden wir die folgenden Themen behandeln:
+\begin{enumerate}
+\item Unlösbarkeit des Halte-Problems
+
+      Zu Beginn der Vorlesung zeigen wir die Grenzen der Berechenbarkeit auf
+      und beweisen, dass es praktisch relevante Funktionen gibt, die sich nicht durch
+      Programme berechnen lassen.  Konkret werden wir zeigen, dass es kein \textsc{SetlX}-Programm
+      gibt, dass für eine gegebene \textsc{SetlX}-Funktion $f$ und ein gegebenes Argument
+      $s$ entscheidet, ob der Aufruf $f(s)$ terminiert.
+\item Komplexität von Algorithmen
+
+      Um die Komplexität von Algorithmen behandeln zu können, führen wir zwei
+      Hilfsmittel aus der Mathematik ein.
+      \begin{enumerate}
+      \item \emph{Rekurrenz-Gleichungen} sind die diskrete Varianten der
+            Differential-Gleichungen.  Diese Gleichungen treten bei der Analyse
+            des Rechenzeit-Verbrauchs rekursiver Funktionen auf.
+      \item Die \emph{$\mathcal{O}$-Notation} wird verwendet, um das Wachstumsverhalten 
+            von Funktionen kompakt beschreiben zu können.  Sie bieten die Möglichkeit,
+            bei der Beschreibung des des Rechenzeit-Verbrauchs eines Algorithmus von
+            unwichtigen Details abstrahieren zu können. 
+      \end{enumerate}
+\item Abstrakte Daten-Typen
+
+      Beim Programmieren treten bestimmte Daten-Strukturen in ähnlicher Form
+      immer wieder auf.  Diesen Daten-Strukturen liegen sogenannte
+      \emph{abstrakte Daten-Typen} zugrunde.  Als konkretes Beispiel
+      stellen wir in diesem Kapitel den abstrakten Daten-Typ \textsl{Stack} vor.
+
+      Dieser Teil der Vorlesung überlappt sich mit der Vorlesung zur Sprache \textsl{Java}, 
+      denn abstrakte Datentypen sind eine der Grundlagen der Objekt-orientierten Programmierung.
+\item Sortier-Algorithmen
+
+      Sortier-Algorithmen sind die in der Praxis mit am häufigsten verwendeten
+      Algorithmen.  Da Sortier-Algorithmen zu den einfacheren Algorithmen gehören,
+      bieten Sie sich als Einstieg in die Theorie der Algorithmen an.
+      Wir behandeln im einzelnen die folgenden Sortier-Algorithmen:
+      \begin{enumerate}
+      \item Sortieren durch Einfügen (engl.~\emph{insertion sort}),
+      \item Sortieren durch Auswahl (engl.~\emph{min sort}),
+      \item Sortieren durch Mischen (engl.~\emph{merge sort}),
+      \item Den \emph{Quick-Sort}-Algorithmus von C.~A.~R.~Hoare.
+      \end{enumerate}
+\item Hoare-Kalkül
+
+      Die wichtigste Eigenschaft eines Algorithmus' ist seine Korrektheit.  Der \emph{Hoare-Kalkül}
+      ist ein Verfahren, mit dessen Hilfe die Frage der Korrektheit eines Algorithmus' auf die Frage
+      der Gültigkeit logischer Formeln reduziert werden kann.  An dieser Stelle werden wir eine
+      Brücke zu der im ersten Semester vorgestellten Logik schlagen.
+\item Abbildungen
+  
+      Abbildungen (in der Mathematik auch als Funktionen bezeichnet)
+      spielen nicht nur in der Mathematik sondern auch in der Informatik eine wichtige
+      Rolle.  Wir behandeln die verschiedene Daten-Strukturen, mit denen sich Abbildungen 
+      realisieren lassen.  Im einzelnen besprechen wir binäre Bäume, AVL-Bäume und
+      Hash-Tabellen.
+\item Prioritäts-Warteschlangen
+
+      Die Daten-Struktur der Prioritäts-Warteschlangen spielt einerseits bei der Simulation von Systemen und
+      bei Betriebssystemen eine wichtige Rolle, andererseits  benötigen wir diese Datenstruktur bei der
+      Diskussion graphentheoretischer Algorithmen.
+\item Graphen
+  
+      Graphen spielen in vielen Bereichen der Informatik eine wichtige Rolle.
+      Beispielsweise basieren die Navigationssysteme, die heute in fast allen Autos zu finden sind,
+      auf dem Algorithmus von Dijkstra zur Bestimmung des kürzesten Weges.  Wir werden diesen
+      Algorithmus in der Vorlesung herleiten.
+\item Monte-Carlo-Simulation
+  
+      Viele interessante Fragen aus der Wahrscheinlichkeits-Theorie lassen sich aufgrund ihrer 
+      Komplexität nicht analytisch lösen.  Als Alternative bietet sich an, durch Simulation eine 
+      approximative Lösung zu gewinnen.  Als konkretes Beispiel werden wir zeigen, wie
+      komplexe Wahrscheinlichkeiten beim Poker-Spiel durch Monte-Carlo-Simulationen bestimmt werden können.
+\end{enumerate}
+Ziel der Vorlesung ist nicht primär, dass Sie möglichst viele Algorithmen und
+Daten-Strukturen kennen lernen.  Vermutlich wird es eher so sein, dass Sie viele der
+Algorithmen und Daten-Strukturen, die Sie in dieser Vorlesung kennen lernen
+werden, später nie gebrauchen können.  
+Worum geht es dann in der Vorlesung?  Das wesentliche Anliegen 
+ist es, Sie mit den \emph{Denkweisen} vertraut zu machen, die bei der
+Konstruktion und Analyse von Algorithmen verwendet werden.  Sie sollen in die
+Lage versetzt werden, algorithmische Lösungen für komplexe Probleme
+selbstständig zu entwickeln und zu analysieren.  Dabei handelt es sich um einen
+ kreativen Prozeß, der sich nicht in einfachen Kochrezepten
+einfangen läßt.  
+Wir werden in der Vorlesung versuchen, den Prozess an Hand verschiedener
+Beispiele zu demonstrieren.  
+
+\section{Algorithmen und Programme}
+Gegenstand der Vorlesung ist die Analyse von Algorithmen, nicht die Erstellung von Programmen.  Es
+ist wichtig, dass die beiden Begriffe ``\emph{Algorithmus}'' und ``\emph{Programm}'' nicht
+verwechselt werden.  Ein \emph{Algorithmus} ist seiner Natur nach zunächst einmal ein abstraktes
+Konzept, das ein Vorgehen beschreibt um ein gegebenes Problem zu lösen.  Im Gegensatz dazu ist ein
+\emph{Programm} eine konkrete Implementierungen eines Algorithmus.  Bei einer solchen
+Implementierung muss letztlich jedes Detail festgelegt werden, sonst könnte das Programm nicht vom
+Rechner ausgeführt werden.  Bei einem Algorithmus ist das nicht notwendig: Oft wollen wir nur einen
+Teil eines Vorgehens beschreiben, der Rest interessiert uns nicht, weil beispielsweise ohnehin klar
+ist, was zu tun ist.  Ein Algorithmus läßt also eventuell noch Fragen offen.
+
+In Lehrbüchern werden Algorithmen oft mit Hilfe von \emph{Pseudo-Code} dargestellt.  Syntaktische
+hat Pseudo-Code eine ähnliche Form wie ein Programm.  Im Gegensatz zu Programmen kann Pseudo-Code
+aber auch natürlich-sprachlichen Text beinhalten. Sie sollten sich aber klar machen, dass
+\emph{Pseudo-Code} genau so wenig ein Algorithmus ist, wie ein Programm ein Algorithmus ist, denn
+auch der \emph{Pseudo-Code} ist ein konkretes Stück Text, wohingen der Algorithmus eine abstrakte
+Idee ist.  Allerdings bietet der Pseudo-Code dem Informatiker die Möglichkeit, einen Algorithmus auf
+der Ebene zu beschreiben, die zur Beschreibung am zweckmäßigisten ist, denn man ist nicht durch die
+Zufälligkeiten der Syntax einer Programmier-Sprache eingeschränkt.
+
+Konzeptuell ist der Unterschied zwischen einem Algorithmus und einem Programm vergleichbar mit dem
+Unterschied zwischen einer philosophischen Idee und einem Text, der die Idee beschreibt: Die Idee
+selbst lebt in den Köpfen der Menschen, die diese Idee verstanden haben.  Diese Menschen können dann
+versuchen, die Idee konkret zu fassen und aufzuschreiben.  Dies kann in verschiedenen Sprachen und
+mit verschiedenen Worten passieren, es bleibt die selbe Idee.  Genauso kann ein Algorithmus in
+verschiedenen Programmier-Sprachen kodiert werden, es bleibt der selbe Algorithmus.
+
+Nachdem wir uns den Unterschied zwischen einem Algorithmus und einem Programm diskutiert haben,
+überlegen wir uns, wie wir Algorithmen beschreiben können.  Zunächst einmal können wir versuchen,
+Algorithmen durch natürliche Sprache zu beschreiben.  Natürliche Sprache hat den Vorteil, dass Sie
+sehr ausdrucksstark ist: Was wir nicht mit natürlicher Sprache ausdrücken können, können wir
+überhaupt nicht ausdrücken.  Der Nachteil der natürlichen Sprache besteht darin, dass die Bedeutung
+nicht immer eindeutig ist.  Hier hat eine Programmier-Sprache den Vorteil, dass die Semantik
+wohldefiniert ist.  Allerdings ist es oft sehr mühselig, einen Algorithmus vollständig
+auszukodieren, denn es müssen dann Details geklärt werden, die für das Prinzip vollkommen unwichtig
+sind.  Es gibt noch eine dritte Möglichkeit, Algorithmen zu beschreiben und das ist die Sprache der
+Mathematik.  Die wesentlichen Elemente dieser Sprache sind die Prädikaten-Logik und die
+Mengen-Lehre.  In diesem Skript werden wir die Algorithmen in dieser Sprache beschreiben.  Um diese
+Algorithmen dann auch ausprobieren zu können, müssen wir sie in eine Programmier-Sprache übersetzen.
+Hier bietet sich \textsc{SetlX} an, denn diese Programmier-Sprache stellt die
+Daten-Strukturen Mengen und Funktionen, die in der Mathematik allgegenwärtig sind, zur
+Verfügung.  Sie werden sehen, dass es in \textsc{SetlX} möglich ist, die Algorithmen auf
+einem sehr hohen Abstraktions-Niveau darzustellen.  Eine Implementierung der Algorithmen
+in \texttt{C++} oder \textsl{Java} ist erheblich aufwendiger.
+
+\section{Eigenschaften von Algorithmen und Programmen}
+Bevor wir uns an die Konstruktion von Algorithmen machen, sollten wir uns
+überlegen, durch welche Eigenschaften Algorithmen charakterisiert werden und
+welche dieser Eigenschaften erstrebenswert sind.
+\begin{enumerate}
+\item Algorithmen sollen \emph{korrekt} sein.
+\item Algorithmen sollen \emph{effizient} sein.
+\item Algorithmen sollen möglichst \textbf{einfach} sein.
+\end{enumerate}
+Die erste dieser Forderung ist so offensichtlich, dass sie oft vergessen wird:
+ Das schnellste Programm nutzt nichts, wenn es falsche Ergebnisse liefert. 
+Nicht ganz so klar ist die letzte Forderung.  Diese Forderung hat einen
+ökonomischen Hintergrund: Genauso wie die Rechenzeit eines Programms Geld
+kostet, so kostet auch die Zeit, die Programmierer brauchen um ein Programm zu
+erstellen und zu warten, Geld.  Aber es gibt noch zwei weitere Gründe für die
+dritte Forderung:
+\begin{enumerate}
+\item Für einen Algorithmus, dessen konzeptionelle Komplexität hoch ist, ist die
+      Korrektheit nicht mehr einsehbar und damit auch nicht gewährleistbar. 
+\item Selbst wenn der Algorithmus an sich korrekt ist, so kann doch die
+      Korrektheit der Implementierung nicht mehr sichergestellt werden.
+\end{enumerate}
+
+\section{Literatur}
+Ergänzend zu diesem Skript möchte ich die folgende Literatur empfehlen.
+\begin{enumerate}
+\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
+      \emph{Data Structures and Algorithms}, Addison-Wesley, 1987. 
+      
+      Dieses Buch gehört zu den Standardwerken über Algorithmen.  
+      Die Algorithmen werden dort auf einem hohen Niveau erklärt.
+\item \textsl{Frank M.~Carrano} and \textsl{Janet J. Prichard}:
+      \emph{Data Abstraction and Problem Solving with \textsl{Java}}, 
+      Addison-Wesley, 2003. 
+
+      In diesem Buch sind die Darstellungen der Algorithmen sehr breit und
+      verständlich.  Viele Algorithmen sind graphisch illustriert. 
+      Leider geht das Buch oft nicht genug in die Tiefe, so wird zum Beispiel
+      die Komplexität von Algorithmen kaum untersucht.
+\item \textsl{Thomas H.~Cormen}, \textsl{Charles E.~Leiserson}, 
+      \textsl{Ronald L.~Rivest}, and \textsl{Clifford Stein}:
+      \emph{Introduction to Algorithms}, 
+      MIT Press, 2001. 
+
+      Aufgrund seiner Ausführlichkeit eignet sich dieses Buch sehr gut zum
+      Nachschlagen von Algorithmen.  Die Darstellungen der Algorithmen sind eher
+      etwas knapper gehalten, dafür wird aber auch die Komplexität analysiert.
+\item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
+      Pearson, 2002.
+    
+      Dieses Buch liegt in der Mitte zwischen den Büchern von Carrano und
+      Cormen:  Es ist theoretisch nicht so anspruchsvoll wie das von Cormen,
+      enthält aber wesentlich mehr Algorithmen als das Buch von Carrano.
+      Zusätzlich wird die Komplexität der Algorithmen diskutiert.
+\item \textsl{Heinz-Peter Gumm und Manfred Sommer},
+      \emph{Einführung in die Informatik},
+      Oldenbourg Verlag, 2006.
+
+      Dieses Buch ist eine sehr gute Einführung in die Informatik, die auch ein
+      umfangreiches Kapitel über Algorithmen und Datenstrukturen enthält.  
+      Die Darstellung der Algorithmen ist sehr gelungen.
+\end{enumerate}
+%Von den meisten der oben aufgeführten angelsächsischen Büchern existieren Übersetzungen ins
+%Deutsche.  Ich rate von dem Gebrauch dieser Übersetzungen ab, da die Qualität in der Regel hinter
+%den Originalen zurück bleibt.  Außerdem sind heute in der Informatik gute Kenntnisse der
+%englischen Sprache unverzichtbar.  Solche Kenntnisse lassen sich relativ einfach durch die Lektüre guter
+%englischer Fachbücher gewinnen und weiterentwickeln.
+
+\nocite{aho:87}
+\nocite{boerger:2003}
+\nocite{carrano:02}
+\nocite{cormen:01}
+\nocite{gurevich:91}
+\nocite{sedgewick:02}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithmen"
+%%% End: 

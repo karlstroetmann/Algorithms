@@ -1,0 +1,75 @@
+\documentclass{slides}
+\usepackage{german}
+\usepackage{epsfig}
+\usepackage{amssymb}
+
+\pagestyle{empty}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\topskip}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+
+\newcommand{\bruch}[2]{\frac{\displaystyle\;#1\;}{\displaystyle\;#2\;}}
+\newcommand{\Oh}{\mathcal{O}}
+
+\newcounter{mypage}
+
+\begin{document}
+
+\begin{center}
+Hashing
+\end{center}
+
+
+\footnotesize
+Naive Methode, Telefon--Buch abzuspeichern:
+\begin{enumerate}
+\item Annahme: Alle Namen bestehen aus genau \\
+      10 Buchstaben 
+
+      k"urzere Namen werden mit Blanks aufgef"ullt
+\item "Ubersetze Namen in eindeutigen Index:
+    \begin{verbatim}
+    unsigned computeIndex(const char text[]) {
+        unsigned index = 0;
+        for (unsigned i = 0; i < 10; ++i) {
+            index = 128 * index + text[i];
+        }
+        return index;
+    }
+    \end{verbatim} 
+    \vspace*{-1.0cm}
+
+    \hspace*{1.0cm} $\mathtt{index} = \sum\limits_{i=0}^9 \mathtt{text}[i] * 128^{\,9-i}$
+\item Lege Feld der Gr"o\3e $128^{\,10}$ an: \\[0.3cm]
+      \hspace*{1.3cm} \texttt{unsigned telephone[1\,180\,591\,620\,717\,411\,303\,424];}
+\item Speichere Telefon--Nummer unter berechneten Index: \\[0.3cm]
+      \hspace*{1.3cm} \texttt{index = computeIndex(name);} \\[0.3cm]
+      \hspace*{1.3cm} \texttt{telephone[index] = telNumber;}
+\item Suchen: Berechne Index des gegebenen Namens: \\[0.3cm]
+      \hspace*{1.3cm} \texttt{index = computeIndex(name);} \\[0.3cm]
+      \hspace*{1.3cm} \texttt{telNumber = telephone[index]}
+\end{enumerate}
+
+
+\vspace*{0.2cm}
+
+\scriptsize
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Hashing   \hspace*{\fill} Seite \arabic{mypage}
+
+
+\include{hashing-slides}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

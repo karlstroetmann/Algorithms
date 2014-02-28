@@ -1,0 +1,2727 @@
+\chapter{Sortier-Algorithmen}
+Im Folgenden gehen wir davon aus, dass wir eine Liste $L$ gegeben haben, deren Elemente
+aus einer Menge $M$ entstammen.  
+Die Elemente von M können wir \emph{vergleichen}, das
+heißt, dass es auf der Menge $M$  eine Relation
+$\leq$ gibt, die \emph{reflexiv}, \emph{anti-symmetrisch} und \emph{transitiv} ist, es gilt also  
+\begin{enumerate}
+\item $\forall x \el M \colon x \leq x$.
+\item $\forall x, y \el M \colon x \leq y \wedge y \leq x \rightarrow x = y$.
+\item $\forall x, y, z \el M \colon x \leq y \wedge y \leq z \rightarrow x \leq z$. 
+\end{enumerate}
+Ein Paar $\langle M, \leq \rangle$ bestehend aus einer Menge und einer binären Relation
+$\leq \subseteq M \times M$ mit diesen Eigenschaften bezeichnen wir als eine
+\emph{partielle Ordnung}.  Gilt zusätzlich \\[0.1cm]
+\hspace*{1.3cm} $\forall x, y \el M \colon x \leq y \vee y \leq x$, \\[0.1cm]
+so bezeichnen wir $\langle M, \leq \rangle$ als eine \emph{totale Ordnung}.
+\vspace*{0.3cm}
+
+\noindent
+\textbf{Beispiele}:
+\begin{enumerate}
+\item $\langle\mathbb{N}, \leq \rangle$ ist eine totale Ordnung.
+\item $\langle 2^{\mathbb{N}}, \subseteq \rangle$ ist eine partielle Ordnung aber keine totale Ordnung, denn beispielsweise sind die Mengen
+      $\{1\}$ und $\{2\}$ nicht vergleichbar, es gilt \\[0.1cm]
+      \hspace*{1.3cm} $\{1\} \not\subseteq \{2\}$ und $\{2\} \not\subseteq \{1\}$.
+\item Ist $P$ die Menge der Mitarbeiter einer Firma und definieren wir für zwei
+      Mitarbeiter $a,b \el M$\\[0.1cm]
+      \hspace*{1.3cm} $a < b$ \quad g.d.w.~ \quad  $a$ verdient weniger als $b$, \\[0.1cm]
+      so ist $\langle P, \leq \rangle$ eine partielle Ordnung.
+\end{enumerate}
+\textbf{Bemerkung}: In dem letzten Beispiel haben wir anstelle der Relation $\leq$ die
+Relation $<$ definiert.  Ist eine Relation $<$ gegeben, so ist die dazugehörige Relation
+$\leq$ wie folgt definiert: \\[0.1cm]
+\hspace*{1.3cm} $x \leq y \leftrightarrow x < y \vee x = y$. \\[0.1cm]
+Betrachten wir die obigen Beispiele und überlegen uns, in welchen Fällen es möglich ist,
+eine Liste von Elemente zu sortieren, so stellen wir fest, dass dies im ersten und dritten Fall möglich
+ist, im zweiten Fall aber keinen Sinn macht.  Offensichtlich ist eine
+totale Ordnung hinreichend zum Sortieren aber, wie das dritte Beispiel zeigt, nicht
+unbedingt notwendig.  Eine partielle Ordnung reicht hingegen zum Sortieren nicht aus.
+Wir führen daher einen weiteren Ordnungs-Begriff ein.
+
+\begin{Definition}[Quasi-Ordnung]  \hspace*{\fill} \\
+{\em
+  Ein Paar $\langle M, \preceq\rangle$ ist eine \emph{Quasi-Ordnung}, falls $\preceq$ eine
+  binäre Relation auf $M$ ist, für die gilt:
+  \begin{enumerate}
+  \item $\forall x \el M \colon x \preceq x$. \hspace*{\fill} (Reflexivität)
+  \item $\forall x, y, z \el M \colon x \preceq y \wedge y \preceq z \rightarrow x \preceq
+    z$. \hspace*{\fill} (Transitivität)
+  \end{enumerate}
+  Gilt zusätzlich \\[0.1cm]
+  \hspace*{1.3cm} $\forall x, y \el M \colon x \preceq y \vee y \preceq x$, \\[0.1cm]
+  so bezeichnen wir $\langle M, \preceq \rangle$ als eine \emph{totale Quasi-Ordnung}, was
+  wir als \textsc{TQO} abkürzen.
+}
+\end{Definition}
+Bei dem Begriff der Quasi-Ordnung wird im Unterschied zu dem Begriff der partiellen Ordnung auf die
+Eigenschaft der Anti-Symmetrie verzichtet.  Trotzdem sind die Begriffe fast gleichwertig, denn wenn
+$\langle M, \preceq \rangle$ eine Quasi-Ordnung ist, so kann auf $M$ eine Äquivalenz-Relation
+$\approx$ durch 
+\[ x \approx y \stackrel{def}{\longleftrightarrow} x \preceq y \wedge y \preceq x \]
+definiert werden.
+Setzen wir die Ordnung $\preceq$ auf die von der Relation $\approx$ erzeugten Äquivalenz-Klassen
+fort,  so kann gezeigt werden, dass diese Fortsetzung eine partielle Ordnung ist.
+\vspace*{0.3cm}
+
+Es sei nun $\langle M, \preceq \rangle$ eine \textsc{TQO}.  Dann ist das \emph{Sortier-Problem} wie
+folgt definiert:
+\begin{enumerate}
+\item Gegeben ist eine Liste $L$ von Elementen aus M.
+\item Gesucht ist eine Liste $S$ mit folgenden Eigenschaften: 
+  \begin{enumerate}
+  \item $S$ ist aufsteigend sortiert: \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S(i) \preceq S(i+1)$ \\[0.1cm]
+        Hier bezeichnen wir die Länge der Liste $S$ mit $\#S$.
+  \item $S$ und $L$ enthalten die selben Elemente, es gilt also \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\textsl{set}(L) = \textsl{set}(S)$. \\[0.1cm]
+        Dabei ist für eine Liste $L$ der Ausdruck $\textsl{set}(L)$ als die Menge
+        der Elemente der Liste $L$ definiert, es gilt \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\textsl{set}(L) := \bigl\{ L(i) \mid i \el \{ 1, \cdots, \#L\} \bigr\}$.
+  \item Die Elemente treten in $L$ und $S$ mit der selben Häufigkeit auf: \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
+        \\[0.1cm]
+        Dabei zählt die Funktion $\textsl{count}(x,L)$ wie oft das Element $x$ in der
+        Liste $L$ auftritt: \\[0.1cm]
+        \hspace*{1.3cm}
+        $\textsl{count}(x,L) := \# \bigl\{ i \el \{1,\cdots,\#L\} \mid L(i) = x \bigr\}$.
+
+        \textbf{Bemerkung}: Die letzte Forderung impliziert offensichtlich die zweite
+        Forderung, denn wenn alle Elemente in den Listen $L$ und $S$ mit der selben
+        Häufigkeit auftreten, dann enthalten $L$ und $S$ natürlich auch die selben Elemente.
+  \end{enumerate}
+\end{enumerate}
+
+In diesem Kapitel präsentieren wir verschiedene Algorithmen, die das Sortier-Problem
+lösen, die also  zum Sortieren von Listen benutzt werden können.
+Wir stellen zunächst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
+Effizienz aber zu wünschen übrig läßt.  Im Anschluß daran präsentieren wir zwei
+effizientere Algorithmen, deren Implementierung aber etwas aufwendiger ist.
+
+\section{Sortieren durch Einfügen}
+Wir stellen zunächst einen sehr einfachen Algorithmus vor, der als 
+``\emph{Sortieren durch Einfügen}'' (engl. \emph{insertion sort}) bezeichnet wird.
+Wir beschreiben den Algorithmus durch \emph{Gleichungen}.
+Der Algorithmus arbeitet nach dem folgenden Schema:
+\begin{enumerate}
+\item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
+      die leere Liste zurück gegeben: \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{sort}([]) = []$
+\item Andernfalls muß die Liste $L$ die Form $[x] + R$ haben.
+      Dann sortieren wir den Rest $R$ und fügen das Element $x$ in diese Liste so ein,
+      dass die Liste sortiert bleibt. \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$
+\end{enumerate}
+Das Einfügen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem folgenden Schema:
+\begin{enumerate}
+\item Falls die Liste $S$ leer ist, ist das Ergebnis $[x]$: \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{insert}(x,[]) = [x]$.
+\item Sonst hat $S$ die Form $[y] + R$.  Wir vergleichen $x$ mit $y$.
+      \begin{enumerate}
+      \item Falls $x \preceq y$ ist, können wir $x$ vorne an die Liste $S$ anfügen: \\[0.1cm]
+            \hspace*{1.3cm} $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
+      \item Andernfalls fügen wir $x$ rekursiv in die Liste $R$ ein: \\[0.1cm]
+            \hspace*{1.3cm} $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
+      \end{enumerate}
+\end{enumerate}
+Dieser Algorithmus läßt sich leicht in \textsl{Java} umsetzen. Abbildung
+\ref{fig:insertion-sort} zeigt das resultierende Programm.
+\begin{enumerate}
+\item In Zeile 4 deklarieren wir die Member-Variable \texttt{mList}
+      als Objekt vom Typ \texttt{LinkedList<Double>}.
+      Die Klasse \texttt{LinkedList} repäsentiert 
+      verkettete Listen und diese Datenstruktur ist zur Umsetzung der rekursiven
+      Gleichungen am besten geeignet.
+\item In Zeile 6 definieren wir den Konstruktor der Klasse \texttt{InsertionSort}.
+      Dieser Konstruktor hat die Aufgabe, die Member-Variable \texttt{mList} zu
+      initialisieren.  
+\item In Zeile 12 bis 33 implementieren wir die Methoden \texttt{sort()} ind
+      \texttt{insert()}.  Dabei benutzen wir die folgenden Methoden der Klasse
+      \texttt{LinkedList}:
+      \begin{enumerate}
+      \item $L\texttt{.isEmpty}()$ testet, ob die Liste $L$ leer ist.
+      \item $L\texttt{.removeFirst}()$ entfernt das erste Element aus der Liste $L$
+            und liefert als Ergebnis das entfernte Element zurück.
+      \item $L\texttt{.addFirst}(x)$ fügt das Element $x$ als erstes Element in die Liste
+            $L$ ein.
+      \item $L\texttt{.getFirst}()$ liefert als Ergebnis das erste Element der Liste $L$.
+            Die Liste $L$ wird dabei nicht verändert.
+      \end{enumerate}
+\item Zeile 34 definieren wir der Vollständigkeit halber noch eine Methode \texttt{main}(),
+      mit der wir die Klasse \texttt{InsertionSort} testen können.
+\end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
+                ]
+    import java.util.*;
+    
+    public class InsertionSort {
+        LinkedList<Double> mList;
+        
+        InsertionSort(Double[] a) {
+            mList = new LinkedList<Double>();
+            for (Double x : a) {
+                mList.add(x);
+            }
+        }    
+        public void sort() {
+            if (mList.isEmpty()) {
+                return;
+            }
+            Double x = mList.removeFirst();
+            sort();
+            insert(x);
+        }
+        private void insert(Double x) {
+            if (mList.isEmpty()) {
+                mList.addFirst(x);
+                return;
+            }
+            Double y = mList.getFirst();
+            if (x <= y) {
+                mList.addFirst(x);
+            } else {
+                mList.removeFirst();  // remove y
+                insert(x);
+                mList.addFirst(y);
+            }
+        }        
+        public static void main(String[] args) {
+            Double[] a = { 3.0, 7.0, 5.0, 2.0, 4.0, 11.0, 1.0 };
+            InsertionSort IS = new InsertionSort(a);
+            System.out.println(IS.mList);
+            IS.sort();
+            System.out.println(IS.mList);
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Der Algorithmus ``\emph{Sortieren durch Einfügen}''}
+  \label{fig:insertion-sort}
+\end{figure} 
+
+\subsection{Nachweis der Korrektheit}
+Wir zeigen, dass der Algorithmus ``\emph{Sortieren durch Einfügen}'' korrekt ist.
+Dazu benötigen wir zunächst einige Hilfs-Funktionen, die wir über bedingte Gleichungen
+definieren. 
+
+\begin{Definition}[$\mathtt{le}(x,L)$]
+{\em
+  Für ein Element $x\el M$ und eine Liste $L$ definieren wir die Funktion
+  $\mathtt{le}(x, L)$ so, dass $\mathtt{le}(x, L)$ genau dann gilt, wenn für  alle
+  Elemente $y$ aus $L$ die Ungleichung $x \preceq y$ gilt, es soll also gelten: \\[0.1cm]
+  \hspace*{1.3cm} $\forall i \el \{ 1, \cdots, \#L \} \colon x \leq L(i)$. \\[0.1cm]
+  Um mit der Funktion $\mathtt{le}$ arbeiten zu können, geben wir jetzt eine 
+  formale Definition durch Induktion über $L$.
+  \begin{enumerate}
+  \item $\mathtt{le}(x, []) = \mathtt{true}$
+  \item $x \preceq y \rightarrow \mathtt{le}(x, [y] + R) = \mathtt{le}(x, R)$
+  \item $\neg x \preceq y \rightarrow \mathtt{le}(x, [y] + R) = \mathtt{false}$
+        \hspace*{\fill} $\Box$
+  \end{enumerate}
+}
+\end{Definition}
+Die letzten beiden Gleichungen können wir zu einer Gleichungen zusammen fassen: \\[0.1cm]
+\hspace*{1.3cm} 
+$\mathtt{le}(x, [y] + R) = \bigl(x \preceq y \wedge \mathtt{le}(x, R)\bigr)$. 
+\\[0.1cm]
+Die Syntax dieser Gleichung bedarf einer Erläuterung: Wir fassen hier $\preceq$ als eine
+zweistellige Funktion mit der Signatur \\[0.1cm]
+\hspace*{1.3cm} $\preceq: M \times M \rightarrow \mathbb{B}$ \\[0.1cm]
+auf.  Die Funktion nimmt als Eingaben also zwei Elemente der Menge $M$ 
+und liefert als Ergebnis einen Wahrheitswert aus der Menge 
+$\mathbb{B} = \{ \mathtt{true}, \mathtt{false} \}$.  Genauso fassen wir den aussagenlogischen Junktor
+$\wedge$ auf als eine zweistellige Funktion mit der Typ-Spezifikation \\[0.1cm]
+\hspace*{1.3cm} $\wedge : \mathbb{B} \times \mathbb{B} \rightarrow \mathbb{B}$. 
+
+\begin{Definition}[$\texttt{isSorted}(L)$]
+{\em
+  Für eine Liste $L$ definieren wir die Funktion $\texttt{isSorted}(L)$ so,
+  dass  $\texttt{isSorted}(L)$ genau dann den Wert \texttt{true} hat, wenn die Liste $L$ sortiert ist.
+  Die formale Definition erfolgt durch Induktion über $L$.
+  \begin{enumerate}
+  \item Die leere Liste ist sicher sortiert, also gilt \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\mathtt{isSorted}([]) = \mathtt{true}$.
+  \item Die Liste $[x] + R$ ist sicher dann sortiert, wenn einerseits $x$ kleiner-gleich
+        den Elementen aus $L$ ist und wenn andererseits die Liste $R$ sortiert ist. \\[0.1cm]
+        \hspace*{1.3cm} 
+        $\mathtt{isSorted}([x]+R) = \bigl(\mathtt{le}(x,R) \wedge \mathtt{isSorted}(R)\bigr)$.
+        \hspace*{\fill} $\Box$
+  \end{enumerate}
+}
+\end{Definition}
+Unser Ziel ist es zu zeigen, dass für eine
+Liste $L$ immer $\texttt{isSorted}\bigl(\mathtt{sort}(L)\bigr)$ gilt.
+Dazu benötigen wir aber noch einige Hilfssätze.  
+
+\begin{Lemma}[Distributivität von \texttt{le} über \texttt{insert}] \hspace*{\fill} \\
+{\em
+  Sind $x$ und $y$ Elemente aus $M$ und ist $L$ eine Liste, so gilt: \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\mathtt{le}\bigl(x, \mathtt{insert}(y,L) \bigr) \leftrightarrow x \preceq y \wedge \mathtt{le}(x,L)$. 
+}  
+\end{Lemma}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion nach der Definition von \texttt{insert}.
+\begin{enumerate}
+\item Fall:  $L = []$.   Dann gilt 
+      $$
+      \begin{array}{lll}
+                       & \mathtt{le}\bigl(x, \mathtt{insert}(y,[]) \bigr)                                        \\
+       \leftrightarrow & \mathtt{le}\bigl(x, [y] \bigr)                   & \mbox{nach Definition von \texttt{insert}} \\
+       \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl(x, [] \bigr) & \mbox{nach Definition von \texttt{le}}     \\
+       \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl(x, L \bigr) & \mbox{wegen}\; L = []. 
+      \end{array}
+      $$
+\item Fall: $L = [z] + R$ und $y \preceq z$.  Dann gilt 
+            $$ 
+            \begin{array}{cll}
+                            & \mathtt{le}\bigl( x, \mathtt{insert}(y, [z] + R)\bigr) \\
+            \leftrightarrow & \mathtt{le}\bigl( x, [y,z] + R\bigr)                   & \mbox{nach Definition von \texttt{insert}}\\
+            \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl( x, [z] + R\bigr)  & \mbox{nach Definition von \texttt{le}}\\
+            \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl( x, L\bigr)        & \mbox{wegen $L = [z] + R$}.
+            \end{array}
+            $$
+\item Fall: $L = [z] + R$ und $\neg y \preceq z$.  
+            In diesem Fall wird der Wert von $\texttt{insert}(x,L)$ durch die folgende
+            bedingte Gleichung berechnet: \\[0.1cm]
+            \hspace*{1.3cm} 
+            $\neg y \preceq z \rightarrow \mathtt{insert}(y, [z] + R) = [z] + \mathtt{insert}(y,R)$. \\[0.1cm]
+            Daher lautet die Induktions-Voraussetzung für diesen Fall \\[0.1cm]
+            \hspace*{1.3cm} 
+            $\mathtt{le}\bigl(x, \mathtt{insert}(y,R)\bigr) \leftrightarrow x \preceq y \wedge \mathtt{le}(x, R)$. 
+            \\[0.1cm]
+            Damit haben wir
+            $$ 
+            \begin{array}[b]{cll}
+                            & \mathtt{le}\bigl(x, \mathtt{insert}(y, [z] + R)\bigr) \\
+            \leftrightarrow & \mathtt{le}\bigl(x, [z] + \mathtt{insert}(y,R) \bigr)                & \mbox{nach Definition von \texttt{insert}}\\
+            \leftrightarrow & x \preceq z \wedge \mathtt{le}\bigl( x, \mathtt{insert}(y,R) \bigr)  & \mbox{nach Definition von \texttt{le}}\\
+            \leftrightarrow & x \preceq z \wedge x \preceq y \wedge \mathtt{le}\bigl( x, R\bigr)   & \mbox{nach I.V.}\\
+            \leftrightarrow & x \preceq y \wedge x \preceq z \wedge \mathtt{le}\bigl( x, R\bigr)   & \mbox{wegen Kommutativität von $\wedge$}\\
+            \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl( x, [z] + R\bigr)                & \mbox{nach Definition von \texttt{le}}\\
+            \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl( x, L\bigr)                      & \mbox{wegen $L = [z] + R$}.\\
+            \end{array}\hspace*{1.6cm} \Box
+            $$
+\end{enumerate}
+
+\begin{Lemma}[Transitivität von \texttt{le}] \label{lemma:le-trans}
+{\em
+  Es gilt: \\[0.1cm]
+  \hspace*{1.3cm} $x \preceq y \wedge \mathtt{le}(y,L) \rightarrow \mathtt{le}(x,L)$.
+}  
+\end{Lemma}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Induktion nach $L$.
+\begin{enumerate}
+\item[I.A.:] $L = []$. Nach Definition von \texttt{le} gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{le}(x,[]) \leftrightarrow \mathtt{true}$.
+\item[I.S.:] $L = [z] + R$.
+
+     Wir formen zunächst die Voraussetzung $\mathtt{le}(y,L)$ um: \\[0.1cm]
+     \hspace*{1.3cm} 
+     $\mathtt{le}(y,L) \leftrightarrow \mathtt{le}(y,[z] + R) \leftrightarrow y \preceq z \wedge \mathtt{le}(y, R)$. 
+     \\[0.1cm]
+     Aus der Voraussetzung $\mathtt{le}(y,L)$ folgt also \\[0.1cm]
+     \hspace*{1.3cm} $(y \preceq z) \leftrightarrow \mathtt{true}$, \hspace*{\fill} (1) \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{le}(y,R) \leftrightarrow \mathtt{true}$.  \hspace*{\fill} (2) \\[0.1cm]
+     Aus der Voraussetzung $x \preceq y$ und (1) folgt mit der Transitivität der Relation $\preceq$ \\[0.1cm]
+     \hspace*{1.3cm} $x \preceq z \leftrightarrow \mathtt{true}$. \hspace*{\fill} (3) \\[0.1cm]
+     Aus der Voraussetzung $x \preceq y$ und (2) folgt mit der Induktions-Voraussetzung \\[0.1cm]
+     \hspace*{1.3cm} $\mathtt{le}(x, R) \leftrightarrow \mathtt{true}$. \hspace*{\fill} (4) \\[0.1cm]
+     Jetzt können wir die Behauptung zeigen: 
+     $$
+     \begin{array}[b]{cll}
+        & \mathtt{le}(x, L) \\
+      \leftrightarrow & \mathtt{le}(x, [z] + R) \\
+      \leftrightarrow & x \preceq z \wedge \mathtt{le}(x, R)   &          \mbox{nach Definition von \texttt{le}} \\
+      \leftrightarrow & \mathtt{true} \wedge \mathtt{le}(x, R) &          \mbox{wegen (3)} \\
+      \leftrightarrow & \mathtt{true} \wedge \mathtt{true}     &          \mbox{wegen (4)} \\
+      \leftrightarrow & \mathtt{true}.  &
+     \end{array}\hspace*{\fill} \Box
+     $$
+\end{enumerate}
+
+
+\begin{Corollary}
+{\em
+  Es sei $L = [y] + R$. Dann gilt \\[0.1cm]
+  \hspace*{1.3cm} 
+  $x \preceq y \wedge \mathtt{isSorted}(L) \rightarrow \mathtt{le}(x,L)$.
+}
+\end{Corollary}
+
+\noindent
+\textbf{Beweis}: Wir nehmen an, dass \\[0.1cm]
+\hspace*{1.3cm} $x \preceq y$ \quad und \quad $\textsl{isSorted}(L)$ \\[0.1cm]
+gilt und zeigen, dass daraus \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{le}(x,L)$ \\[0.1cm]
+folgt.  Wir setzen in die Annahme $\textsl{isSorted}(L)$ für $L$ den Wert $[y] + R$ ein und erhalten 
+$$
+\begin{array}[b]{lll}
+                & \mathtt{isSorted}([y] + R) \\
+\leftrightarrow & \mathtt{le}(y, R) \wedge \mathtt{isSorted}(R) & \mbox{nach Definition von \texttt{isSorted}} \\
+\rightarrow     & \mathtt{le}(y, R)  \\
+\rightarrow     & \mathtt{le}(x, R) & \mbox{wegen der Transitivität von \texttt{le}}. 
+\end{array}\hspace*{2.6cm} \Box
+$$
+
+\begin{Lemma}[Distributivität von \texttt{isSorted} über \texttt{insert}] \hspace*{\fill}\\
+{\em
+  Es sei $x\el M$ und $S$ eine Liste. Dann gilt \\[0.1cm]
+  \hspace*{1.3cm} $ \mathtt{isSorted}\bigl(\mathtt{insert}(x,S) \bigr) \leftrightarrow \mathtt{isSorted}(S)$. 
+}  
+\end{Lemma}
+  
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion nach der Definition von \texttt{insert}.
+\begin{enumerate}
+\item Fall: $S = []$.  Es gilt 
+      $$
+      \begin{array}{lll}
+                      & \mathtt{isSorted}\bigl(\mathtt{insert}(x,[]) \bigr) \\
+      \leftrightarrow & \mathtt{isSorted}\bigl([x] \bigr)                        & \mbox{nach Definition von \texttt{insert}} \\
+      \leftrightarrow & \mathtt{le}(x,[]) \wedge \mathtt{isSorted}\bigl([]\bigr) & \mbox{nach Definition von \texttt{isSorted}} \\
+      \leftrightarrow & \mathtt{true}     \wedge \mathtt{isSorted}\bigl([]\bigr) & \mbox{nach Definition von \texttt{le} } \\
+      \leftrightarrow & \mathtt{isSorted}\bigl([]\bigr)                          &                                         \\
+      \leftrightarrow & \mathtt{isSorted}\bigl(S\bigr)                           & \mbox{wegen $S=[]$}.                     \\
+      \end{array}
+      $$
+\item Fall: $S = [y] + R$ und $x \preceq y$.  Dann gilt 
+            $$
+            \begin{array}{cll}
+               & \mathtt{isSorted}\bigl( \mathtt{insert}(x, [y] + R\bigr) \\
+             \leftrightarrow & \mathtt{isSorted}\bigl( [x,y] + R\bigr)                    & \mbox{nach Definition von $\mathtt{insert}$}\\
+             \leftrightarrow & \mathtt{isSorted}\bigl( [x]+ S\bigr)                       & \mbox{wegen $S = [y] + R$ }\\
+             \leftrightarrow & \mathtt{le}(x, S) \wedge \mathtt{isSorted}\bigl( S\bigr)   & \mbox{nach Definition von $\mathtt{isSorted}$}\\
+             \leftrightarrow & \mathtt{true} \wedge \mathtt{isSorted}\bigl( S\bigr)       & \mbox{nach dem Korollar zur Transitivität von \texttt{le}}\\
+             \leftrightarrow & \mathtt{isSorted}\bigl( S\bigr)                              \\
+            \end{array}
+            $$
+\item Fall:  $S = [y] + R$ und $\neg x \preceq y$.  Da wir voraussetzen, dass die Relation $\preceq$ eine \textsc{TQO} ist,
+            muß $y \preceq x$ gelten.  Damit haben wir:
+            $$
+            \begin{array}[b]{cll}
+               & \mathtt{isSorted}\bigl( \mathtt{insert}(x, [y] + R\bigr) \\
+             \leftrightarrow & \mathtt{isSorted}\bigl( [y] + \mathtt{insert}(x, R)\bigr)   & \mbox{nach Definition von $\mathtt{insert}$}\\
+             \leftrightarrow & \mathtt{le}\bigl(y, \mathtt{insert}(x,R) \bigr) \wedge \mathtt{isSorted}\bigl( \mathtt{insert}(x,R)\bigr)   
+                     & \mbox{nach Definition von $\mathtt{isSorted}$}\\
+             \leftrightarrow & y \preceq x \wedge \mathtt{le}\bigl(y, R \bigr) \wedge \mathtt{isSorted}\bigl( \mathtt{insert}(x,R)\bigr)   
+                     & \mbox{Distributivität von \texttt{le} über \texttt{insert}}\\
+             \leftrightarrow & y \preceq x \wedge \mathtt{le}\bigl(y, R \bigr) \wedge \mathtt{isSorted}\bigl( R \bigr)   
+                     & \mbox{nach IV}\\
+             \leftrightarrow & \mathtt{true} \wedge \mathtt{le}\bigl(y, R \bigr) \wedge \mathtt{isSorted}\bigl( R \bigr)   
+                     & \mbox{wegen $y \preceq x$}\\
+             \leftrightarrow & \mathtt{le}\bigl(y, R \bigr) \wedge \mathtt{isSorted}\bigl( R \bigr)   \\
+             \leftrightarrow & \mathtt{isSorted}\bigl( [y] + R \bigr)  &
+                       \mbox{nach Definition von \texttt{isSorted}} \\
+             \leftrightarrow & \mathtt{isSorted}\bigl( L \bigr)  &
+                       \mbox{wegen $L = [y] + R$}. \\
+            \end{array} \hspace*{-0.5cm} \Box
+            $$
+\end{enumerate}
+
+\begin{Proposition}[Korrektheit von \texttt{sort}, Teil 1] \hspace*{\fill}\\
+{\em
+  Es sei $L$ eine Liste. Dann gilt \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{isSorted}\bigl(\mathtt{sort}(L) \bigr)$. 
+}  
+\end{Proposition}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion nach der Definition von \texttt{sort}.
+\begin{enumerate}
+\item[I.A.:] $L = []$. Dann gilt 
+      $$
+      \begin{array}[b]{lll}
+                      & \mathtt{isSorted}\bigl(\mathtt{sort}([]) \bigr) \\
+      \leftrightarrow & \mathtt{isSorted}\bigl([] \bigr) & \mbox{nach Definition von \texttt{sort}} \\
+      \leftrightarrow & \mathtt{true}                    & \mbox{nach Definition von \texttt{isSorted}}.
+      \end{array}
+      $$
+\item[I.S.:] $L = [x] + R$.  Es gilt \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{sort}([x] + R) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$. \\[0.1cm]
+      Daher gilt nach Induktions-Voraussetzung \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{isSorted}\bigl(\mathtt{sort}(R) \bigr)$.  \\[0.1cm]
+      Also gilt 
+      $$
+      \begin{array}[b]{lll}
+                      & \mathtt{isSorted}\bigl(\mathtt{sort}([x] + R)\bigr) \\
+      \leftrightarrow & \mathtt{isSorted}\Bigl(\mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)\Bigr) &
+      \mbox{nach Definition \texttt{sort}}  \\
+      \leftrightarrow & \mathtt{isSorted}\bigl(\mathtt{sort}(R)\bigr) &
+      \mbox{Distributivität von \texttt{isSorted} über \texttt{insert}}  \\
+      \leftrightarrow & \mathtt{true} &
+      \mbox{nach I.V.}  \\
+      \end{array}
+      \hspace*{-0.5cm} \Box
+      $$
+\end{enumerate}
+
+\begin{Definition}[$\texttt{eq}(x,y)$]
+{\em
+  Für zwei Elemente $x$ und $y$ aus einer Menge $M$  definieren wir die Funktion
+  $\mathtt{eq}: M \times M \rightarrow \mathbb{N}$  wie folgt
+  \[
+  \mathtt{eq}(x,y) = \left\{
+  \begin{array}{ll}
+    1 & \quad \mbox{falls}\quad x = y; \\
+    0 & \quad \mbox{falls}\quad x \not= y. \\
+  \end{array}
+  \right.
+  \]
+}
+\end{Definition}
+
+\noindent
+Damit können wir die Funktion \\[0.1cm]
+\hspace*{1.3cm} $\texttt{count}\colon M \times \textsl{List}(M) \rightarrow \mathbb{N}$ \\[0.1cm]
+die zählt, wie oft ein Element $x$ in einer Liste $L$ vorkommt, durch Gleichungen definieren:
+\begin{enumerate}
+\item Fall: $L = []$.
+
+      $\mathtt{count}(x,[]) = 0$.
+\item Fall $L = [y] + R$.  
+
+      $\mathtt{count}(x,[y] + R) = \mathtt{eq}(x,y) + \mathtt{count}(x, R)$.
+\end{enumerate}
+
+\begin{Lemma}[Distributivität von \texttt{count} über \texttt{insert}]\hspace*{\fill}\\
+{\em
+  Es seien $x$ und $y$ Elemente der Menge $M$ und $S$ sei eine Liste von Elementen aus $M$. Dann gilt \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) = \mathtt{eq}(x,y) + \mathtt{count}(x,S)$.
+}  
+\end{Lemma}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion.
+\begin{enumerate}
+\item Fall: $S = []$. Es gilt
+      $$
+      \begin{array}{cll}
+        & \mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{insert}(y, []) \bigr) \\
+      = & \mathtt{count}\bigl(x, [y]) \bigr) \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}\bigl(x, []) \bigr) \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x,S).
+      \end{array}
+      $$
+\item Fall: $S = [z] + R$ und $y \preceq z$. Dann gilt:
+        $$
+      \begin{array}{cll}
+        & \mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{insert}(y, [z] + R) \bigr) \\
+      = & \mathtt{count}\bigl(x, [y,z] + R) \bigr) & \mbox{nach Definition von \texttt{insert}}\\
+      = & \mathtt{eq}(x,y) + \mathtt{count}\bigl(x, [z] + R) \bigr) &
+          \mbox{nach Definition von \texttt{count}} \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x,S).
+      \end{array}
+      $$
+\item Fall: $S = [z] + R$ und $\neg y \preceq z$.  Dann gilt:
+      $$
+      \begin{array}[b]{cll}
+        & \mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{insert}(y, [z] + R) \bigr) \\
+      = & \mathtt{count}\bigl(x, [z] + \mathtt{insert}(y,R) \bigr) & \mbox{nach Definition von \texttt{insert}}\\
+      = & \mathtt{eq}(x,z) + \mathtt{count}\bigl(x, \mathtt{insert}(y, R) \bigr) &
+          \mbox{nach Definition von \texttt{count}} \\
+      = & \mathtt{eq}(x,z) + \mathtt{eq}(x,y) + \mathtt{count}(x, R) &
+          \mbox{nach Induktions-Voraussetzung} \\
+      = & \mathtt{eq}(x,y) + \mathtt{eq}(x,z) + \mathtt{count}(x, R)
+          \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x, [z] + R) &
+          \mbox{nach Definition von \texttt{count}} \\
+
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x,S).
+      \end{array}\hspace*{\fill} \Box
+      $$
+\end{enumerate}
+
+\begin{Proposition}[Distributivität von \texttt{count} über \texttt{sort}] \hspace*{\fill}\\
+{\em
+  Ist $x$ ein Element und $L$ eine Liste, so gilt \\[0.1cm]
+  \hspace*{1.3cm} $\texttt{count}\bigl(x, \texttt{sort}(L) \bigr) = \texttt{count}(x,L)$.
+}
+\end{Proposition}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion nach der Definition von \texttt{sort}.
+\begin{enumerate}
+\item Fall: $L = []$. Es gilt
+      $$
+      \begin{array}{cll}
+        & \mathtt{count}\bigl(x, \mathtt{sort}( L) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{sort}([]) \bigr) \\
+      = & \mathtt{count}\bigl(x, []) \bigr) \\
+      = & \mathtt{count}\bigl(x, L) \bigr). 
+      \end{array}
+      $$
+\item Fall: $L = [y] + R$. 
+        $$
+      \begin{array}[b]{cll}
+        & \mathtt{count}\bigl(x, \mathtt{sort}(L) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{sort}([y] + R) \bigr) \\
+      = & \mathtt{count}\bigl(x, \mathtt{insert}(y, \mathtt{sort}(R)) \bigr) \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x,\mathtt{sort}(R)) &
+         \mbox{wegen der Distributivität von \texttt{count} über \texttt{insert}} \\
+      = & \mathtt{eq}(x,y) + \mathtt{count}(x,R) &
+         \mbox{nach Induktions-Voraussetzung} \\
+      = & \mathtt{count}(x,[y] + R) &
+         \mbox{nach Definition von \texttt{count}} \\
+      = & \mathtt{count}(x,L) &
+         \mbox{wegen $L = [y] + R$.}
+      \end{array}\hspace*{\fill} \Box
+      $$
+\end{enumerate}
+Damit haben wir nun auch den zweiten Teil der Korrektheit von  
+``\emph{Sortieren durch Einfügen}'' nachgewiesen.
+
+\subsection{Komplexität}
+Wir berechnen nun die Anzahl der Vergleichs-Operationen, die bei einem Aufruf von
+``\texttt{Sortieren durch Einfügen}'' in Zeile 26 von Abbildung
+\ref{fig:insertion-sort} auf Seite \pageref{fig:insertion-sort} durchgeführt werden. Dazu
+berechnen wir zunächst die Anzahl der Aufrufe von ``\texttt{<=}'', die bei einem Aufruf
+von $\texttt{insert}(x,L)$ im schlimmsten Fall bei einer Liste der Länge $n$
+durchgeführt werden.  Wir bezeichnen diese Anzahl mit $a_n$. Dann haben wir \\[0.1cm]
+\hspace*{1.3cm} $a_0 = 0$ \quad und \quad $a_{n+1} = a_n + 1$. \\[0.1cm]
+Dies ist eine lineare inhomogene Rekurrenz-Gleichungen erster Ordnung mit der Inhomogenität $c_{-1} = 1$.  Das charakteristische
+Polynom lautet \\[0.1cm]
+\hspace*{1.3cm} $\chi(x) = x - 1$ \\[0.1cm]
+und offenbar ist $\mathtt{sp}(\chi) = 0$.  Also hat die spezielle Lösung die Form
+ \\[0.1cm]
+\hspace*{1.3cm}
+$a_n = \varepsilon * n$ \quad mit $\varepsilon = \bruch{c_{-1}}{\chi'(1)} = \bruch{\;1\;}{1} = 1$,
+\\[0.1cm]
+ die spezielle Lösung ist also \\[0.1cm]
+\hspace*{1.3cm} $a_n = n$.
+\\[0.1cm]
+Damit lautet die allgemeine Lösung: \\[0.1cm]
+\hspace*{1.3cm} $a_n = \alpha * 1^n + n$. \\[0.1cm]
+Durch Einsetzen der Anfangs-Bedingungen erhalten wir die Gleichung \\[0.1cm]
+\hspace*{1.3cm} $0 = \alpha * 1^n + 1 * 0$, \quad also $\alpha = 0$. \\[0.1cm]
+Damit lautet die Lösung \\[0.1cm]
+\hspace*{1.3cm} $a_n = n$, \\[0.1cm]
+im schlimmsten Falle führt der Aufruf von $\mathtt{insert}(x,L)$ bei einer Liste $L$ mit
+$n$ Elementen also $n$ Vergleichs-Operationen durch, denn wir müssen dann $x$ mit jedem
+Element aus $L$ vergleichen.  Wir berechnen nun die Anzahl der
+Vergleichs-Operationen, die im schlimmsten Fall beim Aufruf von $\texttt{sort}(L)$ für
+eine Liste der Länge $L$ durchgeführt werden.  Wir bezeichnen dieses Anzahl mit $b_n$.
+Offenbar gilt \\[0.1cm]
+\hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)\\[0.1cm]
+denn für eine Liste $L = [x] + R$ der Länge $n+1$ wird zunächst für die Liste $R$ rekursiv
+die Funktion $\mathtt{sort}(R)$ aufgerufen. Das liefert den Summanden $b_n$. Anschließend wird
+mit $\mathtt{insert}(x, \mathtt{Sorted})$ 
+das erste Element in diese Liste eingefügt.  Wir hatten oben gefunden, dass dazu
+schlimmstenfalls $n$
+Vergleichs-Operationen notwendig sind, was den Summanden $n$ erklärt.
+
+Die Rekurrenz-Gleichungen (1) ist eine lineare inhomogene Rekurrenz-Gleichungen erster Ordnung mit einer
+nicht-konstanten Inhomogenität.
+Um diese Rekurrenz-Gleichungen zu lösen, verwenden wir die Methode des diskreten Differenzierens.
+Dazu führt wir in der Gleichung (1) die Substitution
+$n \mapsto n + 1$ durch: \\[0.1cm]
+\hspace*{1.3cm} $b_{n+2} = b_{n+1} + n+1$, \hspace*{\fill} (2)\\[0.1cm]
+Wir subtrahieren nun die Gleichung (1) von der Gleichung (2) ab und erhalten nach Vereinfachung \\[0.1cm]
+\hspace*{1.3cm} $b_{n+2} = 2 * b_{n+1} - b_n + 1$. \\[0.1cm]
+Dies ist eine lineare inhomogene Rekurrenz-Gleichungen zweiter Ordnung mit konstanter
+Inhomogenität.  Für das charakteristische Polynom gilt $\chi(x) = (x-1)^2$.  Offenbar hat
+dieses Polynom eine doppelte Null-Stelle an der Stelle $x=1$.  Um eine spezielle Lösung zu
+erhalten, machen wir also den Ansatz \\[0.1cm]
+\hspace*{1.3cm} $\displaystyle b_n = \varepsilon * n^2$. \\[0.1cm]
+Einsetzen in die Gleichung (2) ergibt: \\[0.1cm]
+\hspace*{1.3cm} 
+$\varepsilon * (n+2)^2 = 2 * \varepsilon * (n+1)^2 - \varepsilon * n^2 + 1$. \\[0.1cm]
+Diese Gleichung vereinfacht sich zu \\[0.1cm]
+\hspace*{1.3cm} $4* \varepsilon = 2 * \varepsilon + 1$ \\[0.1cm]
+und daraus folgt sofort $\varepsilon = \frac{1}{2}$. Also ist \\[0.1cm]
+\hspace*{1.3cm} $a_n = \bruch{\;1\;}{2} n^2$ \\[0.1cm]
+eine spezielle Lösung der Rekurrenz-Gleichungen (2).   Daher ergibt sich die allgemeine
+Lösung als \\[0.1cm]
+\hspace*{1.3cm} $\displaystyle b_n = \alpha * 1^n + \beta * n * 1^n + \frac{1}{2} * n^2$. \\[0.1cm]
+Wir finden $\alpha$ und $\beta$ indem wir die Anfangs-Bedingungen $a_0 = 0$ und 
+$a_1 = a_0 + 0 = 0$ hier einsetzen.  Das liefert die beiden Gleichungen \\[0.1cm]
+\hspace*{1.3cm} $0 = \alpha$ \quad und \quad $\displaystyle 0 = \alpha + \beta + \frac{1}{2}$, \quad also \quad  $\alpha = 0$ \quad und \quad $\beta = - \frac{1}{2}$.  
+\\[0.1cm]
+Damit lautet die Lösung unserer Rekurrenz-Gleichungen (1) \\[0.1cm]
+\hspace*{1.3cm} 
+$\displaystyle b_n = -\frac{1}{2} * n + \frac{1}{2} * n^2 = \frac{1}{2} n*(n-1)$. \\[0.1cm]
+Im schlimmsten Fall werden also $\Oh(n^2)$ Vergleiche durchgeführt, der Algorithmus 
+``\emph{Sortieren durch Einfügen}'' erfordert einen quadratischen Aufwand.
+Sie können sich überlegen, dass der schlimmste Fall genau dann eintritt, wenn die zu
+sortierende Liste $L$ absteigend sortiert ist, so dass die größten Elemente gerade am
+Anfang der Liste stehen.
+
+Der günstigste Fall für den Algorithmus ``\emph{Sortieren durch Einfügen}'' liegt dann
+vor, wenn die zu sortierende Liste bereits aufsteigend sortiert ist.  Dann wird beim
+Aufruf von $\mathtt{insert}(x,\mathtt{Sorted})$ nur ein einziger Vergleich durchgeführt.
+Die Rekurrenz-Gleichungen für die Anzahl der Vergleiche in $\mathtt{sort}(L)$ lautet dann \\[0.1cm]
+\hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + 1$. \hspace*{\fill} (1)\\[0.1cm]
+Die Lösung dieser Rekurrenz-Gleichung haben wir oben berechnet, sie lautet $b_n = n$.
+Im günstigsten Falle ist der Algorithmus ``\emph{Sortieren durch Einfügen}'' also linear.
+\pagebreak
+
+\section{Sortieren durch Auswahl}
+Wir stellen als nächstes den Algorithmus ``\emph{Sortieren durch Auswahl}''
+(engl. \emph{selection sort}) vor.  Der Algorithmus kann wie folgt beschrieben werden:
+\begin{enumerate}
+\item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
+      die leere Liste zurück gegeben: \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{sort}([]) = []$
+\item Andernfalls suchen wir in der Liste $L$ das kleinste Element und entfernen dieses
+      Element aus $L$.  Wir sortieren rekursiv die resultierende Liste, die ja ein Element
+      weniger enthält.  Zum Schluß fügen wir das kleinste Element vorne an die sortierte
+      Liste an: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr]
+      + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(L), L)\bigr)$.
+\end{enumerate}
+Der Algorithmus um ein Auftreten eines Elements $x$ aus einer Liste $L$ zu entfernen, kann ebenfalls leicht rekursiv
+formuliert werden. Wir unterscheiden drei Fälle:
+\begin{enumerate}
+\item Falls $L$ leer ist, gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{delete}(x, []) = []$.
+\item Falls $x$ gleich dem ersten Element der Liste $L$ ist, gibt die Funktion den Rest
+      $R$ zurück: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{delete}(x, [x] + R) = R$.
+\item Andernfalls wird das Element $x$ rekursiv aus $R$ entfernt: \\[0.1cm]
+      \hspace*{1.3cm}   
+      $x \not = y \rightarrow \mathtt{delete}(x, [y] + R) = [y] + \mathtt{delete}(x,R)$.
+\end{enumerate}
+Schließlich geben wir noch rekursive Gleichungen an um das Minimum einer Liste zu berechnen:
+\begin{enumerate}
+\item Das Minimum der leeren Liste ist größer als alles andere \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{min}([]) = \infty$.
+\item Um das Minimum der Liste $[x] + R$ zu berechnen, berechnen wir rekursiv das Minimum
+      von $R$ und benutzen die zweistellige Minimums-Funktion: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{min}([x] + R) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
+
+      Dabei ist die zweistellige Minimums-Funktion wie folgt definiert: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{min}(x,y) = \left\{
+      \begin{array}{ll}
+        x  & \mbox{falls $x \preceq y\,$;} \\
+        y  & \mbox{sonst.} \\
+      \end{array}\right.
+      $
+\end{enumerate}
+Die Implementierung dieses Algorithmus in \textsl{Java} sehen Sie in Abbildung
+\ref{fig:selection-sort} auf Seite \pageref{fig:selection-sort}.  Es war nicht notwendig,
+die Funktion $\textsl{delete}()$ zu implementieren, denn die Methode $\textsl{remove}()$
+der Klasse $\texttt{LinkedList<T>}$ leistet das Gleiche wie die oben beschriebene Funktion
+$\textsl{delete}()$.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
+                ]
+    import java.util.*;
+    
+    public class SelectionSort {
+        LinkedList<Double> mList;
+        
+        SelectionSort(Double[] a) {
+            mList = new LinkedList<Double>();
+            for (Double x : a) {
+                mList.add(x);
+            }
+        }
+        public void sort() {
+            if (mList.isEmpty()) {
+                return;
+            }
+            Double x = min();
+            mList.remove(x);
+            sort();
+            mList.addFirst(x);
+        }    
+        private Double min() {
+            Double min = mList.getFirst();
+            for (Double x : mList) {
+                min = Math.min(min, x);
+            }
+            return min;
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Der Algorithmus ``\emph{Sortieren durch Auswahl}''}
+  \label{fig:selection-sort}
+\end{figure}
+
+\subsection{Nachweis der Korrektheit}
+Um den Nachweis der Korrektheit erbringen zu können, brauchen wir eine Reihe von
+Hilfssätzen.
+
+\begin{Lemma}[Verträglichkeit von \texttt{min} und \texttt{le}] \label{l2} 
+{\em 
+Für  $x\el M$ und eine Liste $L$ gilt: \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{le}(x, L) \leftrightarrow x \preceq \texttt{min}(L)$.
+}
+\end{Lemma}
+\textbf{Beweis}:  Wir führen den Beweis durch Induktion über die Liste $L$.
+\begin{enumerate}
+\item Fall: $L = []$. Es gilt:
+      \[
+      \begin{array}[b]{cl}
+                       & \mathtt{le}(x, L) \\
+       \leftrightarrow & \mathtt{le}(x, []) \\
+       \leftrightarrow & \mathtt{true} \\
+       \leftrightarrow & x \preceq \infty \\
+       \leftrightarrow & x \preceq \mathtt{min}([]) \\
+       \leftrightarrow & x \preceq \mathtt{min}(L).
+      \end{array}     
+      \]
+\item Fall: $L = [y] + R$.  Es gilt:
+      \[
+      \begin{array}[b]{cll}
+                       & \mathtt{le}(x, L)  & \\
+       \leftrightarrow & \mathtt{le}(x, [y] + R)  & \\
+       \leftrightarrow & x \preceq y \wedge \mathtt{le}(x, R)  & \mbox{nach Definition von \texttt{le}} \\
+       \leftrightarrow & x \preceq y \wedge x \preceq \mathtt{min}(R)  & \mbox{nach Induktions-Voraussetzung} \\
+       \leftrightarrow & x \preceq \mathtt{min}\bigl(y, \mathtt{min}(R) \bigr) &
+          \mbox{wegen $c \preceq \mathtt{min}(a,b) \leftrightarrow c \preceq a \wedge c \preceq b$} \\
+       \leftrightarrow & x \preceq \mathtt{min}\bigl( [y] + R \bigr) &
+          \mbox{nach Definition von \texttt{min}} \\
+       \leftrightarrow & x \preceq \mathtt{min}\bigl(L \bigr). &
+      \end{array} \hspace*{2cm} \Box
+      \]
+\end{enumerate}
+
+\begin{Corollary} \label{l3}
+{\em
+  Für jede Liste $L$ gilt: \ $\mathtt{le}\bigl(\mathtt{min}(L), L\bigr)$.
+}
+\end{Corollary}
+\textbf{Beweis}: Setzen wir in dem letzten Lemma für $x$ den Wert $\mathtt{min}(L)$ ein,
+so erhalten wir: \\[0.1cm]
+\hspace*{1.3cm}
+ $\mathtt{le}\bigl(\mathtt{min}(L), L) \leftrightarrow \mathtt{min}(L) \preceq \texttt{min}(L) \leftrightarrow \mathtt{true}$. 
+\hspace*{\fill} $\Box$
+
+\begin{Lemma}[Distributivität von \texttt{le} über \texttt{delete}] 
+\label{l4} \hspace*{\fill} \\
+{\em
+  Sind  $x,y \el M$  und es gelte $x \preceq y$.  Dann gilt für jede Liste $L$: \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{le}\bigl(x,\mathtt{delete}(y,L)\bigr) \leftrightarrow \mathtt{le}(x, L)$.
+}
+\end{Lemma}
+\textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition von $\mathtt{delete}(x,L)$.
+\begin{enumerate}
+\item Fall: $L = []$. Es gilt 
+
+      \hspace*{1.3cm} 
+      $\mathtt{le}\bigl(x, \mathtt{delete}(y,L)\bigr) \leftrightarrow \mathtt{le}\bigl(x, \mathtt{delete}(y,[])\bigr) 
+       \leftrightarrow \mathtt{le}(x, []) \leftrightarrow \mathtt{le}(x,L)$.
+\item Fall: $L = [y] + R$. Es gilt 
+      \[
+      \begin{array}[b]{cll}
+                      & \mathtt{le}\bigl(x,\mathtt{delete}(y,L)\bigr) \\
+      \leftrightarrow & \mathtt{le}\bigl(x,\mathtt{delete}(y,[y] + R)\bigr) \\
+      \leftrightarrow & \mathtt{le}\bigl(x,R\bigr) \\
+      \leftrightarrow & \mathtt{true} \wedge \mathtt{le}\bigl(x,R\bigr) \\
+      \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl(x,R\bigr) & \mbox{wegen $x \preceq y$}\\
+      \leftrightarrow & \mathtt{le}\bigl(x,[y] + R\bigr) & \mbox{nach Definition von \texttt{le}}\\
+      \leftrightarrow & \mathtt{le}\bigl(x,L\bigr).
+      \end{array}
+      \]
+\item Fall: $L = [z] + R$ mit $y \not= z$.  Es gilt:
+       \[ 
+       \begin{array}[b]{cll}
+                         & \mathtt{le}\bigl(x, \mathtt{delete}(y, L)\bigr)      \\
+         \leftrightarrow & \mathtt{le}\bigl(x, \mathtt{delete}(y,[z] + R)\bigr) \\
+         \leftrightarrow & \mathtt{le}\bigl(x, [z] + \mathtt{delete}(y,R)\bigr) & 
+              \mbox{nach Definition von \texttt{delete}} \\
+         \leftrightarrow & x \preceq z \wedge \mathtt{le}\bigl(x, \mathtt{delete}(y,R)\bigr) & 
+              \mbox{nach Definition von \texttt{le}} \\
+         \leftrightarrow & x \preceq z \wedge \mathtt{le}\bigl(x, R\bigr) & 
+              \mbox{nach Induktions-Voraussetzung} \\
+         \leftrightarrow & \mathtt{le}\bigl(x, [z] + R\bigr) \\
+         \leftrightarrow & \mathtt{le}\bigl(x, L\bigr). 
+       \end{array} \hspace*{\fill} \Box
+       \]
+\end{enumerate}
+
+\begin{Lemma}[Distributivität von \texttt{le} über \texttt{sort}] \label{l6} 
+{\em
+Ist $x \el M$ und $L$ eine Liste, so gilt \\[0.1cm]
+\hspace*{1.3cm}  $\mathtt{le}\bigl(x, \mathtt{sort}(L)\bigr) \leftrightarrow \mathtt{le}(x, L)$.
+}
+\end{Lemma}
+\textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition von $\texttt{sort}(L)$:
+\begin{enumerate}
+\item Fall: $L = []$. Dann gilt:
+
+      \hspace*{1.3cm} 
+      $\mathtt{le}\bigl(x, \mathtt{sort}(L)\bigr) \leftrightarrow \mathtt{le}\bigl(x, \mathtt{sort}([])\bigr) 
+         \leftrightarrow \mathtt{le}\bigl(x, []\bigr) \leftrightarrow \mathtt{le}\bigl(x, L\bigr)$.
+\item Fall: $L \not= []$.  Zur Abkürzung setzen wir $m = \mathtt{min}(L)$.
+     \[
+     \begin{array}[b]{cll}
+                        & \mathtt{le}\bigl(x, \mathtt{sort}(L)\bigr) \\
+        \leftrightarrow & \mathtt{le}\Bigl(x, [m] + \mathtt{sort}\bigl(\mathtt{delete}(m, L)\bigr)\Bigr) \\
+        \leftrightarrow & x \preceq m \wedge \mathtt{le}\Bigl(x, \mathtt{sort}\bigl(\mathtt{delete}(m,L)\bigr)\Bigr) &
+                          \mbox{nach Definition von \texttt{le}} \\
+        \leftrightarrow & x \preceq m \wedge \mathtt{le}\Bigl(x, \mathtt{delete}(m,L) \Bigr) &
+                          \mbox{nach Induktions-Voraussetzung} \\
+        \leftrightarrow & x \preceq m \wedge \mathtt{le}\bigl(x, L \bigr) &
+                          \mbox{denn unter der Voraussetzung $x \preceq m$ gilt nach } \\
+                        & & \mbox{Lemma \ref{l4}: $\mathtt{le}\Bigl(x, \mathtt{delete}(m,L) \Bigr) \leftrightarrow \mathtt{le}\bigl(x, L \bigr)$} \\
+        \leftrightarrow & x \preceq \mathtt{min}(L) \wedge \mathtt{le}\bigl(x, L \bigr) &
+                          \mbox{wegen $m = \mathtt{min}(L)$} \\
+        \leftrightarrow & \mathtt{le}\bigl(x, L \bigr) \wedge \mathtt{le}\bigl(x, L \bigr) &
+                          \mbox{denn nach Lemma \ref{l2} gilt: $x \preceq \mathtt{min}(L) \leftrightarrow \mathtt{le}(x,L)$ } \\
+        \leftrightarrow & \mathtt{le}\bigl(x, L \bigr).
+     \end{array}\hspace*{\fill} \Box
+     \]
+\end{enumerate}
+
+
+\begin{Proposition}[Korrektheit von \emph{Sortieren durch Auswahl}, 1. Teil] 
+{\em 
+  Für beliebige Listen $L$ gilt: \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr)$.
+}
+\end{Proposition}
+\textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition der Funktion \texttt{sort}:
+\begin{enumerate}
+\item Fall: $L=[]$.  Es gilt:
+
+      \hspace*{1.3cm} 
+       $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr) \leftrightarrow \mathtt{isSorted}\bigl(\mathtt{sort}([])\bigr) \leftrightarrow
+          \mathtt{isSorted}\bigl([]\bigr) \leftrightarrow \mathtt{true}$.
+\item Fall: $L \not= []$. Zur Abkürzung setzen wir $m = \mathtt{min}(L)$.  Es gilt:
+      \[
+      \begin{array}[b]{cll}
+          & \mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr) \\ 
+        \leftrightarrow & \mathtt{isSorted}\Bigl([m] + \mathtt{sort}\bigl(\mathtt{delete}(m,L)\bigr)\Bigr) &
+                          \mbox{nach Definition von \texttt{sort}}     \\
+        \leftrightarrow & \mathtt{le}\Bigl(m,\, \mathtt{sort}\bigl(\mathtt{delete}(m,\,L)\bigr)\Bigr) \;\wedge\; \\
+                        & \mathtt{isSorted}\Bigl(\mathtt{sort}\bigl(\mathtt{delete}(m,\,L)\bigr)\Bigr) & 
+                          \mbox{nach Definition von \texttt{isSorted}}     \\
+        \leftrightarrow & \mathtt{le}\Bigl(m,\, \mathtt{sort}\bigl(\mathtt{delete}(m,\,L)\bigr)\Bigr) \;\wedge\;
+                          \mathtt{true} &
+                          \mbox{nach Induktions-Voraussetzung}     \\
+        \leftrightarrow & \mathtt{le}\Bigl(m,\, \mathtt{sort}\bigl(\mathtt{delete}(m,\,L)\bigr)\Bigr) \\
+        \leftrightarrow & \mathtt{le}\bigl(m,\, \mathtt{delete}(m,L)\bigr) &
+                          \mbox{nach Lemma \ref{l6}}     \\
+        \leftrightarrow & \mathtt{le}\bigl(m, L\bigr) &
+                          \mbox{wegen $m \preceq m$ nach Lemma \ref{l4}}     \\
+        \leftrightarrow & \mathtt{le}\bigl(\mathtt{min}(L), L\bigr) &
+                          \mbox{wegen $m = \mathtt{min}(L)$}     \\
+        \leftrightarrow & \mathtt{true}. &
+                          \mbox{nach Korollar \ref{l3}}     
+      \end{array}\hspace*{\fill} \Box
+      \]
+\end{enumerate}
+Um das nächste Lemma elegant formulieren zu können, benötigen wir noch die Hilfsfunktion \\[0.1cm]
+\hspace*{1.3cm} $\texttt{member}: M \times \mathtt{List}(M) \rightarrow \{0,1\}$, \\[0.1cm]
+die überprüft, ob ein gegebenes Element in einer Liste auftritt.  Der Aufruf $\mathtt{member}(x,L)$
+liefert genau dann 1, wenn $x$ in der Liste $L$ auftritt.  Rekursiv können wir die Funktion 
+\texttt{member} wie folgt definieren: 
+\begin{enumerate}
+\item $\mathtt{member}(x,[]) = 0$.
+\item $\mathtt{member}(x,[x] + R) = 1$.
+\item Falls $x \not= y$ ist, setzen wir $\mathtt{member}(x,[y] + R) = \mathtt{member}(x,R)$.
+\end{enumerate}
+
+\noindent
+\textbf{Aufgabe}: Beweisen Sie die beiden folgenden Lemmata.
+\begin{Lemma}[Distributivität von \texttt{count} über \texttt{delete}] \hspace*{\fill} \\[0.1cm]
+{\em
+  Für beliebige Elemente $x$ und $y$ und für beliebige  Listen $L$ gilt: \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\mathtt{count}\bigl(x, \mathtt{delete}(y,L)\bigr) = \mathtt{count}(x,L) - \mathtt{eq}(x,y)*\mathtt{member}(y,L)$.
+}
+\end{Lemma}
+
+\noindent
+Wir führen den \textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition der Funktion \texttt{delete}:
+\begin{enumerate}
+\item Fall: $L = []$
+      \[
+      \begin{array}[b]{cll}
+         & \mathtt{count}\bigl(x, \mathtt{delete}(y,L) \bigr) \\
+       = & \mathtt{count}\bigl(x, \mathtt{delete}(y,[]) \bigr) \\
+       = & \mathtt{count}\bigl(x, [] \bigr) \\
+       = & \mathtt{count}\bigl(x, [] \bigr) - \mathtt{eq}(x,y) * 0\\
+       = & \mathtt{count}\bigl(x, [] \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,[])\\
+       = & \mathtt{count}\bigl(x,  L \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,L).
+      \end{array}
+      \]
+\item Fall: $L = [y] + R$
+      \[
+      \begin{array}[b]{cll}
+         & \mathtt{count}\bigl(x, \mathtt{delete}(y,L) \bigr) \\
+       = & \mathtt{count}\bigl(x, \mathtt{delete}(y,[y] + R) \bigr) \\
+       = & \mathtt{count}\bigl(x, R \bigr) \\
+       = & \mathtt{eq}(x,y) + \mathtt{count}\bigl(x, R \bigr) - \mathtt{eq}(x,y) * 1 \\
+       = & \mathtt{eq}(x,y) + \mathtt{count}\bigl(x, R \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y, [y] + R) \\
+       = & \mathtt{count}\bigl(x, [y] + R \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y, [y] + R) \\
+       = & \mathtt{count}\bigl(x,  L \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,L).
+      \end{array}
+      \]
+\item Fall: $L = [z] + R$ mit $y \not= z$
+      \[
+      \begin{array}[b]{cll}
+         & \mathtt{count}\bigl(x, \mathtt{delete}(y,L) \bigr) \\
+       = & \mathtt{count}\bigl(x, \mathtt{delete}(y,[z] + R) \bigr) \\
+       = & \mathtt{count}\bigl(x, [z] + \mathtt{delete}(y, R) \bigr) \\
+       = & \mathtt{eq}(x,z) + \mathtt{count}\bigl(x, \mathtt{delete}(y, R) \bigr) \\
+       = & \mathtt{eq}(x,z) + \mathtt{count}\bigl(x, R \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,R)&
+           \mbox{nach Induktions-Voraussetzung}\\
+       = & \mathtt{eq}(x,z) + \mathtt{count}\bigl(x, R \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,[z]+R) &
+           \mbox{nach Definition von \texttt{member}}\\
+       = & \mathtt{count}\bigl(x, [z] + R \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,[z]+R) &
+           \mbox{nach Definition von \texttt{count}}\\
+       = & \mathtt{count}\bigl(x, L \bigr) - \mathtt{eq}(x,y) * \mathtt{member}(y,L). 
+      \end{array}\hspace*{\fill} \Box
+      \]
+\end{enumerate}
+
+\begin{Lemma} 
+{\em
+  Für jede nicht-leere Liste $L$ gilt: \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\mathtt{member}\bigl(\mathtt{min}(L), L\bigr) = 1$.
+}
+\end{Lemma}
+Beweis durch Wertverlaufs-Induktion nach der Definition der Funktion \texttt{min}.
+\begin{enumerate}
+\item $L = [x]$.  Es gilt
+      \[
+        \mathtt{member}\bigl(\mathtt{min}(L), L\bigr)  = 
+        \mathtt{member}\bigl(\mathtt{min}([x]), [x]\bigr) 
+         =  \mathtt{member}\bigl(x, [x]\bigr) = 1
+      \]
+\item Sei $L = [x] + R$.  Wir führen eine Fall-Unterscheidung nach der Größe von $x$
+      durch:
+      \begin{enumerate}
+      \item $x \preceq \mathtt{min}(R)$. \\[0.1cm]
+        \hspace*{1.3cm} 
+      $
+      \begin{array}[b]{cll}
+        & \mathtt{member}\bigl( \mathtt{min}(L), L \bigr) \\
+      = & \mathtt{member}\bigl( \mathtt{min}([x]+R), [x] + R \bigr) \\
+      = & \mathtt{member}\bigl( \mathtt{min}(x,\mathtt{min}(R)), [x] + R \bigr) \\
+      = & \mathtt{member}\bigl( x, [x] + R \bigr) & 
+          \mbox{wegen $x \preceq \mathtt{min}(R)$} \\
+      = & 1 & 
+          \mbox{nach Definition von \texttt{member}} \\
+      \end{array}
+      $
+      \item $\neg x \preceq \mathtt{min}(R)$. \\[0.1cm]
+        \hspace*{1.3cm} 
+      $
+      \begin{array}[b]{cll}
+        & \mathtt{member}\bigl( \mathtt{min}(L), L \bigr) \\
+      = & \mathtt{member}\bigl( \mathtt{min}([x]+R), [x] + R \bigr) \\
+      = & \mathtt{member}\bigl( \mathtt{min}(x,\mathtt{min}(R)), [x] + R \bigr) \\
+      = & \mathtt{member}\bigl( \mathtt{min}(R), [x] + R \bigr) & 
+          \mbox{nach Definition von \texttt{min}} \\
+      = & \mathtt{member}\bigl( \mathtt{min}(R), R \bigr) & 
+          \mbox{nach Definition von \texttt{member}} \\
+        & & \mbox{denn es muß $\mathtt{min}(R) \not= x$ gelten} \\
+      = & 1. & 
+          \mbox{nach Induktions-Voraussetzung} 
+      \end{array}\hspace*{\fill} \Box
+      $
+      \end{enumerate}
+\end{enumerate}
+
+\begin{Proposition}[Distributivität von \texttt{count} über \texttt{sort}] \hspace*{\fill} \\[0.1cm]
+{\em
+  Es sei $x$ ein Element und $L$ sei eine Liste.  Dann gilt \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{count}\bigl(x, \mathtt{sort}(L)\bigr) = \mathtt{count}(x, L)$.
+}
+\end{Proposition}
+
+\noindent
+\textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition von \texttt{sort}.
+\begin{enumerate}
+\item Fall: $L=[]$.  Nach Definition von $\mathtt{sort}$ gilt 
+
+     \hspace*{1.3cm} 
+     $\mathtt{count}\bigl(x, \mathtt{sort}(L)\bigr) = \mathtt{count}\bigl(x, \mathtt{sort}([])\bigr) = \mathtt{count}\bigl(x,[]\bigr) = \mathtt{count}\bigl(x,L\bigr)$.
+\item Fall: $L \not= []$.  Es sei $m = \mathtt{min}(L)$. Dann gilt:
+     \[ 
+     \begin{array}[b]{cll}
+        & \mathtt{count}\bigl(x, \mathtt{sort}(L)\bigr) \\
+      = & \mathtt{count}\Bigl(x, [m] + \mathtt{sort}\bigl(\mathtt{delete}(m,L)\bigr)\Bigr) &
+         \mbox{nach Definition von \texttt{sort}} \\
+      = & \mathtt{eq}(x,m) + \mathtt{count}\Bigl(x, \mathtt{sort}\bigl(\mathtt{delete}(m,L)\bigr)\Bigr) &
+         \mbox{nach Definition von \texttt{count}} \\
+      = & \mathtt{eq}(x,m) + \mathtt{count}\bigl(x, \mathtt{delete}(m,L)\bigr) &
+         \mbox{nach Induktions-Voraussetzung} \\
+      = & \mathtt{eq}(x,m) + \mathtt{count}\bigl(x, L) - \mathtt{eq}(x,m)*\mathtt{member}(m,L) &
+         \mbox{Distributivität von \texttt{count} über \texttt{delete}} \\
+      = & \mathtt{eq}(x,m) + \mathtt{count}\bigl(x, L) - \mathtt{eq}(x,m) &
+         \mbox{denn $\mathtt{member}(m,L) = 1$} \\
+      = & \mathtt{count}\bigl(x, L).
+     \end{array}\hspace*{\fill} \Box
+     \]
+\end{enumerate}
+
+\subsection{Komplexität}
+Um die Komplexität von ``\emph{Sortieren durch Auswahl}'' analysieren zu können, müssen
+wir zunächst die Anzahl der Vergleiche, die bei der Berechnung von $\mathtt{min}(L)$
+durchgeführt werden, bestimmen.  Es gilt \\[0.1cm]
+\hspace*{1.3cm} 
+$\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
+\\[0.1cm]
+Also wird bei der Berechnung von $\texttt{min}(L)$ für eine Liste $L$ der Länge $n$ der Operator
+\texttt{min} insgesamt $(n-1)$-mal aufgerufen.  Jeder Aufruf von \texttt{min} bedingt dann
+einen Aufruf des Vergleichs-Operators ``$\preceq$''.
+Bezeichnen wir die Anzahl der Vergleiche bein Aufruf von $\texttt{sort}(L)$ für eine
+Liste der Länge $L$ mit $b_n$, so finden wir also \\[0.1cm]
+\hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$, \hspace*{\fill}\\[0.1cm]
+denn um eine Liste mit $n+1$ Elementen zu sortieren, muss zunächst das Minimum dieser
+Liste berechnet werden.  Dazu sind $n$ Vergleiche notwendig.  Dann wird das Minimum aus
+der Liste entfernt und die Rest-Liste, die ja nur noch $n$ Elemente enthält, wird rekursiv
+sortiert.  Das liefert den Beitrag $b_n$ in der obigen Summe.
+
+Bei der Berechnung der Komplexität von ``\emph{Sortieren durch Einfügen}'' hatten wir die
+selbe Rekurrenz-Gleichung erhalten.  Die Lösung dieser Rekurrenz-Gleichung lautet also \\[0.1cm]
+\hspace*{1.3cm} $b_n = \frac{1}{2} * n^2 - \frac{1}{2}* n = \frac{1}{2} * n^2 + \Oh(n)$. \\[0.1cm]
+Das sieht so aus, als ob die Anzahl der Vergleiche beim ``\emph{Sortieren durch
+  Einfügen}'' genau so wäre wie beim ``\emph{Sortieren durch Auswahl}''.  Das stimmt aber
+nicht.  Bei ``\emph{Sortieren durch Einfügen}'' ist die Anzahl der durchgeführten
+Vergleiche im schlimmsten Fall $\frac{1}{2}n*(n-1)$, beim ``\emph{Sortieren durch
+  Auswahl}'' ist Anzahl der Vergleiche \underline{immer} $\frac{1}{2}n*(n-1)$.  Der Grund
+ist, dass zur Berechnung des Minimums einer Liste mit $n$ Elementen immer $n-1$ Vergleiche
+erforderlich sind.  Um aber ein Element in eine Liste mit $n$ Elementen einzufügen, sind
+im \underline{Durchschnitt} nur etwa $\frac{1}{2}n$ Vergleiche erforderlich, denn im Schnitt sind etwa
+die Hälfte der Elemente kleiner als das einzufügende Element und daher müssen beim Einfügen
+in eine sortierte Liste der Länge $n$ im Durchschnitt nur die ersten $\frac{n}{2}$
+Elemente betrachtet werden.  Daher ist die durchschnittliche Anzahl von Vergleichen beim
+``\emph{Sortieren durch Einfügen}'' $\frac{1}{4}n^2 + \Oh(n)$, also halb so groß wie beim
+``\emph{Sortieren durch Auswahl}''.
+
+
+\subsection{Eine feldbasierte Implementierung}
+In der Anwendung besteht die Aufgabe häufig darin, ein Feld von Daten zu sortieren.
+Bisher haben wir nur Listen sortiert.  Daher präsentieren wir
+zum Abschluß unserer Diskussion des Algorithmus ``\emph{Sortieren durch Auswahl}''
+noch eine Implementierung dieses Algorithmus' in der Sprache \textsl{Java},
+in der die zu sortierenden Daten in einem Feld an Stelle einer Liste vorliegen.
+Abbildung \ref{fig:MinSortAlgorithm.java} auf Seite \pageref{fig:MinSortAlgorithm.java} zeigt
+diese Implementierung.  Die Klasse \texttt{MinSortAlgorithm} implementiert die
+Schnittstelle \\[0.1cm]
+\hspace*{1.3cm} \texttt{SortingAlgorithm}, \\[0.1cm]
+die in Abbildung
+\ref{fig:SortingAlgorithm.java} gezeigt wird.  Diese Schnittstelle schreibt die
+Implementierung einer einzigen Methode vor, der Methode \\[0.1cm]
+\hspace*{1.3cm} \texttt{void sort();} \\[0.1cm]
+Die Einhaltung dieser Schnittstelle ist notwendig, um das Programm später in eine Umgebung
+zur Algorithmen-Visualisierung einbinden zu können.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.3cm,
+                  xrightmargin  = 0.3cm
+                ]
+    public interface SortingAlgorithm {
+        public void sort();
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Das Interface ``\texttt{SortingAlgorithm}''}
+  \label{fig:SortingAlgorithm.java}
+\end{figure}
+
+
+In Zeile 3 der Implementierung der Klass \texttt{MinSortAlgorithm} (Abbildung
+\ref{fig:MinSortAlgorithm.java})
+ definieren wir das zu sortierende Feld und in Zeile 4 definieren wir ein Objekt
+vom Typ \texttt{Comparator}.  Dieses Objekt hat eine Methode \\[0.1cm]
+\hspace*{1.3cm} \texttt{int compare(Double x, Double y);}\\[0.1cm]
+mit deren Hilfe wir zwei Zahlen vergleichen können.  Es gilt \\[0.1cm]
+\hspace*{1.3cm} 
+$\mathtt{compare}(x,y) = \left\{
+ \begin{array}[c]{rl}
+  -1 & \mbox{falls $x < y$;} \\ 
+   0 & \mbox{falls $x = y$;} \\ 
+   1 & \mbox{falls $x > y$.} \\ 
+ \end{array}\right.
+$ %\$
+\\[0.1cm]
+Sowohl das zu sortierende Feld als auch der Komparator werden dem Konstruktor in Zeile 
+6 als Argument mitgegeben.  Der Konstruktor initialisiert mit diesen Argumenten die
+entsprechenden Member-Variablen.   
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.3cm,
+                  xrightmargin  = 0.3cm
+                ]
+    public class MinSortAlgorithm implements SortingAlgorithm
+    {
+        private Double[]           mArray;
+        private Comparator<Double> mComparator;
+    
+        MinSortAlgorithm(Double[] array, Comparator<Double> comparator) {
+            mArray      = array;
+            mComparator = comparator;
+        }
+        public void sort() { sort(0); }
+    
+        private void sort(int i) {
+            if (i == mArray.length)
+                return;
+            int minIndex = minIndex(i);
+            swap(i, minIndex);
+            sort(i + 1);
+        }
+        private int minIndex(int first) {
+            int minIndex = first;
+            for (int i = first + 1; i < mArray.length; ++i) {
+                if (mComparator.compare(mArray[minIndex], mArray[i]) > 0) {
+                    minIndex = i;
+                }
+            }
+            return minIndex;
+        }
+        private void swap(int i, int j) {
+            if (i == j) return;
+            Double temp = mArray[i];
+            mArray[i]   = mArray[j];
+            mArray[j]   = temp;
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Der Algorithmus ``\emph{Sortieren durch Auswahl}''}
+  \label{fig:MinSortAlgorithm.java}
+\end{figure}
+
+Die Implementierung der Methode \texttt{sort()} in Zeile 10 ist trivial, denn die ganze
+Arbeit wird in der Hilfs-Methode \texttt{sort(int)} abgewickelt.  Für eine 
+natürliche Zahl $i$ mit $i < \mathtt{mArray.length}$ sortiert der Aufruf 
+ $\texttt{sort}(i)$ 
+den Teil des Feldes, dessen Indizes größer oder gleich dem Argument $i$ sind, nach dem
+Aufruf $\mathtt{sort}(i)$ ist also die Liste \\[0.1cm]
+\hspace*{1.3cm} 
+$\bigl[\;\mathtt{mArray}[i],\;\mathtt{mArray}[i+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$
+\\[0.1cm]
+sortiert.  Die Implementierung der Methode \texttt{sort(int)} ist rekursiv:
+\begin{enumerate}
+\item Falls $i = \mathtt{mArray.length}$ ist, dann ist der zu sortierende Teil des 
+      Feldes leer und folglich ist nichts zu tun.
+\item Andernfalls berechnet der Aufruf $\texttt{minIndex}(i)$ in Zeile 15 einen Index
+      \texttt{minIndex} so, dass das Element \texttt{mArray[minIndex]} in dem zu
+      sortierenden Teil der Liste minimal ist, es gilt also \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\forall j \in \bigl\{\, i,\, i+1,\, \cdots,\, \texttt{mArray.length} -1\, \} \colon\;
+       \texttt{mArray}[\texttt{minIndex}] \leq \texttt{mArray}[i]$. \\[0.1cm]
+      Anschließend wird das Element, das an der Stelle \texttt{minIndex} steht mit dem
+      Element an der Stelle $i$ vertauscht.  Damit steht an der Stelle $i$ jetzt ein
+      kleinstes Element der Liste \\[0.1cm]
+      \hspace*{1.3cm} $\bigl[\;\mathtt{mArray}[i],\;\mathtt{mArray}[i+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$.
+      \\[0.1cm]
+      Sortieren wir danach rekursiv die Liste \\[0.1cm]
+      \hspace*{1.3cm} $\bigl[\;\mathtt{mArray}[i+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$,
+      \\[0.1cm]
+      so ist anschließend auch die Liste \\[0.1cm]
+      \hspace*{1.3cm}
+      $\bigl[\;\mathtt{mArray}[i],\;\mathtt{mArray}[i+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$
+      \\[0.1cm]
+      sortiert, denn $\texttt{mArray}[i]$ ist ja ein minimales Element.
+\end{enumerate}
+Die Implementierung der Methode $\texttt{minIndex}(\textsl{first})$ berechnet den Index eines kleinsten
+Elements iterativ.  Zunächst wird \texttt{minIndex} mit dem Index \textsl{first}
+initialisiert.  Anschließend wird eine Schleife durchlaufen.  Falls ein
+Index $i$ gefunden wird, so dass das Element $\mathtt{mArray}[i]$ kleiner als das Element
+$\texttt{mArray}[\textsl{minIndex}]$ ist, dann wird \texttt{minIndex} auf $i$ gesetzt.
+Dadurch ist gewährleistet dass \texttt{minIndex} am Ende der Schleife tatsächlich auf das
+kleinste Element zeigt.
+\pagebreak
+
+\section{Sortieren durch Mischen}
+Wir stellen nun einen Algorithmus zum Sortieren vor, der für große Listen erheblich
+effizienter ist als die beiden bisher betrachteten Algorithmen.  Der Algorithmus wird als
+``\emph{Sortieren durch Mischen}'' (engl. \emph{merge sort}) bezeichnet und verläuft nach dem folgenden Schema:
+\begin{enumerate}
+\item Hat die zu sortierende Liste $L$ weniger als zwei Elemente, so wird $L$ zurück
+      gegeben: \\[0.1cm]
+      \hspace*{1.3cm} $\#L < 2 \rightarrow \mathtt{sort}(L) = L$.
+\item Ansonsten wird die Liste in zwei etwa gleich große Listen zerlegt.
+      Diese Listen werden rekursiv sortiert und anschließend so gemischt, dass
+      das Ergebnis sortiert ist: \\[0.1cm]
+      \hspace*{1.3cm} 
+ $\#L \geq 2 \rightarrow \mathtt{sort}(L) = \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{split}_1(L)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(L)\bigr)\Bigr)$
+     \\[0.1cm]
+     Hier bezeichnen $\texttt{split}_1$ und $\mathtt{split}_2$ die Funktionen, die eine Liste in zwei Teil-Listen zerlegen
+     und \texttt{merge} ist eine Funktion, die zwei sortierte Listen so mischt, dass das Ergebnis wieder sortiert ist.
+\end{enumerate}
+Abbildung \ref{fig:merge-sort} zeigt die Umsetzung dieser sortierten Gleichungen 
+in ein \textsl{Java}-Programm, das eine verkettete Liste sortiert. 
+Die beiden Funktionen $\mathtt{split}_1$ und $\mathtt{split}_2$ haben wir dabei
+zu einer Funktion \texttt{split} zusammen gefaßt, die zwei Listen zurück liefert. Ein
+Aufruf der Form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{split}(L, L_1, L_2)$
+\\[0.2cm]
+verteilt die Elemente der Liste $L$ auf die beiden Listen $L_1$ und $L_2$.  
+Damit das funktioniert, müssen die Variablen $L_1$ und $L_2$ zu Beginn des Aufrufs auf
+leere Listen verweisen.  Damit können wir die Details des \textsl{Java}-Programms in
+Abbildung \ref{fig:merge-sort} verstehen:
+
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
+                ]
+    public LinkedList<Double> sort(LinkedList<Double> list) {
+        if (list.size() < 2) {
+            return list;
+        }
+        LinkedList<Double> first  = new LinkedList<Double>();
+        LinkedList<Double> second = new LinkedList<Double>();
+        split(list, first, second);
+        LinkedList<Double> firstSorted  = sort(first);
+        LinkedList<Double> secondSorted = sort(second);
+        return merge(firstSorted, secondSorted);
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Die Methode \texttt{sort}.}
+  \label{fig:merge-sort}
+\end{figure}
+\begin{enumerate}
+\item Wenn die zu sortierende Liste aus weniger als zwei Elementen besteht,
+      dann ist diese Liste bereits sortiert und wir können diese Liste in Zeile 3
+      unverändert zurück geben.
+\item In den Zeilen 5 und 6 legen wir zwei leere Listen \texttt{first} und \texttt{second}
+      an.
+\item Der Aufruf von \texttt{split} verteilt die Elemente der zu sortierenden Liste
+      auf die beiden Listen \texttt{first} und \texttt{second}.
+\item In den Zeilen 8 und 9 werden diese Listen durch einen rekursiven Aufruf der Methode
+      \texttt{sort} sortiert.
+\item Die sortierten Teillisten werden dann in Zeile 10 durch den Aufruf der Methode
+      \texttt{merge} zu einer sortierten Liste zusammen gefaßt.
+\end{enumerate}
+
+\noindent
+Als nächstes überlegen wir uns, wie wir die Funktion $\texttt{split}$ durch Gleichungen spezifizieren können.
+\begin{enumerate}
+\item Falls $L$ leer ist, produziert $\mathtt{split}(L)$ zwei leere Listen:\\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{split}(\texttt{[]}) = \mathtt{[} \texttt{[]}, \texttt{[]} \mathtt{]}$.
+\item Falls $L$ genau ein Element besitzt, stecken wir dieses in die erste Liste: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
+\item Sonst hat $L$ die Form $\mathtt{[}x, y\mathtt{]} + R$.
+      Dann spalten wir rekursiv $R$ in zwei Listen auf. Vor die erste Liste fügen wir $x$ an,
+      vor die zweite Liste fügen wir $y$ an:
+      \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{split}(R) = \mathtt{[}R_1, R_2\mathtt{]} \rightarrow
+      \mathtt{split}\bigl(\mathtt{[}x, y\mathtt{]} + R\bigr) = \bigl[ [x] + R_1, [y] + R_2 \bigr]$.
+\end{enumerate}
+Abbildung \ref{fig:split} auf Seite \pageref{fig:split} 
+zeigt die Umsetzung dieser bedingten Gleichungen in \textsl{Java}.
+
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.3cm,
+                  xrightmargin  = 0.3cm
+                ]
+    public void split(LinkedList<Double> list, 
+                      LinkedList<Double> first, LinkedList<Double> second) 
+    {
+        if (list.size() == 0) {
+            return;
+        }
+        Double x = list.removeFirst();
+        if (list.size() == 0) {
+            first.addFirst(x);
+            return;
+        }
+        Double y = list.removeFirst();
+        split(list, first, second);
+        first .addFirst(x);
+        second.addFirst(y);
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Die Methode \texttt{split}.}
+  \label{fig:split}
+\end{figure}
+\begin{enumerate}
+\item Falls die Liste, deren Elemente auf zwei Listen verteilt werden sollen, leer ist,
+      so ist nichts weiter zu tun, denn wir setzen voraus, dass die Listen \texttt{first}
+      und \texttt{second} beim Aufruf der Methode \texttt{split} leer sind.
+\item Andernfalls entfernen wir zunächst des erste Element aus der Liste \texttt{list} und
+      speichern es in der Variablen $x$.
+      Falls die Liste danach leer ist, fügen wir das Element $x$
+      in die Liste \texttt{first} ein und beenden den Methoden-Aufruf.
+\item Wenn der Kontrollfluß in Zeile 12 ankommt, dann muss die Liste \texttt{list} beim Aufruf
+      wenigstens zwei Elemente gehabt haben.  Wir entfernen nun das zweite dieser beiden
+      Elemente und speichern es in der Variablen $y$.
+\item Anschließend teilen wir das, was jetzt noch von der Liste \texttt{list} übrig ist,
+      durch den rekursiven Aufruf von \texttt{split} auf die Listen \texttt{first} und
+      \texttt{second} auf.
+\item Zum Abschluß fügen wir das Element $x$ in die Liste \texttt{first} ein
+      und das Element $y$ schieben wir in die Liste \texttt{second}.
+\end{enumerate}
+
+
+Als letztes spezifizieren wir, wie zwei sortierte Listen $L_1$ 
+und $L_2$ so gemischt werden können, dass das Ergebnis anschließend wieder sortiert ist.
+\begin{enumerate}
+\item Falls die Liste $L_1$ leer ist, ist das Ergebnis $L_2$: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{merge}([], L_2) = L_2$.
+\item Falls die Liste $L_2$ leer ist, ist das Ergebnis $L_1$: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{merge}(L_1, []) = L_1$.
+\item Andernfalls hat $L_1$ die Form $[x] + R_1$ und $L_2$ hat die Gestalt $[y] + R_2$.
+      Dann führen wir eine Fallunterscheidung nach der relativen Größe von $x$ und $y$ durch:
+      \begin{enumerate}
+      \item $x \preceq y$.
+
+            In diesem Fall mischen wir $R_1$ und $L_2$ und setzen $x$ an den Anfang dieser Liste:\\[0.1cm]
+            \hspace*{1.3cm} 
+            $x \preceq y \rightarrow \mathtt{merge}\bigl([x]+R_1, [y]+R_2\bigr) = [x] + \mathtt{merge}\bigl(R_1,[y]+R_2\bigr)$.
+      \item $\neg x \preceq y$.
+
+            In diesem Fall mischen wir $L_1$ und $R_2$ und setzen $y$ an den Anfang dieser Liste:\\[0.1cm]
+            \hspace*{1.3cm} 
+            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x]+R_1, [y]+R_2\bigr) = [y] + \mathtt{merge}\bigl([x] + R_1,R_2\bigr)$.
+      \end{enumerate}
+\end{enumerate}
+Abbildung \ref{fig:merge} auf Seite \pageref{fig:merge} 
+zeigt die Umsetzung dieses Algorithmus in \textsl{Java}.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
+                ]
+    public LinkedList<Double> merge(LinkedList<Double> first, 
+                                    LinkedList<Double> second) 
+    {
+        if (first .size() == 0) { return second; }
+        if (second.size() == 0) { return first;  }
+        LinkedList<Double> result;
+        Double x = first .getFirst();
+        Double y = second.getFirst();
+        if (x < y) {
+            first.removeFirst();
+            result = merge(first, second);
+            result.addFirst(x);
+        } else {
+            second.removeFirst();
+            result = merge(first, second);
+            result.addFirst(y);
+        }
+        return result;
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Die Methode \texttt{merge}.}
+  \label{fig:merge}
+\end{figure}
+
+\begin{enumerate}
+\item Falls eine der beiden Listen leer ist, so geben wir als Ergebnis die
+      andere Liste zurück.
+\item Wenn der Kontrollfluß in Zeile 7 ankommt, dann wissen wir, dass beide Listen
+      nicht leer sind.  Wir holen uns jeweils das erste Element der beiden Listen
+      und speichern diese in den Variablen $x$ und $y$ ab.  Da wir diese Elemente
+      aber mit Hilfe der Methode \texttt{getFirst} bekommen, bleiben diese Elemente
+      zunächst Bestandteil der beiden Listen.
+\item Anschließend prüfen wir, welche der beiden Variablen die kleinere ist.
+      \begin{enumerate}
+      \item Falls $x$ kleiner als $y$ ist, so entfernen wir $x$ aus der ersten Liste
+            und mischen rekursiv die verkürzte erste Liste mit der zweiten Liste.
+            Anschließen fügen wir $x$ an den Anfang der Ergebnis-Liste ein.
+      \item Andernfalls entfernen wir $y$ aus der zweiten Liste
+            und mischen rekursiv die erste Liste mit der verkürzten zweiten Liste und
+            fügen dann $y$ am Anfang der beim rekursiven Aufruf erhaltenen Liste ein.
+      \end{enumerate}
+\end{enumerate}
+Zum Abschluß zeigen wir in Abbildung \ref{fig:MergeSort}, wie die eben diskutierten
+Methoden zusammen spielen.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                  commandchars  = \\\{\}
+                ]
+    import java.util.*;
+    
+    public class MergeSort 
+    \{  
+        public LinkedList<Double> sort(LinkedList<Double> list) \{
+            \(\cdots\)
+        \}
+        public void split(LinkedList<Double> list,
+                          LinkedList<Double> first, LinkedList<Double> second) 
+        \{
+            \(\cdots\)
+        \}
+        public LinkedList<Double> merge(LinkedList<Double> first, 
+                                        LinkedList<Double> second) 
+        \{
+            \(\cdots\)
+        \}    
+        public static void main(String[] args) \{
+            Double[] a = \{ 3.0, 7.0, 5.0, 2.0, 4.0, 2.0, 11.0, 1.0 \};
+            LinkedList<Double> list = new LinkedList<Double>();
+            for (Double x : a) \{
+                list.addFirst(x);
+            \}
+            MergeSort MS = new MergeSort();
+            System.out.println(list);
+            list = MS.sort(list);
+            System.out.println(list);
+        \}
+    \}
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Die Klasse \texttt{MergeSort}}
+\label{fig:MergeSort}
+\end{figure}
+
+
+\subsection{Korrektheit}
+Um die Korrektheit des Algorithmus ``\emph{Sortieren durch Mischen}'' zu zeigen, 
+benötigen wir zunächst einige Hilfs-Sätze, die das Verhalten der Funktionen \texttt{split} und
+\texttt{merge} beschreiben.
+
+\begin{Lemma}[Distributivität von \texttt{le} über \texttt{merge}] \hspace*{\fill} \\
+{\em
+  Für beliebige Listen $L_1$ und $L_2$ gilt: \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\texttt{le}\bigl(x,\texttt{merge}(L_1,L_2)\bigr) \leftrightarrow \texttt{le}(x,L_1) \wedge \mathtt{le}(x,L_2)$.
+}
+\end{Lemma}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion entsprechend der Definition
+der Funktion \texttt{merge}.
+\begin{enumerate}
+\item Fall: $L_1 = []$.  Wegen $\texttt{merge}([],L_2) = L_2$ gilt einerseits \\[0.1cm]
+      \hspace*{1.3cm} 
+       $\texttt{le}\bigl(x,\texttt{merge}(L_1,L_2)\bigr) \leftrightarrow \texttt{le}\bigl(x,\texttt{merge}([],L_2)\bigr) \leftrightarrow \texttt{le}(x,L_2)$ \\[0.1cm]
+       und andererseits haben wir wegen $\texttt{le}(x,[]) \leftrightarrow \mathtt{true}$ \\[0.1cm]
+       \hspace*{1.3cm} 
+       $\texttt{le}(x,L_1) \wedge \mathtt{le}(x,L_2) \leftrightarrow \texttt{le}(x,[])
+       \wedge \mathtt{le}(x,L_2) \leftrightarrow \mathtt{true} \wedge \mathtt{le}(x,L_2) \leftrightarrow \mathtt{le}(x,L_2)$.
+\item Fall: $L_2 = []$.  Der Beweis ist analog zum 1.~Fall.
+\item Fall: $L_1 = [y] + R_1$, $L_2 = [z] + R_2$, $y \preceq z$.  Es gilt:
+      \[
+      \begin{array}{cll}
+         & \mathtt{le}\bigl(x, \mathtt{merge}(L_1, L_2) \bigr)\\
+       \leftrightarrow & \mathtt{le}\bigl(x, \mathtt{merge}([y]+R_1, [z]+R_2) \bigr)\\
+       \leftrightarrow & \mathtt{le}\bigl(x, [y] + \mathtt{merge}(R_1, [z]+R_2) \bigr) &
+                         \mbox{wegen $y \preceq z$} \\
+       \leftrightarrow & x \preceq y \wedge \mathtt{le}\bigl(x, \mathtt{merge}(R_1, [z]+R_2) \bigr) &
+                         \mbox{nach Definition von \texttt{le}} \\
+       \leftrightarrow & x \preceq y \wedge \mathtt{le}(x, R_1) \wedge \mathtt{le}(x, [z]+R_2) \bigr) &
+                         \mbox{nach Induktions-Voraussetzung} \\
+       \leftrightarrow &  \mathtt{le}(x, [y] + R_1) \wedge \mathtt{le}(x, [z]+R_2) \bigr) &
+                         \mbox{nach Definition von \texttt{le}} \\
+       \leftrightarrow &  \mathtt{le}(x, L_1) \wedge \mathtt{le}(x, L_2) \bigr) 
+      \end{array}
+      \]
+\item Fall:  $L_1 = [y] + R_1$, $L_2 = [z] + R_2$, $\neg y \preceq z$.  
+
+      Der Beweis verläuft analog zum 3.~Fall. \hspace*{\fill} $\Box$
+\end{enumerate}
+
+\begin{Lemma}[Verträglichkeit von \texttt{isSorted} und \texttt{merge}] \hspace*{\fill} \\
+{\em
+  Für beliebige Listen $L_1$ und $L_2$ gilt: \\[0.1cm]
+  \hspace*{1.3cm} 
+  $\texttt{isSorted}\bigl(\texttt{merge}(L_1,L_2)\bigr) \leftrightarrow \mathtt{isSorted}(L_1) \wedge \mathtt{isSorted}(L_2)$.
+}
+\end{Lemma}
+
+\noindent
+\textbf{Beweis} durch Wertverlaufs-Induktion nach der Definition der Funktion \texttt{merge}.
+\begin{enumerate}
+\item Fall: $L_1 = []$.  Es gilt 
+      \[
+      \begin{array}{cll}
+                        & \mathtt{isSorted}\bigl(\mathtt{merge}(L_1, L_2)\bigr) \\
+        \leftrightarrow & \mathtt{isSorted}\bigl(\mathtt{merge}([], L_2)\bigr) \\
+        \leftrightarrow & \mathtt{isSorted}(L_2) & \mbox{nach Definition von \texttt{merge}} \\
+        \leftrightarrow & \mathtt{true} \wedge \mathtt{isSorted}(L_2)  \\
+        \leftrightarrow & \mathtt{isSorted}([]) \wedge \mathtt{isSorted}(L_2)  &
+                          \mbox{nach Definition von \texttt{isSorted}} \\
+        \leftrightarrow & \mathtt{isSorted}(L_1) \wedge \mathtt{isSorted}(L_2)  &
+      \end{array}
+      \]
+\item Fall: $L_2 = []$. 
+
+      Dieser Fall ist analog zum 1.~Fall.
+\item Fall: $L_1 = [x_1] + R_1$,   $L_2 = [x_2] + R_2$, $x_1 \preceq x_2$.
+      \[
+      \begin{array}{cl}
+        & \texttt{isSorted}\bigl(\texttt{merge}(L_1, L_2)\bigr) \\
+      \leftrightarrow  & \texttt{isSorted}\bigl(\texttt{merge}([x_1] + R_1, [x_2] + R_2)\bigr) \\
+      \leftrightarrow  & \texttt{isSorted}\bigl([x_1] + \texttt{merge}(R_1, [x_2] + R_2)\bigr) \\
+                       &          \mbox{nach Definition von \texttt{merge}}  \\
+      \leftrightarrow  & \texttt{le}\bigl(x_1,\texttt{merge}(R_1, [x_2] + R_2)\bigr) \wedge 
+                         \texttt{isSorted}\bigl(\texttt{merge}(R_1, L_2)\bigr)   \\
+                       & \mbox{nach Definition von \texttt{isSorted}}  \\
+      \leftrightarrow  & \texttt{le}(x_1,R_1) \wedge \mathtt{le}(x_1, [x_2] + R_2) \wedge 
+                          \texttt{isSorted}\bigl(\texttt{merge}(R_1, L_2)\bigr)   \\
+                       & \mbox{wegen der Distributivität von \texttt{le} über \texttt{merge}}  \\
+      \leftrightarrow  & \texttt{le}(x_1,R_1) \wedge \mathtt{le}(x_1, [x_2] + R_2) \wedge 
+                         \texttt{isSorted}(R_1) \wedge \mathtt{isSorted}(L_2) \\
+                       & \mbox{nach Induktions-Voraussetzung}  \\
+      \leftrightarrow  & \texttt{le}(x_1,R_1) \wedge \texttt{isSorted}(R_1) \wedge \mathtt{le}(x_1, [x_2] + R_2) \wedge \mathtt{isSorted}(L_2) \\
+      \leftrightarrow  & \texttt{isSorted}(L_1) \wedge \mathtt{le}(x_1, [x_2] + R_2) \wedge \mathtt{isSorted}(L_2) \\
+                       & \mbox{nach Definition von \texttt{isSorted}} \\
+      \leftrightarrow  & \texttt{isSorted}(L_1) \wedge x_1 \preceq x_2 \wedge \mathtt{le}(x_1, R_2) \wedge \mathtt{isSorted}(L_2) \\
+                       & \mbox{nach Definition von \texttt{le}} \\
+      \leftrightarrow  & \texttt{isSorted}(L_1) \wedge \mathtt{le}(x_1, R_2) \wedge \mathtt{isSorted}(L_2) \\
+                       & \mbox{wegen $x_1\preceq x_2$} \\
+      \end{array}
+      \]
+      Der Beweis ist abgeschlossen, wenn wir \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{isSorted}(L_2) \leftrightarrow \mathtt{le}(x_1, R_2) \wedge \mathtt{isSorted}(L_2)$
+      \\[0.1cm]
+      zeigen können. Dazu reicht es offenbar, wenn wir \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{isSorted}([x_2] + R_2) \rightarrow \mathtt{le}(x_1, R_2) \wedge \mathtt{isSorted}([x_2] + R_2)$
+      \hspace*{\fill} $(\star)$ \\[0.1cm]
+      zeigen, denn die umgekehrte Richtung ist trivial.  Um $(\star)$ zu zeigen, reicht es
+      wenn wir \\[0.1cm]
+      \hspace*{1.3cm}
+      $\mathtt{isSorted}([x_2] + R_2) \rightarrow \mathtt{le}(x_1, R_2)$ \\[0.1cm]
+      nachweisen.  Nach Definition von \texttt{isSorted} gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{isSorted}([x_2] + R_2) \leftrightarrow \mathtt{le}(x_2,R_2) \wedge \mathtt{isSorted}(R_2)$.
+      \\[0.1cm]
+      Aus $\mathtt{isSorted}([x_2] + R_2)$ folgt also insbesondere \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{le}(x_2,R_2)$. \\[0.1cm]
+      Da $x_1 \preceq x_2$ ist, folgt mit dem Lemma über die Transitivität von \texttt{le} (Lemma \ref{lemma:le-trans}): \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{le}(x_1,R_2)$ \\[0.1cm]
+      und das war zu zeigen.
+\item Fall:  $L_1 = [x_1] + R_1$,   $L_2 = [x_2] + R_2$, $x_1 > x_2$.
+      
+      Der Beweis verläuft analog zum 3.~Fall. \hspace*{\fill} $\Box$
+\end{enumerate}
+
+\begin{Proposition}[Verträglichkeit von \texttt{isSorted} und \texttt{sort}] \hspace*{\fill} \\
+{\em
+  Für beliebige Listen $L$ von Elementen aus $M$ gilt \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr)$.
+}
+\end{Proposition}
+
+\noindent
+\textbf{Beweis}: Wir führen den Beweis durch Wertverlaufs-Induktion entsprechend der Definition
+der Funktion \texttt{sort}.
+\begin{enumerate}
+\item Fall: $\#L < 2$.  Es gilt \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr) \leftrightarrow \mathtt{isSorted}(L) \leftrightarrow \mathtt{true}$, \\[0.1cm]
+      denn alle Listen mit weniger als zwei Elementen sind sortiert.
+\item Fall: $\#L \geq 2$. Es sei $L = [x_1,x_2] + R$.  Zunächst definieren wir \\[0.1cm]
+      \hspace*{1.3cm} $[R_1,R_2] = \mathtt{split}(R)$. \\[0.1cm]
+      Dann gilt 
+      \[
+      \begin{array}[b]{cl}
+                      & \mathtt{isSorted}\bigl(\mathtt{sort}(L)\bigr) \\
+      \leftrightarrow & \mathtt{isSorted}\bigl(\mathtt{sort}([x_1,x_2] + R)\bigr) \\
+      \leftrightarrow & \mathtt{isSorted}\Bigl(\mathtt{merge}\bigl(\mathtt{sort}([x_1] + R_1), \mathtt{sort}([x_2] + R_2)\bigr)\Bigr) \\
+                      & \mbox{nach Definition von \texttt{sort}} \\
+      \leftrightarrow & \mathtt{isSorted}\bigl(\mathtt{sort}([x_1] + R_1)\bigr) \wedge \mathtt{isSorted}\bigl(\mathtt{sort}([x_2] + R_2)\bigr) \\
+                      & \mbox{wegen der Distributivität von \texttt{isSorted} über \texttt{merge}} \\
+      \leftrightarrow & \mathtt{true} \wedge \mathtt{true} \\
+                      & \mbox{nach Induktions-Voraussetzung} \\
+      \leftrightarrow & \mathtt{true} 
+      \end{array}\hspace*{\fill} \Box
+      \]
+\end{enumerate}
+
+\begin{Proposition}[Verträglichkeit von \texttt{count} und \texttt{sort}] \hspace*{\fill} \\
+{\em
+  Für beliebige $x\el M$ und beliebige Listen $L$ von Elementen aus $M$ gilt \\[0.1cm]
+  \hspace*{1.3cm} $\mathtt{count}\bigl(x,\mathtt{sort}(L)\bigr) = \mathtt{count}(x,L)$.
+}
+\end{Proposition}
+
+\noindent
+\textbf{Aufgabe}:  Formulieren und beweisen Sie die Lemmata, die Sie zum Beweis des letzten Satzes benötigen
+und beweisen Sie dann den Satz.
+
+\subsection{Komplexität}
+Wir wollen wieder berechnen, wieviele Vergleiche beim Sortieren einer Liste mit $n$
+Elementen durchgeführt werden.  Dazu analysieren wir zunächst, wieviele Vergleiche zum
+Mischen zweier Listen $L_1$ und $L_2$ benötigt werden.  Wir definieren eine Funktion \\[0.1cm]
+\hspace*{1.3cm} 
+$\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ \\[0.1cm]
+so dass für zwei Listen $L_1$ und $L_2$ der Term
+$\mathtt{cmpCount}(L_1, L_2)$ die Anzahl Vergleiche angibt, die bei Berechnung von $\texttt{merge}(L_1,L_2)$ erforderlich sind. 
+Wir behaupten, dass für beliebige Listen $L_1$ und $L_2$  \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{cmpCount}(L_1, L_2) \leq \# L_1 + \# L_2$ \\[0.1cm]
+gilt.  Für eine Liste $L$ bezeichnet dabei $\#L$ die Anzahl der Elemente der Liste.
+ Wir führen den Beweis durch Induktion nach der Summe $\#L_1 + \#L_2$.
+\begin{enumerate}
+\item[I.A.:] $\#L_1 + \#L_2=0$.
+
+             Dann müssen $L_1$ und $L_2$ leer sein und somit ist beim Aufruf
+             von $\mathtt{merge}(L_1, L_2)$ kein Vergleich erforderlich.  Also gilt \\[0.1cm]
+             \hspace*{1.3cm} $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \#L_1 + \#L_2$.
+\item[I.S.:] $\#L_1 + \#L_2 = n+1$.
+
+             Falls entweder $L_1$ oder $L_2$ leer ist, so ist kein Vergleich erforderlich
+             und wir haben 
+             \\[0.1cm]
+             \hspace*{1.3cm}
+             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \#L_1 + \#L_2$.
+             \\[0.1cm]
+             Wir nehmen also an, dass gilt: \\[0.1cm]
+             \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad und \quad $L_2 = [y] + R_2$.
+             \\[0.1cm]
+             Wir führen eine Fallunterscheidung bezüglich der relativen Größe von $x$ und $y$ 
+             durch.
+             \begin{enumerate}
+             \item $x \preceq y$.  Dann gilt \\[0.1cm]
+                   \hspace*{1.3cm} 
+                   $\mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = [x] +
+                   \mathtt{merge}\bigl(R_1, [y] + R_2\bigr)$. \\[0.1cm]
+                   Also haben wir: \\[0.1cm]
+                   \hspace*{1.3cm} 
+                   $\mathtt{cmpCount}(L_1, L_2) = 1 + \mathtt{cmpCount}(R_1, L_2) \stackrel{IV}{\leq} 1 + \#R_1 + \#L_2 = \#L_1 + \#L_2$.
+             \item $\neg x \preceq y$.  Dieser Fall ist völlig analog zum 1.~Fall. \hspace*{\fill} $\Box$
+             \end{enumerate}
+\end{enumerate}
+Wir bezeichnen nun die Anzahl der Vergleiche, die beim Aufruf von
+$\mathtt{sort}(L)$ für eine Liste $L$ der Länge $n$
+schlimmstenfalls durchgeführt werden müssen mit $a_n$.  Zur Vereinfachung nehmen wir an, dass $n$ die Form \\[0.1cm]
+\hspace*{1.3cm} $\displaystyle n = 2^k$ \qquad für ein $k \el \mathbb{N}$ \\[0.1cm]
+hat und definieren $b_k = a_n = a_{2^k}$.  Zunächst berechnen wir den Anfangs-Wert
+$\displaystyle b_0 = a_{2^0} = a_1 = 0$.  Im rekursiven Fall wird zur Berechnung
+von $\mathtt{sort}(L)$ die Liste $L$ zunächst durch $\texttt{split}$ in zwei
+gleich große Listen geteilt, die dann rekursiv sortiert werden. Anschließend
+werden die sortierten Listen
+gemischt.  Das liefert für das Sortieren einer Liste der Länge $2^{k+1}$ die Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $b_{k+1} = 2 * b_k + 2^{k+1}$, \hspace*{\fill} (1) \\[0.1cm]
+denn das Mischen der beiden halb so großen Listen kostet schlimmstenfalls $2^k +
+2^k = 2^{k+1}$ Vergleiche und das rekursive Sortieren 
+der beiden Teil-Listen
+kostet insgesamt $2*b_k$ Vergleiche.
+
+Um diese Rekurrenz-Gleichung zu lösen, führen wir in (1) die Substitution $k \mapsto k+1$ durch und erhalten \\[0.1cm]
+\hspace*{1.3cm}  $b_{k+2} = 2 * b_{k+1} + 2^{k+2}$. \hspace*{\fill} (2) \\[0.1cm]
+Wir multiplizieren Gleichung (1) mit dem Faktor 2 und subtrahieren die erhaltene Gleichung von Gleichung (2). 
+Dann erhalten wir \\[0.1cm]
+\hspace*{1.3cm}  $b_{k+2} - 2 * b_{k+1} = 2 * b_{k+1} - 4 * b_k$. \hspace*{\fill} (3) \\[0.1cm]
+Diese Gleichung vereinfachen wir zu \\[0.1cm]
+\hspace*{1.3cm}  $b_{k+2} = 4 * b_{k+1} - 4 * b_k$. \hspace*{\fill} (4) \\[0.1cm]
+Diese Gleichung ist eine homogene lineare Rekurrenz-Gleichung 2. Ordnung.
+Das charakteristische Polynom der zugehörigen homogenen Rekurrenz-Gleichung lautet \\[0.1cm]
+\hspace*{1.3cm} $\displaystyle \chi(x) = x^2 - 4 *x + 4 = (x-2)^2$. \\[0.1cm]
+Weil das charakteristische Polynom an der Stelle $x=2$ eine doppelte Null-Stelle hat, 
+lautet die allgemeine Lösung \\[0.1cm]
+\hspace*{1.3cm} $\displaystyle b_k = \alpha * 2^k + \beta * k * 2^k$. \hspace*{\fill} (5) \\[0.1cm]
+Setzen wir hier den Wert für $k=0$ ein, so erhalten wir \\[0.1cm]
+\hspace*{1.3cm} $0 = \alpha$. \\[0.1cm]
+Aus (1) erhalten wir den Wert $b_1 = 2 * b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) für $k$ den Wert 1 ein, 
+so finden wir \\[0.1cm]
+\hspace*{1.3cm} $2 = 0 * 2^1 + \beta * 1 * 2^1$,  \\[0.1cm]
+also muß $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.1cm]
+\hspace*{1.3cm} $b_k = k * 2^k$. \\[0.1cm]
+Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt für $a_n$ \\[0.1cm]
+\hspace*{1.3cm} $a_n = n * \log_2(n)$. \\[0.1cm]
+Wir sehen also, dass beim ``\emph{Sortieren durch Mischen}'' für große Listen wesentlich weniger Vergleiche
+durchgeführt werden müssen, als dies bei den beiden anderen Algorithmen der Fall ist.
+
+Zur Vereinfachung haben wir bei der obigen Rechnung nur eine obere Abschätzung
+der Anzahl der Vergleiche durchgeführt.  Eine exakte Rechnung zeigt, dass im
+schlimmsten Fall \\[0.1cm]
+\hspace*{1.3cm}  $n * \log_2(n) - n + 1$ \\[0.1cm]
+Vergleiche beim ``\emph{Sortieren durch Mischen}'' einer nicht-leeren Liste der Länge $n$
+durchgeführt werden müssen.
+
+\subsection{Eine feldbasierte Implementierung}
+Abbildung \ref{fig:MergeSortAlgorithm.java} auf Seite \pageref{fig:MergeSortAlgorithm.java}
+zeigt eine feldbasierte  Implementierung des Algorithmus ``\emph{Sortieren durch
+  Mischen}''.  Die Klasse \texttt{MergeSortAlgorithm} ist von der in der Übung
+diskutierten Klasse \texttt{SortingAlgorithm} abgeleitet.
+Wir diskutieren zunächst die Member-Variablen.
+\begin{enumerate}
+\item Das zu sortierende Feld wird in der Member-Variablen \texttt{mArray} 
+      abgelegt.  Diese Member-Variable ist in der Oberklasse \texttt{SortingAlgorithm}
+      definiert und wird von dieser Klasse geerbt.
+\item \texttt{mAux} ist ein Hilfsfeld, das wir während der Durchführung des Algorithmus
+      benötigen um Werte zwischenzuspeichern.
+\item Der Komparator, den wir zum Vergleich zweier Elemente benötigen,
+      wird in der Variablen \texttt{mComparator} abgespeichert.  Diese Variable ist
+      ebenfalls in der Oberklasse \texttt{SortingAlgorithm} definiert.
+      
+      Der Komparator stellt die Methode \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\texttt{mComparator.compare}(\mathtt{Element}\ x, \mathtt{Element}\ y)$  \\[0.1cm]
+      zur Verfügung, mit deren Hilfe wir zwei Elements $x$ und $y$ vergleichen können.
+\end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.2cm,
+                  xrightmargin  = 0.0cm
+                ]
+    import java.util.*;
+    
+    public class MergeSortAlgorithm<Element> extends SortingAlgorithm<Element>
+    {
+        private Element[] mAux;        
+        
+        MergeSortAlgorithm(Element[] array, Comparator<Element> comparator) {
+            super(array, comparator);
+            mAux = (Element[]) new Object[mArray.length];
+        }
+        public void sort() {
+            mergeSort(0, mArray.length);        
+        }
+        private void mergeSort(int start, int end) {
+            if (end - start < 2)
+                return;
+            int middle = (start + end) / 2;                         
+            mergeSort( start,  middle );  
+            mergeSort( middle, end    );    
+            merge( start, middle, end ); 
+        }
+        private void merge(int start, int middle, int end) {    
+            for (int i = start; i < end; ++i) {
+                mAux[i] = mArray[i]; 
+            }
+            int idx1 = start;
+            int idx2 = middle;
+            int i    = start;
+            while (idx1 < middle && idx2 < end) {
+                if (mComparator.compare(mAux[idx1], mAux[idx2]) <= 0) {
+                    mArray[i++]  = mAux[idx1++]; 
+                } else {
+                    mArray[i++]  = mAux[idx2++]; 
+                }
+            }
+            while (idx1 < middle) {
+                mArray[i++]  = mAux[idx1++];
+            }
+            while (idx2 < end) {
+                mArray[i++]  = mAux[idx2++];  
+            }
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Die Klasse \texttt{MergeSortAlgorithm}.}
+  \label{fig:MergeSortAlgorithm.java}
+\end{figure}
+Der Konstruktor in Zeile 7 erwartet als Argumente das zu sortierende Feld und den
+Komparator zum Vergleichen zweier Elemente.  Er speichert diese Argumente 
+durch den Aufruf des Konstruktors der Oberklasse in den
+Member-Variablen der Oberklasse ab und legt gleichzeitig das Hilfsfeld \texttt{mAux} an.
+
+Der Algorithmus ``\emph{Sortieren durch Mischen}'' \texttt{sort}() wird in der Methode
+\texttt{mergeSort} implementiert.  Diese Methode erhält die Argumente  \texttt{start} und
+\texttt{end}, die den  Bereich des Feldes eingrenzen, der zu sortieren ist: 
+Der Aufruf \texttt{mergeSort}(\textsl{start}, \textsl{end}) sortiert nur der Bereich \\[0.1cm]
+\hspace*{1.3cm} \texttt{mArray[\textsl{start}]}, $\cdots$, \texttt{mArray[\textsl{end}-1]}. \\[0.1cm]
+Die feldbasierte Implementierung  weicht von der listenbasierten Implementierung ab, da
+wir keine Funktion \texttt{split} mehr benötigen, um die Liste aufzuspalten. 
+Statt dessen berechnen wir die Mitte des Feldes
+\texttt{mArray} mit der Formel \\[0.1cm]
+\hspace*{1.3cm} \texttt{middle = (start + end) / 2;} \\[0.1cm]
+und spalten das Feld dann an dem Index \texttt{middle} in zwei etwa gleich große
+Teile, die wir in den Zeilen 19 und 20 rekursiv sortieren.
+
+Anschließend rufen wir in Zeile 21 die Methode \texttt{merge} aus, die die beiden
+sortierten Felder zu einem sortierten Feld zusammenfaßt.  Diese Methode ist in den Zeilen
+22 --- 42 implementiert.  Die Methode erhält 3 Argumente: Die Parameter \texttt{start},
+\texttt{middle} und \texttt{end} spezifizieren die beiden Teilfelder, die zu mischen sind.
+Das erste Teilfeld besteht aus den Elementen \\[0.1cm]
+\hspace*{1.3cm} \texttt{mArray[start]}, $\cdots$, \texttt{mArray[middle-1]}, \\[0.1cm]
+das zweite Teilfeld besteht aus den Elementen \\[0.1cm]
+\hspace*{1.3cm} \texttt{mArray[middle]}, $\cdots$, \texttt{mArray[end-1]}. \\[0.1cm]
+Der Aufruf setzt voraus, dass die beiden Teilfelder bereits sortiert sind.
+Das Mischen funktioniert dann wie folgt.
+\begin{enumerate}
+\item Zunächst werden die Daten aus den beiden zu sortierenden Teilfelder
+      in Zeile 24 in das Hilfs-Feld \texttt{mAux} kopiert.
+\item Anschließend definieren wir drei Indizes:
+      \begin{enumerate}
+      \item \texttt{idx1} zeigt auf das nächste zu untersuchende Element im ersten
+            Teilfeld des Arrays \texttt{mAux}.
+      \item \texttt{idx2} zeigt auf das nächste zu untersuchende Element im zweiten
+            Teilfeld des Arrays \texttt{mAux}.
+      \item \texttt{i} gibt die Position im Ergebnis-Feld \texttt{mArray} an, in die das
+            nächste Element geschrieben wird.
+      \end{enumerate}
+\item Solange weder das erste noch das zweite Teilfeld des Arrays \texttt{mAux}
+      vollständig abgearbeitet ist, vergleichen wir in Zeile 30 die Elemente aus den beiden Teilfeldern
+      und schreiben das kleinere von beiden an die Stelle, auf die der Index \texttt{i} zeigt.
+\item Falls bei diesem Vergleich eines der beiden Felder vor dem anderen erschöpft ist,
+      müssen wir anschließend die restlichen Elemente des verbleibenden Teilfeldes
+      in das Ergebnis-Feld kopieren.  Die Schleife in Zeile 36 --- 38 wird aktiv, wenn das
+      zweite Teilfeld zuerst erschöpft wird.  Dann werden dort die verbleibenden Elemente
+      des ersten Teilfeldes in das Feld \texttt{mArray} kopiert.  Ist umgekehrt das erste
+      Teilfeld zuerst erschöpft, dann werden in Zeile 39 --- 41 die verbleibenden Elemente
+      des zweiten Teilfeldes in das Feld \texttt{mArray} kopiert. 
+\end{enumerate}
+\pagebreak
+
+\subsubsection{Eine nicht-rekursive Implementierung von \emph{Sortieren durch Mischen}}
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    public void sort() {
+        mergeSort();
+    }
+    private void mergeSort() {
+        for (int l = 1; l < mArray.length; l *= 2) {
+            int k;
+            for (k = 0; l * (k + 1) <= mArray.length; k += 2) {
+                merge(l * k, l * (k + 1), Math.min(l * (k + 2), mArray.length));
+            }
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Eine sequentielle Implementierung des Merge-Sort-Algorithmus}
+  \label{fig:MergeSortNRAlgorithm.java}
+\end{figure}
+
+\noindent
+Die in Abbildung \ref{fig:MergeSortAlgorithm.java} gezeigte Implementierung des
+Merge-Sort-Algorithmus ist rekursiv.  Die Effizienz einer rekursiven Implementierung ist
+in der Regel schlechter als die Effizienz einer sequentiellen Implementierung.
+Der Grund ist, dass der Aufruf einer rekursiven Funktion relativ viel Zeit kostet, denn
+beim Aufruf einer rekursiven Funktion müssen einerseits die lokalen Variablen der Funktion auf dem
+Stack gesichert werden und andererseits müssen die Argumente, mit denen die Funktion
+aufgerufen wird, auf den Stack gelegt werden.  Wir zeigen daher, wie sich der
+Merge-Sort-Algorithmus sequentiell implementieren läßt.  Abbildung
+\ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}
+zeigt eine solche Implementierung.
+Statt der rekursiven Aufrufe haben wir hier zwei ineinander geschachtelte
+\texttt{for}-Schleifen.  Die Arbeitsweise des Algorithmus wird deutlich, wenn wir die
+\emph{Invarianten} dieser Schleifen formulieren.  Eine solche \emph{Invariante} ist eine
+logische Formel, die vor jedem Durchlauf der Schleife wahr ist.  Dieser Begriff
+wird am besten durch ein Beispiel klar.  Die Invariante der äußeren Schleife besagt,
+dass alle Teil-Felder der Länge $l$, die bei einem Index beginnen, der ein Vielfaches von
+$l$ ist, sortiert sind.  Bezeichnen wir das zu sortierende Feld \textsl{mArray} jetzt der
+Kürze halber mit $x$, so hat ein solches Teilfeld die Form 
+\\[0.1cm]
+\hspace*{1.3cm}
+$\Bigl[x[k\cdot l],\; x[k\cdot l+1],\; x[k\cdot l+2],\; \cdots,\; x[k\cdot l+(l-1)]\Bigr]$
+\\[0.1cm]
+und wenn $n$ die Länge des Feldes $x$ ist, dann läßt sich die Aussage, dass alle
+diese Teilfelder sortiert sind, durch die Formel 
+\\[0.1cm]
+\hspace*{0.8cm}
+$\forall k \in \{0, \cdots, n/l\}: \forall j\in\{0,\cdots,l-2\}: k\cdot l+j+1 < n \rightarrow x[k\cdot l+j] \preceq x[k\cdot l+j+1]$
+\\[0.1cm]
+beschreiben. Die Bedingung $k\cdot l+j+1 < n$  ist notwendig um sicherzustellen, dass der
+Array-Zugriff $x[k\cdot l+j+1]$ definiert ist.  Wenn diese Bedingung am Anfang eines Schleifen-Durchlaufs
+erfüllt sein soll, dann ist es die Aufgabe des Schleifen-Rumpfs diese Bedingung für den
+nächsten Wert, den die Schleifen-Variable $l$ annimmt, sicherzustellen.  Der erste Wert
+der Schleifen-Variable $l$ ist 1.   Für diesen Wert ist die Schleifen-Invariante trivial
+denn dann sagt die Invariante nur aus, dass Teilfelder der Länge 1 sortiert sind.  In der
+Schleife wird der Wert von $l$ nach jedem Schleifen-Durchlauf verdoppelt.   
+Es werden jeweils zwei Teilfelder der Länge $l$ genommen und so gemischt, dass das
+resultierende Teilfeld, dass die Länge $2\cdot l$ hat, danach sortiert ist.  Die innere Schleife in
+den Zeilen 7 bis 9 mischt für gerade Zahlen $k$ das $k$-te Teilfeld mit dem $k+1$-ten
+Teilfeld, es werden also die Teilfelder
+\\[0.1cm]
+\hspace*{1.3cm}
+$x[k\cdot l],\;x[k\cdot l+1],\;\cdots,\;x[k\cdot l+(l-1)]$ \quad und
+\\[0.1cm]
+\hspace*{1.3cm}
+ $x[(k+1)\cdot l],\;x[(k+1)\cdot l+1],\;\cdots,\;x[(k+1)\cdot l+(l-1)]$ 
+\\[0.1cm]
+gemischt.  Möglicherweise hat das letzte Teilfeld eine Länge, die kleiner als $l$ ist.
+Daher nehmen wir für das dritte Argument der Methode \textsl{merge} das Minimum der beiden
+Zahlen $l\cdot(k+2)$ und $\textsl{mArray}.\textsl{length}$.
+
+Der Algorithmus läßt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
+Feld \texttt{mArray} und \texttt{mAux} zurück gegeben werden, denn dann entfällt in der
+Methode \textsl{merge} das Kopieren
+des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.  
+Es ist sogar möglich, ganz auf das Teilfeld \texttt{mAux} zu verzichten.  
+Die resultierende Implementierung ist allerdings wesentlich komplexer.  Daher gehen wir
+auf diesen Punkt nicht weiter ein sondern verweisen die interessierten Leser auf den Artikel von
+Katajainen et.~al.~\cite{katajainen:96}.
+
+\section{Der \emph{Quick-Sort}-Algorithmus}
+Der ``\emph{Quick-Sort}-Algorithmus'' funktioniert nach folgendem Schema:
+\begin{enumerate}
+\item Ist die zu sortierende Liste $L$ leer, so wird $L$
+      zurück gegeben: \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
+\item Sonst hat $L$ die Form $L = [x] + R$.
+      Dann verteilen wir die Elemente von $R$ so auf zwei Listen $S$ und $B$, 
+      dass $S$ alle Elemente von $R$ enthält, die kleiner-gleich $x$ sind, während $B$ die
+      restlichen Elemente von $R$ enthält. 
+      Wir implementieren die Berechnung der beiden Listen über eine Funktion
+      $\mathtt{partition}$, die das Paar von Listen $S$ und $B$ erzeugt: 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{partition}(x,R) = [S,B]$.
+      \\[0.2cm]
+      Hierbei gilt dann 
+      \begin{enumerate}
+      \item Die Listen $S$ und $B$ enthalten zusammen genau die Elemente der Liste $R$
+            \[ \forall y \in R: \textsl{count}(y,S) + \textsl{count}(y,B) = \textsl{count}(y,R) \]
+      \item Alle Elemente aus $S$ sind kleiner-gleich $x$, die Elemente aus $B$ sind
+            größer als $x$:
+            \[ \forall y \in S: y \preceq x \quad \mbox{und} \quad \forall y \in B: x \prec y. \]
+      \end{enumerate}
+      Formal können wir die Funktion $\textsl{partition}()$ durch die folgenden
+      Gleichungen beschreiben:
+      \begin{enumerate}
+      \item $\textsl{partition}(x, []) = \bigl[[], []\bigr]$,
+      \item \quad $\; x \preceq y\; \wedge \textsl{partition}(x,R) = \bigl[ S, B \bigr] \rightarrow 
+             \textsl{partition}(x, [y] + R) = \bigl[ [x] + S,\, B \bigr]$
+      \item $\neg\, (x \preceq y) \wedge \textsl{partition}(x,R) = \bigl[ S, B \bigr] \rightarrow 
+             \textsl{partition}(x, [y] + R) = \bigl[ S,\, [x] + B \bigr]$,
+      \end{enumerate}
+      Anschließend sortieren wir die Listen $S$ und $B$ rekursiv.
+      An die sortierte Liste $S$ hängen wir dann das Element $x$ und darauf folgt die
+      sortierte Liste $B$.  Insgesamt wird dieser Algorithmus durch die folgende Gleichung
+      beschrieben:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{partition}(x,R) = [S,B] \rightarrow 
+       \textsl{sort}([x] + R) = \textsl{sort}(S) + [x] + \textsl{sort}(B)$.
+\end{enumerate}
+Abbildung \ref{fig:quick-sort} zeigt die Umsetzung dieser Überlegung 
+in einem \textsl{Java}-Programm.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    public class QuickSort
+    {  
+        private static void partition(Double pivot, 
+                                      LinkedList<Double> list,
+                                      LinkedList<Double> small, 
+                                      LinkedList<Double> big) 
+        {
+            if (list.isEmpty()) { return; }
+            Double x = list.removeFirst();
+            if (x <= pivot) { small.addFirst(x); } 
+            else            { big  .addFirst(x); }
+            partition(pivot, list, small, big);
+        }
+        public static LinkedList<Double> sort(LinkedList<Double> list) {
+            if (list.isEmpty()) {
+                return list;
+            }
+            Double             pivot = list.removeFirst();
+            LinkedList<Double> small = new LinkedList<Double>();
+            LinkedList<Double> big   = new LinkedList<Double>();
+            partition(pivot, list, small, big);
+            LinkedList<Double> smallSorted = sort(small);
+            LinkedList<Double> bigSorted   = sort(big);
+            smallSorted.add(pivot);
+            smallSorted.addAll(bigSorted);
+            return smallSorted;
+        }    
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Der \emph{Quick-Sort}-Algorithmus.}
+  \label{fig:quick-sort}
+\end{figure}
+
+\begin{enumerate}
+\item Der \emph{Quick-Sort}-Algorithmus benötigt keine globalen Variablen,
+      daher enthält die Klasse \texttt{QuickSort} keine Member-Variablen.
+      Folglich können die Methoden dieser Klasse als \texttt{static}
+      deklariert werden.
+\item Die Methode \texttt{partition} hat die Aufgabe, eine Liste \texttt{list} an Hand eines
+      gegebenen \emph{Pivot-Elements} \texttt{pivot} so in zwei Listen aufzuteilen, dass nach einem
+      Aufruf der Form 
+      \[ \texttt{partition(pivot, list, small, big)} \]
+      die Liste \texttt{small} alle die Elemente aus 
+      \texttt{list} enthält, die kleiner-gleich \texttt{pivot} sind, während \texttt{big}
+      die Elemente enthält, die größer als \texttt{pivot} sind.
+      Voraussetzung ist dabei, dass die Listen \texttt{small} und \texttt{big} vor dem
+      Aufruf leer sind.  
+
+      Falls die Listen \texttt{small} und \texttt{big} bei dem Aufruf nicht leer sind,
+      so ist die Idee, dass die Elemente aus \texttt{list} entsprechend ihrer Größe
+      den beiden Listen \texttt{small} und \texttt{big} hinzugefügt werden.
+      \begin{enumerate}
+      \item Falls \texttt{list} leer ist, so gibt es keine Elemente, die verteilt werden
+            müssen.
+      \item Andernfalls wird das erste Element von \texttt{list} aus \texttt{list}
+            entfernt und, je nach dem wie groß es im Vergleich zu dem Pivot-Element
+            \texttt{pivot} ist, in die Liste \texttt{small} oder \texttt{big} eingefügt.
+      \item Schließlich werden die restlichen Elemente von \texttt{list} durch einen
+            rekursiven Aufruf der Funktion \texttt{partition} auf die Listen \texttt{small}
+            und \texttt{big} verteilt.
+      \end{enumerate}
+\item Die Methode \texttt{sort} sortiert die als Argument übergebene Liste. 
+      \begin{enumerate}
+      \item Falls diese Liste leer ist, kann sie unverändert zurück gegeben werden.
+      \item Andernfalls wird das erste Element der Liste \texttt{list} aus dieser Liste
+            entfernt und in der Variablen \texttt{pivot}
+            abgespeichert.
+      \item Dann werden zwei leere Listen \texttt{small} und \texttt{big} angelegt.
+      \item Der anschließende Aufruf der Methode \texttt{partition} verteilt die restlichen
+            Elemente der übergebenen Liste auf diese beiden Listen.
+      \item Danach werden diese Listen durch rekursive Aufrufe der Methode
+            \texttt{sort} sortiert.
+      \item Zum Schluß wird an die sortierte Liste der Elemente, die kleiner als das
+            Pivot-Element sind, erst das Pivot-Element und dann die sortierte Liste der Elemente,
+            die größer als das Pivot-Element sind, angehängt.
+      \item Die so erhaltene Liste wird als Ergebnis zurück gegeben.
+      \end{enumerate}
+\end{enumerate}
+
+\subsection{Komplexität}
+Als nächstes analysieren wir die Komplexität von \emph{Quick-Sort}.
+Dazu untersuchen wir wieder die Zahl der Vergleiche, die beim Aufruf von
+$\textsl{sort}(L)$ für eine Liste $L$ mit $n$ 
+Elementen durchgeführt werden. Dazu betrachten wir zunächst die Anzahl der Vergleiche,
+die wir bei einem Aufruf der Form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{partition}(x,L,S,B)$ \\[0.2cm]
+für eine Liste $L$ mit $n$ Elementen durchführen müssen. 
+Da wir jedes der $n$ Elemente der Liste $L$ mit $x$ vergleichen müssen, ist klar, dass 
+dafür insgesamt $n$ Vergleiche erforderlich sind.
+
+\subsubsection{Komplexität im schlechtesten Fall}
+Wir berechnen als nächstes die Anzahl $a_n$ von Vergleichen, die wir im schlimmsten Fall
+beim Aufruf von $\textsl{sort}(L)$ für eine Liste $L$ der Länge $n$ durchführen müssen.
+Der schlimmste Fall tritt beispielsweise dann ein, wenn die Liste \texttt{small} leer ist und 
+die Liste \texttt{big} folglich  die Länge $n-1$ hat.   Für die Anzahl
+$a_n$ der Vergleiche gilt in diesem Fall \\[0.1cm]
+\hspace*{1.3cm} $a_n = a_{n-1} + n - 1$. \\[0.1cm]
+Der Term $n-1$ rührt von den $n-1$ Vergleichen, die beim Aufruf von
+$\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort} durchgeführt
+werden und der Term $a_{n-1}$ erfaßt die Anzahl der Vergleiche, die beim rekursiven Aufruf
+von $\textsl{sort}(L_2)$ benötigt werden.
+
+Die Anfangs-Bedingung für die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
+Vergleiche notwendig.  Damit läßt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
+\[
+\begin{array}{lcl}
+  a_n & = & a_{n-1} + (n-1) \\
+      & = & a_{n-2} + (n-2) + (n-1) \\
+      & = & a_{n-3} + (n-3) + (n-2) + (n-1) \\
+      & = & \vdots \\
+      & = & a_{0} + 0 + 1 + 2 + \cdots  + (n-2) + (n-1) \\
+      & = & 0 + 0 + 1 + 2 + \cdots  + (n-2) + (n-1) \\[0.1cm]
+      & = & \sum\limits_{i=0}^{n-1} i  =  \frac{1}{2} n \cdot(n - 1) =\frac{1}{2} n^2 - \frac{1}{2} n.
+\end{array}
+\]
+Damit ist $a_n$ in diesem Fall genauso groß wie im schlimmsten Fall des Algorithmus' \emph{Sortieren durch Einfügen}.
+Es ist leicht zu sehen, dass der schlechteste Fall dann eintritt, wenn die zu sortierende Liste $L$
+bereits sortiert ist.  Es existieren Verbesserungen des \emph{Quick-Sort}-Algorithmus, für
+die der schlechteste Fall nicht bei sortierten Listen eintritt.  Wir gehen später näher darauf ein.
+
+\subsubsection{Durchschnittliche Komplexität}
+Der Algorithmus \emph{Quick-Sort} würde seinen Namen zu Unrecht tragen, wenn er im
+\emph{Durchschnitt} ein Komplexität der Form $\Oh(n^2)$ hätte.  Wir analysieren nun die
+\emph{durchschnittliche} Anzahl von Vergleichen $d_{n}$, die wir beim Sortieren einer
+Liste $L$ mit $n$ Elementen erwarten müssen.  Im Allgemeinen gilt: Ist $L$ eine Liste
+mit $n+1$ Elementen, so ist die Zahl der Elemente der Liste \texttt{small}, die in Zeile 19
+von Abbildung \ref{fig:quick-sort} berechnet wird, ein Element der Menge
+$\{0,1,2,\cdots,n\}$.  Hat die Liste \texttt{small} insgesamt $i$ Elemente, so enthält die
+Liste \texttt{big} $n-i$ Elemente.  Gilt $\#\mathtt{small} = i$, so werden
+zum rekursiven Sortieren von $\mathtt{small}$ und $\mathtt{big}$ durchschnittlich
+\\[0.1cm]
+\hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.1cm]
+Vergleiche durchgeführt.  Bilden wir den Durchschnitt dieses Wertes für alle $i \el
+\{0,1,\cdots,n\}$, so erhalten wir
+für $d_{n+1}$ die Rekurrenz-Gleichung 
+\begin{equation}
+  \label{eq:qs1}
+  d_{n+1} = n + \frac{1}{n+1} \sum_{i=0}^n (d_i + d_{n-i})  
+\end{equation}
+Der Term $n$ stellt die Vergleiche in Rechnung, die beim Aufruf von 
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{partition(pivot, list, small, big)}
+\\[0.2cm]
+durchgeführt werden.  Um die Rekurrenz-Gleichung (1) zu vereinfachen, bemerken wir
+zunächst, dass für beliebige Funktionen $f:\mathbb{N} \rightarrow \mathbb{N}$ folgendes gilt:
+\begin{eqnarray}
+\sum_{i=0}^n f(n-i) & = & f(n) + f(n-1) + \cdots + f(1) + f(0) \\
+                    & = & f(0) + f(1) + \cdots + f(n-1) + f(n) \\
+ \label{eq:qssum}
+                    & = & \sum_{i=0}^n f(i) 
+\end{eqnarray}
+Damit vereinfacht sich die Rekurrenz-Gleichung (\ref{eq:qs1}) zu 
+\begin{equation}
+  \label{eq:qs2}
+  d_{n+1} = n + \frac{2}{n+1} \cdot \sum_{i=0}^n d_i.   
+\end{equation}
+Um diese Rekurrenz-Gleichung lösen zu können, substituieren wir $n \mapsto n+1$ und erhalten
+\begin{equation}
+  \label{eq:qs3}
+   d_{n+2} = n+1 + \frac{2}{n+2} \cdot \sum_{i=0}^{n+1} d_i.  
+\end{equation}
+Wir multiplizieren nun Gleichung (\ref{eq:qs3}) mit $n+2$ und Gleichung (\ref{eq:qs2}) mit $n+1$ und
+erhalten 
+\begin{eqnarray}
+  \label{eq:qs4}
+ (n+2)\cdot d_{n+2} & = & (n+2)\cdot(n+1) + 2 \cdot \sum_{i=0}^{n+1} d_i \qquad \mbox{und} \\
+  \label{eq:qs5}
+ (n+1)\cdot d_{n+1} & = & (n+1)\cdot n + 2 \cdot \sum_{i=0}^n d_i.  
+\end{eqnarray}
+Wir bilden die Differenz der Gleichungen (\ref{eq:qs4}) und (\ref{eq:qs5}) und beachten,
+dass sich die Summationen bis auf den Term $2\cdot d_{n+1}$ gerade gegenseitig aufheben.
+Dann erhalten wir
+\begin{equation}
+  \label{eq:qs6}
+ (n+2)\cdot d_{n+2} - (n+1)\cdot \displaystyle d_{n+1} = (n+2)\cdot(n+1) - (n+1)\cdot n+2 \cdot d_{n+1}
+\end{equation}
+Diese Gleichung vereinfachen wir zu
+\begin{equation}
+  \label{eq:qs7}
+(n+2)\cdot d_{n+2} = (n+3)\cdot \displaystyle d_{n+1} + 2\cdot(n+1).  
+\end{equation}
+Einer genialen Eingebung folgend teilen wir diese Gleichung durch $(n+2) \cdot(n+3)$ und
+erhalten 
+\begin{equation}
+  \label{eq:qs8}
+ \frac{1}{n+3} \cdot d_{n+2} = \frac{1}{n+2}\cdot d_{n+1} + \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)}.
+\end{equation}
+Als nächstes bilden wir die Partialbruch-Zerlegung von dem Bruch
+\[ \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)}. \] 
+Dazu machen wir den Ansatz
+\[ \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)} = \frac{\alpha}{n+2} + \frac{\beta}{n+3}.\]
+Wir multiplizieren diese Gleichung mit dem Hauptnenner und erhalten
+\[ 2\cdot n + 2 = \alpha \cdot (n+3) + \beta \cdot (n+2), \]
+was sich zu 
+\[ 2\cdot n + 2 = (\alpha + \beta) \cdot n + 3 \cdot \alpha  + 2 \cdot \beta \]
+vereinfacht.  Ein Koeffizientenvergleich liefert dann das lineare Gleichungs-System:
+\begin{eqnarray*}
+  2 & = & \alpha + \beta \\
+  2 & = & 3 \cdot \alpha + 2 \cdot \beta 
+\end{eqnarray*}
+Ziehen wir die erste Gleichung zweimal von der zweiten Gleichung ab, so erhalten wir
+ $\alpha = -2$ und Einsetzen in die erste Gleichung liefert $\beta = 4$.
+Damit können wir die Gleichung (\ref{eq:qs8}) als 
+\begin{equation}
+  \label{eq:qs9}
+ \frac{1}{n+3} \cdot d_{n+2} = \frac{1}{n+2}\cdot d_{n+1} - \frac{2}{n+2} + \frac{4}{n+3}  
+\end{equation}
+schreiben.  Wir definieren $\displaystyle a_n = \frac{d_n}{n+1}$ und erhalten dann aus der
+letzten Gleichung 
+\[ a_{n+2} = a_{n+1} - \frac{2}{n+2} + \frac{4}{n+3} \]
+Die Substitution $n \mapsto n-2$ vereinfacht diese Gleichung zu 
+\begin{equation}
+  \label{eq:qs10}
+ a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}  
+\end{equation}
+Diese Gleichung können wir mit dem Teleskop-Verfahren lösen.  Es gilt 
+\begin{equation}
+  \label{eq:qs11}
+ a_{n} = 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i}.  
+\end{equation}
+Wir vereinfachen diese Summe:
+\[
+\begin{array}{lcl}
+ a_{n} & = & \displaystyle 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \displaystyle 4 \cdot \sum_{i=2}^{n+1} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \displaystyle 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 4 \cdot \sum_{i=1}^{n} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \displaystyle 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  \\[0.5cm]
+       & = & \displaystyle - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
+\end{array}
+\]
+Um unsere Rechnung abzuschließen, berechnen wir eine Näherung für die Summe 
+\[ H_n = \sum\limits_{i=1}^{n}\frac{1}{i}.\]
+Der Wert $H_n$ wird in der Mathematik als die $n$-te \emph{harmonische Zahl} bezeichnet.
+Dieser Wert hängt mit dem Wert $\ln(n)$ zusammen, Leonhard Euler hat gezeigt, dass für
+große $n$ die Approximation
+\[ \sum\limits_{i=1}^n \frac{1}{i} \approx \ln(n)  \]
+benutzt werden kann.  Genauer hat er folgendes gezeigt:
+\[ H_n = \ln(n) + \Oh(1). \]
+Wir haben bei dieser Gleichung eine Schreibweise benutzt, die wir bisher noch nicht
+eingeführt haben.  Sind $f$, $g$, $h$ Funktionen aus $\mathbb{R}^\mathbb{N}$, so schreiben
+wir 
+\[ f(n) = g(n) + \Oh\bigl(h(n)\bigr) \quad \mathrm{g.d.w.} \quad
+   f(n) - g(n) \el \Oh\bigl(h(n)\bigr). 
+\]
+Wegen $d_n = (n+1) \cdot a_{n}$ gilt jetzt: 
+\begin{eqnarray*}  
+ d_n & = & -4 \cdot n + 2 \cdot(n+1) \cdot H_n \\
+     & = & -4 \cdot n + 2 \cdot(n+1) \cdot \bigl(\ln(n) + \Oh(1)\bigr) \\
+     & = & 2 \cdot n \cdot \ln(n) + \Oh(n).
+\end{eqnarray*}
+Wir vergleichen dieses Ergebnis mit dem Ergebnis, das wir bei der Analyse von
+``\emph{Sortieren durch Mischen}'' erhalten haben.  Dort hatte sich die Anzahl
+der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgeführt
+werden mußte,
+als \\[0.1cm]
+\hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.1cm]
+ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ benötigen wir bei Quick-Sort im Durchschnitt \\[0.1cm]
+\hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n)$ \\[0.1cm]
+Vergleiche, also etwa $2 \cdot \ln(2) \approx 1.39$ mehr Vergleiche als beim
+``\emph{Sortieren durch Mischen}''.
+
+\subsection{Eine feldbasierte Implementierung von \emph{Quick-Sort}}
+Zum Abschluß geben wir eine feldbasierte Implementierung des \emph{Quick-Sort}-Algorithmus
+an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    import java.util.*;
+    
+    public class QuickSortAlgorithm<Element> extends SortingAlgorithm<Element>
+    {    
+        QuickSortAlgorithm(Element[] array, Comparator<Element> comparator) {
+            super(array, comparator);
+        }
+        public void sort() {
+            quickSort(0, mArray.length - 1); 
+        }
+        private void quickSort(int start, int end) {
+            if (end <= start) { return; }
+            int splitIdx = partition(start, end);
+            quickSort(start, splitIdx - 1);  
+            quickSort(splitIdx + 1, end );    
+        }
+        private int partition(int start, int end) {
+            Element x     = mArray[start];
+            int     left  = start + 1;
+            int     right = end;
+            while (true) {
+                while (left <= end && mComparator.compare(mArray[left],x) <= 0) {
+                    ++left;
+                }
+                while (mComparator.compare(mArray[right], x) > 0) {
+                    --right;
+                }
+                if (left > right) { break; }
+                swap(left, right);
+            }
+            swap(start, right);
+            return right;    
+        }
+        private void swap(int i, int j) {
+            Element e = mArray[i];
+            mArray[i] = mArray[j];
+            mArray[j] = e;
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Implementierung des \emph{Quick-Sort}-Algorithmus in \textsl{Java}.}
+  \label{fig:QuickSort.java}
+\end{figure}
+
+\begin{enumerate}
+\item Im Gegensatz zu der feldbasierten Implementierung des \emph{Merge-Sort-Algorithmus}
+      benötigen wir diesmal kein zusätzliches Hilfsfeld.  Die Klasse
+      \texttt{QuickSortAlgorithm} hat daher nur die beiden Member-Variablen
+      \texttt{mArray} und \texttt{mComparator}, die sie von der Oberklasse
+      \texttt{SortingAlgorithm} erbt.  Diese Member-Variablen werden durch den 
+      Konstruktor initialisiert.
+\item Die Methode \texttt{sort} wird auf die Implementierung der Methode
+      \texttt{quickSort} zurück geführt.  Diese Methode bekommt die beiden Parameter
+      \texttt{start} und \texttt{end}.
+      \begin{enumerate}
+      \item \texttt{start} gibt den Index des ersten Elementes des Teilfeldes an,
+            das zu sortieren ist.
+      \item \texttt{end} gibt den Index des letzten Elementes des Teilfeldes an,
+            das zu sortieren ist.  
+      \end{enumerate}
+      Der Aufruf \texttt{quickSort(start, end)} sortiert die Elemente \\[0.1cm]
+      \hspace*{1.3cm} 
+      \texttt{mArray[start]}, \texttt{mArray[start+1]}, $\cdots$, \texttt{mArray[end]}
+      \\[0.1cm]
+      des Feldes \texttt{mArray}, d.~h.~nach dem Aufruf gilt:\\[0.1cm]
+      \hspace*{1.3cm}
+      $\texttt{mArray[start]}\preceq\texttt{mArray[start+1]}\preceq\cdots\preceq\texttt{mArray[end]}$.
+      \\[0.1cm]
+      Die Implementierung der Methode \texttt{quickSort}
+      entspricht weitgehend der listenbasierten Implementierung.  Der
+      wesentliche Unterschied besteht darin, dass die Funktion \texttt{partition},
+      die in Zeile 13 aufgerufen wird,  die
+      Elemente des Feldes \texttt{array} so umverteilt, dass hinterher alle Elemente,
+      die kleiner oder gleich dem \emph{Pivot-Element} sind, links vor dem
+      Index \texttt{splitIdx} stehen, während die restlichen Elemente rechts von dem Index stehen.
+      Das Pivot-Element selbst steht hinterher an der durch \texttt{splitIdx}
+      bezeichneten Stelle.
+\item Die Schwierigkeit bei der Implementierung von \emph{Quick-Sort} liegt
+      in der Codierung der Methode \texttt{partition}, die in Zeile 17 beginnt.
+      Die Funktion \texttt{partition} erhält zwei Argumente:
+      \begin{enumerate}
+      \item \texttt{start} ist der Index des ersten  Elementes in dem aufzuspaltenden Teilbereich.
+      \item \texttt{end}   ist der Index des letzten Elementes in dem aufzuspaltenden Teilbereich.
+      \end{enumerate}
+      Die Funktion \texttt{partition} 
+      liefert als Resultat einen Index $\mathtt{splitIdx}$ aus der Menge \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\mathtt{splitIdx} \el \{ \mathtt{start},\; \mathtt{start}+1,\; \cdots,\; \mathtt{end} \}$.\\[0.1cm]
+      Außerdem wird der Teil des Feldes zwischen \texttt{start} und \texttt{end} so
+      umsortiert, dass nach dem Aufruf der Methode gilt:
+      \begin{enumerate}
+      \item Alle Elemente mit Index aus der Menge $\{\mathtt{start}, \cdots,
+        \mathtt{splitIdx}-1\}$ kommen in der Ordnung
+            ``$\preceq$'' vor dem Element an der Stelle \texttt{splitIdx}: \\[0.1cm]
+            \hspace*{1.3cm} 
+            $\forall i \el \{\mathtt{start}, \cdots, \mathtt{splitIdx}-1\} \colon\, \mathtt{mArray}[i] \preceq \mathtt{mArray}[\mathtt{splitIdx}]$.
+      \item Alle Elemente mit Index aus der Menge $\{\mathtt{splitIdx}+1, \cdots, \mathtt{end}\}$ kommen
+            in der Ordnung ``$\preceq$'' hinter dem Element an der Stelle \texttt{splitIdx}: \\[0.1cm]
+            \hspace*{1.3cm} 
+            $\forall i \el \{\mathtt{splitIdx}+1, \cdots, \mathtt{end}\} \colon\, \mathtt{mArray}[\mathtt{splitIdx}]\prec \mathtt{mArray}[i]$.
+      \end{enumerate}
+      Der Algorithmus, um diese Bedingungen zu erreichen,  wählt zunächst das Element
+      \texttt{mArray[start]} als sogenanntes
+      \emph{Pivot-Element} aus.  Anschließend läuft der Index \texttt{leftIdx} ausgehend von
+      dem Index $\texttt{start} + 1$ von links nach rechts bis ein Element gefunden wird, das größer als 
+      das Pivot-Element ist. Analog läuft der Index $\mathtt{rightIdx}$ ausgehend von dem
+      Index \texttt{end} von rechts nach links, bis ein Element gefunden wird, dass kleiner
+      oder gleich dem Pivot-Element ist. Falls nun \texttt{leftIdx} kleiner als
+      \texttt{rightIdx} ist, werden die entsprechenden Elemente des Feldes ausgetauscht.  In
+      dem Moment, wo \texttt{leftIdx} größer oder gleich \texttt{rightIdx} wird, wird dieser
+      Prozeß abgebrochen. Jetzt wird noch das Pivot-Element in die Mitte gestellt,
+      anschließend wird \texttt{rightIdx} zurück gegeben.
+\item Der Aufruf $\texttt{swap}(i, j)$ vertauscht die Elemente des Arrays \texttt{mArray},
+      die die Indizes $i$ und $j$ haben.  
+\end{enumerate}
+Der einfachste Weg um zu verstehen, wie die Methode \texttt{partition} funktioniert,
+besteht darin, diese Methode an Hand eines Beispiels auszuprobieren.  Wir betrachten dazu 
+einen Ausschnitt aus einem Feld, der die Form 
+\[ \cdots,\; 7,\; 2,\; 9,\; 1,\; 8,\; 5,\; 11,\;\cdots \]
+hat.  Wir nehmen an, dass der Index \texttt{start} die Position der Zahl 7 angibt und das
+der Index \texttt{end} auf die 11 zeigt.  
+\begin{enumerate}
+\item Dann zeigt der Index \texttt{left} zunächst auf
+      die Zahl 2 und der Index \texttt{right} zeigt auf die die Zahl 11.
+\item Die erste \texttt{while}-Schleife vergleicht zunächst die Zahl 2 mit der Zahl 7.
+      Da $2 \leq 7$ ist, wird der Index \texttt{left} inkrementiert, so dass er jetzt auf 
+      die Zahl 9 zeigt.
+\item Anschließend vergleicht die  erste \texttt{while}-Schleife die Zahlen 9 und 7.
+      Da $\neg(9 \leq 7)$ ist, wird die erste \texttt{while}-Schleife abgebrochen.
+\item Nun startet die zweite \texttt{while}-Schleife und vergleicht die Zahlen 7 und 11.
+      Da $7 < 11$ ist, wird der Index \texttt{right} dekrementiert und zeigt nun auf die
+      Zahl 5.
+\item Da $\neg (7 < 5)$ ist, wird auch die zweite \texttt{while}-Schleife abgebrochen.
+\item Anschließend wir geprüft, ob der Index \texttt{right} bereits über den Index
+      \texttt{left} hinüber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
+      gilt.   Dies ist aber nicht der Fall, denn \texttt{left} zeigt auf die 9,
+      während \texttt{right} auf die 5 zeigt, die rechts von der 9 liegt.
+      Daher wird die äußere \texttt{while}-Schleife noch nicht abgebrochen.
+\item Jetzt werden die Elemente, auf die die Indizes \texttt{left} und \texttt{right}
+      zeigen, vertauscht.  In diesem Fall werden also die Zahlen 9 und 5 vertauscht.
+      Damit hat der Ausschnitt aus dem Feld die Form
+      \[ \cdots,\; 7,\; 2,\; 5,\; 1,\; 8,\; 9,\; 11,\;\cdots \]
+\item Jetzt geht es in die zweite Runde der äußeren \texttt{while}-Schleife.
+      Zunächst vergleichen wir in der inneren \texttt{while}-Schleife die Elemente
+      5 und 7.  Da $5 \leq 7$ ist, wird der Index \texttt{left} inkrementiert.
+\item Dann vergleichen wir die Zahlen 1 und 7.  Da $1 \leq 7$ ist, wird der Index
+      \texttt{left} ein weiteres Mal inkrementiert und zeigt nun auf die 8.
+\item Der Vergleich $8 \leq 7$ fällt negativ aus, daher wird die erste
+      \texttt{while}-Schleife jetzt abgebrochen.
+\item Die zweite \texttt{while}-Schleife vergleicht nun 7 und 9.  Da $7 < 9$ ist,
+      wird der Index \texttt{right} dekrementiert und zeigt jetzt auf die 8.
+\item Anschließend werden die Zahlen 7 und 8 verglichen.  Da auch $7 < 8$ gilt, wird der
+      Index \texttt{right} ein weiteres Mal dekrementiert und zeigt nun auf die 1.
+\item Jetzt werden die Zahlen 7 und 1 verglichen.  Wegen $\neg (7 < 1)$ bricht nun die
+      zweite \texttt{while}-Schleife ab.
+\item Nun wird geprüft, ob der Index \texttt{right} über den Index
+      \texttt{left} hinüber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
+      gilt.  Diesmal ist der Test positiv, denn \texttt{left} zeigt auf die 8,
+      während \texttt{right} auf die 1 zeigt, die links von der 8 steht.
+      Also wird die äußere Schleife durch den \texttt{break}-Befehl in Zeile 28
+      abgebrochen.
+\item Zum Abschluß wird das Pivot-Element, das durch den Index \texttt{start}
+      identifiziert wird, mit dem Element vertauscht, auf das der Index \texttt{right}
+      zeigt,  wir vertauschen also die Elemente 7 und 1.  Damit hat das Feld die Form
+      \[ \cdots,\; 1,\; 2,\; 5,\; 7,\; 8,\; 9,\; 11,\;\cdots \]
+      Als Ergebnis wird nun der Index \texttt{right}, der jetzt auf das Pivot-Element
+      zeigt, zurück gegeben.
+\end{enumerate}
+ 
+\subsection{Korrektheit}
+Die Implementierung der Methode \texttt{partition} ist trickreich.  Daher untersuchen wir
+die Korrektheit der Methode jetzt im Detail.  Zunächst formulieren wir Invarianten, die
+für die äußere \texttt{while}-Schleife, die sich von Zeile 21 bis Zeile 30 erstreckt,
+gelten.  Insgesamt gibt es fünf Invarianten:
+\begin{enumerate}
+\item[(I1)] $\forall i \in \{ \mathtt{start}+1, \cdots, \mathtt{left} - 1 \} \colon\; \mathtt{mArray}[i] \preceq x$
+\item[(I2)] $\forall j \in \{ \mathtt{right}+1, \cdots, \mathtt{end} \} \colon\; x \prec \mathtt{mArray}[j]$
+\item[(I3)] $\mathtt{start}+1 \leq \mathtt{left}$ 
+\item[(I4)] $\mathtt{right} \leq \mathtt{end}$ 
+\item[(I5)] $\mathtt{left} \leq \mathtt{right} + 1$
+\end{enumerate}
+Wir weisen die Gültigkeit dieser Invarianten nach.  Dazu ist zunächst zu zeigen,
+dass diese Invarianten dann erfüllt sind, wenn die Schleife zum ersten Mal durchlaufen wird.
+Zu Beginn gilt \\[0.1cm]
+\hspace*{1.3cm} $\texttt{left} = \mathtt{start} + 1$. \\[0.1cm]
+Daraus folgt sofort, dass die dritte Invariante anfangs erfüllt ist.  Außerdem gilt dann \\[0.1cm]
+\hspace*{1.3cm} 
+$\{ \mathtt{start}+1, \cdots, \mathtt{left}-1 \} = \{ \mathtt{start}+1, \cdots, \mathtt{start} \} = \{\}$
+\\[0.1cm]
+und damit ist auch klar, dass die erste Invariante gilt, denn für $\mathtt{left} = \mathtt{start}+1$
+ist die erste Invariante eine leere Aussage.  Weiter gilt zu Beginn \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{right} = \mathtt{end}$,
+\\[0.1cm]
+woraus unmittelbar die Gültigkeit der vierten Invariante folgt.  Außerdem gilt dann \\[0.1cm]
+\hspace*{1.3cm} 
+$\{ \mathtt{right}+1, \cdots, \mathtt{end} \} = \{ \mathtt{end}+1, \cdots, \mathtt{end} \} = \{\}$,
+\\[0.1cm]
+so dass auch die zweite Invariante trivialerweise erfüllt ist.  Für die fünfte Invariante gilt anfangs
+ \\[0.1cm]
+\hspace*{1.3cm} 
+$\mathtt{left} \leq \mathtt{right} + 1 \;\leftrightarrow\; \mathtt{start} + 1 \leq \mathtt{end} + 1 \;\leftrightarrow\;
+  \mathtt{start} \leq \mathtt{end} \;\leftrightarrow\; \mathtt{true}$,
+\\[0.1cm]
+denn die Methode $\texttt{partition}(\texttt{start}, \texttt{end})$ wird nur aufgerufen,
+falls $\mathtt{start} < \mathtt{end}$ ist.
+\vspace*{0.3cm}
+
+\noindent
+Als nächstes zeigen wir, dass die Invarianten bei einem Schleifen-Durchlauf erhalten
+bleiben.  
+\begin{enumerate}
+\item Die erste Invariante gilt, weil \texttt{left} nur dann inkrementiert wird,
+      wenn vorher \\[0.1cm]
+      \hspace*{1.3cm} $\texttt{mArray}[\texttt{left}] \preceq x$ \\[0.1cm]
+      gilt.  Wenn die Menge $\{\mathtt{start}+1, \cdots, \mathtt{left}-1\}$ also um 
+      $i = \mathtt{left}$ vergrößert wird, so ist sichergestellt, dass für dieses $i$ gilt:
+      \\[0.1cm]
+      \hspace*{1.3cm} $\texttt{mArray}[i] \preceq x$.
+\item Die zweite Invariante gilt, weil \texttt{right} nur dann dekrementiert wird,
+      wenn vorher \\[0.1cm]
+      \hspace*{1.3cm} $x \prec \texttt{mArray}[\texttt{right}]$ \\[0.1cm]
+      gilt.  Wenn die Menge $\{\mathtt{right}+1, \cdots, \mathtt{end}\}$ also um 
+      $i = \mathtt{right}$ vergrößert wird, so ist sichergestellt, dass für dieses $i$ gilt
+      \\[0.1cm]
+      \hspace*{1.3cm} $x \prec \texttt{mArray}[i]$.
+\item Die Gültigkeit der dritten Invariante folgt aus der Tatsache, dass \texttt{left}
+      in der ganzen Schleife höchstens inkrementiert wird.  Wenn also zu Beginn 
+      $\mathtt{start} + 1 \leq \mathtt{left}$ gilt, so wird dies immer gelten.  
+\item Analog ist die vierten Invariante gültig, weil zu Beginn $\mathtt{right} \leq \mathtt{end}$ gilt und
+      \texttt{right} immer nur dekrementiert wird.
+\item Aus den ersten beiden Invarianten (I1) und (I2) folgt: \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\{ \mathtt{start}+1, \cdots, \mathtt{left} - 1 \} \cap \{ \mathtt{right}+1, \cdots, \mathtt{end} \} = \{\}$,
+      \\[0.1cm]
+      denn ein Element des Arrays kann nicht gleichzeigt kleiner-gleich $x$ und 
+      größer $x$ sein.
+      Wenn $\texttt{right} + 1 \leq \texttt{end}$ ist, dann ist die zweite Menge
+      nicht-leer und es folgt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{left} - 1 < \mathtt{right} + 1$ \quad und das impliziert \quad $\mathtt{left} \leq \mathtt{right} + 1$. 
+      \\[0.1cm]
+      Andernfalls gilt $\texttt{right}=\mathtt{end}$.  Dann haben wir 
+      \\[0.1cm]
+      \hspace*{1.3cm}
+      $\mathtt{left} \leq \mathtt{right} + 1 \;\leftrightarrow\;
+       \mathtt{left} \leq \mathtt{end} + 1 \;\leftrightarrow\; \mathtt{true}$,
+      \\[0.1cm]
+      denn wenn $\texttt{left} > \mathtt{end}$ ist, wird \texttt{left} in der ersten
+      Schleife nicht mehr erhöht.  \texttt{left} wird nur dann und auch nur um 1
+      inkrementiert, solange $\texttt{left} \leq \mathtt{end}$ gilt.
+      Also kann \texttt{left} maximal den Wert $\texttt{end} + 1$ annehmen.
+\end{enumerate}
+Um den Beweis der Korrektheit abzuschließen, muß noch gezeigt werden, dass 
+alle \texttt{while}-Schleifen terminieren.  Für die erste innere
+\texttt{while}-Schleife folgt das daraus, dass bei jedem Schleifen-Durchlauf die Variable
+\texttt{left} inkrementiert wird.  Da die Schleife andererseits der Bedingung \\[0.1cm]
+\hspace*{1.3cm} $\texttt{left} \leq \mathtt{end}$ \\[0.1cm]
+enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muß
+irgendwann abbrechen. 
+
+Die zweite innere
+\texttt{while}-Schleife terminiert, weil einerseits \texttt{right} in jedem Schleifen-Durchlauf
+dekrementiert wird und andererseits aus der dritten und der fünften Invariante folgt: \\[0.1cm]
+\hspace*{1.3cm} $\texttt{right} + 1\geq \texttt{left} \geq \mathtt{start} + 1$. \\[0.1cm]
+Die äußere \texttt{while}-Schleife terminiert, weil die Menge \\[0.1cm]
+\hspace*{1.3cm} $M = \{ \mathtt{left}, \cdots, \mathtt{right} \}$ \\[0.1cm]
+ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung durch:
+\begin{enumerate}
+\item Fall: Nach dem Ende der Schleife in Zeile 22 -- 24 gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{left} > \mathtt{end}$. \\[0.1cm]
+      Diese Schleife bricht also ab, weil die Bedingung $\mathtt{left} \leq \mathtt{end}$
+      verletzt ist.  Wir haben oben schon gesehen, dass dann \\[0.1cm]
+      \hspace*{1.3cm} 
+      $\texttt{left} = \mathtt{end} + 1$ \quad und \quad $\mathtt{right} = \mathtt{end}$
+      \\[0.1cm]
+      gelten muß.  Daraus folgt aber sofort \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{left} > \mathtt{right}$ \\[0.1cm]
+      und folglich wird die Schleife durch den Befehl \texttt{break} in Zeile 28 abgebrochen.
+\item Fall: Nach dem Ende der Schleife in Zeile 6 --- 8 gilt \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{left} \leq \mathtt{end}$. \\[0.1cm]
+      Die Schleife bricht also ab, weil die Bedingung 
+      $\mathtt{mArray}[\mathtt{left}] \preceq x$ verletzt ist, es gilt also \\[0.1cm]
+      \hspace*{1.3cm} $x \prec \mathtt{mArray}[\mathtt{left}]$. \\[0.1cm]
+      Analog gilt nach dem Abbruch der zweiten inneren \texttt{while}-Schleife \\[0.1cm]
+      \hspace*{1.3cm} $\mathtt{mArray}[\mathtt{right}] \preceq x$. \\[0.1cm]
+      Wenn die äußere Schleife nun nicht abbricht weil $\texttt{left} < \mathtt{right}$ ist,
+      dann werden die Elemente $\mathtt{mArray}[\mathtt{left}]$ und
+      $\mathtt{mArray}[\mathtt{right}]$ vertauscht.  Nach dieser Vertauschung gilt 
+      offenbar \\[0.1cm]
+      \hspace*{1.3cm} 
+      $x \prec \mathtt{mArray}[\mathtt{right}]$ \quad und \quad $\mathtt{mArray}[\mathtt{left}] \preceq x$. 
+      \\[0.1cm]
+      Wenn nun also die äußere Schleife erneut durchlaufen wird, dann wird die zweite
+      innere Schleife mindestens einmal durchlaufen, so dass also \texttt{right}
+      dekrementiert wird und folglich die Menge $M = \{ \mathtt{left}, \cdots, \mathtt{right} \}$ 
+      um ein Element verkleinert wird.  Das geht aber nur endlich oft, denn spätestens
+      wenn die Menge leer ist, gilt $\mathtt{left} = \mathtt{right} + 1$
+      und die Schleife wird durch den Befehl \texttt{break} in Zeile 28 abgebrochen. 
+\end{enumerate}
+Jetzt haben wir alles Material zusammen, um die Korrektheit unserer Implementierung zu zeigen.
+Da die Schleife abbricht, gilt $\mathtt{left} > \mathtt{right}$.  Wegen der fünften
+Invariante gilt $\texttt{left} \leq \mathtt{right} + 1$.  Also gibt es nur noch die
+Möglichkeit
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{left} = \mathtt{right} +
+1$.
+\\[0.2cm]  
+Wegen den ersten beiden Invarianten
+wissen wir also \\[0.1cm]
+\hspace*{1.3cm} 
+ $\forall i \in \{ \mathtt{start}+1, \cdots, \mathtt{right} \} \colon\; \mathtt{mArray}[i] \preceq x$ \\[0.1cm]
+\hspace*{1.3cm} 
+ $\forall j \in \{ \mathtt{right}+1, \cdots, \mathtt{end} \} \colon\; x \prec \mathtt{mArray}[j]$
+\\[0.1cm]
+Durch das \texttt{swap} in Zeile 17 wird nun $x$ mit dem Element an der Position
+\texttt{right} vertauscht.  Dann sind anschließend alle Elemente links von $x$
+kleiner-gleich $x$ und alle Elemente rechts von $x$ sind größer.
+Damit ist die Korrektheit von \texttt{partition}() nachgewiesen.
+
+\subsection{Mögliche Verbesserungen}
+In der Praxis gibt es noch eine Reihe Tricks, um die Implementierung von \emph{Quick-Sort}
+effizienter zu machen:
+\begin{enumerate}
+\item Anstatt immer das erste Element als Pivot-Element zu wählen,
+      werden drei Elemente aus der zu sortierenden Liste ausgewählt,
+      z.~B.~das erste, das letzte und ein Element aus der Mitte des Feldes.
+      Als Pivot-Element wird dann das Element gewählt, was der Größe nach zwischen den
+      anderen Elementen liegt.
+
+      Der Vorteil dieser Strategie liegt darin, dass der schlechteste Fall, bei dem die Laufzeit
+      von \emph{Quick-Sort} quadratisch ist, wesentlich unwahrscheinlicher wird.
+      Insbesondere kann der schlechteste Fall nicht mehr bei Listen auftreten, die bereits
+      sortiert sind.
+\item Falls weniger als 10 Elemente zu sortieren sind, wird auf ``\emph{Sortieren durch Einfügen}''
+      zurück gegriffen.
+\end{enumerate}
+Der Artikel von Bentley and M. Douglas McIlroy ``\emph{Engineering a Sort Function}''
+\cite{bentley:93} beschreibt diese und weitere Verbesserungen des Quick-Sort Algorithmus. 
+%\textbf{Aufgabe}: Implementieren Sie diese Verbesserungen.
+
+\section{Bewertung der Algorithmen}
+Für die Praxis empfehle ich den Einsatz von ``\emph{Sortieren durch Mischen}'', denn dieser Algorithmus hat auch im schlechtesten Fall 
+eine Komplexität der Form $\Oh\bigl(n\cdot \ln(n)\bigr)$, der Algorithmus ist folglich robust.
+Es ist zwar in der Praxis so, dass \emph{Quick-Sort} für viele Anwendungen fast doppelt   
+so schnell ist wie ``\emph{Sortieren durch Mischen}'', trotzdem gibt es zwei Gründe, die gegen den Einsatz von
+\emph{Quick-Sort} sprechen:
+\begin{enumerate}
+\item Die Implementierung von \emph{Quick-Sort} in einer Sprache wie \textsl{Java} ist erheblich komplizierter als 
+      die Implementierung von ``\emph{Sortieren durch Mischen}''.
+      Bei \emph{Quick-Sort} ist es insbesondere leicht, subtile Fehler zu machen, die durch Tests nur schwer 
+      zu entdecken sind.  Es gibt eine Reihe Lehrbücher die diesen Punkt dadurch belegen, dass sie
+      \underline{fehlerhafte} Versionen von \emph{Quick-Sort} angeben.
+\item Im schlechtesten Fall ist die Komplexität von \emph{Quick-Sort} eben doch quadratisch und dann dauert das
+      Sortieren wesentlich länger als beim ``\emph{Sortieren durch Mischen}''.
+\end{enumerate}
+Es gibt allerdings eine Situation, in der die Verwendung von \emph{Quick-Sort} dem ``\emph{Sortieren durch Mischen}'' 
+vorzuziehen ist.  Eine Implementierung von \emph{Quick-Sort} in \textsl{Java} kommt mit vergleichsweise wenig Speicherplatz aus,
+denn außer dem zu sortierenden Feld wird eigentlich nur noch etwas Platz auf dem Stack benötigt.  Hingegen
+ist bei der Implementierung von ``\emph{Sortieren durch Mischen}'' ein Hilfs-Feld erforderlich, das die selbe Größe hat
+wie das zu sortierende Feld.  Es wird also in etwa doppelt soviel Speicherplatz benötigt wie bei 
+\emph{Quick-Sort}.
+
+\paragraph{Historisches}  
+Der Quick-Sort-Algorithmus wurde von Charles Antony Richard Hoare \cite{hoare:61}
+entwickelt, der Merge-Sort-Algorithmus geht auf John von Neumann zurück.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithmen"
+%%% End: 

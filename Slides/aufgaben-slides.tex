@@ -1,0 +1,139 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\begin{center}
+\end{center}
+\vspace*{0.5cm}
+
+\tiny
+\textbf{Aufgabe} 3: Der Typ \textsl{BinTree} der bin"are B"aume wird von den folgenden
+Konstruktoren erzeugt:
+\begin{enumerate}
+\item $\mathtt{nil}: \textsl{BinTree}$
+
+      steht f"ur den leeren Baum
+\item $\mathtt{tree}: \mathbb{N} \times \textsl{BinTree} \times \textsl{BinTree} \rightarrow \textsl{BinTree}$
+
+      Dann steht $\mathtt{tree}(n, l, r)$ f"ur den Baum, an dessen Wurzel der Schl"ussel $n$
+      steht mit linkem Teilbaum $l$ und rechten Teilbaum $r$.
+\end{enumerate}
+Darstellung in \texttt{C} durch folgende \texttt{struct}:
+\begin{verbatim}
+typedef struct BinNode* BinNodePtr;
+
+struct BinNode {
+    Key        key;
+    BinNodePtr left;
+    BinNodePtr right;
+};
+\end{verbatim}
+Die Einf"uge--Operation wird wie folgt implementiert:
+\begin{verbatim}
+BinTree insert(BinTree t, unsigned key) {
+    if (t == 0) {
+        BinTree nodePtr = malloc( sizeof(struct BinNode) );
+        nodePtr->key    = key;
+        nodePtr->left   = 0;
+        nodePtr->right  = 0;
+        return nodePtr;
+    }
+    if (key < t->key) {
+        t->left = insert(t->left, key);
+    } else if (key > t->key) {
+        t->right = insert(t->right, key);
+    }
+    return t;
+}
+\end{verbatim}
+
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Aufgaben  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+\footnotesize
+\textbf{Aufgabe} 3, Fortsetzung
+\begin{enumerate}
+\item[(a)] "Ubersetzen Sie die Funktion \texttt{insert} in bedingte Gleichungen.
+\item[(b)] Definieren Sie mit Hilfe von bedingten Gleichungen eine Funktion \\[0.3cm]
+           \hspace*{1.3cm} $\texttt{ordered}: \textsl{BinTree} \rightarrow \mathbb{B}$ \\[0.3cm]
+           so, dass $\texttt{ordered}$ genau dann gilt, wenn
+           \begin{enumerate}
+           \item[1.] Der Schl"ussel an der Wurzel kleiner ist als alle Schl"ussel im
+                 rechten Teilbaum.
+           \item[2.] Der Schl"ussel an der Wurzel gr"o\3er ist als alle Schl"ussel im
+                 linken Teilbaum.
+           \end{enumerate}
+           \textbf{Hinweis}: Definieren Sie geeignete Hilfs--Funktionen.
+\item[(c)] Zeigen Sie durch Induktion, dass gilt  \\[0.3cm]
+            \hspace*{1.3cm}             $\mathtt{ordered}(t) \rightarrow
+\mathtt{ordered}(\mathtt{insert}(t,k))$
+\item[(d)] Definieren Sie mit Hilfe bedingter Gleichungen eine Funktion \\[0.3cm]
+           \hspace*{1.3cm} $\texttt{count}: \textsl{BinTree} \rightarrow \mathbb{N}$ \\[0.3cm]
+           die die Anzahl der Schl"ussel in einem Baum z"ahlt.
+\item[(e)] Zeigen Sie durch Induktion, dass gilt  \\[0.3cm]
+           \hspace*{1.3cm} $\mathtt{count}(\mathtt{insert}(t,k)) \leq \mathtt{count}(t)$
+\item[(f)] Geben Sie einen Baum $t \in \textsl{BinTree}$ und einen Schl"ussel 
+           $k \in \mathbb{N}$ an, f"ur den gilt: \\[0.3cm]
+           \hspace*{1.3cm} $\mathtt{count}(\mathtt{insert}(t,k)) < \mathtt{count}(t)$
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Aufgaben  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{}
+\normalsize
+
+
+\footnotesize
+\textbf{Aufgabe 4}: Betrachten Sie die folgende \texttt{C} Funktion:
+\begin{verbatim}
+    0   double mystery(double x, unsigned n)
+    1   {
+    2       if (n == 0)
+    3           return 0;
+    4       double y = mystery(x, n / 2);
+    5       if (n % 2 == 0) {
+    6           return y + y;
+    7       } else {
+    8           return x + y + y;
+    9       }
+    10   }
+\end{verbatim}
+(Die Zeilennummern sind nicht Teil des Programms!)
+\begin{enumerate}
+\item[(a)] Was berechnet dieses Programm?
+\item[(b)] Beweisen Sie Ihre Behauptung.
+\item[(c)] Nehmen Sie an, dass $n = 2^k$ gilt.  Berechnen Sie die Zahl
+           der Additionen, die beim Aufruf von \\[0.3cm]
+           \hspace*{1.3cm} \texttt{mystery(x,n)} \\[0.3cm]
+           ausgef"uhrt werden.
+
+           \textbf{Hinweis}: Es sollen nur die Additionen aus den Zeilen 6 und 7 z"ahlen.
+\end{enumerate}
+
+\vspace*{\fill}
+\tiny \addtocounter{mypage}{1}
+\rule{17cm}{1mm}
+Aufgaben  \hspace*{\fill} Seite \arabic{mypage}
+\end{slide}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "aufgaben.tex"
+%%% End: 

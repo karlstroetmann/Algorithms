@@ -1,0 +1,55 @@
+digraph G {
+    nodesep=.05;
+    rankdir=LR;
+    node [shape=record, width=.1, height=.1];
+
+    root0 [label = "<f0> 0|<f1> 1|<f2> 2|<f3> 3|<f4> 4|<f5> 5|<f6> 6|<f7> 7|<f8> 8|<f9> 9|<f10> 10|<f11> 11|<f12> 12|<f13> 13|<f14> 14|<f15> 15|<f16> 16|<f17> 17|<f18> 18|<f19> 19|<f20> 20|<f21> 21 ", height=8.0];
+    node [width = 1.5];
+    node0 [label = "{<n> Leskiewicz }" ];
+    node1 [label = "{<n> Jakubovic }" ];
+    node2 [label = "{<n> Tyrann }" ];
+    node8 [label = "{<n> Stoll }"];
+    node10 [label = "{<n> Gerlach }"];
+    node11 [label = "{<n> Damboeck }"];
+    node12 [label = "{<n> Kohler }"];
+    node13 [label = "{<n> Wojcik }"];
+    node14 [label = "{<n> Hannemann }"];
+    node16 [label = "{<n> Zimmer}"];
+    node17 [label = "{<n> Pfennig }"];
+    node19 [label = "{<n> Schlensog }"];
+    node20 [label = "{<n> Lenz }"];
+
+    node0a [label = "{<n> Guertler }" ];
+    node1a [label = "{<n> Leng }"];
+    node2a [label = "{<n> Roller }" ];
+    node8a [label = "{<n> Markert }"];
+    node12a [label = "{<n> Boer }"];
+    node14a [label = "{<n> Mayer }"];
+    node14b [label = "{<n> Panzer }"];
+    node16a [label = "{<n> Treffert }"];
+    node16b [label = "{<n> Glaub }"];
+
+    node0:n -> node0a:n;
+    node1:n -> node1a:n;
+    node2:n -> node2a:n;
+    node8:n -> node8a:n;
+    node12:n -> node12a:n;
+    node14:n -> node14a:n;
+    node14a:n -> node14b:n;
+    node16:n -> node16a:n;
+    node16a:n -> node16b:n;
+
+    root0:f0 -> node0:n;
+    root0:f1 -> node1:n;
+    root0:f2 -> node2:n;
+    root0:f8 -> node8:n;
+    root0:f10 -> node10:n;
+    root0:f11 -> node11:n;
+    root0:f12 -> node12:n;
+    root0:f13 -> node13:n;
+    root0:f14 -> node14:n;
+    root0:f16 -> node16:n;
+    root0:f17 -> node17:n;
+    root0:f19 -> node19:n;
+    root0:f20 -> node20:n;
+}

@@ -1,0 +1,18 @@
+program main;
+
+    for i in { 1 .. 100 } loop
+        print(i, " ** ", i, " = ", produkt(i,i));
+    end loop;
+
+    procedure produkt(m, n);
+        if n = 0 then
+            return 0;
+        end if;
+        p := produkt(m, n / 2);
+        if n mod 2 = 0 then
+            return p + p;
+        else
+            return m + p + p;
+        end if;
+    end produkt;
+end main;
