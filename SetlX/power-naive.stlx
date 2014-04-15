@@ -1,6 +1,6 @@
 power := procedure(m, n) {
-    r := 1;
-    for (i in {1 .. n}) {
+    r := m;
+    for (i in {2 .. n}) {
         r := r * m;
     }
     return r;
