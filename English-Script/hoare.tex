@@ -5,7 +5,7 @@ Hoare logic has been introduced 1969 by
 \href{http://en.wikipedia.org/wiki/C._A._R._Hoare}{Sir Charles Antony Richard Hoare}.
  
 
-\section{Preconditions and Postconditions}
+\section[Preconditions]{Preconditions and Postconditions}
 Hoare logic is based on preconditions and postconditions.  If \texttt{P}
  is a program fragment and if $F$ and $G$ are logical formul\ae, then we call
 $F$ a precondition and $G$ a postcondition for the program fragment \texttt{P}
@@ -479,14 +479,14 @@ gets \texttt{false}.  Therefore, the postcondition of the loop can be strengthen
 \section{The Euclidean  Algorithm}
 In this section we show how the verification rules of the last section can be used to prove the
 correctness of a non-trivial program.
-We will show that the algorithm shown in Figure \ref{fig:ggt.stlx} on page \pageref{fig:ggt.stlx} is correct.
+We will show that the algorithm shown in Figure \ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx} is correct.
 The procedure shown in this figure implements the
 \href{http://en.wikipedia.org/wiki/Euclidean_algorithm}{\emph{Euclidean algorithm}}
 to compute the greatest common divisor of two natural numbers.  Our proof is based on the following
-property of the function \texttt{ggt}:
+property of the function \texttt{gcd}:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{ggt}(x + y, y) = \texttt{ggt}(x,y) \quad \mbox{for all $x, y \in \mathbb{N}$}$.
+$\texttt{gcd}(x + y, y) = \texttt{gcd}(x,y) \quad \mbox{for all $x, y \in \mathbb{N}$}$.
 
 
 \begin{figure}[!ht]
@@ -499,7 +499,7 @@ $\texttt{ggt}(x + y, y) = \texttt{ggt}(x,y) \quad \mbox{for all $x, y \in \mathb
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    ggt := procedure(x, y) {
+    gcd := procedure(x, y) {
         while (x != y) {
             if (x < y) {
                 y := y - x;
@@ -512,7 +512,7 @@ $\texttt{ggt}(x + y, y) = \texttt{ggt}(x,y) \quad \mbox{for all $x, y \in \mathb
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{The Euclidean Algorithm to compute the greatest common divisor.}
-\label{fig:ggt.stlx}
+\label{fig:gcd.stlx}
 \end{figure}
 
 \subsection{Correctness Proof of the Euclidean Algorithm} 
@@ -520,13 +520,13 @@ To start our correctness proof we formulate the invariant of the \texttt{while} 
 Let us define
 \\[0.2cm]
 \hspace*{1.3cm}
-$ I := \bigl(x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \bigr)$
+$ I := \bigl(x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \bigr)$
 \\[0.2cm]
 In this formula we have defined the initial values of $x$ and $y$ as $a$ and $b$.
 In order to establish the invariant at the beginning we have to ensure that the function
-\texttt{ggt} is only called with positive natural numbers.  If we denote these numbers as 
+\texttt{gcd} is only called with positive natural numbers.  If we denote these numbers as 
 $a$ and $b$, then the invariant $I$ is valid initially.  The reason is that $x = a$ and $y = b$
-implies $\texttt{ggt}(x,y) = \texttt{ggt}(a,b)$.
+implies $\texttt{gcd}(x,y) = \texttt{gcd}(a,b)$.
 
 
 In order to prove that the invariant $I$ is maintained in the loop we formulate the Hoare triples
@@ -543,22 +543,22 @@ We rewrite the formula $(I \wedge x \not= y \wedge x < y)\sigma$:
  &                 & \bigl(I \wedge x \not= y \wedge x < y\bigr)\sigma \\
  & \leftrightarrow & \bigl(I \wedge x < y\bigr)\sigma 
                      \qquad\qquad \mbox{because $x < y$ implies $x \not= y$} \\
- & \leftrightarrow & \bigl(x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge 
+ & \leftrightarrow & \bigl(x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge 
                      x < y\bigr)[y \mapsto y + x] \\
- & \leftrightarrow & x > 0 \wedge y + x > 0 \wedge \texttt{ggt}(x,y+x) = \texttt{ggt}(a,b)
+ & \leftrightarrow & x > 0 \wedge y + x > 0 \wedge \texttt{gcd}(x,y+x) = \texttt{gcd}(a,b)
                      \wedge x < y + x \\
- & \leftrightarrow & x > 0 \wedge y + x > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge 0 < y
+ & \leftrightarrow & x > 0 \wedge y + x > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge 0 < y
 \end{eqnarray*}
 In the last step we have used the formula
 \\[0.2cm]
 \hspace*{1.3cm}
-$ \texttt{ggt}(x,y+x) = \texttt{ggt}(x,y) $
+$ \texttt{gcd}(x,y+x) = \texttt{gcd}(x,y) $
 \\[0.2cm]
 and we have simplified the inequality $x < y + x$ as $0 < y$.
 The last formula implies
 \\[0.2cm]
 \hspace*{1.3cm}
-$ x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) $.
+$ x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) $.
 \\[0.2cm]
 However, this is precisely the invariant $I$.  Therefore we have shown that
 \begin{equation}
@@ -574,17 +574,17 @@ where $\sigma = [x \mapsto x + y]$. The expression $(I \wedge x \not= y \wedge x
 \begin{eqnarray*}
  &   & \bigl(I \wedge x \not= y \wedge x \geq y\bigr)\sigma \\
  & \leftrightarrow & \bigl(I \wedge x > y \bigr)\sigma \\
- & \leftrightarrow & \bigl(x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge 
+ & \leftrightarrow & \bigl(x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge 
              x > y \bigr)[x \mapsto x + y] \\
- & \leftrightarrow & x + y > 0 \wedge y > 0 \wedge \texttt{ggt}(x+y,y) = \texttt{ggt}(a,b) 
+ & \leftrightarrow & x + y > 0 \wedge y > 0 \wedge \texttt{gcd}(x+y,y) = \texttt{gcd}(a,b) 
        \wedge x + y > y  \\
- & \leftrightarrow & x + y > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) 
+ & \leftrightarrow & x + y > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) 
        \wedge x > 0 
 \end{eqnarray*}
 The last formula implies that
 \\[0.2cm]
 \hspace*{1.3cm}
-$ x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b). $
+$ x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b). $
 \\[0.2cm]
 holds.  Again, this is our invariant $I$.  Therefore we have shown that
 \begin{equation}
@@ -619,14 +619,14 @@ Expanding the invariant $I$ in the formula $I \wedge x = y$ shows that the postc
 \texttt{while} loop is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y$.
+$x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge x = y$.
 \\[0.2cm]
 Now the correctness of the Euclidean algorithm can be established as follows:
 \begin{eqnarray*}
-&             &  x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y \\
-& \Rightarrow & \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y \\
-& \Rightarrow & \texttt{ggt}(x,x) = \texttt{ggt}(a,b)  \\
-& \Rightarrow & x = \texttt{ggt}(a,b) \qquad\qquad \mathrm{because} \quad \texttt{ggt}(x,x) = x.
+&             &  x > 0 \wedge y > 0 \wedge \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge x = y \\
+& \Rightarrow & \texttt{gcd}(x,y) = \texttt{gcd}(a,b) \wedge x = y \\
+& \Rightarrow & \texttt{gcd}(x,x) = \texttt{gcd}(a,b)  \\
+& \Rightarrow & x = \texttt{gcd}(a,b) \qquad\qquad \mathrm{because} \quad \texttt{gcd}(x,x) = x.
 \end{eqnarray*}
 All in all we have shown the following: If the \texttt{while} loop terminates, then
 the variable $x$ will be set to the greatest common divisor of $a$ and $b$, where $a$ and $b$ are
@@ -823,7 +823,7 @@ Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx}.  During the proo
 use of the fact that for all positive natural numbers $a$ and $b$ the equation
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{ggt}(a, b) = \mathtt{ggt}(a \,\texttt{\%}\, b, b)$
+$\mathtt{gcd}(a, b) = \mathtt{gcd}(a \,\texttt{\%}\, b, b)$
 \\[0.2cm]
 is valid.  
 
@@ -838,7 +838,7 @@ is valid.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    ggt := procedure(a, b) {
+    gcd := procedure(a, b) {
         while (b != 0) {
             r := a % b;
             a := b;
