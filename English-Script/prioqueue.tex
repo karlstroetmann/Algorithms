@@ -1,4 +1,4 @@
-\chapter{Prioritäts-Warteschlangen \label{chap:prioqueue}}
+\chapter{Priority Queues \label{chap:prioqueue}}
 Um den Begriff der  \emph{Prioritäts-Warteschlange} zu verstehen, betrachten wir zunächst
 den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingefügt und vorne werden
 Daten entnommen. Das führt dazu, dass Daten in der selben Reihenfolge entnommen werden,
@@ -17,7 +17,7 @@ kürzester Wege in einem Graphen einsetzen.  Daneben werden Prioritäts-Warteschla
 Simulations-Systemen und beim Scheduling von Prozessen in Betriebs-Systemen eingesetzt.
 
 
-\section{Definition des ADT \textsl{PrioQueue}}
+\section[Definition]{Definition des ADT \textsl{PrioQueue}}
 Wir versuchen den Begriff der Prioritäts-Warteschlange jetzt formal durch Definition eines
 abstrakten Daten-Typs zu fassen.
 Wir geben hier eine eingeschränkte Definition von Prioritäts-Warteschlangen, die nur die
@@ -118,7 +118,7 @@ Implementierung vorstellen, bei der die Komplexität von $\textsl{insert}()$
  den Wert $\Oh\bigl(\log(n)\bigr)$ hat.  Dazu führen wir die Daten-Struktur eines
  \emph{Heaps} ein.
 
-\section{Die Daten-Struktur \emph{Heap}}
+\section[Heaps]{Die Daten-Struktur \emph{Heap}}
 Wir definieren die Menge \textsl{Heap}\footnote{
 Der Begriff \textsl{Heap} wird in der Informatik für zwei völlig unterschiedliche Dinge
 verwendet:  Zum einen wird die in diesem Abschnitt beschriebene Daten-Struktur als
@@ -284,7 +284,7 @@ balancing condition.
 
 
 
-\section{Implementing \textsl{Heaps} in \textsc{SetlX}}
+\section[Implementation]{Implementing \textsl{Heaps} in \textsc{SetlX}}
 
 \begin{figure}[bt]
 \centering

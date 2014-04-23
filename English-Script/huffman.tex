@@ -26,7 +26,7 @@ $m \cdot b$ Bits gebraucht.  Nun gibt es zwei Möglichkeiten, weiterzumachen:
 \end{enumerate}
 
 
-\section{Motivation des Algorithmus von Huffman}
+\section[Motivation]{Motivation des Algorithmus von Huffman}
 Die zentrale Idee des von Huffman entwickelten Algorithmus ist die, dass Buchstaben, die sehr
 häufig auftreten, mit möglichst wenig Bits kodiert werden, während Buchstaben, die sehr selten
 auftreten, mit einer größeren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
@@ -99,7 +99,7 @@ führen uns nun zu dem Buchstaben ``\texttt{d}''.  Damit haben wir insgesamt
 ``\texttt{100111}'' $\simeq$ ``\texttt{bad}''.
 
 
-\section{Der Algorithmus von Huffman}
+\section[Huffman's Algorithm]{Der Algorithmus von Huffman}
 Angenommen, wir haben einen String $s$, der aus Buchstaben eines Alphabets $\Sigma$
 aufgebaut ist.  Wie finden wir dann eine Kodierung für die einzelnen Buchstaben, die
 mit möglichst wenig Bits auskommt?  Der Algorithmus von Huffman gibt eine Antwort auf diese
@@ -472,7 +472,7 @@ Häufigkeit &          1 &          1 &          2 &          3 &          5 &   
 \end{enumerate}
 
 
-\section{The Algorithm  of Lempel, Ziv, and Welch}
+\section[LZW Algorithm]{The Algorithm  of Lempel, Ziv, and Welch}
 The algorithm developed by Abraham Lempel, Jacob Ziv \cite{ziv:77,ziv:78} and Terry A.~Welch
 \cite{welch:84}, which is also known as the \emph{LZW algorithm}, is based on the idea that in most
 texts certain combinations of letters are quite frequent.  Therefore, it should pay of to view

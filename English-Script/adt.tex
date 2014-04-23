@@ -7,7 +7,7 @@ structures used in these algorithms.  The next section gives a formal definition
 The second section shows how abstract data types are supported in \textsc{SetlX}.  Finally, we show how stacks can be used
 to evaluate arithmetic expressions.
 
-\section{A Formal Definition of Abstract Data Types}
+\section[Formal Defintion]{A Formal Definition of Abstract Data Types}
 Formally, an \emph{abstract data type} $\mathcal{D}$ is defined as a 5-tupel of the form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -131,7 +131,7 @@ later see how,  using three stacks, arithmetic expressions can be evaluated.
 
 
 
-\section{Implementing Abstract Data Types in \textsc{SetlX}}
+\section[Implementation]{Implementing Abstract Data Types in \textsc{SetlX}}
 In an object oriented programming language, abstract data types are conveniently implemented via a
 class.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
 is to create an interface describing the signatures of the abstract data type and then to implement
@@ -351,7 +351,7 @@ implement it.  If an abstract data type is done right, it can be used without kn
 that are administered by the abstract data type are actually represented.
 
 
-\section{Evaluation of Arithmetic Expressions}
+\section[Arithmetic Expressions]{Evaluation of Arithmetic Expressions}
 Next, in order to demonstrate the usefulness of stacks, we show how \emph{arithmetic expressions} can be
 evaluated using stacks.  An \emph{arithmetic expression} is a string that is made up of numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
@@ -769,7 +769,7 @@ Figure \ref{fig:calculator.setlx-1}.
 \end{enumerate}
 
 
-\section{Benefits of Using Abstract Data Types}
+\section[Benefits]{Benefits of Using Abstract Data Types}
 We finish this chapter with a short discussion of the benefits of abstract data types.
  \begin{enumerate}
  \item The use of abstract data types separates an algorithm from the data structures that
