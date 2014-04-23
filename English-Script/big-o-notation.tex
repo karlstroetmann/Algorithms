@@ -89,13 +89,14 @@ as:
 $\R_+^{\;\N_0} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N_0 \rightarrow \R_+$} \}$.
 
 \begin{Definition}[$\Oh(g)$] 
-  Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that \emph{grow at most as fast}
+Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that \emph{grow at most as fast}
   as the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
+  \colorbox{orange}{
   $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \bigl(\exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.
-  \qed
+    \bigl(\exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}
+  \eox
 \end{Definition}
 
 The definition of $\Oh(g)$ contains three nested quantifiers and may be difficult to understand
@@ -206,7 +207,7 @@ such that
 \hspace*{1.3cm}
 $ n \leq c \cdot 2^n$ 
 \\[0.2cm]
-holds for all $n \geq k$.  Let us define $k := 1$ and $c := 1$.  We will then have to show that \\[0.2cm]
+holds for all $n \geq k$.  Let us define $k := 0$ and $c := 1$.  We will then have to show that \\[0.2cm]
 \hspace*{1.3cm} $n \leq 2^n$ \quad holds for all $n \in \N_0$.
 \\[0.2cm]
 We prove this claim by induction on $n$.
@@ -441,8 +442,7 @@ Assume $k \in \N_0$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0
   \lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{\lambda^n} = 0  
 \end{equation}
 is true.  Then the claim is an immediate consequence of the limit proposition. 
-According to 
-\href{http://en.wikipedia.org/wiki/L'Hôpital's_rule}{L'H\^opital's rule},  
+According to L'H\^opital's rule,  
 the limit can be computed as follows: \\[0.2cm]
 \hspace*{1.3cm} 
 $\displaystyle \lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{\lambda^n} =
@@ -941,7 +941,7 @@ We present a simplified version of this theorem.
 \begin{Theorem}[Master Theorem] 
   Assume that 
   \begin{enumerate}
-  \item $\alpha,\beta \in \mathbb{N}$ such that $\alpha \geq 1$ and   $\beta \geq 2$,
+  \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$,
   \item $\delta \in \mathbb{R}$ and $\delta \geq 0$,
   \item the function $f:\N_0 \rightarrow \R_+$ satisfies the recurrence relation
         \\[0.2cm]
@@ -965,8 +965,8 @@ We present a simplified version of this theorem.
 \end{Theorem}
 
 \proof
-We will compute a bound for the expression $f(n)$ but in order to keep our exposition clear
-we will only discuss the case where $n$ is a power of $\beta$, that is $n$ has the form
+We will compute an upper bound for the expression $f(n)$ but in order to keep our exposition clear
+and simple we will only discuss the case where $n$ is a power of $\beta$, that is $n$ has the form
 \\[0.2cm]
 \hspace*{1.3cm}
 $n = \beta^k$ \quad for some $k \in \mathbb{N}$.
@@ -1009,11 +1009,11 @@ $
 \begin{array}[t]{lcl}
   a_k & = & \alpha \cdot a_{k-1} + \Oh\bigl(\gamma^k\bigr)  \\[0.2cm]
       & = & \alpha \cdot \Bigl(\alpha \cdot a_{k-2} + \Oh\bigl(\gamma^{k-1}\bigr)\Bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
+      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr). \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
-Next, we can observe that 
+We observe that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{k-2} = \alpha \cdot a_{k-3} + \Oh\bigl(\gamma^{k-2}\bigr)$
@@ -1025,27 +1025,27 @@ $
 \begin{array}[t]{lcl}
   a_k & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
       & = & \alpha^2 \cdot \Bigl(\alpha \cdot a_{k-3} + \Oh\bigl(\gamma^{k-2}\bigr)\Bigr) + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \Oh\bigl(\gamma^{k-2}\bigr) + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \alpha^0 \cdot \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
+      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \Oh\bigl(\gamma^{k-2}\bigr) + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \alpha^0 \cdot \Oh\bigl(\gamma^k\bigr). \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
-Proceeding in this way we get the general formula
+Proceeding in this way we arrive at the general formula
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}[b]{lcl}
 a_k & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \alpha^{i} \cdot \Oh\bigl(\gamma^{k-i}\bigr) + \alpha^{i-1} \cdot \Oh\bigl(\gamma^{k-(i-1)}\bigr) + \cdots + \alpha^0 \cdot \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-    & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \sum\limits_{j=0}^i \alpha^{j} \cdot \Oh\bigl(\gamma^{k-j}\bigr) \\[0.2cm]
+    & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \sum\limits_{j=0}^i \alpha^{j} \cdot \Oh\bigl(\gamma^{k-j}\bigr). \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
-If we take this formula and set $i + 1 := k$, i.~e.~$i := k - 1$, then we arrive at
+If we take this formula and substitute $i + 1 := k$, i.~e.~$i := k - 1$, then we conclude
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle 
 \begin{array}[b]{lcl}
 a_k & = & \alpha^{k} \cdot a_{0} + \sum\limits_{j=0}^{k-1} \alpha^{j} \cdot \Oh\bigl(\gamma^{k-j}\bigr) \\[0.5cm]
-    & = & \alpha^{k} \cdot a_{0} + \Oh\biggl(\gamma^k \cdot \sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j\biggr)  \\[0.2cm]
+    & = & \alpha^{k} \cdot a_{0} + \Oh\biggl(\gamma^k \cdot \sum\limits_{j=0}^{k-1} \Bigl(\displaystyle\frac{\,\alpha\,}{\gamma}\Bigr)^j\biggr).  \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1057,8 +1057,8 @@ $\sum\limits_{j=0}^n q^j = \bruch{q^{n+1} - 1}{q - 1}$ \quad provided $q \not= 1
 \hspace*{1.3cm}
 $\sum\limits_{j=0}^n q^j = n+1$ \quad if $q = 1$.
 \\[0.2cm]
-For the geometric series given above, $q = \frac{\,\alpha\,}{\gamma}$.  
-In order to proceed, we have to make a case distinction:
+For the geometric series given above, $q = \displaystyle\frac{\,\alpha\,}{\gamma}$.  
+In order to proceed, we have to perform a case distinction:
 \begin{enumerate}
 \item Case: $\alpha < \gamma$, i.~e.~$\alpha < \beta^\delta$.
 
@@ -1285,7 +1285,7 @@ holds.  Using a stronger form of the master theorem it can be shown that
 $f(n) \in \Oh\bigl(n \cdot \log_2(n)\bigr)$
 \\[0.2cm]
 holds.  This example shows that the master theorem, as given in these lecture notes, does not always
-produce the most precise estimation for the asymptotic growth of a function.
+produce the most precise estimate for the asymptotic growth of a function.
 \qed
 
 
@@ -1328,8 +1328,9 @@ bounds concisely, we introduce the big $\Omega$ notation next.
   \underline{at least as fast as} the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
+  \colorbox{orange}{
   $ \Omega(g) \;:=\; \bigl\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow c \cdot g(n) \leq f(n)  \bigr\}$.
+    \exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow c \cdot g(n) \leq f(n)  \bigr\}$.}
   \qed
 \end{Definition}
 
@@ -1346,7 +1347,8 @@ $f$ and $g$ have the same asymptotic growth rate.
   as the function $g$ is defined as
   \\[0.2cm]
   \hspace*{0.5cm} 
-  $ \Theta(g) \;:=\; \Oh(g) \cap \Omega(g)$.
+  \colorbox{orange}{
+  $ \Theta(g) \;:=\; \Oh(g) \cap \Omega(g)$.}
   \qed 
 \end{Definition}
 
