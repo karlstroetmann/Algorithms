@@ -2,7 +2,8 @@
 In this chapter we introduce \href{http://en.wikipedia.org/wiki/Hoare_logic}{\emph{Hoare logic}}.
 This is a formal system that is used to prove the correctness of imperative computer programs.  
 Hoare logic has been introduced 1969 by  
-\href{http://en.wikipedia.org/wiki/C._A._R._Hoare}{Sir Charles Antony Richard Hoare}.
+\href{http://en.wikipedia.org/wiki/C._A._R._Hoare}{Sir Charles Antony Richard Hoare}, 
+who is the inventor of the \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algoritm.
  
 
 \section{Preconditions and Postconditions}
@@ -86,8 +87,9 @@ $h$ is invertible, i.~e.~we assume that there is a function $h^{-1}$ such that w
 \hspace*{1.3cm}
 $ h^{-1}\bigl(h(x)\bigr) = x \quad \mathtt{and} \quad h\bigl(h^{-1}(x)\bigr) = x $
 \\[0.2cm]
-for all $x$.  In order to understand the problem at hand, let us consider an example.
-The assignment
+for all $x$.  Then, the function $h^{-1}$ is the inverse of the function $h$.
+In order to understand the problem of computing the postcondition for the assignment statement given
+above, let us first consider an example.  The assignment
 \\[0.2cm]
 \hspace*{1.3cm}
 $ \texttt{x := x + 1;} $
@@ -116,7 +118,10 @@ $\sigma = \bigl[x \mapsto h^{-1}(x)\bigr]$.
 \\[0.2cm]
 Here, $F\sigma$ denotes the application of the substitution $\sigma$ to the formula $F$.  The
 expression  $F\sigma$ is computed from the expression $F$ by replacing every occurrence of the variable
-$x$ by the term $h^{-1}(x)$.  In order to understand why this is the correct way to compute the 
+$x$ by the term $h^{-1}(x)$.  Therefore, the substitution $\sigma$ undoes the effect of the
+assignment and restores the variables in $F$ to the state before the assignment.
+
+In order to understand why this is the correct way to compute the 
 postcondition, we consider the assignment
 ``\texttt{x := x + 1}'' again and choose the formula $x = 7$ as precondition.  
 Since $h^{-1}(x) = x - 1$, the substitution $\sigma$ is given as
@@ -176,7 +181,7 @@ Therefore, after the assignment the formula
 \hspace*{1.3cm}
 $ F[x \mapsto x_0] \equiv  F[x \mapsto h^{-1}(x)]$ 
 \\[0.2cm]
-is valid and  this is the formula that we had written as $F\sigma$ above.
+is valid and  this is the formula that is written as $F\sigma$ above.
 
 We conclude this discussion with another example.  The unary predicate \textsl{prime} checks whether
 its argument is a prime number.  Therefore, $\textsl{prime}(x)$ is true if $x$ is a prime number.
@@ -215,7 +220,8 @@ Here, $t$ is an arbitrary term that can contain the variable $x$.  This rule can
 \end{minipage}
 \\[0.2cm]
 This rule is obviously correct.  However, it is not very useful because in order to apply this rule 
-we first have to rewrite the precondition as $F(t)$.  If $t$ is some complex term, this can be impossible.
+we first have to rewrite the precondition as $F(t)$.  If $t$ is some complex term, this is often
+very difficult to do.
 
 
 \subsection{The Weakening Rule}
@@ -631,7 +637,7 @@ Now the correctness of the Euclidean algorithm can be established as follows:
 All in all we have shown the following: If the \texttt{while} loop terminates, then
 the variable $x$ will be set to the greatest common divisor of $a$ and $b$, where $a$ and $b$ are
 the initial values of the variables $x$ and $y$.  In order to finish our correctness proof we have
-to show that the while does indeed terminate for all choices of $a$ and $b$.
+to show that the \texttt{while} loop does indeed terminate for all choices of $a$ and $b$.
 To this end let us define the variable $s$ as follows:
 \\[0.2cm]
 \hspace*{1.3cm}

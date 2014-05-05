@@ -541,8 +541,62 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
 \pagebreak
 
 \exercise
-\begin{enumerate}
+
+\begin{enumerate}[(a)]
 \item Assume that $b > 1$.  Prove that $\log_{b}(n) \in \Oh(\ln(n))$.
+
+      \solution
+      By the definition of the natural logarithm we have for any positive number $n$ we have that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $n = \mathrm{e}^{\ln(n)}$, \quad where \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{$\mathrm{e}$} denotes Euler's number.
+      \\[0.2cm]
+      Therefore, we can rewrite the expression $\log_b(n)$
+      as follows:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $
+      \begin{array}[t]{lcl}
+        \log_b(n) & = & \log_b\bigl(\mathrm{e}^{\ln(n)}\bigr) \\[0.2cm]
+                  & = & \ln(n) \cdot \log_b(\mathrm{e})      \\[0.2cm]
+                  & = & \log_b(\mathrm{e}) \cdot \ln(n)
+      \end{array}
+      $
+      \\[0.2cm]
+      This shows that the logarithm with respect to some base $b$ and the natural logarithm 
+      only differ by a constant factor, namely $\log_b(\mathrm{e})$.  Since the big $\mathcal{O}$ notation abstracts from
+      constant factors, we conclude that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\log_{b}(n) \in \Oh(\ln(n))$
+      \\[0.2cm]
+      holds. \qed
+
+      \remark
+      The previous exercise shows that, with respect to the big $\mathcal{O}$ notation, the base of
+      a logarithm is not important.  The reason is that if $b > 1$ and $c > 1$ are both used as
+      bases for the logarithm, we have 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\log_b(n) = \log_b(\mathrm{e}) \cdot \ln(n)$ \quad and \quad $\log_c(n) = \log_c(\mathrm{e}) \cdot \ln(n)$.
+      \\[0.2cm]
+      Solving these equations for $\ln(n)$ yields
+      \\[0.4cm]
+      \hspace*{1.3cm}
+      $\bruch{\log_b(n)}{\log_b(\mathrm{e})} = \ln(n)$ \quad and \quad $\bruch{\log_c(n)}{\log_c(\mathrm{e})} = \ln(n)$.
+      \\[0.2cm]
+      This show that
+      \\[0.4cm]
+      \hspace*{1.3cm}
+      $\bruch{\log_b(n)}{\log_b(\mathrm{e})} = \bruch{\log_c(n)}{\log_c(\mathrm{e})}$
+      \\[0.2cm]
+      holds.  This can be rewritten as
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\log_b(n) = \bruch{\log_b(\mathrm{e})}{\log_c(\mathrm{e})} \cdot \log_c(n)$,
+      \\[0.2cm]
+      showing that $\log_b(n)$ and $\log_c(n)$ differ only by a constant factor. 
+      \eox
 \item Prove $3 \cdot n^2 + 5 \cdot n + \sqrt{n} \in \Oh(n^2)$.
 \item Prove $7 \cdot n + \bigl(\log_2(n)\bigr)^2 \in \Oh(n)$.
 \item Prove  $\sqrt{n} + \log_2(n) \in \Oh\left(\sqrt{n}\right)$.
@@ -551,6 +605,8 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
       \\[0.2cm]
       \hspace*{1.3cm}
       $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
+      \pagebreak
+
 \item Assume that $f, g \in \mathbb{R}_+^\mathbb{N}$ and that, furthermore, 
       \\[0.4cm]
       \hspace*{1.3cm}
@@ -573,7 +629,7 @@ either have
 \hspace*{1.3cm}
 $f \in \Oh(g)$ \quad or \quad $f \not\in \Oh(g)$,
 \\[0.2cm]
-we can never have $f = \Oh(g)$.  However, in the literature it has become common to abuse the
+we can never have $f = \Oh(g)$.  Nevertheless, in the literature it has become common to abuse the
 notation and write
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -586,13 +642,14 @@ $f_2$ such that both
 \hspace*{1.3cm}
 $f_1 \in \Oh(g)$ \quad and \quad $f_2 \in \Oh(g)$
 \\[0.2cm]
-holds, we have to be aware that when we write this as
+holds, when we write this as
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 = \Oh(g)$ \quad and \quad $f_2 = \Oh(g)$,
 \\[0.2cm]
 then we must not conclude that $f_1 = f_2$ as the functions $f_1$ and $f_2$ are merely members of
-the same set $\Oh(g)$.
+the same set $\Oh(g)$ and are not necessarily equal.  For example, $n \in \Oh(n)$ and 
+$2 \cdot n \in \Oh(n)$,  but $n \not= 2 \cdot n$.
 \vspace*{0.3cm}
 
 Furthermore, for given functions $f$, $g$, and $h$ we write
@@ -928,11 +985,13 @@ correctness of your implementation.  Finally, you should provide an estimate for
 additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$
 notation. 
 \eox
+\pagebreak
+
 
 \section{The Master Theorem}
 In order to analyze the complexity of  the procedure $\textsl{power}()$,
-we have first computed a  recurrence relation, then we have solved this recurrence and, finally,  
-we have approximated the result using the big $\Oh$ notation.  If we are only interested in this
+we first computed a  recurrence relation, then we solved this recurrence and, finally,  
+we approximated the result using the big $\Oh$ notation.  If we are only interested in this
 last approximation then, in many cases, it is not necessary to solve the recurrence relation.  
 Instead, we can use the 
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}}.
@@ -971,7 +1030,7 @@ and simple we will only discuss the case where $n$ is a power of $\beta$, that i
 \hspace*{1.3cm}
 $n = \beta^k$ \quad for some $k \in \mathbb{N}$.
 \\[0.2cm]
-The general case is similar, but it is technically much more involved.
+The general case is similar, but is technically much more involved.
 Observe that the equation $n = \beta^k$ implies $k = \log_{\beta}(n)$.  We will need this equation later. 
 We define $a_k := f(n) = f\bigl(\beta^k\bigr)$.  Then the recurrence relation for the function $f$
 is transformed into a recurrence relation for the sequence $a_k$ as follows:
