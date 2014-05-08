@@ -718,7 +718,7 @@ Hoare calculus.
 
 
 \section{Symbolic  Program Execution}
-The last section has shown that using Hoare logic to verify a program can be very tedious.
+The last section has shown that using Hoare logic to verify a program can be quite difficult.
 There is another method to prove the correctness of imperative programs.  This method is called
 \emph{symbolic program execution}.  Let us demonstrate this method.  Consider the program
 shown in Figure \ref{fig:power-iterative-annotated.stlx}.
@@ -814,11 +814,14 @@ This claim is proven by induction on the number of loop iterations.
 \end{enumerate}
 This shows the validity of the equation (\ref{eq:powerInv}).   If the \texttt{while} loop
 terminates, we must have $y_N = 0$.  If $n=N$ equation (\ref{eq:powerInv}) yields:
-\[ r_N \cdot x_N^{y_N} = x_0^{y_0} 
-  \leftrightarrow  r_N \cdot x_N^{0}   = a^b
-  \leftrightarrow  r_N \cdot 1         = a^b
-  \leftrightarrow  r_N                 = a^b
-\]
+\\[0.2cm]
+\hspace*{1.3cm}
+$r_N \cdot x_N^{y_N} = x_0^{y_0} 
+ \;\Longleftrightarrow\; r_N \cdot x_N^{0}   = a^b
+ \;\Longleftrightarrow\;  r_N \cdot 1         = a^b
+ \;\Longleftrightarrow\;  r_N                 = a^b
+$
+\\[0.2cm]
 This shows $r_N = a^b$ and since we already know that the
 \texttt{while} loop terminates we have proven that
 $\texttt{power}(a,b) =a^b$.
