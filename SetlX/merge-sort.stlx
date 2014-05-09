@@ -14,7 +14,6 @@ split := procedure(l) {
     }
 };
 merge := procedure(l1, l2) {
-    stop("merge");
     match ([l1, l2]) {
         case [ [], l2 ]         : return l2;
         case [ l1, [] ]         : return l1;
