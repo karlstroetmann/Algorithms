@@ -786,34 +786,30 @@ This claim is proven by induction on the number of loop iterations.
             $r_n \cdot x_n^{y_n} = r_0 \cdot x_0^{y_0} = 1 \cdot a^{b} = a^b$.
 \item[I.S.] $n \mapsto n + 1$:  We need a case distinction with respect to $y \mod 2$:
             \begin{enumerate}
-            \item $y_n \mod 2 = 1$.  Then we have $y_{n} = 2 \cdot (y_n\symbol{92}2) + 1$.
-                  This implies
+            \item $y_n \mod 2 = 1$.  Then we have $y_{n} = 2 \cdot (y_n\symbol{92}2) + 1$ and
+                  $r_{n+1} = r_n \cdot x_n$.  Hence
                   \begin{eqnarray*}
                       &   & r_{n+1} \cdot x_{n+1}^{y_{n+1}} \\[0.2cm] 
                       & = & (r_{n} \cdot x_n) \cdot (x_{n} \cdot x_{n})^{y_{n}\symbol{92}2} \\[0.2cm] 
-                      & = & r_{n} \cdot x_n \cdot x_{n}^{y_{n}\symbol{92}2} \cdot x_{n}^{y_{n}\symbol{92}2} \\[0.2cm] 
-                      & = & r_{n} \cdot x_n^{1 + y_{n}\symbol{92}2 + y_{n}\symbol{92}2} \\[0.2cm] 
                       & = & r_{n} \cdot x_n^{2 \cdot (y_{n}\symbol{92}2) + 1} \\[0.2cm] 
                       & = & r_{n} \cdot x_n^{y_n} \\
-                      & \stackrel{IH}{=} & a^{b} 
+                      & \stackrel{i.h.}{=} & a^{b} 
                   \end{eqnarray*}
 \pagebreak
 
-            \item $y_n \mod 2 = 0$.  Then we have $y_{n} = 2 \cdot (y_n\symbol{92}2)$.
-                  This implies
+            \item $y_n \mod 2 = 0$.  Then we have $y_{n} = 2 \cdot (y_n\symbol{92}2)$ and $r_{n+1} = r_n$.
+                  Therefore
                   \begin{eqnarray*}
                       &   & r_{n+1} \cdot x_{n+1}^{y_{n+1}} \\[0.2cm] 
                       & = & r_{n} \cdot (x_{n} \cdot x_{n})^{y_{n}\symbol{92}2} \\[0.2cm] 
-                      & = & r_{n} \cdot x_{n}^{y_{n}\symbol{92}2} \cdot x_{n}^{y_{n}\symbol{92}2} \\[0.2cm] 
-                      & = & r_{n} \cdot x_n^{y_{n}\symbol{92}2 + y_{n}\symbol{92}2} \\[0.2cm] 
-                      & = & r_{n} \cdot x_n^{2 \cdot (y_{n} \symbol{92}  2)} \\[0.2cm] 
+                      & = & r_{n} \cdot x_n^{2 \cdot (y_{n} \symbol{92} 2)} \\[0.2cm] 
                       & = & r_{n} \cdot x_n^{y_n} \\
-                      & \stackrel{IH}{=} & a^{b} 
+                      & \stackrel{i.h.}{=} & a^{b} 
                   \end{eqnarray*}
             \end{enumerate}
 \end{enumerate}
 This shows the validity of the equation (\ref{eq:powerInv}).   If the \texttt{while} loop
-terminates, we must have $y_N = 0$.  If $n=N$ equation (\ref{eq:powerInv}) yields:
+terminates, we must have $y_N = 0$.  If $n=N$, then equation (\ref{eq:powerInv}) yields:
 \\[0.2cm]
 \hspace*{1.3cm}
 $r_N \cdot x_N^{y_N} = x_0^{y_0} 
@@ -823,7 +819,7 @@ $r_N \cdot x_N^{y_N} = x_0^{y_0}
 $
 \\[0.2cm]
 This shows $r_N = a^b$ and since we already know that the
-\texttt{while} loop terminates we have proven that
+\texttt{while} loop terminates, we have proven that
 $\texttt{power}(a,b) =a^b$.
 
 \exercise
@@ -849,9 +845,7 @@ is valid.
                 ]
     gcd := procedure(a, b) {
         while (b != 0) {
-            r := a % b;
-            a := b;
-            b := r;
+            [a, b] := [b, a % b];
         }
         return a;
     };
