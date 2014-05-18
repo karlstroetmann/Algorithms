@@ -3,7 +3,7 @@ In this chapter we introduce \href{http://en.wikipedia.org/wiki/Hoare_logic}{\em
 This is a formal system that is used to prove the correctness of imperative computer programs.  
 Hoare logic has been introduced 1969 by  
 \href{http://en.wikipedia.org/wiki/C._A._R._Hoare}{Sir Charles Antony Richard Hoare}, 
-who is the inventor of the \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algoritm.
+who is the inventor of the \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm.
  
 
 \section{Preconditions and Postconditions}
@@ -334,7 +334,7 @@ Combining the Hoare tripels (\ref{eq:swap1}), (\ref{eq:swap2}) and (\ref{eq:swap
 we get
 \begin{equation}
   \label{eq:swap}
-  \hoare{\texttt{x} = a \wedge \texttt{y} = b}{x:=x+y; y:=y+x; x:=y-x;}{ 
+  \hoare{\texttt{x} = a \wedge \texttt{y} = b}{x:=x-y; y:=y+x; x:=y-x;}{ 
          \texttt{y} = a \wedge \texttt{x} = b}.   
 \end{equation}
 The Hoare tripel (\ref{eq:swap}) shows that the program fragment shown in Figure
@@ -454,7 +454,7 @@ that
 \\[0.2cm]
 $ \hoare{\texttt{x} = a \wedge \texttt{y} = b}{if (x < y) \{ z := x; \} else \{ z := y; \}}{ \texttt{z} = \min(a,b)} $
 \\[0.2cm]
-holds.  Thus we have shown that the program frgament above computes
+holds.  Thus we have shown that the program fragment above computes
 the minimum of the numbers $a$ and $b$.
 
 \subsection{Loops}
