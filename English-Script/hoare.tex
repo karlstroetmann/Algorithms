@@ -334,7 +334,7 @@ Combining the Hoare tripels (\ref{eq:swap1}), (\ref{eq:swap2}) and (\ref{eq:swap
 we get
 \begin{equation}
   \label{eq:swap}
-  \hoare{\texttt{x} = a \wedge \texttt{y} = b}{x:=x+y; y:=y+x; x:=y-x;}{ 
+  \hoare{\texttt{x} = a \wedge \texttt{y} = b}{x:=x-y; y:=y+x; x:=y-x;}{ 
          \texttt{y} = a \wedge \texttt{x} = b}.   
 \end{equation}
 The Hoare tripel (\ref{eq:swap}) shows that the program fragment shown in Figure
