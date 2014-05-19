@@ -956,8 +956,9 @@ Timsort uses some more tricks, but unfortunately we don't have the time to discu
 Timsort is also used on the Android platform.
 
 \section{\emph{Quick Sort}}
-In 1961, C.~A.~R. Hoare discovered the \emph{quick sort} algorithm \cite{hoare:61}.  The basic idea
-is as follows:
+In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
+\href{http://en.wikipedia.org/wiki/Quicksort}{\emph{quick sort}}  
+algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $l$ that is to be sorted is empty, we return $l$: 
       \\[0.2cm]
@@ -1093,7 +1094,7 @@ comparisons to sort $s$ and $b$ recursively.  If we take the average over all po
  $i = \#s$ then, since $i \el\{0,1,\cdots,n\}$, we get the following recurrence relation for $d_{n+1}$:
 \\[0.2cm]
 \hspace*{1.3cm}
-$d_{n+1} = n + \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
+$\displaystyle d_{n+1} = n + \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
 Here, the term $n$ accounts for the number of comparisons needed to compute 
 \\[0.2cm]
@@ -1105,9 +1106,10 @@ In order to simplify the recurrence relation (1) we note that
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
+ \displaystyle
  \sum\limits_{i=0}^n f(n-i) & = & f(n) + f(n-1) + \cdots + f(1) + f(0) \\[0.2cm]
                     & = & f(0) + f(1) + \cdots + f(n-1) + f(n) \\[0.2cm]
-                    & = & \sum\limits_{i=0}^n f(i) 
+                    & = & \displaystyle \sum\limits_{i=0}^n f(i) 
 \end{array}
 $
 \\[0.2cm]
@@ -1115,49 +1117,47 @@ holds for any function $f:\mathbb{N} \rightarrow \mathbb{N}$.
 This observation can be used to simplify the recurrence relation (1) as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$d_{n+1} = n + \bruch{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
+$\displaystyle d_{n+1} = n + \bruch{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
 \\[0.2cm] 
 In order to solve this recurrence relation we substitute $n \mapsto n+1$ and arrive at
 \\[0.2cm]
 \hspace*{1.3cm}
-$d_{n+2} = n+1 + \bruch{2}{n+2} \cdot \sum\limits_{i=0}^{n+1} d_i$.  \hspace*{\fill} (3)
+$\displaystyle d_{n+2} = n+1 + \bruch{2}{n+2} \cdot \sum\limits_{i=0}^{n+1} d_i$.  \hspace*{\fill} (3)
 \\[0.2cm]
 Next, we multiply equation (3) with $n+2$ and equation (2) with $n+1$.  This yields the equations
-\pagebreak
-
-\noindent
+\\[0.2cm]
 \hspace*{1.3cm}
 $(n+2)\cdot d_{n+2} = (n+2)\cdot(n+1) + 2 \cdot \sum\limits_{i=0}^{n+1} d_i$,
 \hspace*{\fill} (4) \\[0.2cm]
 \hspace*{1.3cm}
 $(n+1)\cdot d_{n+1}  =  (n+1)\cdot n + 2 \cdot \sum\limits_{i=0}^n d_i$.  
 \hspace*{\fill} (5) \\[0.2cm]
-Now we take the difference of  equation (4) and (5) and note that the summations cancel except for
-the term $2\cdot d_{n+1}$.  We get
+We take the difference of  equation (4) and (5) and note that the summations cancel except for
+the term $2\cdot d_{n+1}$.  This leads to
 \\[0.2cm]
 \hspace*{1.3cm}
-$(n+2)\cdot d_{n+2} - (n+1)\cdot \displaystyle d_{n+1} = (n+2)\cdot(n+1) - (n+1)\cdot n+2 \cdot d_{n+1}$
+$(n+2)\cdot d_{n+2} - (n+1)\cdot \displaystyle d_{n+1} = (n+2)\cdot(n+1) - (n+1)\cdot n+2 \cdot d_{n+1}$.
 \\[0.2cm] 
 This equation can be simplified as
 \\[0.2cm]
 \hspace*{1.3cm}
 $(n+2)\cdot d_{n+2} = (n+3)\cdot \displaystyle d_{n+1} + 2\cdot(n+1)$.
 \\[0.2cm] 
-Following a divine inspiration we divide this equation by $(n+2) \cdot(n+3)$ and
+In order to exhibit the true structure of this equation we divide by $(n+2) \cdot(n+3)$ and
 get 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\bruch{1}{n+3} \cdot d_{n+2} = \bruch{1}{n+2}\cdot d_{n+1} + \bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)}$.
 \hspace*{\fill} (6) 
 \\[0.2cm]
-In order to proceed we compute the 
+We proceed by computing the 
 \href{http://en.wikipedia.org/wiki/Partial_fraction}{\emph{partial fraction decomposition}}
 of the fraction
 \\[0.2cm]
 \hspace*{1.3cm}
 $\bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)}$.
 \\[0.2cm] 
-In order to so, we use the ansatz
+In order to so, we use the \href{http://en.wikipedia.org/wiki/Ansatz}{\emph{ansatz}}
 \\[0.2cm]
 \hspace*{1.3cm}
 $\bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)} = \bruch{\alpha}{n+2} + \bruch{\beta}{n+3}$.
@@ -1203,7 +1203,7 @@ This equation can be rewritten as a sum.  Since $a_0 = \bruch{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{n} = 4 \cdot \sum\limits_{i=1}^n \bruch{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \bruch{1}{i}$.  
+$\displaystyle a_{n} = 4 \cdot \sum\limits_{i=1}^n \bruch{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \bruch{1}{i}$.  
 \\[0.2cm]
 Let us simplify this sum:
 \\[0.2cm]
@@ -1221,7 +1221,7 @@ $
 In order to finalize our computation we have to compute an approximation for the sum
 \\[0.2cm]
 \hspace*{1.3cm}
-$H_n = \sum\limits_{i=1}^{n}\bruch{1}{i}$.
+$H_n = \displaystyle\sum\limits_{i=1}^{n}\bruch{1}{i}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
 \href{http://en.wikipedia.org/wiki/Harmonic_number}{\emph{harmonic number}}.
@@ -1229,8 +1229,15 @@ The number $H_n$ is known in mathematics as the $n$-th
 that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$ H_n = \ln(n) + \Oh(1)$. 
+$\displaystyle H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{n}\Bigr)$. 
 \\[0.2cm]  
+Here, $\gamma$ is the
+\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the
+value
+\\[0.2cm]
+\hspace*{1.3cm}
+$\gamma = 0.5772156649 \cdots$.
+\\[0.2cm]
 Therefore, we have found the following approximation for $a_n$:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1342,15 +1349,26 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
 
             The pivot element itself is at the end of the array.
       \end{enumerate}
-      Observe how these invariants are maintained.  If the element \texttt{l[idx]} is less than the
-      pivot element, it need to become part of the subarray \texttt{l[start..left]}.  In order to
-      achieve this, it is placed at the position \texttt{l[left+1]}.  The element that has been at
-      that position is
-      part of the subarray \texttt{l[left+1..idx-1]} and therefore, most of the times,\footnote{It is not always greater than the pivot element
+      Observe how the invariants (a) and (b) are maintained:
+      \begin{enumerate}
+      \item Initially, the invariants are true because the corresponding sets are empty.
+            At the start of the \texttt{for}-loop we have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\{ \mathtt{start}, \cdots, \mathtt{left} \} = \{ \mathtt{start}, \cdots, \mathtt{start} - 1\} = \{\}$
+            \\
+            and
+            \\
+            \hspace*{1.3cm}
+            $\{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\} =  \{ \mathtt{start},\cdots,\mathtt{start}-1\}=\{\}$.
+      \item If the element \texttt{l[idx]} is less than the
+            pivot element, it need to become part of the subarray \texttt{l[start..left]}.  In order to
+            achieve this, it is placed at the position \texttt{l[left+1]}.  The element that has been at
+            that position is part of the subarray \texttt{l[left+1..idx-1]} and therefore, most of the times,\footnote{It is not always greater than the pivot element
       because the subarray \texttt{l[left+1..idx-1]} might well be empty.}
-      it is greater than the pivot element.  
-      Hence we move this element to the end of the subarray \texttt{l[left+1..idx-1]}.
-
+            it is greater than the pivot element.  
+            Hence we move this element to the end of the subarray \texttt{l[left+1..idx-1]}.
+      \end{enumerate}
       Once the \texttt{for} loop in line 15 terminates, the call to \texttt{swap} in line 21 moves
       the pivot element into its correct position.  
 \end{enumerate}
@@ -1372,7 +1390,8 @@ There are a number of tricks that can be used to increase the efficiency of \emp
       The paper ``\emph{Engineering a Sort Function}'' by Jon L.~Bentley and M.~Douglas McIlroy
       \cite{bentley:93} describes the previous two improvements.
 \item In order to be sure that the average case analysis of \emph{quick sort} holds we can randomly
-      \emph{shuffle} the list $l$ that is to be sorted.  In \textsc{SetlX} this is quite easy as
+      \emph{shuffle} the list $l$ that is to be sorted.  This approach is advocated by Sedgewick
+      \cite{sedgewick:2011}.  In \textsc{SetlX} this is quite easy as
       there is a predefined function \texttt{shuffle} that takes a list and shuffles it randomly.
       For example, the expression
       \\[0.2cm]
@@ -1520,7 +1539,7 @@ We prove this claim by induction.
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
 that only give yes or no answers.  Tests of this kind are called \emph{binary tests}.
 \begin{enumerate}
-\item If we can only do only one binary test, then we can only distinguish between two cases.
+\item If we restrict ourselves to binary tests, then we can only distinguish between two cases.
 \item If we have $2$ tests, then we can distinguish between  $2^2$ different cases.
 \item In general, $k$ tests can choose from at most $2^k$ different cases.
 \end{enumerate}
@@ -1558,10 +1577,7 @@ Using this approximation we get
 $k \geq n \cdot \log_2(n) + \Oh(n)$.
 \\[0.2cm]
 As \emph{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
-we have now shown that this algorithm is optimal with respect to the number of comparisons.
-
-
-
+we have shown that this algorithm is optimal with respect to the number of comparisons.
 
 
 %%% Local Variables: 

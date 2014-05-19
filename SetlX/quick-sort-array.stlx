@@ -14,7 +14,10 @@ quickSort := procedure(a, b, rw l) {
     quickSort(m + 1, b, l);
 };
 
-// partition the sublist l[start, end] using l[start] as a pivot element
+// Partition the sublist l[start, end] using l[start] as a pivot element.
+// The for-loop maintains the following invariants:
+// (a) forall i in {start  .. left } : l[i] <= pivot
+// (b) forall i in {left+1 .. idx-1} : pivot < l[i]
 partition := procedure(start, end, rw l) {
     pivot := l[end];
     left  := start - 1;
