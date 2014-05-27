@@ -298,7 +298,7 @@ $t=\textsl{Node}(k_{min},v_{min},l,r')$
  ist auch wieder
 geordnet, denn einerseits ist der Schlüssel $k_{min}$  größer als der Schlüssel $k$ und
 damit sicher auch größer als alle Schlüssel im linken Teilbaum $l$ und andererseits ist
-$k_{min}$ kleiner als alle  Schlüssel im Teilbaum $r'$ den $k_{min}$ ist ja der
+$k_{min}$ kleiner als alle  Schlüssel im Teilbaum $r'$, denn $k_{min}$ ist ja der
 kleinste Schlüssel aus $r$.  
 
 Zur Veranschaulichung betrachten wir ein Beispiel: Wenn wir in dem Baum aus Abbildung 
@@ -317,7 +317,7 @@ $\pair(4,16)$ mit der Markierung $\pair(5,25)$.  Abbildung
   \label{fig:graph2}
 \end{figure}
 
-Wir geben nun bedingte Gleichungen an, die die Methode \textsl{delMin} spezifizieren.
+Wir geben nun bedingte Gleichungen an, welche die Methode \textsl{delMin} spezifizieren.
 \begin{enumerate}
 \item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = [r, k, v]$,
 
@@ -449,8 +449,9 @@ binary trees.  We discuss the implementation of this class next.
 \end{figure}
 \item The implementation of \texttt{insert} is similar to the implementation of \texttt{find}.
       \begin{enumerate}
-      \item If the binary tree is empty, we just set the member variables \texttt{mKey} and
-            \texttt{mValue} to the appropriate values.
+      \item If the binary tree is empty, we set the member variables \texttt{mKey} and
+            \texttt{mValue} to the appropriate values.  The member variables \texttt{mLeft} and 
+            \texttt{mRight} are initialized as empty trees.
       \item If the key \texttt{k} under which the value \texttt{v} is to be inserted is identical
             to the key \texttt{mKey} stored at this node, then we have found the node where we need
             to insert \texttt{v}.  In this case, \texttt{mValue} is overwritten with \texttt{v}.
@@ -510,8 +511,8 @@ binary trees.  We discuss the implementation of this class next.
   \label{fig:binary-tree.stlx-2}
 \end{figure}
 
-\item The implementation of \texttt{delMin} is done in a similar way as the implementation of
-      \texttt{insert}.  It should be noted that the implementation follows directly from the
+\item The implementation of \texttt{delMin} and \texttt{delete} is done in a similar way as the
+      implementation of \texttt{insert}.  It should be noted that the implementation follows directly from the
       equations derived  previously. 
 \end{enumerate}
 
