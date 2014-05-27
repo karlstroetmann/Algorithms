@@ -627,7 +627,7 @@ verbleibenden $n$ Schlüssel auf die beiden Teilbäume $l$ und $r$ verteilt sein k
 $l$ kann $i$ Schlüssel enthalten, wobei \\[0.2cm]
 \hspace*{1.3cm} $i \in \{0,1, \cdots, n\}$ \\[0.2cm]
 gilt.  Entsprechend enthält $r$ dann $n-i$ Schlüssel.  
-Bezeichnen wir die durchschnittliche Anzahl von Vergleichen in einem Baum mit $n+1$
+Bezeichnen wir die durchschnittliche Anzahl von Vergleichen bei einer Suche in einem Baum mit $n+1$
 Schlüsseln, dessen linker Teilbaum $i$ Elemente hat, mit
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -690,26 +690,29 @@ die Werte, die sich für die drei Fälle ergeben, aufsummieren.  Wir erhalten
 
 
 Damit können wir nun die Rekurrenz-Gleichung für $d_{n+1}$ aufstellen: 
-\[
+\\[0.2cm]
+\hspace*{1.3cm}
+$
 \begin{array}{lcl}
 d_{n+1} 
 & = &  
-\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \textsl{anzVgl}(i,\,n\!+\!1)  \\[0.5cm]
+\ds\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \textsl{anzVgl}(i,\,n\!+\!1)  \\[0.5cm]
 & = &  
-\bruch{1}{n+1} \cdot \sum\limits_{i=0}^n  
+\ds\bruch{1}{n+1} \cdot \sum\limits_{i=0}^n  
            \left(1 + \bruch{1}{n+1} \cdot \bigl(i \cdot d_i + (n-i) \cdot d_{n-i} \bigr) \right)
 \\[0.5cm]
 & = &  
 \bruch{1}{n+1} \cdot \Biggl(\underbrace{\sum\limits_{i=0}^n 1}_{\stackrel{\displaystyle \shortparallel}{n+1}} \;+\;
-           \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n \bigl(i \cdot d_i + (n-i) \cdot d_{n-i} \bigr) \Biggr)
+           \bruch{1}{n+1} \cdot \ds\sum\limits_{i=0}^n \bigl(i \cdot d_i + (n-i) \cdot d_{n-i} \bigr) \Biggr)
 \\[1.3cm]
 & = &  
-1 + \bruch{1}{(n+1)^2} \cdot \left(\sum\limits_{i=0}^n \left(i\cdot d_i + (n-i)\cdot d_{n-i}\right) \right) 
+1 + \bruch{1}{(n+1)^2} \cdot \left(\ds\sum\limits_{i=0}^n \left(i\cdot d_i + (n-i)\cdot d_{n-i}\right) \right) 
 \\[0.5cm]
 & = &  
-1 + \bruch{2}{(n+1)^2} \cdot \sum\limits_{i=0}^n i\cdot d_i 
+1 + \bruch{2}{(n+1)^2} \cdot \ds\sum\limits_{i=0}^n i\cdot d_i 
 \end{array}
-\]
+$
+\\[0.2cm]
 Bei der letzten Umformung haben wir die Gleichung  \\[0.2cm]
 \hspace*{1.3cm} $\sum\limits_{i=0}^n f(n-i) = \sum\limits_{i=0}^n f(i)$ \\[0.2cm]
 benutzt, die wir bei der Analyse der Komplexität von Quick-Sort gezeigt hatten.
@@ -773,10 +776,7 @@ Wir substituieren $n \mapsto n-1$ und vereinfachen dies zu
 $c_{n} =  \displaystyle\sum\limits_{i=2}^{n+1} \frac{3}{i} - \sum\limits_{i=1}^{n} \frac{1}{i}$
 \\[0.2cm]
 Die harmonische Zahl $H_n$ ist als
-\\[0.2cm]
-\hspace*{1.3cm}
-$H_n = \sum\limits_{i=1}^{n} \bruch{1}{i}$   
-\\[0.2cm]
+$H_n = \ds\sum\limits_{i=1}^{n} \bruch{1}{i}$   
 definiert.  Wir können $c_n$ auf $H_n$ zurückführen: 
 \begin{eqnarray*}
    c_n & = & 3 \cdot H_n - \bruch{3}{1} + \bruch{3}{n+1} - H_n \\
