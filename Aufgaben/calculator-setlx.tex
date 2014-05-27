@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{german}
+\usepackage[latin1]{inputenc}
+\usepackage{a4wide}
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+\usepackage{alltt}
+\usepackage{fleqn}
+
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+\hypersetup{
+	colorlinks = true, % comment this to make xdvi work
+	linkcolor  = blue,
+	citecolor  = red,
+        filecolor  = blue,
+        urlcolor   = [rgb]{0.5, 0.4, 0.0},
+	pdfborder  = {0 0 0} 
+}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\setlength{\mathindent}{1.3cm}
+
+\pagestyle{empty}
+
+\begin{document}
+\noindent
+{\Large \textbf{Aufgaben-Blatt}: \emph{Arithmetische Ausdrücke}}
+
+\vspace{0.5cm}
+
+
+\noindent
+\textbf{Aufgabe 1}: 
+Erweitern Sie das in der Vorlesung diskutierte Programm zur Berechnung arithmetischer Ausdrücke in mehreren 
+Schritten wie folgt:
+\begin{enumerate}
+\item Erweitern Sie das Programm so, dass auch die
+      Funktionen ``\texttt{sqrt}'', ``\texttt{exp}'', ``\texttt{log}'', ``\texttt{sin}'',
+      ``\texttt{cos}'', ``\texttt{tan}'' und die zugehörigen Umkehrfunktionen 
+      ``\texttt{asin}'', ``\texttt{acos}'' und ``\texttt{atan}''
+      verwendet werden können.
+\item Erweitern Sie das Programm so, dass auch die Konstanten \texttt{Pi} und
+      \texttt{e} in Formeln verwendet werden können.
+\end{enumerate}
+Sie finden das in der Vorlesung diskutierte Programm im Netz in dem Ordner
+\\[0.2cm]
+\hspace*{0.3cm} 
+\href{https://github.com/karlstroetmann/Algorithms/tree/master/SetlX/Calculator}{\texttt{https://github.com/karlstroetmann/Algorithms/tree/master/SetlX/Calculator/}}.
+\vspace{0.5cm}
+
+\noindent
+\textbf{Aufgabe 2}: 
+Erweitern Sie das Programm aus Aufgabe 1 so, dass Sie es zur Berechnung der Nullstelle
+einer Funktion einsetzen können.  Dazu müssen die arithmetischen
+Ausdrücke nun auch eine Variable $x$ enthalten dürfen.  
+Berechnen Sie die Nullstelle mit Hilfe des Bisektions-Verfahrens, das wir in der Vorlesung über
+Analysis diskutiert haben.
+Sie finden das in der Vorlesung diskutierte Programm im Netz unter
+\\[0.2cm]
+\hspace*{0.3cm} 
+\href{https://github.com/karlstroetmann/Analysis/tree/master/SetlX/bisection.stlx}{\texttt{https://github.com/karlstroetmann/Analysis/tree/master/SetlX/bisection.stlx}}.
+\vspace{0.5cm}
+
+
+\noindent
+\textbf{Hinweis}: Syntaktisch können Sie die Variable $x$ wie eine Konstante behandeln.
+\vspace{0.5cm}
+
+\noindent
+Testen Sie Ihr Programm, indem Sie die Nullstelle der Funktion 
+\[ f: \mathbb{R} \rightarrow \mathbb{R} \]
+die durch 
+\[ f(x) = x^2 - 2 \]
+definiert ist, in dem Intervall $[0,2]$ auf 100 Stellen nach dem Komma berechnen.  Benutzen Sie
+hierfür die Funktion
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{nDecimalPlaces(q, n)}.
+\\[0.2cm]
+Diese Funktion gibt die rationale Zahl $q$ mit $n$ Stellen hinter dem Komma aus.
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
