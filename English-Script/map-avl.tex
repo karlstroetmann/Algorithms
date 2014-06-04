@@ -494,7 +494,7 @@ us discuss this method line by line.
       initially has a height that is bigger by one than the height of the right subtree.  Assume
       further that we have deleted a node in the left subtree so that its height shrinks.  Then the
       balancing condition is still satisfied, as now the left subtree and the right subtree have the
-      same height.  However, the height of the complete tree has also shrink by one and therefore, 
+      same height.  However, the height of the complete tree has also shrunk by one and therefore, 
       the variable \texttt{mHeight} needs to be decremented.  This is done via the auxiliary method
       \texttt{restoreHeight}.  This method is defined in line 36 and it recomputes \texttt{mHeight}
       according to the definition of the height of a binary tree.
@@ -631,8 +631,8 @@ $c_h = \displaystyle \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2}
 1$  \quad mit
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda_1 = \displaystyle \frac{1}{2}(1 + \sqrt{5}) \approx  1.62$ \quad und \quad $\lambda_2 =
-\displaystyle \frac{1}{2}(1 - \sqrt{5}) \approx -0.62$.
+$\lambda_1 = \displaystyle \frac{1}{2}(1 + \sqrt{5}) \approx  1.618034$ \quad und \quad $\lambda_2 =
+\displaystyle \frac{1}{2}(1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
 Da $|\lambda_2| < 1$ ist, spielt der Wert $\displaystyle\lambda_2^{h+2}$
 für große Werte von $h$   praktisch keine Rolle und die
@@ -1730,8 +1730,7 @@ reason, the design of a hash function is best left for experts.  In practice, ha
 quite a bit faster than \textsl{AVL}-trees or \emph{red-black} trees.  However, this is only true if
 the hash function that is used is able to spread the keys uniformly.  If this assumption is
 violated, the use of a hash table can lead to serious performance 
-bugs\footnote{Da habe ich schon Pferde kotzen sehen,  direkt vor der Apotheke.}.  
-If, instead, a good
+bugs.  If, instead, a good
 implementation of red-black-trees is used, the program might be slower in general but are certain to
 be protected from the ugly surprises that can result from a poor hash function.  My advice for the reader
 therefore is to use hashing only if the performance is really critical and you are sure that your
@@ -1739,7 +1738,7 @@ hash function is distributing the keys nicely.
 
 
 \section{Applications}
-Both \texttt{C++} and \textsl{Java} supply maps.  In \texttt{C++}, maps are part of the standard
+Both \texttt{C++} and \textsl{Java} provide maps.  In \texttt{C++}, maps are part of the standard
 template library, while \textsl{Java} offers the interface \texttt{Map} that is implemented both by
 the class \texttt{TreeMap} and the class \texttt{HashMap}. Furthermore, all modern script languages provide maps.
 For example, in \textsl{Perl} \cite{Wall92}, maps are known as \emph{associative arrays}, in \textsl{Lua} 

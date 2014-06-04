@@ -1,6 +1,6 @@
 // return the ascci code of the char c
 ord := procedure(c) {
-    return arb({ n in [ 1 .. 127 ] | c == char(n) });
+    return arb({ n : n in [ 1 .. 127 ] | c == char(n) });
 };
 
 // test whether s1 is lexicographically less than s2

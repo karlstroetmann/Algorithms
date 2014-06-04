@@ -147,7 +147,7 @@ demo := procedure(cmp) {
     }
     print(m);
     while (true) {
-        k := read("zu löschenden Schlüssel eingeben: ");
+        k := read("zu loeschenden Schlüssel eingeben: ");
         m.delete(k);
         print(m);
     }
