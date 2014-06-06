@@ -1,0 +1,16 @@
+computeZero := procedure() {
+    s  := read("enter function: ");
+    tl := extractTokens(s);
+    left_Boundary := read("Enter left  boundary: ");
+    rightBoundary := read("Enter right boundary: ");
+    f := procedure(x) {
+        c := calculator(tl, x);
+        return c.evaluate();
+    };
+    zero := bisection(f, left_Boundary, rightBoundary, (1/10)**102);
+    if (isRational(zero)) {
+        print("x0 = $nDecimalPlaces(zero, 101)$");
+    } else {
+        print("x0 = $zero$");
+    }
+};
