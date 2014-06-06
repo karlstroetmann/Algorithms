@@ -44,3 +44,6 @@ createStack := procedure(l) {
     }
     return result;
 };
+
+s := createStack([1..10]);
+print(s);

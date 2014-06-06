@@ -392,6 +392,7 @@ function will provide us with an error message in this case.
   \caption{Implementing \emph{selection sort} in \textsc{SetlX}.}
   \label{fig:selection-sort.setlx}
 \end{figure}
+%$
 
 \subsection{Complexity of Selection Sort}
 In order to be able to analyze the complexity of \emph{selection sort} we have to count the number
@@ -1085,13 +1086,14 @@ By this time you probably wonder why the algorithm has been called \emph{quick s
 it much slower as \emph{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
 comparisons needed to sort a list of $n$ elements is $\Oh\bigl(n \cdot \log_2(n)\bigr)$. We prove
 this claim next.  Let us first note the following: If $l$ is a list of $n+1$ elements, then the number of elements of the 
-list $s$ that is computed in line 4 of Figure \ref{fig:quick-sort.stlx} is a member of the set 
-$\{0,1,2,\cdots,n\}$.  If the length of $s$ is $i$ and the length of $l$ is $n+1$, then the length of
-$b$ is $n-i$.  Therefore, if $\#s = i$, then on average we need
+list $s$ that are smaller than or equal to the pivot element $x$ is a member of the set 
+$\{0,1,2,\cdots,n\}$.  If the length of $s$ is $i$ and the length of $l$ is $n+1$, then the length
+of the list $b$ of those elements, that are bigger than $x$ is $n-i$.  Therefore, if $\#s = i$, then on average we need
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
-comparisons to sort $s$ and $b$ recursively.  If we take the average over all possible values of
- $i = \#s$ then, since $i \el\{0,1,\cdots,n\}$, we get the following recurrence relation for $d_{n+1}$:
+comparisons to sort the lists $s$ and $b$ recursively.  If we take the average over all possible values of
+ $i = \#s$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
+ recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle d_{n+1} = n + \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
@@ -1099,8 +1101,9 @@ $\displaystyle d_{n+1} = n + \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{
 Here, the term $n$ accounts for the number of comparisons needed to compute 
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{partition(x, r)}.
+\texttt{partition(x, r)}
 \\[0.2cm]
+since we need to compare every element of $l$ but the pivot element $x$ itself  with the pivot $x$.
 In order to simplify the recurrence relation (1) we note that
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1119,70 +1122,70 @@ This observation can be used to simplify the recurrence relation (1) as follows:
 \hspace*{1.3cm}
 $\displaystyle d_{n+1} = n + \bruch{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
 \\[0.2cm] 
-In order to solve this recurrence relation we substitute $n \mapsto n+1$ and arrive at
+In order to solve this recurrence relation we substitute $n \mapsto n-1$ and arrive at
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n+2} = n+1 + \bruch{2}{n+2} \cdot \sum\limits_{i=0}^{n+1} d_i$.  \hspace*{\fill} (3)
+$\displaystyle d_{n} = n-1 + \bruch{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
 \\[0.2cm]
-Next, we multiply equation (3) with $n+2$ and equation (2) with $n+1$.  This yields the equations
-\\[0.2cm]
-\hspace*{1.3cm}
-$(n+2)\cdot d_{n+2} = (n+2)\cdot(n+1) + 2 \cdot \sum\limits_{i=0}^{n+1} d_i$,
-\hspace*{\fill} (4) \\[0.2cm]
-\hspace*{1.3cm}
-$(n+1)\cdot d_{n+1}  =  (n+1)\cdot n + 2 \cdot \sum\limits_{i=0}^n d_i$.  
-\hspace*{\fill} (5) \\[0.2cm]
-We take the difference of  equation (4) and (5) and note that the summations cancel except for
-the term $2\cdot d_{n+1}$.  This leads to
+Next, we multiply equation (3) with $n$ and equation (2) with $n+1$.  This yields the equations
 \\[0.2cm]
 \hspace*{1.3cm}
-$(n+2)\cdot d_{n+2} - (n+1)\cdot \displaystyle d_{n+1} = (n+2)\cdot(n+1) - (n+1)\cdot n+2 \cdot d_{n+1}$.
+$\ds n \cdot d_{n} = n\cdot(n-1) + 2 \cdot \sum\limits_{i=0}^{n-1} d_i$,            \hspace*{\fill}
+(4) 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds (n+1)\cdot d_{n+1}  =  (n+1)\cdot n + 2 \cdot \sum\limits_{i=0}^n d_i$.   \hspace*{\fill} (5) 
+\\[0.2cm]
+We take the difference of  equation (5) and (4) and note that the summations cancel except for
+the term $2\cdot d_{n}$.  This leads to
+\\[0.2cm]
+\hspace*{1.3cm}
+$(n+1)\cdot d_{n+1} - n \cdot \displaystyle d_{n} = (n+1)\cdot n - n \cdot (n-1) + 2 \cdot d_{n}$.
 \\[0.2cm] 
 This equation can be simplified as
 \\[0.2cm]
 \hspace*{1.3cm}
-$(n+2)\cdot d_{n+2} = (n+3)\cdot \displaystyle d_{n+1} + 2\cdot(n+1)$.
+$(n+1)\cdot d_{n+1} = (n+2) \cdot \displaystyle d_{n} + 2 \cdot n$.
 \\[0.2cm] 
-In order to exhibit the true structure of this equation we divide by $(n+2) \cdot(n+3)$ and
+In order to exhibit the true structure of this equation we divide by $(n+1) \cdot(n+2)$ and
 get 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{1}{n+3} \cdot d_{n+2} = \bruch{1}{n+2}\cdot d_{n+1} + \bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)}$.
-\hspace*{\fill} (6) 
+$\bruch{1}{n+2} \cdot d_{n+1} = \bruch{1}{n+1}\cdot d_{n} + \bruch{2\cdot n}{(n+1)\cdot(n+2)}$. \hspace*{\fill} (6) 
 \\[0.2cm]
 We proceed by computing the 
 \href{http://en.wikipedia.org/wiki/Partial_fraction}{\emph{partial fraction decomposition}}
 of the fraction
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)}$.
+$\bruch{2\cdot n}{(n+1)\cdot(n+2)}$.
 \\[0.2cm] 
 In order to so, we use the \href{http://en.wikipedia.org/wiki/Ansatz}{\emph{ansatz}}
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{2\cdot(n+1)}{(n+2)\cdot(n+3)} = \bruch{\alpha}{n+2} + \bruch{\beta}{n+3}$.
+$\bruch{2\cdot n}{(n+1)\cdot(n+2)} = \bruch{\alpha}{n+1} + \bruch{\beta}{n+2}$.
 \\[0.2cm] 
-Multiplying this equation with $(n+2) \cdot (n+3)$ yields
+Multiplying this equation with $(n+1) \cdot (n+2)$ yields
 \\[0.2cm]
 \hspace*{1.3cm}
-$ 2\cdot n + 2 = \alpha \cdot (n+3) + \beta \cdot (n+2)$.
+$ 2\cdot n = \alpha \cdot (n+2) + \beta \cdot (n+1)$.
 \\[0.2cm]
-This can be simplified as follows:
+Grouping like terms, this can be simplified as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$2\cdot n + 2 = (\alpha + \beta) \cdot n + 3 \cdot \alpha  + 2 \cdot \beta$.
+$2\cdot n = (\alpha + \beta) \cdot n + 2 \cdot \alpha  + \beta$.
 \\[0.2cm]
-Comparing the coefficients produces two equations:
+Since this has to hold for every $n \in \mathbb{N}$ we must have:
 \begin{eqnarray*}
   2 & = & \alpha + \beta \\
-  2 & = & 3 \cdot \alpha + 2 \cdot \beta 
+  0 & = & 2 \cdot \alpha + \beta 
 \end{eqnarray*}
-If we subtract the second equation twice from the first equation we arrive at
+If we subtract the first equation from the second equation we arrive at
  $\alpha = -2$.  Substituting this into the first equation gives $\beta = 4$.
 Hence, the equation (6) can be written as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{1}{n+3} \cdot d_{n+2} = \bruch{1}{n+2}\cdot d_{n+1} - \bruch{2}{n+2} + \bruch{4}{n+3}$.  
+$\bruch{1}{n+2} \cdot d_{n+1} = \bruch{1}{n+1}\cdot d_{n} - \bruch{2}{n+1} + \bruch{4}{n+2}$.  
 \\[0.2cm]  
 In order to simplify this equation, let us define
 \\[0.2cm]
@@ -1192,9 +1195,9 @@ In order to simplify this equation, let us define
 Then the last equation is simplified to
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{n+2} = a_{n+1} - \bruch{2}{n+2} + \bruch{4}{n+3}$.
+$a_{n+1} = a_{n} - \bruch{2}{n+1} + \bruch{4}{n+2}$.
 \\[0.2cm] 
-Substituting $n \mapsto n-2$ simplifies this equation: 
+Substituting $n \mapsto n-1$ simplifies this equation: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{n} = a_{n-1} - \bruch{2}{n} + \bruch{4}{n+1}$,
@@ -1241,12 +1244,12 @@ $\gamma = 0.5772156649 \cdots$.
 Therefore, we have found the following approximation for $a_n$:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n = - \bruch{4 \cdot n}{n+1}  + 2 \cdot \ln(n) + \Oh(1)$.
-\\[0.2cm] 
+$a_n = - \bruch{4 \cdot n}{n+1}  + 2 \cdot \ln(n) + \Oh(1) =  2 \cdot \ln(n) + \Oh(1)$,
+\quad as \quad $\bruch{4 \cdot n}{n+1} \in \Oh(1)$.
+\\[0.2cm]
 Since we have $d_n = (n+1) \cdot a_{n}$ we can conclude that
 \begin{eqnarray*}  
- d_n & = & -4 \cdot n + 2 \cdot(n+1) \cdot H_n \\
-     & = & -4 \cdot n + 2 \cdot(n+1) \cdot \bigl(\ln(n) + \Oh(1)\bigr) \\
+ d_n & = &  2 \cdot(n+1) \cdot H_n + \Oh(n) \\
      & = & 2 \cdot n \cdot \ln(n) + \Oh(n)
 \end{eqnarray*}
 holds.  Let us compare this result with the number of comparisons needed for \emph{merge sort}.
@@ -1258,7 +1261,7 @@ comparisons in order to sort a list of $n$ elements.  Since we have $\ln(n) = \l
 we conclude that the average case of \emph{quick sort} needs
  \\[0.2cm]
 \hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n)$ \\[0.2cm]
-comparisons and hence \emph{quick sort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
+comparisons and hence on average \emph{quick sort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
 \emph{merge sort}.  
 
 
@@ -1330,8 +1333,8 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
       \\[0.2cm]
       The implementation of the function \texttt{quickSort}
       is quite similar to the list implementation.  The main difference is that the function
-      \texttt{partition} that is called in line 8 redistributes the elements of \texttt{l} such that
-      afterwards all elements that are less or equal than the \emph{pivot element} \texttt{l[m]}
+      \texttt{partition}, that is called in line 8, redistributes the elements of \texttt{l}:
+      All elements that are less or equal than the \emph{pivot element} \texttt{l[m]}
       have an index that is lower than the index \texttt{m}, while the remaining elements will have
       an index that is bigger than \texttt{m}.  The pivot element itself will have the index \texttt{m}.
 \item The difficult part of the implementation of \emph{quick sort} is the implementation of the
@@ -1478,7 +1481,7 @@ Implement a version of \emph{dual pivot quick sort} that uses arrays instead of 
 
 
 \section[A Lower Bound]{A Lower Bound for the Number of Comparisons Needed to Sort a List}
-In this section we will show that any sorting algorithm that sorts elements by comparing them must
+In this section we will show that any sorting algorithm, that sorts elements by comparing them, must
 use at least 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1539,7 +1542,7 @@ We prove this claim by induction.
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
 that only give yes or no answers.  Tests of this kind are called \emph{binary tests}.
 \begin{enumerate}
-\item If we restrict ourselves to binary tests, then we can only distinguish between two cases.
+\item If we restrict ourselves to binary tests, then one test can only distinguish between two cases.
 \item If we have $2$ tests, then we can distinguish between  $2^2$ different cases.
 \item In general, $k$ tests can choose from at most $2^k$ different cases.
 \end{enumerate}
@@ -1565,8 +1568,8 @@ This immediately implies
 \hspace*{1.3cm}
 $k \geq \log_2(n!)$.
 \\[0.2cm]
-In order to proceed we need an approximation for the expression $\log_2(n!)$.  
-A simple approximation of this term is
+In order to proceed, we need an approximation for the expression $\log_2(n!)$.  
+A \href{http://en.wikipedia.org/wiki/Stirling's_approximation}{simple approximation} of this term is
 \\[0.2cm]
 \hspace*{1.3cm}
 $\log_2(n!) = n \cdot \log_2(n) + \Oh(n)$.
