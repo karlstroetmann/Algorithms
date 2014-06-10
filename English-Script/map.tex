@@ -637,7 +637,7 @@ $\textsl{anzVgl}(i,\, n\!+\!1)$,
 so gilt
 \\[-0.1cm]
 \hspace*{1.3cm}
-$d_{n+1} = \sum\limits_{i=0}^n \bruch{1}{n+1} \cdot \textsl{anzVgl}(i,\, n\!+\!1)$,
+$\ds d_{n+1} =  \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \textsl{anzVgl}(i,\, n\!+\!1)$,
 \\[0.2cm]
 denn wir haben ja angenommen, dass alle Werte von $i$ die gleiche Wahrscheinlichkeit,
 nämlich $\frac{1}{n+1}$, haben.
@@ -715,7 +715,8 @@ d_{n+1}
 $
 \\[0.2cm]
 Bei der letzten Umformung haben wir die Gleichung  \\[0.2cm]
-\hspace*{1.3cm} $\sum\limits_{i=0}^n f(n-i) = \sum\limits_{i=0}^n f(i)$ \\[0.2cm]
+\hspace*{1.3cm}
+$\ds\sum\limits_{i=0}^n f(n-i) = \sum\limits_{i=0}^n f(i)$ \\[0.2cm]
 benutzt, die wir bei der Analyse der Komplexität von Quick-Sort gezeigt hatten.
 Wir lösen jetzt die Rekurrenz-Gleichung 
 \begin{equation}
@@ -779,14 +780,15 @@ $c_{n} =  \displaystyle\sum\limits_{i=2}^{n+1} \frac{3}{i} - \sum\limits_{i=1}^{
 Die harmonische Zahl $H_n$ ist als
 $H_n = \ds\sum\limits_{i=1}^{n} \bruch{1}{i}$   
 definiert.  Wir können $c_n$ auf $H_n$ zurückführen: 
-\begin{eqnarray*}
-   c_n & = & 3 \cdot H_n - \bruch{3}{1} + \bruch{3}{n+1} - H_n \\
-       & = & 2 \cdot H_n - 3 \cdot \frac{n}{n+1} 
-\end{eqnarray*}
-Wegen $H_n = \displaystyle\sum\limits_{i=1}^{n} \frac{1}{i} = \ln(n) + \Oh(1)$ gilt dann \\[0.2cm]
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_n = \ds 3 \cdot H_n - \frac{3}{1} + \frac{3}{n+1} - H_n  =  \ds 2 \cdot H_n - 3 \cdot \frac{n}{n+1}$
+\\[0.2cm] 
+Wegen $H_n = \displaystyle\sum\limits_{i=1}^{n} \frac{1}{i} = \ln(n) + \Oh(1)$ und $\ds 3 \cdot\frac{n}{n+1} \in \Oh(1)$
+gilt dann \\[0.3cm]
 \hspace*{1.3cm} 
 $\displaystyle c_n = 2 \cdot \ln(n) + \Oh(1)$.
-\\[0.2cm]
+\\[0.3cm]
 Berücksichtigen wir  $d_n = \bruch{n+1}{n}\cdot c_n$, so finden wir für große $n$ ebenfalls \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle d_n = 2 \cdot \ln(n) + \Oh\bigl(1\bigr)$.
 \\[0.2cm]
