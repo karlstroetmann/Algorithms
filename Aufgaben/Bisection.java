@@ -1,34 +1,32 @@
+import java.util.*;
+import static java.lang.Math.*;
+
 public class Bisection {
     Calculator mCalculator;
 
     public Bisection() {
-        MyScanner scanner = new MyScanner(System.in);
-        mCalculator       = new Calculator(scanner.getTokenStack());
-        Double left       = scanner.getLeft();
-        Double right      = scanner.getRight();
-        System.out.println("Zero at: " + findZero(left, right, 0.5e-12));
+        mCalculator = new Calculator();        
     }
 
     // This function locates the zero of the function f in the intervall [a, b].
     // It is assumed that a < b and that the function changes the sign in the
-    // interval [a, b], i.e. that either 
+    // interval [a, b], i.e. either 
     //        f(a) < 0 and f(b) > 0 or f(a) > 0 and f(b) < 0 
-    // holds initially. The argument eps specifies the required accuracy:
-    // The distance between the returned solution and the real root is guaranteed
-    // to be less than eps.  Furthermore, the algorithm is stable: The number of
-    // steps required is given by log2( (b-a)/eps ).
+    // holds initially. The argument eps specifies the required accuracy.
     double findZero(double a, double b, double eps) {
-        double fa = f(a);
-        double fb = f(b);
-        assert a < b       : "a has to be less than b";
-        assert fa * fb < 0 : "no sign change in interval [a, b]";
-        while (b - a > eps) {
+        assert a < b           : "a has to be less than b";
+        assert f(a) * f(b) < 0 : "no sign change in interval [a, b]";
+        int     count = 0;
+        double  fa    = f(a); ++count;
+        double  fb    = f(b); ++count;
+        boolean sign  = (fa < 0);
+        for (int i = 1; fa != 0.0 && fb != 0.0 && b - a > eps; ++i) {
             double c  = 0.5 * (a + b);
-            double fc = f(c);
-            if (fa < 0 && fc < 0 || fa > 0 && fc > 0) {
-                a = c; 
+            double fc = f(c); ++count;
+            if ((sign && fc < 0.0) || (!sign && fc > 0)) {
+                a = c; fa = fc; 
             } else {
-                b = c; 
+                b = c; fb = fc; 
             }
         }
         return 0.5 * (a + b);
@@ -39,7 +37,10 @@ public class Bisection {
     }
 
     public static void main(String args[]) {
-        new Bisection();
+        Bisection b     = new Bisection();
+        Double    left  = b.mCalculator.mLeft;
+        Double    right = b.mCalculator.mRight;
+        System.out.println("Zero is: " + b.findZero(left, right, 0.5e-9) );
     }
     
 }
