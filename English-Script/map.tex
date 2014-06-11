@@ -516,25 +516,31 @@ binary trees.  We discuss the implementation of this class next.
       equations derived  previously. 
 \end{enumerate}
 
-
-
-\subsection{Analyse der Komplexität}
-Wir untersuchen zunächst die Komplexität der Funktion \textsl{find} im schlechtesten Fall.
-Dieser Fall tritt dann ein, wenn der binäre Baum zu einer Liste entartet.  Abbildung
-\ref{fig:degenerated} zeigt den geordneten binären Baum der dann entsteht, wenn die Paare
-aus Schlüssel und Werten aus der Abbildung
-\ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
-größten Schlüssel gesucht, so muß der komplette Baum durchlaufen werden.  Enthält der Baum
-$n$ Schlüssel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
-geordneter binärer Baum also nicht besser als eine Liste.
-
 \begin{figure}[!th]
-  \centering
+  \centering 
   \framebox{\epsfig{file=degenerated-bin-tree}} 
   \caption{Ein entarteter  geordneter binärer Baum.}
   \label{fig:degenerated}
 \end{figure}
 
+
+\subsection{Analyse der Komplexität}
+In this section we will first discuss the worst case complexity, which is quite bad.  In fact, in
+the worst case, the call $b.\mathtt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
+binary search tree of $n$ elements.  After that, we investigate the average case complexity.  We
+will show that the average case complexity is $\Oh\bigr(\ln(n)\bigr)$.
+
+\subsubsection{Worst Case Complexity}
+Wir untersuchen zunächst die Komplexität der Funktion \textsl{find} im schlechtesten Fall.
+Dieser Fall tritt dann ein, wenn der binäre Baum zu einer Liste entartet.  Abbildung
+\ref{fig:degenerated} auf Seite \pageref{fig:degenerated} zeigt den geordneten binären Baum, der
+dann entsteht, wenn die Paare aus Schlüssel und Werten aus der Abbildung
+\ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
+größten Schlüssel gesucht, so muß der komplette Baum durchlaufen werden.  Enthält der Baum
+$n$ Schlüssel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
+geordneter binärer Baum also nicht besser als eine Liste.
+
+\subsubsection{Average Case Complexity}
 Erfreulicherweise tritt der schlechteste Fall im statistischen Durchschnitt selten auf.
 Im Durchschnitt ist ein zufällig erzeugter binärer Baum recht gut balanciert, so dass 
 beispielsweise für einen Aufruf von \texttt{find()} für einen Baum mit $n$ Schlüsseln

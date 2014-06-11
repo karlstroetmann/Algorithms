@@ -517,7 +517,7 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
       assigned to the code $128$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d \mathtt{:=} f \cup \{\langle \mathtt{ma}, 128 \rangle\}$.
+      $d = d \cup \{\langle \mathtt{ma}, 128 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{a}'', which is $97$.
 \item After reading the next character ``\texttt{u}'' we have
@@ -529,7 +529,7 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
       assigned to the next available code, which is $129$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d \mathtt{:=} f \cup \{\langle \mathtt{au}, 129 \rangle\}$.
+      $d = d \cup \{\langle \mathtt{au}, 129 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
 \item After reading the next character, which is the character ``\texttt{m}'', we have
@@ -541,7 +541,7 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
       assigned to the next available code, which is $130$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d \mathtt{:=} f \cup \{\langle \mathtt{um}, 130 \rangle\}$.
+      $d = d \cup \{\langle \mathtt{um}, 130 \rangle\}$.
       \\[0.2cm]
       Since our dictionary already contains the substring ``\texttt{ma}'' and the character
       ``\texttt{a}'' is indeed the character following the character ``\texttt{m}'', we output
@@ -556,7 +556,7 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
       assigned to the next available code, which is $131$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d \mathtt{:=} f \cup \{\langle \mathtt{mau}, 131 \rangle\}$.
+      $d = d \cup \{\langle \mathtt{mau}, 131 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
 \end{enumerate} 
