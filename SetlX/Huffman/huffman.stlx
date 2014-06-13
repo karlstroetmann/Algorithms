@@ -73,6 +73,6 @@ demoFile := procedure(fn) {
     doit(m);
 };
 
-// demoFile("alice.txt");
-// demoFile("moby-dick.txt");
+demoFile("alice.txt");
+demoFile("moby-dick.txt");
 

@@ -1,5 +1,3 @@
-gValueMap := {};
-
 prioQueue := procedure() {
     return [];
 };
@@ -10,7 +8,6 @@ top := procedure(h) {
 
 insert := procedure(rw h, p, v) {
     h += [ [p, v] ];
-    gValueMap[v] := #h;
     upHeap(h, #h);
 };
 
@@ -32,8 +29,6 @@ remove := procedure(rw h) {
     v2 := h[#h][2];
     h[ 1] := h[#h];
     h[#h] := om;
-    gValueMap[v1] := om;
-    gValueMap[v2] := 1;
     downHeap(h, 1);
 };
 
@@ -64,20 +59,7 @@ downHeap := procedure(rw h, i) {
 };
 
 exchange := procedure(rw h, i, j) {
-    vi := h[i][2]; vj := h[j][2];
     [ h[i], h[j] ] := [ h[j], h[i] ];
-    [ gValueMap[vi], gValueMap[vj] ] := [ gValueMap[vj], gValueMap[vi] ];
-};
-
-change := procedure(rw h, v, p) {
-    i := gValueMap[v];
-    pOld := h[i][1];
-    h[i] := [ p, v ];
-    if (p < pOld) {
-        upHeap(h, i);
-    } else if (pOld < p) {
-        downHeap(h, i);
-    }
 };
 
 parent := i |-> i \ 2;
@@ -103,15 +85,6 @@ demo := procedure() {
         print("insert($p$, $v$)");
         insert(h, p, v);
         print("$toString(h,1,0)$");
-    }
-    while (true) {
-        v := read("enter value to change: ");
-        p := read("enter new priority: ");
-        change(h, v, p);
-        print("$toString(h,1,0)$");        
-        if (p == 42) {
-            break;
-        }
     }
     while (h != []) {
         print("top(h) = $top(h)$");

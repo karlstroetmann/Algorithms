@@ -267,7 +267,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
 \begin{enumerate}
 \item Zu Beginn hat die Menge $M$ die Form
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ M = \bigl\{ \textsl{leaf}(\mathtt{a},1),\,
              \textsl{leaf}(\mathtt{b},2),\, 
              \textsl{leaf}(\mathtt{c},3),\,
@@ -277,7 +277,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
       \texttt{b} minimal.  Also entfernen wir diese Blätter aus der Menge und fügen statt
       dessen den Knoten 
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $\textsl{node}\bigl(\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)\bigr)$
       \\[0.2cm]
       in die Menge $M$ ein.  Es gilt
@@ -290,31 +290,31 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
       Um die Funktion $\textsl{count}()$ nicht jedes Mal neu berechnen zu müssen, annotieren wir
       den Wert dieser Funktion mit einem Doppelpunkt an einem Knoten $n$ in der Form 
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $n:n.\textsl{count}()$.
       \\[0.2cm]
       Dann hat $M$ die Form
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \bigl\{\textsl{node}\bigl(\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)\bigr):3,\,
              \textsl{leaf}(\mathtt{c},3),\, \textsl{leaf}(\mathtt{d},4),\,
              \textsl{leaf}(\mathtt{e},5)\bigr\}. $
 \item Die beiden Knoten mit den kleinsten Werten von \textsl{count} sind nun
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \textsl{node}(\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)):3 
          \quad \mathrm{und} \quad \textsl{leaf}(\mathtt{c},3). $
       \\[0.2cm]
       Wir entfernen diese beiden Knoten und bilden aus den beiden Knoten den neuen Knoten
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \textsl{node}\Bigl(
            \textsl{node}\bigl((\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)\bigr),\; 
            \textsl{leaf}(\mathtt{c},3)\Bigr):6, $
       \\[0.2cm]
       den wir der Menge $M$ hinzufügen.  Dann hat $M$ die Form
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \Bigl\{ 
         \textsl{leaf}(\mathtt{d},4),\;\textsl{leaf}(\mathtt{e},5),\;
         \textsl{node}\Bigl(
@@ -322,17 +322,17 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
            \textsl{leaf}(\mathtt{c},3)\Bigr):6\Bigr\}. $
 \item Jetzt sind 
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \textsl{leaf}(\mathtt{d},4) \quad \mathrm{und} \quad \textsl{leaf}(\mathtt{e},5)$
       \\[0.2cm]
       die beiden Knoten mit dem kleinsten Werten von \textsl{count}.
       Wir entfernen diese Knoten und bilden den neuen Knoten \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \textsl{node}\bigl(\textsl{leaf}(\mathtt{d},4), \textsl{leaf}(\mathtt{e},5)\bigr):9. $
       \\[0.2cm]
       Diesen fügen wir der Menge $M$ hinzu und erhalten
       \\[0.2cm]
-      \hspace*{1.3cm}
+      \hspace*{0.3cm}
       $ \Bigl\{ 
         \textsl{node}\bigl(\textsl{leaf}(\mathtt{d},4), \textsl{leaf}(\mathtt{e},5)\bigr):9,\;
         \textsl{node}\Bigl(
