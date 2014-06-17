@@ -529,7 +529,7 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
       \hspace*{1.3cm}
       $\alpha = \mathtt{a}$ \quad and \quad $c = \mathtt{u}$.
       \\[0.2cm]
-      Now, the substring $\alpha c$, which is ``\texttt{au}''. is entered into the dictionary and
+      Now, the substring $\alpha c$, which is ``\texttt{au}'', is entered into the dictionary and
       assigned to the next available code, which is $129$:
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -598,9 +598,9 @@ Decoding a list of numbers $l$ into a string $s$ is quite similar to the encodin
 \begin{enumerate}
 \item This time, the dictionary is initialized to map all \textsc{Ascii} codes to their corresponding
       \textsc{Ascii} characters.  Hence, the dictionary constructed in this step is just the inverse
-      as the dictionary constructed when starting to encode the string.
+      of the dictionary constructed when starting to encode the string.
 \item We initialize $s$ as the 
-      empty string\footnote{In computer science, the empty string is denoted as $\varepsilon$.}:
+      empty string, which is denoted as $\varepsilon$:
       \\[0.2cm]
       \hspace*{1.3cm}
       $s := \varepsilon$.
@@ -615,7 +615,7 @@ that it might happen that the dictionary does not have an entry for the number $
 the encoder is one step ahead of the decoder: The encoder encodes a substring and enters a code
 corresponding to the previous substring into the dictionary.  Now if the next substring is identical
 to the substring just entered, the encoder will produce a code that is not yet in the dictionary of
-the decoder when he tries to decode it.   The question then is: How do we encode a number that has
+the decoder when he tries to decode it.   The question then is: How do we decode a number that has
 not yet been entered into the dictionary.  To answer this question, we can reason an follows:
 If the encoder outputs a code that it has just entered into the dictionary, then the string that is
 encoded starts with the string that has been output previously, followed by some character.  However,
@@ -649,14 +649,11 @@ algorithm.
         mDictionary := { [ char(i), i ] : i in [32 .. 127] };
         mInverse    := { [ i, char(i) ] : i in [32 .. 127] };
         mNextCode   := 128;
-        mBitNumber  := 8;
-        mCodeSize   := 0;
     
         static {
             compress      := procedure(s)     { ... };
             uncompress    := procedure(l)     { ... };
             longestPrefix := procedure(s, i)  { ... };
-            incrementBitNumber := procedure() { ... };
         }
     }
 \end{Verbatim}
@@ -674,9 +671,8 @@ a string $s$.  These methods are designed to satisfy the following specification
 \hspace*{1.3cm}
 $l = \mathtt{lzw().compress}(s_1) \wedge s_2 = \mathtt{lzw().uncompress}(l) \rightarrow s_1 = s_2$.
 \\[0.2cm]
-Furthermore, the class \texttt{lzw} contains the auxiliary methods \texttt{longestPrefix} and
-\texttt{incrementBitNumber}, which will be discussed later.  The class \texttt{lzw} contains 5
-member variables:
+Furthermore, the class \texttt{lzw} contains the auxiliary method \texttt{longestPrefix}, which will
+be discussed later.  The class \texttt{lzw} contains 3 member variables:
 \begin{enumerate}
 \item \texttt{mDictionary} is the dictionary used when encoding a string.  It is initialized to map
       the \textsc{Ascii} characters to their codes.  Remember that for a given number $i$, the
@@ -688,13 +684,6 @@ member variables:
 \item \texttt{mNextCode} gives the value of the next code used in the dictionary.  Since the codes
       up to and including $127$ are already used for the \textsc{Ascii} character, the next
       available code will be $128$.
-\item \texttt{mBitNumber} is the number of bits needed to encode the next number to be entered into
-      the dictionary.  Since the codes inserted into the dictionaries start at $128$ and this number
-      needs $8$ bits to be encoded, \texttt{mBitNumber} is initialized to $8$ bits.
-\item \texttt{mCodeSize} is the total number of bits used to encode the string $s$ given to the
-      method \texttt{compress}.  This member variable is only needed to keep track of the
-      performance of the algorithm; maintaining this variable is not necessary for the algorithm to
-      work. 
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -714,11 +703,9 @@ member variables:
         while (idx <= #s) {
             p := longestPrefix(s, idx);
             result += [ mDictionary[s[idx..p]] ];
-            this.mCodeSize += mBitNumber;
             if (p < #s) {
                 mDictionary[s[idx..p+1]] := mNextCode;
                 this.mNextCode += 1;
-                incrementBitNumber();
             }
             idx := p + 1;
         }
@@ -739,15 +726,13 @@ implementation line by line.
       $s[1..\mathtt{idx}-1]$ has been encoded and the corresponding codes have already been written
       to the list \texttt{result}, while the substring $s[\mathtt{idx}..]$ is
       the part of $s$ that still needs to be encoded.
-\item Hence, the \texttt{while}-loop runs as long as the index \texttt{idx} is less or equal that
+\item Hence, the \texttt{while}-loop runs as long as the index \texttt{idx} is less or equal than
       the length $\texttt{\#}s$ of the string $s$.
 \item Next, the method \texttt{longestPrefix}  computes the index of longest prefix of the substring
       $s[\mathtt{idx}..]$ that can be found in the dictionary \texttt{mDictionary}, i.e.~$p$ is the
       maximal number such that the expression \texttt{mDictionary[s[idx..p]]} is defined.
-\item The code corresponding to this substring is looked up in the dictionary \texttt{mDictionary}
+\item The code corresponding to this substring is looked up in \texttt{mDictionary}
       and is then appended to the list \texttt{result}.
-\item Since we want to keep track of the number of bits needed to encode the string we increment
-      the variable \texttt{mCodeSize} by the number of bits currently used to write a code.
 \item Next, we take care to maintain the dictionary \texttt{mDictionary} and add the substring
       $s[\mathtt{idx}..p+1]$ to the dictionary.  Of course, we can only do this if the upper index
       of this expression, which is $p+1$, is an index into the string $s$. 
@@ -755,11 +740,7 @@ implementation line by line.
       Once we have entered the
       new string with its corresponding code into the dictionary, we have to make sure that the
       variable \texttt{mNextCode} is incremented so that every string is associated with a unique
-      code.  When we increment \texttt{mNextCode} it can happen that the new value of
-      \texttt{mNextCode} has grown so large that the number of bits \texttt{mBitNumber} is no
-      longer sufficient to store \texttt{mNextCode}.  In this case, \texttt{mBitNumber} needs to be
-      incremented.  The function \texttt{incrementBitNumber} increments the variable
-      \texttt{mBitNumber} if this is necessary. 
+      code.  
 \item Since the code corresponding to the substring $s[\mathtt{idx}..p]$ has been written to the
       list \texttt{result}, the index \texttt{idx} is set to $p+1$.
 \item Once the while loop has terminated, the string $s$ has been completely encoded and the list
@@ -797,30 +778,21 @@ implementation line by line.
 \caption{Computing the longest prefix.}
 \label{fig:lzw.stlx-longestPrefix}
 \end{figure}
-Figure \ref{fig:lzw.stlx-longestPrefix} show the implementation of the auxiliary functions
-\texttt{longestPrefix} and \texttt{incrementBitNumber}.  
-\begin{enumerate}
-\item The function $\texttt{longestPrefix}(s, i)$ computes the maximum value of $k$ such that
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $i \leq k \wedge k \leq \texttt{\#}s \wedge \mathtt{mDictionary}[s[i..k]] \not= \Omega$.
-      \\[0.2cm]
-      This value is well defined since the dictionary is initialized to contain all strings of
-      length 1.  Therefore, $\texttt{mDictionary}[s[i..i]]$ is known to be defined: It is the
-      \textsc{Ascii} code of the character $s[i]$.
+Figure \ref{fig:lzw.stlx-longestPrefix} show the implementation of the auxiliary function
+\texttt{longestPrefix}.  
+The function $\texttt{longestPrefix}(s, i)$ computes the maximum value of $k$ such that
+\\[0.2cm]
+\hspace*{1.3cm}
+$i \leq k \wedge k \leq \texttt{\#}s \wedge \mathtt{mDictionary}[s[i..k]] \not= \Omega$.
+\\[0.2cm]
+This value is well defined since the dictionary is initialized to contain all strings of
+length 1.  Therefore, $\texttt{mDictionary}[s[i..i]]$ is known to be defined: It is the
+\textsc{Ascii} code of the character $s[i]$.
       
-      The required value is computed by a simple \texttt{while}-loop that tests all possible values of $k$.
-      The loop exits once the value of $k$ is too big.  Then the previous value of $k$, which is
-      stored in the variable \texttt{oldK} is returned as the result.
-\item The function \texttt{incrementBitNumber} tests whether \texttt{mNextCode} can be stored in
-      with \texttt{mBitNumber} bits.  This is the case if 
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\mathtt{mNextCode} < 2^{\mathtt{mBitNumber}}$
-      \\[0.2cm]
-      holds true.  Otherwise, \texttt{mBitNumber} is incremented so that the inequality given above
-      is reestablished.
-\end{enumerate}
+The required value is computed by a simple \texttt{while}-loop that tests all possible values of $k$.
+The loop exits once the value of $k$ is too big.  Then the previous value of $k$, which is
+stored in the variable \texttt{oldK} is returned as the result.
+
 
 
 
@@ -890,7 +862,7 @@ takes a list of numbers and decodes it into a string $s$.
       dictionary,  then we can conclude that this code has been created when coding the
       substring \texttt{old} followed by some character $c$.  However, as the next substring $\beta$
       corresponds to this code, the character $c$ must be the first
-      character of this substring, i.e.~ we have
+      character of this substring, i.e.~we have
       \\[0.2cm]
       \hspace*{1.3cm}
       $c = \beta[1]$.
