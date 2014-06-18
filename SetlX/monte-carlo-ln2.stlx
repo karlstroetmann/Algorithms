@@ -4,7 +4,7 @@
  * @return  an approximation of ln(2)
  */
 approximateLn2 := procedure(n) {
-    k := 0;  // k is the number of points that are inside the circle
+    k := 0;  // k is the number of points that are under the hyperbola
     i := 0;
     while (i < n) {
         x := random() + 1;

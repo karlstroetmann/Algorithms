@@ -157,8 +157,8 @@ durch die Formel
 gegeben, die auch als \emph{Binomial-Verteilung} bekannt ist.  Für große Werte von $n$ ist die obige Formel
 sehr unhandlich, kann aber gut durch die \emph{Gauß-Verteilung} approximiert werden, es gilt
 \\[0.2cm]
-\hspace*{1.3cm}
-$\frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \approx  
+\hspace*{0.8cm}
+$\ds\frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \approx  
    \frac{1}{\sqrt{2\cdot \pi \cdot n \cdot p \cdot (1-p)\;}} \cdot 
    \exp\left(-\frac{(k - n \cdot p)^2}{2 \cdot n \cdot p \cdot (1 - p)}\right)
 $
@@ -180,7 +180,7 @@ gegeben ist.  Die Streuung gibt ein Maß dafür, wie stark der gemessene Wert von 
 erwarteten Wert $p \cdot n$ abweicht.  Es kann gezeigt werden, dass die Wahrscheinlichkeit, dass $k$ außerhalb
 des Intervalls
 \[ [ p \cdot n - 3 \cdot \sigma,\, p \cdot n + 3 \cdot \sigma ] \]
-liegt, also um mehr als das dreifache von dem erwarteten Wert abweicht, kleiner als $0.27 \%$ ist.  Für
+liegt, also um mehr als das Dreifache von dem erwarteten Wert abweicht, kleiner als $0.27 \%$ ist.  Für
  die Genauigkeit unserer Schätzung $p \approx \frac{k}{n}$ heißt das, dass dieser Schätzwert mit hoher
  Wahrscheinlichkeit ($99.73\%$) in dem Intervall
 \[  \left[ \frac{p \cdot n - 3 \cdot \sigma}{n},\, \frac{p \cdot n + 3 \cdot \sigma}{n} \right] 
@@ -251,9 +251,9 @@ Nach dem Hinweis soll
 gelten. Setzen wir hier die Formel für $\varepsilon(n)$ ein, so erhalten wir
 \[  
 \begin{array}[t]{llcl}
-                & 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
-\Leftrightarrow & 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
-\Leftrightarrow & 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
+                & \ds 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
+\Leftrightarrow & \ds 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
+\Leftrightarrow & \ds 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
 \end{array}
 \]
 Um an dieser Stelle weitermachen zu können, benötigen wir den Wert der Wahrscheinlichkeit $p$.  Der korrekte
