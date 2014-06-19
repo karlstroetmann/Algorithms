@@ -107,6 +107,7 @@ while (true) {
     demo(s, true);
 }
 
+
 fileDemo := procedure(f) {
     print("compressing file $f$");
     s := +/ readFile(f);
@@ -117,4 +118,5 @@ fileDemo("alice.txt");
 fileDemo("lzw.stlx");
 fileDemo("ComparableSet.java");
 
+demo("abcabcabcabc", true);
 

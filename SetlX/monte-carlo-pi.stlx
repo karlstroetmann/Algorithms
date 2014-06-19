@@ -21,7 +21,7 @@ approximatePi := procedure(n) {
 main := procedure() {
     n := 10; 
     i := 7;
-    while (n < 1000000000000) {
+    while (n < 100000000) {
         p  := approximatePi(n);
         pi := mathConst("Pi"); 
         blanks := " " * i;
