@@ -233,44 +233,156 @@ $100\,000\,000\,000$ & 3.89478e-06 \\
 \vspace*{0.3cm}
 
 \exercise
-Wieviel Tonnen Sand benötigte Pharao Ramses \texttt{I$\!$I}, als er $\pi$ mit der Monte-Carlo-Methode auf 6
-Stellen hinter dem Komma berechnet hat?
+Wie viele Versuche sind notwendig um $\pi$ mit der Monte-Carlo-Methode auf 6
+Stellen hinter dem Komma zu berechnen, wenn das Ergebnis mit einer Wahr\-scheinlichkeit von $99,73\%$
+korrekt sein soll?
 \vspace*{0.1cm}
 
 \noindent
-\textbf{Hinweise}: 
-\begin{enumerate}
-\item Ein Sandkorn wiegt im Durchschnitt etwa $\frac{1}{1000}$ Gramm.
-\item Um eine Genauigkeit von 6 Stellen hinter dem Komma zu haben, sollte der Fehler durch $10^{-7}$
-      abgeschätzt werden.  Das Ergebnis soll mit einer Wahrscheinlichkeit von $99,7\%$ korrekt sein.
-\end{enumerate}
+\textbf{Hinweis}: 
+Um eine Genauigkeit von 6 Stellen hinter dem Komma zu erreichen, sollte der Fehler durch $10^{-7}$
+abgeschätzt werden.  \eox
+
 
 \solution
 Nach dem Hinweis soll 
-\[ \varepsilon(n) = 10^{-7} \]
+\\[0.2cm]
+\hspace*{1.3cm}
+$\varepsilon(n) = 10^{-7}$
+\\[0.2cm]
 gelten. Setzen wir hier die Formel für $\varepsilon(n)$ ein, so erhalten wir
-\[  
+\\[0.2cm]
+\hspace*{1.3cm}
+$  
 \begin{array}[t]{llcl}
                 & \ds 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
 \Leftrightarrow & \ds 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
 \Leftrightarrow & \ds 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
 \end{array}
-\]
-Um an dieser Stelle weitermachen zu können, benötigen wir den Wert der Wahrscheinlichkeit $p$.  Der korrekte
+$
+\\[0.2cm] 
+Um an dieser Stelle weitermachen zu können, benötigen wir den Wert der Wahr\-scheinlichkeit $p$.  Der korrekte
 Wert von $p$ ist für unser Experiment durch $\frac{\pi}{4}$ gegeben.  Da wir $\pi$ ja erst berechnen wollen,
-nehmen wir als Abschätzung von $\pi$ den Wert $3$, so dass $p$ den Wert $\frac{3}{4}$ hat.  Da eine Tonne
-insgesamt $10^9$ Sandkörner enthält, bekommen wir für das Gewicht $g$ das Ergebnis
-\begin{eqnarray*}
-g & \approx & 9 \cdot \frac{3}{4} \cdot \frac{1}{4} \cdot 10^5\; \mbox{Tonnen} \\[0.2cm]
-  & \approx & 168\,750 \; \mbox{Tonnen} 
-\end{eqnarray*}
-Die Cheops-Pyramide ist 35 mal so schwer. \qed
+nehmen wir als Näherung von $\pi$ den Wert $3$, so dass $p$ den Wert $\frac{3}{4}$ hat.  Damit
+ergibt sich für $n$ der Wert
+\\[0.2cm]
+\hspace*{1.3cm}
+$n = 168.75 \cdot 10^{12}$.
+\\[0.2cm]
+Das sind also mehr als fast 169 Billionen Versuche. \qed
+
 
 \exercise
 Berechnen Sie mit Hilfe der Monte-Carlo-Methode eine Näherung für den Ausdruck $\mathrm{ln}(2)$.
 Ihre Näherung soll mit einer Wahrscheinlichkeit von $99.73\%$ eine Genauigkeit von 
-$\varepsilon = 10^{-3}$ haben.
+$\varepsilon = 10^{-3}$ haben. \eox
 \pagebreak
+
+\section{The Monty Hall Problem}
+The \href{http://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem} is famous probability
+puzzle that is based on the TV show 
+\href{http://en.wikipedia.org/wiki/Let%27s_Make_a_Deal}{Let's Make a Deal}, which was aired in the
+US from the sixties through the seventies.  The host of this show was 
+\href{http://en.wikipedia.org/wiki/Monty_Hall}{Monty Hall}. In his show, a player had to choose one
+of three doors.  Monty Hall had placed goats behind two of the doors but there was a shiny new car
+behind the third door.  Of course, the player did not know the location of the door with the car.  
+Once the player had told Monty Hall the door he had chosen, Monty Hall would open one of the other
+two doors.  However, Monty Hall would never open the door with the car behind it.  Therefore, if the
+player had chosen the door with the car, Monty Hall would have randomly chosen a door leading to a
+goat.  If, instead, the player had chosen a door leading to a goat, Monty Hall would have opened the
+door showing the other goat.  In either case, after opening the door  Monty Hall would ask the
+player whether he wanted to stick with his first choice or whether, instead, he wanted to pick the
+remaining closed door.  
+
+The question now is whether it is a good strategy to stick with the door chosen first or whether it
+is better to switch doors.  Mathematically, the reasoning is quite simple: The probability that the
+door chosen first leads to the car is $\frac{1}{3}$.  Therefore, the probability that the car is behind
+the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  
+
+Although the reasoning given above is straightforward, many people don't believe it.  In order to convince these
+guys, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:monty-hall.stlx} on page
+\pageref{fig:monty-hall.stlx} shows a function that simulates \texttt{n} games and compares the
+different strategies.  
+\begin{enumerate}
+\item The first strategy is the strategy that does not switch doors.
+      For obvious reasons, this strategy is called the \emph{stupid strategy}.
+\item The second strategy will always switch the the other door.
+      This strategy is called the \emph{smart strategy}.
+\end{enumerate}
+We discuss the implementation of the function \texttt{calculateChances} line by line.
+\begin{enumerate}
+\item In order to compare the two strategies, the idea is to play the game offered by Monty Hall
+      \texttt{n} times.  Then we need to count how many cars are won by the stupid strategy and how
+      many cars are won by the smart strategy.
+\item The variable \texttt{successStupid} counts the number of cars won by the stupid strategy.
+\item The variable \texttt{successSmart}  counts the number of cars won by the smart  strategy.
+\item The \texttt{for} loop extending from line 4 to line 15 runs \texttt{n} simulations of the
+       game.
+       \begin{enumerate}
+       \item First, in line 5 the car is placed randomly behind one of the three doors.
+       \item Second, in line 6 the player picks a door.
+       \item In line 7, Monty Hall opens a door that does not have a car behind it and that
+             is different from the door chosen by the player.
+       \item When the player uses the smart strategy, she will then pick the remaining door in line 8.
+       \end{enumerate}
+\item Next, we check which of the two strategies actually wins the car.
+      \begin{enumerate}
+      \item If the car was placed behind the door originally chosen by the player, the stupid
+            strategy wins the car.  Therefore, we increment the variable \texttt{successStupid} in
+            this case.
+      \item If, instead, the car was placed behind the door that was neither chosen nor opened, then
+            the smart strategy wins the car.  Hence, the variable \texttt{successSmart} has to be incremented.
+      \end{enumerate}
+\item The function concludes by printing the results.  Running the function for \texttt{n} equal to
+      $100\,000$ has yielded the following result:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{The stupid strategy wins 33262 cars.} \\ 
+      \hspace*{1.3cm}
+      \texttt{The smart  strategy wins \ 66738 cars.}
+      \\[0.2cm]
+      This shows that, on average, the payoff from the smart strategy is about twice as high as the
+      payoff from the stupid strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    calculateChances := procedure(n) {
+        successStupid := 0;  
+        successSmart  := 0; 
+        for (i in [1..n]) {
+            car    := rnd({1..3});                       
+            choice := rnd({1..3});                      
+            opened := rnd({1..3} - { choice, car });   
+            last   := arb({1..3} - { choice, opened });
+            if (car == choice) {
+                successStupid += 1;
+            }
+            if (car == last) {
+                successSmart += 1;
+            }
+        }
+        print("The stupid strategy wins $successStupid$ cars.");
+        print("The smart  strategy wins $successSmart $ cars.");
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{A program to solve the Monty Hall problem.}
+\label{fig:monty-hall.stlx}
+\end{figure}
+
+
+
 
 
 \section[Permutations]{Erzeugung zufälliger Permutationen}
