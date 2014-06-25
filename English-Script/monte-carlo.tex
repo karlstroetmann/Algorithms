@@ -131,13 +131,13 @@ sagen, dass sich der Aufwand bei der Berechnung jeder weiteren Stelle verhundert
 Wir halten folgende Beobachtung fest:
 
 \begin{center}
-  \framebox{
+\colorbox{orange}{\framebox{
   \framebox{
   \begin{minipage}[t]{12cm}
-  Die Monte-Carlo-Methode ist gut geeignet, um einfache Abschätzungen zu berechnen, wird aber sehr aufwendig,
+  Die Monte-Carlo-Methode ist gut geeignet, um grobe Abschätzungen zu berechnen, wird aber sehr aufwendig,
   wenn eine hohe Genauigkeit gefordert ist.
   \end{minipage}
-  }}
+  }}}
 \end{center}
 
 \section[Theory]{Theoretischer Hintergrund}
@@ -339,7 +339,7 @@ We discuss the implementation of the function \texttt{calculateChances} line by 
       \hspace*{1.3cm}
       \texttt{The stupid strategy wins 33262 cars.} \\ 
       \hspace*{1.3cm}
-      \texttt{The smart  strategy wins \ 66738 cars.}
+      \texttt{The smart \ strategy wins 66738 cars.}
       \\[0.2cm]
       This shows that, on average, the payoff from the smart strategy is about twice as high as the
       payoff from the stupid strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
