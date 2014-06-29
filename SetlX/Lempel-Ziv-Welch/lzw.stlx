@@ -116,9 +116,7 @@ fileDemo := procedure(f) {
 
 fileDemo("alice.txt");
 fileDemo("lzw.stlx");
-fileDemo("huffman.tex");
 fileDemo("ComparableSet.java");
-fileDemo("lore-ipsum.txt");
 
 demo("abcabcabcabc", true);
 
