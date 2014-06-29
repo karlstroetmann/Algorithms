@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2013)
+This is BibTeX, Version 0.99d (TeX Live 2012)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: algorithms.aux
 A level-1 auxiliary file: introduction.aux
@@ -14,10 +14,10 @@ A level-1 auxiliary file: huffman.aux
 A level-1 auxiliary file: graph.aux
 A level-1 auxiliary file: monte-carlo.aux
 The style file: alpha.bst
-Database file #1: ../../cs.bib
+Database file #1: cs.bib
 You've used 31 entries,
             2543 wiz_defined-function locations,
-            747 strings with 8274 characters,
+            747 strings with 8268 characters,
 and the built_in function-call counts, 11410 in all, are:
 = -- 1111
 > -- 514
