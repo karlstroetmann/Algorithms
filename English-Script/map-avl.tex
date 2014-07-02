@@ -125,7 +125,7 @@ bedingte Gleichungen.
         \hspace*{1.3cm} 
         $\textsl{Node}\bigl(k_1,v_1,\textsl{Node}(k_2,v_2,l_2,\textsl{Node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$ \\[0.2cm]
         geschrieben werden. Die Teilbäume $l_3$ und $r_3$ haben hier entweder die Höhe $h$ oder
-        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muß.
+        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muss.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=caselr,scale=0.7}} 
@@ -697,7 +697,7 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 \section{Tries}
 In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
 In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-Bäumen, die auf diese Situation besonders angepaßt ist.  Diese Such-Bäume
+Form von Such-Bäumen, die auf diese Situation besonders angepasst ist.  Diese Such-Bäume
 haben den Namen \emph{Tries}.  Dieses Wort ist von dem Englischen Wort
 \emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
 unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
@@ -796,7 +796,7 @@ mit den Buchstaben $c_1$, $\cdots$, $c_n$.
 
 Zur Verdeutlichung geben wir ein Beispiel in 
 Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
-Die Funktion, die hier dargestellt wird, läßt sich wie folgt als binäre Relation
+Die Funktion, die hier dargestellt wird, lässt sich wie folgt als binäre Relation
 schreiben: \\[0.2cm]
 \hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
              \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
@@ -838,7 +838,7 @@ durch Induktion nach der Länge des Wortes $w$.
 
       Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
       $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
-      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muß der Wert $v_2$
+      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muss der Wert $v_2$
       rekursiv in dem Trie $t_i$ unter dem Schlüssel 
       $r$ eingefügt werden.
 
@@ -852,7 +852,7 @@ durch Induktion nach der Länge des Wortes $w$.
       erzeugt, der die leere Abbildung repräsentiert.  Dieser Trie hat die Form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
       Anschließend wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schlüssel $r$
-      eingefügt. Zum Schluß hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
+      eingefügt. Zum Schluss hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
       an und fügen den Trie  \\[0.2cm] 
       \hspace*{1.3cm}
       $\texttt{Node}(\Omega, [], []).\textsl{insert}(r,v_2)$ 
@@ -1321,7 +1321,7 @@ Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
       \hspace*{1.3cm} 
       $\textsl{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$,
       \\[0.2cm]
-      so läßt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
+      so lässt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
       \hspace*{1.3cm} 
       $\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
       berechnen, die wie folgt definiert ist: \\[0.2cm]

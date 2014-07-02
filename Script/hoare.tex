@@ -1,6 +1,6 @@
 \chapter{Der Hoare-Kalkül} 
 In diesem Kapitel stellen wir den \emph{Hoare-Kalkül} vor, mit dessen Hilfe sich die
-Korrektheit nicht-rekursiver Programme zeigen läßt.
+Korrektheit nicht-rekursiver Programme zeigen lässt.
 Dieses Hilfsmittel ist der \emph{Hoare-Kalkül}, der 1969 von C.~A.~R.~Hoare 
 \cite{hoare:69} vorgestellt wurde.
 
@@ -39,7 +39,7 @@ eingeführt.
       Auf den ersten Blick sieht das seltsam aus.  Viele Studenten denken zunächst, dass
       dieses Hoare-Tripel die Form
       \[ \hoare{\textsl{prim}(x)}{x := x + 1;}{\textsl{prim}(x+1)} \] 
-      haben müßte.  Das diese letzte Zeile falsch ist, können wir sehen, wenn wir für $x$
+      haben müsste.  Das diese letzte Zeile falsch ist, können wir sehen, wenn wir für $x$
       den Wert $2$ einsetzen, dann dann ist die Vorbedingung $\textsl{prim}(2)$ erfüllt.
       Nach der Ausführung der Zuweisung hat $x$ den Wert $3$ und
       \\[0.2cm]
@@ -76,7 +76,7 @@ schreiben. Die Funktion $h$ hat dann die Form
 und die Umkehr-Funktion  ist offenbar 
 \[ h^{-1}(x) = x - 1, \]
 denn um die Addition von 1 rückgängig zu machen, müssen wir 1 subtrahieren.
-Mit der Umkehr-Funktion läßt sich nun die Nachbedingung der Zuweisung ``\texttt{x := h(x);}'' aus der
+Mit der Umkehr-Funktion lässt sich nun die Nachbedingung der Zuweisung ``\texttt{x := h(x);}'' aus der
 Vorbedingung berechnen, denn es gilt
 \[ \hoare{F}{x := h(x);}{F\sigma} \quad \mathrm{mit} \quad \sigma = \bigl[x \mapsto h^{-1}(x)\bigr]. \]
 Hier bezeichnet $F\sigma$ die Anwendung der Substitution
@@ -509,7 +509,7 @@ jedem Fall terminiert.  Zu diesem Zweck definieren wir die Variable $s$ als
 Die Variablen $x$ und $y$ sind natürliche Zahlen.  Damit ist dann auch $s$ eine natürliche Zahl.
 Bei jedem Schleifendurchlauf wird die Zahl $s$ verkleinert, denn entweder wird $x$ von $s$
 abgezogen oder es wird $y$ von $s$ abgezogen und die Invariante $I$ zeigt uns, dass sowohl $x$ als auch $y$
-positiv sind.  Würde die Schleife unendlich lange laufen, so müßte $s$ irgendwann negative
+positiv sind.  Würde die Schleife unendlich lange laufen, so müsste $s$ irgendwann negative
 Werte annehmen.  Da wir dies ausschließen können, muss die
 Schleife abbrechen.  Damit ist die Korrektheit des Euklid'schen Algorithmus gezeigt.
 \pagebreak

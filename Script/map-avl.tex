@@ -124,7 +124,7 @@ bedingte Gleichungen.
         \hspace*{1.3cm} 
         $\textsl{node}\bigl(k_1,v_1,\textsl{node}(k_2,v_2,l_2,\textsl{node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$ \\[0.2cm]
         geschrieben werden. Die Teilbäume $l_3$ und $r_3$ haben hier entweder die Höhe $h$ oder
-        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muß.
+        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muss.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=caselr,scale=0.7}} 
@@ -286,7 +286,7 @@ Implementierung der abstrakten Klasse \textsl{Node}.  Gegenüber der Implementier
 \ref{fig:Node.java} auf Seite \pageref{fig:Node.java} ist hier einerseits in Zeile 3 die
 Member-Variable \texttt{mHeight} neu hinzu gekommen und andererseits gibt es jetzt in
 Zeile 11 die Methode $\textsl{restore}()$, mit deren Hilfe sich die
-Balancierungs-Bedingung wiederherstellen läßt, wenn diese durch eine Einfüge- oder
+Balancierungs-Bedingung wiederherstellen lässt, wenn diese durch eine Einfüge- oder
 Lösch-Operation verletzt worden ist.
 
 
@@ -533,7 +533,7 @@ gibt es die folgenden Änderungen:
 \item Am Ende der Methode \textsl{insert}() wird in Zeile 43 die Methode
       $\textsl{restore}()$ aufgerufen um die Balancierungs-Bedingung sicherzustellen. 
 
-      Eigentlich müßte die Methode $\textsl{restore}()$ nur dann aufgerufen werden,
+      Eigentlich müsste die Methode $\textsl{restore}()$ nur dann aufgerufen werden,
       wenn entweder im linken oder im rechten Teilbaum ein neuer Schlüssel eingefügt wird.  Es würde also
       reichen, die Methode am Ende der  \texttt{if}-Blöcken in Zeile 37 und 39 aufzurufen.
       Dann hätten wir aber zwei Aufrufe von $\textsl{restore}()$.  Der Code wird 
@@ -550,7 +550,7 @@ gibt es die folgenden Änderungen:
       Implementierung nur durch den Aufruf von $\textsl{restore}()$ in Zeile 80.
 \item In Zeile 84 implementieren wir die Methode $\textsl{restore}()$.
       \begin{enumerate}
-      \item Falls die Balancierungs-Bedingung bereits erfüllt ist, so muß die Methode
+      \item Falls die Balancierungs-Bedingung bereits erfüllt ist, so muss die Methode
             $\textsl{restore}()$ nur dafür sorgen, dass die Member-Variable \texttt{mHeight} an dem Knoten
             korrekt gesetzt ist.  Dazu wird die Methode Methode $\textsl{restoreHeight()}$
             aufgerufen.  Diese Methode ist in Zeile 120 -- 122 implementiert und berechnet
@@ -704,7 +704,7 @@ zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.
 \section{Tries}
 In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
 In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-Bäumen, die auf diese Situation besonders angepaßt ist.  Diese Such-Bäume
+Form von Such-Bäumen, die auf diese Situation besonders angepasst ist.  Diese Such-Bäume
 haben den Namen \emph{Tries}.  Dieses Wort ist von dem Englischen Wort
 \emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
 unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
@@ -810,7 +810,7 @@ mit den Buchstaben $c_1$, $\cdots$, $c_n$.
 
 Zur Verdeutlichung geben wir ein Beispiel in 
 Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
-Die Funktion, die hier dargestellt wird, läßt sich wie folgt als binäre Relation
+Die Funktion, die hier dargestellt wird, lässt sich wie folgt als binäre Relation
 schreiben: \\[0.2cm]
 \hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
              \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
@@ -850,7 +850,7 @@ durch Induktion nach der Länge des Wortes $w$.
 
       Wenn in dem Trie $\textsl{node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
       $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
-      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muß der Wert $v_2$
+      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muss der Wert $v_2$
       rekursiv in dem Trie $t_i$ unter dem Schlüssel 
       $r$ eingefügt werden.
 
@@ -864,7 +864,7 @@ durch Induktion nach der Länge des Wortes $w$.
       erzeugt, der die leere Abbildung repräsentiert.  Dieser Trie hat die Form \\[0.2cm]
       \hspace*{1.3cm} $\textsl{node}(\Omega, [], [])$. \\[0.2cm]
       Anschließend wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schlüssel $r$
-      eingefügt. Zum Schluß hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$
+      eingefügt. Zum Schluss hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$
       an und fügen den Trie  \\[0.2cm] 
       \hspace*{1.3cm} $\textsl{node}(\Omega, [], []).\textsl{insert}(r,v_2)$ \\[0.2cm]
       am Ende der Liste $[t_1,\cdots,t_n]$ ein.
@@ -1196,7 +1196,7 @@ kann dann sehr einfach implementiert werden, wenn \\[0.2cm]
 \hspace*{1.3cm} $\textsl{Key} = \{ 0, 1, 2, \cdots, n \}$, \\[0.2cm]
 denn dann reicht es aus, ein Feld der Größe $n+1$ zu verwenden.
 Abbildung \ref{fig:ArrayMap} zeigt, dass sich der ADT \textsl{Map} 
-in diesem Fall trivial implementieren läßt.
+in diesem Fall trivial implementieren lässt.
 
 \begin{figure}[!ht]
   \centering
@@ -1252,7 +1252,7 @@ Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
       \hspace*{1.3cm} 
       $\textsl{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$,
       \\[0.2cm]
-      so läßt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
+      so lässt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
       \hspace*{1.3cm} 
       $\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
       berechnen, die wie folgt definiert ist: \\[0.2cm]
@@ -1543,7 +1543,7 @@ als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \texts
       Wir können die einzelnen Werte nicht einfach kopieren, denn der Index, der angibt,
       in welcher Liste ein Schlüssel eingetragen ist, hängt ja nicht nur von dem
       Hash-Code des Schlüssels sondern auch von der Größe des Feldes ab.
-      Zum Schluß kopieren wir in Zeile 67  das Feld der neu angelegten Hash-Tabelle in die
+      Zum Schluss kopieren wir in Zeile 67  das Feld der neu angelegten Hash-Tabelle in die
       ursprüngliche Hash-Tabelle.
 \item Als letztes diskutieren wir das Löschen in einer Hash-Tabelle.
       Genau wie beim Suchen und Einfügen berechnen wir zunächst den Index der Liste, in
@@ -1651,7 +1651,7 @@ Diese Schnittstelle spezifiziert die folgenden Methoden:
       Element $e$ mehrfach enthalten, so wird nur ein Auftreten von $e$ entfernt.
       Falls $e$ ein Element von $c$ ist, liefert die Methode als Ergebnis \texttt{true},
       sonst \texttt{false}.
-      Falls $c$ eine Menge ist, so läßt sich die Semantik durch folgende Gleichungen
+      Falls $c$ eine Menge ist, so lässt sich die Semantik durch folgende Gleichungen
       spezifizieren.
       \begin{enumerate}
       \item $c.\mathtt{remove}(e) \rightarrow c' = c \,\backslash\, \{ e \}$,
@@ -1675,7 +1675,7 @@ Diese Schnittstelle spezifiziert die folgenden Methoden:
       Der Aufruf $c.\mathtt{retainAll}(d)$ bildet den Schnitt der Zusammenfassungen
       $c$ und $d$.  Es werden alle Elemente aus $c$, die nicht in $d$ auftreten, aus $c$
       entfernt.  Der Aufruf gibt als Ergebnis \texttt{true} zurück, wenn Elemente aus 
-      $c$ entfernt wurden.  Falls $c$ und $d$ Mengen sind, läßt sich die Semantik wie
+      $c$ entfernt wurden.  Falls $c$ und $d$ Mengen sind, lässt sich die Semantik wie
       folgt spezifizieren:
       \begin{enumerate}
       \item $c.\mathtt{retainAll}(d) \rightarrow c' = c \cap d$,
@@ -1801,7 +1801,7 @@ denen für uns die folgenden drei wichtig sind:
 \begin{enumerate}
 \item Die Schnittstelle \texttt{Set<E>} beschreibt Mengen.  Mengen sind Zusammenfassungen, die
       jedes Element höchstens einmal enthalten.  Falls es möglich ist die Elemente
-      der Menge miteinander zu vergleichen, so läßt sich eine Menge in \textsl{Java}
+      der Menge miteinander zu vergleichen, so lässt sich eine Menge in \textsl{Java}
       durch die Klasse \texttt{TreeSet<E>} darstellen.  Diese Klasse hat neben den Methoden
       der Schnittstelle \texttt{Collection<E>} unter anderem noch die folgenden Methoden.
       \begin{enumerate}

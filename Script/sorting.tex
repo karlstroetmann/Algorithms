@@ -88,7 +88,7 @@ folgt definiert:
 In diesem Kapitel präsentieren wir verschiedene Algorithmen, die das Sortier-Problem
 lösen, die also  zum Sortieren von Listen benutzt werden können.
 Wir stellen zunächst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
-Effizienz aber zu wünschen übrig läßt.  Im Anschluß daran präsentieren wir zwei
+Effizienz aber zu wünschen übrig lässt.  Im Anschluss daran präsentieren wir zwei
 effizientere Algorithmen, deren Implementierung allerdings aufwendiger ist.
 
 \section{Sortieren durch Einfügen}
@@ -100,7 +100,7 @@ Der Algorithmus arbeitet nach dem folgenden Schema:
 \item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
       die leere Liste zurück gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
-\item Andernfalls muß die Liste $L$ die Form $[x] + R$ haben.
+\item Andernfalls muss die Liste $L$ die Form $[x] + R$ haben.
       Dann sortieren wir den Rest $R$ und fügen das Element $x$ in diese Liste so ein,
       dass die Liste sortiert bleibt. \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$
@@ -117,7 +117,7 @@ Das Einfügen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem fol
             \hspace*{1.3cm} $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
       \end{enumerate}
 \end{enumerate}
-Dieser Algorithmus läßt sich leicht in \textsl{Java} umsetzen. Abbildung
+Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
 \ref{fig:insertion-sort} zeigt das resultierende Programm.
 \begin{enumerate}
 \item In Zeile 4 deklarieren wir die Member-Variable \texttt{mList}
@@ -209,7 +209,7 @@ berechnen wir zunächst die Anzahl der Aufrufe von ``\texttt{<=}'', die bei einem
 von $\texttt{insert}(x,L)$ im schlimmsten Fall bei einer Liste der Länge $n$
 durchgeführt werden.  Wir bezeichnen diese Anzahl mit $a_n$. Dann haben wir \\[0.2cm]
 \hspace*{1.3cm} $a_0 = 0$ \quad und \quad $a_{n+1} = a_n + 1$. \\[0.2cm]
-Durch eine einfache Induktion läßt sich sofort nachweisen, dass diese Rekurrenz-Gleichung
+Durch eine einfache Induktion lässt sich sofort nachweisen, dass diese Rekurrenz-Gleichung
  die Lösung \\[0.2cm]
 \hspace*{1.3cm} $a_n = n$ \\[0.2cm]
 hat.  Im schlimmsten Falle führt der Aufruf von $\mathtt{insert}(x,L)$ bei einer Liste $L$ mit
@@ -250,7 +250,7 @@ $
 \end{array}
 $
 \\[0.2cm]
-denn $b_0 = 0$ und für die Summe der Zahlen von 0 bis $n - 1$ läßt sich die Gleichung
+denn $b_0 = 0$ und für die Summe der Zahlen von 0 bis $n - 1$ lässt sich die Gleichung
 \\[0.2cm]
 \hspace*{1.3cm}
 $\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$
@@ -284,7 +284,7 @@ Wir stellen als nächstes den Algorithmus ``\emph{Sortieren durch Auswahl}''
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
 \item Andernfalls suchen wir in der Liste $L$ das kleinste Element und entfernen dieses
       Element aus $L$.  Wir sortieren rekursiv die resultierende Liste, die ja ein Element
-      weniger enthält.  Zum Schluß fügen wir das kleinste Element vorne an die sortierte
+      weniger enthält.  Zum Schluss fügen wir das kleinste Element vorne an die sortierte
       Liste an: \\[0.2cm]
       \hspace*{1.3cm} 
       $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr]
@@ -410,7 +410,7 @@ Elemente betrachtet werden.  Daher ist die durchschnittliche Anzahl von Vergleic
 \subsection{Eine feldbasierte Implementierung}
 In der Anwendung besteht die Aufgabe häufig darin, ein Feld von Daten zu sortieren.
 Bisher haben wir nur Listen sortiert.  Daher präsentieren wir
-zum Abschluß unserer Diskussion des Algorithmus ``\emph{Sortieren durch Auswahl}''
+zum Abschluss unserer Diskussion des Algorithmus ``\emph{Sortieren durch Auswahl}''
 noch eine Implementierung dieses Algorithmus' in der Sprache \textsl{Java},
 in der die zu sortierenden Daten in einem Feld an Stelle einer Liste vorliegen.
 Abbildung \ref{fig:MinSortAlgorithm.java} auf Seite \pageref{fig:MinSortAlgorithm.java} zeigt
@@ -574,7 +574,7 @@ effizienter ist als die beiden bisher betrachteten Algorithmen.  Der Algorithmus
 Abbildung \ref{fig:merge-sort} zeigt die Umsetzung dieser sortierten Gleichungen 
 in ein \textsl{Java}-Programm, das eine verkettete Liste sortiert. 
 Die beiden Funktionen $\mathtt{split}_1$ und $\mathtt{split}_2$ haben wir dabei
-zu einer Funktion \texttt{split} zusammen gefaßt, die zwei Listen zurück liefert. Ein
+zu einer Funktion \texttt{split} zusammengefasst, die zwei Listen zurück liefert. Ein
 Aufruf der Form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -623,7 +623,7 @@ Abbildung \ref{fig:merge-sort} verstehen:
 \item In den Zeilen 8 und 9 werden diese Listen durch einen rekursiven Aufruf der Methode
       \texttt{sort} sortiert.
 \item Die sortierten Teillisten werden dann in Zeile 10 durch den Aufruf der Methode
-      \texttt{merge} zu einer sortierten Liste zusammen gefaßt.
+      \texttt{merge} zu einer sortierten Liste zusammengefasst.
 \end{enumerate}
 
 \noindent
@@ -692,7 +692,7 @@ zeigt die Umsetzung dieser bedingten Gleichungen in \textsl{Java}.
 \item Anschließend teilen wir das, was jetzt noch von der Liste \texttt{list} übrig ist,
       durch den rekursiven Aufruf von \texttt{split} auf die Listen \texttt{first} und
       \texttt{second} auf.
-\item Zum Abschluß fügen wir das Element $x$ in die Liste \texttt{first} ein
+\item Zum Abschluss fügen wir das Element $x$ in die Liste \texttt{first} ein
       und das Element $y$ schieben wir in die Liste \texttt{second}.
 \end{enumerate}
 
@@ -777,7 +777,7 @@ zeigt die Umsetzung dieses Algorithmus in \textsl{Java}.
             fügen dann $y$ am Anfang der beim rekursiven Aufruf erhaltenen Liste ein.
       \end{enumerate}
 \end{enumerate}
-Zum Abschluß zeigen wir in Abbildung \ref{fig:MergeSort}, wie die eben diskutierten
+Zum Abschluss zeigen wir in Abbildung \ref{fig:MergeSort}, wie die eben diskutierten
 Methoden zusammen spielen.
 
 \begin{figure}[!ht]
@@ -920,7 +920,7 @@ Setzen wir hier den Wert für $k=0$ ein, so erhalten wir \\[0.2cm]
 Aus (1) erhalten wir den Wert $b_1 = 2 \cdot b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) für $k$ den Wert 1 ein, 
 so finden wir \\[0.2cm]
 \hspace*{1.3cm} $2 = 0 \cdot 2^1 + \beta \cdot 1 \cdot 2^1$,  \\[0.2cm]
-also muß $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.2cm]
+also muss $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.2cm]
 \hspace*{1.3cm} $b_k = k \cdot 2^k$. \\[0.2cm]
 Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt für $a_n$ \\[0.2cm]
 \hspace*{1.3cm} $a_n = n \cdot \log_2(n)$. \\[0.2cm]
@@ -1033,7 +1033,7 @@ und spalten das Feld dann an dem Index \texttt{middle} in zwei etwa gleich große
 Teile, die wir in den Zeilen 19 und 20 rekursiv sortieren.
 
 Anschließend rufen wir in Zeile 21 die Methode \texttt{merge} aus, die die beiden
-sortierten Felder zu einem sortierten Feld zusammenfaßt.  Diese Methode ist in den Zeilen
+sortierten Felder zu einem sortierten Feld zusammenfasst.  Diese Methode ist in den Zeilen
 22 --- 42 implementiert.  Die Methode erhält 3 Argumente: Die Parameter \texttt{start},
 \texttt{middle} und \texttt{end} spezifizieren die beiden Teilfelder, die zu mischen sind.
 Das erste Teilfeld besteht aus den Elementen \\[0.2cm]
@@ -1103,7 +1103,7 @@ Der Grund ist, dass der Aufruf einer rekursiven Funktion relativ viel Zeit koste
 beim Aufruf einer rekursiven Funktion müssen einerseits die lokalen Variablen der Funktion auf dem
 Stack gesichert werden und andererseits müssen die Argumente, mit denen die Funktion
 aufgerufen wird, auf den Stack gelegt werden.  Wir zeigen daher, wie sich der
-Merge-Sort-Algorithmus sequentiell implementieren läßt.  Abbildung
+Merge-Sort-Algorithmus sequentiell implementieren lässt.  Abbildung
 \ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}
 zeigt eine solche Implementierung.
 Statt der rekursiven Aufrufe haben wir hier zwei ineinander geschachtelte
@@ -1118,7 +1118,7 @@ Kürze halber mit $x$, so hat ein solches Teilfeld die Form
 \hspace*{1.3cm}
 $\Bigl[x[k\cdot l],\; x[k\cdot l+1],\; x[k\cdot l+2],\; \cdots,\; x[k\cdot l+(l-1)]\Bigr]$
 \\[0.2cm]
-und wenn $n$ die Länge des Feldes $x$ ist, dann läßt sich die Aussage, dass alle
+und wenn $n$ die Länge des Feldes $x$ ist, dann lässt sich die Aussage, dass alle
 diese Teilfelder sortiert sind, durch die Formel 
 \\[0.2cm]
 \hspace*{0.8cm}
@@ -1146,7 +1146,7 @@ gemischt.  Möglicherweise hat das letzte Teilfeld eine Länge, die kleiner als $l
 Daher nehmen wir für das dritte Argument der Methode \textsl{merge} das Minimum der beiden
 Zahlen $l\cdot(k+2)$ und $\textsl{mArray}.\textsl{length}$.
 
-Der Algorithmus läßt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
+Der Algorithmus lässt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
 Feld \texttt{mArray} und \texttt{mAux} zurück gegeben werden, denn dann entfällt in der
 Methode \textsl{merge} das Kopieren
 des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.  
@@ -1282,7 +1282,7 @@ in einem \textsl{Java}-Programm.
             Elemente der übergebenen Liste auf diese beiden Listen.
       \item Danach werden diese Listen durch rekursive Aufrufe der Methode
             \texttt{sort} sortiert.
-      \item Zum Schluß wird an die sortierte Liste der Elemente, die kleiner als das
+      \item Zum Schluss wird an die sortierte Liste der Elemente, die kleiner als das
             Pivot-Element sind, erst das Pivot-Element und dann die sortierte Liste der Elemente,
             die größer als das Pivot-Element sind, angehängt.
       \item Die so erhaltene Liste wird als Ergebnis zurück gegeben.
@@ -1311,11 +1311,11 @@ $a_n$ der Vergleiche gilt in diesem Fall \\[0.2cm]
 \hspace*{1.3cm} $a_n = a_{n-1} + n - 1$. \\[0.2cm]
 Der Term $n-1$ rührt von den $n-1$ Vergleichen, die beim Aufruf von
 $\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort} durchgeführt
-werden und der Term $a_{n-1}$ erfaßt die Anzahl der Vergleiche, die beim rekursiven Aufruf
+werden und der Term $a_{n-1}$ erfasst die Anzahl der Vergleiche, die beim rekursiven Aufruf
 von $\textsl{sort}(L_2)$ benötigt werden.
 
 Die Anfangs-Bedingung für die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
-Vergleiche notwendig.  Damit läßt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
+Vergleiche notwendig.  Damit lässt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
 \[
 \begin{array}{lcl}
   a_n & = & a_{n-1} + (n-1) \\
@@ -1468,7 +1468,7 @@ Wegen $d_n = (n+1) \cdot a_{n}$ gilt jetzt:
 Wir vergleichen dieses Ergebnis mit dem Ergebnis, das wir bei der Analyse von
 ``\emph{Sortieren durch Mischen}'' erhalten haben.  Dort hatte sich die Anzahl
 der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgeführt
-werden mußte,
+werden musste,
 als \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
 ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ benötigen wir bei Quick-Sort im Durchschnitt \\[0.2cm]
@@ -1477,7 +1477,7 @@ Vergleiche, also etwa $2 \cdot \ln(2) \approx 1.39$ mehr Vergleiche als beim
 ``\emph{Sortieren durch Mischen}''.
 
 \subsection{Eine feldbasierte Implementierung von \emph{Quick-Sort}}
-Zum Abschluß geben wir eine feldbasierte Implementierung des \emph{Quick-Sort}-Algorithmus
+Zum Abschluss geben wir eine feldbasierte Implementierung des \emph{Quick-Sort}-Algorithmus
 an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
 
 \begin{figure}[!ht]
@@ -1660,7 +1660,7 @@ der Index \texttt{end} auf die 11 zeigt.
       während \texttt{right} auf die 1 zeigt, die links von der 8 steht.
       Also wird die äußere Schleife durch den \texttt{break}-Befehl in Zeile 28
       abgebrochen.
-\item Zum Abschluß wird das Pivot-Element, das durch den Index \texttt{start}
+\item Zum Abschluss wird das Pivot-Element, das durch den Index \texttt{start}
       identifiziert wird, mit dem Element vertauscht, auf das der Index \texttt{right}
       zeigt,  wir vertauschen also die Elemente 7 und 1.  Damit hat das Feld die Form
       \[ \cdots,\; 1,\; 2,\; 5,\; 7,\; 8,\; 9,\; 11,\;\cdots \]
@@ -1750,12 +1750,12 @@ bleiben.
       inkrementiert, solange $\texttt{left} \leq \mathtt{end}$ gilt.
       Also kann \texttt{left} maximal den Wert $\texttt{end} + 1$ annehmen.
 \end{enumerate}
-Um den Beweis der Korrektheit abzuschließen, muß noch gezeigt werden, dass 
+Um den Beweis der Korrektheit abzuschließen, muss noch gezeigt werden, dass 
 alle \texttt{while}-Schleifen terminieren.  Für die erste innere
 \texttt{while}-Schleife folgt das daraus, dass bei jedem Schleifen-Durchlauf die Variable
 \texttt{left} inkrementiert wird.  Da die Schleife andererseits die Bedingung \\[0.2cm]
 \hspace*{1.3cm} $\texttt{left} \leq \mathtt{end}$ \\[0.2cm]
-enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muß
+enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muss
 irgendwann abbrechen. 
 
 Die zweite innere
@@ -1773,7 +1773,7 @@ ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung 
       \hspace*{1.3cm} 
       $\texttt{left} = \mathtt{end} + 1$ \quad und \quad $\mathtt{right} = \mathtt{end}$
       \\[0.2cm]
-      gelten muß.  Daraus folgt aber sofort \\[0.2cm]
+      gelten muss.  Daraus folgt aber sofort \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} > \mathtt{right}$ \\[0.2cm]
       und folglich wird die äußere Schleife dann durch den Befehl \texttt{break} in Zeile 32 abgebrochen.
 \item Fall: Nach dem Ende der Schleife in Zeile 24 -- 26 gilt \\[0.2cm]

@@ -12,7 +12,7 @@ kann.  Dazu führen wir folgende Definition ein.
 {\em Ein String $t$ ist eine \emph{Test-Funktion} mit Namen $n$ wenn $t$ 
  die Form \\[0.3cm]
 \hspace*{1.3cm} {\tt $n$ := procedure(x) \{ $\cdots$ \}} \\[0.3cm]
-hat, und sich als Definition einer \textsc{SetlX}-Funktion parsen läßt.  Die Menge der
+hat, und sich als Definition einer \textsc{SetlX}-Funktion parsen lässt.  Die Menge der
 Test-Funktionen bezeichnen wir mit $T\!F$.  Ist $t \in T\!F$ und hat den Namen $n$, so
 schreiben wir $\mathtt{name}(t) = n$.} \hspace*{\fill} $\Box$
 \end{Definition}
@@ -29,7 +29,7 @@ schreiben wir $\mathtt{name}(t) = n$.} \hspace*{\fill} $\Box$
 \item $s_3$ = ``{\tt hugo := procedure(x) \{ return ++x; \} }''
 
       $s_3$ ist keine Test-Funktion, denn da \textsc{SetlX} den Präfix-Operator
-      ``\texttt{++}'' nicht unterstützt, läßt sich der String $s_3$  nicht fehlerfrei parsen.
+      ``\texttt{++}'' nicht unterstützt, lässt sich der String $s_3$  nicht fehlerfrei parsen.
 \end{enumerate}
 Um das Halte-Problem übersichtlicher formulieren zu können, führen wir noch drei
 zusätzliche Notationen ein.
@@ -39,7 +39,7 @@ Ist $n$ der Name einer \texttt{C}-Funktion und sind $a_1$, $\cdots$, $a_k$ Argum
 vom Typ her der Deklaration von $n$ entsprechen, so schreiben wir \\[0.3cm]
 \hspace*{1.3cm} $n(a_1, \cdots, a_k) \leadsto r$ \\[0.3cm]
 wenn der Aufruf $n(a_1, \cdots, a_k)$ das Ergebnis $r$ liefert.  Sind wir an dem Ergebnis
-selbst nicht interessiert, sondern wollen nur angeben, daß ein Ergebnis existiert, so
+selbst nicht interessiert, sondern wollen nur angeben, dass ein Ergebnis existiert, so
 schreiben wir \\[0.3cm]
 \hspace*{1.3cm} $n(a_1, \cdots, a_k) \,\downarrow$ \\[0.3cm]
 und sagen, dass der Aufruf $n(a_1, \cdots, a_k)$ \emph{terminiert}.
@@ -51,7 +51,7 @@ und sagen, dass der Aufruf $n(a_1, \cdots, a_k)$ \emph{divergiert}.
 \end{Notation}
 
 \noindent
-\textbf{Beispiele}: Legen wir die Funktions-Definitionen zugrunde, die wir im Anschluß an
+\textbf{Beispiele}: Legen wir die Funktions-Definitionen zugrunde, die wir im Anschluss an
 die Definition des Begriffs der Test-Funktion gegeben haben, so gilt:
 \begin{enumerate}
 \item {\tt simple(\symbol{34}emil\symbol{34}) $\leadsto 0$}
@@ -195,7 +195,7 @@ Wenn es in dieses Programmier-Sprache Unterprogramme gibt, und wenn wir dort
 Programm-Texte als Argumente von Funktionen übergeben können, dann ist leicht zu sehen,
 dass der obige Beweis der 
 Unlösbarkeit des Halte-Problems sich durch geeignete syntaktische Modifikationen auch auf
-die andere Programmier-Sprache übertragen läßt.
+die andere Programmier-Sprache übertragen lässt.
 \pagebreak
 
 \exercise
@@ -263,7 +263,7 @@ hat, möge folgender Spezifikation genügen:
   \item $p_2 \in T\!F \;\wedge\; \mathtt{name}(p_2) = n_2$ \quad und
   \item $n_1(a) \simeq n_2(a)$
   \end{enumerate}
-    gilt, dann muß gelten: \\[0.1cm]
+    gilt, dann muss gelten: \\[0.1cm]
    \hspace*{1.3cm}  $\mathtt{equal}(p_1, p_2, a) \leadsto 1$.
 \item Ansonsten gilt \\[0.1cm]
       \hspace*{1.3cm} $\mathtt{equal}(p_1, p_2, a) \leadsto 0$.
@@ -321,7 +321,7 @@ folgende Form:
 Es ist offensichtlich, dass die Funktion \texttt{loop} für kein Ergebnis terminiert.
 Ist also das Argument $p$ eine Test-Funktion mit Namen $n$, so liefert die Funktion
 \texttt{equal} immer dann den Wert 1, 
-wenn $n(a)$ nicht terminiert, andernfalls muß sie den Wert 0 zurück geben.
+wenn $n(a)$ nicht terminiert, andernfalls muss sie den Wert 0 zurück geben.
 Damit liefert die Funktion \texttt{stops} aber für eine Test-Funktion $p$ mit Namen $n$
 und ein Argument 
 $a$ genau dann 1, wenn der Aufruf $n(a)$ terminiert und würde folglich das Halte-Problem

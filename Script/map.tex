@@ -2,7 +2,7 @@
 Wir haben bereits im ersten Semester gesehen, wie wichtig Mengen und Abbildungen in
 der Informatik sind.  In diesem Kapitel zeigen wir, wie sich Mengen und Abbildungen
 effizient implementieren lassen.  Wir können  uns auf Abbildungen beschränken, denn eine
-Menge $M$ läßt sich immer als eine Abbildung $f$ in die Menge $\{\mathtt{true}, \mathtt{false}\}$
+Menge $M$ lässt sich immer als eine Abbildung $f$ in die Menge $\{\mathtt{true}, \mathtt{false}\}$
 darstellen, wenn wir
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -234,7 +234,7 @@ Geordnete binäre Bäume lassen sich grafisch wir folgt darstellen:
       einen waagerechten Strich, der dem Schlüssel zugeordnete Wert $v$ eingetragen wird.
       Dieses Oval bezeichnen wir auch als einen \emph{Knoten} des binären Baums.
       Anschließend wird links unten von diesem Knoten rekursiv der Baum $l$ gezeichnet
-      und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluß zeichnen wir
+      und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluss zeichnen wir
       von dem mit $k$ und $v$ markierten Knoten jeweils einen Pfeil zu dem linken und dem
       rechten Teilbaum.
 \end{enumerate}
@@ -344,7 +344,7 @@ Wir geben nun bedingte Gleichungen an, die die Methode \textsl{delMin} spezifizi
 \begin{enumerate}
 \item $\textsl{node}(k, v, \textsl{nil}, r)\mathtt{.}\textsl{delMin}() = [r, k, v]$,
 
-      denn wenn der linke Teilbaum leer ist, muß $k$ der kleinste Schlüssel in 
+      denn wenn der linke Teilbaum leer ist, muss $k$ der kleinste Schlüssel in 
       dem Baum sein.  Wenn wir diesen  Schlüssel nebst dem zugehörigen Wert aus dem Baum
       entfernen, bleibt der rechte Teilbaum übrig.
 
@@ -411,7 +411,7 @@ Damit können wir nun die Methode $\mathtt{delete}()$ spezifizieren.
 
 Abbildung \ref{fig:MyMap.java} auf Seite \pageref{fig:MyMap.java} zeigt, 
 wie sich der abstrakte Daten-Typ \textsl{Map} in \textsl{Java} durch ein
-Interface beschreiben läßt.  Das Interface hat den Namen \textsl{MyMap}, denn da der ADT
+Interface beschreiben lässt.  Das Interface hat den Namen \textsl{MyMap}, denn da der ADT
 \textsl{Map} von  fundamentaler Bedeutung ist, gibt es in \textsl{Java} bereits ein
 Interface mit dem Namen \textsl{Map}.  Vergleichen wir die Signaturen der Methoden in dem
 Interface \textsl{MyMap} mit den entsprechenden Signaturen in dem ADT \textsl{Map}, so
@@ -545,7 +545,7 @@ $\textsl{node}(k,v,l,r)$ darzustellen.  Nun ist es so, dass beim Einfügen  aus
 einem leeren Baum ein nicht-leerer Baum werden kann und umgekehrt kann beim Löschen 
 aus einem nicht-leeren Baum ein leerer Baum werden.  Da aber die Methode \textsl{insert()}
 ein Objekt vom Typ \textsl{EmptyNode} nicht in ein Objekt \textsl{BinaryNode} umwandeln
-kann, muß die Methoden \textsl{insert()} statt dessen den binären Baum, der durch das
+kann, muss die Methoden \textsl{insert()} statt dessen den binären Baum, der durch das
 Einfügen eines Schlüssels entsteht, als  Ergebnis zurück geben.  Analoges gilt für die
 Methode \textsl{delete()}.
 
@@ -733,7 +733,7 @@ Dieser Fall tritt dann ein, wenn der binäre Baum zu einer Liste entartet.  Abbil
 \ref{fig:degenerated} zeigt den geordneten binären Baum der dann entsteht, wenn die Paare
 aus Schlüssel und Werten aus der Abbildung
 \ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
-größten Schlüssel gesucht, so muß der komplette Baum durchlaufen werden.  Enthält der Baum
+größten Schlüssel gesucht, so muss der komplette Baum durchlaufen werden.  Enthält der Baum
 $n$ Schlüssel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
 geordneter binärer Baum also nicht besser als eine Liste.
 

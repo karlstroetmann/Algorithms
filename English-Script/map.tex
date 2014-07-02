@@ -3,7 +3,7 @@ Wir haben bereits im ersten Semester gesehen, wie wichtig Mengen und funktionale
 im Folgenden als Abbildungen bezeichnen werden, in
 der Informatik sind.  In diesem Kapitel zeigen wir, wie sich Mengen und Abbildungen
 effizient implementieren lassen.  Wir können uns dabei auf Abbildungen beschränken, denn eine
-Menge $M$ läßt sich immer als eine Abbildung $f$ in die Menge $\{\mathtt{true}, \mathtt{false}\}$
+Menge $M$ lässt sich immer als eine Abbildung $f$ in die Menge $\{\mathtt{true}, \mathtt{false}\}$
 darstellen, wenn wir
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -212,7 +212,7 @@ Geordnete binäre Bäume lassen sich grafisch wir folgt darstellen:
       einen waagerechten Strich, der dem Schlüssel zugeordnete Wert $v$ eingetragen wird.
       Dieses Oval bezeichnen wir auch als einen \emph{Knoten} des binären Baums.
       Anschließend wird links unten von diesem Knoten rekursiv der Baum $l$ ge\-zeich\-net
-      und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluß zeichnen wir
+      und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluss zeichnen wir
       von dem mit $k$ und $v$ markierten Knoten jeweils einen Pfeil zu dem linken und dem
       rechten Teilbaum.
 \end{enumerate}
@@ -321,7 +321,7 @@ Wir geben nun bedingte Gleichungen an, welche die Methode \textsl{delMin} spezif
 \begin{enumerate}
 \item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = [r, k, v]$,
 
-      denn wenn der linke Teilbaum leer ist, muß $k$ der kleinste Schlüssel in 
+      denn wenn der linke Teilbaum leer ist, muss $k$ der kleinste Schlüssel in 
       dem Baum sein.  Wenn wir diesen  Schlüssel nebst dem zugehörigen Wert aus dem Baum
       entfernen, bleibt der rechte Teilbaum übrig.
 \item $l\not= \textsl{Nil} \wedge l.\textsl{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.1cm]
@@ -536,7 +536,7 @@ Dieser Fall tritt dann ein, wenn der binäre Baum zu einer Liste entartet.  Abbil
 \ref{fig:degenerated} auf Seite \pageref{fig:degenerated} zeigt den geordneten binären Baum, der
 dann entsteht, wenn die Paare aus Schlüssel und Werten aus der Abbildung
 \ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
-größten Schlüssel gesucht, so muß der komplette Baum durchlaufen werden.  Enthält der Baum
+größten Schlüssel gesucht, so muss der komplette Baum durchlaufen werden.  Enthält der Baum
 $n$ Schlüssel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
 geordneter binärer Baum also nicht besser als eine Liste.
 

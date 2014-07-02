@@ -500,7 +500,7 @@ Die Funktion $\textsl{sum}()$ soll die folgende Spezifikation erfüllen:
       $I := \bigl(s = \frac{1}{2} \cdot i \cdot (i - 1) \wedge i \leq n + 1\bigr)$ 
       \\[0.2cm]
       genügt.  (Diese Invariante ist etwas stärker als in der Vorlesung.
-      Dadurch läßt sich dann später zeigen, dass beim Abbruch der Schleife
+      Dadurch lässt sich dann später zeigen, dass beim Abbruch der Schleife
       die Gleichung $i = n+1$ gilt.  In der Vorlesung hatten wir an dieser Stelle nur
       anschaulich argumentiert.)
 
@@ -634,7 +634,7 @@ binären Bäumen durch bedingte Gleichungen spezifizieren.
       \item $k \leq \textsl{nil}$,
       \item $k \leq \textsl{node}(k_1,v_1,l,r) = \bigl(k \leq k_1 \wedge k \leq l \wedge k \leq r\bigr)$.
       \end{enumerate}
-      Damit läßt sich jetzt die Methode $\textsl{isHeap}()$ durch Gleichungen spezifizieren:
+      Damit lässt sich jetzt die Methode $\textsl{isHeap}()$ durch Gleichungen spezifizieren:
       \begin{enumerate}
       \item $\textsl{nil}.\textsl{isHeap}() = \mathtt{true}$,
       \item $\textsl{node}(k,v,l,r).\textsl{isHeap}() = 
