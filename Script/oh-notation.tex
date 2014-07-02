@@ -430,7 +430,7 @@ naive $(n-1)$-malige Multiplikation sondern es verwendet das Paradigma \\[0.1cm]
 \hspace*{1.3cm} \emph{Teile und Herrsche}. \quad (engl. \emph{divide and conquer})
 \\[0.1cm]
 Die Grundidee um den Term $m^n$ für $n \geq 1$ effizient zu berechnen,
-läßt sich durch folgende Formel beschreiben: \\[0.1cm] 
+lässt sich durch folgende Formel beschreiben: \\[0.1cm] 
 \hspace*{1.3cm} 
 $m^n = 
 \left\{\begin{array}{ll}
@@ -583,7 +583,7 @@ liefert 2 Multiplikationen.  Zeile 5 liefert in diesem Fall keine Multiplikation
 beim Aufruf $\mathtt{power}(m,0)$ sofort das Ergebnis in Zeile 4 zurück gegeben wird.
 
 Ist $n = 2^l > 1$, so  haben wir in Zeile 7 eine Multiplikation, die zu den Multiplikationen, die beim
-rekursiven Aufruf in Zeile $5$ anfallen, hinzu addiert werden muß.  Damit erhalten wir
+rekursiven Aufruf in Zeile $5$ anfallen, hinzu addiert werden muss.  Damit erhalten wir
 die folgende Rekurrenz-Gleichung: \\[0.1cm]
 \hspace*{1.3cm} $a_n = a_{n/2} + 1$ \qquad für alle $n \in \left\{2^l \mid l \in \N\right\}$\quad mit $a_1 = 2$. \\[0.1cm]
 Wir definieren $b_l := a_{2^l}$ und erhalten dann für die Folge $(b_l)_l$ die
@@ -604,7 +604,7 @@ ein, so sehen wir \\[0.1cm]
 \hspace*{1.3cm} $a_n = 2 + \log_2(n) \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
 
-Da wir sowohl im besten als auch im schlechtesten Fall das selbe Ergebnis bekommen haben,
+Da wir sowohl im besten als auch im schlechtesten Fall dasselbe Ergebnis bekommen haben,
 können wir schließen, dass für die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
 \hspace*{1.3cm} $a_n \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
@@ -940,7 +940,7 @@ Folgen den nachstehenden Rekurrenz-Gleichungen genügen:
 
 \noindent
 \textbf{Bemerkung}: Es ist wichtig zu sehen, dass die drei Fälle des Theorems nicht vollständig sind:
-Es gibt Situationen, in denen der Hauptsatz nicht anwendbar ist.  Beispielsweise läßt sich der Hauptsatz nicht
+Es gibt Situationen, in denen der Hauptsatz nicht anwendbar ist.  Beispielsweise lässt sich der Hauptsatz nicht
 für die Funktion $g$, die durch die Rekurrenz-Gleichung
 \[ g(n) = 2 \cdot g(n/2) + n \cdot \log_2(n) \quad \mbox{mit der Anfangs-Bedingung $g(1) = 0$}\]
 definiert ist, anwenden, denn die Inhomogenität wächst schneller als im zweiten Fall, aber

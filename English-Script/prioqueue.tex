@@ -1,7 +1,7 @@
 \chapter{Priority Queues \label{chap:prioqueue}}
 Um den Begriff der  \emph{Prioritäts-Warteschlange} zu verstehen, betrachten wir zunächst
 den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingefügt und vorne werden
-Daten entnommen. Das führt dazu, dass Daten in der selben Reihenfolge entnommen werden,
+Daten entnommen. Das führt dazu, dass Daten in derselben Reihenfolge entnommen werden,
 wie sie eingefügt werden.  Anschaulich ist das so wie bei der Warteschlange vor einer
 Kino-Kasse, wo die Leute in der Reihenfolge bedient werden, in der sie sich anstellen.
 Bei einer Prioritäts-Warteschlange haben die Daten zusätzlich Prioritäten.  Es wird immer
@@ -30,7 +30,7 @@ Funktionen enthält, die wir später für den Algorithmus von Dijkstra benötigen.
   \item Die Menge der Typ-Parameter ist \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Priority}, \textsl{Value} \}$.
 
-        Dabei muß auf der Menge $\textsl{Priority}$ eine totale Quasi-Ordnung $<$ existieren,
+        Dabei muss auf der Menge $\textsl{Priority}$ eine totale Quasi-Ordnung $<$ existieren,
         so dass wir die Prioritäten verschiedener Elemente vergleichen können. 
   \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
        \hspace*{1.3cm} 
@@ -201,7 +201,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\textsl{insert}(p,v), r\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder die selbe Priorität hat wie das
+      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat wie das
       Paar, welches sich an der Wurzel befindet, und falls zusätzlich die Zahl der Paare im linken Teilbaum
       kleiner-gleich der Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
       Paar im linken Teilbaum ein.
@@ -210,7 +210,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\textsl{insert}(p,v)\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder die selbe Priorität hat als das
+      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat als das
       Paar an der Wurzel und falls zusätzlich die Zahl der Paare im linken Teilbaum
       größer als die Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
       Paar im rechten Teilbaum ein.

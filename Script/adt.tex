@@ -41,7 +41,7 @@ Die einzelnen Komponenten dieses Tupels haben dabei die folgende Bedeutung.
       Funktion $f$ in der Form \\[0.1cm] 
       \hspace*{1.3cm} $f(t_1,\cdots,t_n)$ \\[0.1cm]
       aufgerufen wird und dass für $i=1,\cdots,n$ das Argument $t_i$ vom Typ
-      $T_i$ sein muß.  Außerdem sagt die Typ-Spezifikation aus, dass das
+      $T_i$ sein muss.  Außerdem sagt die Typ-Spezifikation aus, dass das
       Ergebnis, das von der Funktion $f$ berechnet wird, immer vom Typ $S$ ist.
 
       Zusätzlich fordern wir, dass entweder $T_1 = T$ ist, oder aber $S = T$
@@ -131,7 +131,7 @@ erfaßt:
       Legen wir ein Element $x$ auf einen Stack $S$, so kann der Stack $S$
       danach nicht leer sein.
 \end{enumerate}
-Beim Betrachten der Axiome läßt sich eine gewisse Systematik erkennen.
+Beim Betrachten der Axiome lässt sich eine gewisse Systematik erkennen.
 Bezeichnen wir die Funktionen \texttt{Stack} und \texttt{push} als Generatoren
 so geben die Axiome das Verhalten der restlichen Funktionen auf den von den Generatoren
 erzeugten Stacks an. 
@@ -148,7 +148,7 @@ wird.  Die JVM ist ebenfalls stack-basiert.
 Wir werden später noch sehen, wie  arithmetische Ausdrücke mit Hilfe
 eines Stacks ausgewertet werden können. Vorher zeigen wir, wie sich der
 abstrakte Daten-Typ des Stacks in der Programmier-Sprache \textsl{Java}
-implementieren läßt.
+implementieren lässt.
 
 \section{Darstellung abstrakter Daten-Typen in \textsl{Java}}
 In \textsl{Java} können abstrakte Daten-Typen entweder durch ein \emph{Interface} oder
@@ -864,7 +864,7 @@ zur Auswertung arithmetischer Ausdrücke in \textsl{Java}.
 Wir diskutieren zunächst die Implementierung der statischen Methode \\[0.1cm]
 \hspace*{1.3cm} \texttt{static boolean evalBefore(String op1, String op2)}.\\[0.1cm]
 Diese Methode vergleicht die Operatoren \texttt{op1} und \texttt{op2} und entscheidet, ob
-der Operator \texttt{op1} vor dem Operator \texttt{op2} ausgewertet werden muß.
+der Operator \texttt{op1} vor dem Operator \texttt{op2} ausgewertet werden muss.
 Beim Aufruf dieser Methode
 ist der Operator \texttt{op1} der Operator, der oben auf dem Operator-Stack liegt
 und der Operator \texttt{op2} ist der Operator, der als letztes von dem Token-Stack
@@ -1196,7 +1196,7 @@ erkennen.
       Implementierung der Daten-Typen unabhängig.
 
       Bei der Implementierung des Algorithmus zur Auswertung arithmetischer Ausdrücke
-      mußten wir uns um die zugrunde liegenden Daten-Strukturen nicht weiter kümmern. 
+      mussten wir uns um die zugrunde liegenden Daten-Strukturen nicht weiter kümmern. 
       Es reichte aus, zwei Dinge zu wissen: 
       \begin{enumerate}
       \item Die Typ-Spezifikationen der verwendeten Funktionen.
@@ -1220,7 +1220,7 @@ erkennen.
       Programm-Entwicklung das folgende Vorgehen möglich: Wir entwerfen den benötigten
       Algorithmus auf der Basis abstrakter Daten-Typen.  Für diese geben wir zunächst sehr
       einfache Implementierungen an, deren Effizienz eventuell noch zu wünschen übrig
-      läßt.  In einem späteren Schritt wird evaluiert wo der Schuh am meisten drückt.
+      lässt.  In einem späteren Schritt wird evaluiert wo der Schuh am meisten drückt.
       Die ADTs, die bei dieser Evaluierung als performance-kritisch erkannt werden, können
       anschließend mit dem Ziel der Effizienz-Steigerung reimplementiert werden.
 \end{enumerate}
@@ -1289,7 +1289,7 @@ erkennen.
 
 %\noindent
 %Abbildung \ref{fig:stack-setl} auf Seite \pageref{fig:stack-setl} zeigt, wie der ADT
-%\emph{Stack} sich in \textsc{Setl2} mit Hilfe einer Klasse implementieren läßt.  Alle
+%\emph{Stack} sich in \textsc{Setl2} mit Hilfe einer Klasse implementieren lässt.  Alle
 %Schlüsselwörter der Sprache \textsc{Setl2} sind in der Abbildung unterstrichen worden.
 %\begin{enumerate}
 %\item In \textsc{Setl2} besteht ein ADT aus zwei Teilen, einer \emph{Klassen-Deklaration}
@@ -1378,7 +1378,7 @@ erkennen.
 %\noindent
 %Werden die obige Klassen-Deklaration und die Klassen-Definition übersetzt, so wird der ADT
 %\texttt{Stack} mit seinen Funktionen in der \textsc{Setl2}-Bibliothek \texttt{setl2.lib}
-%abgespeichert.  Um diesen Daten-Typ auch nutzen zu können, muß ein Programm die Direktive \\[0.1cm]
+%abgespeichert.  Um diesen Daten-Typ auch nutzen zu können, muss ein Programm die Direktive \\[0.1cm]
 %\hspace*{1.3cm} \texttt{use Stack;} \\[0.1cm]
 %enthalten.  Abbildung \ref{fig:stack-setl-use} zeigt ein solches Programm mit der
 %Direktive in Zeile 2.  Ein Stack kann nun mit Hilfe der Funktion \texttt{Stack()}  erzeugt
