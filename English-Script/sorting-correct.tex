@@ -74,14 +74,14 @@ folgt definiert:
         \hspace*{1.3cm} 
         $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S(i) \preceq S(i+1)$ \\[0.1cm]
         Hier bezeichnen wir die Länge der Liste $S$ mit $\#S$.
-  \item $S$ und $L$ enthalten die selben Elemente, es gilt also \\[0.1cm]
+  \item $S$ und $L$ enthalten dieselben Elemente, es gilt also \\[0.1cm]
         \hspace*{1.3cm} 
         $\textsl{set}(L) = \textsl{set}(S)$. \\[0.1cm]
         Dabei ist für eine Liste $L$ der Ausdruck $\textsl{set}(L)$ als die Menge
         der Elemente der Liste $L$ definiert, es gilt \\[0.1cm]
         \hspace*{1.3cm} 
         $\textsl{set}(L) := \bigl\{ L(i) \mid i \el \{ 1, \cdots, \#L\} \bigr\}$.
-  \item Die Elemente treten in $L$ und $S$ mit der selben Häufigkeit auf: \\[0.1cm]
+  \item Die Elemente treten in $L$ und $S$ mit derselben Häufigkeit auf: \\[0.1cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
         \\[0.1cm]
@@ -91,8 +91,8 @@ folgt definiert:
         $\textsl{count}(x,L) := \# \bigl\{ i \el \{1,\cdots,\#L\} \mid L(i) = x \bigr\}$.
 
         \textbf{Bemerkung}: Die letzte Forderung impliziert offensichtlich die zweite
-        Forderung, denn wenn alle Elemente in den Listen $L$ und $S$ mit der selben
-        Häufigkeit auftreten, dann enthalten $L$ und $S$ natürlich auch die selben Elemente.
+        Forderung, denn wenn alle Elemente in den Listen $L$ und $S$ mit derselben
+        Häufigkeit auftreten, dann enthalten $L$ und $S$ natürlich auch dieselben Elemente.
   \end{enumerate}
 \end{enumerate}
 
@@ -2713,7 +2713,7 @@ so schnell ist wie ``\emph{Sortieren durch Mischen}'', trotzdem gibt es zwei Grü
 Es gibt allerdings eine Situation, in der die Verwendung von \emph{Quick-Sort} dem ``\emph{Sortieren durch Mischen}'' 
 vorzuziehen ist.  Eine Implementierung von \emph{Quick-Sort} in \textsl{Java} kommt mit vergleichsweise wenig Speicherplatz aus,
 denn außer dem zu sortierenden Feld wird eigentlich nur noch etwas Platz auf dem Stack benötigt.  Hingegen
-ist bei der Implementierung von ``\emph{Sortieren durch Mischen}'' ein Hilfs-Feld erforderlich, das die selbe Größe hat
+ist bei der Implementierung von ``\emph{Sortieren durch Mischen}'' ein Hilfs-Feld erforderlich, das dieselbe Größe hat
 wie das zu sortierende Feld.  Es wird also in etwa doppelt soviel Speicherplatz benötigt wie bei 
 \emph{Quick-Sort}.
 

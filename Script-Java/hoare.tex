@@ -91,7 +91,7 @@ $\sigma = [ x \mapsto x - 1 ]$ und damit hat $F\sigma$ die Form
 von Formeln ausdrücken zu können, die ihrerseits das Gleichheitszeichen ``$=$''
 enthalten.)  Damit lautet die Spezifikation also 
 \[ \hoare{x = 7}{x := x + 1;}{x - 1 = 7}. \]
-Wegen der Äquivalenz $x - 1 = 7 \leftrightarrow x = 8$ ist das logisch das Selbe wie
+Wegen der Äquivalenz $x - 1 = 7 \leftrightarrow x = 8$ ist das logisch dasselbe wie
 \[ \hoare{x = 7}{x := x + 1;}{x = 8} \]
 und diese Spezifikation ist offenbar korrekt, denn wenn $x$ vor der Zuweisung
 ``\texttt{x := x + 1;}'' den Wert $7$ hat, dann hat $x$ hinterher den Wert 8.
@@ -616,7 +616,7 @@ Wir untersuchen Zeile für Zeile die Wirkung des Programms.
       \hspace*{1.3cm}
       $r/x \cdot x^y = a^b \wedge y > 0 \wedge y \mod 2 = 1$ 
       \\[0.2cm]
-      und das ist das Selbe wie
+      und das ist dasselbe wie
       \\[0.2cm]
       \hspace*{1.3cm}
       $r \cdot x^{y-1} = a^b \wedge y > 0 \wedge y \mod 2 = 1$.
@@ -738,7 +738,7 @@ Schleife abbrechen.
 
 \subsection{Maschinelle Programm-Verifikation}
 Die manuelle Verifikation nicht-trivialer Programm mit Hilfe des Hoare-Kalküls ist sehr
-aufwendig.  Von Hand können nur Programme verifiziert werden, die in der selben
+aufwendig.  Von Hand können nur Programme verifiziert werden, die in derselben
 Größenordnung liegen, wie der oben behandelte Euklid'sche Algorithmus.  Es ist aber
 möglich, den Prozess der Programm-Verifikation zumindest partiell zu automatisieren.
 Sogenannte VCGs (\emph{\underline{v}erification \underline{c}ondition
@@ -872,7 +872,7 @@ dynamisch.  Um diesem  Verhalten Rechnung zu tragen, müssen wir die verschiedene
 Auftreten einer Formel unterscheiden können.  Dies geht am einfachsten, wenn wir die
 Variablen so indizieren, dass der Index der Variablen sich jedesmal ändert, wenn die
 Variable einen neuen Wert zugewiesen bekommt. 
-Dabei müssen wir allerdings berücksichtigen, dass ein und das selbe textuelle
+Dabei müssen wir allerdings berücksichtigen, dass ein und dasselbe textuelle
 Auftreten einer Variablen immer noch verschiedene Werte annehmen kann und zwar dann, wenn 
 das Auftreten in einer Schleife liegt.  In diesem Fall müssen wir die Variable so
 indizieren, dass noch ein Zähler für die Anzahl der Schleifen-Durchläufe in dem Index
