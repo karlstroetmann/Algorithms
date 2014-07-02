@@ -1,7 +1,7 @@
 \chapter{Prioritäts-Warteschlangen \label{chap:prioqueue}}
 Um den Begriff der  \emph{Prioritäts-Warteschlange} zu verstehen, betrachten wir zunächst
 den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingefügt und vorne werden
-Daten entnommen. Das führt dazu, dass Daten in der selben Reihenfolge entnommen werden,
+Daten entnommen. Das führt dazu, dass Daten in derselben Reihenfolge entnommen werden,
 wie sie eingefügt werden.  Anschaulich ist das so wie bei der Warteschlange vor einer
 Kino-Kasse, wo die Leute in der Reihenfolge bedient werden, in der sie sich anstellen.
 Bei einer Prioritäts-Warteschlange haben die Daten zusätzlich Prioritäten.  Es wird immer
@@ -30,7 +30,7 @@ Funktionen enthält, die wir später für den Algorithmus von Dijkstra benötigen.
   \item Die Menge der Typ-Parameter ist \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Key}, \textsl{Value} \}$.
 
-        Dabei muß auf der Menge $\textsl{Key}$ eine totale Quasi-Ordnung $<$ existieren,
+        Dabei muss auf der Menge $\textsl{Key}$ eine totale Quasi-Ordnung $<$ existieren,
         so dass wir die Prioritäten verschiedener Elemente an Hand der Schlüssel
         vergleichen können. 
   \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
@@ -219,7 +219,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k_\mathrm{top},v_\mathrm{top},l.\textsl{insert}(k,v), r\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder die selbe Priorität hat wie das
+      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat wie das
       Paar, welches sich an der Wurzel befindet, und falls zusätzlich die Zahl der Paare im linken Teilbaum
       kleiner-gleich der Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
       Paar im linken Teilbaum ein.
@@ -228,7 +228,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k_\mathrm{top},v_\mathrm{top},l,r.\textsl{insert}(k,v)\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder die selbe Priorität hat als das
+      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat als das
       Paar an der Wurzel und falls zusätzlich die Zahl der Paare im linken Teilbaum
       größer als die Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
       Paar im rechten Teilbaum ein.
@@ -442,7 +442,7 @@ repräsentiert einen Knoten der Form \\[0.1cm]
 $\textsl{node}(\texttt{mKey}, \mathtt{mValue}, \mathtt{mLeft}, \mathtt{mRight})$. 
 \\[0.1cm]
 Die Implementierung setzt die rekursiven Gleichungen, die wir im vorhergehenden
-Unterabschnitt gezeigt haben, 1-zu-1 um.  Diskutiert werden muß höchstens noch die
+Unterabschnitt gezeigt haben, 1-zu-1 um.  Diskutiert werden muss höchstens noch die
 Implementierung der Methode \textsl{remove}.  Wenn der Kontrollfluß in Zeile 51 ankommt,
 dann ist klar, dass weder der linke Teilbaum \texttt{mLeft} noch der rechte Teilbaum
 \texttt{mRight} leer ist.
@@ -507,7 +507,7 @@ dann brauchen wir dazu insgesamt $n$ Vergleiche.  Damit würde die Implementierun
 \textsl{change}() eine Komplexität $\Oh(n)$ haben.  Es geht aber schneller.  Die Idee ist,
 dass wir in einer Hash-Tabelle\footnote{Wir können an dieser Stelle auch eine
   \textsl{AVL}-Baum nehmen um die Zuordnung der Knoten zu den Werten zu speichern.
-Damit dies möglich ist, muß allerdings auf der Menge der Werte eine totale Ordnung existieren.
+Damit dies möglich ist, muss allerdings auf der Menge der Werte eine totale Ordnung existieren.
 }
  die Zuordnung der Knoten zu den Werten speichern.  
 Damit eine eindeutige Zuordnung von Werten zu Knoten überhaupt möglich ist, gehen wir
@@ -527,7 +527,7 @@ Vater-Knoten dieses Knotens.  In diesem Fall müssen wir das Paar, dass in diesem
 gespeichert ist, mit dem Paar, das in dem Vater-Knoten gespeichert ist, vertauschen.
 Anschließend könnte es sein, dass für den Vater-Knoten und dessen Vater-Knoten die
 Heap-Bedingung verletzt ist, so dass wir nun rekursiv den Vater-Knoten weiter untersuchen
-müssen.  Das Verfahren läßt sich nicht ohne weiteres durch rekursive Gleichungen
+müssen.  Das Verfahren lässt sich nicht ohne weiteres durch rekursive Gleichungen
 beschreiben, denn wenn wir einen binären Knoten in der Form
 \[ \textsl{node}(k,v,l,r) \]
 darstellen, haben wir keine Informationen über den Vaterknoten.  Wir führen daher zunächst
@@ -1069,7 +1069,7 @@ die der abgeänderten Definition zu Grunde liegt.
       der beispielsweise aus $13$ Knoten besteht, denn die Zahl 13 ist nicht in der Form
       $2^h - 1$ darstellbar.  Der Begriff des \emph{nahezu vollständigen} binären Baums
       ist eine Verallgemeinerung des Begriffs des vollständigen binären Baums, der 
-      eine beliebige Anzahl von Knoten zuläßt.
+      eine beliebige Anzahl von Knoten zulässt.
 
       Ein binärer Baum heißt \emph{nahezu vollständig}, wenn er aus einem binären Baum
       dadurch entsteht, dass auf der untersten Ebene von rechts nach links Knoten entfernt

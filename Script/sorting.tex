@@ -75,7 +75,7 @@ folgt definiert:
         \hspace*{1.3cm} 
         $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S(i) \preceq S(i+1)$ \\[0.2cm]
         Hier bezeichnen wir die Länge der Liste $S$ mit $\#S$.
-  \item Die Elemente treten in $L$ und $S$ mit der selben Häufigkeit auf: \\[0.2cm]
+  \item Die Elemente treten in $L$ und $S$ mit derselben Häufigkeit auf: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
         \\[0.2cm]
@@ -88,7 +88,7 @@ folgt definiert:
 In diesem Kapitel präsentieren wir verschiedene Algorithmen, die das Sortier-Problem
 lösen, die also  zum Sortieren von Listen benutzt werden können.
 Wir stellen zunächst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
-Effizienz aber zu wünschen übrig läßt.  Im Anschluß daran präsentieren wir zwei
+Effizienz aber zu wünschen übrig lässt.  Im Anschluß daran präsentieren wir zwei
 effizientere Algorithmen, deren Implementierung allerdings aufwendiger ist.
 
 \section{Sortieren durch Einfügen}
@@ -100,7 +100,7 @@ Der Algorithmus arbeitet nach dem folgenden Schema:
 \item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
       die leere Liste zurück gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
-\item Andernfalls muß die Liste $L$ die Form $[x] + R$ haben.
+\item Andernfalls muss die Liste $L$ die Form $[x] + R$ haben.
       Dann sortieren wir den Rest $R$ und fügen das Element $x$ in diese Liste so ein,
       dass die Liste sortiert bleibt. \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$
@@ -117,7 +117,7 @@ Das Einfügen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem fol
             \hspace*{1.3cm} $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
       \end{enumerate}
 \end{enumerate}
-Dieser Algorithmus läßt sich leicht in \textsl{Java} umsetzen. Abbildung
+Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
 \ref{fig:insertion-sort} zeigt das resultierende Programm.
 \begin{enumerate}
 \item In Zeile 4 deklarieren wir die Member-Variable \texttt{mList}
@@ -209,7 +209,7 @@ berechnen wir zunächst die Anzahl der Aufrufe von ``\texttt{<=}'', die bei einem
 von $\texttt{insert}(x,L)$ im schlimmsten Fall bei einer Liste der Länge $n$
 durchgeführt werden.  Wir bezeichnen diese Anzahl mit $a_n$. Dann haben wir \\[0.2cm]
 \hspace*{1.3cm} $a_0 = 0$ \quad und \quad $a_{n+1} = a_n + 1$. \\[0.2cm]
-Durch eine einfache Induktion läßt sich sofort nachweisen, dass diese Rekurrenz-Gleichung
+Durch eine einfache Induktion lässt sich sofort nachweisen, dass diese Rekurrenz-Gleichung
  die Lösung \\[0.2cm]
 \hspace*{1.3cm} $a_n = n$ \\[0.2cm]
 hat.  Im schlimmsten Falle führt der Aufruf von $\mathtt{insert}(x,L)$ bei einer Liste $L$ mit
@@ -250,7 +250,7 @@ $
 \end{array}
 $
 \\[0.2cm]
-denn $b_0 = 0$ und für die Summe der Zahlen von 0 bis $n - 1$ läßt sich die Gleichung
+denn $b_0 = 0$ und für die Summe der Zahlen von 0 bis $n - 1$ lässt sich die Gleichung
 \\[0.2cm]
 \hspace*{1.3cm}
 $\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$
@@ -920,7 +920,7 @@ Setzen wir hier den Wert für $k=0$ ein, so erhalten wir \\[0.2cm]
 Aus (1) erhalten wir den Wert $b_1 = 2 \cdot b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) für $k$ den Wert 1 ein, 
 so finden wir \\[0.2cm]
 \hspace*{1.3cm} $2 = 0 \cdot 2^1 + \beta \cdot 1 \cdot 2^1$,  \\[0.2cm]
-also muß $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.2cm]
+also muss $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.2cm]
 \hspace*{1.3cm} $b_k = k \cdot 2^k$. \\[0.2cm]
 Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt für $a_n$ \\[0.2cm]
 \hspace*{1.3cm} $a_n = n \cdot \log_2(n)$. \\[0.2cm]
@@ -1103,7 +1103,7 @@ Der Grund ist, dass der Aufruf einer rekursiven Funktion relativ viel Zeit koste
 beim Aufruf einer rekursiven Funktion müssen einerseits die lokalen Variablen der Funktion auf dem
 Stack gesichert werden und andererseits müssen die Argumente, mit denen die Funktion
 aufgerufen wird, auf den Stack gelegt werden.  Wir zeigen daher, wie sich der
-Merge-Sort-Algorithmus sequentiell implementieren läßt.  Abbildung
+Merge-Sort-Algorithmus sequentiell implementieren lässt.  Abbildung
 \ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}
 zeigt eine solche Implementierung.
 Statt der rekursiven Aufrufe haben wir hier zwei ineinander geschachtelte
@@ -1118,7 +1118,7 @@ Kürze halber mit $x$, so hat ein solches Teilfeld die Form
 \hspace*{1.3cm}
 $\Bigl[x[k\cdot l],\; x[k\cdot l+1],\; x[k\cdot l+2],\; \cdots,\; x[k\cdot l+(l-1)]\Bigr]$
 \\[0.2cm]
-und wenn $n$ die Länge des Feldes $x$ ist, dann läßt sich die Aussage, dass alle
+und wenn $n$ die Länge des Feldes $x$ ist, dann lässt sich die Aussage, dass alle
 diese Teilfelder sortiert sind, durch die Formel 
 \\[0.2cm]
 \hspace*{0.8cm}
@@ -1146,7 +1146,7 @@ gemischt.  Möglicherweise hat das letzte Teilfeld eine Länge, die kleiner als $l
 Daher nehmen wir für das dritte Argument der Methode \textsl{merge} das Minimum der beiden
 Zahlen $l\cdot(k+2)$ und $\textsl{mArray}.\textsl{length}$.
 
-Der Algorithmus läßt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
+Der Algorithmus lässt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
 Feld \texttt{mArray} und \texttt{mAux} zurück gegeben werden, denn dann entfällt in der
 Methode \textsl{merge} das Kopieren
 des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.  
@@ -1315,7 +1315,7 @@ werden und der Term $a_{n-1}$ erfaßt die Anzahl der Vergleiche, die beim rekursi
 von $\textsl{sort}(L_2)$ benötigt werden.
 
 Die Anfangs-Bedingung für die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
-Vergleiche notwendig.  Damit läßt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
+Vergleiche notwendig.  Damit lässt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
 \[
 \begin{array}{lcl}
   a_n & = & a_{n-1} + (n-1) \\
@@ -1468,7 +1468,7 @@ Wegen $d_n = (n+1) \cdot a_{n}$ gilt jetzt:
 Wir vergleichen dieses Ergebnis mit dem Ergebnis, das wir bei der Analyse von
 ``\emph{Sortieren durch Mischen}'' erhalten haben.  Dort hatte sich die Anzahl
 der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgeführt
-werden mußte,
+werden musste,
 als \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
 ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ benötigen wir bei Quick-Sort im Durchschnitt \\[0.2cm]
@@ -1750,12 +1750,12 @@ bleiben.
       inkrementiert, solange $\texttt{left} \leq \mathtt{end}$ gilt.
       Also kann \texttt{left} maximal den Wert $\texttt{end} + 1$ annehmen.
 \end{enumerate}
-Um den Beweis der Korrektheit abzuschließen, muß noch gezeigt werden, dass 
+Um den Beweis der Korrektheit abzuschließen, muss noch gezeigt werden, dass 
 alle \texttt{while}-Schleifen terminieren.  Für die erste innere
 \texttt{while}-Schleife folgt das daraus, dass bei jedem Schleifen-Durchlauf die Variable
 \texttt{left} inkrementiert wird.  Da die Schleife andererseits die Bedingung \\[0.2cm]
 \hspace*{1.3cm} $\texttt{left} \leq \mathtt{end}$ \\[0.2cm]
-enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muß
+enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muss
 irgendwann abbrechen. 
 
 Die zweite innere
@@ -1773,7 +1773,7 @@ ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung 
       \hspace*{1.3cm} 
       $\texttt{left} = \mathtt{end} + 1$ \quad und \quad $\mathtt{right} = \mathtt{end}$
       \\[0.2cm]
-      gelten muß.  Daraus folgt aber sofort \\[0.2cm]
+      gelten muss.  Daraus folgt aber sofort \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} > \mathtt{right}$ \\[0.2cm]
       und folglich wird die äußere Schleife dann durch den Befehl \texttt{break} in Zeile 32 abgebrochen.
 \item Fall: Nach dem Ende der Schleife in Zeile 24 -- 26 gilt \\[0.2cm]

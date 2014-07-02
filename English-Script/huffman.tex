@@ -2,7 +2,7 @@
 In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ möglichst platzsparend
 abspeichern können.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
 Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
-Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit der selben Länge
+Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben Länge
 von $b$ Bits kodieren wollen, dann muss für diese Zahl von Bits offenbar
 \[ n \leq 2^b \] 
 gelten, woraus
@@ -13,7 +13,7 @@ rundet eine gegebene reelle Zahl immer auf, es gilt also
 Besteht der String $s$ aus $m$ Buchstaben, so werden zur Kodierung des Strings insgesamt
 $m \cdot b$ Bits gebraucht.  Nun gibt es zwei Möglichkeiten, weiterzumachen:
 \begin{enumerate}
-\item Lassen wir die Forderung, dass alle Buchstaben mit der selben Anzahl von Bits kodiert werden,
+\item Lassen wir die Forderung, dass alle Buchstaben mit derselben Anzahl von Bits kodiert werden,
       fallen, dann ist es unter Umständen möglich, den String $s$ mit weniger Bits zu kodieren.  
       Dies führt zu dem 1952 von David A.~Huffman angegebenen Algorithmus, den wir in den nächsten
       beiden Abschnitten vorstellen und analysieren.

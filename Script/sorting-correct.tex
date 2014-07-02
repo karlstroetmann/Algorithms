@@ -74,14 +74,14 @@ folgt definiert:
         \hspace*{1.3cm} 
         $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S(i) \preceq S(i+1)$ \\[0.1cm]
         Hier bezeichnen wir die Länge der Liste $S$ mit $\#S$.
-  \item $S$ und $L$ enthalten die selben Elemente, es gilt also \\[0.1cm]
+  \item $S$ und $L$ enthalten dieselben Elemente, es gilt also \\[0.1cm]
         \hspace*{1.3cm} 
         $\textsl{set}(L) = \textsl{set}(S)$. \\[0.1cm]
         Dabei ist für eine Liste $L$ der Ausdruck $\textsl{set}(L)$ als die Menge
         der Elemente der Liste $L$ definiert, es gilt \\[0.1cm]
         \hspace*{1.3cm} 
         $\textsl{set}(L) := \bigl\{ L(i) \mid i \el \{ 1, \cdots, \#L\} \bigr\}$.
-  \item Die Elemente treten in $L$ und $S$ mit der selben Häufigkeit auf: \\[0.1cm]
+  \item Die Elemente treten in $L$ und $S$ mit derselben Häufigkeit auf: \\[0.1cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
         \\[0.1cm]
@@ -91,15 +91,15 @@ folgt definiert:
         $\textsl{count}(x,L) := \# \bigl\{ i \el \{1,\cdots,\#L\} \mid L(i) = x \bigr\}$.
 
         \textbf{Bemerkung}: Die letzte Forderung impliziert offensichtlich die zweite
-        Forderung, denn wenn alle Elemente in den Listen $L$ und $S$ mit der selben
-        Häufigkeit auftreten, dann enthalten $L$ und $S$ natürlich auch die selben Elemente.
+        Forderung, denn wenn alle Elemente in den Listen $L$ und $S$ mit derselben
+        Häufigkeit auftreten, dann enthalten $L$ und $S$ natürlich auch dieselben Elemente.
   \end{enumerate}
 \end{enumerate}
 
 In diesem Kapitel präsentieren wir verschiedene Algorithmen, die das Sortier-Problem
 lösen, die also  zum Sortieren von Listen benutzt werden können.
 Wir stellen zunächst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
-Effizienz aber zu wünschen übrig läßt.  Im Anschluß daran präsentieren wir zwei
+Effizienz aber zu wünschen übrig lässt.  Im Anschluß daran präsentieren wir zwei
 effizientere Algorithmen, deren Implementierung aber etwas aufwendiger ist.
 
 \section{Sortieren durch Einfügen}
@@ -111,7 +111,7 @@ Der Algorithmus arbeitet nach dem folgenden Schema:
 \item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
       die leere Liste zurück gegeben: \\[0.1cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
-\item Andernfalls muß die Liste $L$ die Form $[x] + R$ haben.
+\item Andernfalls muss die Liste $L$ die Form $[x] + R$ haben.
       Dann sortieren wir den Rest $R$ und fügen das Element $x$ in diese Liste so ein,
       dass die Liste sortiert bleibt. \\[0.1cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$
@@ -128,7 +128,7 @@ Das Einfügen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem fol
             \hspace*{1.3cm} $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
       \end{enumerate}
 \end{enumerate}
-Dieser Algorithmus läßt sich leicht in \textsl{Java} umsetzen. Abbildung
+Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
 \ref{fig:insertion-sort} zeigt das resultierende Programm.
 \begin{enumerate}
 \item In Zeile 4 deklarieren wir die Member-Variable \texttt{mList}
@@ -414,7 +414,7 @@ $$
             \end{array}
             $$
 \item Fall:  $S = [y] + R$ und $\neg x \preceq y$.  Da wir voraussetzen, dass die Relation $\preceq$ eine \textsc{TQO} ist,
-            muß $y \preceq x$ gelten.  Damit haben wir:
+            muss $y \preceq x$ gelten.  Damit haben wir:
             $$
             \begin{array}[b]{cll}
                & \mathtt{isSorted}\bigl( \mathtt{insert}(x, [y] + R\bigr) \\
@@ -1046,7 +1046,7 @@ Beweis durch Wertverlaufs-Induktion nach der Definition der Funktion \texttt{min
           \mbox{nach Definition von \texttt{min}} \\
       = & \mathtt{member}\bigl( \mathtt{min}(R), R \bigr) & 
           \mbox{nach Definition von \texttt{member}} \\
-        & & \mbox{denn es muß $\mathtt{min}(R) \not= x$ gelten} \\
+        & & \mbox{denn es muss $\mathtt{min}(R) \not= x$ gelten} \\
       = & 1. & 
           \mbox{nach Induktions-Voraussetzung} 
       \end{array}\hspace*{\fill} \Box
@@ -1784,7 +1784,7 @@ Setzen wir hier den Wert für $k=0$ ein, so erhalten wir \\[0.1cm]
 Aus (1) erhalten wir den Wert $b_1 = 2 * b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) für $k$ den Wert 1 ein, 
 so finden wir \\[0.1cm]
 \hspace*{1.3cm} $2 = 0 * 2^1 + \beta * 1 * 2^1$,  \\[0.1cm]
-also muß $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.1cm]
+also muss $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.1cm]
 \hspace*{1.3cm} $b_k = k * 2^k$. \\[0.1cm]
 Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt für $a_n$ \\[0.1cm]
 \hspace*{1.3cm} $a_n = n * \log_2(n)$. \\[0.1cm]
@@ -1968,7 +1968,7 @@ Der Grund ist, dass der Aufruf einer rekursiven Funktion relativ viel Zeit koste
 beim Aufruf einer rekursiven Funktion müssen einerseits die lokalen Variablen der Funktion auf dem
 Stack gesichert werden und andererseits müssen die Argumente, mit denen die Funktion
 aufgerufen wird, auf den Stack gelegt werden.  Wir zeigen daher, wie sich der
-Merge-Sort-Algorithmus sequentiell implementieren läßt.  Abbildung
+Merge-Sort-Algorithmus sequentiell implementieren lässt.  Abbildung
 \ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}
 zeigt eine solche Implementierung.
 Statt der rekursiven Aufrufe haben wir hier zwei ineinander geschachtelte
@@ -1983,7 +1983,7 @@ Kürze halber mit $x$, so hat ein solches Teilfeld die Form
 \hspace*{1.3cm}
 $\Bigl[x[k\cdot l],\; x[k\cdot l+1],\; x[k\cdot l+2],\; \cdots,\; x[k\cdot l+(l-1)]\Bigr]$
 \\[0.1cm]
-und wenn $n$ die Länge des Feldes $x$ ist, dann läßt sich die Aussage, dass alle
+und wenn $n$ die Länge des Feldes $x$ ist, dann lässt sich die Aussage, dass alle
 diese Teilfelder sortiert sind, durch die Formel 
 \\[0.1cm]
 \hspace*{0.8cm}
@@ -2011,7 +2011,7 @@ gemischt.  Möglicherweise hat das letzte Teilfeld eine Länge, die kleiner als $l
 Daher nehmen wir für das dritte Argument der Methode \textsl{merge} das Minimum der beiden
 Zahlen $l\cdot(k+2)$ und $\textsl{mArray}.\textsl{length}$.
 
-Der Algorithmus läßt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
+Der Algorithmus lässt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
 Feld \texttt{mArray} und \texttt{mAux} zurück gegeben werden, denn dann entfällt in der
 Methode \textsl{merge} das Kopieren
 des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.  
@@ -2181,7 +2181,7 @@ werden und der Term $a_{n-1}$ erfaßt die Anzahl der Vergleiche, die beim rekursi
 von $\textsl{sort}(L_2)$ benötigt werden.
 
 Die Anfangs-Bedingung für die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
-Vergleiche notwendig.  Damit läßt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
+Vergleiche notwendig.  Damit lässt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
 \[
 \begin{array}{lcl}
   a_n & = & a_{n-1} + (n-1) \\
@@ -2332,7 +2332,7 @@ Wegen $d_n = (n+1) \cdot a_{n}$ gilt jetzt:
 Wir vergleichen dieses Ergebnis mit dem Ergebnis, das wir bei der Analyse von
 ``\emph{Sortieren durch Mischen}'' erhalten haben.  Dort hatte sich die Anzahl
 der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgeführt
-werden mußte,
+werden musste,
 als \\[0.1cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.1cm]
 ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ benötigen wir bei Quick-Sort im Durchschnitt \\[0.1cm]
@@ -2606,12 +2606,12 @@ bleiben.
       inkrementiert, solange $\texttt{left} \leq \mathtt{end}$ gilt.
       Also kann \texttt{left} maximal den Wert $\texttt{end} + 1$ annehmen.
 \end{enumerate}
-Um den Beweis der Korrektheit abzuschließen, muß noch gezeigt werden, dass 
+Um den Beweis der Korrektheit abzuschließen, muss noch gezeigt werden, dass 
 alle \texttt{while}-Schleifen terminieren.  Für die erste innere
 \texttt{while}-Schleife folgt das daraus, dass bei jedem Schleifen-Durchlauf die Variable
 \texttt{left} inkrementiert wird.  Da die Schleife andererseits der Bedingung \\[0.1cm]
 \hspace*{1.3cm} $\texttt{left} \leq \mathtt{end}$ \\[0.1cm]
-enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muß
+enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muss
 irgendwann abbrechen. 
 
 Die zweite innere
@@ -2629,7 +2629,7 @@ ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung 
       \hspace*{1.3cm} 
       $\texttt{left} = \mathtt{end} + 1$ \quad und \quad $\mathtt{right} = \mathtt{end}$
       \\[0.1cm]
-      gelten muß.  Daraus folgt aber sofort \\[0.1cm]
+      gelten muss.  Daraus folgt aber sofort \\[0.1cm]
       \hspace*{1.3cm} $\mathtt{left} > \mathtt{right}$ \\[0.1cm]
       und folglich wird die Schleife durch den Befehl \texttt{break} in Zeile 28 abgebrochen.
 \item Fall: Nach dem Ende der Schleife in Zeile 6 --- 8 gilt \\[0.1cm]
@@ -2713,7 +2713,7 @@ so schnell ist wie ``\emph{Sortieren durch Mischen}'', trotzdem gibt es zwei Grü
 Es gibt allerdings eine Situation, in der die Verwendung von \emph{Quick-Sort} dem ``\emph{Sortieren durch Mischen}'' 
 vorzuziehen ist.  Eine Implementierung von \emph{Quick-Sort} in \textsl{Java} kommt mit vergleichsweise wenig Speicherplatz aus,
 denn außer dem zu sortierenden Feld wird eigentlich nur noch etwas Platz auf dem Stack benötigt.  Hingegen
-ist bei der Implementierung von ``\emph{Sortieren durch Mischen}'' ein Hilfs-Feld erforderlich, das die selbe Größe hat
+ist bei der Implementierung von ``\emph{Sortieren durch Mischen}'' ein Hilfs-Feld erforderlich, das dieselbe Größe hat
 wie das zu sortierende Feld.  Es wird also in etwa doppelt soviel Speicherplatz benötigt wie bei 
 \emph{Quick-Sort}.
 

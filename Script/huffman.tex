@@ -2,7 +2,7 @@
 In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ möglichst platzsparend
 abspeichern können.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
 Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
-Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit der selben Länge
+Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben Länge
 von $b$ Bits kodieren wollen, dann muss für diese Zahl von Bits offenbar
 \[ n \leq 2^b \] 
 gelten, woraus
@@ -11,7 +11,7 @@ folgt.  Hier bezeichnet $\textsl{ceil}(x)$ die \emph{Ceiling-Funktion}.  Diese F
 rundet eine gegebene reelle Zahl immer auf, es gilt also
 \[ \textsl{ceil}(x) = \min \{ k \in \N \mid x \leq k \}. \]
 Besteht der String $s$ aus $m$ Buchstaben, so werden zur Kodierung des Strings insgesamt
-$m \cdot b$ Bits gebraucht.  Lassen wir die Forderung, dass alle Buchstaben mit der selben
+$m \cdot b$ Bits gebraucht.  Lassen wir die Forderung, dass alle Buchstaben mit derselben
 Anzahl von Bits kodiert werden, fallen, dann ist es unter Umständen möglich, den String
 $s$ mit weniger Bits zu kodieren.  Die zentrale Idee ist dabei, dass Buchstaben, die sehr
 häufig auftreten, mit möglichst wenig Bits kodiert werden, während Buchstaben, die sehr selten
@@ -701,7 +701,7 @@ Buchstaben, die gar nicht auftreten, werden also vorher aus dem Alphabet entfern
 \begin{Definition}[Optimaler Kodierungs-Baum]
   Ein Kodierungs-Baum $n$ ist \emph{optimal}, wenn bei gegebener Häufigkeit der Buchstaben
   der Wert $n.\textsl{cost}()$ minimal ist, für alle Kodierungs-Bäume $k$, bei denen die
-  Buchstaben mit der selben Häufigkeit auftreten wie in $n$,  gilt also
+  Buchstaben mit derselben Häufigkeit auftreten wie in $n$,  gilt also
   \\[0.2cm]
   \hspace*{1.3cm} $n.\textsl{cost}() \leq k.\textsl{cost}()$.
 \end{Definition}
@@ -917,7 +917,7 @@ Alphabet $\Sigma$.
     \label{eq:huffmanns1}
     k_4.\textsl{cost}() = k_3.\textsl{cost}() - \bigl(\textsl{freq}(x) + \textsl{freq}(y)\bigr).
   \end{equation}
-  Da die Kodierungs-Bäume $k_1$ und $k_2$ in der selben Relation stehen wie die Kodierungs-Bäume
+  Da die Kodierungs-Bäume $k_1$ und $k_2$ in derselben Relation stehen wie die Kodierungs-Bäume
   $k_4$ und $k_3$, gilt analog
   \begin{equation}
     \label{eq:huffmanns2}
