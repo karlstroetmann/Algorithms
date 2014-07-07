@@ -728,7 +728,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
   \label{fig:power-naive.stlx}
 \end{figure} 
 
-This program is obviously correct.  The computation of $m^n$ requires $n-1$ multiplication if the
+This program is obviously correct.  The computation of $m^n$ requires $n-1$ multiplications if the
 function \texttt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
 Fortunately, there is an algorithm for computing $m^n$ that is much more efficient.
 Consider we have to evaluate $m^4$.  We have
@@ -952,7 +952,7 @@ If we substitute this into the definition of $b_l$ in terms of $a_l$ we have: \\
 $a_{2^l} = 2 + l$. 
 \\[0.2cm]
 If we solve the equation $n = 2^l$ for  $l$ we get $l =
-\log_2(n)$. Substituting this values leads to
+\log_2(n)$. Substituting this value leads to
 \\[0.2cm]
 \hspace*{1.3cm}
  $a_n = 2 + \log_2(n) \in \Oh\bigl(\log_2(n)\bigr)$.
@@ -968,7 +968,7 @@ $a_n \in \Oh\bigl(\log_2(n)\bigr)$. \qed
 In reality, we are not interested in the number of multiplications but we are rather interested
 in the amount of computation time needed by the algorithm given above.
 However, this computation would be much more tedious because then we would have to take into account
-that the time needed to multiply to numbers depends on the size of these numbers.
+that the time needed to multiply two numbers depends on the size of these numbers.
 
 \exercise
 Implement a procedure $\mathtt{prod}$ that multiplies two numbers:
@@ -1401,8 +1401,8 @@ It is not difficult to show that
 Finally, we introduce big $\Theta$ notation.  The idea is that $f \in \Theta(g)$ if 
 $f$ and $g$ have the same asymptotic growth rate. 
 
-\begin{Definition}[$\Theta(g)$] 
-  Assume $g \in \R_+^\N{_0}$ is given.   The set of functions that have the same asymptotic growth rate
+\begin{Definition}[$\Theta(g)$]
+  Assume $g \in \R_+^{\N_0}$ is given.   The set of functions that have the same asymptotic growth rate
   as the function $g$ is defined as
   \\[0.2cm]
   \hspace*{0.5cm} 
@@ -1452,7 +1452,7 @@ factor of $\frac{3}{2}$.
 
 \section{Further Reading}
 Chapter 3 of the book ``\emph{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
-contains a detailed description of several variants of the big $O$ notation, while chapter 4 gives a more
+contains a detailed description of several variants of the big $\Oh$ notation, while chapter 4 gives a more
 general version of the master theorem together with a detailed proof.
 
 %%% Local Variables: 
