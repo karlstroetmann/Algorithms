@@ -923,8 +923,8 @@ durch Induktion nach der Länge des Wortes $w$.
        Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
        korrespondierenden $i$-ten Trie $t_i$.
 \item $\begin{array}[t]{ll}
-       \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \wedge \\
-       \textsl{delete}\bigl(\texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]),c_ir\bigr) 
+       \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
+       \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
        & = \\
        \qquad \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i.\textsl{delete}(r),\cdots,t_n]).
        \end{array}
