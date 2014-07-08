@@ -84,7 +84,7 @@ bedingte Gleichungen.
 
       Die gezeigte Situation kann entstehen,
       wenn im linken Teilbaum $l_2$ ein Element eingefügt wird oder wenn im rechten
-      Teilbaum $r_1$ eine Element gelöscht wird.
+      Teilbaum $r_1$ ein Element gelöscht wird.
 
       \begin{figure}[!ht]
         \centering
@@ -697,7 +697,7 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 \section{Tries}
 In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
 In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-Bäumen, die auf diese Situation besonders angepasst ist.  Diese Such-Bäume
+Form von Such-Bäumen, die an diese Situation besonders angepasst ist.  Diese Such-Bäume
 haben den Namen \emph{Tries}.  Dieses Wort ist von dem Englischen Wort
 \emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
 unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
@@ -706,7 +706,7 @@ Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandai
 
 
 Die Grundidee bei der Datenstruktur \emph{Trie} ist ein Baum, an dem jeder Knoten nicht
-nur zwei Nachfolger hat, wie das bei binären Bäumen der Fall ist, sondern statt dessen
+nur zwei Nachfolger hat, wie das bei binären Bäumen der Fall ist, sondern stattdessen
 potentiell für jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
 können, nehmen wir zunächst an, dass folgendes gegeben ist:
 \begin{enumerate}
@@ -923,8 +923,8 @@ durch Induktion nach der Länge des Wortes $w$.
        Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
        korrespondierenden $i$-ten Trie $t_i$.
 \item $\begin{array}[t]{ll}
-       \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \wedge \\
-       \textsl{delete}\bigl(\texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]),c_ir\bigr) 
+       \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
+       \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
        & = \\
        \qquad \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i.\textsl{delete}(r),\cdots,t_n]).
        \end{array}
@@ -932,7 +932,7 @@ durch Induktion nach der Länge des Wortes $w$.
 
        Wenn der zu löschende String mit dem Buchstaben $c_i$ anfängt, und wenn
        der Baum $t_i$, der durch das  Löschen des Schlüssels $r$ in dem $i$-ten
-       Trie $t_i$ entsteht nicht leer ist, dann löschen wir rekursiv in dem Baum $t_i$ den Schlüssel
+       Trie $t_i$ entsteht, nicht leer ist, dann löschen wir rekursiv in dem Baum $t_i$ den Schlüssel
        $r$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\textsl{delete}(cr) =
        \texttt{Node}(v, C, T)$. 

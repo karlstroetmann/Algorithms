@@ -12,7 +12,7 @@ Hoare logic is based on preconditions and postconditions.  If \texttt{P}
 $F$ a precondition and $G$ a postcondition for the program fragment \texttt{P}
 if the following holds:  If \texttt{P} is executed in a state $s$ such that the formula $F$ holds in
 $s$, then the execution of \texttt{P} will change the state $s$ into a new state $s'$ such that 
-$G$ holds in $s'$,  This is written as
+$G$ holds in $s'$.  This is written as
 \\[0.2cm]
 \hspace*{1.3cm}
 $ \hoare{F}{P}{G} $.
@@ -23,7 +23,7 @@ The formula
 \hspace*{1.3cm}
 $ \hoare{F}{P}{G} $
 \\[0.2cm]
-is called a \emph{Hoare tripel}.
+is called a \emph{Hoare triple}.
 \vspace*{0.3cm}
 
 
@@ -45,7 +45,7 @@ is called a \emph{Hoare tripel}.
       ``$x = 2$''.
 \item Let us consider the assignment ``\texttt{x = x + 1;}'' again.  However, this time
       the precondition is given as ``$\textsl{prime}(x)$'', which is only true if $x$ is a
-      prime number.  This time, the Hoare tripel is given as
+      prime number.  This time, the Hoare triple is given as
       \\[0.2cm]
       \hspace*{1.3cm}
       $ \hoare{\textsl{prime}(x)}{x := x + 1;}{\textsl{prime}(x-1)}$.
@@ -70,7 +70,7 @@ is called a \emph{Hoare tripel}.
       \\[0.2cm]
       and as $4 = 2 \cdot 2$ we see that $x + 1$ is not a prime number!
 \end{enumerate}
-Let us proceed to show how the different parts of a program can be specified using Hoare tripels.
+Let us proceed to show how the different parts of a program can be specified using Hoare triples.
 We start with the analysis of assignments.
  
 \subsection{Assignments}
@@ -137,7 +137,7 @@ Therefore, we have
 \hspace*{1.3cm}
 $ \hoare{x = 7}{x := x + 1;}{x - 1 = 7}. $
 \\[0.2cm]
-Since the formula $x - 1 = 7$ is equivalent to the formula $x = 8$ the Hoare tripel above can be
+Since the formula $x - 1 = 7$ is equivalent to the formula $x = 8$ the Hoare triple above can be
 rewritten as  
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -249,7 +249,7 @@ $\bruch{\quad \hoare{F}{P}{G}, \qquad G \rightarrow H \quad}{\hoare{F}{P}{H}}$
 \\[0.2cm]
 The formul\ae\ written over the fraction line are called the \emph{premisses} and the formula under the
 fraction line is called the \emph{conclusion}.   The conclusion and the first premiss  are 
-Hoare tripels, the second premiss is a formula of first order logic.
+Hoare triples, the second premiss is a formula of first order logic.
 The interpretation of this rule is that the conclusion is true if the premisses are true.
 
 
@@ -330,14 +330,14 @@ Simplifying the postcondition gives
   \label{eq:swap3}
   \hoare{\texttt{y} = a \wedge \texttt{y - x} = b}{x := y - x;}{ \texttt{y} = a \wedge \texttt{x} = b}.   
 \end{equation}
-Combining the Hoare tripels (\ref{eq:swap1}), (\ref{eq:swap2}) and (\ref{eq:swap3})
+Combining the Hoare triples (\ref{eq:swap1}), (\ref{eq:swap2}) and (\ref{eq:swap3})
 we get
 \begin{equation}
   \label{eq:swap}
   \hoare{\texttt{x} = a \wedge \texttt{y} = b}{x:=x-y; y:=y+x; x:=y-x;}{ 
          \texttt{y} = a \wedge \texttt{x} = b}.   
 \end{equation}
-The Hoare tripel (\ref{eq:swap}) shows that the program fragment shown in Figure
+The Hoare triple (\ref{eq:swap}) shows that the program fragment shown in Figure
 \ref{fig:swap} swaps the values of the variables $x$ and $y$: If the value of 
 $x$ is $a$ and $y$ has the value $b$ before the program is executed, then afterwards
 $y$ has the value $a$ and $x$ has the value $b$.  The trick shown in Figure
@@ -371,7 +371,7 @@ code is compiled into machine language, the resulting code will only use two reg
 In order to compute the effect of a conditional of the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{if ($B$) \{ $P$ \} else \{  Q \}}
+\texttt{if ($B$) \{ P \} else \{  Q \}}
 \\[0.2cm]
 let us assume that before the conditional statement is executed, the
 precondition $F$ is satisfied.   We have to analyse the effect of the program fragments $P$ and $Q$.
@@ -385,7 +385,7 @@ Hence, we have the following verification rule:
               \hoare{F}{if ($B$) P else Q}{G}}  
 \end{equation}
 In this form, the rule is not always applicable.  The reason is that the analysis of the program
-fragments \texttt{P} and \texttt{Q} yields Hoare tripel of the form
+fragments \texttt{P} and \texttt{Q} yields Hoare triple of the form
 \begin{equation}
   \label{eq:hoareI}
  \hoare{F \wedge B}{P}{G_1} \qquad \mathrm{and} \qquad \hoare{F \wedge \neg B}{Q}{G_2},   
@@ -415,7 +415,7 @@ and want to show that the execution of the conditional establishes the postcondi
 \hspace*{1.3cm}
 $G = \bigl(z = \textsl{min}(a, b)\bigr)$.
 \\[0.2cm]
-The first assignment ``\texttt{z := x;}'' gives the Hoare tripel 
+The first assignment ``\texttt{z := x;}'' gives the Hoare triple 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\hoare{\texttt{x} = a \wedge \texttt{y} = b \wedge \texttt{x} < \texttt{y}}{z := x}{
