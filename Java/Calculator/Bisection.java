@@ -2,10 +2,9 @@ public class Bisection {
     Calculator mCalculator;
 
     public Bisection() {
-        MyScanner scanner = new MyScanner(System.in);
-        mCalculator       = new Calculator(scanner.getTokenStack());
-        Double left       = scanner.getLeft();
-        Double right      = scanner.getRight();
+        mCalculator   = new Calculator();
+        Double left   = scanner.getLeft();
+        Double right  = scanner.getRight();
         System.out.println("Zero at: " + findZero(left, right, 0.5e-12));
     }
 
