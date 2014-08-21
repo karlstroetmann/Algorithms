@@ -118,5 +118,5 @@ fileDemo("alice.txt");
 fileDemo("lzw.stlx");
 fileDemo("ComparableSet.java");
 
-demo("abcabcabcabc", true);
+demo("abaabaaab", true);
 
