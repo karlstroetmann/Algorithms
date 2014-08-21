@@ -473,7 +473,7 @@ the details of the verification rule for \texttt{while} loops are as follows:
 \hspace*{1.3cm}
 $\bruch{\hoare{I \wedge B}{P}{I}}{\quad \hoare{I}{while ($B$) \{ P \}}{I \wedge \neg B}\quad}$
 \\[0.2cm]
-The premiss of this rules expresses the fact that the invariant $I$ remains valid on execution of $P$.
+The premiss of this rule expresses the fact that the invariant $I$ remains valid on execution of $P$.
 However, since $P$ is only executed as long as $B$ is \texttt{true}, the precondition for $P$ is actually 
 the formula $I \wedge B$.  The conclusion of the rule says that if the invariant $I$ is true before
 the loop is executed, then $I$ will be true after the loop has finished.  This result is intuitive
@@ -613,7 +613,7 @@ $\{ I \}$
 \hspace*{2.2cm}
 \texttt{while (x != y ) \{} \\[0.1cm]
 \hspace*{3.2cm}
-         \texttt{if (x < y) \{ x := x - y; \} else \{ y := y - x;\}}
+         \texttt{if (x < y) \{ y := y - x; \} else \{ x := x - y;\}}
 \\[0.1cm]
 \hspace*{2.2cm}
 \texttt{\}} \quad 
