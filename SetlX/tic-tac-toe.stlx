@@ -1,0 +1,167 @@
+// This class represents the board of a Tic-Tac-Toe game.
+// The constructor creates an empty board of the given size.
+// For performance reasons, size > 3 does not work.
+class tic_tac_toe(size) {
+    // This number is the size of the board.  For now, it is a constant.
+    // This could be generalized to allow for bigger boards.
+    mSize := size;  
+    // The board itself.  It is represented as a list of its rows.
+    // The entries of a row are:
+    //     (a) " ": if the field is empty
+    //     (b) "X": if the first player has marked this field
+    //     (c) "O": if the second player has marked this field
+    // The board starts out empty.
+    mBoard := [ [ " " : col in [1 .. mSize] ]: row in [1 .. mSize] ];
+
+    // return the entry at the given row and column
+    square := procedure(row, col) {
+        return mBoard[row][col];
+    };
+
+    // return a list of all empty squares
+    empty_squares := procedure() {
+        rng := [1 .. mSize];
+        return [ [row, col] : row in rng, col in rng | mBoard[row][col] == " " ];
+    };
+
+    // place given mark on the board at position [row, col]
+    move := procedure(row, col, mark) {
+        mBoard[row][col] := mark;
+    };
+
+    // create a human readable representation of the board
+    f_str := procedure() {
+         rng := [1 .. mSize];
+         ls  := "\n" + "-" * (4 * mSize + 1) + "\n";  // line separator
+         return   ls 
+                + join([ "| " + join([ mBoard[row][col] : col in rng ], " | ") + " |"
+                         : row in rng 
+                       ], ls)
+                + ls;
+    };
+
+    // create a copy of the given tic-tac-toe board
+    clone := procedure() {
+        result        := tic_tac_toe(mSize);
+        result.mBoard := mBoard;
+        return result;
+    };
+
+    // If the game has been decided, return the winner. 
+    // If "X" has won, return "X", if "O" has won, return "O".
+    // If the game is drawn, return " ".
+    // If the game is still in progress, return Omega.
+    check_win := procedure() {
+        rng   := [1 .. mSize];
+        // lines is the list of all horizontal, vertical, and diagonal lines in the game
+        // we start with the rows
+        lines := [ [ mBoard[row][col] : col in rng ] : row in rng ];
+        // next, we add the columns
+        lines += [ [ mBoard[row][col] : row in rng ] : col in rng ];
+        // next, the falling diagonal
+        lines += [ [ mBoard[idx][idx] : idx in rng ] ];
+        // finally, the rising diagonal
+        lines += [ [ mBoard[idx][mSize - (idx - 1)] : idx in rng ] ];
+        // now all lines are checked whether the contain 3 identical nonempty marks 
+        for (line in lines) {
+            if (#{ p : p in line } == 1 && line[1] != " ") {
+                return line[1];
+            }
+        }
+        // no winner so far, check for a draw
+        if (#empty_squares() == 0) {
+            return " ";
+        }
+        // return Omega if game still in progress
+    };
+}
+
+switch_player := procedure(player) {
+    if (player == "X") {
+        return "O";
+    } else if (player == "O") {
+        return "X";
+    } else {
+        throw("illegal argument in switch_player($player$)");
+    }
+};
+
+// Function to play a game of tic-tac-toe, user is either "X" or "O".
+// If user is "O", then the computer starts, else the human player starts.
+play_game := procedure(move_function, user, size) {
+    board   := tic_tac_toe(size);
+    player := "X";
+    print(board);
+    while (!(winner in { "X", "O", " " })) {
+        if (user == player) {
+            [row, col] := split(read("enter move as row, col: "), " *, *");
+            [row, col] := [int(row), int(col)];
+        } else {
+            [row, col] := move_function(board, switch_player(user));
+            print("\ncomputers move: ($row$, $col$)");
+        }
+        board.move(row, col, player);
+        winner := board.check_win();
+        player := switch_player(player);
+        print(board);
+        if (winner == "X") {
+            print("X wins!");
+        } else if (winner == "O") {
+            print("O wins!");
+        } else if (winner == " ") {
+            print("It's a tie!");
+        }
+        // no winner yet, continue
+    }
+};
+
+// the quality of a move for a given player
+ttt_quality := procedure(board, move, player) {
+    [row, col] := move;
+    copy := board.clone();
+    copy.move(row, col, player);
+    value := -ttt_utility(copy, switch_player(player));
+    return value;
+};
+
+// the utility of a given state for the specified player
+ttt_utility := cachedProcedure(board, player) {
+    winner := board.check_win();
+    if (winner in { "X", "O", " " }) {
+        if (winner == player) {
+            return  1;
+        } else if (winner == " ") {
+            return  0;
+        } else {
+            return -1;
+        }
+    }
+    return max({ ttt_quality(board, move, player) : move in board.empty_squares() });
+};
+
+// play tic-tac-toe optimal  
+optimal_strategy := procedure(board, player) {
+    best_value    := ttt_utility(board, player);
+    optimal_moves := [];
+    for (move in board.empty_squares()) {
+        if (best_value == ttt_quality(board, move, player)) {
+            optimal_moves += [ move ];
+        }
+    }
+    if (optimal_moves == []) {
+        print("Error in optimal_strategy");
+        print(board);
+        print("player     = $player$");
+        print("best_value = $best_value$");
+        throw("ERROR");
+    }
+    return rnd(optimal_moves);
+};
+
+// choose a random move
+random_strategy := procedure(board, player) {
+    return rnd(board.empty_squares());
+};
+
+play_game(optimal_strategy, "X", 3);
+
