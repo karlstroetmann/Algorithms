@@ -22,7 +22,7 @@
    nach der inneren while-Schleife anpassen.
 
 4. In der vorletzten for-Schleife ist die Bedingung "x < i + partArray" falsch.
-   Richtig wŠre "x < i + partArray && x < mArray.length".  Die selbe Bemerkung
+   Richtig wŠre "x < i + partArray && x < mArray.length".  Dieselbe Bemerkung
    gilt auch fŸr die letzte for-Schleife.
    
 5. Der peinlichste Fehler ist ist, dass Sie den Befehl arraycopy nur ein einziges
