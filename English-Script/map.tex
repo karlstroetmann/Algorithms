@@ -89,7 +89,7 @@ die Telefon-Nummern.
         \item $k_1 \not= k_2 \rightarrow 
                m.\textsl{insert}(k_1, v).\textsl{find}(k_2) = m.\textsl{find}(k_2)$,
 
-              denn wenn wir für einen Schlüssel $k_1$ eine Wert einfügen, so ändert das
+              denn wenn wir für einen Schlüssel $k_1$ einen Wert einfügen, so ändert das
               nichts an dem Wert, der für einen anderen Schlüssel $k_2$ abgespeichert ist.
         \item $m.\textsl{delete}(k).\textsl{find}(k\bigr) = \Omega$,
 
@@ -351,7 +351,7 @@ Damit können wir nun die Methode $\mathtt{delete}()$ spezifizieren.
       Wurzel des neuen Baums.
 
 \item $k_1 < k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}\bigl(k_1) = 
-       \textsl{Node}(k_2,v_2,l.\textsl{delete}(k_1),r)$,
+       \textsl{Node}(k_2,v_2,l.\textsl{delete}(k_1),r)$.
 
       Falls der zu entfernende Schlüssel kleiner ist als der Schlüssel an der Wurzel,
       so kann sich der Schlüssel nur im linken Teilbaum befinden.  Daher wird der
