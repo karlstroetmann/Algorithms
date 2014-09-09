@@ -309,7 +309,7 @@ discussed next.
       \hspace*{1.3cm}
       \texttt{s := stack(); s.push(1); s.push(2); s.push(3); print(s);}
       \\[0.2cm]
-      at the prompt of the interpreter.  This commands create an empty stack and push the numbers 1, 2, and 3 
+      at the prompt of the interpreter.  These commands create an empty stack and push the numbers 1, 2, and 3 
       onto this stack.  Finally, the resulting stack is printed.  The string that is then printed
       is the result of calling \texttt{f\_str} and has the following form:
       \begin{verbatim}
@@ -520,7 +520,7 @@ while there are two cases for operator symbols that are removed from the token s
       \item The operator on top of the operator stack is an opening parenthesis \texttt{\symbol{34}(\symbol{34}}. 
       \item The operator has a higher precedence than the operator that is currently on top of the
             operator stack.
-      \item The operator is the same as operator that is on top of the operator stack and, furthermore,
+      \item The operator is the same as the operator that is on top of the operator stack and, furthermore,
             the operator associates to the right.
       \end{enumerate}
 \item In all other cases, the operator that has been taken from the token stack is put back onto the
@@ -683,14 +683,14 @@ If \texttt{stackOp} and \texttt{nextOp} have the same precedence, there are two 
       In this case we have to consider the \emph{associativity} of the operator.
       Let us consider two examples: \\[0.2cm]
       \hspace*{1.3cm} \texttt{2 + 3 + 4} \quad is interpreted as \quad \texttt{(2 + 3) + 4}. \\[0.2cm]
-      The reason is that the operator ``\texttt{\symbol{34}+\symbol{34}}'' \emph{associates to the left}.
+      The reason is that the operator ``\texttt{+}'' \emph{associates to the left}.
       On the other hand, \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{2 \texttt{**} 3 \texttt{**} 4}  \quad is interpreted as \quad \texttt{2 \texttt{**} (3 \texttt{**} 4)}
       \\[0.2cm]
-      because the operator ``\texttt{\symbol{94}}'' \emph{associates to the right}.
+      because the operator ``\texttt{**}'' \emph{associates to the right}.
 
-      The operators ``\texttt{\symbol{34}+\symbol{34}}'', ``\texttt{\symbol{34}-\symbol{34}}'', ``\texttt{\symbol{34}*\symbol{34}}'', ``\texttt{/}'' and 
+      The operators ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'' and 
       ``\texttt{\symbol{37}}'' are all left associative.  Hence, in this case \texttt{stackOp} is
       evaluated before \texttt{nextOp}.
       The operator ``\texttt{**}'' associates to the right. Therefore, if
@@ -706,7 +706,7 @@ Now we can understand the implementation of $\texttt{evalBefore}(\mathtt{stackOp
       return \texttt{true} in line 39.
 \item If the precedences of \texttt{stackOp} and \texttt{nextOp} are identical, there are two cases:
       \begin{enumerate}
-      \item If both operator are equal, then the result of
+      \item If both operators are equal, then the result of
             \texttt{evalBefore(stackOp,nextOp)} is \texttt{true} if and only if
             this operator associates to the left.  The operators that associate to the left are
             listed in the set in line 42.
@@ -784,7 +784,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        Therefore, an abstract data type can be seen as an interface that shields the user of the
        abstract data type from the peculiarities of an actual implementation of the data type.
        Hence it is possible that different groups of people develop the algorithm and the
-       concrete implementation of the abstract data types used by algorithm.  
+       concrete implementation of the abstract data types used by the algorithm.  
 
        Today, many software systems have sizes that can only be described as gigantic.  No single
        person is able to understand every single aspect of these systems.  It is therefore important
@@ -808,7 +808,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        \item The initial implementation of these abstract data may be quite crude and inefficient.
        \item Next, detailed performance tests spot those data types that are performance 
              bottlenecks.
-       \item Finally, the implementation of data types that have been identified as bottlenecks are optimized.
+       \item Finally, the implementations of data types that have been identified as bottlenecks are optimized.
        \end{enumerate}
        The reason this approach works is the 
        \href{http://en.wikipedia.org/wiki/Pareto_principle#In_software}{80-20 rule}:  
