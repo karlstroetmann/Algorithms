@@ -1,0 +1,834 @@
+\chapter{Abstract Data Types}
+In the same way as the notion of an algorithm abstracts from the details of a concrete
+implementation of this algorithm, the notion of an \emph{abstract data type} abstracts from concrete data
+structures.  The notion enables us to separate algorithms from the data
+structures used in these algorithms.  The next section gives a formal definition of
+``\emph{abstract data types}''.  As an example, we introduce the abstract data type of \emph{stacks}.
+The second section shows how abstract data types are supported in \textsc{SetlX}.  Finally, we show how stacks can be used
+to evaluate arithmetic expressions.
+
+\section[Formal Definition]{A Formal Definition of Abstract Data Types}
+Formally, an \emph{abstract data type} $\mathcal{D}$ is defined as a 5-tupel of the form
+\\[0.2cm]
+\hspace*{1.3cm}
+ $\mathcal{D} = \langle N, P, Fs, Ts, Ax \rangle$.
+\\[0.2cm] 
+where the meaning of the components is as follows:
+\begin{enumerate}
+\item $N$ is the \emph{name} of the abstract data type.
+\item $P$ is the set of \emph{type parameters}.   Here, a type parameter is just a string.
+      This string is interpreted as a type variable.  The idea is that we can later substitute 
+      a concrete data type for this string.
+\item $\textsl{Fs}$ is the set of \emph{function symbols}.  These function symbols denote the 
+      operations that are supported by this abstract data type.
+\item $\textsl{Ts}$ is a set of \emph{type specifications}.  For every function symbol
+      $f \in \textsl{Fs}$
+      the set $Ts$ contains a \emph{type specifications} of the form 
+      \\[0.2cm]
+      \hspace*{1.3cm} 
+      $f: T_1 \times \cdots \times T_n \rightarrow S$. 
+      \\[0.2cm]
+      Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
+      these data types: 
+      \begin{enumerate}
+      \item We can have concrete data types like, e.~g.~``\texttt{int}'' or ``\texttt{String}''.
+      \item Furthermore, these can be the names of abstract data types.
+      \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
+      \end{enumerate}
+      The type specification $f: T_1 \times \cdots \times T_n \rightarrow S$ expresses the fact that
+      the function $f$ has to be called as \\[0.2cm] 
+      \hspace*{1.3cm}
+      $f(t_1,\cdots,t_n)$ 
+      \\[0.2cm]
+      where for all $i \in \{1,\cdots,n\}$ the argument $t_i$ has type 
+      $T_i$.  Furthermore, the result of the function $f$ is of type $S$.
+
+      Additionally, we must have either $T_1 = T$ or $S = T$.  Therefore, either
+      the first argument of $f$ has to be of type $T$ or the result of $f$ has to be of type 
+      $T$.  If we have  $T_1 \not= T$ and, therefore, $S = T$,
+      then $f$ is called a \emph{constructor} of the data type $T$.  Otherwise,
+      $f$ is called a  \emph{method}.
+\item $Ax$ is a set of mathematical formul\ae.   These formul\ae\ 
+      specify the behaviour of the abstract data type and are therefore called
+      the \emph{axioms} of $\mathcal{D}$.
+\end{enumerate}
+The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{Adt}.
+
+Next, we provide a simple example of an abstract data type, the \emph{stack}.
+Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
+only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
+plates that can be found in a canteen.  Usually, the clean plates are placed on top of each other
+and only the plate on top is accessible.  Formally, we define the data type \textsl{Stack} as follows:
+\begin{enumerate}
+\item The name of the data type is \textsl{Stack}.
+\item The set of type parameters is $\{ \textsl{Element} \}$.
+\item The set of function symbols is \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\bigl\{ \textsl{Stack}, \textsl{push}, \textsl{pop}, \textsl{top}, \textsl{isEmpty} \bigr\}$.
+\item The type specifications of these function symbols are given as follows:
+      \begin{enumerate}
+      \item $\textsl{stack}: \textsl{Stack}$
+
+            The function $\textsl{stack}$ takes no arguments and produces an empty stack.
+            Therefore, this function is a constructor.  Intuitively, the function call $\textsl{stack}()$ 
+            creates an empty stack.
+      \item $\textsl{push}: \textsl{Stack} \times \textsl{Element} \rightarrow \textsl{Stack}$
+
+            The function call $\textsl{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
+            the following, we will use an object oriented notation and write 
+            $S.\textsl{push}(x)$, instead of $\textsl{push}(S,x)$.
+      \item $\textsl{pop}: \textsl{Stack}  \rightarrow \textsl{Stack}$
+
+            The function call $S.\textsl{pop}()$ removes the first element from the stack $S$.
+      \item $\textsl{top}: \textsl{Stack} \rightarrow \textsl{Element}$
+
+            The function call $S.\textsl{top}()$ returns the element that is on top of the stack $S$. 
+      \item $\textsl{isEmpty}: \textsl{Stack} \rightarrow \mathbb{B}$
+
+            The function call $S.\textsl{isEmpty}()$ checks whether the stack $S$ is empty.
+      \end{enumerate}
+\end{enumerate}
+The intuition that we have of a stack is captured by the following axioms.
+\begin{enumerate}
+\item $\textsl{stack}().\textsl{top}() = \Omega$
+
+      Here, $\Omega$ denotes the undefined value\footnote{
+       Some philosophers are concerned that it is not possible to define an undefined value.
+       They argue that if an undefined value could be defined, it would be no longer undefined
+       and hence it can not be defined.  However, that is precisely the point of the undefined 
+       value: It is not defined.
+        }.  
+      The expression $\textsl{stack}()$
+      creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
+      element on top of the empty stack.
+\item $S.\textsl{push}(x).\textsl{top}() = x$
+
+      If we have a stack $S$ and then push an element $x$ on top of $S$, then the element on top
+      of the resulting stack is, obviously, $x$.
+\item $\textsl{stack}().\textsl{pop}() = \Omega$
+
+      Trying to remove an element from the empty stack yields an undefined result.
+\item $S.\textsl{push}(x).\textsl{pop}() = S$
+
+      If we have a stack $S$, then push an element $x$ of top of $S$, and finally remove the element
+      on top of the resulting stack, then we are back at our stack $S$.
+    
+\item $\textsl{stack}().\textsl{isEmpty}() = \mathtt{true}$
+
+      This axiom expresses the fact that the stack created by the function call $\textsl{stack}()$
+      is empty.
+\item $S.\textsl{push}(x).\textsl{isEmpty}() = \mathtt{false}$
+
+      If we push an element $x$ on top of a stack $S$, then the resulting stack cannot be empty.
+\end{enumerate}
+When contemplating the axioms given above we can recognize some structure.  If we denote the
+functions \texttt{stack} and \texttt{push} as \emph{generators},  then the axioms specify the
+behavior of the remaining functions on the stacks created by the generators.
+
+The data type of a stack has many applications in computer science.  To give just one example, the
+implementation of the \textsl{Java virtual machine} is based on a stack.  Furthermore,  we will
+later see how,  using three stacks, arithmetic expressions can be evaluated.
+
+
+
+\section[Implementation]{Implementing Abstract Data Types in \textsc{SetlX}}
+In an object oriented programming language, abstract data types are conveniently implemented via a
+class.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
+is to create an interface describing the signatures of the abstract data type and then to implement
+the abstract data type as a class.  Instead of an interface, we can also use an abstract class
+to describe the signatures.  In an untyped language like \textsc{SetlX} there is no way to
+neatly capture the signatures.  Therefore, the implementation of an abstract data type in
+\textsc{SetlX} merely consists of a class.
+At this point we note that classes are discussed in depth in chapter 7 of the \textsc{SetlX} 
+\href{http://wwwlehre.dhbw-stuttgart.de/~stroetma/SetlX/tutorial.pdf}{tutorial}.  If the reader
+hasn't encountered classes in \textsc{SetlX}, she is advised to consult this chapter before reading
+any further. 
+
+\begin{figure}[!h]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    class stack() {
+        mStackElements := [];
+    
+      static {  
+        push := procedure(e) {
+            this.mStackElements += [e];
+        };
+        pop := procedure() {
+            assert(#mStackElements > 0, "popping empty stack");
+            this.mStackElements := mStackElements[1 .. #mStackElements - 1];
+        };
+        top := procedure() {
+            assert(#mStackElements > 0, "top of empty stack");
+            return mStackElements[#mStackElements];
+        };
+        isEmpty := procedure() {
+            return mStackElements == [];
+        };
+        f_str := procedure() {
+             copy   := this;
+             result := convert(copy);
+             dashes := "\n";
+             for (i in {1 .. #result}) {
+                  dashes += "-";
+             }
+             return dashes + "\n" + result + dashes + "\n";
+        };
+        convert := procedure(s) {
+            if (s.isEmpty()) {
+                return "|";
+            } 
+            top := s.top();
+            s.pop();
+            return convert(s) + " " + top + " |";
+        };
+      }
+    }
+    
+    createStack := procedure(l) {
+        result := stack();
+        n := #l;
+        for (i in [n, n-1 .. 1]) {
+            result.push(l[i]);
+        }
+        return result;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{An array based implementation of the ADT \textsl{Stack} in \textsc{SetlX}.}
+  \label{fig:stack-array.stlx}
+\end{figure} 
+
+Figure \ref{fig:stack-array.stlx} shows an implementation of the ADT \textsl{Stack} that is 
+discussed next.
+\begin{enumerate}
+\item The definition of the \textsc{Adt} \textsl{Stack} starts with the keyword \texttt{class}
+      in line 1.
+      After the keyword \texttt{class}, the name of the class has to be given.  In Figure
+      \ref{fig:stack-array.stlx} this name is \texttt{stack}.
+
+      In \textsc{SetlX}, every class also defines a constructor wich has the same name as the class.
+      Since in line 1 the name \texttt{class} is followed by ``\texttt{()}'', the constructor
+      \texttt{stack} does not take any arguments.  In order to use it, we can write
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{s := stack();}
+      \\[0.2cm]
+      This assignment creates an empty stack and assigns this stack to the variable \texttt{s}.
+\item Line 2 defines the first (and in this case only) member variable of the class \texttt{stack}.
+      Therefore, every object $o$ of class stack will have a \emph{member variable} called
+      \texttt{mStackElements}. 
+      We will use this list to store the elements of the stack.  To retrieve this member variable from
+      the object $o$ we can use the following expression:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $o$\texttt{.mStackElements}
+      \\[0.2cm]
+      The implementation of stacks shown
+      in Figure \ref{fig:stack-array.stlx} is based on storing the elements of the stack in a
+      \textsc{SetlX} list.  In \textsc{SetlX}, lists are internally implemented as arrays.  However,
+      this is not the only way to implement a stack: A stack can also be implemented as a linked list.
+
+      One word on naming convention.  It is my convention to start all member variables of a class
+      with the lower case letter ``\texttt{m}'' followed by a descriptive name.
+\item The rest of the definition of the class \texttt{stack} is enclosed in one big static
+      block that starts with the keyword \texttt{static} in line 4 and ends with the closing brace 
+      ``\texttt{\}}'' in line 36.  The static block is not part of the constructor.
+      Therefore, the only thing that the constructor class
+      \texttt{stack()} does, is to initialize the member variable \texttt{mStackElements}.
+
+      The static block itself contains a number of procedure definitions.  These procedures are
+      called \emph{methods}.  As these methods are
+      defined inside the static block, they are not considered to be defined in the constructor
+      and, therefore, are not member variables but are, instead, class variables.  Hence, 
+      they are available in the class \texttt{stack}.  For example,
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{stack.push}
+      \\[0.2cm]
+      refers to the method \texttt{push} defined in line 5 to 7.  Of course, every object of class
+      \texttt{stack} will also have access to these 
+      methods.  For example, if $s$ is an object of class \texttt{stack}, then we can invoke the
+      method \texttt{push} by writing:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s$\texttt{.push($x$)}
+      \\[0.2cm]
+      The reason the methods in class \texttt{stack} are all inside the static block is the fact
+      that these methods work the same way for all stacks.  The only case where it is not a good 
+      idea to declare a method as static is when this method needs to be defined on a
+      per-object-basis: If the code of the method differs for every object so that it is necessary
+      to construct the method for every object differently, then the definition of the method has to
+      be part of the constructor and not part of the static block.
+\item Line 5 starts the definition of the method \texttt{push}.  This method is called with one
+      argument $e$, where $e$ is the element that is to be pushed on the stack.  In the array based
+      implementation, this is achieved by appending $e$ to the list \texttt{mStackElements}.
+
+      If you are new to object-oriented programming, then at this point you might wonder why we do
+      not need to specify the stack onto which the element $e$ is pushed.  However, we do have to
+      specify the stack by prefixing it to the method invocation.  That is, if $s$ is a stack and we
+      want to push $e$ onto this stack, then we can do this by writing the following:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s\mathtt{.push}(e)$
+
+      There is another subtle point that needs to be discussed: When referring to the member
+      variable \texttt{mStackElements} we had to prefix this variable with the string
+      ``\texttt{this.}''.  In the case that we just want to read a variable, it is not necessary to
+      prefix the variable with ``\texttt{this.}''.  However, once we want to change a member
+      variable, the prefix ``\texttt{this.}'' is mandatory.  If we just had written
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{mStackElements += [e];}
+      \\[0.2cm]
+      then we would have created a new local variable with the name \texttt{mStackElements} and we
+      would have changed this local variable rather than the member variable \texttt{mStackElements}.      
+\item Line 8 starts the implementation of the method \texttt{pop}, which has the task to remove 
+      one element from the stack.  Of course, it would not make sense to remove an element from the
+      stack if the stack is empty.  Therefore, the \texttt{assert} statement in line 9 checks
+      whether the number of elements of the list \texttt{mStackElements} is bigger than $0$.
+      If this condition is satisfied, the last element of the list \texttt{mStackElements} is removed.
+\item Line 12 starts the definition of the method \texttt{top}.  First, it is checked that the stack
+      is non-empty.  Then, the element at the end of the list \texttt{mStackElements} is returned.
+\item Line 16 defines the method \texttt{isEmpty}.  This method checks whether the list
+      \texttt{mStackElements} is empty.
+\item Line 19 defines the method \texttt{f\_str}.  This method serves a similar purpose as the method
+      \texttt{toString} in a \textsl{Java} program:  If an object of class \texttt{stack} needs to
+      be converted into a string, then the method \texttt{f\_str} is invoked automatically to
+      perform this conversion.
+
+      In order to understand the implementation of \texttt{f\_str} we look at an example and type
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{s := stack(); s.push(1); s.push(2); s.push(3); print(s);}
+      \\[0.2cm]
+      at the prompt of the interpreter.  These commands create an empty stack and push the numbers 1, 2, and 3 
+      onto this stack.  Finally, the resulting stack is printed.  The string that is then printed
+      is the result of calling \texttt{f\_str} and has the following form:
+      \begin{verbatim}
+      -------------
+      | 1 | 2 | 3 |
+      -------------
+      \end{verbatim}
+      \vspace*{-0.5cm}
+      Hence, the topmost element of the stack is printed last.
+
+      The implementation of the method \texttt{f\_str} works as follows.
+      \begin{enumerate}
+      \item First, line 20 creates a copy of the stack.  The reason for working with a copy is
+            that all the methods that are available on a stack only permit us to look at the 
+            topmost element of the stack.  In order to inspect the second element we first have to
+            remove the first element.  However, the method \texttt{f\_str} is not supposed to change
+            the stack.  Therefore, we have to create a copy of the stack first.
+      \item Next, we use the auxiliary method \texttt{convert}.  This method computes a string of
+            the form \\[0.2cm]
+            \hspace*{1.3cm} \texttt{| 1 | 2 | 3 |}. 
+            \\[0.2cm]
+            The implementation of \texttt{convert} is done via a case distinction:
+            If the given stack s is empty, the result of \texttt{convert} will be the string ``\texttt{|}''.  
+            Otherwise we get the top element of the stack using the method \texttt{top()} and remove
+            it using \texttt{pop()}.  Next, the remaining stack is converted to a string in
+            line 34 and finally the element \texttt{top} is appended to this string.
+      \item The method \texttt{f\_str} uses a \texttt{for} loop to create a line of dashes.
+            The result of \texttt{convert} is then decorated with these dashes.
+      \end{enumerate}
+\item Note that there is no ``\texttt{;}'' at the end of the class definition in line 37.
+      In contrast to a procedure definition, a class definition must \underline{not} be terminated 
+      by the character ``\texttt{;}''.
+\end{enumerate}
+You should note that we were able to implement  the method \texttt{f\_str} without knowing anything
+about the internal representation of the stack.  In order to implement \texttt{f\_str} we only used
+the methods \texttt{top}, \texttt{pop}, and \texttt{isEmpty}.  This is one of the main advantages of
+an abstract data type: An abstract data type abstracts from the concrete data structures that
+implement it.  If an abstract data type is done right, it can be used without knowing how the data
+that are administered by the abstract data type are actually represented.
+
+
+\section{Evaluation of Arithmetic Expressions}
+Next, in order to demonstrate the usefulness of stacks, we show how \emph{arithmetic expressions} can be
+evaluated using stacks.  An \emph{arithmetic expression} is a string that is made up of numbers and
+the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
+``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the remainder when doing
+integer division and
+$x\;\texttt{**}\;y$ denotes the power $x^y$.    Furthermore, arithmetic expressions can use
+the parentheses ``\texttt{(}'' and ``\texttt{)}''.
+  
+The set of arithmetic expressions can be defined inductively as
+follows:
+\begin{enumerate}
+\item Every number $n \in \mathbb{N}$ is an arithmetic expression.
+\item If $s$ and $t$ are arithmetic expressions, then
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s + t$, \quad $s - t$, \quad $s * t$, \quad
+      $s \,/\, t$, \quad $s \;\texttt{\symbol{37}}\; t$, \quad and \quad $s \,\texttt{**}\, t$
+      \\[0.2cm]
+      are arithmetic expressions.
+\item If $s$ is an arithmetic expression, then $(s)$ is an arithmetic expression.
+\end{enumerate}
+If we have been given a string that is an arithmetic expression, then in order to evaluate this
+arithmetic expression we need to know the precedence and the associativity of the operators.
+In mathematics the operators ``\texttt{*}'', ``\texttt{/}'' and ``\texttt{\symbol{37}}'' have a
+higher precedence than the operators ``\texttt{+}'' and ``\texttt{-}''.  Furthermore, the operator
+  ``\texttt{**}'' has a precedence that is higher than the precedence
+ of any other operators.  The operators
+``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', and ``\texttt{\symbol{37}}''
+associate to the left:  An expression of the form 
+\\[0.2cm]
+\hspace*{1.3cm} 
+\texttt{1 - 2 - 3} \quad is interpreted as \quad \texttt{(1 - 2) - 3}.
+ \\[0.2cm]
+Finally, the operator ``\texttt{**}'' associates to the right:
+The arithmetic expression \\[0.2cm]
+\hspace*{1.3cm} 
+\texttt{2 \texttt{**} 3 \texttt{**}  2} \quad is interpreted as \quad 
+\texttt{2 \texttt{**} (3 \texttt{**} 2)}. 
+\\[0.2cm]
+Our goal is to implement a program that evaluates an arithmetic expression.
+
+
+\subsection{A First Example}
+In order to explain the algorithm that is used to evaluate an arithmetic expression, we present a
+simple example first.  Consider the arithmetic expression 
+\\[0.2cm]
+\hspace*{1.3cm} 
+\texttt{1 + 2 * 3 - 4}. 
+\\[0.2cm]
+This string is processed from left to right, one \emph{token}\footnote{A \emph{token} is either a
+  number, an operator symbol, or a parenthesis.}
+ at a time.  In order to process the string we use three stacks.
+\begin{enumerate}
+\item The  \emph{token stack} contains all tokens of the arithmetic expression. 
+      The first token of the arithmetic expression is on top of this stack.
+\item The  \emph{argument stack} contains numbers.
+\item The \emph{operator stack} contains operator symbols and the left parenthesis ``\texttt{(}''.
+\end{enumerate}
+The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
+\begin{enumerate}
+\item In the beginning, the token stack contains the arithmetic expression and the other two stacks
+      are empty: \\[0.2cm]
+      \hspace*{1.3cm} 
+      \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
+        \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
+      \\[0.2cm]
+      Note that the number that is at the beginning of the arithmetic expression is on top of the
+      stack.  \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = []}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = []}. 
+\item The number \texttt{1} is removed from the token stack and is put onto the argument stack
+      instead.  The three stacks are now as follows: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = []}. 
+\item Next, the operator \texttt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
+      onto the operator stack.  Then we have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1 ]} \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item Now, we remove the number \texttt{2} from the  token stack and put it onto the argument stack.
+      We have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item We remove the operator \texttt{\symbol{34}*\symbol{34}} from the  token stack and compare the
+      precedence of the operator with the precedence of the operator \texttt{\symbol{34}+\symbol{34}},
+      which is on top of the operator stack.  Since the precedence of the operator 
+      \texttt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
+      \texttt{\symbol{34}+\symbol{34}}, the operator \texttt{\symbol{34}*\symbol{34}} is put onto
+      the operator stack.  The reason is that we have to evaluate this operator before we can
+      evaluate the operator \texttt{\symbol{34}+\symbol{34}}.  Then we have: 
+      \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34}]}. 
+\item We remove the number \texttt{3} from the  token stack and put it onto the argument stack.
+      \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2, 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
+\item We remove the operator \texttt{\symbol{34}-\symbol{34}} from the token stack and
+      compare this operator with the operator \texttt{\symbol{34}*\symbol{34}}, which is on top of
+      the operator stack.  As the precedence of the  operator \texttt{\symbol{34}*\symbol{34}} is
+      higher as the precedence of the operator \texttt{\symbol{34}-\symbol{34}},
+      we have to evaluate the operator \texttt{\symbol{34}*\symbol{34}}.  In order to do so, we
+      remove the arguments 3 and 2 from the argument stack, remove the operator
+      \texttt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
+      arguments.  This product is then put back on the 
+      argument stack.  The operator \texttt{\symbol{34}-\symbol{34}} is put back on the token stack
+      since it has not been used.  Hence, the stacks look as shown below: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 1, 6 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item Again, we take the operator \texttt{\symbol{34}-\symbol{34}} from the token stack and
+      compare it with the operator \texttt{\symbol{34}+\symbol{34}} that is now on top of the
+      operator stack.  Since both operators have the same precedence, the operator
+      \texttt{\symbol{34}+\symbol{34}} is evaluated:  We remove two arguments from the argument
+      stack, remove the operator
+      \texttt{\symbol{34}+\symbol{34}} from the operator stack  and compute the sum of the
+      arguments.  The result is put back on the argument stack.  Furthermore, the operator
+      \texttt{\symbol{34}-\symbol{34}} is put back on the token stack.
+      Then we have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 7 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = []}. 
+\item Next, the operator \texttt{\symbol{34}-\symbol{34}} is removed from the token stack and is now
+      put on the operator stack.  We have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 7 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+\item The number \texttt{4} is removed from the token stack and put onto the argument stack. We have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 7, 4 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+\item Now the input has been consumed completely.
+      Hence, the operator \texttt{\symbol{34}-\symbol{34}} is removed from the  operator stack and
+      furthermore, the arguments of this operator are removed from the argument stack.  Then, the
+      operator \texttt{\symbol{34}-\symbol{34}} is evaluated and the result is put onto the argument
+      stack.  We have: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mArguments = [ 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \texttt{mOperators = []}. \\[0.2cm]
+      Therefore, the result of evaluating the arithmetic expression ``\texttt{1+2*3-4}'' is the
+      number 3.
+\end{enumerate}
+
+\subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
+The algorithm introduced in the last example is known as the 
+\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard-algorithm}}.
+It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} in 1961.
+We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
+that are needed for this algorithm.
+\begin{enumerate}
+\item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
+      represented as strings, while the numbers are represented as rational numbers.
+\item \texttt{mArguments} is a stack of rational numbers.  
+\item \texttt{mOperators} is the operator stack.
+\end{enumerate}
+Considering the previous example we realize that the numbers are always put onto the argument stack,
+while there are two cases for operator symbols that are removed from the token stack:
+\begin{enumerate}
+\item We have to put the operator onto the operator stack in all of the following cases:
+      \begin{enumerate}
+      \item The operator stack is empty.
+      \item The operator on top of the operator stack is an opening parenthesis \texttt{\symbol{34}(\symbol{34}}. 
+      \item The operator has a higher precedence than the operator that is currently on top of the
+            operator stack.
+      \item The operator is the same as the operator that is on top of the operator stack and, furthermore,
+            the operator associates to the right.
+      \end{enumerate}
+\item In all other cases, the operator that has been taken from the token stack is put back onto the
+      token stack.  In this case, the operator on top of the operator stack is removed from the
+      operator stack and, furthermore, the arguments of this operator are removed from the argument
+      stack.  Next, this operator is evaluated and the resulting number is put onto the argument stack.
+\end{enumerate}
+
+
+\begin{figure}[!b]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    class calculator(s) {
+        mTokenStack := createStack(extractTokens(s));
+        mArguments  := stack();
+        mOperators  := stack();
+    
+      static {
+        evaluate := procedure() {
+            while (!mTokenStack.isEmpty()) {
+                if (isInteger(mTokenStack.top())) {
+                    number := mTokenStack.top(); mTokenStack.pop();
+                    mArguments.push(number);
+                    continue;
+                } 
+                nextOp := mTokenStack.top(); mTokenStack.pop();
+                if (mOperators.isEmpty() || nextOp == "(") {
+                    mOperators.push(nextOp);
+                    continue;
+                }
+                stackOp := mOperators.top();
+                if (stackOp == "(" && nextOp == ")") {
+                    mOperators.pop();
+                } else if (nextOp == ")") {
+                    popAndEvaluate();
+                    mTokenStack.push(nextOp);
+                } else if (evalBefore(stackOp, nextOp)) {
+                    popAndEvaluate();
+                    mTokenStack.push(nextOp);
+                } else {
+                    mOperators.push(nextOp);
+                }
+            }
+            while (!mOperators.isEmpty()) { popAndEvaluate(); }
+            return mArguments.top();
+        };
+        evalBefore := procedure(stackOp, nextOp) {
+            prec := {["+",1],["-",1],["*",2],["/",2],["%",2],["**",3]};
+            if (stackOp == "(") { return false;  }
+            if (prec[stackOp] > prec[nextOp]) {
+                return true;
+            } else if (prec[stackOp] == prec[nextOp]) {
+                if (stackOp == nextOp) {
+                    return stackOp in { "+", "-", "*", "/", "%" };
+                }
+                return true;
+            } 
+            return false;
+        };
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{The class \texttt{calculator}, part 1.}
+  \label{fig:calculator.setlx-1}
+\end{figure} 
+
+\begin{figure}[!htb]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  firstnumber   = last,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+        popAndEvaluate := procedure() {
+            rhs := mArguments.top(); mArguments.pop();
+            lhs := mArguments.top(); mArguments.pop();
+            op  := mOperators.top(); mOperators.pop();
+            match (op) {
+                case "+" : result := lhs + rhs;
+                case "-" : result := lhs - rhs;
+                case "*" : result := lhs * rhs;
+                case "/" : result := lhs / rhs;
+                case "%" : result := lhs % rhs;
+                case "**": result := lhs ** rhs;       
+                default: abort("ERROR: *** Unknown Operator *** $op$");
+            }
+            mArguments.push(result);
+        };    
+      }
+    }
+    
+    c := calculator("1+2*3**4-5/2");
+    c.evaluate();
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{The class \texttt{calculator}, part 2.}
+  \label{fig:calculator.setlx-2}
+\end{figure} 
+
+\noindent
+An implementation of this algorithm in \textsc{SetlX} is shown in the Figures
+\ref{fig:calculator.setlx-1} and \ref{fig:calculator.setlx-2} on the following pages.
+We start our discussion of the class \texttt{calculator} by inspecting the method
+\texttt{evalBefore} that is defined in line 35.
+This method takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
+whether \texttt{stackOp} should be evaluated before \texttt{nextOp}.  Of course, \texttt{stackOp} is
+intended to be the operator on top of the operator stack, while \texttt{nextOp} is an operator that
+is on top of the token stack.
+In order to decide whether the operator \texttt{stackOp} should be evaluated before the operator
+\texttt{nextOp},  we first have to know the \emph{precedences} of these operators.  Here, a
+\emph{precedence} is a natural number that specifies how strong the operator binds to its
+arguments. Table \ref{tab:predence} on page \pageref{tab:predence} lists the precedences of our
+operators.  This table is coded as the binary relation \texttt{prec} in line 36.
+
+\begin{table}[!h]
+  \centering
+\framebox{
+  \begin{tabular}{|r|r|}
+\hline
+   Operator             & Precedence  \\
+\hline
+\hline
+   \texttt{\symbol{34}+\symbol{34}}, \texttt{\symbol{34}-\symbol{34}}  & 1   \\
+\hline
+   \texttt{\symbol{34}*\symbol{34}}, \texttt{\symbol{34}/\symbol{34}}, \texttt{\symbol{34}\symbol{37}\symbol{34}}  & 2   \\
+\hline
+   \texttt{\symbol{34}**\symbol{34}}  & 3   \\
+\hline
+  \end{tabular}}
+  \caption{Precedences of the operators.}
+  \label{tab:predence}
+\end{table}
+
+If the precedence of \texttt{stackOp} is bigger than the precedence of \texttt{nextOp}, then we have
+to evaluate \texttt{stackOp} before we evaluate \texttt{nextOp}.  On the other hand, if the precedence
+of \texttt{stackOp} is smaller than the precedence of \texttt{nextOp}, then we have to push
+\texttt{nextOp} onto the operator stack as we have to evaluate this operator before we evaluate \texttt{stackOp}.
+If \texttt{stackOp} and \texttt{nextOp} have the same precedence, there are two cases:
+\begin{enumerate}
+\item $\mathtt{stackOp} \not= \mathtt{nextOp}$.
+
+      Let us consider an example:  The arithmetic expression 
+      \\[0.2cm]
+      \hspace*{1.3cm} 
+      \texttt{2 + 3 - 4} \quad is processed as \quad \texttt{(2 + 3) - 4}. 
+      \\[0.2cm]
+      Therefore, in this case we have to evaluate \texttt{stackOp} first.
+\item $\mathtt{op1} = \mathtt{op2}$.
+
+      In this case we have to consider the \emph{associativity} of the operator.
+      Let us consider two examples: \\[0.2cm]
+      \hspace*{1.3cm} \texttt{2 + 3 + 4} \quad is interpreted as \quad \texttt{(2 + 3) + 4}. \\[0.2cm]
+      The reason is that the operator ``\texttt{+}'' \emph{associates to the left}.
+      On the other hand, \\[0.2cm]
+      \hspace*{1.3cm} 
+      \texttt{2 \texttt{**} 3 \texttt{**} 4}  \quad is interpreted as \quad \texttt{2 \texttt{**} (3 \texttt{**} 4)}
+      \\[0.2cm]
+      because the operator ``\texttt{**}'' \emph{associates to the right}.
+
+      The operators ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'' and 
+      ``\texttt{\symbol{37}}'' are all left associative.  Hence, in this case \texttt{stackOp} is
+      evaluated before \texttt{nextOp}.
+      The operator ``\texttt{**}'' associates to the right. Therefore, if
+      the operator on top of the operator stack is the operator ``\texttt{**}'' and then this operator
+      is read again, then we have to push the  operator ``\texttt{**}'' on the operator stack.
+\end{enumerate}
+Now we can understand the implementation of $\texttt{evalBefore}(\mathtt{stackOp},\mathtt{nextOp})$.
+\begin{enumerate}
+\item If \texttt{stackOp} is the opening parenthesis \texttt{\symbol{34}(\symbol{34}}, we have to put
+      \texttt{nextOp} onto the operator stack.  The reason is that \texttt{\symbol{34}(\symbol{34}}
+      is no operator that can be evaluated.  Hence, we return \texttt{false} in line 37.
+\item If the precedence of \texttt{stackOp} is higher than the precedence of \texttt{nextOp}, we
+      return \texttt{true} in line 39.
+\item If the precedences of \texttt{stackOp} and \texttt{nextOp} are identical, there are two cases:
+      \begin{enumerate}
+      \item If both operators are equal, then the result of
+            \texttt{evalBefore(stackOp,nextOp)} is \texttt{true} if and only if
+            this operator associates to the left.  The operators that associate to the left are
+            listed in the set in line 42.
+      \item Otherwise, if \texttt{stackOp} is different from \texttt{nextOp}, then \\
+            \texttt{evalBefore(stackOp,nextOp)} returns \texttt{true}. 
+      \end{enumerate}
+\item If the precedence of \texttt{stackOp} is less than the precedence of \texttt{nextOp}, then 
+      $\texttt{evalBefore(stackOp,nextOp})$ returns \texttt{false}.
+\end{enumerate}
+Figure  \ref{fig:calculator.setlx-2} on page \pageref{fig:calculator.setlx-2} shows the
+implementation of the method \texttt{popAndEvaluate}.
+This method works as follows: 
+\begin{enumerate}
+\item It takes an operator from the operator stack (line 51), 
+\item it fetches the arguments of this operator from the argument stack (line 49 and line 50),
+\item it evaluates the operator,  and
+\item finally puts the result back on top of the argument stack.
+\end{enumerate}
+Finally, we are ready to discuss the implementation of the method \texttt{evaluate} in line 7 of
+Figure \ref{fig:calculator.setlx-1}.  
+
+\begin{enumerate}
+\item First, as long as the token stack is non-empty we take a token from the token stack.
+\item If this token is a number, then we put it on the argument stack and continue to read the next token.
+  
+      In the following code of the \texttt{while} loop that starts at line 14, we can assume that
+      the last token that has been read is either an operator symbol
+      or one of the parentheses \texttt{\symbol{34}(\symbol{34}} or \texttt{\symbol{34})\symbol{34}}. 
+\item If the operator stack is empty or if the token that has been read is an opening parenthesis
+      \texttt{\symbol{34}(\symbol{34}}, the operator or parenthesis is pushed onto the operator stack.
+\item If the  token that has been read as \texttt{nextOp} is a closing parenthesis 
+      \texttt{\symbol{34})\symbol{34}} and, furthermore, the operator on top of the operator stack is
+      an opening parenthesis \texttt{\symbol{34}(\symbol{34}}, then this parenthesis is removed from the
+      operator stack.
+\item If now in line 22 the token \texttt{nextOp} is a closing parenthesis
+      \texttt{\symbol{34})\symbol{34}}, then we know that the token on the operator stack
+      can't be an opening parenthesis but rather has to be an operator.
+      This operator is then evaluated using the method \texttt{popAndEvaluate()}.
+      Furthermore, the closing parenthesis \texttt{nextOp} is pushed back onto the
+      token stack as we have not yet found the matching open parenthesis.
+
+      After pushing the closing parenthesis back onto the token stack, we return to the beginning of
+      the \texttt{while} loop in line 8.  Hence, in this case we keep evaluating operators
+      on the operator stack until we hit an opening parenthesis on the operator stack.
+
+      In the part of the \texttt{while} loop following line 24 we may assume that 
+      \texttt{nextOp} is not a parenthesis, since the other case  has been dealt with.
+
+\item If the operator \texttt{stackOp} on top of the operator stack needs to be evaluated before the operator
+      \texttt{nextOp}, we evaluate \texttt{stackOp} using the method \texttt{popAndEvaluate()}.
+      Furthermore, the operator \texttt{nextOp} is put back on the token stack 
+      as it has not been consumed.
+\item Otherwise, \texttt{nextOp} is put on the operator stack.
+
+      The \texttt{while} loop ends when the token stack gets empty.
+\item Finally, the operators remaining on the operator stack are evaluated using
+      \texttt{popAndEvaluate}.  If the input has been a syntactically correct arithmetic expression,
+      then at the end of the computation there should be one number left on the argument stack.
+      This number is the result of the evaluation and hence it is returned.
+\end{enumerate}
+
+
+\section[Benefits]{Benefits of Using Abstract Data Types}
+We finish this chapter with a short discussion of the benefits of abstract data types.
+ \begin{enumerate}
+ \item The use of abstract data types separates an algorithm from the data structures that
+       are used to implement this algorithm.
+
+       When we implemented the algorithm to evaluate arithmetic expressions we did not need to know
+       how the data type \emph{stack} that we used was implemented.  It was sufficient for us to know 
+       \begin{enumerate}
+       \item the signatures of its functions and
+       \item the axioms describing the behaviour of these functions.
+       \end{enumerate}
+       Therefore, an abstract data type can be seen as an interface that shields the user of the
+       abstract data type from the peculiarities of an actual implementation of the data type.
+       Hence it is possible that different groups of people develop the algorithm and the
+       concrete implementation of the abstract data types used by the algorithm.  
+
+       Today, many software systems have sizes that can only be described as gigantic.  No single
+       person is able to understand every single aspect of these systems.  It is therefore important
+       that these systems are structured in a way such that different groups of developers can work
+       simultaneously on these systems without interfering with the work done by other groups.
+ \item Abstract data types are \emph{reusable}.
+
+       Our definition of stacks was very general.  Therefore, stacks can be used in many different
+       places:  For example, we will see later how stacks can be used to traverse a directed graph.
+
+       Modern industrial strength programming languages like \texttt{C++} or \textsl{Java} contain
+       huge libraries containing the implementation of many abstract data types.  This fact reduces
+       the cost of software development substantially.     
+ \item Abstract data types are \emph{exchangeable}.
+
+       In our program for evaluating  arithmetic expressions it is trivial to substitute the given
+       array based implementation of stacks with an implementation that is based on linked list.  In general,
+       this enables the following methodology for developing software:  
+       \begin{enumerate}
+       \item First, an algorithm is implemented using abstract data types.
+       \item The initial implementation of these abstract data may be quite crude and inefficient.
+       \item Next, detailed performance tests spot those data types that are performance 
+             bottlenecks.
+       \item Finally, the implementations of data types that have been identified as bottlenecks are optimized.
+       \end{enumerate}
+       The reason this approach works is the 
+       \href{http://en.wikipedia.org/wiki/Pareto_principle#In_software}{80-20 rule}:  
+       80 percent of the running time of most programs is spent in 20 percent of the code.  It is
+       therefore sufficient to optimize the 
+       implementation of those data structures that really are performance bottlenecks.  If,
+       instead, we would try to optimize everything we would only achieve the following:
+       \begin{enumerate}
+       \item We would waste of time.  There is no point optimizing some function to make it 10 times
+             faster if the program spends less than a millisecond in this function anyway but the
+             overall running time is several minutes.
+       \item The resulting program would be considerably bigger and therefore more difficult to 
+             maintain.
+       \end{enumerate}
+ \end{enumerate}
+
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End: 

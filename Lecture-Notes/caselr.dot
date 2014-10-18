@@ -1,0 +1,16 @@
+digraph G {
+    node [ ordering = out ];
+    p [ shape = Mrecord, label = "{ k1 | h+3 }" ];
+    p -> l1;
+    p -> r1;
+    l1 [ shape = Mrecord, label = "{ k2 | h+2 }" ];
+    r1 [ shape = triangle, label = " r1 \n h " ];
+    l1 -> l2;
+    l1 -> r2;
+    l2 [ shape = triangle, label = " l2 \n h " ];
+    r2 [ shape = Mrecord, label = "{ k3 | h+1 }" ];
+    r2 -> l3;    
+    r2 -> r3;    
+    l3 [ shape = triangle, label = " l3 \n h oder h - 1 " ];
+    r3 [ shape = triangle, label = " r3 \n h oder h - 1 " ];
+}

@@ -1,0 +1,330 @@
+\chapter{Graph Theory}
+Wir wollen zum Abschluss der Vorlesung wenigstens ein graphentheoretisches Problem
+vorstellen: Das Problem der Berechnung  kürzester Wege. 
+
+
+\section[Shortest Paths]{Die Berechnung kürzester Wege}
+Um das Problem der Berechnung kürzester Wege formulieren zu können, führen wir zunächst 
+den Begriff des \emph{gewichteten Graphen} ein.  
+
+\begin{Definition}[Gewichteter Graph]
+  \hspace*{\fill} Ein  {\em gewichteter Graph} ist ein Tripel \\
+   $\langle \nodes, \edges, \weight{\cdot} \rangle$ so dass gilt:
+  \begin{enumerate}
+  \item $\nodes$ ist eine Menge von \emph{Knoten}.
+  \item $\edges \subseteq \nodes \times \nodes$ ist eine Menge von \emph{Kanten}.
+  \item $\weight{\cdot}: \edges \rightarrow \N \backslash\{0\}$ ist eine Funktion,
+        die jeder Kante eine positive \emph{Länge} zuordnet.
+        \conclude
+  \end{enumerate}
+\end{Definition}
+
+\noindent
+Ein \emph{Pfad} $P$ ist eine Liste der Form \\[0.2cm]
+\hspace*{1.3cm} $P = [ x_1, x_2, x_3, \cdots, x_n ]$ \\[0.2cm]
+so dass für alle $i = 1, \cdots, n-1$ gilt: \\[0.2cm]
+\hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$. \\[0.2cm]
+Die Menge aller Pfade bezeichnen wir mit $\paths$.
+Die Länge eines Pfads definieren wir als die Summe der Länge aller Kanten:
+\\[0.2cm]
+\hspace*{1.3cm} $\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. \\[0.2cm]
+Ist $p = [x_1, x_2, \cdots, x_n]$ ein Pfad, so sagen wir, dass $p$ den Knoten $x_1$ mit dem
+Knoten $x_n$ verbindet.   Die Menge alle Pfade, die den Knoten $v$ mit dem Knoten $w$
+verbinden, bezeichnen wir als \\[0.2cm]
+\hspace*{1.3cm} 
+ $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \mid x_1 = v \,\wedge\, x_n = w \}$.
+\\[0.2cm]
+Damit können wir nun das Problem der Berechnung kürzester Wege formulieren.
+\pagebreak
+
+\begin{Definition}[Kürzeste-Wege-Problem]
+  \hspace*{\fill} 
+  Gegeben sei ein gewichteter Graph \\
+  $G = \langle \nodes, \edges, \weight{\cdot} \rangle$ 
+  und ein  Knoten $\source \in \nodes$.  Dann besteht das 
+  {\em kürzeste-Wege-Problem}  darin, die folgende Funktion zu berechnen: \\[0.2cm]
+  \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
+  \hspace*{1.3cm} $\spath(v) \df \mathtt{min}\bigl\{ \weight{p} \mid p \in \paths(\source,v) \bigr\}$.
+  \conclude  
+\end{Definition}
+
+\subsection[Moore's Algorithm]{Der Algorithmus von Moore}
+Wir betrachten zunächst den Algorithmus von Moore \cite{moore:59} zur Berechnung des kürzeste-Wege-Problems.
+Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in \textsc{SetlX}.
+
+\begin{figure}[!ht]
+  \centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
+                ]
+    shortestPath := procedure(source, edges) {
+        dist   := { [source, 0] };
+        fringe := { source };
+        while (fringe != {}) {
+            u := from(fringe);
+            for ([v,l] in edges[u] | dist[v] == om || dist[u]+l < dist[v]) {
+                dist[v] := dist[u] + l;
+                fringe  += { v };
+            }
+        }
+        return dist;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+  \caption{Algorithmus von Moore zur Lösung des kürzeste-Wege-Problems.}
+  \label{fig:moore.stlx}
+\end{figure} 
+
+\noindent
+\begin{enumerate}
+\item Die Funktion $\mathtt{shortestPath}(\textsl{source}, \textsl{edges})$ wird mit zwei Parametern
+      aufgerufen:
+      \begin{enumerate}
+      \item \textsl{source} ist der Start-Knoten, von dem aus wir die Entfernungen zu den anderen Knoten
+            berechnen.
+      \item \textsl{edges} ist eine binäre Relation, die für jeden Knoten $x$ eine Menge von Paaren der
+            Form
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\{ [y_1, l_1], \cdots, [y_n, l_n] \}$
+            \\[0.2cm]
+            speichert.  Die Idee dabei ist, dass für jeden in dieser Menge gespeicherten Knoten $y_i$
+            eine Kante $\langle x, y_i \rangle$ der Länge $l_i$ existiert.
+      \end{enumerate}
+\item Die Variable \textsl{dist} speichert die Abstands-Funktions als binäre Relation, also
+      als Menge von Paaren der Form $[x, \mathtt{sp}(x)]$.  Hierbei ist $x \in \nodes$ und
+      $\mathtt{sp}(x)$ ist der Abstand, den der Knoten $x$ von dem Start-Knoten \textsl{source} hat.
+
+      Der Knoten \textsl{source} hat von dem Knoten \textsl{source} offenbar den Abstand $0$
+      und zu Beginn unserer Rechnung ist das auch alles, was wir wissen.  Daher wird die Relation
+      \textsl{dist} in Zeile 2 mit dem Paar \texttt{[\textsl{source}, 0]} initialisiert.
+\item Die Variable \textsl{fringe} enthält alle die Knoten, von denen ausgehend wir als nächstes die
+      Abstände benachbarter Knoten berechnen sollten.  Am Anfang wissen wir nur von \textsl{source}
+      den Abstand und daher ist dies der einzige Knoten, mit dem wir die Menge \textsl{fringe} 
+      in Zeile 3 initialisieren.
+\item Solange es nun Knoten gibt, von denen ausgehend wir neue Wege berechnen können,
+      wählen wir in Zeile 5 einen beliebigen Knoten aus der Menge \textsl{fringe} aus
+      und entfernen ihn aus dieser Menge.  
+\item Anschließend berechnen wir die Menge aller Knoten $v$, für die wir jetzt einen neuen
+      Abstand gefunden haben:
+      \begin{enumerate}
+      \item Das sind einerseits die Knoten $v$, für welche die Funktion $\textsl{dist}(v)$ bisher noch
+            undefiniert war, weil wir diese Knoten in unserer bisherigen Reechnung noch gar nicht gesehen
+            haben.
+      \item Andererseits sind dies aber auch Knoten, für die wir schon einen Abstand haben, der aber
+            größer ist als der Abstand des Weges, den wir erhalten, wenn wir die Knoten von $u$ aus
+            besuchen. 
+      \end{enumerate}
+      Für alle diese Knoten berechnen wir den Abstand und fügen diese Knoten dann in die Menge 
+      \textsl{fringe} ein.
+\item Der Algorithmus terminiert, wenn die Menge \textsl{fringe} leer ist, denn dann haben wir alle
+      Knoten abgeklappert.
+\end{enumerate}
+
+\subsection{Der Algorithmus von Dijkstra}
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    shortestPath := procedure(source, edges) {
+        dist    := { [source, 0] };
+        fringe  := { [0, source] };
+        visited := {};
+        while (fringe != {}) {
+            [d, u]  := first(fringe);
+            fringe  -= { [d, u] };
+            for ([v,l] in edges[u] | dist[v]==om || d+l<dist[v]) {
+                fringe  -= { [dist[v], v] };
+                dist[v] := d + l;
+                fringe  += { [d + l, v] };
+            }
+            visited += { u };
+        }
+        return dist;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Der Algorithmus von Dijkstra zur Lösung des kürzeste-Wege-Problems.}
+\label{fig:dijkstra.stlx}
+\end{figure}
+
+\noindent
+Im Algorithmus von Moore ist die Frage, in welcher Weise die Knoten aus der Menge
+\textsl{fringe} ausgewählt werden, nicht weiter spezifiziert.  
+Die Idee bei dem von Edsger W.~Dijkstra (1930 -- 2002) im Jahre 1959 veröffentlichten
+Algorithmus \cite{dijkstra:59}
+besteht darin, immer den Knoten auszuwählen, der den geringsten Abstand zu
+dem Knoten \textsl{source} hat.
+Dazu wird die Menge \textsl{fringe} nun als  eine Prioritäts-Warteschlange
+implementiert.  Als Prioritäten wählen wir die Entfernungen zu dem Knoten \texttt{source}.
+Abbildung \ref{fig:dijkstra.stlx} auf Seite \pageref{fig:dijkstra.stlx} zeigt die 
+Implementierung des Algorithmus von Dijkstra zur Berechnung der kürzesten Wege in der Sprache
+\textsc{SetlX}.
+
+In dem Problem in Abbildung taucht noch eine Variable mit dem Namen \textsl{visited} auf.
+Diese Variable bezeichnet die Menge der Knoten, die der Algorithmus schon \textsl{besucht}
+hat.  Genauer sind das die Knoten $u$, die aus der Prioritäts-Warteschlange \texttt{fringe}
+entfernt wurden und für die dann anschließend in der \texttt{for}-Schleife, die in Zeile 8
+beginnt, alle zu $u$ benachbarten Knoten untersucht wurden.  
+Die Menge \textsl{visited} hat für
+die eigentliche Implementierung des Algorithmus keine Bedeutung, denn die Variable \textsl{visited}
+wird nur in Zeile 4 und Zeile 13 geschrieben, aber sie wird an keiner Stelle gelesen.
+Ich habe die Variable \textsl{visited} nur deshalb eingeführt, damit ich eine Invariante formulieren
+kann, die für den Beweis der Korrektheit des Algorithmus zentral ist.  Diese Invariante lautet
+\\[0.2cm]
+\hspace*{1.3cm}
+$\forall u\in\mathtt{visited}: \textsl{dist}[u] = \textsl{sp}(u)$.
+\\[0.2cm]
+Für alle Knoten aus \textsl{visited} liefert die Funktion \textsl{dist}() also bereits den
+kürzesten Abstand zum Knoten \textsl{source}.  
+\vspace*{0.1cm}
+
+\noindent
+\textbf{Beweis}: Wir zeigen durch Induktion, dass jedesmal wenn wir einen Knoten $u$ in die Menge
+\textsl{visited} einfügen, die Gleichung
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{dist}[u] = \textsl{sp}(u)$ 
+\\[0.2cm]
+gilt.
+In dem Programm gibt es genau zwei Stellen, an denen die Menge \textsl{visited} verändert wird.
+\begin{enumerate}
+\item[I.A.:]  
+      Zu Beginn wird die Menge $\textsl{visited}$ mit der leeren Menge initialisiert
+      und daher ist die Behauptung für alle Elemente, die zu Beginn in der Menge \textsl{visited} sind,
+      trivialerweise richtig.
+\item[I.S.:]
+      In Zeile 13 fügen wir den Knoten $u$ in die Menge \textsl{visited} ein.
+      Wir betrachten nun die Situation unmittelbar vor dem Einfügen von $u$.
+      Falls  $u$ bereits ein Elemente der Menge \textsl{visited} sein sollte, gilt die Behauptung
+      nach Induktions-Voraussetzung.  
+      Wir brauchen also nur den Fall betrachten, dass  $u$ vor dem Einfügen noch kein Element der 
+      Menge \textsl{visited} ist.
+
+      Wir führen den weiteren Beweis nun indirekt und nehmen an, dass 
+      \\[0.2cm]
+      \hspace*{1.3cm} $\textsl{dist}(u) > \textsl{sp}(u)$
+      \\[0.2cm]
+      gilt.  Dann gibt es einen kürzesten Pfad 
+      \\[0.2cm]
+      \hspace*{1.3cm} $p = [ x_0 = \textsl{source}, x_1, \cdots, x_n = u ]$
+      \\[0.2cm]
+      von \textsl{source} nach $u$, der insgesamt die Länge $\textsl{sp}(u)$ hat.
+      Es sei  $i\in\{0,\cdots,n-1\}$ der Index für den 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_0\in \textsl{visited}$, $\cdots$, $x_i\in \textsl{visited}$ \quad aber \quad $x_{i+1} \not\in \mathtt{Visited}$,
+      \\[0.2cm]
+      gilt, $x_i$ ist also der erste Knoten aus dem Pfad $p$, für den $x_{i+1}$ nicht mehr
+      in der Menge
+      \textsl{visited} liegt.  Nachdem $x_i$ in die Menge Visited eingefügt wurde,
+      wurde für alle Knoten, die mit $x_i$ über eine Kante verbunden sind,
+      die Funktion \textsl{dist} neu ausgerechnet.  Insbesondere
+      wurde auch $\textsl{dist}[x_{i+1}]$ neu berechnet und der Knoten $x_{i+1}$ wurde 
+      spätestens zu diesem Zeitpunkt in die Menge \textsl{fringe} eingefügt.
+      Außerdem wissen wir, dass $\textsl{dist}[x_{i+1}] = \textsl{sp}(x_{i+1})$ gilt,
+      denn nach Induktions-Voraussetzung gilt $\textsl{dist}[x_i] = \textsl{sp}(x_i)$
+      und die Kante $\pair(x_i,x_{i+1})$ ist Teil eines kürzesten Pfades von $x_i$ nach $x_{i+1}$.
+      
+      Da wir nun angenommen haben, dass $x_{i+1} \not\in \textsl{visited}$ ist,
+      muss $x_{i+1}$ immer noch in der Pri\-ori\-täts-Warteschlange \textsl{fringe} liegen.
+      Also muss $\textsl{dist}[x_{i+1}] \geq \textsl{dist}[u]$ gelten,
+      denn sonst wäre $x_{i+1}$ vor $u$ aus der Prioritäts-Warteschlange entfernt worden.
+      Wegen $\textsl{sp}(x_{i+1}) = \textsl{dist}[x_{i+1}]$ haben wir dann aber
+      den Widerspruch 
+      \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\textsl{sp}(u) \geq \textsl{sp}(x_{i+1}) = \textsl{dist}[x_{i+1}] \geq \textsl{dist}[u] > \textsl{sp}(u)$.
+      \hspace*{\fill} $\Box$
+\end{enumerate}
+\pagebreak 
+
+\subsection{Animation}
+There are several nice animations of Dijkstra's algorithm available.
+\begin{enumerate}
+\item The web page
+      \\[0.2cm]
+      \hspace*{-1.0cm}
+      \href{http://www.unf.edu/~wkloster/foundations/DijkstraApplet/DijkstraApplet.htm}{http://www.unf.edu/\symbol{126}wkloster/foundations/DijkstraApplet/DijkstraApplet.htm}
+      \\[0.2cm]
+      has a nice applet showing Dijkstra's  algorithm at work.  
+\item The applet written by Carla Laffra can be found at
+      \\[0.2cm]
+      \href{http://www.eecs.wsu.edu/~cook/aa/lectures/applets/dijkstra/dijkstra.html}{http://www.eecs.wsu.edu/\symbol{126}cook/aa/lectures/applets/dijkstra/dijkstra.html}.
+      \\[0.2cm]
+      Although this applet is a bit more complicated to use, it also is more flexible since it runs
+      Dijkstra's algorithm on a graph that can be provided by the user.
+\end{enumerate}
+
+\subsection{Komplexität}
+Wenn ein Knoten $u$ aus der Warteschlange \textsl{fringe} entfernt wird, ist er anschließend ein Element der
+Menge \textsl{visited} und aus der oben gezeigten Invariante folgt, dass dann 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{sp}(u) = \textsl{dist}[u]$
+\\[0.2cm]
+gilt.  Daraus folgt aber notwendigerweise, dass der Knoten $u$ nie wieder in die Prioritäts-Warteschlange
+\textsl{fringe}
+eingefügt werden kann, denn ein Knoten $v$ wird nur dann in \textsl{fringe} neu eingefügt, wenn
+entweder die Funktion $\textsl{dist}[v]$ noch undefiniert ist, oder sich der Wert von
+$\texttt{dist}[v]$ verkleinert.  
+Das Einfügen eines Knoten in eine Prioritäts-Warteschlange mit $n$
+Elementen kostet eine Rechenzeit, die durch $\Oh\bigl(\log_2(n)\bigr)$ abgeschätzt werden kann.  Da die
+Warteschlange sicher nie mehr als $\#\nodes$ Knoten enthalten kann und da jeder Knoten höchstens einmal eingefügt
+werden kann, liefert das einen Term der Form 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$ 
+\\[0.2cm]
+für das Einfügen der Knoten.  Neben dem Einfügen eines Knotens durch den Befehl
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{fringe += \{ [dvNew, v] \};}
+\\[0.2cm]
+müssen wir auch die Komplexität des Aufrufs
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{fringe -= \{ [dvOld, v] \};} 
+\\[0.2cm]
+analysieren.
+Die Anzahl dieser Aufrufe ist durch die Anzahl der Kanten begrenzt, die zu dem Knoten $v$ hinfügen.
+Da das Entfernen eines Elements aus einer Menge mit $n$ Elementen eine Rechenzeit
+der Größe $\Oh\bigl(\log_2(n)\bigr)$ erfordert, haben wir die Abschätzung
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Oh\bigl(\#\edges \cdot \log_2(\#\nodes)\bigr)$
+\\[0.2cm]
+für diese Rechenzeit.
+Dabei bezeichnet $\#\edges$ die Anzahl der Kanten. Damit erhalten wir für die
+Komplexität von Dijkstra's Algorithmus insgesamt den Ausdruck \\[0.2cm]
+\hspace*{1.3cm} $\Oh\bigl((\#\edges + \#\nodes) * \ln(\#\nodes)\bigr)$. \\[0.2cm]
+Ist die Zahl der Kanten, die von den Knoten ausgehen können, durch eine feste Zahl begrenzt
+(z.B. wenn von jedem Knoten nur maximal 4 Kanten ausgehen), so
+kann  die Gesamt-Zahl der Kanten durch ein festes Vielfaches der Knoten-Zahl abgeschätzt
+werden.  Dann ist  die Komplexität für Dijkstra's Algorithmus zur  Bestimmung der kürzesten Wege
+durch den Ausdruck  
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Oh\bigl(\#\nodes * \log_2(\#\nodes)\bigr)$ 
+\\[0.2cm]
+gegeben.
+
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End: 

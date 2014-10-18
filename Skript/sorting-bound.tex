@@ -1,0 +1,42 @@
+\section{Eine untere Schranke für Sortier-Algorithmen}
+Wir wollen in diesem Abschnitt zeigen, dass jeder Sortier-Algorithmus, der in der Lage
+ist,  eine beliebige Folge von Elementen zu sortieren, mindesten die Komplexität
+ $\Oh\bigl(n \cdot \ln(n)\bigr)$ haben muss.  Dabei setzen wir voraus, dass die einzelnen Elemente nur mit
+ Hilfe des Operators $<$ verglichen werden können und wir setzen weiter voraus,
+dass wir eine Folge von $n$ verschiedenen Elementen haben, die wir sortieren wollen.  Wir betrachten zunächst
+eine Folge von zwei Elementen: $[a_1, a_2]$.  Um diese Folge zu sortieren, reicht ein Vergleich aus, denn es
+gibt nur zwei Möglichkeiten, wie diese beiden Elemente sortiert sein können:  
+\begin{enumerate}
+\item Falls $a_1 < a_2$ ist, dann ist $[a_1, a_2]$ aufsteigend sortiert.
+\item Falls $a_2 < a_1$ ist, dann ist $[a_2, a_1]$ aufsteigend sortiert.
+\end{enumerate}
+Falls wir eine Folge von drei Elementen $[a_1,a_2,a_3]$ haben, so gibt es bereits $6$ Möglichkeiten, diese
+anzuordnen:
+\\[0.2cm]
+\hspace*{1.3cm}
+$[a_1,a_2,a_3]$, \quad
+$[a_1,a_3,a_2]$, \quad
+$[a_2,a_1,a_3]$, \quad
+$[a_2,a_3,a_1]$, \quad
+$[a_3,a_1,a_2]$, \quad
+$[a_3,a_2,a_1]$. \quad
+\\[0.2cm]
+Im allgemeinen gibt es $n! = \prod\limits_{i=1}^n i$ verschiedene Möglichkeiten, die Elemente einer
+$n$-elementigen Folge $[a_1,a_2,\cdots,a_n]$ anzuordnen. Dies lässt sich am einfachsten durch Induktion
+nachweisen: 
+\begin{enumerate}
+\item Offenbar gibt es genau eine Möglichkeit, eine Folge von einem Element anzuordnen.
+\item Um eine Folge von $n+1$ Elementen anzuordnen haben wir $n+1$ Möglichkeiten, das erste Element
+      der Folge auszusuchen.  In jedem dieser Fälle haben wir dann nach Induktions-Voraussetzung
+      $n!$ Möglichkeiten, die restlichen Elemente anzuordnen, so dass wir insgesamt auf 
+      $(n+1) \cdot n! = (n+1)!$ verschiedene Anordnungsmöglichkeiten kommen.
+\end{enumerate}
+Wir überlegen jetzt umgekehrt, aus wievielen Möglichkeiten wir mit $k$ verschiedenen Tests auswählen können.
+\begin{enumerate}
+\item Offenbar können wir mit einem Test aus zwei Möglichkeiten auswählen.
+\end{enumerate}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithmen"
+%%% End: 

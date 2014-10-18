@@ -1,0 +1,168 @@
+\documentclass{report}
+
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+\usepackage{a4}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{theorem}
+\usepackage{fancyvrb}
+\usepackage{alltt}
+\usepackage{fleqn}
+\usepackage{epic}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+\hypersetup{
+	colorlinks = true, % comment this to make xdvi work
+	linkcolor  = blue,
+	citecolor  = red,
+        filecolor  = blue,
+        urlcolor   = [rgb]{0.5, 0.4, 0.0},
+	pdfborder  = {0 0 0} 
+}
+\usepackage{fancyhdr}
+\usepackage{lastpage} 
+
+
+\pagestyle{fancy}
+
+\fancyfoot[C]{--- \thepage/\pageref{LastPage}\ ---}
+
+\fancypagestyle{plain}{%
+\fancyhf{}
+\fancyfoot[C]{--- \thepage/\pageref{LastPage}\ ---}
+\renewcommand{\headrulewidth}{0pt}
+}
+
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername \ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection. \ #1}{}}
+\fancyhead[R]{\leftmark}
+\fancyhead[L]{\rightmark}
+
+
+\definecolor{amethyst}{rgb}{0.2, 0.4, 0.6}
+\definecolor{orange}{rgb}{1, 0.9, 0.0}
+
+\setlength{\mathindent}{1.3cm}
+\theoremstyle{plain}
+\newcounter{aufgabe}
+\hyphenation{Warte-schlan-ge}
+\hyphenation{Ko-die-rungs}
+{\theorembodyfont{\sf} \newtheorem{Definition}{Definition}}
+{\theorembodyfont{\sf} \newtheorem{Notation}[Definition]{Notation}}
+{\theorembodyfont{\sf} \newtheorem{Corollary}[Definition]{Corollary}}
+{\theorembodyfont{\sf} \newtheorem{Lemma}[Definition]{Lemma}}
+{\theorembodyfont{\sf} \newtheorem{Proposition}[Definition]{Proposition}}
+{\theorembodyfont{\sf} \newtheorem{Theorem}[Definition]{Theorem}}
+\title{\epsfig{file=dhbw-logo.eps, scale=1.5}\\[0.3cm]  
+       Algorithms  \\[0.5cm]
+      --- Lecture Notes for the Summer Term 2014 ---}
+\author{Prof.~Dr.~Karl Stroetmann}
+
+\date{\today \\[2.5cm]
+\noindent
+\begin{minipage}[t]{1.0\linewidth} 
+These lecture notes, their \LaTeX sources, and the programs discussed in these lecture notes are all available at
+\\[0.2cm]
+\hspace*{\fill}
+\href{https://github.com/karlstroetmann/Algorithms}{\texttt{https://github.com/karlstroetmann/Algorithms}}.
+\hspace*{\fill} 
+\\[0.2cm]
+The lecture notes are subject to continuous change.  Provided the program \href{http://git-scm.com/download}{\texttt{git}}
+is installed on your computer, the repository containing the lecture notes can be cloned using the command
+\\[0.2cm]
+\hspace*{0.3cm}
+\textcolor{amethyst}{\texttt{git clone https://github.com/karlstroetmann/Algorithms.git}}.
+\\[0.2cm]
+Once you have cloned the repository, the command
+\\[0.2cm]
+\hspace*{0.3cm}
+\textcolor{amethyst}{\texttt{git pull}}
+\\[0.2cm]
+can be used to load the current version of these lecture notes from 
+\href{https://github.com}{\texttt{github}}.
+\end{minipage}
+}
+
+\newcommand{\exercise}{\vspace*{0.3cm}
+\stepcounter{aufgabe}
+\noindent
+\textbf{Exercise \arabic{aufgabe}}: }
+
+\newcommand{\proof}{\vspace*{0.3cm}
+\noindent
+\textbf{Proof}: }
+
+\newcommand{\solution}{\vspace*{0.3cm}
+\noindent
+\textbf{Solution}: }
+
+\newcommand{\example}{\vspace*{0.3cm}
+\noindent
+\textbf{Example}: \ }
+
+\newcommand{\examples}{\vspace*{0.3cm}
+
+\noindent
+\textbf{Examples}: \ }
+
+\newcommand{\remark}{\vspace*{0.3cm}
+
+\noindent
+\textbf{Remark}: \ }
+
+\newcommand{\mod}{\;\texttt{\%}\;}
+\newcommand{\hoare}[3]{\bigl\{#1\bigr\}\quad\texttt{#2}\quad\bigl\{#3\bigr\}}
+\newcommand{\folge}[1]{\bigl(#1\bigr)_{n\in\mathbb{N}}}
+\newcommand{\bruch}[2]{{\displaystyle \frac{\displaystyle \raisebox{1pt}[0pt][-0pt]{$\,#1\,$}}{\displaystyle \raisebox{0pt}[10pt]{$\,#2\,$}}}}
+\newcommand{\h}{\mathcal{H}}
+\newcommand{\Oh}{\mathcal{O}}
+\newcommand{\Java}{\textsl{Java}}
+\newcommand{\Bin}{\mathcal{B}}
+\newcommand{\AVL}{\mathcal{A}}
+\newcommand{\head}{\mbox{\tt head}}
+\newcommand{\tail}{\mbox{\tt tail}}
+\newcommand{\conclude}{\hspace*{\fill} $\Box$}
+\newcommand{\nodes}{{\mathbb V}}
+\newcommand{\edges}{{\mathbb E}}
+\newcommand{\paths}{{\mathbb P}}
+\newcommand{\weight}[1]{\|#1\|}
+\newcommand{\Weight}[1]{\bigl\|#1\bigr\|}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\df}{\;:=\;}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\source}{\mbox{\tt source}}
+\newcommand{\target}{\mbox{\tt target}}
+\newcommand{\spath}{\mbox{\tt sp}}
+\newcommand{\el}{\!\in\!}
+\newcommand{\BT}{\mathrm{BT}}
+\def\pair(#1,#2){\langle #1, #2 \rangle}
+\newcommand{\qed}{\hspace*{\fill} $\Box$}
+\newcommand{\eox}{\hspace*{\fill} $\diamond$}
+
+%\includeonly{introduction, limits, big-o-notation, hoare, sorting, adt, map, map-avl, prioqueue,  huffman, graph, monte-carlo}
+%\includeonly{huffman}
+
+\hyphenation{stra-te-gy}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\include{introduction}
+\include{limits}
+\include{big-o-notation}
+\include{hoare}
+\include{sorting}
+%\include{timsort}  // how sorting is done in practice in python
+\include{adt}
+\include{map}
+\include{map-avl}
+\include{prioqueue}
+\include{huffman}
+\include{graph}
+\include{monte-carlo}
+\bibliographystyle{alpha}
+\bibliography{cs}
+\end{document}

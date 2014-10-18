@@ -1,0 +1,135 @@
+digraph G {
+
+    size = "5,7";
+    0 [ shape = Mrecord, label = "{ | }", height = 0.5, width = 0.7];
+
+    1 [ shape = Mrecord, label = "{ S| }" ] ;
+
+    22 [ shape = Mrecord, label = "{ t| }" ] ;
+
+    33 [ shape = Mrecord, label = "{ a| }" ] ;
+
+    34 [ shape = Mrecord, label = "{h|}" ] ;
+
+    35 [ shape = Mrecord, label = "{ l | 1}" ] ;
+
+     34 -> 35;
+
+     33 -> 34;
+
+     22 -> 33;
+
+    23 [ shape = Mrecord, label = "{ o| }" ] ;
+
+    28 [ shape = Mrecord, label = "{ l| }" ] ;
+
+    29 [ shape = Mrecord, label = "{ z | 2}" ] ;
+
+     28 -> 29;
+
+     23 -> 28;
+
+    24 [ shape = Mrecord, label = "{ e| }" ] ;
+
+    25 [ shape = Mrecord, label = "{ g| }" ] ;
+
+    26 [ shape = Mrecord, label = "{ e| }" ] ;
+
+    27 [ shape = Mrecord, label = "{ r | 3}" ] ;
+
+     26 -> 27;
+
+     25 -> 26;
+
+     24 -> 25;
+
+     23 -> 24;
+
+     22 -> 23;
+
+     1 -> 22;
+
+    30 [ shape = Mrecord, label = "{ a| }" ] ;
+
+    31 [ shape = Mrecord, label = "{ l| }" ] ;
+
+    32 [ shape = Mrecord, label = "{ z | 4}" ] ;
+
+     31 -> 32;
+
+     30 -> 31;
+
+     1 -> 30;
+
+    2 [ shape = Mrecord, label = "{ c| }" ] ;
+
+    3 [ shape = Mrecord, label = "{ h| }" ] ;
+
+    7 [ shape = Mrecord, label = "{ u| }" ] ;
+
+    8 [ shape = Mrecord, label = "{ l| }" ] ;
+
+    9 [ shape = Mrecord, label = "{ z | 5}" ] ;
+
+    10 [ shape = Mrecord, label = "{ e | 6}" ] ;
+
+     9 -> 10;
+
+     8 -> 9;
+
+     7 -> 8;
+
+     3 -> 7;
+
+    11 [ shape = Mrecord, label = "{ n| }" ] ;
+
+    12 [ shape = Mrecord, label = "{ a| }" ] ;
+
+    13 [ shape = Mrecord, label = "{ u| }" ] ;
+
+    14 [ shape = Mrecord, label = "{ t | 7}" ] ;
+
+     13 -> 14;
+
+     12 -> 13;
+
+     11 -> 12;
+
+    15 [ shape = Mrecord, label = "{ u| }" ] ;
+
+    16 [ shape = Mrecord, label = "{ p| }" ] ;
+
+    17 [ shape = Mrecord, label = "{ p | 8}" ] ;
+
+     16 -> 17;
+
+     15 -> 16;
+
+     11 -> 15;
+
+     3 -> 11;
+
+    18 [ shape = Mrecord, label = "{ r| }" ] ;
+
+    19 [ shape = Mrecord, label = "{ o| }" ] ;
+
+    20 [ shape = Mrecord, label = "{ e| }" ] ;
+
+    21 [ shape = Mrecord, label = "{ r | 9}" ] ;
+
+     20 -> 21;
+
+     19 -> 20;
+
+     18 -> 19;
+
+     3 -> 18;
+
+     2 -> 3;
+
+     1 -> 2;
+
+     0 -> 1;
+
+}
+
