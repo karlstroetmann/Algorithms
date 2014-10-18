@@ -114,9 +114,9 @@ fileDemo := procedure(f) {
     demo(s, false);
 };
 
-fileDemo("alice.txt");
-fileDemo("lzw.stlx");
-fileDemo("ComparableSet.java");
+// fileDemo("alice.txt");
+// fileDemo("lzw.stlx");
+// fileDemo("ComparableSet.java");
 
-demo("abaabaaab", true);
+demo("aabaaabb", true);
 
