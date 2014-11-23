@@ -4,7 +4,7 @@ abstrahiert, abstrahiert der Begriff des \emph{abstrakten Daten-Typs} von bestim
 Details konkreter Daten-Stukturen.  Durch die Verwendung dieses Begriffs wird es
 möglich, Algorithmen von den zugrunde liegenden Daten-Stukturen zu trennen.
 Wir geben im nächsten Abschnitt eine Definition von abstrakten Daten-Typen und
-illustrieren das Konzept im folgenden Abschnitt an Hand von dem abstrakten Daten-Typ \textsl{Stack}.
+illustrieren das Konzept im folgenden Abschnitt anhand von dem abstrakten Daten-Typ \textsl{Stack}.
 Im zweiten Abschnitt zeigen wir, wie die Sprache \textsl{Java} die
 Verwendung abstrakter Daten-Typen unterstützt.  In den folgenden Abschnitten betrachten
 wir verschiedene Implementierungen des abstrakten Daten-Typs \textsl{Stack}.
@@ -256,7 +256,7 @@ Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile für Zeile.
 \item In den Zeilen 12 -- 25 definieren wir die Methode \texttt{toString()}, mit der wir
       ein Objekt vom Daten-Typ \texttt{Stack} in einen String umwandeln können.  Um die
       Implementierung dieser Methode zu verstehen, betrachten wir zunächst die Wirkung
-      dieser Methode an Hand des folgenden Beispiels: 
+      dieser Methode anhand des folgenden Beispiels: 
       \begin{verbatim}
       Stack<Element> stack = new Stack<Element>();
       stack.push(1);
@@ -645,7 +645,7 @@ mit dem abstrakten Daten-Typ \textsl{Stack} arbeiten.
 
 \subsection{Ein einführendes Beispiel}
 Wir demonstrieren das Verfahren, mit dem wir arithmetische Ausdrücke auswerten, zunächst
-an Hand eines Beispiels.
+anhand eines Beispiels.
 Wir betrachten den arithmetischen Ausdruck \\[0.1cm]
 \hspace*{1.3cm} \texttt{1 + 2 * 3 - 4}. \\[0.1cm]
 Wir verarbeiten einen solchen Ausdruck von links nach rechts, Token für Token.  Ein
