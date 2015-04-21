@@ -20,20 +20,20 @@ importance of the topic of this class can also be seen by the availability of bo
 \section{Overview}
 This lecture covers the design and the analysis of algorithms.  We will discuss the following topics.
 \begin{enumerate}
-\item Undecidability of the \href{http://en.wikipedia.org/wiki/Halting_problem}{halting problem}.
+% \item Undecidability of the \href{http://en.wikipedia.org/wiki/Halting_problem}{halting problem}.
 
-      At the beginning of the lecture we discuss the limits of computability:  We will show that
-      there is no \textsc{SetlX} function \texttt{doesTerminate} such that for a given function $f$
-      of one argument and a string $s$ the expression
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{doesTerminate}(f, s)$ 
-      \\[0.2cm]
-      yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
+%       At the beginning of the lecture we discuss the limits of computability:  We will show that
+%       there is no \textsc{SetlX} function \texttt{doesTerminate} such that for a given function $f$
+%       of one argument and a string $s$ the expression
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $\texttt{doesTerminate}(f, s)$ 
+%       \\[0.2cm]
+%       yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
 \item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms.
 
       In general, in order to solve a given problem it is not enough to develop an algorithm that
-      implements a function $f$ that computes values $f(x)$ for some argument $x$.  If the size of
+      implements a function $f$ that computes the  value $f(x)$ for a given argument $x$.  If the size of
       the argument $x$ is big, then it is also important  
       that the computation of $f(x)$ does not take too much time.  Therefore, we want to have
       \emph{efficient} algorithms.
@@ -47,6 +47,8 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
             discuss the growth rate of functions.  This notation is useful to abstract from
             unimportant details when discussing the runtime of algorithms.  
       \end{enumerate}
+\pagebreak
+
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}.
 
       Abstract data types are a means to describe the behavior of an algorithm in a concise way.
@@ -68,11 +70,13 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 
 \item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Associative arrays}.
   
-      Associative arrays are a means to represent a function.  We discuss
-      various data structures that can be used to implement associative arrays efficiently.
+      Associative arrays are a means to represent a function.  Nowadays, all modern programming
+      languages provide associative array.  
+      Mathematically, an associative array is nothing more than a functional relation.  
+      We discuss various data structures that can be used to implement associative arrays efficiently.
 \item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}.
   
-      Many graph theoretical algorithms use priority queues as a basic building block.
+      Many graph theoretical algorithms use priority queues as one of their basic building blocks.
       Furthermore, priority queues have important applications in the theory of operating systems
       and in simulation.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}.
@@ -93,10 +97,10 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 \end{enumerate}
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
 Instead, I want to teach how to think algorithmically:  At the end of these
-lectures, you should be able to develop your own algorithms on yourself.  This is a process that
+lectures, you should be able to develop your own algorithms yourself.  This is a process that
 requires a lot of creativity on your side, as there are no cookbook recipes that can be followed.
 However, once you are acquainted with a fair number of algorithms, you should be able to discover
-algorithms on your own.
+new algorithms on your own.
 
 \section{Algorithms and Programs}
 This is a lecture on algorithms, not on programming.  It is important that you do not mix up
@@ -110,14 +114,14 @@ In the literature, algorithms are mostly presented as pseudo code.  Syntacticall
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
 described in natural language.   However, it is important to realize that a piece of pseudo code is
 \underline{not} an algorithm but is only a \emph{ representation} of an algorithm.  However, the
-advantage of pseudo code is that we are not confined by the randomness of the syntax of a
+advantage of pseudo code is that we are not confined by the arbitraryness of the syntax of a
 programming language.
 
 Conceptually, the difference between an algorithm and a program is similar to the difference between
 an \emph{idea} and a \emph{text} that describes the idea.  If you have an idea, you can write it down to
 make it concrete.  As you can write down the idea in English or French or any other language, the
 textual descriptions of the idea might be quite different.  This is the same with an algorithm:  We
-can code it in \textsl{Java} or \textsc{Cobol} or any other language.  The programs will be very
+can code it in \textsl{Java} or \textsl{Python} or any other language.  The programs will be very
 different but the algorithm will be the same.
 
 Having discussed the difference between algorithms and programs, let us now decide how to present
@@ -125,7 +129,7 @@ algorithms in this lecture.
 \begin{enumerate}
 \item We can describe algorithms using natural language.  While natural language certainly is
       expressive enough, it also suffers from ambiguities.  Furthermore, natural language
-      descriptions of complex algorithms tend to be very hard to understand.
+      descriptions of complex algorithms tend to be difficult to follow.
 \item Instead, we can describe an algorithm by implementing it.  There is certainly no ambiguity
       in a program, but on the other hand this approach would require us to implement every aspect
       of an  algorithm and our descriptions of algorithms would therefore get longer than we want.
@@ -160,12 +164,23 @@ goal.
 \section{Literature}
 These lecture notes are available online at
 \\[0.2cm]
-\hspace*{1.3cm}
-\href{https://github.com/karlstroetmann/Algorithms/blob/master/English-Script/algorithms.pdf}{https://github.com/karlstroetmann/Algorithms/blob/master/English-Script/algorithms.pdf}.  
+\hspace*{-0.3cm}
+\href{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}.  
 \\[0.2cm]
 They are intended to be the main source for my lecture.  Additionally, I want
 to mention those books that have inspired me most.
 \begin{enumerate}
+\item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
+      fourth edition, Pearson, 2011, \cite{sedgewick:11}.
+    
+      This book has a nice \href{http://algs4.cs.princeton.edu/home/}{booksite} containing a wealth
+      of additional material.  This book seems to be the best choice for the working practitioner.
+      Furthermore, \href{http://www.cs.princeton.edu/~rs/}{Professor Sedgewick} teaches a 
+      \href{https://www.coursera.org/course/algs4partI}{course} on algorithms available at
+      \href{https://www.coursera.org/}{coursera.org} that is based on this book.
+
+      If you intend to buy any of the books mentioned in this section, then I would strongy advise
+      you to buy this book.
 \item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
       \emph{Data Structures and Algorithms}, Addison-Wesley, 1987, \cite{aho:87}.
       
@@ -178,14 +193,6 @@ to mention those books that have inspired me most.
 
       Due to the level of detail and the number of algorithms given, this book is well suited as a
       lookup library.
-\item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
-      fourth edition, Pearson, 2011, \cite{sedgewick:11}.
-    
-      This book has a nice \href{http://algs4.cs.princeton.edu/home/}{booksite} containing a wealth
-      of additional material.  This book seems to be the best choice for the working practitioner.
-      Furthermore, \href{http://www.cs.princeton.edu/~rs/}{Professor Sedgewick} teaches a 
-      \href{https://www.coursera.org/course/algs4partI}{course} on algorithms on 
-      \href{https://www.coursera.org/}{coursera} that is based on this book.
 \item \emph{Einführung in die Informatik},
       written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2008}.
       
@@ -194,10 +201,10 @@ to mention those books that have inspired me most.
       \href{http://www.oldenbourg-link.com/doi/book/10.1524/9783486595390}{available} electronically
       in our library. 
 \item Furthermore, there is a set of 
-      \href{https://class.coursera.org/algo-003/class/index}{video lectures} 
+      \href{https://class.coursera.org/algo-004/class/index}{video lectures} 
       from \href{http://theory.stanford.edu/~tim/}{Professor Roughgarden}
-      at \href{https://www.coursera.org/}{coursera}.
-\item \href{http://www.cs.berkeley.edu/~vazirani/algorithms/all.pdf}{\emph{Algorithms}},
+      available at \href{https://www.coursera.org/}{coursera.org}.
+\item \href{http://beust.com/algorithms.pdf}{\emph{Algorithms}},
       written by \textsl{Sanjoy Dasgupta, Christos H.~Papadimitriou, and Unmesh V.~Vazirani} \cite{dasgupta:2008}
       is a short text book on Algorithms that is available online.
 \item \href{http://www.mpi-inf.mpg.de/~mehlhorn/Toolbox.html}{\emph{Data Structures and Algorithms}}

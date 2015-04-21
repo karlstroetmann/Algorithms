@@ -98,15 +98,17 @@ demo := procedure(s, w) {
     print("decompression correct\n\n");
 };
 
-
-while (true) {
-    s := read("enter string to encode (\"stop\" terminates loop): ");
-    if (s == "stop") {
-        break;
+demoUncompress := procedure(l, w) {
+    print("uncompressing $l$");
+    expander := lzw(w);
+    s := expander.uncompress(l);
+    if (#s < 1000) {
+        print("$l$ |-> $s$");
     }
-    demo(s, true);
-}
+};
 
+demoUncompress([98, 97, 98, 128, 129, 130], true);
+demo("babbaabbb", true);
 
 fileDemo := procedure(f) {
     print("compressing file $f$");
@@ -118,5 +120,6 @@ fileDemo := procedure(f) {
 // fileDemo("lzw.stlx");
 // fileDemo("ComparableSet.java");
 
-demo("aabaaabb", true);
+// demo("aabaaabb", true);
+
 

@@ -4,7 +4,7 @@ This chapter introduces both the
 \emph{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
 These two notions are needed to analyse the running time of algorithms.  In order to have some
 algorithms to talk about, we will also discuss how to implement the computation of powers 
-efficiently, i.~e.~we discuss how to evaluate the expression $a^b$ for given
+efficiently, i.e.~we discuss how to evaluate the expression $a^b$ for given
 $a,b \in \mathbb{N}_0$ in a way that is significantly faster than the naive approach.
 
 
@@ -74,7 +74,7 @@ specification:
       neglected. 
 \item The notion of complexity should describe how the running time increases
       when the size of the input increases:  For small inputs, the running time is not very
-      important but the question is how the running time grows when input size is increased. 
+      important but the question is how the running time grows when  size of the input is increased. 
       Therefore the notion of complexity should capture the \emph{growth} of the running time.
 \end{itemize}
 Let us denote the set of all positive real numbers as $\R_+$, i.~e.~let us define 
@@ -95,7 +95,7 @@ Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions th
   \hspace*{0.5cm} 
   \colorbox{orange}{
   $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \bigl(\exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}
+    \exists c \in \R_+\colon \forall n \in \N_0 \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}
   \eox
 \end{Definition}
 
@@ -215,7 +215,7 @@ We prove this claim by induction on $n$.
 \item \textbf{Base case}: $n = 0$
 
       Obviously, $n = 0 \leq 1 = 2^0 = 2^n$ holds.  Therefore, $n \leq 2^n$ holds for $n = 0$.
-\item \textbf{I.S.}: $n \mapsto n + 1$
+\item \textbf{Induction step}: $n \mapsto n + 1$
 
       By the induction hypothesis we have 
       \begin{equation}
@@ -256,12 +256,12 @@ $f \in \Oh(g)$ much quicker than by induction.
 \end{Proposition}
 
 \proof
-Let us define $k:=1$ and $c:=1$.  Then our claim  follows immediately from the inequality 
+Let us define $k:=0$ and $c:=1$.  Then our claim  follows immediately from the inequality 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\forall n \in \N_0\colon f(n) \leq f(n)$. \qed
 
-\begin{Proposition}[Multiplication with Constants] 
+\begin{Proposition}[Multiplication with Constants] \hspace*{\fill} \linebreak
 Assume that we have functions  $f,g\colon \N_0 \rightarrow {\R_+}$ and a number $d \in \R_+$.  Then we
 have that
 \\[0.2cm]
@@ -275,7 +275,7 @@ such that \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N_0 \colon \bigl(n \geq k'  \rightarrow g(n) \leq c' \cdot f(n)\bigr)$ 
 \\[0.2cm]
-holds.  If we multiply this inequality with $d$, we get \\[0.2cm]
+holds.  If we multiply the inequality involving $g(n)$ with $d$, we get \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N_0 \colon\bigl( n \geq k'  \rightarrow d \cdot g(n) \leq d \cdot c' \cdot f(n)\bigr)$ 
 \\[0.2cm]
