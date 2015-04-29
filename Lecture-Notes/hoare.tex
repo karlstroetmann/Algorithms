@@ -1,6 +1,9 @@
 \chapter{Hoare Logic}
+In the previous chapter we have already encountered \emph{computational induction} as a method to
+prove the correctness of an algorithm.
 In this chapter we introduce \href{http://en.wikipedia.org/wiki/Hoare_logic}{\emph{Hoare logic}}.
-This is a formal system that is used to prove the correctness of imperative computer programs.  
+This is a formal system that is used to prove the correctness of \emph{imperative} computer
+programs, i.e.~Hoare logic can be used to establish the correctness of loops.
 Hoare logic has been introduced 1969 by  
 \href{http://en.wikipedia.org/wiki/C._A._R._Hoare}{Sir Charles Antony Richard Hoare}, 
 who is the inventor of the \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm.
@@ -50,13 +53,13 @@ is called a \emph{Hoare triple}.
       \hspace*{1.3cm}
       $ \hoare{\textsl{prime}(x)}{x := x + 1;}{\textsl{prime}(x-1)}$.
       \\[0.2cm]
-      This might look strange at first.  Many students think that this Hoare triple should rather
+      This might look strange at first.  Some students think that this Hoare triple should rather
       be written as
       \\[0.2cm]
       \hspace*{1.3cm}
       $ \hoare{\textsl{prime}(x)}{x := x + 1;}{\textsl{prime}(x+1)} $.
       \\[0.2cm]
-      However, this can easily be refuted by taking $x$ to have the value $2$.  Then, the
+      However, this faulty idea can easily be refuted by taking $x$ to have the value $2$.  Then, the
       precondition $\textsl{prime}(x)$ is satisfied since $2$ is a prime number.  After the
       assignment, $x$ has the value $3$ and
       \\[0.2cm]
@@ -80,9 +83,9 @@ form
 \hspace*{1.3cm}
 $ \texttt{x := h(x);} $
 \\[0.2cm]
-and we want to investigate how the postcondition $G$ of this assignment is related to the
-precondition $F$.  To simplify matters, let us assume that the function
-$h$ is invertible, i.~e.~we assume that there is a function $h^{-1}$ such that we have
+and we want to investigate how the postcondition  of this assignment is related to the
+precondition.  To simplify matters, let us assume that the function
+$h$ is invertible, i.e.~we assume that there is a function $h^{-1}$ such that we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $ h^{-1}\bigl(h(x)\bigr) = x \quad \mathtt{and} \quad h\bigl(h^{-1}(x)\bigr) = x $
@@ -194,7 +197,12 @@ The correctness of this Hoare triple should be obvious: If $x$ is a prime and if
 incremented by $1$, then afterwards $x-1$ is prime.
 
 \paragraph{Different Forms of Assignments}
-Not all assignments can be written in the form ``\texttt{x := h(x);}'' where the function $h$ is invertible.
+Not all assignments can be written in the form
+\\[0.2cm]
+\hspace*{1.3cm}
+ ``\texttt{x := h(x);}'' 
+\\[0.2cm]
+where the function $h$ is invertible.
 Often, a constant $c$ is assigned to some variable $x$.  If $x$ does not occur in the precondition
 $F$, then we have
 \\[0.2cm]
@@ -206,7 +214,7 @@ consideration.
 
 
 \paragraph{General Form of the Assignment Rule}
-In the literature the rule for specifying an assignment is given as
+In the literature, the rule for specifying an assignment is given as
 \\[0.2cm]
 \hspace*{1.3cm}
 $ \hoare{F[x \mapsto t]}{x := t;}{F}. $
@@ -342,8 +350,8 @@ The Hoare triple (\ref{eq:swap}) shows that the program fragment shown in Figure
 $x$ is $a$ and $y$ has the value $b$ before the program is executed, then afterwards
 $y$ has the value $a$ and $x$ has the value $b$.  The trick shown in Figure
 \ref{fig:swap} 
-can be used to swap variables without using an auxiliary variable.  This is useful because when this
-code is compiled into machine language, the resulting code will only use two registers.
+can be used to swap variables without using an auxiliary variable.  This is sometimes useful because
+when this code is compiled into machine language, the resulting code will only use two registers.
 
 
 \begin{figure}[!ht]
@@ -392,7 +400,7 @@ fragments \texttt{P} and \texttt{Q} yields Hoare triple of the form
 \end{equation}
 and in general $G_1$ and $G_2$ will be different from each other.  In order to be able to apply the
 rule for conditionals we have to find a formula $G$ that is a consequence of $G_1$ and also a
-consequence of $G_2$, i.~e.~we want to have
+consequence of $G_2$, i.e.~we want to have
 \[ G_1 \rightarrow G \qquad \mathrm{and} \qquad G_2 \rightarrow G. \]
 If we find $G$, then the weakening rule  can be applied to conclude the validity of
 \[ \hoare{F \wedge B}{P}{G} \qquad \mathrm{and} \qquad \hoare{F \wedge \neg B}{Q}{G},    \] 
@@ -484,7 +492,7 @@ gets \texttt{false}.  Therefore, the postcondition of the loop can be strengthen
 
 \section{The Euclidean  Algorithm}
 In this section we show how the verification rules of the last section can be used to prove the
-correctness of a non-trivial program.
+correctness of a non-trivial algorithm.
 We will show that the algorithm shown in Figure \ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx} is correct.
 The procedure shown in this figure implements the
 \href{http://en.wikipedia.org/wiki/Euclidean_algorithm}{\emph{Euclidean algorithm}}
@@ -653,7 +661,7 @@ Hence we have shown the correctness of the Euclidean  algorithm.
 
 \exercise
 Show that the function $\texttt{power}(x,y)$ that is defined in Figure
-\ref{fig:power-iterative.stlx} does compute $x^y$, i.~e.~show that $\texttt{power}(x,y) = x^y$ 
+\ref{fig:power-iterative.stlx} does compute $x^y$, i.e.~show that $\texttt{power}(x,y) = x^y$ 
 for all natural numbers $x$ and $y$.
 
 

@@ -77,7 +77,7 @@ specification:
       important but the question is how the running time grows when  size of the input is increased. 
       Therefore the notion of complexity should capture the \emph{growth} of the running time.
 \end{itemize}
-Let us denote the set of all positive real numbers as $\R_+$, i.~e.~let us define 
+Let us denote the set of all positive real numbers as $\R_+$, i.e.~let us define 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\R_+ := \{ x \in \R \mid x > 0 \}$. 
@@ -524,14 +524,17 @@ $3^n \in \Oh(2^n)$ holds.  Then, there must be numbers $c$ and $k$ such that
 $3^n \leq c \cdot 2^n$ \quad holds for $n \geq k$. 
 \\[0.2cm]
 Taking the logarithm of both sides of this inequality we find 
-\[
+\\[0.2cm]
+\hspace*{1.3cm}
+$
 \begin{array}{llcl}
                 & \ln(3^n) & \leq & \ln(c \cdot 2^n) \\[0.2cm]
-\leftrightarrow\quad &  n \cdot \ln(3) & \leq & \ln(c) + n \cdot \ln(2) \\[0.2cm]
-\leftrightarrow &  n \cdot \bigl(\ln(3) - \ln(2)\bigr) & \leq & \ln(c)  \\[0.2cm]
-\leftrightarrow &  n  & \leq & \bruch{\ln(c)}{\ln(3) - \ln(2)}  \\[0.2cm]
+\Leftrightarrow\quad &  n \cdot \ln(3) & \leq & \ln(c) + n \cdot \ln(2) \\[0.2cm]
+\Leftrightarrow &  n \cdot \bigl(\ln(3) - \ln(2)\bigr) & \leq & \ln(c)  \\[0.2cm]
+\Leftrightarrow &  n  & \leq & \bruch{\ln(c)}{\ln(3) - \ln(2)}          \\[0.2cm]
 \end{array}
-\]
+$
+\\[0.2cm]
 The last inequality would have to hold for all natural numbers $n$ that are bigger than $k$.  Obviously,
 this is not possible as, no matter what value $c$ takes, there are natural numbers $n$ that are bigger than 
 \\[0.2cm]
@@ -541,7 +544,6 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
 \pagebreak
 
 \exercise
-
 \begin{enumerate}[(a)]
 \item Assume that $b > 1$.  Prove that $\log_{b}(n) \in \Oh(\ln(n))$.
 
@@ -617,8 +619,7 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
       \hspace*{1.3cm}
       $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
 \item Prove $n^n \in \mathcal{O}\bigl(2^{2^n}\bigr)$.
-
-      \textbf{Hint}:  The last one is difficult!  \eox
+      \eox
 \end{enumerate}
 
 \section{A Remark on Notation}
@@ -903,8 +904,8 @@ solution of this recurrence relation is given by
 \\[0.2cm]
 \hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad for all $l \in \N_0$. 
 \\[0.2cm] 
-Those who don't believe me should try to verify this claim by induction. 
-Then, the sequence $a_n$ satisfies \\[0.2cm]
+This claim is readily established via a trivial induction.  Plugging in the definition $b_l = a_{2^l-1}$ we
+see that the sequence $a_n$ satisfies \\[0.2cm]
 \hspace*{1.3cm} $a_{2^l-1} = 2 \cdot l$. 
 \\[0.2cm]
 Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
@@ -916,7 +917,7 @@ Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
 Next, we consider the best case.  The computation of
 $\mathtt{power}(m,n)$ needs the least number of multiplications if the test 
 \texttt{n \% 2 == 0} always evaluates as true.  In this case, $n$ must be a power of $2$.  
-Therefore, there must exist an $l\in \N_0$ such that we have
+Hence there must exist an $l\in \N_0$ such that we have
  \\[0.2cm]
 \hspace*{1.3cm} $n = 2^l$.
  \\[0.2cm]
@@ -990,12 +991,13 @@ notation.
 
 \section{The Master Theorem}
 In order to analyze the complexity of  the procedure $\textsl{power}()$,
-we first computed a  recurrence relation, then we solved this recurrence and, finally,  
-we approximated the result using the big $\Oh$ notation.  If we are only interested in this
-last approximation then, in many cases, it is not necessary to solve the recurrence relation.  
+we have first computed a  recurrence relation, then we have solved this recurrence and, finally,  
+we have approximated the result using the big $\Oh$ notation.  In many cases we are only interested in this
+last approximation and then it is not necessary to actually solve the recurrence relation.  
 Instead, we can use the 
-\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}}.
-We present a simplified version of this theorem.
+\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}} to short
+circuit the procedure for computing the complexity of an algorithm. 
+We present a simplified version of the master theorem next.
 
 \begin{Theorem}[Master Theorem] 
   Assume that 
@@ -1011,7 +1013,8 @@ We present a simplified version of this theorem.
           For given integers $a, b \in \mathbb{N}$, the \emph{integer division} $a \backslash b$
           is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  It can
           be implemented via the formula $a \backslash b = \textsl{floor}(a/b)$, where
-          $\textsl{floor}(x)$ rounds $x$ down to the nearest integer.
+          $\textsl{floor}(x)$ rounds $x$ down to the nearest integer.  In \textsc{SetlX}, integer
+          division is available via the backslash operator ``\texttt{\symbol{92}}''.
         }  
         of $n$ by $\beta$.
   \end{enumerate}
@@ -1019,7 +1022,7 @@ We present a simplified version of this theorem.
   \begin{enumerate}
   \item $\alpha < \beta^\delta\rightarrow f(n) \in \Oh\bigl(n^{\delta}\bigr)$,
   \item $\alpha = \beta^\delta\rightarrow f(n) \in \Oh\bigl(\log_\beta(n) \cdot n^{\delta}\bigr)$,
-  \item $\alpha > \beta^{\delta} \rightarrow f(n) \in \Oh\bigl(n^{log_{\beta}(\alpha)}\bigr)$. 
+  \item $\alpha > \beta^{\delta} \rightarrow f(n) \in \Oh\bigl(n^{\log_{\beta}(\alpha)}\bigr)$. 
   \end{enumerate}
 \end{Theorem}
 
@@ -1098,7 +1101,7 @@ a_k & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \alpha^{i} \cdot \Oh\bigl(\gamma^{k-i
 \end{array}
 $
 \\[0.2cm]
-If we take this formula and substitute $i + 1 := k$, i.~e.~$i := k - 1$, then we conclude
+If we take this formula and substitute $i + 1 := k$, i.e.~$i := k - 1$, then we conclude
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle 
@@ -1119,7 +1122,7 @@ $\displaystyle\sum\limits_{j=0}^n q^j = n+1$ \quad if $q = 1$.
 For the geometric series given above, $q = \displaystyle\frac{\,\alpha\,}{\gamma}$.  
 In order to proceed, we have to perform a case distinction:
 \begin{enumerate}
-\item Case: $\alpha < \gamma$, i.~e.~$\alpha < \beta^\delta$.
+\item Case: $\alpha < \gamma$, i.e.~$\alpha < \beta^\delta$.
 
       In this case, the series $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ is bounded 
       by the value
@@ -1158,7 +1161,7 @@ In order to proceed, we have to perform a case distinction:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\alpha < \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^\delta\bigr)$.
-\item Case: $\alpha = \gamma$, i.~e.~$\alpha = \beta^\delta$.
+\item Case: $\alpha = \gamma$, i.e.~$\alpha = \beta^\delta$.
 
       In this case, all terms in the series $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ 
       have the value $1$ and therefore we have
@@ -1191,12 +1194,12 @@ In order to proceed, we have to perform a case distinction:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\alpha = \beta^\delta \rightarrow f(n) \in \Oh\bigl(\log_{\beta}(n) \cdot n^\delta\bigr)$.
-\item Case: $\alpha > \gamma$, i.~e.~$\alpha > \beta^\delta$.
+\item Case: $\alpha > \gamma$, i.e.~$\alpha > \beta^\delta$.
 
       In this case we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\Bigl(\bigl(\frac{\alpha}{\gamma}\bigr)^k\Bigr)$.
+      $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\Bigl(\bigl(\frac{\alpha}{\gamma}\bigr)^k\Bigr)$.
       \\[0.2cm]
       Therefore, we have
       \\[0.2cm]
@@ -1381,6 +1384,7 @@ big $\Oh$ notation is the right tool to use.  However, sometimes we want to stat
 the complexity of a problem.  For example, it can be shown that every comparison based sort algorithm needs at least
 $n \cdot \log_2(n)$ comparisons to sort a list of length $n$.  In order to be able to express lower
 bounds concisely, we introduce the big $\Omega$ notation next.
+\pagebreak
 
 \begin{Definition}[$\Omega(g)$] 
   Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that grow 
@@ -1389,8 +1393,8 @@ bounds concisely, we introduce the big $\Omega$ notation next.
   \hspace*{0.5cm} 
   \colorbox{orange}{
   $ \Omega(g) \;:=\; \bigl\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \exists c \in \R_+\colon \forall n \in \N_0 \colon n \geq k \rightarrow c \cdot g(n) \leq f(n)  \bigr\}$.}
-  \qed
+    \exists c \in \R_+\colon \forall n \in \N_0 \colon\bigl(n \geq k \rightarrow c \cdot g(n) \leq f(n)\bigr)\bigr\}$.}
+  \eox
 \end{Definition}
 
 It is not difficult to show that
