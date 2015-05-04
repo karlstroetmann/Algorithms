@@ -45,7 +45,7 @@ holds, then the pair $\langle S, \leq \rangle$ is called a
 \end{enumerate}
 In the examples given above we see that it does not make sense to sort subsets of $\mathbb{N}$.
 However, we can sort natural numbers with respect to their size and we can also sort employees with
-respect to their income.  This show that, in order to sort,  we do not necessarily need a totally
+respect to their income.  This shows that, in order to sort,  we do not necessarily need a totally
 ordered set.  In order to capture the requirements that are needed to be able to sort we introduce
 the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{\emph{quasiorder}}.
 
@@ -62,7 +62,7 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{\emph{quasiorder}}.
   If, furthermore,
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$
+  $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$ \hspace*{\fill} (linearity)
   \\[0.2cm]
   holds, then $\langle S, \preceq \rangle$ is called a \emph{total quasiorder}.  This will be
   abbreviated as \textsc{TQO}.
@@ -99,6 +99,25 @@ is defined as follows:
         Therefore, we have: \\[0.2cm]
         \hspace*{1.3cm}
         $\textsl{count}(x,l) := \# \bigl\{ i \el \{1,\cdots,\#l\} \mid l[i] = x \bigr\}$.
+        \\[0.2cm]
+        Sometimes, this second requirement is changed as follows:
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\forall x \in s: \textsl{count}(x,s) \leq 1 \wedge \forall x\el M \colon \bigl(\textsl{count}(x,l) > 0 \rightarrow \textsl{count}(x,s) = 1\bigr)$.
+        \\[0.2cm]
+        Hence, in this case we require that the sorted list $s$ does not contain duplicate elements.
+        Of course, an object $x$ should only occur in $s$ if it also occurs in $l$.  If we change
+        the second requirement in this way, then the main purpose of sorting is to remove duplicate
+        elements from a list.  This is actually one common application of sorting in practice.  The
+        reason this application is so common is the following: A list that contains every element at
+        most once can be viewed as representing a set.
+
+        \exercise
+        Assume a list $s$ is sorted and contains every object at most once.  Develop an efficient
+        algorithm for testing whether a given object $x$ is a member of the list $s$.
+
+        \textbf{Hint}: Try to develop an algorithm that follows the \emph{divide-and-conquer}
+        paradigm. 
   \end{enumerate}
 \end{enumerate}
 Next, we present various algorithms for solving the sorting problem.  We start with two algorithms
@@ -196,7 +215,12 @@ in \textsc{SetlX}.
 We will compute the number of comparisons that are done in the implementation of \texttt{insert}.
 Before doing so, let us note that the function \texttt{insert.stlx} can be rewritten as shown in Figure
 \ref{fig:insert.stlx}.  In comparison to Figure \ref{fig:insertion-sort.stlx}, we have dropped the
-test ``\texttt{!(x <= y)}'' from line 5 since it is unnecessary:  If control reaches line 5, it must
+test
+\\[0.2cm]
+\hspace*{1.3cm}
+``\texttt{!(x <= y)}'' 
+\\[0.2cm]
+from line 5 since it is unnecessary:  If control ever reaches line 5, it must
 have skipped line 4 before and for a non-empty list that can only happen if the test 
 ``\texttt{x <= y}'' fails.
 \begin{figure}[!ht]
@@ -241,7 +265,7 @@ $a_n = n$.
 \\[0.2cm]
 In the worst case the evaluation of $\mathtt{insert}(x,l)$ will lead to $n$ comparisons for a list
 $l$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $l$, then we have to
-compare $x$ with every element of $l$ in order to insert it into $l$.
+compare $x$ with every element of $l$ in order to insert $x$ into $l$.
 
 Next, let us compute the number of comparisons that have to be done when calling
 $\texttt{sort}(l)$ in the worst case for a list  $l$ of length $n$.  Let us denote this number as
@@ -303,7 +327,7 @@ equation for the number $b_l$ of comparisons when sorting $l$ satisfies
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
 Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
-\emph{insertion sort} is linear.  This is as good as it can get because when sorting a list $l$ we
+\emph{insertion sort} is linear.  This is as good as it can possibly get because when sorting a list $l$ we
 must at least inspect all of the elements of $l$ and therefore we will always have at least a linear
 amount of work to do.
 
@@ -437,7 +461,9 @@ insertion sort is only
 \\[0.2cm]
 and this is half as much as the number of comparisons used by \emph{selection sort}.  Therefore, on
 average we expect \emph{selection sort} to need about twice as many comparisons as \emph{insertion sort}.
-
+Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
+partially sorted nad have only a few elements that are out of place.  In these cases,
+\emph{insertion sort} can, in fact, be even more efficient than any other sorting algorithm.
 
 
 \section{Merge Sort}
@@ -447,7 +473,10 @@ only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ 
 The \emph{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945.  John von Neumann 
 was one of the most prominent mathematicians of the last century.  Furthermore, he published a
-number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb.
+number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb and
+of the fiercest advocaters of its use.  Hence, he shares the joint guilt for the 
+\href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
+$200\,000$ innocent civilian at the end of the second world war.
 
 In order to sort a list $l$ the algorithm proceeds as follows:
 \begin{enumerate}

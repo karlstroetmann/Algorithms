@@ -612,10 +612,8 @@ for the rule for conditionals we have shown that
 $  \hoare{I \wedge x \not= y}{if (x < y) \{ y := y - x; \} else \{  x := x - y; \}}{I} $
 \\[0.2cm]
 holds.  Now the verification rule for \texttt{while} loops yields
-\pagebreak
-
-\noindent
-\hspace*{1.3cm} 
+\\[0.2cm]
+\hspace*{1.3cm}
 $\{ I \}$
 \\[0.1cm]
 \hspace*{2.2cm}
@@ -792,7 +790,7 @@ This claim is proven by induction on the number of loop iterations.
             \\[0.2cm]
             \hspace*{1.3cm}
             $r_n \cdot x_n^{y_n} = r_0 \cdot x_0^{y_0} = 1 \cdot a^{b} = a^b$.
-\item[I.S.] $n \mapsto n + 1$:  We need a case distinction with respect to $y \mod 2$:
+\item[I.S.] $n \mapsto n + 1$:  We proof proceeds by a case distinction with respect to $y \mod 2$:
             \begin{enumerate}
             \item $y_n \mod 2 = 1$.  Then we have $y_{n} = 2 \cdot (y_n\symbol{92}2) + 1$ and
                   $r_{n+1} = r_n \cdot x_n$.  Hence
@@ -820,15 +818,15 @@ This shows the validity of the equation (\ref{eq:powerInv}).   If the \texttt{wh
 terminates, we must have $y_N = 0$.  If $n=N$, then equation (\ref{eq:powerInv}) yields:
 \\[0.2cm]
 \hspace*{1.3cm}
-$r_N \cdot x_N^{y_N} = x_0^{y_0} 
+$r_N \cdot x_N^{y_N} = a^b
  \;\Longleftrightarrow\; r_N \cdot x_N^{0}   = a^b
  \;\Longleftrightarrow\;  r_N \cdot 1         = a^b
  \;\Longleftrightarrow\;  r_N                 = a^b
 $
 \\[0.2cm]
-This shows $r_N = a^b$ and since we already know that the
+This shows $r_N = a^b$ and since we already seen in the previous section that the
 \texttt{while} loop terminates, we have proven that
-$\texttt{power}(a,b) =a^b$.
+$\texttt{power}(a,b) =a^b$ holds.
 
 \exercise
 Use the method of symbolic program execution to prove the correctness of the implementation of the
@@ -859,7 +857,7 @@ is valid.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{An efficient version of the Euclidean algorithm.}
+\caption{A more efficient version of the Euclidean algorithm.}
 \label{fig:gcd.stlx}
 \end{figure}
 
