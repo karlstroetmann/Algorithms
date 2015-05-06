@@ -153,10 +153,10 @@ Inserting $x$ into an already sorted list $s$ is done according to the following
       \begin{enumerate}
       \item If $x \preceq y$, then we have to insert $x$ at the front of the list $s$: \\[0.2cm]
             \hspace*{1.3cm}
-            $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + r\bigr) = [x,y] + r$. 
+            $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y|r]\bigr) = [x,y|r]$. 
       \item Otherwise, $x$ has to be inserted recursively into the list $r$: \\[0.2cm]
             \hspace*{1.3cm}
-            $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + r\bigr) = [y] + \mathtt{insert}(x,r)$. 
+            $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y|r]\bigr) = [y | \mathtt{insert}(x,r)]$. 
       \end{enumerate}
 \end{enumerate}
 
@@ -179,8 +179,8 @@ Inserting $x$ into an already sorted list $s$ is done according to the following
     insert := procedure(x, l) {
         match (l) {
             case []                : return [x];
-            case [y|r] |   x <= y  : return [x,y] + r;
-            case [y|r] | !(x <= y) : return [y] + insert(x, r);
+            case [y|r] |   x <= y  : return [x, y | r];
+            case [y|r] | !(x <= y) : return [y | insert(x, r)];
         }
     };
 \end{Verbatim}
@@ -200,10 +200,9 @@ in \textsc{SetlX}.
       Line 4 tests whether $l$ can be written as  
       \\[0.2cm]
       \hspace*{1.3cm}
-      $l = [ x ] + r$.
+      $l = [x | r]$.
       \\[0.2cm]
       Here, $x$ is the first element of $l$ while $r$ contains all but the first element of $l$.  
-      In \textsc{SetlX} we write \texttt{[x|r]} in order to match a list of the form $[x] + r$.
 \item The definition of the function $\mathtt{insert}$ also uses a 
       \texttt{match} statement.  However, in the last two cases the match statement
       also has a logical condition attached via the operator ``\texttt{|}'':
@@ -236,8 +235,8 @@ have skipped line 4 before and for a non-empty list that can only happen if the 
     insert := procedure(x, l) {
         match (l) {
             case []             : return [x];
-            case [y|r] | x <= y : return [x, y] + r;
-            case [y|r]          : return [y] + insert(x, r);
+            case [y|r] | x <= y : return [x, y | r];
+            case [y|r] |        : return [y | insert(x, r)];
         }
     };
 \end{Verbatim}
@@ -345,8 +344,7 @@ follows:
       to the front of the sorted list:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $l \not= [] \rightarrow \mathtt{sort}\bigl(l\bigr) = \bigl[\texttt{min}(l)\bigr]
-      + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(l), l)\bigr)$.
+      $l \not= [] \rightarrow \mathtt{sort}\bigl(l\bigr) = \bigl[\texttt{min}(l)\bigr| \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(l), l)\bigr)\bigr]$.
 \end{enumerate}
 The algorithm to delete an element $x$ from a list $l$ is formulated recursively.  There are three cases:
 \begin{enumerate}
@@ -355,10 +353,10 @@ The algorithm to delete an element $x$ from a list $l$ is formulated recursively
 \item If $x$ is equal to the first element of $l$, then the function \texttt{delete} returns the
       rest of $l$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{delete}(x, [x] + r) = r$.
+      $\mathtt{delete}(x, [x|r]) = r$.
 \item Otherwise, the element $x$ is removed recursively from the rest of the list: \\[0.2cm]
       \hspace*{1.3cm}   
-      $x \not = y \rightarrow \mathtt{delete}(x, [y] + r) = [y] + \mathtt{delete}(x,r)$.
+      $x \not = y \rightarrow \mathtt{delete}(x, [y|r]) = [y|\mathtt{delete}(x,r)]$.
 \end{enumerate}
 Finally, we have to specify the computation of the minimum of a list $l$:
 \begin{enumerate}
@@ -368,7 +366,7 @@ Finally, we have to specify the computation of the minimum of a list $l$:
 \item In order to compute the minimum of the list $[x] + r$ we compute the minimum of $r$ and
       then use the binary function \texttt{min}: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}([x] + r) = \mathtt{min}\bigl(x, \mathtt{min}(r) \bigr)$. 
+      $\mathtt{min}([x | r]) = \mathtt{min}\bigl(x, \mathtt{min}(r) \bigr)$. 
 
       Here, the binary function \texttt{min} is defined as follows: \\[0.2cm]
       \hspace*{1.3cm} 
@@ -380,7 +378,8 @@ Finally, we have to specify the computation of the minimum of a list $l$:
       $
 \end{enumerate}
 Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
-implementation of selection sort in \textsc{SetlX}.  There was no need to implement the function \texttt{min} as this function is already predefined in \textsc{SetlX}.
+implementation of selection sort in \textsc{SetlX}.  There is no need to implement the function
+\texttt{min} as this function is already predefined in \textsc{SetlX}. 
 The implementation of $\mathtt{delete}(x,l)$ is \emph{defensive}:  Normally, $\mathtt{delete}(x, l)$
 should only be called if $x$ is indeed an element of the list $l$.   Therefore, there must be
 a mistake if we try to delete an element from the empty list.  The predefined \texttt{assert}
@@ -402,13 +401,13 @@ function will provide us with an error message in this case.
             return [];
         }
         x := min(l);
-        return [x] + sort(delete(x,l));
-    };   
+        return [x | sort(delete(x,l))];
+    };
     delete := procedure(x, l) {
         match (l) {
-            case []    : assert(false, "$x$ not in list $l$");
+            case []    : assert(false, "element $x$ not in list $l$");
             case [x|r] : return r;
-            case [y|r] : return [y] + delete(x,r);
+            case [y|r] : return [y | delete(x,r)];
         }
     };
 \end{Verbatim}
@@ -472,11 +471,12 @@ is the first \underline{efficient} sorting algorithm that we encounter: We will 
 only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  
 The \emph{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945.  John von Neumann 
-was one of the most prominent mathematicians of the last century.  Furthermore, he published a
-number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb and
-of the fiercest advocaters of its use.  Hence, he shares the joint guilt for the 
-\href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
-$200\,000$ innocent civilian at the end of the second world war.
+was one of the most prominent mathematicians of the last century.  
+% Furthermore, he published a
+% number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb and
+% had been one of the fiercest advocaters of its use.  Hence, he shares the joint guilt for the 
+% \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
+% $200\,000$ innocent civilian at the end of the second world war.
 
 In order to sort a list $l$ the algorithm proceeds as follows:
 \begin{enumerate}
@@ -525,26 +525,26 @@ Figure \ref{fig:merge-sort.stlx}:
         if (#l < 2) {
             return l;
         }
-        [ l1, l2 ] := split(l);
+        [l1, l2] := split(l);
         return merge(sort(l1), sort(l2));
-    };    
+    };
     split := procedure(l) {
         match (l) {
-            case []      : return [ [ ], [] ];
+            case []      : return [ [], [] ];
             case [x]     : return [ [x], [] ];
             case [x,y|r] : [r1,r2] := split(r);
-                           return [ [x] + r1, [y] + r2 ];
+                           return [ [x|r1], [y|r2] ];
         }
     };
     merge := procedure(l1, l2) {
         match ([l1, l2]) {
-            case [     [],     l2 ]: return l2;
-            case [     l1,     [] ]: return l1;
-            case [ [x|r1], [y|r2] ]: if (x < y) {
-                                         return [x] + merge(r1, l2);
-                                     } else {
-                                         return [y] + merge(l1, r2);
-                                     }
+            case [     [],     l2 ] : return l2;
+            case [     l1,     [] ] : return l1;
+            case [ [x|r1], [y|r2] ] : if (x <= y) {
+                                          return [x | merge(r1, l2)];
+                                      } else {
+                                          return [y | merge(l1, r2)];
+                                      }
         }
     };
 \end{Verbatim}
@@ -569,13 +569,13 @@ Next, we specify the function $\texttt{split}$ via equations.
       returned from \texttt{split}: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
-\item Otherwise, $l$ must have the form $\mathtt{[}x, y\mathtt{]} + r$.
+\item Otherwise, $l$ must have the form $[x, y | r]$.
       Then we split $r$ recursively into two lists $r_1$ and $r_2$.  The element $x$ is put in front
       of $r_1$, while $y$ is put in front of $r_2$:
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{split}(r) = \mathtt{[}r_1, r_2\mathtt{]} \rightarrow
-      \mathtt{split}\bigl(\mathtt{[}x, y\mathtt{]} + r\bigr) = \bigl[ [x] + r_1, [y] + r_2 \bigr]$.
+      \mathtt{split}\bigl([x, y|r]\bigr) = \bigl[ [x|r_1], [y|r_2] \bigr]$.
 \end{enumerate}
 Finally, we specify how two sorted lists $l_1$ and $l_2$ are merged in a way that the resulting list
 is also sorted.
@@ -586,19 +586,21 @@ is also sorted.
 \item If the list $l_2$  is empty, the result is $l_1$: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{merge}(l_1, []) = l_1$.
-\item Otherwise, $l_1$ must have the form $[x] + r_1$ and $l_2$ has the form $[y] + r_2$.
+\item Otherwise, $l_1$ must have the form $[x|r_1]$ and $l_2$ has the form $[y|r_2]$.
       Then there is a case distinction with respect to the comparison of $x$ and $y$:
       \begin{enumerate}
       \item $x \preceq y$.
 
-            In this case, we merge $r_1$ and $l_2$ and put $x$ at the beginning of this list:\\[0.2cm]
+            In this case, we merge $r_1$ and $l_2$ and put $x$ at the beginning of this list:
+            \\[0.2cm]
             \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mathtt{merge}\bigl([x]+r_1, [y]+r_2\bigr) = [x] + \mathtt{merge}\bigl(r_1,[y]+r_2\bigr)$.
+            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|r_1], [y|r_2]\bigr) = \bigl[x \bigm| \mathtt{merge}\bigl(r_1,[y|r_2]\bigr)\bigr]$.
       \item $\neg x \preceq y$.
 
-            Now we merge $l_1$ and $r_2$ and put $y$ at the beginning of this list:\\[0.2cm]
+            Now we merge $l_1$ and $r_2$ and put $y$ at the beginning of this list:
+            \\[0.2cm]
             \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x]+r_1, [y]+r_2\bigr) = [y] + \mathtt{merge}\bigl([x] + r_1,r_2\bigr)$.
+            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|r_1], [y|r_2]\bigr) = \bigl[y \bigm| \mathtt{merge}\bigl([x|r_1],r_2\bigr)\bigr]$.
       \end{enumerate}
 \end{enumerate}
 
@@ -643,7 +645,7 @@ The proof is done by induction on $\#l_1 + \#l_2$.
                    $\mathtt{merge}\bigl([x] + r_1, [y] + r_2\bigr) = [x] + \mathtt{merge}\bigl(r_1, [y] + r_2\bigr)$. 
                    \\[0.2cm]
                    Therefore, we have \\
-                   $\mathtt{cmpCount}(l_1, l_2) = 1 + \mathtt{cmpCount}(r_1, l_2) \stackrel{IH}{\leq} 1 + \#r_1 + \#l_2 = \#l_1 + \#l_2$.
+                   $\mathtt{cmpCount}(l_1, l_2) = 1 + \mathtt{cmpCount}(r_1, l_2) \stackrel{ih}{\leq} 1 + \#r_1 + \#l_2 = \#l_1 + \#l_2$.
              \item $\neg x \preceq y$.  This case is similar to the previous case. 
                    \qed
              \end{enumerate}
@@ -734,7 +736,7 @@ reason is that, in \textsc{SetlX}, lists are internally represented as arrays.  
 we evaluate an expression of the form 
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{[ x ] + r}
+\texttt{[x | r]}
 \\[0.2cm]
 the following happens:
 \begin{enumerate}
@@ -742,8 +744,8 @@ the following happens:
 \item The element \texttt{x} is copied to the beginning of this array.
 \item The elements of the list \texttt{r} are copied to the positions following \texttt{x}.
 \end{enumerate}
-Therefore, evaluating \texttt{[x] + r} for a list \texttt{r} of length $n$ requires $\Oh(n)$ data
-movements.  Hence the \textsc{SetlX} programs given up to now are very inefficient.  In order to arrive at an
+Therefore, evaluating \texttt{[x | r]} for a list \texttt{r} of length $n$ requires $\Oh(n)$ data
+movements.  Hence the \textsc{SetlX} programs given up to now are quite inefficient.  In order to arrive at an
 implementation that is more efficient we need to make use of the fact that lists are represented as arrays.
 Figure \ref{fig:merge-sort-array.stlx} on page \pageref{fig:merge-sort-array.stlx} presents
 an implementation of \emph{merge sort} that treats the list $l$ that is to be sorted as an array.
@@ -771,7 +773,7 @@ an implementation of \emph{merge sort} that treats the list $l$ that is to be so
         merge(l, start, middle, end, a); 
     };
     merge := procedure(rw l, start, middle, end, rw a) {    
-        for (i in [start .. end-1]) { a[i] := l[i]; }
+        for (i in [start..end-1]) { a[i] := l[i]; }
         idx1 := start;
         idx2 := middle;
         i    := start;
@@ -807,7 +809,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             the part of \texttt{l} that is given as
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{l[start .. end-1]}. 
+            \texttt{l[start..end-1]}. 
             \\[0.2cm]
             Hence, the parameters \texttt{start} and \texttt{end} are indices specifying the 
             subarray that needs to be sorted.
@@ -826,7 +828,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       This way, the list \texttt{l} is split into the lists 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{l[start .. middle-1]} \quad and \quad \texttt{l[middle .. end-1]}.
+      \texttt{l[start..middle-1]} \quad and \quad \texttt{l[middle..end-1]}.
       \\[0.2cm]
       These two lists have approximately the same size which is half the size of the list \texttt{l}.
 \item Next, the lists \texttt{l[start..middle-1]} and \texttt{l[middle..end-1]} are sorted
@@ -839,11 +841,11 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             that have to be merged.  The first sublist is 
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{l[start .. middle-1]}, 
+            \texttt{l[start..middle-1]}, 
             \\[0.2cm]
             while the second sublist is \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{l[middle .. end-1]}. 
+            \texttt{l[middle..end-1]}. 
       \item The final parameter $a$ is used as an auxiliary array.  It needs to be a list of the
             same size as the list \texttt{l}.
       \end{enumerate}
@@ -910,23 +912,23 @@ The implementation of \emph{merge sort} shown in Figure \ref{fig:merge-sort-arra
 \pageref{fig:merge-sort-array.stlx} is recursive.  Unfortunately, the efficiency of a recursive
 implementation of \emph{merge sort} is suboptimal.  The reason is that function calls are quite
 costly since the arguments of the function have to be placed on a stack.  As a recursive
-implementation has lots of function calls, it is less efficient than an iterative implementation.
-Therefore, we present an iterative implementation of \emph{merge sort} in Figure
+implementation has lots of function calls, it is considerably less efficient than an iterative
+implementation.  Therefore, we present an iterative implementation of \emph{merge sort} in Figure
 \ref{fig:merge-sort-nr.stlx} on page \pageref{fig:merge-sort-nr.stlx}.
 
 Instad of recursive calls of the function \texttt{mergeSort}, this implementation has two nested 
 \texttt{while}-loops.  The idea is to first split the list \texttt{l} into sublists of length 1.
-Obviously, these sublists are already sorted.  Next, we merge these lists in pairs into lists of
+Obviously, these sublists are already sorted.  Next, we merge pairs of these lists into lists of
 length 2.  After that, we take pairs of lists of length 2 and merge them into sorted lists of length
 4. Proceeding in this way we generate sorted lists of length
-$8$, $16$, $\cdots$.  This algorithm only stops when \texttt{l} itself is sorted.
+$8$, $16$, $\cdots$.  This algorithm only stops when the list \texttt{l} itself is sorted.
 
 The precise working of this implementation gets obvious if we formulate the invariants of the
 \texttt{while}-loops.  The invariant of the outer loop states that all sublists of \texttt{l} 
 that have the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[n*k+1 .. n*(k+1)]}
+\texttt{l[n*k+1..n*(k+1)]}
 \\[0.2cm]
 are already sorted.  It is the task of the outer while loop to build pairs of sublists of this kind
 and to merge them into a sublist of length $2 \cdot n$.
@@ -936,12 +938,12 @@ number that is used to numerate the sublists.  The index $k$ of the first sublis
 therefore this sublists has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[1 .. n]},
+\texttt{l[1..n]},
 \\[0.2cm]
 while the second sublist is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[n+1 .. 2*n]}.
+\texttt{l[n+1..2*n]}.
 \\[0.2cm]
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
 of \texttt{l} is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
@@ -993,7 +995,7 @@ algorithm \cite{hoare:61}.  The basic idea is as follows:
 \item If the list $l$ that is to be sorted is empty, we return $l$: 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
-\item Otherwise, we have $l = [x] + r$.  In this case, we split $r$ into two lists $s$ and $b$.
+\item Otherwise, we have $l = [x|r]$.  In this case, we split $r$ into two lists $s$ and $b$.
       The list $s$ ($s$ stands for \underline{s}mall) contains all the elements of $r$ that are less
       or equal than $x$,     while $b$ ($b$ stands for \underline{b}ig) contains
       those elements of $r$ that are bigger than $x$.  The computation of $s$ and $b$ is done by a
@@ -1007,9 +1009,9 @@ algorithm \cite{hoare:61}.  The basic idea is as follows:
       \item $\textsl{partition}(x, []) = \bigl\langle[], []\bigr\rangle$,
       \item \quad 
             $\; y \preceq x\; \wedge \textsl{partition}(x,r) = \bigl\langle s, b \bigr\rangle \rightarrow 
-             \textsl{partition}(x, [y] + r) = \bigl\langle [y] + s,\, b \bigr\rangle$,
+             \textsl{partition}(x, [y|r]) = \bigl\langle [y| s],\, b \bigr\rangle$,
       \item $\neg\, (y \preceq x) \wedge \textsl{partition}(x,r) = \bigl\langle s, b \bigr\rangle \rightarrow 
-             \textsl{partition}(x, [y] + r) = \bigl\langle s,\, [y] + b \bigr\rangle$.
+             \textsl{partition}(x, [y|r]) = \bigl\langle s,\, [y|b] \bigr\rangle$.
       \end{enumerate}
       After partitioning the list $l$ into $s$ and $b$, the lists $s$ and $r$ are sorted
       recursively.  Then, the result is computed by appending the lists $\mathtt{sort}(s)$,
@@ -1017,7 +1019,7 @@ algorithm \cite{hoare:61}.  The basic idea is as follows:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\textsl{partition}(x,r) = \langle s,b \rangle \rightarrow 
-       \textsl{sort}([x] + r) = \textsl{sort}(s) + [x] + \textsl{sort}(b)$.
+       \textsl{sort}([x|r]) = \textsl{sort}(s) + [x] + \textsl{sort}(b)$.
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
 be implemented in \textsc{SetlX}.
@@ -1035,8 +1037,9 @@ be implemented in \textsc{SetlX}.
     sort := procedure(l) {
         match (l) {
             case []   : return [];
-            case [x|r]: [s,b] := partition(x, r);
-                        return sort(s) + [x] + sort(b);
+            case [x|r]: 
+                 [s,b] := partition(x, r);
+                 return sort(s) + [x] + sort(b);
         }
     };
     partition := procedure(p, l) {
@@ -1044,10 +1047,9 @@ be implemented in \textsc{SetlX}.
             case []   : return [ [], [] ];
             case [x|r]: [ r1, r2 ] := partition(p, r);
                         if (x <= p) {
-                            return [ [x] + r1, r2 ];
-                        } else {
-                            return [ r1, [x] + r2 ];
-                        }    
+                            return [ [x|r1], r2 ];
+                        } 
+                        return [ r1, [x|r2] ];
         }
     };
 \end{Verbatim}
@@ -1112,7 +1114,7 @@ This shows that in the worst case, the number of comparisons is as big as it is 
 
 \subsubsection{Average Complexity}
 By this time you probably wonder why the algorithm has been called \emph{quick sort} since, in the worst case,
-it much slower as \emph{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
+it is much slower as \emph{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
 comparisons needed to sort a list of $n$ elements is $\Oh\bigl(n \cdot \log_2(n)\bigr)$. We prove
 this claim next.  Let us first note the following: If $l$ is a list of $n+1$ elements, then the number of elements of the 
 list $s$ that are smaller than or equal to the pivot element $x$ is a member of the set 
@@ -1125,7 +1127,7 @@ comparisons to sort the lists $s$ and $b$ recursively.  If we take the average o
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n+1} = n + \bruch{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
+$\displaystyle d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
 Here, the term $n$ accounts for the number of comparisons needed to compute 
 \\[0.2cm]
@@ -1149,12 +1151,12 @@ holds for any function $f:\mathbb{N} \rightarrow \mathbb{N}$.
 This observation can be used to simplify the recurrence relation (1) as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n+1} = n + \bruch{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
+$\displaystyle d_{n+1} = n + \frac{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
 \\[0.2cm] 
 In order to solve this recurrence relation we substitute $n \mapsto n-1$ and arrive at
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n} = n-1 + \bruch{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
+$\displaystyle d_{n} = n-1 + \frac{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
 \\[0.2cm]
 Next, we multiply equation (3) with $n$ and equation (2) with $n+1$.  This yields the equations
 \\[0.2cm]
@@ -1180,19 +1182,19 @@ In order to exhibit the true structure of this equation we divide by $(n+1) \cdo
 get 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{1}{n+2} \cdot d_{n+1} = \bruch{1}{n+1}\cdot d_{n} + \bruch{2\cdot n}{(n+1)\cdot(n+2)}$. \hspace*{\fill} (6) 
+$\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$. \hspace*{\fill} (6) 
 \\[0.2cm]
 We proceed by computing the 
 \href{http://en.wikipedia.org/wiki/Partial_fraction}{\emph{partial fraction decomposition}}
 of the fraction
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{2\cdot n}{(n+1)\cdot(n+2)}$.
+$\ds\frac{2\cdot n}{(n+1)\cdot(n+2)}$.
 \\[0.2cm] 
 In order to so, we use the \href{http://en.wikipedia.org/wiki/Ansatz}{\emph{ansatz}}
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{2\cdot n}{(n+1)\cdot(n+2)} = \bruch{\alpha}{n+1} + \bruch{\beta}{n+2}$.
+$\ds\frac{2\cdot n}{(n+1)\cdot(n+2)} = \frac{\alpha}{n+1} + \frac{\beta}{n+2}$.
 \\[0.2cm] 
 Multiplying this equation with $(n+1) \cdot (n+2)$ yields
 \\[0.2cm]
@@ -1214,7 +1216,7 @@ If we subtract the first equation from the second equation we arrive at
 Hence, the equation (6) can be written as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{1}{n+2} \cdot d_{n+1} = \bruch{1}{n+1}\cdot d_{n} - \bruch{2}{n+1} + \bruch{4}{n+2}$.  
+$\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} - \frac{2}{n+1} + \frac{4}{n+2}$.  
 \\[0.2cm]  
 In order to simplify this equation, let us define
 \\[0.2cm]
@@ -1224,18 +1226,18 @@ In order to simplify this equation, let us define
 Then the last equation is simplified to
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{n+1} = a_{n} - \bruch{2}{n+1} + \bruch{4}{n+2}$.
+$\ds a_{n+1} = a_{n} - \frac{2}{n+1} + \frac{4}{n+2}$.
 \\[0.2cm] 
 Substituting $n \mapsto n-1$ simplifies this equation: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{n} = a_{n-1} - \bruch{2}{n} + \bruch{4}{n+1}$,
+$\ds a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}$,
 \\[0.2cm] 
-This equation can be rewritten as a sum.  Since $a_0 = \bruch{d_0}{1} = 0$
+This equation can be rewritten as a sum.  Since $a_0 = \frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle a_{n} = 4 \cdot \sum\limits_{i=1}^n \bruch{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \bruch{1}{i}$.  
+$\displaystyle a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{i}$.  
 \\[0.2cm]
 Let us simplify this sum:
 \\[0.2cm]
@@ -1253,7 +1255,7 @@ $
 In order to finalize our computation we have to compute an approximation for the sum
 \\[0.2cm]
 \hspace*{1.3cm}
-$H_n = \displaystyle\sum\limits_{i=1}^{n}\bruch{1}{i}$.
+$H_n = \displaystyle\sum\limits_{i=1}^{n}\frac{1}{i}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
 \href{http://en.wikipedia.org/wiki/Harmonic_number}{\emph{harmonic number}}.
@@ -1273,8 +1275,8 @@ $\gamma = 0.5772156649 \cdots$.
 Therefore, we have found the following approximation for $a_n$:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n = - \bruch{4 \cdot n}{n+1}  + 2 \cdot \ln(n) + \Oh(1) =  2 \cdot \ln(n) + \Oh(1)$,
-\quad as \quad $\bruch{4 \cdot n}{n+1} \in \Oh(1)$.
+$\ds a_n = - \frac{4 \cdot n}{n+1}  + 2 \cdot \ln(n) + \Oh(1) =  2 \cdot \ln(n) + \Oh(1)$,
+\quad as \quad $\ds \frac{4 \cdot n}{n+1} \in \Oh(1)$.
 \\[0.2cm]
 Since we have $d_n = (n+1) \cdot a_{n}$ we can conclude that
 \begin{eqnarray*}  
@@ -1322,7 +1324,7 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
     partition := procedure(start, end, rw l) {
         pivot := l[end];
         left  := start - 1;
-        for (idx in [start .. end-1]) {
+        for (idx in [start..end-1]) {
             if (l[idx] <= pivot) {
                 left += 1;
                 swap(left, idx, l);
@@ -1414,7 +1416,7 @@ There are a number of tricks that can be used to increase the efficiency of \emp
       element from the middle of the list.  Now compare these three elements and take that element as
       a pivot that is between the other two elements.
 
-      The advantage of this strategy is that  worst case performance is much more unlikely to occur.  In
+      The advantage of this strategy is that the worst case performance is much less likely to occur.  In
       particular,  using this strategy the worst case won't occur for a list that is already
       sorted.
 \item If a sublist contains fewer than 10 elements, use \emph{insertion sort} to sort this sublist.
@@ -1491,11 +1493,11 @@ There are a number of tricks that can be used to increase the efficiency of \emp
         case []   : return [ [], [], [] ];
         case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
                     if (x < p1) {
-                        return [ [x] + r1, r2, r3 ];
+                        return [ [x|r1], r2, r3 ];
                     } else if (x <= p2) {
-                        return [ r1, [x] + r2, r3 ];
+                        return [ r1, [x|r2], r3 ];
                     } else {
-                        return [ r1, r2, [x] + r3 ];
+                        return [ r1, r2, [x|r3] ];
                     }
         }
     };

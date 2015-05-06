@@ -12,9 +12,9 @@ partition := procedure(p, l) {
         case []   : return [ [], [] ];
         case [x|r]: [ r1, r2 ] := partition(p, r);
                     if (x <= p) {
-                        return [ [x] + r1, r2 ];
+                        return [ [x|r1], r2 ];
                     } 
-                    return [ r1, [x] + r2 ];
+                    return [ r1, [x|r2] ];
     }
 };
 

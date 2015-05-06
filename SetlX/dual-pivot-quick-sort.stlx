@@ -13,11 +13,11 @@ partition := procedure(p1, p2, l) {
     case []   : return [ [], [], [] ];
     case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
                 if (x < p1) {
-                    return [ [x] + r1, r2, r3 ];
+                    return [ [x|r1], r2, r3 ];
                 } else if (x <= p2) {
-                    return [ r1, [x] + r2, r3 ];
+                    return [ r1, [x|r2], r3 ];
                 } else {
-                    return [ r1, r2, [x] + r3 ];
+                    return [ r1, r2, [x|r3] ];
                 }
     }
 };

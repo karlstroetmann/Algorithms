@@ -2,7 +2,7 @@ sort := procedure(l) {
     if (#l < 2) {
         return l;
     }
-    [ l1, l2 ] := split(l);
+    [l1, l2] := split(l);
     return merge(sort(l1), sort(l2));
 };
 split := procedure(l) {
@@ -10,17 +10,17 @@ split := procedure(l) {
         case []      : return [ [], [] ];
         case [x]     : return [ [x], [] ];
         case [x,y|r] : [r1,r2] := split(r);
-                       return [ [x] + r1, [y] + r2 ];
+                       return [ [x|r1], [y|r2] ];
     }
 };
 merge := procedure(l1, l2) {
     match ([l1, l2]) {
-        case [ [], l2 ]         : return l2;
-        case [ l1, [] ]         : return l1;
+        case [     [],     l2 ] : return l2;
+        case [     l1,     [] ] : return l1;
         case [ [x|r1], [y|r2] ] : if (x <= y) {
-                                      return [x] + merge(r1, l2);
+                                      return [x | merge(r1, l2)];
                                   } else {
-                                      return [y] + merge(l1, r2);
+                                      return [y | merge(l1, r2)];
                                   }
     }
 };
