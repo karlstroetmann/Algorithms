@@ -81,4 +81,4 @@ sameElements := procedure(l, s) {
 
 demo();
 
-testSort(100, 20);
+testSort(100, 200);
