@@ -1018,8 +1018,8 @@ algorithm \cite{hoare:61}.  The basic idea is as follows:
       $[x]$, and $\mathtt{sort}(b)$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{partition}(x,r) = \langle s,b \rangle \rightarrow 
-       \textsl{sort}([x|r]) = \textsl{sort}(s) + [x] + \textsl{sort}(b)$.
+     \colorbox{orange}{$\textsl{partition}(x,r) = \langle s,b \rangle \rightarrow 
+       \textsl{sort}([x|r]) = \textsl{sort}(s) + [x] + \textsl{sort}(b)$.}
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
 be implemented in \textsc{SetlX}.
@@ -1141,13 +1141,13 @@ In order to simplify the recurrence relation (1) we note that
 $
 \begin{array}[t]{lcl}
  \displaystyle
- \sum\limits_{i=0}^n f(n-i) & = & f(n) + f(n-1) + \cdots + f(1) + f(0) \\[0.2cm]
-                    & = & f(0) + f(1) + \cdots + f(n-1) + f(n) \\[0.2cm]
-                    & = & \displaystyle \sum\limits_{i=0}^n f(i) 
+ \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0 \\[0.2cm]
+                    & = & a_0 + a_1 + \cdots + a_{n-1} + a_n \\[0.2cm]
+                    & = & \displaystyle \sum\limits_{i=0}^n a_i 
 \end{array}
 $
 \\[0.2cm]
-holds for any function $f:\mathbb{N} \rightarrow \mathbb{N}$.
+holds for any sequence $(a_n)_{n\in\mathbb{N}}$.
 This observation can be used to simplify the recurrence relation (1) as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1233,7 +1233,7 @@ Substituting $n \mapsto n-1$ simplifies this equation:
 \hspace*{1.3cm}
 $\ds a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}$,
 \\[0.2cm] 
-This equation can be rewritten as a sum.  Since $a_0 = \frac{d_0}{1} = 0$
+This equation can be rewritten as a sum.  Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}

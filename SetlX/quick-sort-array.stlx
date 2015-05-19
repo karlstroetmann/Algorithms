@@ -2,7 +2,6 @@
 sort := procedure(rw l) {
     quickSort(1, #l, l);
 };
-
 // sort the sublist l[a, b] in place
 // a: start index, b: end index
 quickSort := procedure(a, b, rw l) {
@@ -13,7 +12,6 @@ quickSort := procedure(a, b, rw l) {
     quickSort(a, m - 1, l);
     quickSort(m + 1, b, l);
 };
-
 // Partition the sublist l[start, end] using l[end] as a pivot element.
 // The for-loop maintains the following invariants:
 // (a) forall i in {start  .. left } : l[i] <= pivot
@@ -40,7 +38,7 @@ swap := procedure(x, y, rw l) {
 demo := procedure() {
     l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
     print("l = $l$");
-    sort(l);
+    sort(l);l
     print("l = $l$");
 };
 

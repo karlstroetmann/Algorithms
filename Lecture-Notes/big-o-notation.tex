@@ -1035,17 +1035,29 @@ $n = \beta^k$ \quad for some $k \in \mathbb{N}$.
 \\[0.2cm]
 The general case is similar, but is technically much more involved.
 Observe that the equation $n = \beta^k$ implies $k = \log_{\beta}(n)$.  We will need this equation later. 
-We define $a_k := f(n) = f\bigl(\beta^k\bigr)$.  Then the recurrence relation for the function $f$
+Furthermore, in order to simplify our exposition even further, we assume that the recurrence
+relation for $f$ has the form 
+\\[0.2cm]
+\hspace*{1.3cm}
+ $f(n) = \alpha \cdot f\left(n \backslash \beta\right) + n^\delta$,
+\\[0.2cm]
+i.e.~instead of adding the term $\Oh\bigl(n^\delta\bigr)$ we just add $n^\delta$.  These
+simplifications do not change the proof idea.  We start the proof by defining
+\\[0.2cm]
+\hspace*{1.3cm}
+ $a_k := f(n) = f\bigl(\beta^k\bigr)$.  
+\\[0.2cm]
+Then the recurrence relation for the function $f$
 is transformed into a recurrence relation for the sequence $a_k$ as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
 a_k & = & f\bigl(\beta^{k}\bigr)                                             \\[0.2cm]
-    & = & \alpha \cdot f\bigl(\beta^{k} \backslash \beta\bigr) + \Oh\Bigl(\bigl(\beta^{k}\bigr)^\delta\Bigr)    \\[0.2cm]
-    & = & \alpha \cdot f\bigl(\beta^{k-1}\bigr) + \Oh\bigl(\beta^{k \cdot \delta}\bigr)    \\[0.2cm]
-    & = & \alpha \cdot a_{k-1} + \Oh\bigl(\beta^{k \cdot \delta}\bigr)    \\[0.2cm]
-    & = & \alpha \cdot a_{k-1} + \Oh\Bigl(\bigl(\beta^{\delta}\bigr)^k\Bigr)    \\[0.2cm]
+    & = & \alpha \cdot f\bigl(\beta^{k} \backslash \beta\bigr) + \bigl(\beta^{k}\bigr)^\delta    \\[0.2cm]
+    & = & \alpha \cdot f\bigl(\beta^{k-1}\bigr) + \beta^{k \cdot \delta}    \\[0.2cm]
+    & = & \alpha \cdot a_{k-1} + \beta^{k \cdot \delta}    \\[0.2cm]
+    & = & \alpha \cdot a_{k-1} + \bigl(\beta^{\delta}\bigr)^k    \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1057,37 +1069,37 @@ $\gamma := \beta^{\delta}$.
 Then, the recurrence relation for the sequence $a_k$ can be written as
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_k = \alpha \cdot a_{k-1} + \Oh\bigl(\gamma^k\bigr)$.
+$a_k = \alpha \cdot a_{k-1} + \gamma^k$.
 \\[0.2cm]
 Let us substitute $k-1$ for $k$ in this equation.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{k-1} = \alpha \cdot a_{k-2} + \Oh\bigl(\gamma^{k-1}\bigr)$.
+$a_{k-1} = \alpha \cdot a_{k-2} + \gamma^{k-1}$.
 \\[0.2cm]
 Next, we plug the value of $a_{k-1}$ into the equation for $a_k$.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
-  a_k & = & \alpha \cdot a_{k-1} + \Oh\bigl(\gamma^k\bigr)  \\[0.2cm]
-      & = & \alpha \cdot \Bigl(\alpha \cdot a_{k-2} + \Oh\bigl(\gamma^{k-1}\bigr)\Bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr). \\[0.2cm]
+  a_k & = & \alpha \cdot a_{k-1} + \gamma^k  \\[0.2cm]
+      & = & \alpha \cdot \bigl(\alpha \cdot a_{k-2} + \gamma^{k-1}\bigr) + \gamma^k \\[0.2cm]
+      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k. \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
 We observe that 
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{k-2} = \alpha \cdot a_{k-3} + \Oh\bigl(\gamma^{k-2}\bigr)$
+$a_{k-2} = \alpha \cdot a_{k-3} + \gamma^{k-2}$
 \\[0.2cm]
 holds and substitute the right hand side of this equation into the previous equation.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
-  a_k & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-      & = & \alpha^2 \cdot \Bigl(\alpha \cdot a_{k-3} + \Oh\bigl(\gamma^{k-2}\bigr)\Bigr) + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \Oh\bigl(\gamma^{k-2}\bigr) + \alpha \cdot \Oh\bigl(\gamma^{k-1}\bigr) + \alpha^0 \cdot \Oh\bigl(\gamma^k\bigr). \\[0.2cm]
+  a_k & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k \\[0.2cm]
+      & = & \alpha^2 \cdot \bigl(\alpha \cdot a_{k-3} + \gamma^{k-2}\bigr) + \alpha \cdot \gamma^{k-1} + \gamma^k \\[0.2cm]
+      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \gamma^{k-2} + \alpha \cdot \gamma^{k-1} + \alpha^0 \cdot \gamma^k. \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1096,8 +1108,8 @@ Proceeding in this way we arrive at the general formula
 \hspace*{1.3cm}
 $
 \begin{array}[b]{lcl}
-a_k & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \alpha^{i} \cdot \Oh\bigl(\gamma^{k-i}\bigr) + \alpha^{i-1} \cdot \Oh\bigl(\gamma^{k-(i-1)}\bigr) + \cdots + \alpha^0 \cdot \Oh\bigl(\gamma^k\bigr) \\[0.2cm]
-    & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \sum\limits_{j=0}^i \alpha^{j} \cdot \Oh\bigl(\gamma^{k-j}\bigr). \\[0.2cm]
+a_k & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \alpha^{i} \cdot \gamma^{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \cdots + \alpha^0 \cdot \gamma^k \\[0.2cm]
+    & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \sum\limits_{j=0}^i \alpha^{j} \cdot \gamma^{k-j}. \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1106,8 +1118,8 @@ If we take this formula and substitute $i + 1 := k$, i.e.~$i := k - 1$, then we 
 \hspace*{1.3cm}
 $\displaystyle 
 \begin{array}[b]{lcl}
-a_k & = & \alpha^{k} \cdot a_{0} + \sum\limits_{j=0}^{k-1} \alpha^{j} \cdot \Oh\bigl(\gamma^{k-j}\bigr) \\[0.5cm]
-    & = & \alpha^{k} \cdot a_{0} + \Oh\biggl(\gamma^k \cdot \sum\limits_{j=0}^{k-1} \Bigl(\displaystyle\frac{\,\alpha\,}{\gamma}\Bigr)^j\biggr).  \\[0.2cm]
+a_k & = & \ds\alpha^{k} \cdot a_{0} + \sum\limits_{j=0}^{k-1} \alpha^{j} \cdot \gamma^{k-j} \\[0.5cm]
+    & = & \ds\alpha^{k} \cdot a_{0} + \gamma^k \cdot \sum\limits_{j=0}^{k-1} \Bigl(\displaystyle\frac{\,\alpha\,}{\gamma}\Bigr)^j.  \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1199,12 +1211,12 @@ In order to proceed, we have to perform a case distinction:
       In this case we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\Bigl(\bigl(\frac{\alpha}{\gamma}\bigr)^k\Bigr)$.
+      $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\biggl(\Bigl(\frac{\alpha}{\gamma}\Bigr)^k\biggr)$.
       \\[0.2cm]
       Therefore, we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $a_k = \alpha^k\cdot a_0 + \Oh\Bigl(\gamma^k \cdot \bigl(\frac{\alpha}{\gamma}\bigr)^k\bigr) = \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)$.
+      $a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \bigl(\frac{\alpha}{\gamma}\bigr)^k = \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)$.
       \\[0.2cm] 
       Since $\alpha^k \cdot a_0 \in \Oh\bigl(\alpha^k\bigr)$, we have shown that
       \\[0.2cm]
@@ -1384,7 +1396,6 @@ big $\Oh$ notation is the right tool to use.  However, sometimes we want to stat
 the complexity of a problem.  For example, it can be shown that every comparison based sort algorithm needs at least
 $n \cdot \log_2(n)$ comparisons to sort a list of length $n$.  In order to be able to express lower
 bounds concisely, we introduce the big $\Omega$ notation next.
-\pagebreak
 
 \begin{Definition}[$\Omega(g)$] 
   Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that grow 
