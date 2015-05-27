@@ -834,7 +834,7 @@ Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx}.  During the proo
 use of the fact that for all positive natural numbers $a$ and $b$ the equation
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{gcd}(a, b) = \mathtt{gcd}(a \,\texttt{\%}\, b, b)$
+$\mathtt{gcd}(x, y) = \mathtt{gcd}(x \,\texttt{\%}\, y, y)$
 \\[0.2cm]
 is valid.  
 
@@ -849,11 +849,11 @@ is valid.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    gcd := procedure(a, b) {
-        while (b != 0) {
-            [a, b] := [b, a % b];
+    gcd := procedure(x, y) {
+        while (y != 0) {
+            [x, y] := [y, x % y];
         }
-        return a;
+        return x;
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
