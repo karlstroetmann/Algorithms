@@ -1,126 +1,144 @@
 \chapter{Sets and Maps}
-Wir haben bereits im ersten Semester gesehen, wie wichtig Mengen und funktionale Relationen, die wir
-im Folgenden als Abbildungen bezeichnen werden, in
-der Informatik sind.  In diesem Kapitel zeigen wir, wie sich Mengen und Abbildungen
-effizient implementieren lassen.  Wir können uns dabei auf Abbildungen beschränken, denn eine
-Menge $M$ lässt sich immer als eine Abbildung $f$ in die Menge $\{\mathtt{true}, \mathtt{false}\}$
-darstellen, wenn wir
+During the first term we have seen how important sets and functional relations are.  In the
+following, functional relations will be called \emph{maps}.  In this chapter we show how sets and
+maps can be implemented efficiently.  We confine our attention to the implementation of maps.  The
+reason is that a set $M$ can always be represented by its \emph{characteristic function}:  If $M$ is
+a set, then the characteristic function $\chi_M$ is defined such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$x \in M \; \stackrel{\textrm{\scriptsize def}}{\Longleftrightarrow} \; f(x) = \mathtt{true}$
+$x \in M \Leftrightarrow \chi_M(x) = \mathtt{true}$
 \\[0.2cm]
-definieren.  Der Rest dieses Kapitels ist wie folgt aufgebaut:
+holds true.  In order to implement a set $M$ we can therefore implement its characteristic function
+as a map.  The rest of this chapter is organized as follows:
 \begin{enumerate}
-\item Zunächst definieren wir den abstrakten Daten-Typ der \emph{Abbildungen}.
-
-      Anschließend stellen wir verschiedene Implementierungen dieses Daten-Typs vor.
-
-\item Wir beginnen mit geordneten binären Bäumen.  Die durchschnittliche 
-      Komplexität beim Einfügen eines Elements ist logarithmisch.  Leider wächst
-      die Komplexität im schlechtesten Fall linear mit der Anzahl der Enträge.
-\item Wir betrachten als nächstes \emph{balancierte binäre Bäume}.  Bei diesen wächst die Komplexität der
-      Operationen auch im schlechtesten Fall nur logarithmisch mit der Zahl der Einträge.
-\item Anschließend betrachten wir die Daten-Struktur der \emph{Tries}, die dann verwendet
-      werden kann, wenn die Schlüssel, nach denen gesucht werden soll, Strings sind.
-\item \textsl{Hash-Tabellen} stellen eine weitere Möglichkeit zur Implementierung
-      von Abbildungen dar und werden im vierten Abschnitt diskutiert.
+\item We begin with the definition of the abstract data type of a \emph{map.}
+    
+      Following this definition we present several different implementations of maps. 
+\item We start our discussion with \emph{ordered binary trees}.  The average complexity of inserting
+      an element into an ordered binary tree is logarithmic.  Unfortunately, the worst case complexity
+      is linear in the size of the ordered binary tree.
+\item Next, we discuss \emph{balanced ordered trees}.  In the case of balanced ordered trees the
+      complexity of insertion is always logarithmic.
+\item After that, we discuss so called \emph{tries}.  These can be used as maps if the keys to be
+      stored in the map are strings.
+\item Finally, we discuss \textsl{hash tables}.  Hash tables provide another way to implement a map.
+      Although I personally think that hash tables are a bit overrated, they are in wide spread use
+      and therefore every computer scientist should have a good understanding of their inner workings.
 \end{enumerate}
 
-\section[ADT Map]{Der abstrakte Daten-Typ der \emph{Abbildung}} 
-In vielen Anwendungen der Informatik spielen \emph{Abbildungen} einer Menge von
-sogenannten \emph{Schlüsseln} in eine Menge von sogenannten \emph{Werten} eine wichtige
-Rolle. Als ein Beispiel betrachten wir ein elektronisches Telefon-Buch wie es
-beispielsweise von einem Handy zur Verfügung gestellt wird.  Die wesentlichen
-Funktionen, die ein solches Telefon-Buch anbietet, sind:
+\section[ADT Map]{The Abstract Data Type \emph{Map}} 
+Many applications require the efficient maintenance of some mapping of \emph{keys} to
+\emph{values}.  For example, in order to implement a software analog of a telephone book we have to
+be able to associate numbers with names.  In this case, the name of a person is regarded as a
+\emph{key} and the telephone number is the value that gets associated with the key.
+The most important functions provided by a telephone directory are the following:
 \begin{enumerate}
-\item Nachschlagen eines gegebenen Namens und Ausgabe der diesem Namen zugeordneten
-      Telefon-Nummer.
-\item Einfügen eines neuen Eintrags mit Namen und Telefon-Nummer.
-\item Löschen eines vorhandenen Eintrags.
+\item \textsl{Lookup}: We have to be able to look up a given name and return the telephone number
+      associated with this name.
+\item \textsl{Insertion}: We need to be able to insert a new name and the corresponding telephone
+      number into our directory.
+\item \textsl{Deletion}: The final requirement is that it has to be possible to delete names from
+      the directory.
 \end{enumerate}
-Im Falle des Telefon-Buchs sind die \emph{Schlüssel} die Namen und die \emph{Werte} sind
-die Telefon-Nummern.  
 
-\begin{Definition}[Abbildung] \hspace*{\fill} \\
+
+\begin{Definition}[Map] \hspace*{\fill} \\
 {\em
-  Wir definieren den abstrakten Daten-Typ der \emph{Abbildung} wie folgt:
+  The abstract data type of a \emph{map} is defined as follows:
   \begin{enumerate}
-  \item Als Namen wählen wir \textsl{Map}.
-  \item Die Menge der Typ-Parameter ist $\{ \textsl{Key}, \textsl{Value} \}$.
-  \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
+  \item The name is \textsl{Map}.
+  \item The set of type parameters is $\{ \textsl{Key}, \textsl{Value} \}$.
+  \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
        $\{ \textsl{map}, \textsl{find}, \textsl{insert}, \textsl{delete} \}$.
-  \item Die Typ-Spezifikationen der Funktions-Zeichen sind gegeben durch:
+  \item The signatures of these function symbols are as follows:
         \begin{enumerate}
         \item $\textsl{map}: \textsl{Map}$
 
-              Der Aufruf $\textsl{Map}()$ erzeugt eine leere Abbildung, also
-              eine Abbildung, in der keine Werte gespeichert sind.
+              Calling $\textsl{map}()$ generates a new empty map.  Here, an empty map is a map that
+              does not store any keys.
         \item $\textsl{find}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{\Omega\}$
 
-              Der Aufruf $m.\textsl{find}(k)$ überprüft, ob in der Abbildung $m$
-              zu dem Schlüssel $k$ ein Wert abgespeichert ist.  Wenn ja, wird dieser Wert
-              zurück gegeben, sonst wird der Wert $\Omega$ zurück gegeben.
+              The function call
+              \\[0.2cm]
+              \hspace*{1.3cm}
+              $m.\textsl{find}(k)$ 
+              \\[0.2cm]
+              checks whether the key $k$ is stored in the map $m$.  If this is the case, the
+              value associated with this key is returned, otherwise the function call returns
+              the special value $\Omega$.
         \item $\textsl{insert}: \textsl{Map} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{Map}$
 
-              Der Aufruf $m.\textsl{insert}(k,v)$ fügt in der Abbildung $m$
-              für den Schlüssel $k$ den Wert $v$ ein.  Falls zu dem Schlüssel $k$ bereits
-              ein Eintrag in der Abbildung $m$ existiert, so wird dieser überschrieben.
-              Andernfalls wird ein entsprechender Eintrag neu angelegt.
-              Als Ergebnis wird die geänderte Abbildung zurück gegeben.
+              The function call
+              \\[0.2cm]
+              \hspace*{1.3cm}
+              $m.\textsl{insert}(k,v)$ 
+              \\[0.2cm]
+              takes a key $k$ and an associated value $v$ and stores this information into the map
+              $m$.  If the map $m$ already stores a values associated with the key $k$, this value
+              is overwritten.  
+
+              The function call returns the resulting map.
         \item $\textsl{delete}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Map}$
 
-              Der Aufruf $m.\textsl{delete}(k)$ entfernt den Eintrag zu dem Schlüssel $k$
-              in der Abbildung $m$.  Falls kein solcher Eintrag existiert, bleibt die 
-              Abbildung $m$ unverändert.  Als Ergebnis wird die eventuell geänderte
-              Abbildung zurück gegeben.
+              The function call
+              \\[0.2cm]
+              \hspace*{1.3cm}
+              $m.\textsl{delete}(k)$ 
+              \\[0.2cm]
+              removes the key $k$ from the map $m$.  If the map $m$ does not contain a value for the
+              key $k$, then the unchanged map is returned.
+
+              The function call returns the new map. 
         \end{enumerate}
-  \item Das genaue Verhalten der Funktionen wird durch die nachfolgenden Axiome
-        spezifiziert.
+  \item The behavior of a map is specified via the following axioms.
         \begin{enumerate}
-        \item $\textsl{map}().\textsl{find}(k) = \Omega$,
+        \item $\textsl{map}().\textsl{find}(k) = \Omega$.
 
-              denn der Aufruf $\textsl{map}()$ erzeugt eine leere Abbildung, in der sich
-              zu keinem Schlüssel ein Wert findet.
-        \item $m.\textsl{insert}(k, v).\textsl{find}(k) = v$,
+              Calling $\textsl{map}()$ generates an empty map which does not have any keys stored.
+              Hence, looking up any key will just return the undefined value.
+        \item $m.\textsl{insert}(k, v).\textsl{find}(k) = v$.
 
-              denn wenn wir zu dem Schlüssel $k$ einen Wert $v$ einfügen, so finden 
-              wir anschließend eben diesen Wert $v$, wenn wir nach $k$ suchen.
-        \item $k_1 \not= k_2 \rightarrow 
-               m.\textsl{insert}(k_1, v).\textsl{find}(k_2) = m.\textsl{find}(k_2)$,
+              If a value $v$ is inserted for a key $k$, then when we look up this key $k$ the corresponding value
+              $v$ will be returned.
+        \item $k_1 \not= k_2 \rightarrow m.\textsl{insert}(k_1, v).\textsl{find}(k_2) = m.\textsl{find}(k_2)$.
 
-              denn wenn wir für einen Schlüssel $k_1$ einen Wert einfügen, so ändert das
-              nichts an dem Wert, der für einen anderen Schlüssel $k_2$ abgespeichert ist.
-        \item $m.\textsl{delete}(k).\textsl{find}(k\bigr) = \Omega$,
+              If a value is inserted for a key $k_1$, then this does not change the values that are stored
+              for any key that is different from $k_1$.
+        \item $m.\textsl{delete}(k).\textsl{find}(k\bigr) = \Omega$.
 
-              denn wenn wir einen Schlüssel $k$ löschen, so finden wir anschließend auch
-              keinen Wert mehr, der unter dem Schlüssel $k$ abgespeichert ist.
+              If the key $k$ is deleted, then afterwords we won't find this key anymore.
         \item $k_1 \not= k_2 \rightarrow 
                m.\textsl{delete}(k_1).\textsl{find}(k_2) = m.\textsl{find}(k_2)$,
 
-              denn wenn wir einen Schlüssel $k_1$ löschen, so ändert das nichts an dem
-              Wert, der unter einem anderen Schlüssel $k_2$ abgespeichert ist. \hspace*{\fill} $\Box$
+              If  we delete a key $k_1$ and then try to look up the information stored under a key
+              $k_2$ that is different from $k_1$, we will get the same result that we would have got
+              if we had searched for $k_2$ before deleting $k_1$.
+              \eox
         \end{enumerate}
   \end{enumerate}
 }
 \end{Definition}
 
-Es ist in \textsc{SetlX} sehr einfach, den ADT \textsl{Abbildung} zu implementieren.
-Dazu müssen wir uns nur klar machen, dass Abbildungen nichts anderes sind als Funktionen
-und die können wir in der Mengenlehre durch binäre Relationen darstellen.
-Ist $r$ eine binäre Relation die genau ein Paar der Form $[k,v]$ enthält, bei dem die
-erste Komponente den Wert $k$ hat, dann liefert der Ausdruck \\[0.1cm]
+In \textsc{SetlX} it is very easy to implement the abstract data type  \textsl{map}.  We just have
+to realize that a map is the same thing as a function and we have already seen that functions can
+be interpreted as binary relations.
+Now if $r$ is a binary relation that, for a given key $k$,  contains exactly one pair of the form
+$[k,v]$, then the expression
+\\[0.1cm]
 \hspace*{1.3cm} $r[k]$
 \\[0.1cm]
-als Ergebnis den Wert $v$.  Umgekehrt wird durch den Aufruf \\[0.1cm]
-\hspace*{1.3cm} $r[k] := v$ \\[0.1cm]
-das Paar $[k,v]$ in die Relation $r$ eingefügt.  Um den Eintrag unter einem Schlüssel $k$
-zu löschen, reicht es aus, dem Schlüssel $k$ den undefinierten Wert $\Omega$ zuzuweisen: \\[0.1cm]
+returns the value $v$.  On the other hand we can insert the pair $[k,v]$ into the relation $r$ by
+writing
+\\[0.1cm]
+\hspace*{1.3cm} $r[k] := v$\texttt{;} \\[0.1cm]
+In order to delete the value stored for a key  $k$ it is sufficient to assign the undefined value
+$\Omega$ to the key $k$ as follows: \\[0.1cm]
 \hspace*{1.3cm} $r[k] := \mathtt{om}$. \\[0.1cm]
-Dieser Wert wird auch bei der Auswertung des Ausdrucks $r[k]$ zurück gegeben, wenn die
-binäre Relation kein Paar der Form $[k,v]$ enthält.
-Abbildung \ref{fig:map-trivial.stlx} zeigt
-eine Implementierung des ADT Abbildung, die diese Überlegungen unmittelbar umsetzt.
+This value $\Omega$ is also the value that is returned by the expression  $r[k]$ if
+the binary  relation $r$ has no pair of the form $[k,v]$.
+Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along these lines.
+
 
 \begin{figure}[!ht]
   \centering
@@ -142,7 +160,7 @@ eine Implementierung des ADT Abbildung, die diese Überlegungen unmittelbar umset
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Eine triviale Implementierung des ADT \textsl{Map} in \textsc{SetlX}.}
+  \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsc{SetlX}.}
   \label{fig:map-trivial.stlx}
 \end{figure} 
 
