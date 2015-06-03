@@ -1,4 +1,3 @@
-// A list based implementation of quick sort.
 sort := procedure(l) {
     match (l) {
     case []     : return [];

@@ -2,8 +2,6 @@ sort := procedure(rw l) {
     a := l;
     mergeSort(l, 1, #l + 1, a); 
 };
-// Sort list l in place starting at index start up to but not including
-// index end.  The list a is used as an auxilliary field.
 mergeSort := procedure(rw l, start, end, rw a) {
     if (end - start < 2) { return; }
     middle := (start + end) \ 2;

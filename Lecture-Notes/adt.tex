@@ -777,11 +777,20 @@ In the following exercise, your task is to extend the program for evaluation ari
       \hspace*{1.3cm}
       \texttt{sqrt}, \texttt{exp}, and \texttt{log}.
 \item Extend the given program so that the arithmetic expressions may also contain 
-      the strings ``\texttt{e}'' and ``\texttt{pi}'', where ``\texttt{e}'' stands for 
+      the strings ``\texttt{e}'' and ``\texttt{Pi}'', where ``\texttt{e}'' stands for 
       \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{Euler's number} 
-      while ``\texttt{pi}'' stands for the mathematical constant
+      while ``\texttt{Pi}'' stands for the mathematical constant
       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
       circle to its diameter. 
+
+      Note that these constants can be accessed in \textsc{setlX} via the function \texttt{mathConst}.
+      For example, the function calls
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{mathConst(\symbol{34}e\symbol{34})} \quad and \quad
+      \texttt{mathConst(\symbol{34}Pi\symbol{34})} 
+      \\[0.2cm]
+      yield the result $2.718281828459045$ and $3.141592653589793$ respectively.
 \item Extend the program so that it can be used to calculate a zero for a given function in a given
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
       \eox
