@@ -14,7 +14,8 @@ as a map.  The rest of this chapter is organized as follows:
 \item We begin with the definition of the abstract data type of a \emph{map.}
     
       Following this definition we present several different implementations of maps. 
-\item We start our discussion with \emph{ordered binary trees}.  The average complexity of inserting
+\item We start our discussion with \emph{ordered binary trees}.  These trees can be used to implement map,
+      provided the keys are ordered.        The average complexity of inserting
       an element into an ordered binary tree is logarithmic.  Unfortunately, the worst case complexity
       is linear in the size of the ordered binary tree.
 \item Next, we discuss \emph{balanced ordered trees}.  In the case of balanced ordered trees the
@@ -66,7 +67,7 @@ The most important functions provided by a telephone directory are the following
               \\[0.2cm]
               checks whether the key $k$ is stored in the map $m$.  If this is the case, the
               value associated with this key is returned, otherwise the function call returns
-              the special value $\Omega$.
+              the undefined value $\Omega$.
         \item $\textsl{insert}: \textsl{Map} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{Map}$
 
               The function call
@@ -86,8 +87,8 @@ The most important functions provided by a telephone directory are the following
               \hspace*{1.3cm}
               $m.\textsl{delete}(k)$ 
               \\[0.2cm]
-              removes the key $k$ from the map $m$.  If the map $m$ does not contain a value for the
-              key $k$, then the unchanged map is returned.
+              removes the key $k$ and any value associated with $k$ from the map $m$.  If the map $m$ does not contain a value for the
+              key $k$, then the map is returned unchanged.
 
               The function call returns the new map. 
         \end{enumerate}
@@ -96,15 +97,15 @@ The most important functions provided by a telephone directory are the following
         \item $\textsl{map}().\textsl{find}(k) = \Omega$.
 
               Calling $\textsl{map}()$ generates an empty map which does not have any keys stored.
-              Hence, looking up any key will just return the undefined value.
+              Hence, looking up any key in the empty map will just return the undefined value.
         \item $m.\textsl{insert}(k, v).\textsl{find}(k) = v$.
 
               If a value $v$ is inserted for a key $k$, then when we look up this key $k$ the corresponding value
               $v$ will be returned.
         \item $k_1 \not= k_2 \rightarrow m.\textsl{insert}(k_1, v).\textsl{find}(k_2) = m.\textsl{find}(k_2)$.
 
-              If a value is inserted for a key $k_1$, then this does not change the values that are stored
-              for any key that is different from $k_1$.
+              If a value is inserted for a key $k_1$, then this does not change the value that is stored
+              for any key $k_2$  different from $k_1$.
         \item $m.\textsl{delete}(k).\textsl{find}(k\bigr) = \Omega$.
 
               If the key $k$ is deleted, then afterwords we won't find this key anymore.
@@ -112,7 +113,7 @@ The most important functions provided by a telephone directory are the following
                m.\textsl{delete}(k_1).\textsl{find}(k_2) = m.\textsl{find}(k_2)$,
 
               If  we delete a key $k_1$ and then try to look up the information stored under a key
-              $k_2$ that is different from $k_1$, we will get the same result that we would have got
+              $k_2$ that is different from $k_1$, we will get the same result that we would have gotten
               if we had searched for $k_2$ before deleting $k_1$.
               \eox
         \end{enumerate}
@@ -132,9 +133,9 @@ returns the value $v$.  On the other hand we can insert the pair $[k,v]$ into th
 writing
 \\[0.1cm]
 \hspace*{1.3cm} $r[k] := v$\texttt{;} \\[0.1cm]
-In order to delete the value stored for a key  $k$ it is sufficient to assign the undefined value
+and in order to delete the value stored for a key  $k$ it is sufficient to assign the undefined value
 $\Omega$ to the key $k$ as follows: \\[0.1cm]
-\hspace*{1.3cm} $r[k] := \mathtt{om}$. \\[0.1cm]
+\hspace*{1.3cm} $r[k] := \mathtt{om;}$. \\[0.1cm]
 This value $\Omega$ is also the value that is returned by the expression  $r[k]$ if
 the binary  relation $r$ has no pair of the form $[k,v]$.
 Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along these lines.
@@ -166,7 +167,7 @@ Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along thes
 
 
 \section{Geordnete binäre Bäume}
-Falls auf der Menge \textsl{Key} der Schlüssel eine totale Ordnung $\leq$ existiert, so kann
+Falls auf der Menge \textsl{Key} der Schlüssel eine totale Ordnung $\leq$ existiert, kann
 eine einfache und zumindest im statistischen Durchschnitt effiziente Implementierung des
 abstrakte Daten-Typs \textsl{Map} mit Hilfe \emph{geordneter binärer Bäume} erfolgen.
 Um diesen Begriff definieren zu können, führen wir zunächst \emph{binäre Bäume} ein.
@@ -542,28 +543,28 @@ binary trees.  We discuss the implementation of this class next.
 \end{figure}
 
 
-\subsection{Analyse der Komplexität}
+\subsection{Analysis of the Complexity}
 In this section we will first discuss the worst case complexity, which is quite bad.  In fact, in
 the worst case, the call $b.\mathtt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
 binary search tree of $n$ elements.  After that, we investigate the average case complexity.  We
 will show that the average case complexity is $\Oh\bigr(\ln(n)\bigr)$.
 
 \subsubsection{Worst Case Complexity}
-Wir untersuchen zunächst die Komplexität der Funktion \textsl{find} im schlechtesten Fall.
-Dieser Fall tritt dann ein, wenn der binäre Baum zu einer Liste entartet.  Abbildung
-\ref{fig:degenerated} auf Seite \pageref{fig:degenerated} zeigt den geordneten binären Baum, der
-dann entsteht, wenn die Paare aus Schlüssel und Werten aus der Abbildung
-\ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
-größten Schlüssel gesucht, so muss der komplette Baum durchlaufen werden.  Enthält der Baum
-$n$ Schlüssel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
-geordneter binärer Baum also nicht besser als eine Liste.
+We begin our investigation of the complexity with an analysis of the complexity of $b.\textsl{find}(k)$ 
+in the worst case.  The worst case happens if the binary tree $b$ degenerates into a list.
+Figure \ref{fig:degenerated} on page \pageref{fig:degenerated} shows the ordered binary tree that
+is generated if the keys are inserted in increasing order.  If we then have to search for the
+biggest key, we have to traverse the complete tree in order to find this key.  Therefore, if the
+tree $b$ contains $n$ different keys, we have to compare the key $k$ that we are looking for to all
+of these $n$ keys in the tree.  Hence, in this case the complexity of $b.\textsl{find}(k)$ is 
+$\Oh(n)$ and this is the same complexity that we would have gotten if we had used a linked list.
+
 
 \subsubsection{Average Case Complexity}
-Erfreulicherweise tritt der schlechteste Fall im statistischen Durchschnitt selten auf.
-Im Durchschnitt ist ein zufällig erzeugter binärer Baum recht gut balanciert, so dass 
-beispielsweise für einen Aufruf von \texttt{find()} für einen Baum mit $n$ Schlüsseln
-durchschnittlich  $\Oh\bigl(\ln(n)\bigr)$
-Vergleiche erforderlich sind. Wir werden diese Behauptung nun beweisen.
+Fortunately, the worst case has a very small probability to occur. On average, a randomly generated
+binary tree is quite well balanced.  We will show next that the number of comparisons necessary for
+the function call $b.\textsl{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.  
+
 
 %Dazu definieren wir auf binären Bäumen zunächst eine Funktion 
 %\[ \textsl{height}: \Bin \rightarrow \N, \]
@@ -622,89 +623,87 @@ Vergleiche erforderlich sind. Wir werden diese Behauptung nun beweisen.
 %\textsl{insert} und \textsl{delete}, denn bei einem Baum der Höhe $h$ sind für jede dieser
 %Operationen höchstens $h$ Vergleiche von Schlüsseln erforderlich.
 
-Wir bezeichnen die \underline{durchschnittliche} Anzahl von Vergleichen, die beim Aufruf
-$b.\textsl{find}(k)$ für einen geordneten binären Baum $b$ durchgeführt werden müssen, falls $b$
-insgesamt $n$ Schlüssel enthält, mit $d_n$.  Wir wollen annehmen, dass der Schlüssel $k$ auch
-wirklich in $b$ zu finden ist.  Unser Ziel ist es, für $d_n$ eine Rekurrenz-Gleichung aufzustellen.
-Zunächst
-ist klar, dass \\[0.2cm]
-\hspace*{1.3cm} $d_1 = 1$ \\[0.2cm]
-ist, denn wenn der Baum $b$ nur einen Schlüssel enthält, wird genau einen Vergleich durchgeführt.
-Wir betrachten nun einen binären Baum $b$, der $n+1$ Schlüssel enthält.  Dann hat $b$
-die Form \\[0.2cm]
-\hspace*{1.3cm} $b = \textsl{node}(k',v,l,r)$. \\[0.2cm]
-Ordnen wir die $n+1$ Schlüssel der Größe nach in der Form 
+In order to prove this claim, we have to introduce some definitions.
+We define the \underline{avera}g\underline{e} number of comparisons that are needed for the function
+call $b.\textsl{find}(k)$ as  $d_n$, where $n$ is the number of keys stored in $b$.  We assume that
+the key $k$ is indeed stored in $b$.  Our first goal is to derive a recurrence equation for 
+$d_n$.  First, we note that  
+\\[0.2cm]
+\hspace*{1.3cm} $d_1 = 1$,
+\\[0.2cm]
+because if the tree $b$ contains only one key we will do exactly one key comparison,
+Next, imagine a binary tree $b$ that contains $n+1$ keys.  Then $b$
+can be written as 
 \\[0.2cm]
 \hspace*{1.3cm}
-$k_0 < k_1 < \cdots < k_{i-1} < k_{i} < k_{i+1} < \cdots < k_{n-1} < k_n$,
+$b = \textsl{node}(k',v,l,r)$,
 \\[0.2cm]
-so gibt es $n+1$ verschiedene Positionen, an denen
-der Schlüssel $k'$ auftreten kann.  Wenn $k' = k_i$ ist, so enthält der
-linke Teilbaum $i$ Schlüssel und der rechte Teilbaum enthält $n-i$ Schlüssel:
+where $k'$ is the key at the root of $b$.  If the keys of $b$ are ordered as a list, then this
+ordering looks something like the following:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\underbrace{k_0 < k_1 < \cdots < k_{i-1}}_{\mbox{Schlüssel in $l$}} < 
+$k_0 < k_1 < \cdots < k_{i-1} < k_{i} < k_{i+1} < \cdots < k_{n-1} < k_n$.
+\\[0.2cm]
+Here are $n+1$ positions for the key $k'$.
+If we have $k' = k_i$, then the left subtree of $b$ contains  $i$ keys while the right subtree
+contains the remaining  $n-i$ keys:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\underbrace{k_0 < k_1 < \cdots < k_{i-1}}_{\mbox{keys in $l$}} < 
  \underbrace{k_{i}}_{\stackrel{\displaystyle \shortparallel}{\displaystyle k'}} < 
- \underbrace{k_{i+1} < \cdots < k_{n-1} < k_n}_{\mbox{Schlüssel in $r$}}$,
+ \underbrace{k_{i+1} < \cdots < k_{n-1} < k_n}_{\mbox{keys in $r$}}$,
 \\[0.2cm]
-Da $b$ insgesamt $n+1$ Schlüssel enthält, gibt es $n+1$ Möglichkeiten, wie die
-verbleibenden $n$ Schlüssel auf die beiden Teilbäume $l$ und $r$ verteilt sein können, denn
-$l$ kann $i$ Schlüssel enthalten, wobei \\[0.2cm]
-\hspace*{1.3cm} $i \in \{0,1, \cdots, n\}$ \\[0.2cm]
-gilt.  Entsprechend enthält $r$ dann $n-i$ Schlüssel.  
-Bezeichnen wir die durchschnittliche Anzahl von Vergleichen bei einer Suche in einem Baum mit $n+1$
-Schlüsseln, dessen linker Teilbaum $i$ Elemente hat, mit
+As  $b$ contains $n+1$ keys all together, there are  $n+1$ different possibilities for the position
+of $k'$, as the number of keys in the left subtree $l$ is $i$ where
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{anzVgl}(i,\, n\!+\!1)$,
-\\
-so gilt
-\\[-0.1cm]
-\hspace*{1.3cm}
-$\ds d_{n+1} =  \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \textsl{anzVgl}(i,\, n\!+\!1)$,
+ $i \in \{0,1, \cdots, n\}$.
 \\[0.2cm]
-denn wir haben ja angenommen, dass alle Werte von $i$ die gleiche Wahrscheinlichkeit,
-nämlich $\frac{1}{n+1}$, haben.
-\vspace*{0.1cm}
-
-Berechnen wir nun den Wert von $\textsl{anzVgl}(i,n\!+\!1)$:
-Falls $l$ aus $i$ Schlüsseln besteht und die restlichen $n-i$ Schlüssel in $r$ liegen,
-so gibt es für den Schlüssel $k$, nach dem wir in dem Aufruf $b.\textsl{find}(k)$ suchen, 
-$3$ Möglichkeiten:
+Of course, if the left subtree has $i$ keys, the right subtree will have $n-i$ keys.
+Let us denote the average number of comparisons that are done during the function call
+$b.\textsl{find}(k)$ provided the left subtree of $b$ has $i$ keys while $b$ itself has $n+1$ keys
+as
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{numCmp}(i,\, n\!+\!1)$.
+\\[0.2cm]
+Then, since all values of $i$ have the same probability, we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds d_{n+1} =  \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \textsl{numCmp}(i,\, n\!+\!1)$.
+\\[0.2cm]
+We proceed to compute $\textsl{numCmp}(i,n\!+\!1)$:
+If  $l$ contains $i$ keys while $r$ contains the remaining $n-i$ keys,
+then there are three possibilities for the key $k$ that we want to find in $b$:
 \begin{enumerate}
-\item $k$ kann mit dem Schlüssel $k'$ an der Wurzel des Baums übereinstimmen.
-      In diesem Fall führen wir nur einen Vergleich durch.  Da es insgesamt
-      $n+1$ Schlüssel in dem Baum gibt und nur in einem dieser Fälle
-      der Schlüssel, den wir suchen, an der Wurzel steht, hat dieser Fall die
-      Wahrscheinlichkeit
+\item $k$ might be identical with the key $k'$ that is located at the root of $b$.
+      In this case there is only one comparison.
+      Now there  are $n+1$ keys in $b$ and the key we are looking for will be at the root in only
+      one of these cases, the probability of this case is
       \\[0.2cm]
       \hspace*{1.3cm} $\bruch{1}{\,n+1\,}$.
 
-\item $k$ kann mit einem der $i$ Schlüssel im linken Teilbaum $l$ übereinstimmen.
-      Da  der linke Teilbaum $i$ Schlüssel enthält und  es insgesamt
-      $n+1$ Schlüssel gibt, hat die Wahrscheinlichkeit, dass $k$ in dem linken Teilbaum $l$
-      auftritt, den Wert \\[0.2cm]
+\item $k$ might be identical to one of the  $i$ keys of the left subtree $l$.
+      The probability for this case is 
+      \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle\bruch{i}{n+1}$. \\[0.2cm]
-       In diesem Fall werden \\[0.2cm]
+      In this case we need 
+      \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle d_i + 1$ \\[0.2cm]
-      Vergleiche durchgeführt, denn außer den $d_i$ Vergleichen mit den Schlüsseln aus dem
-      linken Teilbaum muss der Schlüssel, der gesucht wird, ja noch mit dem Schlüssel an
-      der Wurzel verglichen werden.
-\item $k$ kann mit einem der $n-i$ Schlüssel im rechten Teilbaum $r$ übereinstimmen.
-
-      Da  der rechte Teilbaum $n-i$ Schlüssel enthält und  es insgesamt
-      $n+1$ Schlüssel gibt, hat die Wahrscheinlichkeit, dass $k$ in dem rechten Teilbaum $r$
-      auftritt, den Wert \\[0.2cm]
+      comparisons because in addition to the  $d_i$ comparisons in the left subtree we have to
+      compare the key $k$ we are looking for with the key $k'$ at the root of the tree.
+\item $k$ might be a key in the right subtree $r$.  As there are  $n-i$ keys in the right subtree
+      and the total of keys is $n+1$, the probability that the key  $k$ occurs in the right subtree $r$
+      is \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle \bruch{n-i}{n+1}$. \\[0.2cm]
-      Analog zum zweiten Fall werden diesmal \\[0.2cm]
+      Hence, in this case there are  \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle d_{n-i} + 1$ \\[0.2cm]
-      Vergleiche durchgeführt. 
+      comparisons. 
 \end{enumerate}
-Um nun  $\textsl{anzVgl}(i, n\!+\!1)$ berechnen zu können, müssen wir in jedem der drei
-Fälle die Wahrscheinlichkeit mit der Anzahl der Vergleiche multiplizieren und
-die Werte, die sich für die drei Fälle ergeben, aufsummieren.  Wir erhalten
+In order to compute  $\textsl{numCmp}(i, n\!+\!1)$ we have to multiply the probabilities in every
+case with the number of comparisons and these three numbers have to added.  This yields
 \begin{eqnarray*}
-  \textsl{anzVgl}(i, n\!+\!1) 
+  \textsl{numCmp}(i, n\!+\!1) 
 & = & \bruch{1}{\,n+1\,} \cdot 1 + \bruch{i}{n+1} \cdot (d_i + 1) + \bruch{n-i}{n+1} \cdot (d_{n-i} + 1) 
       \\[0.2cm]
 & = & \bruch{1}{\,n+1\,} \cdot \bigl(1 + i \cdot (d_i + 1) + (n-i) \cdot (d_{n-i} + 1)\bigr)      \\[0.2cm]
@@ -714,14 +713,14 @@ die Werte, die sich für die drei Fälle ergeben, aufsummieren.  Wir erhalten
 \end{eqnarray*}
 
 
-Damit können wir nun die Rekurrenz-Gleichung für $d_{n+1}$ aufstellen: 
+Therefore, the recurrence equation for $d_{n+1}$ is given as follows: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}{lcl}
 d_{n+1} 
 & = &  
-\ds\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \textsl{anzVgl}(i,\,n\!+\!1)  \\[0.5cm]
+\ds\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \textsl{numCmp}(i,\,n\!+\!1)  \\[0.5cm]
 & = &  
 \ds\bruch{1}{n+1} \cdot \sum\limits_{i=0}^n  
            \left(1 + \bruch{1}{n+1} \cdot \bigl(i \cdot d_i + (n-i) \cdot d_{n-i} \bigr) \right)
@@ -738,93 +737,96 @@ d_{n+1}
 \end{array}
 $
 \\[0.2cm]
-Bei der letzten Umformung haben wir die Gleichung  \\[0.2cm]
+Here we have used the equation  \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\sum\limits_{i=0}^n f(n-i) = \sum\limits_{i=0}^n f(i)$ \\[0.2cm]
-benutzt, die wir bei der Analyse der Komplexität von Quick-Sort gezeigt hatten.
-Wir lösen jetzt die Rekurrenz-Gleichung 
+$\ds\sum\limits_{i=0}^n f(n-i) = \sum\limits_{i=0}^n f(i)$. \\[0.2cm]
+We had verified this equation already when discussing the complexity of Quick Sort in the average
+case.  Next, we solve the recurrence equation 
 \begin{equation}
   \label{eq:bin1}
 d_{n+1} = \displaystyle 1 + \bruch{2}{(n+1)^2} \cdot \sum\limits_{i=0}^n i\cdot d_i  
 \end{equation}
-mit der Anfangs-Bedingungen $d_1 = 1$.  
-Zur Lösung von Gleichung (\ref{eq:bin1}) führen wir die Substitution $n \mapsto n+1$ durch und erhalten 
+with the initial condition $d_1 = 1$.  
+In order to solve the equation (\ref{eq:bin1}) we perform the substitution $n \mapsto n+1$.  This yields
 \begin{equation}
   \label{eq:bin2}
 d_{n+2} = \displaystyle 1 + \bruch{2}{(n+2)^2} \cdot \sum\limits_{i=0}^{n+1} i\cdot d_i  
 \end{equation}
-Wir multiplizieren nun Gleichung (\ref{eq:bin1}) mit $(n+1)^2$ und Gleichung (\ref{eq:bin2}) 
-mit $(n+2)^2$ und finden die Gleichungen 
+We multiply equation (\ref{eq:bin1}) with $(n+1)^2$ and equation (\ref{eq:bin2}) 
+with $(n+2)^2$.  We get
 \begin{eqnarray}
   \label{eq:bin3}
 (n+1)^2 \cdot d_{n+1} & = & (n+1)^2 + 2 \cdot \sum\limits_{i=0}^n i\cdot d_i, \\
   \label{eq:bin4}
 (n+2)^2 \cdot d_{n+2} & = & (n+2)^2 + 2 \cdot \sum\limits_{i=0}^{n+1} i\cdot d_i
 \end{eqnarray}
-Subtrahieren wir Gleichung (\ref{eq:bin3}) von Gleichung (\ref{eq:bin4}),
-so erhalten wir \\[0.2cm]
+We subtract equation  (\ref{eq:bin3}) from equation (\ref{eq:bin4})
+and are left with \\[0.2cm]
 \hspace*{1.3cm} 
 $(n+2)^2 \cdot d_{n+2} - (n+1)^2 \cdot d_{n+1} = (n+2)^2 - (n+1)^2 + 2 \cdot (n+1) \cdot d_{n+1}$.
 \\[0.2cm]
-Zur Vereinfachung substituieren wir hier $n \mapsto n - 1$ und erhalten \\[0.2cm]
+To simplify this equation we substitute  $n \mapsto n - 1$ and get \\[0.2cm]
 \hspace*{1.3cm} 
 $(n+1)^2 \cdot d_{n+1} - n^2 \cdot d_{n} = (n+1)^2 - n^2 + 2 \cdot n \cdot d_{n}$.
 \\[0.2cm]
-Dies vereinfachen wir zu \\[0.2cm]
+This can be simplified as \\[0.2cm]
 \hspace*{1.3cm} $(n+1)^2 \cdot d_{n+1}  =  n \cdot (n + 2) \cdot d_{n} + 2 \cdot n + 1$. \\[0.2cm]
-Bei dieser Gleichung teilen wir auf beiden Seiten durch $(n+2)\cdot (n+1)$ und bekommen \\[0.2cm]
+Let us divide both sides of this equation by $(n+2)\cdot (n+1)$.  We get \\[0.2cm]
 \hspace*{1.3cm}  
 $\displaystyle \bruch{n+1}{n+2} \cdot d_{n+1}  =  \bruch{n}{n + 1} \cdot d_{n} + \bruch{2 \cdot n + 1}{(n+2)\cdot (n+1)}$. \\[0.2cm]
-Nun definieren wir \\[0.2cm]
+We define \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle c_n = \bruch{n}{n+1} \cdot d_n$. \\[0.4cm]
-Dann gilt $c_1 = \bruch{1}{2} \cdot d_1 = \bruch{1}{2}$ und wir  haben die Rekurrenz-Gleichung \\[0.2cm]
+Then $c_1 = \bruch{1}{2} \cdot d_1 = \bruch{1}{2}$ and hence we have found the recurrence equation \\[0.2cm]
 \hspace*{1.3cm} 
 $\displaystyle c_{n+1}  =  c_{n} + \frac{2 \cdot n + 1}{(n+2)\cdot (n+1)}$. \\[0.2cm]
-Durch Partialbruch-Zerlegung finden wir \\[0.2cm]
+A partial fraction decomposition shows \\[0.2cm]
 \hspace*{1.3cm} 
 $\displaystyle \frac{2 \cdot n + 1}{(n+2)\cdot (n+1)} = \frac{3}{n+2} - \frac{1}{n+1}$. \\[0.2cm]
-Also haben wir \\[0.2cm]
+Hence we have \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle c_{n+1} = c_n +  \frac{3}{n+2} - \frac{1}{n+1}$. \\[0.2cm]
-Wegen $c_1 = \bruch{1}{2}$ ist die Gleichung auch für $n=0$ richtig, wenn wir $c_0 = 0$ setzen, denn es gilt
+Because of $c_1 = \bruch{1}{2}$ this equation is also valid for  $n=0$ if we define $c_0 = 0$, since
+we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\bruch{1}{2} = 0 + \bruch{3}{0+2} - \bruch{1}{0+1}$.
 \\[0.2cm]
-Die Rekurrenz-Gleichung für $c_n$ können wir mit dem Teleskop-Verfahren lösen:
+The recurrence equation for $c_n$ can be solved using  telescoping:
 \begin{eqnarray*}  
   c_{n+1} & = & c_0 + \sum\limits_{i=0}^{n} \frac{3}{i+2} - \sum\limits_{i=0}^{n} \frac{1}{i+1} 
 \\[0.2cm]
           & = & \sum\limits_{i=2}^{n+2} \frac{3}{i} - \sum\limits_{i=1}^{n+1} \frac{1}{i}.
 \end{eqnarray*}
-Wir substituieren $n \mapsto n-1$ und vereinfachen dies zu 
+To simplify the we substitute $n \mapsto n-1$ and get
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_{n} =  \displaystyle\sum\limits_{i=2}^{n+1} \frac{3}{i} - \sum\limits_{i=1}^{n} \frac{1}{i}$
 \\[0.2cm]
-Die harmonische Zahl $H_n$ ist als
-$H_n = \ds\sum\limits_{i=1}^{n} \bruch{1}{i}$   
-definiert.  Wir können $c_n$ auf $H_n$ zurückführen: 
+The harmonic number  $H_n$ is defined as 
+$H_n = \ds\sum\limits_{i=1}^{n} \bruch{1}{i}$.   
+Therefore,  $c_n$ can be reduced to $H_n$: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_n = \ds 3 \cdot H_n - \frac{3}{1} + \frac{3}{n+1} - H_n  =  \ds 2 \cdot H_n - 3 \cdot \frac{n}{n+1}$
 \\[0.2cm] 
-Wegen $H_n = \displaystyle\sum\limits_{i=1}^{n} \frac{1}{i} = \ln(n) + \Oh(1)$ und $\ds 3 \cdot\frac{n}{n+1} \in \Oh(1)$
-gilt dann \\[0.3cm]
+Because $H_n = \displaystyle\sum\limits_{i=1}^{n} \frac{1}{i} = \ln(n) + \Oh(1)$ and $\ds 3 \cdot\frac{n}{n+1} \in \Oh(1)$
+we therefore have
+  \\[0.3cm]
 \hspace*{1.3cm} 
 $\displaystyle c_n = 2 \cdot \ln(n) + \Oh(1)$.
 \\[0.3cm]
-Berücksichtigen wir  $d_n = \bruch{n+1}{n}\cdot c_n$, so finden wir für große $n$ ebenfalls \\[0.2cm]
-\hspace*{1.3cm} $\displaystyle d_n = 2 \cdot \ln(n) + \Oh\bigl(1\bigr)$.
+Because of  $d_n = \bruch{n+1}{n}\cdot c_n$ we have \\[0.2cm]
+\hspace*{1.3cm}
+ $\displaystyle d_n = 2 \cdot \ln(n) + \Oh\bigl(1\bigr)$.
 \\[0.2cm]
-Das ist unser zentrales Ergebnis: Im Durchschnitt erfordert das Suchen in einem zufällig
-erzeugten geordneten binären Baum für große Werte von $n$ etwa 
+This is our main result:  On average, the operation $b.\textsl{find}(k)$ uses
 \\[0.2cm]
 \hspace*{1.3cm}
 $2 \cdot \ln(n) = 2 \cdot \ln(2) \cdot \log_2(n) \approx 1.386 \cdot \log_2(n)$ 
 \\[0.2cm]
-Vergleiche.  Damit werden etwa 39 \% 
-mehr Vergleiche ausgeführt als bei einem optimal balancierten binären Baum.
-Ähnliche Ergebnisse können wir für das Einfügen oder Löschen erhalten.
+comparisons.  Hence there are about  39 \% 
+more comparisons than if we had a tree which was  optimal balanced.
+There are similar results for the operations \textsl{insert} and \textsl{delete}.
+
 
 %%% Local Variables: 
 %%% mode: latex

@@ -805,7 +805,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        are used to implement this algorithm.
 
        When we implemented the algorithm to evaluate arithmetic expressions we did not need to know
-       how the data type \emph{stack} that we used was implemented.  It was sufficient for us to know 
+       how the data type \emph{stack} that we have used was implemented.  It was sufficient for us to know 
        \begin{enumerate}
        \item the signatures of its functions and
        \item the axioms describing the behaviour of these functions.
@@ -830,14 +830,15 @@ We finish this chapter with a short discussion of the benefits of abstract data 
  \item Abstract data types are \emph{exchangeable}.
 
        In our program for evaluating  arithmetic expressions it is trivial to substitute the given
-       array based implementation of stacks with an implementation that is based on linked list.  In general,
+       implementation with an array based implementation of stacks that is more efficient.  In general,
        this enables the following methodology for developing software:  
        \begin{enumerate}
        \item First, an algorithm is implemented using abstract data types.
        \item The initial implementation of these abstract data may be quite crude and inefficient.
-       \item Next, detailed performance tests spot those data types that are performance 
-             bottlenecks.
-       \item Finally, the implementations of data types that have been identified as bottlenecks are optimized.
+       \item Next, detailed performance tests (known as 
+             \href{http://en.wikipedia.org/wiki/Profiling_(computer_programming)}{\emph{profiling})}
+             spot those data types that are performance bottlenecks.
+       \item Finally, the implementations of those data types that have been identified as bottlenecks are optimized.
        \end{enumerate}
        The reason this approach works is the 
        \href{http://en.wikipedia.org/wiki/Pareto_principle#In_software}{80-20 rule}:  
@@ -846,11 +847,11 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        implementation of those data structures that really are performance bottlenecks.  If,
        instead, we would try to optimize everything we would only achieve the following:
        \begin{enumerate}
-       \item We would waste of time.  There is no point optimizing some function to make it 10 times
+       \item We would waste our time.  There is no point optimizing some function to make it 10 times
              faster if the program spends less than a millisecond in this function anyway but the
              overall running time is several minutes.
        \item The resulting program would be considerably bigger and therefore more difficult to 
-             maintain.
+             maintain and optimize.
        \end{enumerate}
  \end{enumerate}
 
