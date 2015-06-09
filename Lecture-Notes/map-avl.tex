@@ -1,65 +1,63 @@
-
-\section{AVL-Bäume}
-Es gibt verschiedene Varianten von geordneten binären Bäumen, bei denen auch im
-schlechtesten Fall die Anzahl der Vergleiche nur logarithmisch von der Zahl der Schlüssel
-abhängt.  Eine solche Variante sind die \emph{AVL-Bäume} \cite{adelson:62}, die nach ihren Erfindern
-G.~M.~Adel'son-Vel'ski\u{\i} und E.~M.~Landis benannt sind.  Diese Variante stellen wir jetzt vor.
-Dazu definieren wir zunächst die \emph{Höhe} eines binären Baums:
+\section{AVL Trees}
+If a binary tree is \emph{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
+roughly the same height, then the complexity of $b.\textsl{find}(k)$ is of the order
+$\Oh\bigl(\ln(n)\bigr)$  even in the worst case.  There are number of different variations of
+balanced binary trees.  Of these variations, the balanced trees that are the easiest to understand are
+called  \emph{AVL trees} \cite{adelson:62}.  AVl trees are 
+named after their inventors G.~M.~Adel'son-Vel'ski\u{\i} and E.~M.~Landis.  In order to define these
+trees we need to define the \emph{height} of a binary tree formally:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{height}() = 0$.
 \item $\textsl{Node}(k,v,l,r).\textsl{height}() = 
-       \max\bigl( l.\textsl{height}(), r.\textsl{height}() \bigr) + 1$.
+       \max\bigl( l.\textsl{height}(), r.\textsl{height}() \bigr) + 1$. \eox
 \end{enumerate}
 
 \begin{Definition}[AVL-Baum] \hspace*{\fill} \\
 {\em 
-  Wir definieren die Menge $\AVL$ der \emph{AVL-Bäume} induktiv:
+  The set $\AVL$ of \emph{AVL trees} is defined inductively:
   \begin{enumerate}
   \item $\textsl{Nil} \in \AVL$.
-  \item $\textsl{Node}(k,v,l,r) \in \AVL$ \quad g.d.w. 
+  \item $\textsl{Node}(k,v,l,r) \in \AVL$ \quad iff 
         \begin{enumerate}
         \item $\textsl{Node}(k,v,l,r) \in \Bin_<$,
-        \item $l, r \in \AVL$ \quad und
+        \item $l, r \in \AVL$ \quad and
         \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1$.
 
-              Diese Bedingungen bezeichnen wir auch als die \emph{Balancierungs-Bedingung}.
+              This condition is called the \emph{balancing condition}.
         \end{enumerate}
-        AVL-Bäume sind also geordnete binäre Bäume, für die sich an jedem Knoten
-        $\textsl{Node}(k,v,l,r)$ die Höhen der Teilbäume $l$ und $r$ maximal um 1
-        unterscheiden.  \hspace*{\fill} $\Box$
+        According to this definition, an AVL tree is an ordered binary tree such that for every node
+        $\textsl{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
+        subtree  $r$ differ at most by 1.  \qed
   \end{enumerate}
 }  
 \end{Definition}
 
-
-Um  AVL-Bäume zu  implementieren, können wir auf unserer Implementierung der geordneten
-binären Bäume aufsetzen. 
-Neben den Methoden, die wir schon aus der Klasse \textsl{Map} kennen, brauchen wir noch
-die Methode \\[0.2cm]
-\hspace*{1.3cm} $\textsl{restore}: \Bin_< \rightarrow \AVL$, \\[0.2cm]
-mit der wir die Balancierungs-Bedingung wiederherstellen können, wenn diese beim Einfügen oder
-Löschen eines Elements verletzt wird.  
-Der Aufruf $b.\textsl{restore}()$ setzt voraus, dass $b$ ein geordneter binärer Baum ist,
-für den außer an der Wurzel überall die Balancierungs-Bedingung erfüllt ist.
-An der Wurzel kann die Höhe des linken Teilbaums um maximal 2 von der Höhe des rechten
-Teilbaums abweichen. Beim Aufruf der Methode $b.\textsl{restore}()$ liegt also einer der
-beiden folgenden Fälle vor: 
+In order to implement AVL trees we can start from our implementation of ordered binary trees.
+In addition to those methods that we have already seen in the class \textsl{Map} we will need the method
+\\[0.2cm]
+\hspace*{1.3cm} $\textsl{restore}: \Bin_< \rightarrow \AVL$. 
+\\[0.2cm]
+This method is used to restore the balancing condition at a given node if it has been violated by
+either inserting or deleting an element.
+The method call $b.\textsl{restore}()$ assumes that  $b$ is an ordered binary tree that satisfies
+the balancing condition everywhere except possibly at its root. 
+At the root, the height of the left subtree might differ from the height of the right subtree by at
+most 2.  Hence, when the method $b.\textsl{restore}()$ is invoked we have either of the following
+two cases:
 \begin{enumerate}
-\item $b = \textsl{Nil}$ \quad oder
+\item $b = \textsl{Nil}$ \quad or
 \item $b = \textsl{Node}(k,v,l,r) \wedge l \in \AVL \wedge r \in \AVL \wedge
        |l.\textsl{height}() - r.\textsl{height}()| \leq 2$.
 \end{enumerate}
- Wir spezifizieren die Methode $\textsl{restore}$ durch
-bedingte Gleichungen.
+The method $\textsl{restore}$ is specified via conditional equations.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{restore}() = \textsl{Nil}$,
 
-      denn der leere Baum ist ein AVL-Baum.
+      because the empty tree is an  AVL tree.
 \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow 
        \textsl{Node}(k,v,l,r).\textsl{restore}() = \textsl{Node}(k,v,l,r)$,
 
-      denn wenn die Balancierungs-Bedingung bereits erfüllt ist,
-      braucht nichts getan werden.
+      because if the balancing condition is already satisfied, then there is nothing to be done. 
 \item $\begin{array}[t]{cl}
               & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
        \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)                 \\
@@ -69,46 +67,52 @@ bedingte Gleichungen.
        \end{array}
       $
 
-      Um diese Gleichung zu verstehen, betrachten wir Abbildung \ref{fig:casell}
-      auf Seite \pageref{fig:casell}.  Der linke Teil der Abbildung beschreibt die
-      Situation vor dem Ausbalancieren, es wird also der Baum \\[0.2cm]
-      \hspace*{1.3cm} $\textsl{Node}(k_1,v_1, \textsl{Node}(k_2,v_2,l_2,r_2), r_1)$ \\[0.2cm]
-      dargestellt.  Der rechte Teil der Abbildung zeigt das Ergebnis des
-      Ausba\-lancierens, es wird also der Baum \\[0.2cm]
-      \hspace*{1.3cm} $\textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)$ \\[0.2cm]
-      dargestellt. Wir haben hier die Höhen der einzelnen Teilbäume jeweils in die
-      zweiten Zeilen der entsprechenden Markierungen geschrieben.  Hier ist $h$ die Höhe
-      des Teilbaums $l_2$. Der Teilbaum $r_1$ hat die Höhe $h - 1$.  Der Teilbaum $r_2$
-      hat die Höhe $h'$ und es gilt $h' \leq h$. Da $r_2$ ein AVL-Baum ist, gilt also
-      entweder $h' = h$ oder $h' = h-1$.
+      The motivation for this equation can be found in Figure \ref{fig:casell}
+      on page \pageref{fig:casell}.  The left part of this figure shows the state
+      of the tree before it has been rebalanced.  Therefore, this part shows the tree
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{Node}(k_1,v_1, \textsl{Node}(k_2,v_2,l_2,r_2), r_1)$. 
+      \\[0.2cm]
+      The right part of Figure \ref{fig:casell} shows the effect of rebalancing.  
+      This rebalancing results in the tree
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)$.
+      \\[0.2cm]
+      In Figure \ref{fig:casell} the second line of each node shows the height of the tree
+      corresponding to this node.  For example,  $h$ is the height of the subtree 
+      $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
+      is $h'$ and we know that $h' \leq h$.  As $\textsl{Node}(k_1,v_1,r_2,r_1)$ is an  AVL tree, we
+      either have $h' = h$ or $h' = h-1$.
 
-      Die gezeigte Situation kann entstehen,
-      wenn im linken Teilbaum $l_2$ ein Element eingefügt wird oder wenn im rechten
-      Teilbaum $r_1$ ein Element gelöscht wird.
+      The state shown in Figure \ref{fig:casell} can arise if either an element has been inserted
+      in the left subtree $l_2$ or if an element has been deleted from the right subtree  $r_1$.
 
       \begin{figure}[!ht]
         \centering
         \framebox{\epsfig{file=casell,scale=0.7}} 
-        \caption{Ein unbalancierter Baum und der rebalancierte Baum}
+        \caption{An unbalanced tree and the corresponding rebalanced tree.}
         \label{fig:casell}
       \end{figure}
+      We have to make sure that the tree shown in the right part of Figure
+      \ref{fig:casell} is indeed an  AVL tree. With respect to the balancing condition this is
+      easily verified.  The fact that the node containing the key $k_1$ has either the height
+      $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ and that  $h' \in \{h, h-1\}$.
 
-      Wir müssen uns davon überzeugen, dass der im rechten Teil von Abbildung
-      \ref{fig:casell} gezeigte Baum auch tatsächlich ein AVL-Baum ist.   Was die
-      Balancierungs-Bedingung angeht, so rechnet man dies sofort nach.  Die Tatsache,
-      dass der mit $k_1$ markierte Knoten entweder die Höhe $h$ oder $h+1$ hat folgt
-      daraus, dass $r_1$ die Höhe $h-1$ hat und dass $h' \in \{h, h-1\}$ gilt.
-
-      Um zu sehen, dass
-      der Baum geordnet ist, können wir  folgende Ungleichung hinschreiben: \\[0.2cm]
-      \hspace*{1.3cm} $l_2 < k_2 < r_2 < k_1 < r_1$. \hspace*{\fill} $(\star)$\\[0.2cm]
-      Dabei  schreiben wir für einen Schlüssel $k$ und einen binären Baum $b$ \\[0.2cm]
+      In order to verify that the tree is ordered we can use the following inequation: 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $l_2 < k_2 < r_2 < k_1 < r_1$. 
+      \hspace*{\fill} $(\star)$
+      \\[0.2cm]
+      Here we have used the following notation: If  $k$ is a key and  $b$ is a binary tree, then we write \\[0.2cm]
       \hspace*{1.3cm} $k < b$ \\[0.2cm]
-      um auzudrücken, dass $k$ kleiner ist als alle Schlüssel, die in dem Baum $b$ vorkommen.
-      Analog schreiben wir $b < k$ wenn alle Schlüssel, die in dem Baum $b$ vorkommen,
-      kleiner sind als der Schlüssel $k$.  Die Ungleichung $(\star)$ beschreibt die Anordnung
-      der Schlüssel sowohl für den im linken Teil der Abbildung gezeigten Baum als auch
-      für den Baum im rechten Teil der Abbildung und damit sind beide Bäume geordnet.
+      in order to express that  $k$ is smaller than all keys that occur in the tree  $b$.
+      Similarly,  $b < k$ denotes the fact that all keys occuring in $b$ are less than the key
+      $k$.  The inequation  $(\star)$ describes both the ordering of keys in the left part of Figure
+      \ref{fig:casell} and in the right part of this figure.  Hence, the tree shown in the right
+      part of Figure \ref{fig:casell} is ordered provided the tree in the left part is ordered to begin with.
 \item $\begin{array}[t]{cl}
                & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
         \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)               \\
@@ -119,23 +123,26 @@ bedingte Gleichungen.
         \end{array}
        $
 
-        Die linke Seite der  Gleichung wird durch die Abbildung \ref{fig:caselr} auf Seite
-        \pageref{fig:caselr}
-        illustriert.  Dieser Baum kann in der Form \\[0.2cm]
-        \hspace*{1.3cm} 
-        $\textsl{Node}\bigl(k_1,v_1,\textsl{Node}(k_2,v_2,l_2,\textsl{Node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$ \\[0.2cm]
-        geschrieben werden. Die Teilbäume $l_3$ und $r_3$ haben hier entweder die Höhe $h$ oder
-        $h-1$, wobei mindestens einer der beiden Teilbäume die Höhe $h$ haben muss.
+       The left hand side of this equation is shown in Figure  \ref{fig:caselr} on page
+       \pageref{fig:caselr}.  This tree can be written as
+       \\[0.2cm]
+       \hspace*{1.3cm} 
+       $\textsl{Node}\bigl(k_1,v_1,\textsl{Node}(k_2,v_2,l_2,\textsl{Node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$. 
+       \\[0.2cm]
+       The subtrees $l_3$ and $r_3$ have either the height  $h$ or $h-1$.  Furthermore, at least one
+       of these subtrees must have the height  $h$ for otherwise the subtree
+       $\textsl{Node}(k_3,v_3,l_3,r_3)$ would not have the height $h+1$.
+       
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=caselr,scale=0.7}} 
-  \caption{Ein unbalancierter Baum: 2. Fall}
+  \caption{An unbalanced tree, second case.}
   \label{fig:caselr}
 \end{figure}
 
-     Die Situation der rechten Seite der obigen Gleichung zeigt Abbildung
-     \ref{fig:caselr-nach} auf Seite \pageref{fig:caselr-nach}.  Der auf dieser
-     Abbildung gezeigte Baum hat die Form \\[0.2cm]
+     Figure \ref{fig:caselr-nach} on page \pageref{fig:caselr-nach} shows how the tree looks after
+     rebalancing.  The tree shown in this figure has the form
+     \\[0.2cm]
      \hspace*{1.3cm} 
      $\textsl{Node}\bigl(k_3,v_3,\textsl{Node}(k_2,v_2,l_2,l_3),\textsl{Node}(k_1,v_1,r_3,r_1) \bigr)$.
 
@@ -143,18 +150,19 @@ bedingte Gleichungen.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=caselr-nach,scale=0.7}} 
-  \caption{Der rebalancierte Baum im 2. Fall}
+  \caption{The rebalanced tree in the second case.}
   \label{fig:caselr-nach}
 \end{figure}
 
-      Die Ungleichung, die die Anordnung der Schlüssel sowohl im linken als auch rechten
-      Baum wieder gibt, lautet\\[0.2cm]
+      The inequation describing the ordering of the keys both in the left subtree and in the right
+      subtree is given as
+      \\[0.2cm]
       \hspace*{1.3cm} $l_2 < k_2 < l_3 < k_3 < r_3 < k_1 < r_1$.
 
-      Es gibt noch zwei weitere Fälle die auftreten, wenn der rechte Teilbaum um mehr als
-      Eins größer ist als der linke Teilbaum.  Diese beiden Fälle sind aber zu den beiden
-      vorherigen Fällen völlig analog, so dass wir die Gleichungen hier ohne weitere
-      Diskussion angeben.
+      There are two more cases where the height of the right subtree is bigger by more than 
+      the height of the left subtree plus one.  These two cases are completely analogous to the two
+      cases discussed previously.  Therefore we just state the corresponding equations without
+      further discussion.
 \item $\begin{array}[t]{cl}
               & r_1.\textsl{height}() = l_1.\textsl{height}() + 2    \\ 
        \wedge & r_1 = \textsl{Node}(k_2,v_2,l_2,r_2)               \\
@@ -174,10 +182,10 @@ bedingte Gleichungen.
        $
 
 \end{enumerate}
-Damit können wir nun die Methode $\textsl{insert}()$ durch bedingte rekursive Gleichungen 
-beschreiben.  Dabei müssen wir die ursprünglich für geordnete Bäume angegebene Gleichungen
-dann ändern, wenn die Balancierungs-Bedingung durch das Einfügen eines neuen Elements
-verletzt werden kann.
+Now we are ready to specify the method  $\textsl{insert}()$ via recursive equations.
+If we compare these equations to the equations we had given for unbalanced ordered binary trees we
+notice that we only have to call the method $\textsl{restore}$ if the balancing condition might have
+been violated.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{insert}(k,v) = \textsl{Node}(k,v, \textsl{Nil}, \textsl{Nil})$.  
 \item $\textsl{Node}(k, v_2, l, r).\textsl{insert}(k,v_1) = \textsl{Node}(k, v_1, l, r)$.
@@ -188,7 +196,7 @@ verletzt werden kann.
          \textsl{Node}(k_2, v_2, l, r).\textsl{insert}\bigl(k_1, v_1\bigr) = 
          \textsl{Node}\bigl(k_2, v_2, l, r.\textsl{insert}(k_1,v_1)\bigr).\textsl{restore}()$.
 \end{enumerate}
-Analog ändern sich die Gleichungen für $\textsl{delMin}()$ wie folgt:
+The equations for  $\textsl{delMin}()$ change as follows:
 \begin{enumerate}
 \item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = \langle r, k, v \rangle$.
 \item $l\not= \textsl{Nil} \wedge \langle l',k_{min}, v_{min}\rangle := l.\textsl{delMin}() 
@@ -197,7 +205,7 @@ Analog ändern sich die Gleichungen für $\textsl{delMin}()$ wie folgt:
        $\textsl{Node}(k, v, l, r).\textsl{delMin}() = 
         \langle \textsl{Node}(k, v, l', r).\textsl{restore}(), k_{min}, v_{min} \rangle$.
 \end{enumerate}
-Damit können wir die Gleichungen zur Spezifikation der  Methode $\mathtt{delete}()$ angeben.
+Then, the equations for \textsl{delete} are as follows:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{delete}(k) = \textsl{Nil}$.
 \item $\textsl{Node}(k,v,\textsl{Nil},r).\textsl{delete}(k) = r$.
@@ -211,7 +219,7 @@ Damit können wir die Gleichungen zur Spezifikation der  Methode $\mathtt{delete}
 \item $k_1 > k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}(k_1) = 
          \textsl{Node}\bigl(k_2,v_2,l,r.\textsl{delete}(k_1)\bigr).\textsl{restore}()$.
 \end{enumerate}
-\pagebreak
+
 
 \subsection{Implementing AVL-Trees in \textsc{SetlX}}
 If we want to implement AVL-trees in \textsc{SetlX} then we have to decide how to compute the height
@@ -286,7 +294,7 @@ since searching for a key does not change the underlying tree there is no need t
 \caption{Implementation of the method \texttt{find}.}
 \label{fig:avl-tree.stlx:find}
 \end{figure}
-\pagebreak
+
 
 Figure \ref{fig:avl-tree.stlx:insert} shows the implementation of the method \texttt{insert}.
 If we compare this implementation with the implementation for binary trees, we find three
@@ -482,7 +490,7 @@ change the structure of the tree.  Hence there is no need for a call to \texttt{
 \label{fig:avl-tree.stlx:restore}
 \end{figure}
 
-\pagebreak
+
 Figure \ref{fig:avl-tree.stlx:restore} shows the implementation of the function \texttt{restore}.
 It is this method that makes most of the difference between ordered binary trees and AVL trees.  Let
 us discuss this method line by line.
@@ -684,13 +692,14 @@ zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.
 \end{figure}
 
 \subsection{Further Reading}
-In practice, \emph{red-black trees} are slightly faster than \textsl{Avl} trees.  Similar to
-\textsl{Avl} trees, a  red-black
+In practice, \emph{red-black trees} are slightly faster than \textsc{AVL} trees.  Similar to
+\textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red tree have to be black.  In order to keep red-black trees approximately
 balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of a red-black tree are required to have the same 
-relaxed height.  A detailed and very readable exposition of red-black trees is given in \cite{sedgewick:2011}.
+relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
+\cite{sedgewick:2011}. 
 
 
 
