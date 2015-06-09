@@ -567,53 +567,67 @@ constructs a node with given left and right subtrees.  In fact, this method serv
 constructor for the class \texttt{map}.  The implementation should be obvious.
 
 
-\subsection{Analyse der Komplexität}
-Wir analysieren jetzt die Komplexität von AVL-Bäumen im schlechtesten Fall. Der
-schlechteste Fall tritt dann ein, wenn bei einer vorgegebenen Zahl von Schlüsseln die Höhe
-maximal wird.  Das ist aber dasselbe wie wenn in einem Baum gegebener Höhe die Zahl der
-Schlüssel minimal wird.  Wir definieren daher $b_h(k)$ als einen AVL-Baum der Höhe $h$, der
-unter allen AVL-Bäumen der Höhe $h$ die minimale Anzahl von Schlüsseln hat.  Außerdem
-sollen alle Schlüssel, die in $b_h(k)$ auftreten, größer als der Schlüssel $k$ sein.
-Sowohl die Schlüssel als auch die Werte sind in diesem Zusammenhang eigentlich unwichtig,
-wir müssen nur darauf achten, dass die Ordnungs-Bedingung für binäre Bäume erfüllt ist.
-Wir werden für die Schlüssel natürliche Zahlen nehmen, für die Werte nehmen wir immer die
-Zahl $0$.  Bevor wir mit der Definition von $b_h(k)$ beginnen können, benötigen wir noch eine
-Hilfs-Funktion $\textsl{maxKey}()$ mit der Signatur  
-\[ \textsl{maxKey}:\mathcal{B}_< \rightarrow \textsl{Key} \]
-Für einen gegebenen geordneten nicht-leeren binären Baum $b$ 
-berechnet $b.\textsl{maxKey}()$ den größten Schlüssel, der in $b$ auftritt.  Die
-Definition von $b.\textsl{maxKey}()$ ist induktiv:
+\subsection{Analysis of the Complexity of AVL Trees}
+Next, we analyze the complexity of AVL trees in the worst case.  In order to do this we have to know
+what the worst case actually looks like.  Back when we only had ordered binary trees the worst case was the case where
+the tree had degenerated into a list.  Now, the worst case is the case where the tree is as slim as
+it can possibly be while still satisfying the definition of an AVL tree.  Hence the worst case
+happens if the tree has a given height $h$ but the number of keys stored in the tree is as small as
+possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL tree that has height
+$h$ and whose number of keys is minimal among all other AVL trees of given  height $h$.  Furthermore,
+we demand that all keys stored in  $b_h(k)$ are bigger than  $k$.  For our investigation of the
+complexity, both the keys and the values do not really matter.  The only problem is that we have to
+make sure that the tree $b_h(k)$ is actually an ordered tree and for this reason we insist that all
+keys in $b_h(k)$ are bigger than $k$.  We will actually use natural numbers as keys, while all
+values will be $0$.
+Before we can actually present the definition of  $b_h(k)$ we need to define the auxiliary function
+ $\textsl{maxKey}()$.  This function has the signature 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{maxKey}:\mathcal{B}_< \rightarrow \textsl{Key} \cup \{ \Omega \}$.
+\\[0.2cm]
+Given a non-empty ordered binary tree  $b$, the expression $b.\textsl{maxKey}()$ returns the biggest
+key stored in $b$.  The expression  $b.\textsl{maxKey}()$ is defined by induction on $b$:
 \begin{enumerate}
+\item $\textsl{Nil}.\textsl{maxKey}() = \Omega$,
 \item $\textsl{Node}(k,v,l,\textsl{Nil}).\textsl{maxKey}() = k$,
 \item $r \not= \textsl{Nil} \rightarrow \textsl{Node}(k,v,l,r).\textsl{maxKey}() = r.\textsl{maxKey}()$.
 \end{enumerate}
-Damit können wir nun die Bäume $b_h(k)$ durch Induktion nach der Höhe $h$ definieren.
+Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
 \begin{enumerate}
-\item $b_0(k) = Nil$,
+\item $b_0(k) = \textsl{Nil}$,
 
-      denn es gibt genau einen AVL-Baum der Höhe $0$ und dieser enthält keinen Schlüssel.
+      because there is only one AVL tree of height $0$ and this is the tree \textsl{Nil}.
 \item $b_1(k) = \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil})$,
 
-      denn es gibt genau einen AVL-Baum der Höhe $1$.
+      since, if we abstract from the actual keys and values, there is exactly one AVL tree of height
+      $1$.
 \item $b_{h+1}(k).\textsl{maxKey}() = l \rightarrow 
-       b_{h+2}(k) = \textsl{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr)$,
+       b_{h+2}(k) = \textsl{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr)$.
 
-      denn um einen AVL-Baum der Höhe $h+2$ mit einer minimalen Anzahl an Schlüsseln zu
-      konstruieren, erzeugen wir zunächst den AVL-Baum $b_{h+1}(k)$ der Höhe $h+1$.
-      Dann bestimmen wir den maximalen Schlüssel $l$ in diesem Baum, der Schlüssel $l+1$
-      kommt nun an die Wurzel des zu erzeugenden Baums der Höhe $h+2$ und schließlich erzeugen wir noch
-      den Baum $b_h(l+1)$ der Höhe $h$, den wir als rechten Teilbaum in den neu zu
-      erzeugenden Baum der Höhe $h+2$  einfügen.
+      In order to construct an AVL tree of height $h+2$ that contains the minimal number of keys 
+      possible we first construct the AVL tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
+      key as possible given its height.  Next, we determine the biggest key $l$ in this tree. 
+      Now to construct $b_{h+2}(k)$ we take a node with the key $l+1$ as the root.
+      The left subtree of this node is $b_{h+1}(k)$, while the right subtree is $b_h(l+1)$.
+      Since $l$ is the biggest key in $b_{h+1}(k)$, all key in the left subtree of
+      $b_{h+2}(k)$ are indeed smaller than the key $l+1$ at the root.  Since all keys in
+      $b_h(l+1)$ are bigger than $l+1$, the keys in the right subtree are bigger than the key at the
+      root.  Therefore, $b_{h+2}(k)$ is an ordered tree.
+
+      Furthermore, $b_{h+2}(k)$ is an AVL tree of height $h+2$ since the height of the left subtree
+      is $h+1$ and the height of the right subtree is $h$.  Also, this tree is as slim as
+      any AVL tree can possibly get, since if the left subtree has height $h+1$ the right subtree
+      must at least have height $h$ in order for the whole tree to be an AVL tree.
 \end{enumerate}
-Für einen beliebigen binären Baum $b$ bezeichne $\#\,b$ die Anzahl der Schlüssel, die in
-$b$ auftreten.  Dann definieren wir 
+Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furthermore, we define
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h := \#\, b_h(k)$
 \\[0.2cm]
-als die Anzahl der Schlüssel des Baums $b_h(k)$.  Wir werden sofort sehen, dass
-$\#\,b_h(k)$ nicht von $k$ abhängt.  Für $c_h$ finden wir in Analogie zu
-der induktiven Definition von $b_h(k)$ die folgenden Gleichungen.
+to be the number of keys in the tree $b_h(k)$.  We will see immediately that 
+$\#\,b_h(k)$ does not really depend on  $k$.  Starting from the definition of $b_h(k)$ we find the
+following equations for $c_h$:
 \begin{enumerate}
 \item $c_0 = \#\, b_0(k) = \#\, \textsl{Nil} = 0$,
 \item $c_1 = \#\, b_1(k) = \#\, \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil}) = 1$, 
@@ -624,70 +638,140 @@ der induktiven Definition von $b_h(k)$ die folgenden Gleichungen.
                & = & c_{h+1} + c_h + 1.
        \end{array}$
 \end{enumerate}
-Also haben wir zur Bestimmung von $c_h$ die Rekurrenz-Gleichung
+Hence we have found the recurrence equation 
 \\[0.2cm]
 \hspace*{1.3cm}
-$c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{mit den Anfangs-Bedingungen $c_0 = 0$ und $c_1 = 1$}$
+$c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ und $c_1 = 1$}.$
 \\[0.2cm]
-zu lösen.  Das ist eine Rekurrenz-Gleichung,
-die wir, allerdings mit leicht veränderten Anfangs-Bedingungen, bereits im dritten Kapitel gelöst haben.
-Sie können leicht nachrechnen, dass die Lösung dieser Rekurrenz-Gleichung wie folgt
-lautet: 
+In order to solve this recurrence we first solve the corresponding homogeneous recurrence equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$a_{h+2} = a_{h+1} + a_h$
+\\[0.2cm]
+using the  ansatz
+\\[0.2cm]
+\hspace*{1.3cm}
+$a_h = \lambda^h$.
+\\[0.2cm]
+Substituting $a_h = \lambda^h$ into the recurrence equation for $a_h$ leaves us with the equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda^{h+2} = \lambda^{h+1} + \lambda^{h}$.
+\\[0.2cm]
+Dividing by $\lambda$ produces the quadratic equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda^2 = \lambda + 1$
+\\[0.2cm]
+which can be rearranged as
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} = 1$.
+\\[0.2cm]
+Adding $\frac{1}{4}$ on both sides of this equation completes the square on the left hand side:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\bigl(\lambda - \frac{1}{2}\bigr)^2 = \frac{5}{4}$. 
+\\[0.2cm]
+From this we conclude 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda = \frac{1}{2} \cdot \bigl(1 + \sqrt{5}\bigr) \;\vee\; \lambda = \frac{1}{2} \cdot \bigl(1 - \sqrt{5}\bigr)$.
+\\[0.2cm]
+Let us therefore define 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
+$\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
+\\[0.2cm]
+In order to solve the inhomogeneous recurrence equation for $c_h$ we try the ansatz
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_h = d$ \quad for some constant $d$.
+\\[0.2cm]
+Substituting this ansatz into the recurrence equation for $c_h$ yields
+\\[0.2cm]
+\hspace*{1.3cm}
+$d = d + d + 1$
+\\[0.2cm]
+from which we conclude that $d = -1$.  Hence the solution for $c_h$ has the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_h = \alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h + d =\alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h - 1$.
+\\[0.2cm]
+Here, the values of $\alpha$ and $\beta$ can be found by setting $h=0$ and $h=1$.  This results in
+the following system of linear equations for  $\alpha$ and $\beta$:
+\\[0.2cm]
+\hspace*{1.3cm}
+$0 = \alpha + \beta - 1$ \quad and \quad
+$1 = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 - 1$.
+\\[0.2cm]
+From the first equation we find $\beta = 1-\alpha$ and substituting this result into the second equation
+gives
+\\[0.2cm]
+\hspace*{1.3cm}
+$2 = \alpha \cdot \lambda_1 + (1-\alpha) \cdot \lambda_2$.
+\\[0.2cm]
+Solving this equation for $\alpha$ gives
+\\[0.2cm]
+\hspace*{1.3cm}
+$2 - \lambda_2 = \alpha \cdot (\lambda_1 - \lambda_2)$
+\\[0.2cm]
+Hence we have found
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt{5}} \cdot \lambda_1^2$.
+\\[0.2cm]
+From this, a straightforward calculation using the fact that $\beta = 1 - \alpha$ shows that 
+$\ds \beta  = -\frac{1}{\sqrt{5}} \cdot \lambda_2^2$.
+\\[0.2cm]
+Therefore, $c_h$ is given by the following equation:
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h = \displaystyle \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
-1$  \quad mit
+1$.  
+\\[0.2cm]
+As we have  $|\lambda_2| < 1$, the value of  $\displaystyle\lambda_2^{h+2}$ isn't important for big
+values of $h$.  Therefore, for big values of $h$, the minimal number  $n$ of keys in a tree of
+height  $h$ is approximately given by the formula \\[0.2cm]
+\hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$. \\[0.2cm]
+In order to solve this equation for  $h$ we take the logarithm of both side.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda_1 = \displaystyle \frac{1}{2}(1 + \sqrt{5}) \approx  1.618034$ \quad und \quad $\lambda_2 =
-\displaystyle \frac{1}{2}(1 - \sqrt{5}) \approx -0.618034$.
+$\log_2(n+1) = (h+2) \cdot \log_2(\lambda_1) - \frac{1}{2}\cdot \log_2(5)$.
 \\[0.2cm]
-Da $|\lambda_2| < 1$ ist, spielt der Wert $\displaystyle\lambda_2^{h+2}$
-für große Werte von $h$   praktisch keine Rolle und die
-minimale Zahl $n$ der Schlüssel in einem Baum der Höhe $h$ ist durch \\[0.2cm]
-\hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$ \\[0.2cm]
-gegeben.  Um diese Gleichung nach $h$ aufzulösen, bilden wir auf beiden Seiten den
-Logarithmus zur Basis 2.  Dann erhalten wir 
+Adding  $\frac{1}{2}\cdot \log_2(5)$ gives
 \\[0.2cm]
 \hspace*{1.3cm}
-$\log_2(n+1) = (h+2) \cdot \log_2(\lambda_1) - \frac{1}{2}\cdot \log_2(5)$
+$\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$.
 \\[0.2cm]
-Daraus folgt nach Addition von $\frac{1}{2}\cdot \log_2(5)$
-\\[0.2cm]
-\hspace*{1.3cm}
-$\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$
-\\[0.2cm]
-Jetzt teilen wir durch $\log_2(\lambda_1)$.  Dann erhalten wir 
+Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
 \\[0.4cm]
 \hspace*{1.3cm}
-$\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$
+$\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
 \\[0.2cm]
-Lösen wir diese Gleichung nach $h$ auf, so haben wir für große $n$
-das Ergebnis
+Solving this equation for  $h$ gives the result 
 \\[0.4cm]
 \hspace*{1.3cm} 
 $
 \begin{array}[t]{lcl}
-h & = & \displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
-  & = & \bruch{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
-  & \approx & 1,44 \cdot \log_2(n) + \Oh(1)
+h & = & \displaystyle \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
+  & = & \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
+  & \approx & 1,44 \cdot \log_2(n) + \Oh(1).
 \end{array} 
 $
 \\[0.2cm]
-gewonnen. 
-Die Größe $h$ gibt aber die Zahl der Vergleiche an, die wir im ungünstigsten Fall bei
-einem Aufruf von \textsl{find} in einem AVL-Baum mit $n$ Schlüsseln durchführen müssen.
-Wir sehen also, dass bei einem AVL-Baum auch im schlechtesten Fall die Komplexität
-logarithmisch bleibt.  Abbildung
-\ref{fig:avl-worst-case} zeigt einen AVL-Baum der Höhe 6, für den das Verhältnis von Höhe zur Anzahl
-der Knoten maximal wird.  Wie man sieht ist auch dieser Baum noch sehr weit weg von dem
-zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.
+However, the height $h$ is the maximal number of comparisons needed to find a given key.
+Hence, for AVL trees the complexity of $b.\textsl{find}(k)$ is logarithmic even in the worst case.
+Figure 
+\ref{fig:avl-worst-case} presents an  AVL tree of height 6 where the number of keys is minimal.
+
 
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=avl}} 
-  \caption{Ein AVL-Baum mit dem ungünstigsten Verhältnis von Höhe zur Anzahl an Knoten}
+  \caption{An AVL tree of height 6 that is as slim as possible.}
   \label{fig:avl-worst-case}
 \end{figure}
 
@@ -695,9 +779,9 @@ zur Liste entarteten Baum aus der Abbildung \ref{fig:degenerated}.
 In practice, \emph{red-black trees} are slightly faster than \textsc{AVL} trees.  Similar to
 \textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
-The children of a red tree have to be black.  In order to keep red-black trees approximately
+The children of a red node have to be black.  In order to keep red-black trees approximately
 balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
-height of a tree.  The left and right subtree of a red-black tree are required to have the same 
+height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
 \cite{sedgewick:2011}. 
 
