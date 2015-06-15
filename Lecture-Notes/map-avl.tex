@@ -658,7 +658,7 @@ Substituting $a_h = \lambda^h$ into the recurrence equation for $a_h$ leaves us 
 \hspace*{1.3cm}
 $\lambda^{h+2} = \lambda^{h+1} + \lambda^{h}$.
 \\[0.2cm]
-Dividing by $\lambda$ produces the quadratic equation
+Dividing by $\lambda^h$ produces the quadratic equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\lambda^2 = \lambda + 1$
@@ -723,6 +723,8 @@ Hence we have found
 $\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt{5}} \cdot \lambda_1^2$.
 \\[0.2cm]
 From this, a straightforward calculation using the fact that $\beta = 1 - \alpha$ shows that 
+\\[0.2cm]
+\hspace*{1.3cm}
 $\ds \beta  = -\frac{1}{\sqrt{5}} \cdot \lambda_2^2$.
 \\[0.2cm]
 Therefore, $c_h$ is given by the following equation:
@@ -1340,7 +1342,7 @@ von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
       Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
 \end{enumerate}
 Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item Stellen Sie Gleichungen auf, die das Einfügen und das Löschen in einem
       binären Trie beschreiben.  Achten Sie beim Löschen darauf,
       dass binäre Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
@@ -1531,7 +1533,7 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
       stored in a set.  Since every key occurs at most once, this set can be interpreted as a
       functional relation.  Therefore, looking up a key is more efficient than it would be if we had
       used a list.  Although we actually use a relation instead of a list, we will still call
-      the relation the \emph{list of key-value pairs}.
+      this relation the \emph{list of key-value pairs}.
 
       As the hash map is initially empty, all entries of \texttt{mArray} are initialized as empty sets.
 \item \texttt{mAlpha} is the \emph{load factor} of our hash table.  If at any point in time, we have
@@ -1558,7 +1560,7 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
         of the function \texttt{char}.
   \item \texttt{sPrimes} is a list of prime numbers.  Roughly, these prime numbers double in size.
         The reason is that performance of a hash table is best if the size of \texttt{mArray} is a
-        prime number.  When \texttt{mArray} get overcrowded, the idea is to, more or less, double
+        prime number.  When \texttt{mArray} gets overcrowded, the idea is to, more or less, double
         the size of \texttt{mArray}.  To achieve this, the variable \texttt{sPrimes} is needed.
   \end{enumerate}
 \end{enumerate}
