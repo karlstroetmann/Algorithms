@@ -49,9 +49,12 @@ ausgeht.
   \centering
 \begin{tabular}[t]{|l|r|r|r|r|}
 \hline
-Buchstabe & \texttt{a} & \texttt{b}  & \texttt{c}   & \texttt{d}   \\
+Buchstabe  & \texttt{a} & \texttt{b}  & \texttt{c}   & \texttt{d}   \\
 \hline
-Kodierung & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
+\hline
+Häufigkeit &     990    &         8   &           1  &         1    \\
+\hline
+Kodierung  & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
 \hline
 \end{tabular}
   \caption{Kodierung der Buchstaben mit variabler Länge.}
@@ -59,7 +62,7 @@ Kodierung & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
 \end{table}
 
 Um zu verstehen, wie diese Kodierung funktioniert, stellen wir sie in
-Abbildung \ref{fig:coding-tree} als Baum dar.  Die inneren 
+Abbildung \ref{fig:coding-tree} als \emph{Kodierungs-Baum} dar.  Die inneren 
 Knoten dieses Baums enthalten keine Attribute und werden als leere Kreise dargestellt.
 Die Blätter des Baums sind mit den Buchstaben markiert.
 Die Kodierung eines Buchstabens ergibt sich über die Beschriftung der Kanten, die von dem
@@ -321,6 +324,7 @@ insgesamt die Komplexität $\Oh\bigl(n \cdot \ln(n)\bigr)$.
 \hline
 Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} \\
 \hline
+\hline
 Häufigkeit &          1 &          2 &          3 &          4 &          5 \\
 \hline
 \end{tabular}
@@ -437,6 +441,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
 \hline
 Buchstabe &   \texttt{a} &   \texttt{b} & \texttt{c}  & \texttt{d}  & \texttt{e}   \\
 \hline
+\hline
 Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11} \\
 \hline
 \end{tabular}
@@ -446,7 +451,7 @@ Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11
 
 
 \exercise
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item Berechnen Sie den Huffman-Code für einen Text, der nur die Buchstaben
       ``\texttt{a}'' bis ``\texttt{g}'' enthält und für den die Häufigkeiten,
       mit denen diese Buchstaben auftreten, durch die folgende Tabelle gegeben sind.
@@ -456,6 +461,7 @@ Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11
 \begin{tabular}[t]{|l|r|r|r|r|r|r|r|}
 \hline
 Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} & \texttt{g} \\
+\hline
 \hline
 Häufigkeit &          1 &          1 &          2 &          3 &          5 &         8 &         13 \\
 \hline
