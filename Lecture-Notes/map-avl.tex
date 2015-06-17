@@ -793,7 +793,8 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
 In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
 Form von Such-Bäumen, die an diese Situation besonders angepasst ist.  Diese Such-Bäume
-haben den Namen \emph{Tries}.  Dieses Wort ist von dem Englischen Wort
+haben den Namen \href{https://en.wikipedia.org/?title=Trie}{\emph{Tries}}.  Dieses Wort ist von dem
+Englischen Wort  
 \emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
 unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
 Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandais
@@ -1354,15 +1355,14 @@ Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
 \item Implementieren Sie binäre Tries in \textsc{SetlX}.
 \end{enumerate}
 \textbf{Bemerkung}: Binäre Tries werden auch als \emph{digitale Suchbäume} bezeichnet.
-\pagebreak
 
-\section{Hash-Tabellen}
-Eine Abbildung \\[0.2cm]
+\section{Hash Tables}
+It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \textsl{Key} \rightarrow \textsl{Value}$ \\[0.2cm]
-kann dann sehr einfach implementiert werden, wenn \\[0.2cm]
-\hspace*{1.3cm} $\textsl{Key} = \{ 1, 2, \cdots, n \}$ \\[0.2cm]
-gilt, denn dann reicht es aus, ein Feld der Größe $n$ zu verwenden.
-Abbildung \ref{fig:map-array.stlx} zeigt eine Umsetzung dieser Idee.
+provided the set \textsl{Key} is a set of natural numbers of the form  \\[0.2cm]
+\hspace*{1.3cm} $\textsl{Key} = \{ 1, 2, \cdots, n \}$. \\[0.2cm]
+In this case, we can implement the function $f$ via an array of size $n$.
+Figure \ref{fig:map-array.stlx} shows how a map can be realized in this case.
 
 \begin{figure}[!ht]
 \centering
@@ -1393,39 +1393,37 @@ Abbildung \ref{fig:map-array.stlx} zeigt eine Umsetzung dieser Idee.
 
 
 
-Falls nun der Definitions-Bereich $D$ der darzustellenden Abbildung nicht die Form einer
-Menge der Gestalt $\{1, \cdots, n\}$ hat, 
-könnten wir versuchen, $D$ zunächst auf eine Menge der Form $\{1,\cdots,n\}$ abzubilden.
-Wir erläutern diese Idee  an einem einfachen Beispiel.
-Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
-\begin{enumerate}
-\item Wir machen zunächst die Annahme, dass alle Namen aus genau  
-      8 Buchstaben bestehen.  Dazu werden
-      kürzere Namen mit Blanks aufgefüllt und Namen die länger als 8 Buchstaben sind,
-      werden nach dem  8-ten Buchstaben abgeschnitten.
-\item Als nächstes übersetzen wir Namen in einen Index.  
-      Dazu fassen wir die einzelnen Buchstaben als Ziffern auf, die die Werte von 0 bis 26
-      annehmen können.  Dem Blank ordnen wir dabei den Wert 0 zu.   Nehmen wir an, dass
-      die Funktion $\textsl{ord}$ jedem Buchstaben aus der Menge 
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\Sigma = \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \}$ 
-      \\[0.2cm]
-      einen Wert aus der Menge
-      $\{0,\cdots,26\}$ zuordnet \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\textsl{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$,
-      \\[0.2cm]
-      so lässt sich der Wert eines Strings $w = c_0c_1\cdots c_7$ durch eine Funktion \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
-      berechnen, die wie folgt definiert ist: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\textsl{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \textsl{ord}(c_i) \cdot 27^i$.
-      \\[0.2cm]
-      Die Menge \textsl{code} bildet die Menge aller Wörter mit 8 Buchstaben bijektiv
-      auf die Menge der Zahlen $\{1,\cdots,27^8\}$ ab.
-\end{enumerate}
+If the domain $D := \textsl{dom}(f)$ of the function $f$ is not a set of the form $\{1, \cdots, n\}$, 
+Then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{1,\cdots,n\}$.
+Let us explain the idea with a simple example:  Suppose we wanted to implement a telephone
+dictionary.
+To simplify things, let us assume first that all the names stored in our telephone dictionary
+have a length of 8 characters.  To achieve this, names that are shorter than eight characters
+are filled with spaces and if a name has more than eight characters, all characters after the
+eighth character are dropped.
+
+Next, every name is translated into an index.  In order to do so, the different
+characters are interpreted as digits in a system where the digits can take values starting
+from 0 up to the value 26.
+Let us assume that the function  $\textsl{ord}$ takes a character from the set
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Sigma = \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \}$ 
+\\[0.2cm]
+and assigns a number from the set $\{0,\cdots,26\}$ to this character, i.e.~we have \\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$.
+\\[0.2cm]
+Then, the value of the string  $w = c_0c_1\cdots c_7$ can be computed by the function \\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
+as follows: \\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \textsl{ord}(c_i) \cdot 27^i$.
+\\[0.2cm]
+Then, the function \textsl{code} maps the set of all non-empty strings with at most eighth characters in a
+one-to-one way to the set of numbers $\{1,\cdots,27^8\}$.
+
 
 \begin{figure}[!ht]
   \centering
@@ -1435,47 +1433,60 @@ Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
 \end{figure}
 
 \noindent
-Leider hat diese naive Implementierung mehrere Probleme: 
+Unfortunately, this naive implementation has several problems: 
 \begin{enumerate}
-\item Das Feld, das wir anlegen müssen, hat eine Größe von \\[0.2cm]
+\item The array needed to store the telephone dictionary has a size of 
+      \\[0.2cm]
       \hspace*{1.3cm} $27^8 = 282\,429\,536\,481$ \\[0.2cm]
-      Einträgen.  Selbst wenn jeder Eintrag nur die Größe zweier Maschinen-Worte hat und
-      ein Maschinen-Wort aus 4 Byte besteht, so bräuchten wir 
-      etwas mehr als ein Terabyte um eine
-      solche Tabelle anzulegen.
-\item Falls zwei Namen sich erst nach dem 8-ten Buchstaben unterscheiden, können 
-      wir zwischen diesen Namen nicht mehr unterscheiden. 
+      entries.  Even if every entry only needs 8 bytes, we still would need more than one terabyte
+      of memory.
+\item If two names happen to differ only after their eighth character, then we would not be able to
+      store both of theses names as we would not be able to distinguish these names.
 \end{enumerate}
-Wir können diese Probleme wir folgt lösen:
+These problems can be solved as follows:
 \begin{enumerate}
-\item Wir ändern die Funktion \texttt{code} so ab, dass das Ergebnis
-      immer kleiner-gleich einer vorgegebene Zahl \texttt{size} ist.  Die Zahl
-      \texttt{size} gibt dabei die Größe eines Feldes an und ist so klein,
-      dass wir ein solches Feld bequem anlegen können.
+\item We have to change the function  \texttt{code} so that the result of this function is always
+      less or equal to some given number \texttt{size}.  Here, the number \texttt{size} specifies
+      the number of entries of the array that we intend to use.  This number will be in the same
+      order of magnitude as the number of key-value pairs that we want to store in our dictionary.
 
-      Eine einfache Möglichkeit, die Funktion \textsl{code} entsprechend abzuändern,
-      besteht in folgender Implementierung: \\[0.2cm]
+      There is a simple way to adapt the function  \textsl{code} so that its result is never bigger
+      than a given number \texttt{size}: If we define \textsl{code} as
+      \\[0.2cm]
       \hspace*{1.3cm} 
       $\textsl{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \textsl{ord}(c_i) \cdot
-        27^i\right) \;\%\; \texttt{size} + 1$.
+        27^i\right) \;\%\; \texttt{size} + 1$,
       \\[0.2cm]
-      Um einen Überlauf zu vermeiden, können wir für $k=n,n-1,\cdots,1,0$ die Teilsummen $s_k$
-      wie folgt induktiv definieren:
+      then we will always have $\textsl{code}(c_0c_1\cdots c_n) \leq \mathtt{size}$.  In order to
+      prevent overflows we can define the partial sum $s_k$ for  $k=n,n-1,\cdots,1,0$ by induction:
       \begin{enumerate}
-      \item $s_n = \textsl{ord}(c_n)$
-      \item $s_{k} = \left(\textsl{ord}(c_{k}) + s_{k+1} \cdot 27 \right) \;\%\; \texttt{size}$
+      \item $s_n = \textsl{ord}(c_n)$,
+      \item $s_{k} = \bigl(\textsl{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\%\; \texttt{size}$.
       \end{enumerate}
-      Dann gilt
+      Then we have
       \hspace*{1.3cm} 
       $s_0 + 1 = \left(\sum\limits_{i=0}^n \textsl{ord}(c_i) \cdot 27^i\right) \;\%\; \texttt{size} + 1$.
-\item In dem Feld der Größe \texttt{size} speichern wir nun nicht mehr die Werte, sondern statt dessen
-      Listen von Paaren aus Schlüsseln und Werten.  Dies ist notwendig, denn wir können
-      nicht verhindern, dass die Funktion \texttt{code}() für zwei verschiedene
-      Schlüssel den selben Index liefert.
+\item Rather than storing the values associated with the keys in an array, the values are now stored
+      in linked lists that contain key-value pairs.  The array only stores pointers to these linked list.
+      
+      The reason we have to use linked lists is the fact that different keys may be mapped to the
+      same index.  Hence, we can no longer store the values directly in the array.  Instead,
+      the values of all keys that map to the same index are stored in a
+      linked list of key-value pairs.  These linked lists are then stored in the array.  As long as
+      these lists contain only a few entries, the look-up of a key is still fast: Given a key $k$,
+      we first compute 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{idx} = \textsl{code}(k)$.
+      \\[0.2cm]
+      Then, \texttt{array[idx]} returns a linked list containing a pairs of the form $\langle k', v' \rangle$.
+      In order to find the value associated with the key $k$ we have to search this list for the key
+      $k$.
 \end{enumerate}
-Abbildung \ref{fig:hash-example} auf Seite \pageref{fig:hash-example} zeigt, wie ein Feld,
-in dem Listen von Paaren abgebildet sind, aussehen kann.  Ein solches Feld bezeichnen wir
-als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \textsc{Setlx}.
+Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an array that contains
+linked lists.  An array of this kind is called a
+\href{https://en.wikipedia.org/wiki/Hash_table}{\emph{hash table}}.
+We proceed to discuss the implementation of hash tables in \textsc{Setlx}.
 
 
 
@@ -1530,7 +1541,7 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
 \item \texttt{mArray} is the array containing the list of key value pairs.
 
       In our implementation, the key-value pairs are not stored in a list but, instead, they are
-      stored in a set.  Since every key occurs at most once, this set can be interpreted as a
+      stored in a set.  Since every key is associated with at most one value, this set can be interpreted as a
       functional relation.  Therefore, looking up a key is more efficient than it would be if we had
       used a list.  Although we actually use a relation instead of a list, we will still call
       this relation the \emph{list of key-value pairs}.
@@ -1541,10 +1552,10 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
       \hspace*{1.3cm}
       $\texttt{mEntries} > \texttt{mAlpha} \cdot \texttt{mSize}$,
       \\[0.2cm]
-      then we consider our hash table to be \emph{overcrowded}.  In that case, we would increase the size
+      then we consider our hash table to be \emph{overcrowded}.  In that case, we increase the size
       of the array \texttt{mArray}.  To determine the best value for \texttt{mAlpha}, we have to
-      make a tradeoff:  If \texttt{mAlpha} is too big, many entries in the array \texttt{mArray}
-      would be empty and thus we would waste space.  On the other hand, if \texttt{mAlpha} is too
+      make a tradeoff:  If \texttt{mAlpha} were too big, many entries in the array \texttt{mArray}
+      would be empty and thus we would waste space.  On the other hand, if \texttt{mAlpha} were too
       small, the key-value lists would become very long and hence it would take too much time to
       search for a given key in one of these lists.
 \item Our implementation maintains two static variables.
@@ -1690,10 +1701,10 @@ Figure \ref{fig:hashTable.stlx-find} show the implementation of the method \text
 Figure \ref{fig:hashTable.stlx-insert} shows the implementation of the method \texttt{insert}.
 The implementation works as follows.
 \begin{enumerate}
-\item First, we check whether our has table is already overcrowded.
+\item First, we check whether our hash table is already overcrowded.
       In this case, we \emph{rehash}, which means we roughly double the size of \texttt{mArray}.
       How the method \texttt{rehash} works in detail is explained later.
-      After rehashing, the \texttt{key} is inserted via a recursive call.
+      After rehashing, the \texttt{key} is inserted via a recursive call to \texttt{insert}.
 \item If we don't have to rehash, we compute the index of the key-value list that has to store
       \texttt{mKey}, retrieve the associated key-value list, and finally associate the
       \texttt{value} with the given key.  When inserting the given key-value
@@ -1749,7 +1760,7 @@ list is less than the load factor \texttt{mAlpha}.  After we have determined \te
 proceed as follows: 
 \begin{enumerate}
 \item We create a new empty hash table of size \texttt{prime}.
-\item Next, we move the key-value pairs from the given has table to the new hash table.
+\item Next, we move the key-value pairs from the given hash table to the new hash table.
 \item Finally, the array stored in the new hash table is moved to the given hash table
       and the size is adjusted correspondingly.
 \end{enumerate}
@@ -1795,26 +1806,25 @@ maintain the number of entries since we do not know whether the list of key-valu
 for the given \texttt{key}.
 
 However, there is one crucial difference compared to the implementation of \texttt{insert}.
-We do not rehash the hash table if the number of entries falls under certain thresh hold.
+We do not rehash the hash table if the number of entries falls under a certain thresh hold.
 Although this could be done and there are implementations of hash tables that readjust the size of the
 hash table if the hash table gets underpopulated, we don't do so here because often a table will
 grow again after it has shrunk and in that case rehashing would be counter productive.
 
-
-Falls wir in unserer Implementierung tatsächlich mit Listen und nicht mit Mengen arbeiten würden, dann
-könnte die Komplexität der Methoden \textsl{find}, \textsl{insert} und \textsl{delete}
-im ungünstigsten Fall linear mit der Anzahl der Einträge in der Hash-Tabelle wachsen.  Dieser
-Fall tritt dann auf, wenn die Funktion $\texttt{hashTable}(k,n)$ für alle Schlüssel $k$ den
-selben Wert berechnet.  Dieser Fall ist allerdings sehr unwahrscheinlich.  Der Normalfall
-ist der, dass alle Listen etwa gleich lang sind.  Die durchschnittliche Länge  einer Liste
-ist dann \\[0.2cm]
-\hspace*{1.3cm} $\alpha = \displaystyle \frac{\mathtt{count}}{\mathtt{size}}$. \\[0.2cm]
-Hierbei ist $\mathtt{count}$ die Gesamtzahl der Einträge in der Tabelle und \texttt{size}
-gibt die Größe der Tabelle an.  Das Verhältnis $\alpha$ dieser beiden Zahlen ist genau der
- \emph{Auslastungs-Faktor} der Hash-Tabelle.  In der Praxis zeigt sich, dass
-$\alpha$ kleiner als 4 sein sollte.  In \textsl{Java} gibt es die Klasse \textsl{HashMap},
-die Abbildungen als Hash-Tabellen implementiert.  Dort hat der per Default eingestellte maximale
-Auslastungs-Faktor sogar nur den Wert \texttt{0.75}.
+If our implementation had used linked lists instead of functional relations then the complexity of
+the methods  \textsl{find}, \textsl{insert} and \textsl{delete} could grow linearly with the number
+of entries in the hash table.  This would happen if the function 
+$\texttt{hashCode}(k)$ would return the same number for all keys $k$.  Of course, this case is
+highly unlikely, but it is not impossible.  If we have a good function to compute hash codes, then
+most of the linked lists will have roughly the same length.  The average length of a list is then
+ \\[0.2cm]
+\hspace*{1.3cm}
+ $\alpha = \displaystyle \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
+\\[0.2cm]
+Here, the number $\alpha$ is the \emph{load factor} of the hash table.  In practice, in order to
+achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
+language \textsl{Java} provides the class  \textsl{HashMap} that implements maps via hash tables,
+Per default, the load factor used in this class is only \texttt{0.75}.
 
 
 \subsection{Further Reading}
@@ -1837,8 +1847,8 @@ Both \texttt{C++} and \textsl{Java} provide maps.  In \texttt{C++}, maps are par
 template library, while \textsl{Java} offers the interface \texttt{Map} that is implemented both by
 the class \texttt{TreeMap} and the class \texttt{HashMap}. Furthermore, all modern script languages provide maps.
 For example, in \textsl{Perl} \cite{Wall92}, maps are known as \emph{associative arrays}, in \textsl{Lua} 
-\cite{ierusalimschy:2006,Ieru96a} maps are called tables, and in \textsl{Python} 
-\cite{vanRossum:95,lutz:09} map are called \emph{dictionaries}.  
+\cite{ierusalimschy:2006,Ieru96a} maps are called \emph{tables}, and in \textsl{Python} 
+\cite{vanRossum:95,lutz:09} maps are called \emph{dictionaries}.  
 
 Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see an
 application of maps.

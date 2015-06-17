@@ -1,6 +1,9 @@
 \chapter{Sets and Maps}
 During the first term we have seen how important sets and functional relations are.  In the
-following, functional relations will be called \emph{maps}.  In this chapter we show how sets and
+following, \emph{functional relations} will be called \emph{maps}.  In computer science, maps are also
+known as \href{https://en.wikipedia.org/wiki/Associative_array}{\emph{associative arrays}}, 
+\emph{dictionaries}, or \emph{symbol tables}.
+In this Chapter we show how sets and
 maps can be implemented efficiently.  We confine our attention to the implementation of maps.  The
 reason is that a set $M$ can always be represented by its \emph{characteristic function}:  If $M$ is
 a set, then the characteristic function $\chi_M$ is defined such that
@@ -11,7 +14,7 @@ $x \in M \Leftrightarrow \chi_M(x) = \mathtt{true}$
 holds true.  In order to implement a set $M$ we can therefore implement its characteristic function
 as a map.  The rest of this chapter is organized as follows:
 \begin{enumerate}
-\item We begin with the definition of the abstract data type of a \emph{map.}
+\item We begin with the definition of the abstract data type of a \emph{map}.
     
       Following this definition we present several different implementations of maps. 
 \item We start our discussion with \emph{ordered binary trees}.  These trees can be used to implement map,
