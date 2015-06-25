@@ -249,7 +249,12 @@ In dem Programm gibt es genau zwei Stellen, an denen die Menge \textsl{visited} 
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\textsl{sp}(u) \geq \textsl{sp}(x_{i+1}) = \textsl{dist}[x_{i+1}] \geq \textsl{dist}[u] > \textsl{sp}(u)$.
-      \hspace*{\fill} $\Box$
+      \\[0.2cm]
+      Dieser Widerspruch zeigt, dass die Annahme $\textsl{dist}[u] > \textsl{sp}(u)$ falsch sein muss.  Da andererseits aber immer
+      $\textsl{dist}[u] \geq \textsl{sp}(u)$ gilt, denn kein Pfad kann kürzer als der kürzeste Pfad sein, gilt insgesamt
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\textsl{dist}[u] = \textsl{sp}(u)$. \qed
 \end{enumerate}
 
 \subsection{Komplexität}
@@ -283,7 +288,7 @@ müssen wir auch die Komplexität des Aufrufs
 \texttt{fringe -= \{ [dvOld, v] \};} 
 \\[0.2cm]
 analysieren.
-Die Anzahl dieser Aufrufe ist durch die Anzahl der Kanten begrenzt, die zu dem Knoten $v$ hinfügen.
+Die Anzahl dieser Aufrufe ist durch die Anzahl der Kanten begrenzt, die zu dem Knoten $v$ hinführen.
 Da das Entfernen eines Elements aus einer Menge mit $n$ Elementen eine Rechenzeit
 der Größe $\Oh\bigl(\log_2(n)\bigr)$ erfordert, haben wir die Abschätzung
 \\[0.2cm]

@@ -915,14 +915,13 @@ einem zugehörigen Wert beschreiben können.  Bezeichnen wir die Methode für das E
 mit $\textsl{insert}()$, so hat diese Methode die Signatur
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{insert}: \mathbb{T} \times \Sigma^* \times V \rightarrow \mathbb{T}$.
+$\textsl{insert}: \mathbb{T} \times \Sigma^* \times \textsl{Value} \rightarrow \mathbb{T}$.
 \\[0.2cm]
 Wir definieren den Wert von \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(s,v)$
 \\[0.2cm]
-für ein Wort $w\in \Sigma^*$ und einen Wert $v \in V$
-durch Induktion nach der Länge des Wortes $w$.
+für ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der Länge des Wortes $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
 
