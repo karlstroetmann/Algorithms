@@ -1,6 +1,7 @@
 // Moore's algorithm for computing the shortest path function.
 shortestPath := procedure(source, edges) {
-    dist   := { [source, 0] };
+    dist := {};
+    dist[source] := 0;
     fringe := { source };
     while (fringe != {}) {
         u := from(fringe);
@@ -11,13 +12,7 @@ shortestPath := procedure(source, edges) {
     }
     return dist;
 };
-
-////////////////////////////////////////////////////////////////////////////////
-//                                                                            //
-// Code for testing.                                                          //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
-
+// Code for testing.                                                     
 edges := { ["a", {["b", 2], ["c", 3]}], 
            ["b", {["d", 1]} ],
            ["c", {["e", 3]} ],  
@@ -25,11 +20,10 @@ edges := { ["a", {["b", 2], ["c", 3]}],
            ["e", {["f", 1]} ],
            ["f", {} ]
          };
-
 m  := { x : [x, _ ] in edges };
 s  := "a";
 sp := shortestPath(s, edges);
-
 for (x in m) {
     print("distance($s$, $x$) = $sp[x]$");
 }
+

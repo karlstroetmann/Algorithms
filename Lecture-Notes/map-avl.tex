@@ -1326,17 +1326,17 @@ $\Omega$ zurück gegeben.
 Formal definieren wir den Wert von $\textsl{find}(b,n)$ durch Induktion nach dem Aufbau
 von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
 \begin{enumerate}
-\item $\textsl{find}(\textsl{Nil},n) = \Omega$,
+\item $\textsl{Nil}.\textsl{find}(n) = \Omega$,
 
       denn in dem leeren binären Trie finden wir keine Werte.
-\item $\textsl{find}\bigl(\textsl{Bin}(v,l,r),0\bigr) = v$,
+\item $\textsl{Bin}(v,l,r).\textsl{find}(0) = v$,
 
       denn der Schlüssel $0$ entspricht dem leeren String $\varepsilon$.
-\item $n \not= 0 \rightarrow \textsl{find}\bigl(\textsl{Bin}(v,l,r),2\!\cdot \!n\bigr) = \textsl{find}(l,n)$,
+\item $\textsl{Bin}(v,l,r).\textsl{find}(2\cdot n + 2) = l.\textsl{find}(n)$,
 
       denn wenn wir Zahlen im Binärsystem darstellen, so hat bei geraden Zahlen das letzte
       Bit den Wert 0 und die 0 soll dem linken Teilbaum entsprechen.
-\item $\textsl{find}\bigl(\textsl{Bin}(v,l,r),2\!\cdot \!n\!+\!1) = \textsl{find}(r,n)$,
+\item $\textsl{Bin}(v,l,r).\textsl{find}(2 \cdot n + 1) = r.\textsl{find}(n)$,
 
       denn wenn wir Zahlen im Binärsystem darstellen, so hat bei ungeraden Zahlen das letzte
       Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
