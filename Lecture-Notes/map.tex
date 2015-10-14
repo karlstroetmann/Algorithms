@@ -3,7 +3,7 @@ During the first term we have seen how important sets and functional relations a
 following, \emph{functional relations} will be called \emph{maps}.  In computer science, maps are also
 known as \href{https://en.wikipedia.org/wiki/Associative_array}{\emph{associative arrays}}, 
 \emph{dictionaries}, or \emph{symbol tables}.
-In this Chapter we show how sets and
+In this chapter we show how sets and
 maps can be implemented efficiently.  We confine our attention to the implementation of maps.  The
 reason is that a set $M$ can always be represented by its \emph{characteristic function}:  If $M$ is
 a set, then the characteristic function $\chi_M$ is defined such that
@@ -17,7 +17,7 @@ as a map.  The rest of this chapter is organized as follows:
 \item We begin with the definition of the abstract data type of a \emph{map}.
     
       Following this definition we present several different implementations of maps. 
-\item We start our discussion with \emph{ordered binary trees}.  These trees can be used to implement map,
+\item We start our discussion with \emph{ordered binary trees}.  These trees can be used to implement maps,
       provided the keys are ordered.        The average complexity of inserting
       an element into an ordered binary tree is logarithmic.  Unfortunately, the worst case complexity
       is linear in the size of the ordered binary tree.
@@ -79,7 +79,7 @@ The most important functions provided by a telephone directory are the following
               $m.\textsl{insert}(k,v)$ 
               \\[0.2cm]
               takes a key $k$ and an associated value $v$ and stores this information into the map
-              $m$.  If the map $m$ already stores a values associated with the key $k$, this value
+              $m$.  If the map $m$ already stores a value associated with the key $k$, this value
               is overwritten.  
 
               The function call returns the resulting map.
@@ -111,7 +111,7 @@ The most important functions provided by a telephone directory are the following
               for any key $k_2$  different from $k_1$.
         \item $m.\textsl{delete}(k).\textsl{find}(k\bigr) = \Omega$.
 
-              If the key $k$ is deleted, then afterwords we won't find this key anymore.
+              If the key $k$ is deleted, then afterwards we won't find this key anymore.
         \item $k_1 \not= k_2 \rightarrow 
                m.\textsl{delete}(k_1).\textsl{find}(k_2) = m.\textsl{find}(k_2)$,
 
@@ -304,7 +304,7 @@ Funktion \textsl{find}.
       Information im rechten Teilbaum einfügen.
 \end{enumerate}
 Als letztes definieren wir die Methode \textsl{delete}. Diese Definition ist schwieriger als
-die Implementierung der andern beiden Methoden.  Falls wir in einen Baum der Form
+die Implementierung der andern beiden Methoden.  Falls wir in einem Baum der Form
 $t =\textsl{Node}(k,v,l,r)$ den Eintrag mit dem Schlüssel $k$ löschen wollen, so
 kommt es auf die beiden Teilbäume $l$ und $r$ an.  Ist $l$ der leere Teilbaum,
 so liefert $t.\textsl{delete}(k)$ als Ergebnis den Teilbaum $r$ zurück.
@@ -334,7 +334,7 @@ $\pair(4,16)$ mit der Markierung $\pair(5,25)$.  Abbildung
 \begin{figure}[!th]
   \centering
   \framebox{\epsfig{file=graph2.eps}} 
-  \caption{Der geordnete binärer Baum aus Abbildung 
+  \caption{Der geordnete binäre Baum aus Abbildung 
           \ref{fig:graph1} nach dem Entfernen des Knotens mit der Markierung $\pair(4,16)$.}
   \label{fig:graph2}
 \end{figure}
@@ -634,7 +634,7 @@ $d_n$.  First, we note that
 \\[0.2cm]
 \hspace*{1.3cm} $d_1 = 1$,
 \\[0.2cm]
-because if the tree $b$ contains only one key we will do exactly one key comparison,
+because if the tree $b$ contains only one key we will do exactly one key comparison.
 Next, imagine a binary tree $b$ that contains $n+1$ keys.  Then $b$
 can be written as 
 \\[0.2cm]
