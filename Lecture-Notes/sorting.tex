@@ -1287,11 +1287,10 @@ holds.  Let us compare this result with the number of comparisons needed for \em
 We have seen previously that \emph{merge sort} needs
 \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
-comparisons in order to sort a list of $n$ elements.  Since we have $\ln(n) = \ln(2) \cdot
-\log_2(n)$
+comparisons in order to sort a list of $n$ elements.  Since we have $\ln(n) = \ln(2) \cdot \log_2(n)$
 we conclude that the average case of \emph{quick sort} needs
  \\[0.2cm]
-\hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n)$ \\[0.2cm]
+\hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
 comparisons and hence on average \emph{quick sort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
 \emph{merge sort}.  
 
