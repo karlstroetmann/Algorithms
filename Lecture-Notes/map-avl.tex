@@ -832,14 +832,14 @@ dann gilt \\[0.2cm]
 \hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  \\[0.2cm]
 Als erstes fragen Sie sich
 vermutlich, wo bei dieser induktiven Definition der Induktions-Anfang ist.
-Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $L$ und $T$ leer.
+Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $C$ und $T$ leer.
 Als nächstes überlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
 \hspace*{1.3cm}  $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]) \in \mathbb{T}$ \\[0.2cm]
 dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen für die
 Methode \\[0.2cm]
 \hspace*{1.3cm} $\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
 \\[0.2cm]
-angeben.  Wir werden den Ausdruck $\texttt{Node}(v,L,T).\textsl{find}(s)$ durch
+angeben.  Wir werden den Ausdruck $\texttt{Node}(v,C,T).\textsl{find}(s)$ durch
 Induktion über den String $s$ 
 definieren:
 \begin{enumerate}
@@ -862,7 +862,7 @@ definieren:
       Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enthält also genau
       dann einen Wert zu dem Schlüssel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
       eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
-      übereinstimmt  wenn außerdem der Trie $t_i$ einen Wert zu dem
+      übereinstimmt und wenn außerdem der Trie $t_i$ einen Wert zu dem
       Schlüssel $r$ enthält.
 \end{enumerate}
 
@@ -886,7 +886,7 @@ Das, was wir über dem Strich schreiben,
 hängt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abhängt, sehen wir gleich.
 Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
 Wurzeln der Bäume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Außerdem markieren wir die diese Knoten darstellenden Kreise in den oberen Hälfte 
+Außerdem markieren wir die diese Knoten darstellenden Kreise in den oberen Hälften 
 mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
 
 
@@ -919,7 +919,7 @@ $\textsl{insert}: \mathbb{T} \times \Sigma^* \times \textsl{Value} \rightarrow \
 \\[0.2cm]
 Wir definieren den Wert von \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(s,v)$
+$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w,v)$
 \\[0.2cm]
 für ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der Länge des Wortes $w$.
 \begin{enumerate}
@@ -996,7 +996,7 @@ spezifizieren:  Wir definieren den Wert von \\[0.2cm]
 \hspace*{1.3cm} 
 $t.\textsl{delete}(w)$
 \\[0.2cm]
-für einen Trie $t \in \mathbb{B}$ und ein Wort $w \in \Sigma^*$
+für einen Trie $t \in \mathbb{T}$ und ein Wort $w \in \Sigma^*$
 durch Induktion nach der Länge des Wortes $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$,
@@ -1238,7 +1238,7 @@ value is deleted,
 \begin{enumerate}
 \item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
       Hence, this value is set to \texttt{om}.
-\item Otherwise, $s$ can we written as $cr$ where $c$ is the first character of $s$ while $r$
+\item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
       consists of the remaining characters.  In this case, we need to check whether the list
       \texttt{mChars} contains the character $c$ or not.
  
@@ -1393,7 +1393,7 @@ Figure \ref{fig:map-array.stlx} shows how a map can be realized in this case.
 
 
 If the domain $D := \textsl{dom}(f)$ of the function $f$ is not a set of the form $\{1, \cdots, n\}$, 
-Then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{1,\cdots,n\}$.
+then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{1,\cdots,n\}$.
 Let us explain the idea with a simple example:  Suppose we wanted to implement a telephone
 dictionary.
 To simplify things, let us assume first that all the names stored in our telephone dictionary
@@ -1420,7 +1420,7 @@ as follows: \\[0.2cm]
 \hspace*{1.3cm} 
 $\textsl{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \textsl{ord}(c_i) \cdot 27^i$.
 \\[0.2cm]
-Then, the function \textsl{code} maps the set of all non-empty strings with at most eighth characters in a
+Then, the function \textsl{code} maps the set of all non-empty strings with at most eight characters in a
 one-to-one way to the set of numbers $\{1,\cdots,27^8\}$.
 
 
@@ -1478,7 +1478,7 @@ These problems can be solved as follows:
       \hspace*{1.3cm}
       $\mathtt{idx} = \textsl{code}(k)$.
       \\[0.2cm]
-      Then, \texttt{array[idx]} returns a linked list containing a pairs of the form $\langle k', v' \rangle$.
+      Then, \texttt{array[idx]} returns a linked list containing a pair of the form $\langle k, v \rangle$.
       In order to find the value associated with the key $k$ we have to search this list for the key
       $k$.
 \end{enumerate}
@@ -1835,7 +1835,7 @@ quite a bit faster than \textsl{AVL}-trees or \emph{red-black} trees.  However, 
 the hash function that is used is able to spread the keys uniformly.  If this assumption is
 violated, the use of a hash table can lead to serious performance 
 bugs.  If, instead, a good
-implementation of red-black-trees is used, the program might be slower in general but are certain to
+implementation of red-black-trees is used, the program might be slower in general but is certain to
 be protected from the ugly surprises that can result from a poor hash function.  My advice for the reader
 therefore is to use hashing only if the performance is really critical and you are sure that your
 hash function is distributing the keys nicely.
