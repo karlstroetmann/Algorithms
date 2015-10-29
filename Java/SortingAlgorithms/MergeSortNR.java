@@ -36,7 +36,7 @@ public class MergeSortNR
         // copy everything to the auxilliary array mAux
         for (int i = start; i < end; ++i) {
             mAux[i]   = mArray[i]; 
-            mArray[i] = null;  // only usefull for animation
+            mArray[i] = null;  // only useful for animation
         }
         // The number idx1 indexes the first part of the array.
         int idx1 = start;
