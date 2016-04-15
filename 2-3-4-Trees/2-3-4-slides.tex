@@ -10,18 +10,18 @@
 
 \footnotesize
 \begin{enumerate}
-\item 3--Knoten mit Söhnen der Höhe $h$ gibt Baum der Höhe $h+1$:
+\item 3--Knoten mit S\"ohnen der H\"ohe $h$ gibt Baum der H\"ohe $h+1$:
 
 \hspace*{3cm} \epsfig{file=3-node.ps}
 \begin{enumerate}
 \item $k1 < k2$
-\item alle Schlüssel im Teilbaum $l$ kleiner als $k1$
-\item $k1$ kleiner als alle Schlüssel im Teilbaum $m$ 
-\item alle Schlüssel im Teilbaum $m$ kleiner als $k2$
-\item $k2$ kleiner als alle Schlüssel im Teilbaum $r$  
-\item $l$ ist 2--3--4 Baum der Höhe $h$
-\item $m$ ist 2--3--4 Baum der Höhe $h$
-\item $r$ ist 2--3--4 Baum der Höhe $h$
+\item alle Schl\"ussel im Teilbaum $l$ kleiner als $k1$
+\item $k1$ kleiner als alle Schl\"ussel im Teilbaum $m$ 
+\item alle Schl\"ussel im Teilbaum $m$ kleiner als $k2$
+\item $k2$ kleiner als alle Schl\"ussel im Teilbaum $r$  
+\item $l$ ist 2--3--4 Baum der H\"ohe $h$
+\item $m$ ist 2--3--4 Baum der H\"ohe $h$
+\item $r$ ist 2--3--4 Baum der H\"ohe $h$
 \end{enumerate}
 
 $$ l < k1 < m < k2 < r  $$
@@ -31,7 +31,7 @@ $$ l < k1 < m < k2 < r  $$
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,22 +46,22 @@ $$ l < k1 < m < k2 < r  $$
 
 \footnotesize
 \begin{enumerate}
-\item[4.] 4--Knoten der Höhe $h+1$
+\item[4.] 4--Knoten der H\"ohe $h+1$
 
 \hspace*{1cm} \epsfig{file=4-node.ps}
 \begin{enumerate}
 \item $k1 < k2$
 \item $k2 < k3$
-\item alle Schlüssel im Teilbaum $l$ kleiner als $k1$
-\item $k1$ kleiner als alle Schlüssel im Teilbaum $ml$ 
-\item alle Schlüssel im Teilbaum $ml$ kleiner als $k2$
-\item $k2$ kleiner als alle Schlüssel im Teilbaum $mr$  
-\item alle Schlüssel im Teilbaum $mr$ kleiner als $k3$
-\item $k3$ kleiner als alle Schlüssel im Teilbaum $r$  
-\item $l$ \ \, ist 2--3--4 Baum der Höhe $h$
-\item $ml$  ist 2--3--4 Baum der Höhe $h$
-\item $mr$  ist 2--3--4 Baum der Höhe $h$
-\item $r$ \ \, ist 2--3--4 Baum der Höhe $h$
+\item alle Schl\"ussel im Teilbaum $l$ kleiner als $k1$
+\item $k1$ kleiner als alle Schl\"ussel im Teilbaum $ml$ 
+\item alle Schl\"ussel im Teilbaum $ml$ kleiner als $k2$
+\item $k2$ kleiner als alle Schl\"ussel im Teilbaum $mr$  
+\item alle Schl\"ussel im Teilbaum $mr$ kleiner als $k3$
+\item $k3$ kleiner als alle Schl\"ussel im Teilbaum $r$  
+\item $l$ \ \, ist 2--3--4 Baum der H\"ohe $h$
+\item $ml$  ist 2--3--4 Baum der H\"ohe $h$
+\item $mr$  ist 2--3--4 Baum der H\"ohe $h$
+\item $r$ \ \, ist 2--3--4 Baum der H\"ohe $h$
 \end{enumerate}
 
 $$ l < k1 < ml < k2 < mr < k3 < r $$
@@ -70,7 +70,7 @@ $$ l < k1 < ml < k2 < mr < k3 < r $$
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,7 +79,7 @@ $$ l < k1 < ml < k2 < mr < k3 < r $$
 \normalsize
 
 \begin{center}
-Mögliche Repräsentation der Knoten in \texttt{C}
+M\"ogliche Repr\"asentation der Knoten in \texttt{C}
 \end{center}
 \vspace*{0.5cm}
 
@@ -111,7 +111,7 @@ Interpretation von \texttt{type}:
 \item \texttt{type == FOUR}:  4--Knoten
 \end{enumerate}
 
-\textbf{Vorteil} dieser Repräsentation: konzeptuell einfach
+\textbf{Vorteil} dieser Repr\"asentation: konzeptuell einfach
 
 \textbf{Nachteil}: verbraucht zuviel Platz, denn 2--Knoten
 verbraucht genauso viel Platz wie 4--Knoten.
@@ -120,7 +120,7 @@ verbraucht genauso viel Platz wie 4--Knoten.
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,14 +129,14 @@ verbraucht genauso viel Platz wie 4--Knoten.
 \normalsize
 
 \begin{center}
-Suche in 2--3--4--Bäumen
+Suche in 2--3--4--B\"aumen
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Suche konzeptuell wie in binären Bäumen, aber mehr Fälle:
+Suche konzeptuell wie in bin\"aren B\"aumen, aber mehr F\"alle:
 \begin{enumerate}
-\item 2--Knoten mit Schlüssel $k$
+\item 2--Knoten mit Schl\"ussel $k$
 
       \hspace*{3cm} \epsfig{file=2a-node.ps}
       \vspace*{-0.7cm}
@@ -146,7 +146,7 @@ Suche konzeptuell wie in binären Bäumen, aber mehr Fälle:
       \item $k = k1$: Fertig, Wert gefunden!
       \item $k > k1$: Suche in $r$
       \end{enumerate}
-\item 3--Knoten mit Schlüssel $k1$ und $k2$
+\item 3--Knoten mit Schl\"ussel $k1$ und $k2$
 
       \hspace*{3cm} \epsfig{file=3-node.ps}
       \vspace*{-0.7cm}
@@ -163,7 +163,7 @@ Suche konzeptuell wie in binären Bäumen, aber mehr Fälle:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,13 +172,13 @@ Suche konzeptuell wie in binären Bäumen, aber mehr Fälle:
 \normalsize
 
 \begin{center}
-Suche in 2--3--4--Bäumen (Fortsetzung)
+Suche in 2--3--4--B\"aumen (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item[4.] 4--Knoten mit Schlüssel $k1$ und $k2$
+\item[4.] 4--Knoten mit Schl\"ussel $k1$ und $k2$
 
       \hspace*{2cm} \epsfig{file=4-node.ps}
 
@@ -195,9 +195,9 @@ Suche in 2--3--4--Bäumen (Fortsetzung)
 
 Bei Suche sind pro Knoten bis zu 3 Vergleiche notwendig.
 
-\textbf{Aufwand} der Suche: $\Oh(h)$, falls $h$ Höhe des 2--3--4 Baums
+\textbf{Aufwand} der Suche: $\Oh(h)$, falls $h$ H\"ohe des 2--3--4 Baums
 
-Ein 2--3--4--Baum der Höhe $h$ hat mindestens $n = 2^h - 1$ Knoten!
+Ein 2--3--4--Baum der H\"ohe $h$ hat mindestens $n = 2^h - 1$ Knoten!
 
 Also gilt $h = \log_2(n+1)$, und damit haben wir:
 
@@ -208,7 +208,7 @@ Also gilt $h = \log_2(n+1)$, und damit haben wir:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,7 +217,7 @@ Also gilt $h = \log_2(n+1)$, und damit haben wir:
 \normalsize
 
 \begin{center}
-    Suche in 2--3--4--Bäumen (Implementierung)
+    Suche in 2--3--4--B\"aumen (Implementierung)
 \end{center}
 \vspace*{0.5cm}
 
@@ -262,7 +262,7 @@ Value* search(Table t, Key key)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,7 +311,7 @@ Value* search(Table t, Key key)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -320,29 +320,29 @@ Value* search(Table t, Key key)
 \normalsize
 
 \begin{center}
-Einfügen in 2--3--4 Bäumen
+Einf\"ugen in 2--3--4 B\"aumen
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Algorithmus zum Einfügen von gegebenen $\langle \textsl{key}, \textsl{val} \rangle$ Paar
+Algorithmus zum Einf\"ugen von gegebenen $\langle \textsl{key}, \textsl{val} \rangle$ Paar
 \begin{enumerate}
-\item Suche nach Schlüssel \textsl{key} bis Blatt erreicht ist
+\item Suche nach Schl\"ussel \textsl{key} bis Blatt erreicht ist
 
-      (Ein Blatt ist ein 2--3--4--Baum der Höhe 1)
+      (Ein Blatt ist ein 2--3--4--Baum der H\"ohe 1)
 \item Fall--Unterscheidung nach Art des Blattes:
       \begin{enumerate}
-      \item Blatt ist 2--Knoten: füge $\langle \textsl{key}, \textsl{val} \rangle$ ein
+      \item Blatt ist 2--Knoten: f\"uge $\langle \textsl{key}, \textsl{val} \rangle$ ein
 
             Neues Blatt ist 3--Knoten
 
-\epsfig{file=ex1.ps} \raisebox{2cm}{ \ 1 einfügen \ }  \epsfig{file=ex2.ps}         
-      \item Blatt ist 3--Knoten: füge $\langle \textsl{key}, \textsl{val} \rangle$ ein
+\epsfig{file=ex1.ps} \raisebox{2cm}{ \ 1 einf\"ugen \ }  \epsfig{file=ex2.ps}         
+      \item Blatt ist 3--Knoten: f\"uge $\langle \textsl{key}, \textsl{val} \rangle$ ein
 
             Neues Blatt ist 4--Knoten 
             \vspace*{0.5cm}
 
-            Beispiel: oben 7 einfügen
+            Beispiel: oben 7 einf\"ugen
 
             \hspace*{2cm} \epsfig{file=ex3.ps}
       \end{enumerate}
@@ -352,7 +352,7 @@ Algorithmus zum Einfügen von gegebenen $\langle \textsl{key}, \textsl{val} \rang
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -361,20 +361,20 @@ Algorithmus zum Einfügen von gegebenen $\langle \textsl{key}, \textsl{val} \rang
 \normalsize
 
 \begin{center}
-Einfügen in 2--3--4 Bäume (Fortsetzung)
+Einf\"ugen in 2--3--4 B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Einfügen in 4--Knoten: Erster Versuch
+Einf\"ugen in 4--Knoten: Erster Versuch
 
-\raisebox{2.6cm}{\epsfig{file=ex3.ps}} \raisebox{3.4cm}{ \ 5 einfügen \ }  \epsfig{file=ex4.ps}
+\raisebox{2.6cm}{\epsfig{file=ex3.ps}} \raisebox{3.4cm}{ \ 5 einf\"ugen \ }  \epsfig{file=ex4.ps}
 
-Geht nicht: Teilbäume haben unterschiedliche Höhe!
+Geht nicht: Teilb\"aume haben unterschiedliche H\"ohe!
 \vspace*{0.5cm}
 
 \begin{center}
-\framebox{\framebox{ 2--3--4 Bäume können nicht nach unten wachsen!}}  
+\framebox{\framebox{ 2--3--4 B\"aume k\"onnen nicht nach unten wachsen!}}  
 \end{center}
 \vspace*{0.5cm}
 
@@ -382,12 +382,12 @@ Zweiter Versuch: 4--Knoten aufspalten:
 
 \hspace*{1.3cm} \raisebox{1.6cm}{\epsfig{file=ex5.ps}} \raisebox{2.4cm}{ \ aufspalten \ }  \epsfig{file=ex6.ps}
 
-Dann Schlüssel 6 nach oben schieben!
+Dann Schl\"ussel 6 nach oben schieben!
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -396,12 +396,12 @@ Dann Schlüssel 6 nach oben schieben!
 \normalsize
 
 \begin{center}
-Einfügen in 2--3--4 Bäume (Fortsetzung)
+Einf\"ugen in 2--3--4 B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Schlüssel 6 nach oben schieben: Ausgangspunkt
+Schl\"ussel 6 nach oben schieben: Ausgangspunkt
 
 \hspace*{2.3cm} \epsfig{file=ex7.ps} 
 
@@ -410,14 +410,14 @@ Knoten mit 6 nach oben geschoben werden kann!
 
 \hspace*{2.3cm} \epsfig{file=ex8.ps} 
 
-Jetzt einfügen von 5 möglich!
+Jetzt einf\"ugen von 5 m\"oglich!
 
 \hspace*{2.3cm} \epsfig{file=ex9.ps} 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -426,47 +426,47 @@ Jetzt einfügen von 5 möglich!
 \normalsize
 
 \begin{center}
-Einfügen in 2--3--4 Bäume (Fortsetzung)
+Einf\"ugen in 2--3--4 B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 Neuer Algorithmus
 \begin{enumerate}
-\item Suche nach Schlüssel \textsl{key} bis Blatt erreicht ist
+\item Suche nach Schl\"ussel \textsl{key} bis Blatt erreicht ist
 
       Falls bei Suche 4--Knoten erreicht wird:
       \begin{enumerate}
       \item Spalte 4--Knoten auf
-      \item Schiebe mittleren Schlüssel nach oben
+      \item Schiebe mittleren Schl\"ussel nach oben
 
             \textbf{Frage}: Warum geht das immer?
            
-            (Problem wenn Knoten darüber 4--Knoten ist)
+            (Problem wenn Knoten dar\"uber 4--Knoten ist)
             \vspace*{0.5cm}
 
-            \textbf{Antwort}: Algorithmus stellt sicher, dass Knoten über dem aktuellen
+            \textbf{Antwort}: Algorithmus stellt sicher, dass Knoten \"uber dem aktuellen
             Knoten nie 4--Knoten ist!
       \end{enumerate}
 \item Falls Blatt erreicht ist, kann dies kein 4--Knoten sein:
       \begin{enumerate}
-      \item Blatt ist 2--Knoten: füge $\langle \textsl{key}, \textsl{val} \rangle$ ein
+      \item Blatt ist 2--Knoten: f\"uge $\langle \textsl{key}, \textsl{val} \rangle$ ein
 
             Neues Blatt ist 3--Knoten
 
-      \item Blatt ist 3--Knoten: füge $\langle \textsl{key}, \textsl{val} \rangle$ ein
+      \item Blatt ist 3--Knoten: f\"uge $\langle \textsl{key}, \textsl{val} \rangle$ ein
 
             Neues Blatt ist 4--Knoten 
       \end{enumerate}
 \end{enumerate}
 
-Baum wächst nur, wenn die Wurzel 4--Knoten ist und aufgespalten wird!
+Baum w\"achst nur, wenn die Wurzel 4--Knoten ist und aufgespalten wird!
 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -475,7 +475,7 @@ Baum wächst nur, wenn die Wurzel 4--Knoten ist und aufgespalten wird!
 \normalsize
 
 \begin{center}
-Wachstum  von 2--3--4 Bäumen
+Wachstum  von 2--3--4 B\"aumen
 \end{center}
 \vspace*{0.5cm}
 
@@ -486,7 +486,7 @@ Wachstum  von 2--3--4 Bäumen
 
 \hspace*{2.3cm} \epsfig{file=ex11.ps}
 
-2. Schritt einfügen von 2
+2. Schritt einf\"ugen von 2
 
 \hspace*{2.3cm} \epsfig{file=ex12.ps}
 
@@ -494,7 +494,7 @@ Wachstum  von 2--3--4 Bäumen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -521,7 +521,7 @@ wird durch Aufspalten zu
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -575,7 +575,7 @@ NodePtr split4Node(NodePtr t)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -601,7 +601,7 @@ Aufspalten und Knoten nach oben schieben:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -627,7 +627,7 @@ Aufspalten und Knoten nach oben schieben:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -653,7 +653,7 @@ Aufspalten und Knoten nach oben schieben:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -679,7 +679,7 @@ Aufspalten und Knoten nach oben schieben:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -705,7 +705,7 @@ Aufspalten und Knoten nach oben schieben:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -758,7 +758,7 @@ void moveUp1(NodePtr t, NodePtr n)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -805,7 +805,7 @@ void moveUp2(NodePtr t, NodePtr n)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -837,13 +837,13 @@ void moveUp3(NodePtr t, NodePtr n)
 \end{verbatim}
 
 Auspalten von Knoten ist selten:
-Wird ein Knoten eingefügt, so muss im Mittel weniger als 1 Knoten 
+Wird ein Knoten eingef\"ugt, so muss im Mittel weniger als 1 Knoten 
 aufgespaltet werden!
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -852,12 +852,12 @@ aufgespaltet werden!
 \normalsize
 
 \begin{center}
-Einfügen von Knoten (Implementierung)
+Einf\"ugen von Knoten (Implementierung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Einfügen im Blatt, betrachte zunächst 2--Knoten
+Einf\"ugen im Blatt, betrachte zun\"achst 2--Knoten
 
 
 \begin{verbatim}
@@ -886,7 +886,7 @@ void addKey(Tree p, Key key, Value val) {
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -895,7 +895,7 @@ void addKey(Tree p, Key key, Value val) {
 \normalsize
 
 \begin{center}
-Einfügen im Blatt (3--Knoten)
+Einf\"ugen im Blatt (3--Knoten)
 \end{center}
 \vspace*{0.5cm}
 
@@ -939,7 +939,7 @@ Einfügen im Blatt (3--Knoten)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -948,7 +948,7 @@ Einfügen im Blatt (3--Knoten)
 \normalsize
 
 \begin{center}
-Einfügen: Algorithmus
+Einf\"ugen: Algorithmus
 \end{center}
 \vspace*{0.5cm}
 
@@ -956,22 +956,22 @@ Einfügen: Algorithmus
 \textbf{Gegeben}: 
 \begin{enumerate}
 \item \texttt{t}:  Zeiger auf Wurzel--Knoten eines 2--3--4 Baums
-\item \texttt{key}: Schlüssel, der eingefügt werden soll
-\item \texttt{val}: Wert, der mit Schlüssel assoziiert ist
+\item \texttt{key}: Schl\"ussel, der eingef\"ugt werden soll
+\item \texttt{val}: Wert, der mit Schl\"ussel assoziiert ist
 \end{enumerate}
-\textbf{Gesucht}: 2--3--4 Baum, der aus \texttt{*t} durch Einfügen \\
+\textbf{Gesucht}: 2--3--4 Baum, der aus \texttt{*t} durch Einf\"ugen \\
 \hspace*{2.8cm} von $\langle \mathtt{key}, \mathtt{val} \rangle$ hervorgeht.
 
 \textbf{Algorithmus}:
 \begin{enumerate}
 \item Fall: Gegebener Baum ist leer
     
-      Erzeuge neuen 2--Knoten mit Schlüssel \texttt{key}
+      Erzeuge neuen 2--Knoten mit Schl\"ussel \texttt{key}
 \item Fall: Wurzel des gegebenen Baums ist 2--Knoten
   \begin{enumerate}
-  \item Lokalisiere Teil--Baum, in den eingefügt wird
+  \item Lokalisiere Teil--Baum, in den eingef\"ugt wird
   \item Falls Wurzel des Teil--Baums 4--Knoten: spalten
-  \item Füge Schlüssel passend ein:
+  \item F\"uge Schl\"ussel passend ein:
     \begin{itemize}
     \item Keine Aufspaltung: in Wurzel Teilbaum
     \item Aufspaltung: in gegebenem Baum \texttt{*t}
@@ -983,7 +983,7 @@ Einfügen: Algorithmus
 \item Fall: Wurzel des gegebenen Baums ist 4--Knoten
   \begin{enumerate}
   \item Spalte Knoten auf
-  \item Füge Schlüssel in neuer Wurzel ein
+  \item F\"uge Schl\"ussel in neuer Wurzel ein
   \end{enumerate}
 \end{enumerate}
 
@@ -991,7 +991,7 @@ Einfügen: Algorithmus
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1000,7 +1000,7 @@ Einfügen: Algorithmus
 \normalsize
 
 \begin{center}
-Einfügen: Implementierung
+Einf\"ugen: Implementierung
 \end{center}
 \vspace*{0.5cm}
 
@@ -1042,7 +1042,7 @@ Table insert(Tree t, Key key, Value val) {
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1051,12 +1051,12 @@ Table insert(Tree t, Key key, Value val) {
 \normalsize
 
 \begin{center}
-Einfügen: Implementierung
+Einf\"ugen: Implementierung
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Einfügen in 3--Knoten und 4--Knoten
+Einf\"ugen in 3--Knoten und 4--Knoten
 \begin{verbatim}
     ...
     case THREE: {
@@ -1094,7 +1094,7 @@ Einfügen in 3--Knoten und 4--Knoten
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1103,7 +1103,7 @@ Einfügen in 3--Knoten und 4--Knoten
 \normalsize
 
 \begin{center}
-Aufspalten und Einfügen: Algorithmus
+Aufspalten und Einf\"ugen: Algorithmus
 \end{center}
 \vspace*{0.5cm}
 
@@ -1112,31 +1112,31 @@ Aufspalten und Einfügen: Algorithmus
 \begin{enumerate}
 \item \texttt{p}, \texttt{t}: Knoten in 2--3--4 Baum
 \item \texttt{p} is Vater von \texttt{t}
-\item \texttt{key}: Schlüssel, der in \texttt{*t} eingefügt werden soll
-\item \texttt{val}: zugehöriger Wert
+\item \texttt{key}: Schl\"ussel, der in \texttt{*t} eingef\"ugt werden soll
+\item \texttt{val}: zugeh\"origer Wert
 \end{enumerate}
 \textbf{Algorithmus}:
 \begin{enumerate}
 \item Fall: \texttt{*t} ist leerer Baum
 
-      $\langle \mathtt{key}, \mathtt{val} \rangle$ wird Blatt \texttt{*p} eingefügt
+      $\langle \mathtt{key}, \mathtt{val} \rangle$ wird Blatt \texttt{*p} eingef\"ugt
 \item Fall: \texttt{*t} ist 4--Knoten
       \begin{enumerate}
       \item Spalte Knoten auf \\[0.3cm]
             \hspace*{1.3cm} \texttt{NodePtr n = split4Node(t)}
-      \item Füge $\langle \mathtt{key}, \mathtt{val} \rangle$ in \texttt{n} ein: \\[0.3cm]
+      \item F\"uge $\langle \mathtt{key}, \mathtt{val} \rangle$ in \texttt{n} ein: \\[0.3cm]
             \hspace*{1.3cm} \texttt{insert(n, key, val)}
       \item Schiebe Knoten $n$ nach oben zu Vater--Knoten \\[0.3cm]
             \hspace*{1.3cm} \texttt{moveUp}$i$\texttt{(p, n)} \quad mit $i \in \{1,2,3\}$
       \end{enumerate}
-\item Fall: Sonst füge $\langle \mathtt{key}, \mathtt{val} \rangle$ in \texttt{t} ein: \\[0.3cm]
+\item Fall: Sonst f\"uge $\langle \mathtt{key}, \mathtt{val} \rangle$ in \texttt{t} ein: \\[0.3cm]
       \hspace*{1.3cm} \texttt{insert(n, key, val)}
 \end{enumerate}
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1145,7 +1145,7 @@ Aufspalten und Einfügen: Algorithmus
 \normalsize
 
 \begin{center}
-Aufspalten und Einfügen: Implementierung
+Aufspalten und Einf\"ugen: Implementierung
 \end{center}
 \vspace*{0.5cm}
 
@@ -1185,7 +1185,7 @@ Tree splitAndInsert(NodePtr p, NodePtr t, Key key, Value val)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1230,7 +1230,7 @@ struct ThreeNode {
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1275,7 +1275,7 @@ typedef Tree    Table;
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1284,32 +1284,32 @@ typedef Tree    Table;
 \normalsize
 
 \begin{center}
-Löschen in 2--3--4 Bäumen
+L\"oschen in 2--3--4 B\"aumen
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Algorithmus zum Löschen von gegebenen Schlüssel $k$
+Algorithmus zum L\"oschen von gegebenen Schl\"ussel $k$
 
-Betrachte zunächst nur den Fall, dass $k$ in Blatt vorkommt
+Betrachte zun\"achst nur den Fall, dass $k$ in Blatt vorkommt
 \begin{enumerate}
-\item Suche nach Schlüssel $k$ bis Blatt erreicht ist
+\item Suche nach Schl\"ussel $k$ bis Blatt erreicht ist
 
 \item Fall--Unterscheidung nach Art des Blattes:
       \begin{enumerate}
       \item Blatt ist 4--Knoten: 
     
             
-            Entferne Schlüssel, neues Blatt 3--Knoten
+            Entferne Schl\"ussel, neues Blatt 3--Knoten
 
-            \epsfig{file=ex3.ps} \raisebox{2.4cm}{lösche 7} \epsfig{file=ex2.ps}
+            \epsfig{file=ex3.ps} \raisebox{2.4cm}{l\"osche 7} \epsfig{file=ex2.ps}
     
 
       \item Blatt ist 3--Knoten: 
 
-            Entferne Schlüssel, neues Blatt 2--Knoten
+            Entferne Schl\"ussel, neues Blatt 2--Knoten
 
-            \epsfig{file=ex2.ps} \raisebox{2.4cm}{lösche 1} \epsfig{file=ex1.ps}
+            \epsfig{file=ex2.ps} \raisebox{2.4cm}{l\"osche 1} \epsfig{file=ex1.ps}
 
 
       \end{enumerate}
@@ -1319,7 +1319,7 @@ Betrachte zunächst nur den Fall, dass $k$ in Blatt vorkommt
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1328,20 +1328,20 @@ Betrachte zunächst nur den Fall, dass $k$ in Blatt vorkommt
 \normalsize
 
 \begin{center}
-Behandlung von 2--Knoten beim Löschen
+Behandlung von 2--Knoten beim L\"oschen
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item Beim Einfügen waren 4--Knoten das Problem
-\item Lösung beim Einfügen: 
+\item Beim Einf\"ugen waren 4--Knoten das Problem
+\item L\"osung beim Einf\"ugen: 
   \begin{enumerate}
   \item Alle 4--Knoten auf dem Suchpfad  werden aufgespalten.
   \item Der dabei entstehende neue Knoten wird im Baum nach oben geschoben 
         und mit seinem Vater verschmolzen.
   \end{enumerate}
-\item Lösen beim Löschen analog:
+\item L\"osen beim L\"oschen analog:
   \begin{enumerate}
   \item Alle 2--Knoten auf dem Suchpfad werden in \\
         3--Knoten oder 4--Knoten transformiert.
@@ -1350,9 +1350,9 @@ Behandlung von 2--Knoten beim Löschen
   \end{enumerate}
 \end{enumerate}
 Um 2--Knoten in 3--Knoten oder 4--Knoten zu transformieren, gibt
-es prinzipiell zwei Möglichkeiten:
+es prinzipiell zwei M\"oglichkeiten:
 \begin{enumerate}
-\item Stehlen eines Schlüssels von unmittelbar benachbartem
+\item Stehlen eines Schl\"ussels von unmittelbar benachbartem
       Schwester--Knoten
 \item Fusionieren mit unmittelbar benachbartem Schwester--Knoten  
 \end{enumerate}
@@ -1360,7 +1360,7 @@ es prinzipiell zwei Möglichkeiten:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1370,13 +1370,13 @@ es prinzipiell zwei Möglichkeiten:
 \normalsize
 
 \begin{center}
-Stehlen eines Schlüssels
+Stehlen eines Schl\"ussels
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 
- Knoten mit Schüssel $k$  in 3--Knoten transformieren:
+ Knoten mit Sch\"ussel $k$  in 3--Knoten transformieren:
 
 \hspace*{1.3cm} 
 \epsfig{file=stehlen-2-node-1-von-2-vorher.ps}
@@ -1391,7 +1391,7 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1400,13 +1400,13 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \normalsize
 
 \begin{center}
-Stehlen eines Schlüssels (von links)
+Stehlen eines Schl\"ussels (von links)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 
-Knoten mit Schüssel $k$  in 3--Knoten transformieren:
+Knoten mit Sch\"ussel $k$  in 3--Knoten transformieren:
 
 \hspace*{1.3cm} 
 \epsfig{file=stehlen-2-node-2-von-1-vorher.ps}
@@ -1421,7 +1421,7 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1430,13 +1430,13 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \normalsize
 
 \begin{center}
-Stehlen eines Schlüssels (von 4--Knoten)
+Stehlen eines Schl\"ussels (von 4--Knoten)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 
-Knoten mit Schüssel $k$  in 3--Knoten transformieren:
+Knoten mit Sch\"ussel $k$  in 3--Knoten transformieren:
 
 \hspace*{1.3cm} 
 \epsfig{file=stehlen-2-node-1-von-2-4-node-vorher.ps}
@@ -1451,7 +1451,7 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1460,13 +1460,13 @@ Stehlen von $l1$ aus Nachbar--Knoten (Rotation)
 \normalsize
 
 \begin{center}
-Stehlen eines Schlüssels
+Stehlen eines Schl\"ussels
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Beim Stehlen eines Schlüssels sind eine Reihe von Fallunterscheidungen
-durchzuführen
+Beim Stehlen eines Schl\"ussels sind eine Reihe von Fallunterscheidungen
+durchzuf\"uhren
 \begin{enumerate}
 \item Der Vater--Knoten ist ein 3--Knoten
       \begin{enumerate}
@@ -1475,7 +1475,7 @@ durchzuführen
       \item Der unmittelbare Bruder ist drittes Kind
             \vspace*{0.5cm} 
 
-      Jeder dieser Fälle spaltet sich in 2 Unterfälle auf:
+      Jeder dieser F\"alle spaltet sich in 2 Unterf\"alle auf:
       \begin{itemize}
       \item Der unmittelbare Bruder ist 3--Knoten 
       \item Der unmittelbare Bruder ist 4--Knoten 
@@ -1489,20 +1489,20 @@ durchzuführen
       \item Der unmittelbare Bruder ist viertes Kind
             \vspace*{0.5cm} 
 
-       Auch hier haben wir dieselbe zusätzliche Aufspaltung wie oben
+       Auch hier haben wir dieselbe zus\"atzliche Aufspaltung wie oben
     \end{enumerate}
 \end{enumerate}
-Zusätzlich muss noch unterschieden werden, ob der Bruder rechts oder links
-von dem Knoten liegt, der den Schlüssel stehlen will.
+Zus\"atzlich muss noch unterschieden werden, ob der Bruder rechts oder links
+von dem Knoten liegt, der den Schl\"ussel stehlen will.
 
 \begin{center}
-\framebox{Insgesamt: 20 Fälle!}  
+\framebox{Insgesamt: 20 F\"alle!}  
 \end{center}
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1516,9 +1516,9 @@ Fusionieren
 \vspace*{0.5cm}
 
 \footnotesize
-Knoten mit Schüssel $k$  in 3--Knoten transformieren:
+Knoten mit Sch\"ussel $k$  in 3--Knoten transformieren:
 
-Stehlen nicht möglich, weil unmittelbarer Bruder 2--Knoten
+Stehlen nicht m\"oglich, weil unmittelbarer Bruder 2--Knoten
 
 \hspace*{1.3cm} 
 \epsfig{file=fusing-2-node-1-und-2-vorher.ps}
@@ -1532,7 +1532,7 @@ Knoten $k$ mit Bruder verschmelzen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1559,7 +1559,7 @@ Knoten $k$ mit Bruder verschmelzen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1574,7 +1574,7 @@ Fusionieren
 
 \footnotesize
 Beim Fusionieren sind eine Reihe von Fallunterscheidungen
-durchzuführen
+durchzuf\"uhren
 \begin{enumerate}
 \item Der Vater--Knoten ist ein 3--Knoten
       \begin{enumerate}
@@ -1590,18 +1590,18 @@ durchzuführen
       \item Der unmittelbare Bruder ist viertes Kind
     \end{enumerate}
 \end{enumerate}
-Zusätzlich muss noch unterschieden werden, ob der Bruder rechts oder links
-von dem Knoten liegt, der den Schlüssel stehlen will.
+Zus\"atzlich muss noch unterschieden werden, ob der Bruder rechts oder links
+von dem Knoten liegt, der den Schl\"ussel stehlen will.
 
 \begin{center}
-\framebox{Insgesamt: 10 Fälle!}  
+\framebox{Insgesamt: 10 F\"alle!}  
 \end{center}
 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1610,40 +1610,40 @@ von dem Knoten liegt, der den Schlüssel stehlen will.
 \normalsize
 
 \begin{center}
-Löschen Allgemein
+L\"oschen Allgemein
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Bisher beschrieben: Löschen von Blatt--Knoten
+Bisher beschrieben: L\"oschen von Blatt--Knoten
 
-Jetzt: Löschen von beliebigen Knoten
+Jetzt: L\"oschen von beliebigen Knoten
 \begin{enumerate}
 \item Ist Knoten $m$ Blatt?
-\item Ja: lösche Knoten $m$, fertig
+\item Ja: l\"osche Knoten $m$, fertig
       \vspace*{0.4cm}
 
       Nein: 
 \item Bestimme Nachfolger--Knoten $n$ von $m$
 
-      Sei $k$ Schlüssel von $n$. Nachfolger--Knoten ist der Knoten $n$ mit Schlüssel $l$
-      für den gilt:
+      Sei $k$ Schl\"ussel von $n$. Nachfolger--Knoten ist der Knoten $n$ mit Schl\"ussel $l$
+      f\"ur den gilt:
       \begin{enumerate}
       \item $k < l$
       \item $l$ ist der kleinste Knoten im Baum mit $k < l$.
       \end{enumerate}
-\item Lösche $n$ (möglich, da $o$ Blatt)
+\item L\"osche $n$ (m\"oglich, da $o$ Blatt)
 \item Schreibe $l$ und $v$ in Knoten $m$
 \end{enumerate}
-Komplexität:  Ist $t$ eine 2--3--4--Baum mit $n$ Knoten, so beträgt der Aufwand für das
-Löschen eines Knotens sowohl im schlechtesten als auch im besten Fall \\[0.6cm]
+Komplexit\"at:  Ist $t$ eine 2--3--4--Baum mit $n$ Knoten, so betr\"agt der Aufwand f\"ur das
+L\"oschen eines Knotens sowohl im schlechtesten als auch im besten Fall \\[0.6cm]
 \hspace*{2.3cm} $\Oh\bigg(\log(n)\bigg)$
 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1652,14 +1652,14 @@ Löschen eines Knotens sowohl im schlechtesten als auch im besten Fall \\[0.6cm]
 \normalsize
 
 \begin{center}
-Löschen: Alternative Implementierung
+L\"oschen: Alternative Implementierung
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 
 \begin{enumerate}
-\item Führe zusätzliches Felder vom Type \texttt{bool} in der Struktur ein, die Knoten
+\item F\"uhre zus\"atzliches Felder vom Type \texttt{bool} in der Struktur ein, die Knoten
       beschreibt.
 \begin{verbatim}
     struct Node {
@@ -1676,17 +1676,17 @@ Löschen: Alternative Implementierung
         ...
     };
 \end{verbatim}
-\item \texttt{alive == true}:   Schlüssel ist gültig.
-\item \texttt{alive == false}:  Schlüssel wurde gelöscht.
-\item Verwalte außerdem zwei globale Zähler:
+\item \texttt{alive == true}:   Schl\"ussel ist g\"ultig.
+\item \texttt{alive == false}:  Schl\"ussel wurde gel\"oscht.
+\item Verwalte au\3erdem zwei globale Z\"ahler:
   \begin{enumerate}
-  \item Anzahl aller gültigen   Schlüssel
-  \item Anzahl aller gelöschten Schlüssel
+  \item Anzahl aller g\"ultigen   Schl\"ussel
+  \item Anzahl aller gel\"oschten Schl\"ussel
   \end{enumerate}
-\item Falls mehr gelöschte  Schlüssel als gültige Schlüssel existieren,
+\item Falls mehr gel\"oschte  Schl\"ussel als g\"ultige Schl\"ussel existieren,
       baue Baum neu auf.
 
-      Komplexität für Baum mit $n$ Knoten:
+      Komplexit\"at f\"ur Baum mit $n$ Knoten:
       \begin{enumerate}
       \item Im schlimmsten Fall:           \hspace*{3.1cm} $\Oh(n)$
       \item Im statistischen Durchschnitt: \hspace*{0.3cm} $\Oh\bigg(\log(n)\bigg)$
@@ -1696,7 +1696,7 @@ Löschen: Alternative Implementierung
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1705,19 +1705,19 @@ Löschen: Alternative Implementierung
 \normalsize
 
 \begin{center}
-Löschen Alternative (Fortsetzung)
+L\"oschen Alternative (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item Zahl gelöschter Schlüssel größer Zahl gültiger Schlüssel?
-\item Nein: Schlüssel suchen und als gelöscht markieren
+\item Zahl gel\"oschter Schl\"ussel gr\"o\3er Zahl g\"ultiger Schl\"ussel?
+\item Nein: Schl\"ussel suchen und als gel\"oscht markieren
 \item Ja:
   \begin{enumerate}
-  \item Sammle alle  gültigen Schlüssel (nebst zugehörige Werte) 
+  \item Sammle alle  g\"ultigen Schl\"ussel (nebst zugeh\"orige Werte) 
         aus dem Baum in 2 Feldern auf.
-  \item Lösche alten Baum.
+  \item L\"osche alten Baum.
   \item Baue neuen 2--3--4 Baum aus diesen Feldern auf.
   \end{enumerate}
 \end{enumerate}
@@ -1747,7 +1747,7 @@ void collectKeys(Tree t, unsigned* idx,
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1763,11 +1763,11 @@ Baum neu Aufbauen
 \footnotesize
 \textbf{Gegeben}:
 \begin{enumerate}
-\item \texttt{keyArray}: \textbf{geordnetes} Feld von Schlüsseln
-\item \texttt{valArray}: Feld der zugehörigen Schlüssel
-\item \texttt{length}: Länge der Felder
+\item \texttt{keyArray}: \textbf{geordnetes} Feld von Schl\"usseln
+\item \texttt{valArray}: Feld der zugeh\"origen Schl\"ussel
+\item \texttt{length}: L\"ange der Felder
 \end{enumerate}
-\textbf{Gesucht}: 2--3--4 Baum mit den Schlüsseln aus \texttt{keyArray} 
+\textbf{Gesucht}: 2--3--4 Baum mit den Schl\"usseln aus \texttt{keyArray} 
 
 Algorithmus
 \begin{enumerate}
@@ -1782,14 +1782,14 @@ Algorithmus
         \hspace*{1.3cm} $\underbrace{\texttt{keyArray[m+1]},\; \cdots, \;\texttt{keyArray[m + m]}}_\mathtt{\displaystyle m}$
   \item Erzeuge 2--Knoten $n$ aus \\[0.3cm]
         \hspace*{1.3cm} $l$, $r$, $\texttt{keyArray[m]}$, $\mathtt{valArray[m]}$
-  \item Gebe $n$ zurück
+  \item Gebe $n$ zur\"uck
   \end{enumerate}
 \end{enumerate}
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1814,19 +1814,19 @@ Baum neu Aufbauen (Fortsetzung)
         \hspace*{1.3cm} $\underbrace{\texttt{keyArray[m+2]}, \cdots, \texttt{keyArray[m + m + 1]}}_\mathtt{\displaystyle m}$
   \item Erzeuge 2--Knoten $n$ aus \\[0.3cm]
         \hspace*{1.3cm} $l$, $r$, $\texttt{keyArray}[m]$, $\mathtt{valArray}[m]$
-  \item Füge $\texttt{keyArray}[m+1]$, $\mathtt{valArray}[m+1]$ in $r$ ein \\[0.3cm]
+  \item F\"uge $\texttt{keyArray}[m+1]$, $\mathtt{valArray}[m+1]$ in $r$ ein \\[0.3cm]
         \hspace*{1.3cm} \texttt{res = insert(n, keyArray[m+1], valArray[m+1])}
-  \item Gebe \texttt{res} zurück
+  \item Gebe \texttt{res} zur\"uck
   \end{enumerate}
 \end{enumerate}
 \textbf{Wichtig}: Bei den beiden rekursiven Aufrufen muss die Zahl \\
-\hspace*{2.7cm} der übergebenen Schlüssel dieselbe sein!
+\hspace*{2.7cm} der \"ubergebenen Schl\"ussel dieselbe sein!
 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-2--3--4 Bäume  \hspace*{\fill} Seite \arabic{mypage}
+2--3--4 B\"aume  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1861,7 +1861,7 @@ Aufruf
        zeigt Halte--Punkte und Beobachtungs--Punkte an
 \item \texttt{delete} \textsl{number}
 
-       löscht  Halte--Punkt / Beobachtungs--Punkt
+       l\"oscht  Halte--Punkt / Beobachtungs--Punkt
 
 \item \texttt{display} \textsl{expr}
 
@@ -1894,16 +1894,16 @@ Debugging  \hspace*{\fill} Seite \arabic{mypage}
 \item \texttt{run}:  startet das Programm
 \item \texttt{continue}: 
 
-      rechnet bis zum nächsten Haltepunkt
+      rechnet bis zum n\"achsten Haltepunkt
 \item \texttt{step}:
-      führt eine Programm--Zeile aus
+      f\"uhrt eine Programm--Zeile aus
 \item \texttt{next}:
-      wie oben, springt über Prozedur--Aufruf
+      wie oben, springt \"uber Prozedur--Aufruf
 \item \texttt{until} \textsl{line}
 
-      Programm läuft bis zur spezifizierten Zeile
+      Programm l\"auft bis zur spezifizierten Zeile
 \item \texttt{finish}: 
-      Programm läuft bis Ende aktueller Funktion
+      Programm l\"auft bis Ende aktueller Funktion
 \item \texttt{print} \textsl{expr}
 
        gibt Ausdruck aus
@@ -1921,8 +1921,8 @@ Debugging  \hspace*{\fill} Seite \arabic{mypage}
 
 \item \texttt{info display} 
 
-      listet Ausdrücke, die automatisch angezeigt werden
-\item \texttt{delete display}: löschen
+      listet Ausdr\"ucke, die automatisch angezeigt werden
+\item \texttt{delete display}: l\"oschen
 \end{enumerate}
 
 \vspace*{\fill}
@@ -1967,7 +1967,7 @@ Tastatur--Belegung \\[0.3cm]
 \hline
    \texttt{break} \textsl{line}  & \fbox{Ctrl-x space} \rule[-12pt]{0pt}{34pt} \\
 \hline
-   nächstes Kommando  & \fbox{Meta-p} \rule[-12pt]{0pt}{34pt} \\
+   n\"achstes Kommando  & \fbox{Meta-p} \rule[-12pt]{0pt}{34pt} \\
 \hline
    letztes Kommando     & \fbox{Meta-n} \rule[-12pt]{0pt}{34pt} \\
 \hline
@@ -1977,7 +1977,7 @@ Tastatur--Belegung \\[0.3cm]
 \hline
   \end{tabular}}
 
-Befehle sind ebenfalls über GUI ausführbar
+Befehle sind ebenfalls \"uber GUI ausf\"uhrbar
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}

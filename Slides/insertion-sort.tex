@@ -24,7 +24,7 @@
 \begin{document}
 
 \begin{center}
-Sortieren durch Einfügen
+Sortieren durch Einf\"ugen
 \end{center}
 
 \footnotesize
@@ -62,7 +62,7 @@ Sortieren durch Einfügen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Sortieren durch Einfügen  \hspace*{\fill} Seite \arabic{mypage}
+Sortieren durch Einf\"ugen  \hspace*{\fill} Seite \arabic{mypage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -70,16 +70,16 @@ Sortieren durch Einfügen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Eigenschaften des Algorithmus \\ \emph{Sortieren durch Einfügen}
+Eigenschaften des Algorithmus \\ \emph{Sortieren durch Einf\"ugen}
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item Distributivität von \texttt{le} über \texttt{insert}
+\item Distributivit\"at von \texttt{le} \"uber \texttt{insert}
 
       $\mathtt{le}\bigl(x, \mathtt{insert}(y,L) \bigr) \leftrightarrow x \preceq y \wedge \mathtt{le}(x,L)$. 
-\item Transitivität von \texttt{le}
+\item Transitivit\"at von \texttt{le}
 
       $x \preceq y \wedge \mathtt{le}(y,L) \rightarrow \mathtt{le}(x,L)$
 
@@ -87,15 +87,15 @@ Eigenschaften des Algorithmus \\ \emph{Sortieren durch Einfügen}
 
       $x \preceq y \wedge \mathtt{isSorted}(L) \rightarrow \mathtt{le}(x,L)$.
 
-\item Distributivität von \texttt{isSorted} über \texttt{insert}
+\item Distributivit\"at von \texttt{isSorted} \"uber \texttt{insert}
 
       $\mathtt{isSorted}\bigl(\mathtt{insert}(x,S) \bigr) \leftrightarrow \mathtt{isSorted}(S)$
 \item Korrektheit von \texttt{sort}, Teil 1
       $\mathtt{isSorted}\bigl(\mathtt{sort}(L) \bigr)$. 
-\item Distributivität von \texttt{count} über \texttt{insert}
+\item Distributivit\"at von \texttt{count} \"uber \texttt{insert}
 
       $\mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) = \mathtt{eq}(x,y) + \mathtt{count}(x,S)$
-\item Distributivität von \texttt{count} über \texttt{sort} 
+\item Distributivit\"at von \texttt{count} \"uber \texttt{sort} 
 
       $\texttt{count}(x,L) = \texttt{count}\bigl(x, \texttt{sort}(L) \bigr)$
 \end{enumerate}
@@ -103,7 +103,7 @@ Eigenschaften des Algorithmus \\ \emph{Sortieren durch Einfügen}
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Sortieren durch Einfügen --- Korrektheit \hspace*{\fill} Seite \arabic{mypage}
+Sortieren durch Einf\"ugen --- Korrektheit \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

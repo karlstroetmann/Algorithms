@@ -1,17 +1,17 @@
 \chapter{Sortier-Algorithmen}
 Im Folgenden gehen wir davon aus, dass wir eine Liste $L$ gegeben haben, deren Elemente
 aus einer Menge $M$ entstammen.  
-Die Elemente von M können wir \emph{vergleichen}, das
-heißt, dass es auf der Menge $M$  eine Relation
+Die Elemente von M k\"onnen wir \emph{vergleichen}, das
+hei\3t, dass es auf der Menge $M$  eine Relation
 $\leq$ gibt, die \emph{reflexiv}, \emph{anti-symmetrisch} und \emph{transitiv} ist, es gilt also  
 \begin{enumerate}
 \item $\forall x \el M \colon x \leq x$.
 \item $\forall x, y \el M \colon \bigl(x \leq y \wedge y \leq x \rightarrow x = y\bigr)$.
 \item $\forall x, y, z \el M \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$. 
 \end{enumerate}
-Ein Paar $\langle M, \leq \rangle$ bestehend aus einer Menge und einer binären Relation
+Ein Paar $\langle M, \leq \rangle$ bestehend aus einer Menge und einer bin\"aren Relation
 $\leq \;\subseteq M \times M$ mit diesen Eigenschaften bezeichnen wir als eine
-\emph{partielle Ordnung}.  Gilt zusätzlich \\[0.2cm]
+\emph{partielle Ordnung}.  Gilt zus\"atzlich \\[0.2cm]
 \hspace*{1.3cm} $\forall x, y \el M \colon\bigl( x \leq y \vee y \leq x\bigr)$, \\[0.2cm]
 so bezeichnen wir $\langle M, \leq \rangle$ als eine \emph{totale Ordnung}.
 \vspace*{0.3cm}
@@ -23,45 +23,45 @@ so bezeichnen wir $\langle M, \leq \rangle$ als eine \emph{totale Ordnung}.
 \item $\langle 2^{\mathbb{N}}, \subseteq \rangle$ ist eine partielle Ordnung aber keine totale Ordnung, denn beispielsweise sind die Mengen
       $\{1\}$ und $\{2\}$ nicht vergleichbar, es gilt \\[0.2cm]
       \hspace*{1.3cm} $\{1\} \not\subseteq \{2\}$ und $\{2\} \not\subseteq \{1\}$.
-\item Ist $P$ die Menge der Mitarbeiter einer Firma und definieren wir für zwei
+\item Ist $P$ die Menge der Mitarbeiter einer Firma und definieren wir f\"ur zwei
       Mitarbeiter $a,b \el P$\\[0.2cm]
       \hspace*{1.3cm} $a < b$ \quad g.d.w.~ \quad  $a$ verdient weniger als $b$, \\[0.2cm]
       so ist $\langle P, \leq \rangle$ eine partielle Ordnung.
 \end{enumerate}
 \textbf{Bemerkung}: In dem letzten Beispiel haben wir anstelle der Relation $\leq$ die
-Relation $<$ definiert.  Ist eine Relation $<$ gegeben, so ist die dazugehörige Relation
+Relation $<$ definiert.  Ist eine Relation $<$ gegeben, so ist die dazugeh\"orige Relation
 $\leq$ wie folgt definiert: \\[0.2cm]
 \hspace*{1.3cm} $x \leq y \leftrightarrow x < y \vee x = y$. \\[0.2cm]
-Betrachten wir die obigen Beispiele und überlegen uns, in welchen Fällen es möglich ist,
-eine Liste von Elemente zu sortieren, so stellen wir fest, dass dies im ersten und dritten Fall möglich
+Betrachten wir die obigen Beispiele und \"uberlegen uns, in welchen F\"allen es m\"oglich ist,
+eine Liste von Elemente zu sortieren, so stellen wir fest, dass dies im ersten und dritten Fall m\"oglich
 ist, im zweiten Fall aber keinen Sinn macht.  Offensichtlich ist eine
 totale Ordnung hinreichend zum Sortieren aber, wie das dritte Beispiel zeigt, nicht
 unbedingt notwendig.  Eine partielle Ordnung reicht hingegen zum Sortieren nicht aus.
-Wir führen daher einen weiteren Ordnungs-Begriff ein.
+Wir f\"uhren daher einen weiteren Ordnungs-Begriff ein.
 \pagebreak
 
 \begin{Definition}[Quasi-Ordnung]  \hspace*{\fill} \\
 {\em
   Ein Paar $\langle M, \preceq\rangle$ ist eine \emph{Quasi-Ordnung}, falls $\preceq$ eine
-  binäre Relation auf $M$ ist, für die gilt:
+  bin\"are Relation auf $M$ ist, f\"ur die gilt:
   \begin{enumerate}
-  \item $\forall x \el M \colon x \preceq x$. \hspace*{\fill} (Reflexivität)
+  \item $\forall x \el M \colon x \preceq x$. \hspace*{\fill} (Reflexivit\"at)
   \item $\forall x, y, z \el M \colon \bigl(x \preceq y \wedge y \preceq z \rightarrow x \preceq z\bigr)$. 
-         \hspace*{\fill} (Transitivität)
+         \hspace*{\fill} (Transitivit\"at)
   \end{enumerate}
-  Gilt zusätzlich \\[0.2cm]
+  Gilt zus\"atzlich \\[0.2cm]
   \hspace*{1.3cm} $\forall x, y \el M \colon \bigl(x \preceq y \vee y \preceq x\bigr)$, \\[0.2cm]
   so bezeichnen wir $\langle M, \preceq \rangle$ als eine \emph{totale Quasi-Ordnung}, was
-  wir als \textsc{TQO} abkürzen.
+  wir als \textsc{TQO} abk\"urzen.
 }
 \end{Definition}
 Bei dem Begriff der Quasi-Ordnung wird im Unterschied zu dem Begriff der partiellen Ordnung auf die
 Eigenschaft der Anti-Symmetrie verzichtet.  Trotzdem sind die Begriffe fast gleichwertig, denn wenn
-$\langle M, \preceq \rangle$ eine Quasi-Ordnung ist, so kann auf $M$ eine Äquivalenz-Relation
+$\langle M, \preceq \rangle$ eine Quasi-Ordnung ist, so kann auf $M$ eine Ã„quivalenz-Relation
 $\approx$ durch 
 \[ x \approx y \stackrel{def}{\longleftrightarrow} x \preceq y \wedge y \preceq x \]
 definiert werden.
-Setzen wir die Ordnung $\preceq$ auf die von der Relation $\approx$ erzeugten Äquivalenz-Klassen
+Setzen wir die Ordnung $\preceq$ auf die von der Relation $\approx$ erzeugten Ã„quivalenz-Klassen
 fort,  so kann gezeigt werden, dass diese Fortsetzung eine partielle Ordnung ist.
 \vspace*{0.3cm}
 
@@ -74,55 +74,55 @@ folgt definiert:
   \item $S$ ist aufsteigend sortiert: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S(i) \preceq S(i+1)$ \\[0.2cm]
-        Hier bezeichnen wir die Länge der Liste $S$ mit $\#S$.
-  \item Die Elemente treten in $L$ und $S$ mit derselben Häufigkeit auf: \\[0.2cm]
+        Hier bezeichnen wir die L\"ange der Liste $S$ mit $\#S$.
+  \item Die Elemente treten in $L$ und $S$ mit derselben H\"aufigkeit auf: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
         \\[0.2cm]
-        Dabei zählt die Funktion $\textsl{count}(x,L)$ wie oft das Element $x$ in der
+        Dabei z\"ahlt die Funktion $\textsl{count}(x,L)$ wie oft das Element $x$ in der
         Liste $L$ auftritt: \\[0.2cm]
         \hspace*{1.3cm}
         $\textsl{count}(x,L) := \# \bigl\{ i \el \{1,\cdots,\#L\} \mid L(i) = x \bigr\}$.
   \end{enumerate}
 \end{enumerate}
-In diesem Kapitel präsentieren wir verschiedene Algorithmen, die das Sortier-Problem
-lösen, die also  zum Sortieren von Listen benutzt werden können.
-Wir stellen zunächst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
-Effizienz aber zu wünschen übrig lässt.  Im Anschluss daran präsentieren wir zwei
+In diesem Kapitel pr\"asentieren wir verschiedene Algorithmen, die das Sortier-Problem
+l\"osen, die also  zum Sortieren von Listen benutzt werden k\"onnen.
+Wir stellen zun\"achst zwei Algorithmen vor, die sehr einfach zu implementieren sind, deren
+Effizienz aber zu w\"unschen \"ubrig l\"asst.  Im Anschluss daran pr\"asentieren wir zwei
 effizientere Algorithmen, deren Implementierung allerdings aufwendiger ist.
 
-\section{Sortieren durch Einfügen}
-Wir stellen zunächst einen sehr einfachen Algorithmus vor, der als 
-``\emph{Sortieren durch Einfügen}'' (engl. \emph{insertion sort}) bezeichnet wird.
+\section{Sortieren durch Einf\"ugen}
+Wir stellen zun\"achst einen sehr einfachen Algorithmus vor, der als 
+``\emph{Sortieren durch Einf\"ugen}'' (engl. \emph{insertion sort}) bezeichnet wird.
 Wir beschreiben den Algorithmus durch \emph{Gleichungen}.
 Der Algorithmus arbeitet nach dem folgenden Schema:
 \begin{enumerate}
 \item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
-      die leere Liste zurück gegeben: \\[0.2cm]
+      die leere Liste zur\"uck gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
 \item Andernfalls muss die Liste $L$ die Form $[x] + R$ haben.
-      Dann sortieren wir den Rest $R$ und fügen das Element $x$ in diese Liste so ein,
+      Dann sortieren wir den Rest $R$ und f\"ugen das Element $x$ in diese Liste so ein,
       dass die Liste sortiert bleibt. \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$
 \end{enumerate}
-Das Einfügen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem folgenden Schema:
+Das Einf\"ugen eines Elements $x$ in eine sortierte Liste $S$ erfolgt nach dem folgenden Schema:
 \begin{enumerate}
 \item Falls die Liste $S$ leer ist, ist das Ergebnis $[x]$: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{insert}(x,[]) = [x]$.
 \item Sonst hat $S$ die Form $[y] + R$.  Wir vergleichen $x$ mit $y$.
       \begin{enumerate}
-      \item Falls $x \preceq y$ ist, können wir $x$ vorne an die Liste $S$ anfügen: \\[0.2cm]
+      \item Falls $x \preceq y$ ist, k\"onnen wir $x$ vorne an die Liste $S$ anf\"ugen: \\[0.2cm]
             \hspace*{1.3cm} $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
-      \item Andernfalls fügen wir $x$ rekursiv in die Liste $R$ ein: \\[0.2cm]
+      \item Andernfalls f\"ugen wir $x$ rekursiv in die Liste $R$ ein: \\[0.2cm]
             \hspace*{1.3cm} $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
       \end{enumerate}
 \end{enumerate}
-Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
+Dieser Algorithmus l\"asst sich leicht in \textsl{Java} umsetzen. Abbildung
 \ref{fig:insertion-sort} zeigt das resultierende Programm.
 \begin{enumerate}
 \item In Zeile 4 deklarieren wir die Member-Variable \texttt{mList}
       als Objekt vom Typ \texttt{LinkedList<Double>}.
-      Die Klasse \texttt{LinkedList} repäsentiert 
+      Die Klasse \texttt{LinkedList} rep\"asentiert 
       verkettete Listen und diese Datenstruktur ist zur Umsetzung der rekursiven
       Gleichungen am besten geeignet.
 \item In Zeile 6 definieren wir den Konstruktor der Klasse \texttt{InsertionSort}.
@@ -134,14 +134,14 @@ Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
       \begin{enumerate}
       \item $L\texttt{.isEmpty}()$ testet, ob die Liste $L$ leer ist.
       \item $L\texttt{.removeFirst}()$ entfernt das erste Element aus der Liste $L$
-            und liefert als Ergebnis das entfernte Element zurück.
-      \item $L\texttt{.addFirst}(x)$ fügt das Element $x$ als erstes Element in die Liste
+            und liefert als Ergebnis das entfernte Element zur\"uck.
+      \item $L\texttt{.addFirst}(x)$ f\"ugt das Element $x$ als erstes Element in die Liste
             $L$ ein.
       \item $L\texttt{.getFirst}()$ liefert als Ergebnis das erste Element der Liste $L$.
-            Die Liste $L$ wird dabei nicht verändert.
+            Die Liste $L$ wird dabei nicht ver\"andert.
       \end{enumerate}
-\item Zeile 34 definieren wir der Vollständigkeit halber noch eine Methode \texttt{main}(),
-      mit der wir die Klasse \texttt{InsertionSort} testen können.
+\item Zeile 34 definieren wir der Vollst\"andigkeit halber noch eine Methode \texttt{main}(),
+      mit der wir die Klasse \texttt{InsertionSort} testen k\"onnen.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -197,43 +197,43 @@ Dieser Algorithmus lässt sich leicht in \textsl{Java} umsetzen. Abbildung
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Der Algorithmus ``\emph{Sortieren durch Einfügen}''}
+  \caption{Der Algorithmus ``\emph{Sortieren durch Einf\"ugen}''}
   \label{fig:insertion-sort}
 \end{figure} 
 
-\subsection{Komplexität}
+\subsection{Komplexit\"at}
 Wir berechnen nun die Anzahl der Vergleichs-Operationen, die bei einem Aufruf von
-``\texttt{Sortieren durch Einfügen}'' in Zeile 26 von Abbildung
-\ref{fig:insertion-sort} auf Seite \pageref{fig:insertion-sort} durchgeführt werden. Dazu
-berechnen wir zunächst die Anzahl der Aufrufe von ``\texttt{<=}'', die bei einem Aufruf
-von $\texttt{insert}(x,L)$ im schlimmsten Fall bei einer Liste der Länge $n$
-durchgeführt werden.  Wir bezeichnen diese Anzahl mit $a_n$. Dann haben wir \\[0.2cm]
+``\texttt{Sortieren durch Einf\"ugen}'' in Zeile 26 von Abbildung
+\ref{fig:insertion-sort} auf Seite \pageref{fig:insertion-sort} durchgef\"uhrt werden. Dazu
+berechnen wir zun\"achst die Anzahl der Aufrufe von ``\texttt{<=}'', die bei einem Aufruf
+von $\texttt{insert}(x,L)$ im schlimmsten Fall bei einer Liste der L\"ange $n$
+durchgef\"uhrt werden.  Wir bezeichnen diese Anzahl mit $a_n$. Dann haben wir \\[0.2cm]
 \hspace*{1.3cm} $a_0 = 0$ \quad und \quad $a_{n+1} = a_n + 1$. \\[0.2cm]
-Durch eine einfache Induktion lässt sich sofort nachweisen, dass diese Rekurrenz-Gleichung
- die Lösung \\[0.2cm]
+Durch eine einfache Induktion l\"asst sich sofort nachweisen, dass diese Rekurrenz-Gleichung
+ die L\"osung \\[0.2cm]
 \hspace*{1.3cm} $a_n = n$ \\[0.2cm]
-hat.  Im schlimmsten Falle führt der Aufruf von $\mathtt{insert}(x,L)$ bei einer Liste $L$ mit
-$n$ Elementen also $n$ Vergleichs-Operationen durch, denn wir müssen dann $x$ mit jedem
+hat.  Im schlimmsten Falle f\"uhrt der Aufruf von $\mathtt{insert}(x,L)$ bei einer Liste $L$ mit
+$n$ Elementen also $n$ Vergleichs-Operationen durch, denn wir m\"ussen dann $x$ mit jedem
 Element aus $L$ vergleichen.  
 
 Wir berechnen nun die Anzahl der
-Vergleichs-Operationen, die im schlimmsten Fall beim Aufruf von $\texttt{sort}(L)$ für
-eine Liste der Länge $L$ durchgeführt werden.  Wir bezeichnen dieses Anzahl mit $b_n$.
+Vergleichs-Operationen, die im schlimmsten Fall beim Aufruf von $\texttt{sort}(L)$ f\"ur
+eine Liste der L\"ange $L$ durchgef\"uhrt werden.  Wir bezeichnen dieses Anzahl mit $b_n$.
 Offenbar gilt \\[0.2cm]
 \hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)\\[0.2cm]
-denn für eine Liste $L = [x] + R$ der Länge $n+1$ wird zunächst für die Liste $R$ rekursiv
-die Funktion $\mathtt{sort}(R)$ aufgerufen. Das liefert den Summanden $b_n$. Anschließend wird
+denn f\"ur eine Liste $L = [x] + R$ der L\"ange $n+1$ wird zun\"achst f\"ur die Liste $R$ rekursiv
+die Funktion $\mathtt{sort}(R)$ aufgerufen. Das liefert den Summanden $b_n$. Anschlie\3end wird
 mit $\mathtt{insert}(x, \mathtt{Sorted})$ 
-das erste Element in diese Liste eingefügt.  Wir hatten oben gefunden, dass dazu
+das erste Element in diese Liste eingef\"ugt.  Wir hatten oben gefunden, dass dazu
 schlimmstenfalls $n$
-Vergleichs-Operationen notwendig sind, was den Summanden $n$ erklärt.
+Vergleichs-Operationen notwendig sind, was den Summanden $n$ erkl\"art.
 
 Ersetzen wir in der Rekurrenz-Gleichung (1) $n$ durch $n-1$, so erhalten wir 
 \\[0.2cm]
 \hspace*{1.3cm}
 $b_n = b_{n-1} + (n - 1)$.
 \\[0.2cm]
-Diese Rekurrenz-Gleichung können wir lösen, wenn wir die rechte Seite mit dem
+Diese Rekurrenz-Gleichung k\"onnen wir l\"osen, wenn wir die rechte Seite mit dem
 \emph{Teleskop-Verfahren} expandieren:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -250,62 +250,62 @@ $
 \end{array}
 $
 \\[0.2cm]
-denn $b_0 = 0$ und für die Summe der Zahlen von 0 bis $n - 1$ lässt sich die Gleichung
+denn $b_0 = 0$ und f\"ur die Summe der Zahlen von 0 bis $n - 1$ l\"asst sich die Gleichung
 \\[0.2cm]
 \hspace*{1.3cm}
 $\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$
 \\[0.2cm]
-durch eine einfache Induktion nachweisen.  Wir halten fest, dass für die Anzahl der
+durch eine einfache Induktion nachweisen.  Wir halten fest, dass f\"ur die Anzahl der
 Vergleiche im schlimmsten Fall folgendes gilt:
 \\[0.2cm]
 \hspace*{1.3cm}
 $b_n = \frac{1}{2} \cdot n^2 + \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$
 \\[0.2cm]
-Im schlimmsten Fall werden also $\Oh(n^2)$ Vergleiche durchgeführt, der Algorithmus 
-``\emph{Sortieren durch Einfügen}'' erfordert einen quadratischen Aufwand.
-Sie können sich überlegen, dass der schlimmste Fall genau dann eintritt, wenn die zu
-sortierende Liste $L$ absteigend sortiert ist, so dass die größten Elemente gerade am
+Im schlimmsten Fall werden also $\Oh(n^2)$ Vergleiche durchgef\"uhrt, der Algorithmus 
+``\emph{Sortieren durch Einf\"ugen}'' erfordert einen quadratischen Aufwand.
+Sie k\"onnen sich \"uberlegen, dass der schlimmste Fall genau dann eintritt, wenn die zu
+sortierende Liste $L$ absteigend sortiert ist, so dass die gr\"o\3ten Elemente gerade am
 Anfang der Liste stehen.
 
-Der günstigste Fall für den Algorithmus ``\emph{Sortieren durch Einfügen}'' liegt dann
+Der g\"unstigste Fall f\"ur den Algorithmus ``\emph{Sortieren durch Einf\"ugen}'' liegt dann
 vor, wenn die zu sortierende Liste bereits aufsteigend sortiert ist.  Dann wird beim
-Aufruf von $\mathtt{insert}(x,\mathtt{Sorted})$ nur ein einziger Vergleich durchgeführt.
-Die Rekurrenz-Gleichungen für die Anzahl der Vergleiche in $\mathtt{sort}(L)$ lautet dann \\[0.2cm]
+Aufruf von $\mathtt{insert}(x,\mathtt{Sorted})$ nur ein einziger Vergleich durchgef\"uhrt.
+Die Rekurrenz-Gleichungen f\"ur die Anzahl der Vergleiche in $\mathtt{sort}(L)$ lautet dann \\[0.2cm]
 \hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + 1$. \hspace*{\fill} (1)\\[0.2cm]
-Die Lösung dieser Rekurrenz-Gleichung haben wir oben berechnet, sie lautet $b_n = n$.
-Im günstigsten Falle ist der Algorithmus ``\emph{Sortieren durch Einfügen}'' also linear.
+Die L\"osung dieser Rekurrenz-Gleichung haben wir oben berechnet, sie lautet $b_n = n$.
+Im g\"unstigsten Falle ist der Algorithmus ``\emph{Sortieren durch Einf\"ugen}'' also linear.
 
 \section{Sortieren durch Auswahl}
-Wir stellen als nächstes den Algorithmus ``\emph{Sortieren durch Auswahl}''
+Wir stellen als n\"achstes den Algorithmus ``\emph{Sortieren durch Auswahl}''
 (engl. \emph{selection sort}) vor.  Der Algorithmus kann wie folgt beschrieben werden:
 \begin{enumerate}
 \item Ist die zu sortierende Liste $L$ leer, so wird als Ergebnis
-      die leere Liste zurück gegeben: \\[0.2cm]
+      die leere Liste zur\"uck gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$
 \item Andernfalls suchen wir in der Liste $L$ das kleinste Element und entfernen dieses
       Element aus $L$.  Wir sortieren rekursiv die resultierende Liste, die ja ein Element
-      weniger enthält.  Zum Schluss fügen wir das kleinste Element vorne an die sortierte
+      weniger enth\"alt.  Zum Schluss f\"ugen wir das kleinste Element vorne an die sortierte
       Liste an: \\[0.2cm]
       \hspace*{1.3cm} 
       $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr]
       + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(L), L)\bigr)$.
 \end{enumerate}
 Der Algorithmus um ein Auftreten eines Elements $x$ aus einer Liste $L$ zu entfernen, kann ebenfalls leicht rekursiv
-formuliert werden. Wir unterscheiden drei Fälle:
+formuliert werden. Wir unterscheiden drei F\"alle:
 \begin{enumerate}
 \item Falls $L$ leer ist, gilt \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{delete}(x, []) = []$.
 \item Falls $x$ gleich dem ersten Element der Liste $L$ ist, gibt die Funktion den Rest
-      $R$ zurück: \\[0.2cm]
+      $R$ zur\"uck: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{delete}(x, [x] + R) = R$.
 \item Andernfalls wird das Element $x$ rekursiv aus $R$ entfernt: \\[0.2cm]
       \hspace*{1.3cm}   
       $x \not = y \rightarrow \mathtt{delete}(x, [y] + R) = [y] + \mathtt{delete}(x,R)$.
 \end{enumerate}
-Schließlich geben wir noch rekursive Gleichungen an um das Minimum einer Liste zu berechnen:
+Schlie\3lich geben wir noch rekursive Gleichungen an um das Minimum einer Liste zu berechnen:
 \begin{enumerate}
-\item Das Minimum der leeren Liste ist größer als irgendein Element.  Wir schreiben daher \\[0.2cm]
+\item Das Minimum der leeren Liste ist gr\"o\3er als irgendein Element.  Wir schreiben daher \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{min}([]) = \infty$.
 \item Um das Minimum der Liste $[x] + R$ zu berechnen, berechnen wir rekursiv das Minimum
       von $R$ und benutzen die zweistellige Minimums-Funktion: \\[0.2cm]
@@ -371,45 +371,45 @@ $\textsl{delete}()$.
   \label{fig:selection-sort}
 \end{figure}
 
-\subsection{Komplexität}
-Um die Komplexität von ``\emph{Sortieren durch Auswahl}'' analysieren zu können, müssen
-wir zunächst die Anzahl der Vergleiche, die bei der Berechnung von $\mathtt{min}(L)$
-durchgeführt werden, bestimmen.  Es gilt \\[0.2cm]
+\subsection{Komplexit\"at}
+Um die Komplexit\"at von ``\emph{Sortieren durch Auswahl}'' analysieren zu k\"onnen, m\"ussen
+wir zun\"achst die Anzahl der Vergleiche, die bei der Berechnung von $\mathtt{min}(L)$
+durchgef\"uhrt werden, bestimmen.  Es gilt \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
 \\[0.2cm]
-Also wird bei der Berechnung von $\texttt{min}(L)$ für eine Liste $L$ der Länge $n$ der Operator
+Also wird bei der Berechnung von $\texttt{min}(L)$ f\"ur eine Liste $L$ der L\"ange $n$ der Operator
 \texttt{min} insgesamt $(n-1)$-mal aufgerufen.  Jeder Aufruf von \texttt{min} bedingt dann
 einen Aufruf des Vergleichs-Operators ``$\preceq$''.
-Bezeichnen wir die Anzahl der Vergleiche bein Aufruf von $\texttt{sort}(L)$ für eine
-Liste der Länge $L$ mit $b_n$, so finden wir also \\[0.2cm]
+Bezeichnen wir die Anzahl der Vergleiche bein Aufruf von $\texttt{sort}(L)$ f\"ur eine
+Liste der L\"ange $L$ mit $b_n$, so finden wir also \\[0.2cm]
 \hspace*{1.3cm} $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$, \hspace*{\fill}\\[0.2cm]
-denn um eine Liste mit $n+1$ Elementen zu sortieren, muss zunächst das Minimum dieser
+denn um eine Liste mit $n+1$ Elementen zu sortieren, muss zun\"achst das Minimum dieser
 Liste berechnet werden.  Dazu sind $n$ Vergleiche notwendig.  Dann wird das Minimum aus
-der Liste entfernt und die Rest-Liste, die ja nur noch $n$ Elemente enthält, wird rekursiv
+der Liste entfernt und die Rest-Liste, die ja nur noch $n$ Elemente enth\"alt, wird rekursiv
 sortiert.  Das liefert den Beitrag $b_n$ in der obigen Summe.
 
-Bei der Berechnung der Komplexität von ``\emph{Sortieren durch Einfügen}'' hatten wir die
-selbe Rekurrenz-Gleichung erhalten.  Die Lösung dieser Rekurrenz-Gleichung lautet also \\[0.2cm]
+Bei der Berechnung der Komplexit\"at von ``\emph{Sortieren durch Einf\"ugen}'' hatten wir die
+selbe Rekurrenz-Gleichung erhalten.  Die L\"osung dieser Rekurrenz-Gleichung lautet also \\[0.2cm]
 \hspace*{1.3cm} $b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2}\cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$. \\[0.2cm]
 Das sieht so aus, als ob die Anzahl der Vergleiche beim ``\emph{Sortieren durch
-  Einfügen}'' genau so wäre wie beim ``\emph{Sortieren durch Auswahl}''.  Das stimmt aber
-nicht.  Bei ``\emph{Sortieren durch Einfügen}'' ist die Anzahl der durchgeführten
+  Einf\"ugen}'' genau so w\"are wie beim ``\emph{Sortieren durch Auswahl}''.  Das stimmt aber
+nicht.  Bei ``\emph{Sortieren durch Einf\"ugen}'' ist die Anzahl der durchgef\"uhrten
 Vergleiche im schlimmsten Fall $\frac{1}{2}n*(n-1)$, beim ``\emph{Sortieren durch
   Auswahl}'' ist Anzahl der Vergleiche \underline{immer} $\frac{1}{2}n*(n-1)$.  Der Grund
 ist, dass zur Berechnung des Minimums einer Liste mit $n$ Elementen immer $n-1$ Vergleiche
-erforderlich sind.  Um aber ein Element in eine Liste mit $n$ Elementen einzufügen, sind
+erforderlich sind.  Um aber ein Element in eine Liste mit $n$ Elementen einzuf\"ugen, sind
 im \underline{Durchschnitt} nur etwa $\frac{1}{2}n$ Vergleiche erforderlich, denn im Schnitt sind etwa
-die Hälfte der Elemente kleiner als das einzufügende Element und daher müssen beim Einfügen
-in eine sortierte Liste der Länge $n$ im Durchschnitt nur die ersten $\frac{n}{2}$
+die H\"alfte der Elemente kleiner als das einzuf\"ugende Element und daher m\"ussen beim Einf\"ugen
+in eine sortierte Liste der L\"ange $n$ im Durchschnitt nur die ersten $\frac{n}{2}$
 Elemente betrachtet werden.  Daher ist die durchschnittliche Anzahl von Vergleichen beim
-``\emph{Sortieren durch Einfügen}'' $\frac{1}{4}n^2 + \Oh(n)$, also halb so groß wie beim
+``\emph{Sortieren durch Einf\"ugen}'' $\frac{1}{4}n^2 + \Oh(n)$, also halb so gro\3 wie beim
 ``\emph{Sortieren durch Auswahl}''.
 
 
 \subsection{Eine feldbasierte Implementierung}
-In der Anwendung besteht die Aufgabe häufig darin, ein Feld von Daten zu sortieren.
-Bisher haben wir nur Listen sortiert.  Daher präsentieren wir
+In der Anwendung besteht die Aufgabe h\"aufig darin, ein Feld von Daten zu sortieren.
+Bisher haben wir nur Listen sortiert.  Daher pr\"asentieren wir
 zum Abschluss unserer Diskussion des Algorithmus ``\emph{Sortieren durch Auswahl}''
 noch eine Implementierung dieses Algorithmus' in der Sprache \textsl{Java},
 in der die zu sortierenden Daten in einem Feld an Stelle einer Liste vorliegen.
@@ -421,8 +421,8 @@ die in Abbildung
 \ref{fig:SortingAlgorithm.java} gezeigt wird.  Diese Schnittstelle schreibt die
 Implementierung einer einzigen Methode vor, der Methode \\[0.2cm]
 \hspace*{1.3cm} \texttt{void sort();} \\[0.2cm]
-Die Einhaltung dieser Schnittstelle ist notwendig, um das Programm später in eine Umgebung
-zur Algorithmen-Visualisierung einbinden zu können.
+Die Einhaltung dieser Schnittstelle ist notwendig, um das Programm sp\"ater in eine Umgebung
+zur Algorithmen-Visualisierung einbinden zu k\"onnen.
 
 \begin{figure}[!ht]
   \centering
@@ -449,7 +449,7 @@ In Zeile 3 der Implementierung der Klass \texttt{MinSortAlgorithm} (Abbildung
  definieren wir das zu sortierende Feld und in Zeile 4 definieren wir ein Objekt
 vom Typ \texttt{Comparator}.  Dieses Objekt hat eine Methode \\[0.2cm]
 \hspace*{1.3cm} \texttt{int compare(Double x, Double y);}\\[0.2cm]
-mit deren Hilfe wir zwei Zahlen vergleichen können.  Es gilt \\[0.2cm]
+mit deren Hilfe wir zwei Zahlen vergleichen k\"onnen.  Es gilt \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{compare}(x,y) = \left\{
  \begin{array}[c]{rl}
@@ -514,10 +514,10 @@ entsprechenden Member-Variablen.
 \end{figure}
 
 Die Implementierung der Methode \texttt{sort()} in Zeile 10 ist trivial, denn die ganze
-Arbeit wird in der Hilfs-Methode \texttt{sort(int)} abgewickelt.  Für eine 
-natürliche Zahl $i$ mit $i < \mathtt{mArray.length}$ sortiert der Aufruf 
+Arbeit wird in der Hilfs-Methode \texttt{sort(int)} abgewickelt.  F\"ur eine 
+nat\"urliche Zahl $i$ mit $i < \mathtt{mArray.length}$ sortiert der Aufruf 
  $\texttt{sort}(i)$ 
-den Teil des Feldes, dessen Indizes größer oder gleich dem Argument $i$ sind, nach dem
+den Teil des Feldes, dessen Indizes gr\"o\3er oder gleich dem Argument $i$ sind, nach dem
 Aufruf $\mathtt{sort}(i)$ ist also die Liste \\[0.2cm]
 \hspace*{1.3cm} 
 $\bigl[\;\mathtt{mArray}[i],\;\mathtt{mArray}[i+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$
@@ -532,7 +532,7 @@ sortiert.  Die Implementierung der Methode \texttt{sort(int)} ist rekursiv:
       \hspace*{1.3cm} 
       $\forall j \in \bigl\{\, \mathtt{first},\, \mathtt{first}+1,\, \cdots,\, \texttt{mArray.length} -1\, \} \colon\;
        \texttt{mArray}[\texttt{minIndex}] \leq \texttt{mArray}[j]$. \\[0.2cm]
-      Anschließend wird das Element, das an der Stelle \texttt{minIndex} steht mit dem
+      Anschlie\3end wird das Element, das an der Stelle \texttt{minIndex} steht mit dem
       Element an der Stelle $\texttt{first}$ vertauscht.  Damit steht an der Stelle $\texttt{first}$ jetzt ein
       kleinstes Element der Liste \\[0.2cm]
       \hspace*{1.3cm} $\bigl[\;\mathtt{mArray}[\texttt{first}],\;\mathtt{mArray}[\texttt{first}+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$.
@@ -540,30 +540,30 @@ sortiert.  Die Implementierung der Methode \texttt{sort(int)} ist rekursiv:
       Sortieren wir danach rekursiv die Liste \\[0.2cm]
       \hspace*{1.3cm} $\bigl[\;\mathtt{mArray}[\texttt{first}+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$,
       \\[0.2cm]
-      so ist anschließend auch die Liste \\[0.2cm]
+      so ist anschlie\3end auch die Liste \\[0.2cm]
       \hspace*{1.3cm}
       $\bigl[\;\mathtt{mArray}[\texttt{first}],\;\mathtt{mArray}[\texttt{first}+1],\;\cdots,\;\mathtt{mArray}[\mathtt{mArray.length}-1] \;\bigr]$
       \\[0.2cm]
       sortiert, denn $\texttt{mArray}[\texttt{first}]$ ist ja ein minimales Element.
 \end{enumerate}
 Die Implementierung der Methode $\texttt{minIndex}(\textsl{first})$ berechnet den Index eines kleinsten
-Elements iterativ.  Zunächst wird \texttt{minIndex} mit dem Index \textsl{first}
-initialisiert.  Anschließend wird eine Schleife durchlaufen.  Falls ein
+Elements iterativ.  Zun\"achst wird \texttt{minIndex} mit dem Index \textsl{first}
+initialisiert.  Anschlie\3end wird eine Schleife durchlaufen.  Falls ein
 Index $i$ gefunden wird, so dass das Element $\mathtt{mArray}[i]$ kleiner als das Element
 $\texttt{mArray}[\textsl{minIndex}]$ ist, dann wird \texttt{minIndex} auf $i$ gesetzt.
-Dadurch ist gewährleistet dass \texttt{minIndex} am Ende der Schleife tatsächlich auf das
+Dadurch ist gew\"ahrleistet dass \texttt{minIndex} am Ende der Schleife tats\"achlich auf das
 kleinste Element zeigt.
 
 \section{Sortieren durch Mischen}
-Wir stellen nun einen Algorithmus zum Sortieren vor, der für große Listen erheblich
+Wir stellen nun einen Algorithmus zum Sortieren vor, der f\"ur gro\3e Listen erheblich
 effizienter ist als die beiden bisher betrachteten Algorithmen.  Der Algorithmus wird als
-``\emph{Sortieren durch Mischen}'' (engl. \emph{merge sort}) bezeichnet und verläuft nach dem folgenden Schema:
+``\emph{Sortieren durch Mischen}'' (engl. \emph{merge sort}) bezeichnet und verl\"auft nach dem folgenden Schema:
 \begin{enumerate}
-\item Hat die zu sortierende Liste $L$ weniger als zwei Elemente, so wird $L$ zurück
+\item Hat die zu sortierende Liste $L$ weniger als zwei Elemente, so wird $L$ zur\"uck
       gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\#L < 2 \rightarrow \mathtt{sort}(L) = L$.
-\item Ansonsten wird die Liste in zwei etwa gleich große Listen zerlegt.
-      Diese Listen werden rekursiv sortiert und anschließend so gemischt, dass
+\item Ansonsten wird die Liste in zwei etwa gleich gro\3e Listen zerlegt.
+      Diese Listen werden rekursiv sortiert und anschlie\3end so gemischt, dass
       das Ergebnis sortiert ist: \\[0.2cm]
       \hspace*{1.3cm} 
  $\#L \geq 2 \rightarrow \mathtt{sort}(L) = \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{split}_1(L)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(L)\bigr)\Bigr)$
@@ -574,15 +574,15 @@ effizienter ist als die beiden bisher betrachteten Algorithmen.  Der Algorithmus
 Abbildung \ref{fig:merge-sort} zeigt die Umsetzung dieser sortierten Gleichungen 
 in ein \textsl{Java}-Programm, das eine verkettete Liste sortiert. 
 Die beiden Funktionen $\mathtt{split}_1$ und $\mathtt{split}_2$ haben wir dabei
-zu einer Funktion \texttt{split} zusammengefasst, die zwei Listen zurück liefert. Ein
+zu einer Funktion \texttt{split} zusammengefasst, die zwei Listen zur\"uck liefert. Ein
 Aufruf der Form
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mathtt{split}(L, L_1, L_2)$
 \\[0.2cm]
 verteilt die Elemente der Liste $L$ auf die beiden Listen $L_1$ und $L_2$.  
-Damit das funktioniert, müssen die Variablen $L_1$ und $L_2$ zu Beginn des Aufrufs auf
-leere Listen verweisen.  Damit können wir die Details des \textsl{Java}-Programms in
+Damit das funktioniert, m\"ussen die Variablen $L_1$ und $L_2$ zu Beginn des Aufrufs auf
+leere Listen verweisen.  Damit k\"onnen wir die Details des \textsl{Java}-Programms in
 Abbildung \ref{fig:merge-sort} verstehen:
 
 
@@ -614,8 +614,8 @@ Abbildung \ref{fig:merge-sort} verstehen:
 \end{figure}
 \begin{enumerate}
 \item Wenn die zu sortierende Liste aus weniger als zwei Elementen besteht,
-      dann ist diese Liste bereits sortiert und wir können diese Liste in Zeile 3
-      unverändert zurück geben.
+      dann ist diese Liste bereits sortiert und wir k\"onnen diese Liste in Zeile 3
+      unver\"andert zur\"uck geben.
 \item In den Zeilen 5 und 6 legen wir zwei leere Listen \texttt{first} und \texttt{second}
       an.
 \item Der Aufruf von \texttt{split} verteilt die Elemente der zu sortierenden Liste
@@ -627,7 +627,7 @@ Abbildung \ref{fig:merge-sort} verstehen:
 \end{enumerate}
 
 \noindent
-Als nächstes überlegen wir uns, wie wir die Funktion $\texttt{split}$ durch Gleichungen spezifizieren können.
+Als n\"achstes \"uberlegen wir uns, wie wir die Funktion $\texttt{split}$ durch Gleichungen spezifizieren k\"onnen.
 \begin{enumerate}
 \item Falls $L$ leer ist, produziert $\mathtt{split}(L)$ zwei leere Listen:\\[0.2cm]
       \hspace*{1.3cm} 
@@ -636,8 +636,8 @@ Als nächstes überlegen wir uns, wie wir die Funktion $\texttt{split}$ durch Glei
       \hspace*{1.3cm} 
       $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
 \item Sonst hat $L$ die Form $\mathtt{[}x, y\mathtt{]} + R$.
-      Dann spalten wir rekursiv $R$ in zwei Listen auf. Vor die erste Liste fügen wir $x$ an,
-      vor die zweite Liste fügen wir $y$ an:
+      Dann spalten wir rekursiv $R$ in zwei Listen auf. Vor die erste Liste f\"ugen wir $x$ an,
+      vor die zweite Liste f\"ugen wir $y$ an:
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{split}(R) = \mathtt{[}R_1, R_2\mathtt{]} \rightarrow
@@ -682,23 +682,23 @@ zeigt die Umsetzung dieser bedingten Gleichungen in \textsl{Java}.
 \item Falls die Liste, deren Elemente auf zwei Listen verteilt werden sollen, leer ist,
       so ist nichts weiter zu tun, denn wir setzen voraus, dass die Listen \texttt{first}
       und \texttt{second} beim Aufruf der Methode \texttt{split} leer sind.
-\item Andernfalls entfernen wir zunächst des erste Element aus der Liste \texttt{list} und
+\item Andernfalls entfernen wir zun\"achst des erste Element aus der Liste \texttt{list} und
       speichern es in der Variablen $x$.
-      Falls die Liste danach leer ist, fügen wir das Element $x$
+      Falls die Liste danach leer ist, f\"ugen wir das Element $x$
       in die Liste \texttt{first} ein und beenden den Methoden-Aufruf.
 \item Wenn der Kontrollfluss in Zeile 12 ankommt, dann muss die Liste \texttt{list} beim Aufruf
       wenigstens zwei Elemente gehabt haben.  Wir entfernen nun das zweite dieser beiden
       Elemente und speichern es in der Variablen $y$.
-\item Anschließend teilen wir das, was jetzt noch von der Liste \texttt{list} übrig ist,
+\item Anschlie\3end teilen wir das, was jetzt noch von der Liste \texttt{list} \"ubrig ist,
       durch den rekursiven Aufruf von \texttt{split} auf die Listen \texttt{first} und
       \texttt{second} auf.
-\item Zum Abschluss fügen wir das Element $x$ in die Liste \texttt{first} ein
+\item Zum Abschluss f\"ugen wir das Element $x$ in die Liste \texttt{first} ein
       und das Element $y$ schieben wir in die Liste \texttt{second}.
 \end{enumerate}
 
 
 Als letztes spezifizieren wir, wie zwei sortierte Listen $L_1$ 
-und $L_2$ so gemischt werden können, dass das Ergebnis anschließend wieder sortiert ist.
+und $L_2$ so gemischt werden k\"onnen, dass das Ergebnis anschlie\3end wieder sortiert ist.
 \begin{enumerate}
 \item Falls die Liste $L_1$ leer ist, ist das Ergebnis $L_2$: \\[0.2cm]
       \hspace*{1.3cm} 
@@ -707,7 +707,7 @@ und $L_2$ so gemischt werden können, dass das Ergebnis anschließend wieder sorti
       \hspace*{1.3cm} 
       $\mathtt{merge}(L_1, []) = L_1$.
 \item Andernfalls hat $L_1$ die Form $[x] + R_1$ und $L_2$ hat die Gestalt $[y] + R_2$.
-      Dann führen wir eine Fallunterscheidung nach der relativen Größe von $x$ und $y$ durch:
+      Dann f\"uhren wir eine Fallunterscheidung nach der relativen Gr\"o\3e von $x$ und $y$ durch:
       \begin{enumerate}
       \item $x \preceq y$.
 
@@ -761,20 +761,20 @@ zeigt die Umsetzung dieses Algorithmus in \textsl{Java}.
 
 \begin{enumerate}
 \item Falls eine der beiden Listen leer ist, so geben wir als Ergebnis die
-      andere Liste zurück.
+      andere Liste zur\"uck.
 \item Wenn der Kontrollfluss in Zeile 7 ankommt, dann wissen wir, dass beide Listen
       nicht leer sind.  Wir holen uns jeweils das erste Element der beiden Listen
       und speichern diese in den Variablen $x$ und $y$ ab.  Da wir diese Elemente
       aber mit Hilfe der Methode \texttt{getFirst} bekommen, bleiben diese Elemente
-      zunächst Bestandteil der beiden Listen.
-\item Anschließend prüfen wir, welche der beiden Variablen die kleinere ist.
+      zun\"achst Bestandteil der beiden Listen.
+\item Anschlie\3end pr\"ufen wir, welche der beiden Variablen die kleinere ist.
       \begin{enumerate}
       \item Falls $x$ kleiner als $y$ ist, so entfernen wir $x$ aus der ersten Liste
-            und mischen rekursiv die verkürzte erste Liste mit der zweiten Liste.
-            Anschließen fügen wir $x$ an den Anfang der Ergebnis-Liste ein.
+            und mischen rekursiv die verk\"urzte erste Liste mit der zweiten Liste.
+            Anschlie\3en f\"ugen wir $x$ an den Anfang der Ergebnis-Liste ein.
       \item Andernfalls entfernen wir $y$ aus der zweiten Liste
-            und mischen rekursiv die erste Liste mit der verkürzten zweiten Liste und
-            fügen dann $y$ am Anfang der beim rekursiven Aufruf erhaltenen Liste ein.
+            und mischen rekursiv die erste Liste mit der verk\"urzten zweiten Liste und
+            f\"ugen dann $y$ am Anfang der beim rekursiven Aufruf erhaltenen Liste ein.
       \end{enumerate}
 \end{enumerate}
 Zum Abschluss zeigen wir in Abbildung \ref{fig:MergeSort}, wie die eben diskutierten
@@ -827,22 +827,22 @@ Methoden zusammen spielen.
 \end{figure}
 
 
-\subsection{Komplexität}
+\subsection{Komplexit\"at}
 Wir wollen wieder berechnen, wieviele Vergleiche beim Sortieren einer Liste mit $n$
-Elementen durchgeführt werden.  Dazu analysieren wir zunächst, wieviele Vergleiche zum
-Mischen zweier Listen $L_1$ und $L_2$ benötigt werden.  Wir definieren eine Funktion \\[0.2cm]
+Elementen durchgef\"uhrt werden.  Dazu analysieren wir zun\"achst, wieviele Vergleiche zum
+Mischen zweier Listen $L_1$ und $L_2$ ben\"otigt werden.  Wir definieren eine Funktion \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ \\[0.2cm]
-so dass für zwei Listen $L_1$ und $L_2$ der Term
+so dass f\"ur zwei Listen $L_1$ und $L_2$ der Term
 $\mathtt{cmpCount}(L_1, L_2)$ die Anzahl Vergleiche angibt, die bei Berechnung von $\texttt{merge}(L_1,L_2)$ erforderlich sind. 
-Wir behaupten, dass für beliebige Listen $L_1$ und $L_2$  \\[0.2cm]
+Wir behaupten, dass f\"ur beliebige Listen $L_1$ und $L_2$  \\[0.2cm]
 \hspace*{1.3cm} $\mathtt{cmpCount}(L_1, L_2) \leq \# L_1 + \# L_2$ \\[0.2cm]
-gilt.  Für eine Liste $L$ bezeichnet dabei $\#L$ die Anzahl der Elemente der Liste.
- Wir führen den Beweis durch Induktion nach der Summe $\#L_1 + \#L_2$.
+gilt.  F\"ur eine Liste $L$ bezeichnet dabei $\#L$ die Anzahl der Elemente der Liste.
+ Wir f\"uhren den Beweis durch Induktion nach der Summe $\#L_1 + \#L_2$.
 \begin{enumerate}
 \item[I.A.:] $\#L_1 + \#L_2=0$.
 
-             Dann müssen $L_1$ und $L_2$ leer sein und somit ist beim Aufruf
+             Dann m\"ussen $L_1$ und $L_2$ leer sein und somit ist beim Aufruf
              von $\mathtt{merge}(L_1, L_2)$ kein Vergleich erforderlich.  Also gilt \\[0.2cm]
              \hspace*{1.3cm} $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \#L_1 + \#L_2$.
 \item[I.S.:] $\#L_1 + \#L_2 = n+1$.
@@ -856,7 +856,7 @@ gilt.  Für eine Liste $L$ bezeichnet dabei $\#L$ die Anzahl der Elemente der Lis
              Wir nehmen also an, dass gilt: \\[0.2cm]
              \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad und \quad $L_2 = [y] + R_2$.
              \\[0.2cm]
-             Wir führen eine Fallunterscheidung bezüglich der relativen Größe von $x$ und $y$ 
+             Wir f\"uhren eine Fallunterscheidung bez\"uglich der relativen Gr\"o\3e von $x$ und $y$ 
              durch.
              \begin{enumerate}
              \item $x \preceq y$.  Dann gilt \\[0.2cm]
@@ -866,11 +866,11 @@ gilt.  Für eine Liste $L$ bezeichnet dabei $\#L$ die Anzahl der Elemente der Lis
                    Also haben wir: \\[0.2cm]
                    \hspace*{1.3cm} 
                    $\mathtt{cmpCount}(L_1, L_2) = 1 + \mathtt{cmpCount}(R_1, L_2) \stackrel{IV}{\leq} 1 + \#R_1 + \#L_2 = \#L_1 + \#L_2$.
-             \item $\neg x \preceq y$.  Dieser Fall ist völlig analog zum 1.~Fall. \hspace*{\fill} $\Box$
+             \item $\neg x \preceq y$.  Dieser Fall ist v\"ollig analog zum 1.~Fall. \hspace*{\fill} $\Box$
              \end{enumerate}
 \end{enumerate}
 \exercise
-Überlegen Sie, wie die Listen $L_1$ und $L_2$ aussehen müssen, damit
+Ãœberlegen Sie, wie die Listen $L_1$ und $L_2$ aussehen m\"ussen, damit
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mathtt{cmpCount}(L_1, L_2) = \#L_1 + \#L_2$
@@ -879,30 +879,30 @@ gilt.
 \vspace*{0.3cm}
 
 \noindent
-Wir wollen nun die Komplexität des Merge-Sort-Algorithmus im schlechtesten Fall berechnen und bezeichnen 
+Wir wollen nun die Komplexit\"at des Merge-Sort-Algorithmus im schlechtesten Fall berechnen und bezeichnen 
 dazu die Anzahl der Vergleiche, die beim Aufruf von
-$\mathtt{sort}(L)$ für eine Liste $L$ der Länge $n$
-schlimmstenfalls durchgeführt werden müssen mit $a_n$.  
+$\mathtt{sort}(L)$ f\"ur eine Liste $L$ der L\"ange $n$
+schlimmstenfalls durchgef\"uhrt werden m\"ussen mit $a_n$.  
 Zur Vereinfachung nehmen wir an, dass $n$ die Form \\[0.2cm]
-\hspace*{1.3cm} $\displaystyle n = 2^k$ \qquad für ein $k \el \mathbb{N}$ \\[0.2cm]
-hat und definieren $b_k = a_n = a_{2^k}$.  Zunächst berechnen wir den Anfangs-Wert, es gilt
+\hspace*{1.3cm} $\displaystyle n = 2^k$ \qquad f\"ur ein $k \el \mathbb{N}$ \\[0.2cm]
+hat und definieren $b_k = a_n = a_{2^k}$.  Zun\"achst berechnen wir den Anfangs-Wert, es gilt
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle b_0 = a_{2^0} = a_1 = 0$, 
 \\[0.2cm]
-denn bei einer Liste der Länge 1 findet noch kein Vergleich statt.
+denn bei einer Liste der L\"ange 1 findet noch kein Vergleich statt.
 Im rekursiven Fall wird zur Berechnung
-von $\mathtt{sort}(L)$ die Liste $L$ zunächst durch $\texttt{split}$ in zwei
-gleich große Listen geteilt, die dann rekursiv sortiert werden. Anschließend
+von $\mathtt{sort}(L)$ die Liste $L$ zun\"achst durch $\texttt{split}$ in zwei
+gleich gro\3e Listen geteilt, die dann rekursiv sortiert werden. Anschlie\3end
 werden die sortierten Listen
-gemischt.  Das liefert für das Sortieren einer Liste der Länge $2^{k+1}$ die Rekurrenz-Gleichung \\[0.2cm]
+gemischt.  Das liefert f\"ur das Sortieren einer Liste der L\"ange $2^{k+1}$ die Rekurrenz-Gleichung \\[0.2cm]
 \hspace*{1.3cm} $b_{k+1} = 2 \cdot b_k + 2^{k+1}$, \hspace*{\fill} (1) \\[0.2cm]
-denn das Mischen der beiden halb so großen Listen kostet schlimmstenfalls $2^k +
+denn das Mischen der beiden halb so gro\3en Listen kostet schlimmstenfalls $2^k +
 2^k = 2^{k+1}$ Vergleiche 
 und das rekursive Sortieren der beiden Teil-Listen
 kostet insgesamt $2 \cdot b_k$ Vergleiche.
 
-Um diese Rekurrenz-Gleichung zu lösen, führen wir in (1) die Substitution $k \mapsto k+1$ durch und erhalten \\[0.2cm]
+Um diese Rekurrenz-Gleichung zu l\"osen, f\"uhren wir in (1) die Substitution $k \mapsto k+1$ durch und erhalten \\[0.2cm]
 \hspace*{1.3cm}  $b_{k+2} = 2 \cdot b_{k+1} + 2^{k+2}$. \hspace*{\fill} (2) \\[0.2cm]
 Wir multiplizieren Gleichung (1) mit dem Faktor 2 und subtrahieren die erhaltene Gleichung von Gleichung (2). 
 Dann erhalten wir \\[0.2cm]
@@ -910,50 +910,50 @@ Dann erhalten wir \\[0.2cm]
 Diese Gleichung vereinfachen wir zu \\[0.2cm]
 \hspace*{1.3cm}  $b_{k+2} = 4 \cdot b_{k+1} - 4 \cdot b_k$. \hspace*{\fill} (4) \\[0.2cm]
 Diese Gleichung ist eine homogene lineare Rekurrenz-Gleichung 2. Ordnung.
-Das charakteristische Polynom der zugehörigen homogenen Rekurrenz-Gleichung lautet \\[0.2cm]
+Das charakteristische Polynom der zugeh\"origen homogenen Rekurrenz-Gleichung lautet \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle \chi(x) = x^2 - 4 *x + 4 = (x-2)^2$. \\[0.2cm]
 Weil das charakteristische Polynom an der Stelle $x=2$ eine doppelte Null-Stelle hat, 
-lautet die allgemeine Lösung \\[0.2cm]
+lautet die allgemeine L\"osung \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle b_k = \alpha \cdot 2^k + \beta \cdot k \cdot 2^k$. \hspace*{\fill} (5) \\[0.2cm]
-Setzen wir hier den Wert für $k=0$ ein, so erhalten wir \\[0.2cm]
+Setzen wir hier den Wert f\"ur $k=0$ ein, so erhalten wir \\[0.2cm]
 \hspace*{1.3cm} $0 = \alpha$. \\[0.2cm]
-Aus (1) erhalten wir den Wert $b_1 = 2 \cdot b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) für $k$ den Wert 1 ein, 
+Aus (1) erhalten wir den Wert $b_1 = 2 \cdot b_0 + 2^1 = 2$.  Setzen wir also in Gleichung (5) f\"ur $k$ den Wert 1 ein, 
 so finden wir \\[0.2cm]
 \hspace*{1.3cm} $2 = 0 \cdot 2^1 + \beta \cdot 1 \cdot 2^1$,  \\[0.2cm]
-also muss $\beta = 1$ gelten.  Damit lautet die Lösung \\[0.2cm]
+also muss $\beta = 1$ gelten.  Damit lautet die L\"osung \\[0.2cm]
 \hspace*{1.3cm} $b_k = k \cdot 2^k$. \\[0.2cm]
-Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt für $a_n$ \\[0.2cm]
+Aus $n = 2^k$ folgt $k = \log_2(n)$ und daher gilt f\"ur $a_n$ \\[0.2cm]
 \hspace*{1.3cm} $a_n = n \cdot \log_2(n)$. \\[0.2cm]
-Wir sehen also, dass beim ``\emph{Sortieren durch Mischen}'' für große Listen wesentlich weniger Vergleiche
-durchgeführt werden müssen, als dies bei den beiden anderen Algorithmen der Fall ist.
+Wir sehen also, dass beim ``\emph{Sortieren durch Mischen}'' f\"ur gro\3e Listen wesentlich weniger Vergleiche
+durchgef\"uhrt werden m\"ussen, als dies bei den beiden anderen Algorithmen der Fall ist.
 
-Zur Vereinfachung haben wir bei der obigen Rechnung nur eine obere Abschätzung
-der Anzahl der Vergleiche durchgeführt.  Eine exakte Rechnung zeigt, dass im
+Zur Vereinfachung haben wir bei der obigen Rechnung nur eine obere Absch\"atzung
+der Anzahl der Vergleiche durchgef\"uhrt.  Eine exakte Rechnung zeigt, dass im
 schlimmsten Fall \\[0.2cm]
 \hspace*{1.3cm}  $n \cdot \log_2(n) - n + 1$ \\[0.2cm]
-Vergleiche beim ``\emph{Sortieren durch Mischen}'' einer nicht-leeren Liste der Länge $n$
-durchgeführt werden müssen.
+Vergleiche beim ``\emph{Sortieren durch Mischen}'' einer nicht-leeren Liste der L\"ange $n$
+durchgef\"uhrt werden m\"ussen.
 
 \subsection{Eine feldbasierte Implementierung}
 Abbildung \ref{fig:MergeSortAlgorithm.java} auf Seite \pageref{fig:MergeSortAlgorithm.java}
 zeigt eine feldbasierte  Implementierung des Algorithmus ``\emph{Sortieren durch
-  Mischen}''.  Die Klasse \texttt{MergeSortAlgorithm} ist von der in der Übung
+  Mischen}''.  Die Klasse \texttt{MergeSortAlgorithm} ist von der in der Ãœbung
 diskutierten Klasse \texttt{SortingAlgorithm} abgeleitet.
-Wir diskutieren zunächst die Member-Variablen.
+Wir diskutieren zun\"achst die Member-Variablen.
 \begin{enumerate}
 \item Das zu sortierende Feld wird in der Member-Variablen \texttt{mArray} 
       abgelegt.  Diese Member-Variable ist in der Oberklasse \texttt{SortingAlgorithm}
       definiert und wird von dieser Klasse geerbt.
-\item \texttt{mAux} ist ein Hilfsfeld, das wir während der Durchführung des Algorithmus
-      benötigen um Werte zwischenzuspeichern.
-\item Der Komparator, den wir zum Vergleich zweier Elemente benötigen,
+\item \texttt{mAux} ist ein Hilfsfeld, das wir w\"ahrend der Durchf\"uhrung des Algorithmus
+      ben\"otigen um Werte zwischenzuspeichern.
+\item Der Komparator, den wir zum Vergleich zweier Elemente ben\"otigen,
       wird in der Variablen \texttt{mComparator} abgespeichert.  Diese Variable ist
       ebenfalls in der Oberklasse \texttt{SortingAlgorithm} definiert.
       
       Der Komparator stellt die Methode \\[0.2cm]
       \hspace*{1.3cm} 
       $\texttt{mComparator.compare}(\mathtt{Element}\ x, \mathtt{Element}\ y)$  \\[0.2cm]
-      zur Verfügung, mit deren Hilfe wir zwei Elements $x$ und $y$ vergleichen können.
+      zur Verf\"ugung, mit deren Hilfe wir zwei Elements $x$ und $y$ vergleichen k\"onnen.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -1020,21 +1020,21 @@ durch den Aufruf des Konstruktors der Oberklasse in den
 Member-Variablen der Oberklasse ab und legt gleichzeitig das Hilfsfeld \texttt{mAux} an.
 
 Der Algorithmus ``\emph{Sortieren durch Mischen}'' \texttt{sort}() wird in der Methode
-\texttt{mergeSort} implementiert.  Diese Methode erhält die Argumente  \texttt{start} und
+\texttt{mergeSort} implementiert.  Diese Methode erh\"alt die Argumente  \texttt{start} und
 \texttt{end}, die den  Bereich des Feldes eingrenzen, der zu sortieren ist: 
 Der Aufruf \texttt{mergeSort}(\textsl{start}, \textsl{end}) sortiert nur der Bereich \\[0.2cm]
 \hspace*{1.3cm} \texttt{mArray[\textsl{start}]}, $\cdots$, \texttt{mArray[\textsl{end}-1]}. \\[0.2cm]
 Die feldbasierte Implementierung  weicht von der listenbasierten Implementierung ab, da
-wir keine Funktion \texttt{split} mehr benötigen, um die Liste aufzuspalten. 
+wir keine Funktion \texttt{split} mehr ben\"otigen, um die Liste aufzuspalten. 
 Statt dessen berechnen wir die Mitte des Feldes
 \texttt{mArray} mit der Formel \\[0.2cm]
 \hspace*{1.3cm} \texttt{middle = (start + end) / 2;} \\[0.2cm]
-und spalten das Feld dann an dem Index \texttt{middle} in zwei etwa gleich große
+und spalten das Feld dann an dem Index \texttt{middle} in zwei etwa gleich gro\3e
 Teile, die wir in den Zeilen 19 und 20 rekursiv sortieren.
 
-Anschließend rufen wir in Zeile 21 die Methode \texttt{merge} aus, die die beiden
+Anschlie\3end rufen wir in Zeile 21 die Methode \texttt{merge} aus, die die beiden
 sortierten Felder zu einem sortierten Feld zusammenfasst.  Diese Methode ist in den Zeilen
-22 --- 42 implementiert.  Die Methode erhält 3 Argumente: Die Parameter \texttt{start},
+22 --- 42 implementiert.  Die Methode erh\"alt 3 Argumente: Die Parameter \texttt{start},
 \texttt{middle} und \texttt{end} spezifizieren die beiden Teilfelder, die zu mischen sind.
 Das erste Teilfeld besteht aus den Elementen \\[0.2cm]
 \hspace*{1.3cm} \texttt{mArray[start]}, $\cdots$, \texttt{mArray[middle-1]}, \\[0.2cm]
@@ -1043,26 +1043,26 @@ das zweite Teilfeld besteht aus den Elementen \\[0.2cm]
 Der Aufruf setzt voraus, dass die beiden Teilfelder bereits sortiert sind.
 Das Mischen funktioniert dann wie folgt.
 \begin{enumerate}
-\item Zunächst werden die Daten aus den beiden zu sortierenden Teilfelder
+\item Zun\"achst werden die Daten aus den beiden zu sortierenden Teilfelder
       in Zeile 24 in das Hilfs-Feld \texttt{mAux} kopiert.
-\item Anschließend definieren wir drei Indizes:
+\item Anschlie\3end definieren wir drei Indizes:
       \begin{enumerate}
-      \item \texttt{idx1} zeigt auf das nächste zu untersuchende Element im ersten
+      \item \texttt{idx1} zeigt auf das n\"achste zu untersuchende Element im ersten
             Teilfeld des Arrays \texttt{mAux}.
-      \item \texttt{idx2} zeigt auf das nächste zu untersuchende Element im zweiten
+      \item \texttt{idx2} zeigt auf das n\"achste zu untersuchende Element im zweiten
             Teilfeld des Arrays \texttt{mAux}.
       \item \texttt{i} gibt die Position im Ergebnis-Feld \texttt{mArray} an, in die das
-            nächste Element geschrieben wird.
+            n\"achste Element geschrieben wird.
       \end{enumerate}
 \item Solange weder das erste noch das zweite Teilfeld des Arrays \texttt{mAux}
-      vollständig abgearbeitet ist, vergleichen wir in Zeile 30 die Elemente aus den beiden Teilfeldern
+      vollst\"andig abgearbeitet ist, vergleichen wir in Zeile 30 die Elemente aus den beiden Teilfeldern
       und schreiben das kleinere von beiden an die Stelle, auf die der Index \texttt{i} zeigt.
-\item Falls bei diesem Vergleich eines der beiden Felder vor dem anderen erschöpft ist,
-      müssen wir anschließend die restlichen Elemente des verbleibenden Teilfeldes
+\item Falls bei diesem Vergleich eines der beiden Felder vor dem anderen ersch\"opft ist,
+      m\"ussen wir anschlie\3end die restlichen Elemente des verbleibenden Teilfeldes
       in das Ergebnis-Feld kopieren.  Die Schleife in Zeile 36 --- 38 wird aktiv, wenn das
-      zweite Teilfeld zuerst erschöpft wird.  Dann werden dort die verbleibenden Elemente
+      zweite Teilfeld zuerst ersch\"opft wird.  Dann werden dort die verbleibenden Elemente
       des ersten Teilfeldes in das Feld \texttt{mArray} kopiert.  Ist umgekehrt das erste
-      Teilfeld zuerst erschöpft, dann werden in Zeile 39 --- 41 die verbleibenden Elemente
+      Teilfeld zuerst ersch\"opft, dann werden in Zeile 39 --- 41 die verbleibenden Elemente
       des zweiten Teilfeldes in das Feld \texttt{mArray} kopiert. 
 \end{enumerate}
 
@@ -1100,25 +1100,25 @@ Die in Abbildung \ref{fig:MergeSortAlgorithm.java} gezeigte Implementierung des
 Merge-Sort-Algorithmus ist rekursiv.  Die Effizienz einer rekursiven Implementierung ist
 in der Regel schlechter als die Effizienz einer sequentiellen Implementierung.
 Der Grund ist, dass der Aufruf einer rekursiven Funktion relativ viel Zeit kostet, denn
-beim Aufruf einer rekursiven Funktion müssen einerseits die lokalen Variablen der Funktion auf dem
-Stack gesichert werden und andererseits müssen die Argumente, mit denen die Funktion
+beim Aufruf einer rekursiven Funktion m\"ussen einerseits die lokalen Variablen der Funktion auf dem
+Stack gesichert werden und andererseits m\"ussen die Argumente, mit denen die Funktion
 aufgerufen wird, auf den Stack gelegt werden.  Wir zeigen daher, wie sich der
-Merge-Sort-Algorithmus sequentiell implementieren lässt.  Abbildung
+Merge-Sort-Algorithmus sequentiell implementieren l\"asst.  Abbildung
 \ref{fig:MergeSortNRAlgorithm.java} auf Seite \pageref{fig:MergeSortNRAlgorithm.java}
 zeigt eine solche Implementierung.
 Statt der rekursiven Aufrufe haben wir hier zwei ineinander geschachtelte
 \texttt{for}-Schleifen.  Die Arbeitsweise des Algorithmus wird deutlich, wenn wir die
 \emph{Invarianten} dieser Schleifen formulieren.  Eine solche \emph{Invariante} ist eine
 logische Formel, die vor jedem Durchlauf der Schleife wahr ist.  Dieser Begriff
-wird am besten durch ein Beispiel klar.  Die Invariante der äußeren Schleife besagt,
-dass alle Teil-Felder der Länge $l$, die bei einem Index beginnen, der ein Vielfaches von
+wird am besten durch ein Beispiel klar.  Die Invariante der \"au\3eren Schleife besagt,
+dass alle Teil-Felder der L\"ange $l$, die bei einem Index beginnen, der ein Vielfaches von
 $l$ ist, sortiert sind.  Bezeichnen wir das zu sortierende Feld \textsl{mArray} jetzt der
-Kürze halber mit $x$, so hat ein solches Teilfeld die Form 
+K\"urze halber mit $x$, so hat ein solches Teilfeld die Form 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\Bigl[x[k\cdot l],\; x[k\cdot l+1],\; x[k\cdot l+2],\; \cdots,\; x[k\cdot l+(l-1)]\Bigr]$
 \\[0.2cm]
-und wenn $n$ die Länge des Feldes $x$ ist, dann lässt sich die Aussage, dass alle
+und wenn $n$ die L\"ange des Feldes $x$ ist, dann l\"asst sich die Aussage, dass alle
 diese Teilfelder sortiert sind, durch die Formel 
 \\[0.2cm]
 \hspace*{0.8cm}
@@ -1126,14 +1126,14 @@ $\forall k \in \{0, \cdots, n/l\}: \forall j\in\{0,\cdots,l-2\}: k\cdot l+j+1 < 
 \\[0.2cm]
 beschreiben. Die Bedingung $k\cdot l+j+1 < n$  ist notwendig um sicherzustellen, dass der
 Array-Zugriff $x[k\cdot l+j+1]$ definiert ist.  Wenn diese Bedingung am Anfang eines Schleifen-Durchlaufs
-erfüllt sein soll, dann ist es die Aufgabe des Schleifen-Rumpfs diese Bedingung für den
-nächsten Wert, den die Schleifen-Variable $l$ annimmt, sicherzustellen.  Der erste Wert
-der Schleifen-Variable $l$ ist 1.   Für diesen Wert ist die Schleifen-Invariante trivial
-denn dann sagt die Invariante nur aus, dass Teilfelder der Länge 1 sortiert sind.  In der
+erf\"ullt sein soll, dann ist es die Aufgabe des Schleifen-Rumpfs diese Bedingung f\"ur den
+n\"achsten Wert, den die Schleifen-Variable $l$ annimmt, sicherzustellen.  Der erste Wert
+der Schleifen-Variable $l$ ist 1.   F\"ur diesen Wert ist die Schleifen-Invariante trivial
+denn dann sagt die Invariante nur aus, dass Teilfelder der L\"ange 1 sortiert sind.  In der
 Schleife wird der Wert von $l$ nach jedem Schleifen-Durchlauf verdoppelt.   
-Es werden jeweils zwei Teilfelder der Länge $l$ genommen und so gemischt, dass das
-resultierende Teilfeld, dass die Länge $2\cdot l$ hat, danach sortiert ist.  Die innere Schleife in
-den Zeilen 7 bis 9 mischt für gerade Zahlen $k$ das $k$-te Teilfeld mit dem $k+1$-ten
+Es werden jeweils zwei Teilfelder der L\"ange $l$ genommen und so gemischt, dass das
+resultierende Teilfeld, dass die L\"ange $2\cdot l$ hat, danach sortiert ist.  Die innere Schleife in
+den Zeilen 7 bis 9 mischt f\"ur gerade Zahlen $k$ das $k$-te Teilfeld mit dem $k+1$-ten
 Teilfeld, es werden also die Teilfelder
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1142,12 +1142,12 @@ $x[k\cdot l],\;x[k\cdot l+1],\;\cdots,\;x[k\cdot l+(l-1)]$ \quad und
 \hspace*{1.3cm}
  $x[(k+1)\cdot l],\;x[(k+1)\cdot l+1],\;\cdots,\;x[(k+1)\cdot l+(l-1)]$ 
 \\[0.2cm]
-gemischt.  Möglicherweise hat das letzte Teilfeld eine Länge, die kleiner als $l$ ist.
-Daher nehmen wir für das dritte Argument der Methode \textsl{merge} das Minimum der beiden
+gemischt.  M\"oglicherweise hat das letzte Teilfeld eine L\"ange, die kleiner als $l$ ist.
+Daher nehmen wir f\"ur das dritte Argument der Methode \textsl{merge} das Minimum der beiden
 Zahlen $l\cdot(k+2)$ und $\textsl{mArray}.\textsl{length}$.
 
-Der Algorithmus lässt sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
-Feld \texttt{mArray} und \texttt{mAux} zurück gegeben werden, denn dann entfällt in der
+Der Algorithmus l\"asst sich noch dadurch verbessern, dass die Ergebnisse abwechselnd in dem 
+Feld \texttt{mArray} und \texttt{mAux} zur\"uck gegeben werden, denn dann entf\"allt in der
 Methode \textsl{merge} das Kopieren
 des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.  
 \pagebreak
@@ -1157,13 +1157,13 @@ des Feldes \texttt{mArray} in das Hilfs-Feld \texttt{mAux}.
 Der ``\emph{Quick-Sort}-Algorithmus'' funktioniert nach folgendem Schema:
 \begin{enumerate}
 \item Ist die zu sortierende Liste $L$ leer, so wird $L$
-      zurück gegeben: \\[0.2cm]
+      zur\"uck gegeben: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
 \item Sonst hat $L$ die Form $L = [x] + R$.
       Dann verteilen wir die Elemente von $R$ so auf zwei Listen $S$ und $B$, 
-      dass $S$ alle Elemente von $R$ enthält, die kleiner-gleich $x$ sind, während $B$ die
-      restlichen Elemente von $R$ enthält. 
-      Wir implementieren die Berechnung der beiden Listen über eine Funktion
+      dass $S$ alle Elemente von $R$ enth\"alt, die kleiner-gleich $x$ sind, w\"ahrend $B$ die
+      restlichen Elemente von $R$ enth\"alt. 
+      Wir implementieren die Berechnung der beiden Listen \"uber eine Funktion
       $\mathtt{partition}$, die das Paar von Listen $S$ und $B$ erzeugt: 
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1174,10 +1174,10 @@ Der ``\emph{Quick-Sort}-Algorithmus'' funktioniert nach folgendem Schema:
       \item Die Listen $S$ und $B$ enthalten zusammen genau die Elemente der Liste $R$
             \[ \forall y \in R: \textsl{count}(y,S) + \textsl{count}(y,B) = \textsl{count}(y,R) \]
       \item Alle Elemente aus $S$ sind kleiner-gleich $x$, die Elemente aus $B$ sind
-            größer als $x$:
+            gr\"o\3er als $x$:
             \[ \forall y \in S: y \preceq x \quad \mbox{und} \quad \forall y \in B: x \prec y. \]
       \end{enumerate}
-      Formal können wir die Funktion $\textsl{partition}()$ durch die folgenden
+      Formal k\"onnen wir die Funktion $\textsl{partition}()$ durch die folgenden
       Gleichungen beschreiben:
       \begin{enumerate}
       \item $\textsl{partition}(x, []) = \bigl\langle[], []\bigr\rangle$,
@@ -1187,8 +1187,8 @@ Der ``\emph{Quick-Sort}-Algorithmus'' funktioniert nach folgendem Schema:
       \item $\neg\, (y \preceq x) \wedge \textsl{partition}(x,R) = \bigl\langle S, B \bigr\rangle \rightarrow 
              \textsl{partition}(x, [y] + R) = \bigl\langle S,\, [y] + B \bigr\rangle$,
       \end{enumerate}
-      Anschließend sortieren wir die Listen $S$ und $B$ rekursiv.
-      An die sortierte Liste $S$ hängen wir dann das Element $x$ und darauf folgt die
+      Anschlie\3end sortieren wir die Listen $S$ und $B$ rekursiv.
+      An die sortierte Liste $S$ h\"angen wir dann das Element $x$ und darauf folgt die
       sortierte Liste $B$.  Insgesamt wird dieser Algorithmus durch die folgende Gleichung
       beschrieben:
       \\[0.2cm]
@@ -1196,7 +1196,7 @@ Der ``\emph{Quick-Sort}-Algorithmus'' funktioniert nach folgendem Schema:
       $\textsl{partition}(x,R) = \langle S,B \rangle \rightarrow 
        \textsl{sort}([x] + R) = \textsl{sort}(S) + [x] + \textsl{sort}(B)$.
 \end{enumerate}
-Abbildung \ref{fig:quick-sort} zeigt die Umsetzung dieser Überlegung 
+Abbildung \ref{fig:quick-sort} zeigt die Umsetzung dieser Ãœberlegung 
 in einem \textsl{Java}-Programm.
 
 \begin{figure}[!ht]
@@ -1244,78 +1244,78 @@ in einem \textsl{Java}-Programm.
 \end{figure}
 
 \begin{enumerate}
-\item Der \emph{Quick-Sort}-Algorithmus benötigt keine globalen Variablen,
-      daher enthält die Klasse \texttt{QuickSort} keine Member-Variablen.
-      Folglich können die Methoden dieser Klasse als \texttt{static}
+\item Der \emph{Quick-Sort}-Algorithmus ben\"otigt keine globalen Variablen,
+      daher enth\"alt die Klasse \texttt{QuickSort} keine Member-Variablen.
+      Folglich k\"onnen die Methoden dieser Klasse als \texttt{static}
       deklariert werden.
 \item Die Methode \texttt{partition} hat die Aufgabe, eine Liste \texttt{list} anhand eines
       gegebenen \emph{Pivot-Elements} \texttt{pivot} so in zwei Listen aufzuteilen, dass nach einem
       Aufruf der Form 
       \[ \texttt{partition(pivot, list, small, big)} \]
       die Liste \texttt{small} alle die Elemente aus 
-      \texttt{list} enthält, die kleiner-gleich \texttt{pivot} sind, während \texttt{big}
-      die Elemente enthält, die größer als \texttt{pivot} sind.
+      \texttt{list} enth\"alt, die kleiner-gleich \texttt{pivot} sind, w\"ahrend \texttt{big}
+      die Elemente enth\"alt, die gr\"o\3er als \texttt{pivot} sind.
       Voraussetzung ist dabei, dass die Listen \texttt{small} und \texttt{big} vor dem
       Aufruf leer sind.  
 
       Falls die Listen \texttt{small} und \texttt{big} bei dem Aufruf nicht leer sind,
-      so ist die Idee, dass die Elemente aus \texttt{list} entsprechend ihrer Größe
-      den beiden Listen \texttt{small} und \texttt{big} hinzugefügt werden.
+      so ist die Idee, dass die Elemente aus \texttt{list} entsprechend ihrer Gr\"o\3e
+      den beiden Listen \texttt{small} und \texttt{big} hinzugef\"ugt werden.
       \begin{enumerate}
       \item Falls \texttt{list} leer ist, so gibt es keine Elemente, die verteilt werden
-            müssen.
+            m\"ussen.
       \item Andernfalls wird das erste Element von \texttt{list} aus \texttt{list}
-            entfernt und, je nach dem wie groß es im Vergleich zu dem Pivot-Element
-            \texttt{pivot} ist, in die Liste \texttt{small} oder \texttt{big} eingefügt.
-      \item Schließlich werden die restlichen Elemente von \texttt{list} durch einen
+            entfernt und, je nach dem wie gro\3 es im Vergleich zu dem Pivot-Element
+            \texttt{pivot} ist, in die Liste \texttt{small} oder \texttt{big} eingef\"ugt.
+      \item Schlie\3lich werden die restlichen Elemente von \texttt{list} durch einen
             rekursiven Aufruf der Funktion \texttt{partition} auf die Listen \texttt{small}
             und \texttt{big} verteilt.
       \end{enumerate}
-\item Die Methode \texttt{sort} sortiert die als Argument übergebene Liste. 
+\item Die Methode \texttt{sort} sortiert die als Argument \"ubergebene Liste. 
       \begin{enumerate}
-      \item Falls diese Liste leer ist, kann sie unverändert zurück gegeben werden.
+      \item Falls diese Liste leer ist, kann sie unver\"andert zur\"uck gegeben werden.
       \item Andernfalls wird das erste Element der Liste \texttt{list} aus dieser Liste
             entfernt und in der Variablen \texttt{pivot}
             abgespeichert.
       \item Dann werden zwei leere Listen \texttt{small} und \texttt{big} angelegt.
-      \item Der anschließende Aufruf der Methode \texttt{partition} verteilt die restlichen
-            Elemente der übergebenen Liste auf diese beiden Listen.
+      \item Der anschlie\3ende Aufruf der Methode \texttt{partition} verteilt die restlichen
+            Elemente der \"ubergebenen Liste auf diese beiden Listen.
       \item Danach werden diese Listen durch rekursive Aufrufe der Methode
             \texttt{sort} sortiert.
       \item Zum Schluss wird an die sortierte Liste der Elemente, die kleiner als das
             Pivot-Element sind, erst das Pivot-Element und dann die sortierte Liste der Elemente,
-            die größer als das Pivot-Element sind, angehängt.
-      \item Die so erhaltene Liste wird als Ergebnis zurück gegeben.
+            die gr\"o\3er als das Pivot-Element sind, angeh\"angt.
+      \item Die so erhaltene Liste wird als Ergebnis zur\"uck gegeben.
       \end{enumerate}
 \end{enumerate}
 
-\subsection{Komplexität}
-Als nächstes analysieren wir die Komplexität von \emph{Quick-Sort}.
+\subsection{Komplexit\"at}
+Als n\"achstes analysieren wir die Komplexit\"at von \emph{Quick-Sort}.
 Dazu untersuchen wir wieder die Zahl der Vergleiche, die beim Aufruf von
-$\textsl{sort}(L)$ für eine Liste $L$ mit $n$ 
-Elementen durchgeführt werden. Wir betrachten zunächst die Anzahl der Vergleiche,
+$\textsl{sort}(L)$ f\"ur eine Liste $L$ mit $n$ 
+Elementen durchgef\"uhrt werden. Wir betrachten zun\"achst die Anzahl der Vergleiche,
 die wir bei einem Aufruf der Form
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{partition}(x,L,S,B)$ \\[0.2cm]
-für eine Liste $L$ mit $n$ Elementen durchführen müssen. 
-Da wir jedes der $n$ Elemente der Liste $L$ mit $x$ vergleichen müssen, ist klar, dass 
-dafür insgesamt $n$ Vergleiche erforderlich sind.
+f\"ur eine Liste $L$ mit $n$ Elementen durchf\"uhren m\"ussen. 
+Da wir jedes der $n$ Elemente der Liste $L$ mit $x$ vergleichen m\"ussen, ist klar, dass 
+daf\"ur insgesamt $n$ Vergleiche erforderlich sind.
 
-\subsubsection{Komplexität im schlechtesten Fall}
-Wir berechnen als nächstes die Anzahl $a_n$ von Vergleichen, die wir im schlimmsten Fall
-beim Aufruf von $\textsl{sort}(L)$ für eine Liste $L$ der Länge $n$ durchführen müssen.
+\subsubsection{Komplexit\"at im schlechtesten Fall}
+Wir berechnen als n\"achstes die Anzahl $a_n$ von Vergleichen, die wir im schlimmsten Fall
+beim Aufruf von $\textsl{sort}(L)$ f\"ur eine Liste $L$ der L\"ange $n$ durchf\"uhren m\"ussen.
 Der schlimmste Fall tritt beispielsweise dann ein, wenn die Liste \texttt{small} leer ist und 
-die Liste \texttt{big} folglich  die Länge $n-1$ hat.   Für die Anzahl
+die Liste \texttt{big} folglich  die L\"ange $n-1$ hat.   F\"ur die Anzahl
 $a_n$ der Vergleiche gilt in diesem Fall \\[0.2cm]
 \hspace*{1.3cm} $a_n = a_{n-1} + n - 1$. \\[0.2cm]
-Der Term $n-1$ rührt von den $n-1$ Vergleichen, die beim Aufruf von
-$\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort} durchgeführt
+Der Term $n-1$ r\"uhrt von den $n-1$ Vergleichen, die beim Aufruf von
+$\textsl{partition}(x,R)$ in Zeile 6 von Abbildung \ref{fig:quick-sort} durchgef\"uhrt
 werden und der Term $a_{n-1}$ erfasst die Anzahl der Vergleiche, die beim rekursiven Aufruf
-von $\textsl{sort}(L_2)$ benötigt werden.
+von $\textsl{sort}(L_2)$ ben\"otigt werden.
 
-Die Anfangs-Bedingung für die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
-Vergleiche notwendig.  Damit lässt sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} lösen:
+Die Anfangs-Bedingung f\"ur die Rekurrenz-Gleichung lautet $a_0 = 0$, denn beim Sortieren einer leeren Liste sind keine
+Vergleiche notwendig.  Damit l\"asst sich die obige Rekurrenz-Gleichung mit dem \emph{Teleskop-Verfahren} l\"osen:
 \[
 \begin{array}{lcl}
   a_n & = & a_{n-1} + (n-1) \\
@@ -1327,28 +1327,28 @@ Vergleiche notwendig.  Damit lässt sich die obige Rekurrenz-Gleichung mit dem \e
       & = & \sum\limits_{i=0}^{n-1} i  =  \frac{1}{2} n \cdot(n - 1) =\frac{1}{2} n^2 - \frac{1}{2} n.
 \end{array}
 \]
-Damit ist $a_n$ in diesem Fall genauso groß wie im schlimmsten Fall des Algorithmus'
-\emph{Sortieren durch Einfügen}. 
+Damit ist $a_n$ in diesem Fall genauso gro\3 wie im schlimmsten Fall des Algorithmus'
+\emph{Sortieren durch Einf\"ugen}. 
 Es ist leicht zu sehen, dass der schlechteste Fall dann eintritt, wenn die zu sortierende Liste $L$
-bereits sortiert ist.  Es existieren Verbesserungen des \emph{Quick-Sort}-Algorithmus, für
+bereits sortiert ist.  Es existieren Verbesserungen des \emph{Quick-Sort}-Algorithmus, f\"ur
 die der schlechteste Fall sehr unwahrscheinlich ist und insbesondere nicht bei sortierten
-Listen eintritt.  Wir gehen später näher darauf ein. 
+Listen eintritt.  Wir gehen sp\"ater n\"aher darauf ein. 
 
-\subsubsection{Durchschnittliche Komplexität}
-Der Algorithmus \emph{Quick-Sort} würde seinen Namen zu Unrecht tragen, wenn er im
-\emph{Durchschnitt} ein Komplexität der Form $\Oh(n^2)$ hätte.  Wir analysieren nun die
+\subsubsection{Durchschnittliche Komplexit\"at}
+Der Algorithmus \emph{Quick-Sort} w\"urde seinen Namen zu Unrecht tragen, wenn er im
+\emph{Durchschnitt} ein Komplexit\"at der Form $\Oh(n^2)$ h\"atte.  Wir analysieren nun die
 \emph{durchschnittliche} Anzahl von Vergleichen $d_{n}$, die wir beim Sortieren einer
-Liste $L$ mit $n$ Elementen erwarten müssen.  Im Allgemeinen gilt: Ist $L$ eine Liste
+Liste $L$ mit $n$ Elementen erwarten m\"ussen.  Im Allgemeinen gilt: Ist $L$ eine Liste
 mit $n+1$ Elementen, so ist die Zahl der Elemente der Liste \texttt{small}, die in Zeile 19
 von Abbildung \ref{fig:quick-sort} berechnet wird, ein Element der Menge
-$\{0,1,2,\cdots,n\}$.  Hat die Liste \texttt{small} insgesamt $i$ Elemente, so enthält die
+$\{0,1,2,\cdots,n\}$.  Hat die Liste \texttt{small} insgesamt $i$ Elemente, so enth\"alt die
 Liste \texttt{big} die restlichen $n-i$ Elemente.  Gilt $\#\mathtt{small} = i$, so werden
 zum rekursiven Sortieren von $\mathtt{small}$ und $\mathtt{big}$ durchschnittlich
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
-Vergleiche durchgeführt.  Bilden wir den Durchschnitt dieses Wertes für alle $i \el
+Vergleiche durchgef\"uhrt.  Bilden wir den Durchschnitt dieses Wertes f\"ur alle $i \el
 \{0,1,\cdots,n\}$, so erhalten wir
-für $d_{n+1}$ die Rekurrenz-Gleichung 
+f\"ur $d_{n+1}$ die Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:qs1}
   d_{n+1} = n + \frac{1}{n+1} \sum_{i=0}^n (d_i + d_{n-i})  
@@ -1358,8 +1358,8 @@ Der Term $n$ stellt die Vergleiche in Rechnung, die beim Aufruf von
 \hspace*{1.3cm}
 \texttt{partition(pivot, list, small, big)}
 \\[0.2cm]
-durchgeführt werden.  Um die Rekurrenz-Gleichung (1) zu vereinfachen, bemerken wir
-zunächst, dass für beliebige Funktionen $f:\mathbb{N} \rightarrow \mathbb{N}$ folgendes gilt:
+durchgef\"uhrt werden.  Um die Rekurrenz-Gleichung (1) zu vereinfachen, bemerken wir
+zun\"achst, dass f\"ur beliebige Funktionen $f:\mathbb{N} \rightarrow \mathbb{N}$ folgendes gilt:
 \begin{eqnarray}
 \sum_{i=0}^n f(n-i) & = & f(n) + f(n-1) + \cdots + f(1) + f(0) \\
                     & = & f(0) + f(1) + \cdots + f(n-1) + f(n) \\
@@ -1371,7 +1371,7 @@ Damit vereinfacht sich die Rekurrenz-Gleichung (\ref{eq:qs1}) zu
   \label{eq:qs2}
   d_{n+1} = n + \frac{2}{n+1} \cdot \sum_{i=0}^n d_i.   
 \end{equation}
-Um diese Rekurrenz-Gleichung lösen zu können, substituieren wir $n \mapsto n+1$ und erhalten
+Um diese Rekurrenz-Gleichung l\"osen zu k\"onnen, substituieren wir $n \mapsto n+1$ und erhalten
 \begin{equation}
   \label{eq:qs3}
    d_{n+2} = n+1 + \frac{2}{n+2} \cdot \sum_{i=0}^{n+1} d_i.  
@@ -1402,7 +1402,7 @@ erhalten
   \label{eq:qs8}
  \frac{1}{n+3} \cdot d_{n+2} = \frac{1}{n+2}\cdot d_{n+1} + \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)}.
 \end{equation}
-Als nächstes bilden wir die Partialbruch-Zerlegung von dem Bruch
+Als n\"achstes bilden wir die Partialbruch-Zerlegung von dem Bruch
 \[ \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)}. \] 
 Dazu machen wir den Ansatz
 \[ \frac{2\cdot(n+1)}{(n+2)\cdot(n+3)} = \frac{\alpha}{n+2} + \frac{\beta}{n+3}.\]
@@ -1417,7 +1417,7 @@ vereinfacht.  Ein Koeffizientenvergleich liefert dann das lineare Gleichungs-Sys
 \end{eqnarray*}
 Ziehen wir die erste Gleichung zweimal von der zweiten Gleichung ab, so erhalten wir
  $\alpha = -2$ und Einsetzen in die erste Gleichung liefert $\beta = 4$.
-Damit können wir die Gleichung (\ref{eq:qs8}) als 
+Damit k\"onnen wir die Gleichung (\ref{eq:qs8}) als 
 \begin{equation}
   \label{eq:qs9}
  \frac{1}{n+3} \cdot d_{n+2} = \frac{1}{n+2}\cdot d_{n+1} - \frac{2}{n+2} + \frac{4}{n+3}  
@@ -1430,7 +1430,7 @@ Die Substitution $n \mapsto n-2$ vereinfacht diese Gleichung zu
   \label{eq:qs10}
  a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}  
 \end{equation}
-Diese Gleichung können wir mit dem Teleskop-Verfahren lösen.  Wegen $a_0 = \frac{d_0}{1} = 0$ gilt 
+Diese Gleichung k\"onnen wir mit dem Teleskop-Verfahren l\"osen.  Wegen $a_0 = \frac{d_0}{1} = 0$ gilt 
 \begin{equation}
   \label{eq:qs11}
  a_{n} = 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i}.  
@@ -1445,16 +1445,16 @@ Wir vereinfachen diese Summe:
        & = & \displaystyle - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
 \end{array}
 \]
-Um unsere Rechnung abzuschließen, berechnen wir eine Näherung für die Summe 
+Um unsere Rechnung abzuschlie\3en, berechnen wir eine N\"aherung f\"ur die Summe 
 \[ H_n = \sum\limits_{i=1}^{n}\frac{1}{i}.\]
 Der Wert $H_n$ wird in der Mathematik als die $n$-te \emph{harmonische Zahl} bezeichnet.
-Dieser Wert hängt mit dem Wert $\ln(n)$ zusammen, Leonhard Euler hat gezeigt, dass für
-große $n$ die Approximation
+Dieser Wert h\"angt mit dem Wert $\ln(n)$ zusammen, Leonhard Euler hat gezeigt, dass f\"ur
+gro\3e $n$ die Approximation
 \[ \sum\limits_{i=1}^n \frac{1}{i} \approx \ln(n)  \]
 benutzt werden kann.  Genauer hat er folgendes gezeigt:
 \[ H_n = \ln(n) + \Oh(1). \]
 Wir haben bei dieser Gleichung eine Schreibweise benutzt, die wir bisher noch nicht
-eingeführt haben.  Sind $f$, $g$, $h$ Funktionen aus $\mathbb{R}^\mathbb{N}$, so schreiben
+eingef\"uhrt haben.  Sind $f$, $g$, $h$ Funktionen aus $\mathbb{R}^\mathbb{N}$, so schreiben
 wir 
 \[ f(n) = g(n) + \Oh\bigl(h(n)\bigr) \quad \mathrm{g.d.w.} \quad
    f(n) - g(n) \el \Oh\bigl(h(n)\bigr). 
@@ -1467,11 +1467,11 @@ Wegen $d_n = (n+1) \cdot a_{n}$ gilt jetzt:
 \end{eqnarray*}
 Wir vergleichen dieses Ergebnis mit dem Ergebnis, das wir bei der Analyse von
 ``\emph{Sortieren durch Mischen}'' erhalten haben.  Dort hatte sich die Anzahl
-der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgeführt
+der Vergleiche, die zum Sortieren eine Liste mit $n$ Elementen durchgef\"uhrt
 werden musste,
 als \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
-ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ benötigen wir bei Quick-Sort im Durchschnitt \\[0.2cm]
+ergeben.  Wegen $\ln(n) = \ln(2) \cdot \log_2(n)$ ben\"otigen wir bei Quick-Sort im Durchschnitt \\[0.2cm]
 \hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n)$ \\[0.2cm]
 Vergleiche, also etwa $2 \cdot \ln(2) \approx 1.39$ mehr Vergleiche als beim
 ``\emph{Sortieren durch Mischen}''.
@@ -1543,12 +1543,12 @@ an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
 
 \begin{enumerate}
 \item Im Gegensatz zu der feldbasierten Implementierung des \emph{Merge-Sort-Algorithmus}
-      benötigen wir diesmal kein zusätzliches Hilfsfeld.  Die Klasse
+      ben\"otigen wir diesmal kein zus\"atzliches Hilfsfeld.  Die Klasse
       \texttt{QuickSortAlgorithm} hat daher nur die Member-Variable
       \texttt{mArray}.  Diese Member-Variablen werden durch den 
       Konstruktor initialisiert.
 \item Die Methode \texttt{sort} wird auf die Implementierung der Methode
-      \texttt{quickSort} zurück geführt.  Diese Methode bekommt die beiden Parameter
+      \texttt{quickSort} zur\"uck gef\"uhrt.  Diese Methode bekommt die beiden Parameter
       \texttt{start} und \texttt{end}.
       \begin{enumerate}
       \item \texttt{start} gibt den Index des ersten Elementes des Teilfeldes an,
@@ -1570,12 +1570,12 @@ an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
       die in Zeile 13 aufgerufen wird,  die
       Elemente des Feldes \texttt{array} so umverteilt, dass hinterher alle Elemente,
       die kleiner oder gleich dem \emph{Pivot-Element} sind, links vor dem
-      Index \texttt{splitIdx} stehen, während die restlichen Elemente rechts von dem Index stehen.
+      Index \texttt{splitIdx} stehen, w\"ahrend die restlichen Elemente rechts von dem Index stehen.
       Das Pivot-Element selbst steht hinterher an der durch \texttt{splitIdx}
       bezeichneten Stelle.
 \item Die Schwierigkeit bei der Implementierung von \emph{Quick-Sort} liegt
       in der Codierung der Methode \texttt{partition}, die in Zeile 17 beginnt.
-      Die Funktion \texttt{partition} erhält zwei Argumente:
+      Die Funktion \texttt{partition} erh\"alt zwei Argumente:
       \begin{enumerate}
       \item \texttt{start} ist der Index des ersten  Elementes in dem aufzuspaltenden Teilbereich.
       \item \texttt{end}   ist der Index des letzten Elementes in dem aufzuspaltenden Teilbereich.
@@ -1584,7 +1584,7 @@ an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
       liefert als Resultat einen Index $\mathtt{splitIdx}$ aus der Menge \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{splitIdx} \el \{ \mathtt{start},\; \mathtt{start}+1,\; \cdots,\; \mathtt{end} \}$.\\[0.2cm]
-      Außerdem wird der Teil des Feldes zwischen \texttt{start} und \texttt{end} so
+      Au\3erdem wird der Teil des Feldes zwischen \texttt{start} und \texttt{end} so
       umsortiert, dass nach dem Aufruf der Methode gilt:
       \begin{enumerate}
       \item Alle Elemente mit Index aus der Menge $\{\mathtt{start}, \cdots,
@@ -1597,20 +1597,20 @@ an.  Abbildung \ref{fig:QuickSort.java} zeigt diese Implementierung.
             \hspace*{1.3cm} 
             $\forall i \el \{\mathtt{splitIdx}+1, \cdots, \mathtt{end}\} \colon\, \mathtt{mArray}[\mathtt{splitIdx}]\prec \mathtt{mArray}[i]$.
       \end{enumerate}
-      Der Algorithmus, um diese Bedingungen zu erreichen,  wählt zunächst das Element
+      Der Algorithmus, um diese Bedingungen zu erreichen,  w\"ahlt zun\"achst das Element
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{mArray[start]} 
       \\[0.2cm]
-      als sogenanntes \emph{Pivot-Element} aus.  Anschließend läuft der Index \texttt{leftIdx} ausgehend von
-      dem Index $\texttt{start} + 1$ von links nach rechts bis ein Element gefunden wird, das größer als 
-      das Pivot-Element ist. Analog läuft der Index $\mathtt{rightIdx}$ ausgehend von dem
+      als sogenanntes \emph{Pivot-Element} aus.  Anschlie\3end l\"auft der Index \texttt{leftIdx} ausgehend von
+      dem Index $\texttt{start} + 1$ von links nach rechts bis ein Element gefunden wird, das gr\"o\3er als 
+      das Pivot-Element ist. Analog l\"auft der Index $\mathtt{rightIdx}$ ausgehend von dem
       Index \texttt{end} von rechts nach links, bis ein Element gefunden wird, dass kleiner
       oder gleich dem Pivot-Element ist. Falls nun \texttt{leftIdx} kleiner als
       \texttt{rightIdx} ist, werden die entsprechenden Elemente des Feldes ausgetauscht.  In
-      dem Moment, wo \texttt{leftIdx} größer oder gleich \texttt{rightIdx} wird, wird dieser
+      dem Moment, wo \texttt{leftIdx} gr\"o\3er oder gleich \texttt{rightIdx} wird, wird dieser
       Prozess abgebrochen. Jetzt wird noch das Pivot-Element in die Mitte gestellt,
-      anschließend wird \texttt{rightIdx} zurück gegeben.
+      anschlie\3end wird \texttt{rightIdx} zur\"uck gegeben.
 \item Der Aufruf $\texttt{swap}(i, j)$ vertauscht die Elemente des Arrays \texttt{mArray},
       die die Indizes $i$ und $j$ haben.  
 \end{enumerate}
@@ -1621,57 +1621,57 @@ einen Ausschnitt aus einem Feld, der die Form
 hat.  Wir nehmen an, dass der Index \texttt{start} die Position der Zahl 7 angibt und das
 der Index \texttt{end} auf die 11 zeigt.  
 \begin{enumerate}
-\item Dann zeigt der Index \texttt{left} zunächst auf
+\item Dann zeigt der Index \texttt{left} zun\"achst auf
       die Zahl 2 und der Index \texttt{right} zeigt auf die die Zahl 11.
-\item Die erste \texttt{while}-Schleife vergleicht zunächst die Zahl 2 mit der Zahl 7.
+\item Die erste \texttt{while}-Schleife vergleicht zun\"achst die Zahl 2 mit der Zahl 7.
       Da $2 \leq 7$ ist, wird der Index \texttt{left} inkrementiert, so dass er jetzt auf 
       die Zahl 9 zeigt.
-\item Anschließend vergleicht die  erste \texttt{while}-Schleife die Zahlen 9 und 7.
+\item Anschlie\3end vergleicht die  erste \texttt{while}-Schleife die Zahlen 9 und 7.
       Da $\neg(9 \leq 7)$ ist, wird die erste \texttt{while}-Schleife abgebrochen.
 \item Nun startet die zweite \texttt{while}-Schleife und vergleicht die Zahlen 7 und 11.
       Da $7 < 11$ ist, wird der Index \texttt{right} dekrementiert und zeigt nun auf die
       Zahl 5.
 \item Da $\neg (7 < 5)$ ist, wird auch die zweite \texttt{while}-Schleife abgebrochen.
-\item Anschließend wir geprüft, ob der Index \texttt{right} bereits über den Index
-      \texttt{left} hinüber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
+\item Anschlie\3end wir gepr\"uft, ob der Index \texttt{right} bereits \"uber den Index
+      \texttt{left} hin\"uber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
       gilt.   Dies ist aber nicht der Fall, denn \texttt{left} zeigt auf die 9,
-      während \texttt{right} auf die 5 zeigt, die rechts von der 9 liegt.
-      Daher wird die äußere \texttt{while}-Schleife noch nicht abgebrochen.
+      w\"ahrend \texttt{right} auf die 5 zeigt, die rechts von der 9 liegt.
+      Daher wird die \"au\3ere \texttt{while}-Schleife noch nicht abgebrochen.
 \item Jetzt werden die Elemente, auf die die Indizes \texttt{left} und \texttt{right}
       zeigen, vertauscht.  In diesem Fall werden also die Zahlen 9 und 5 vertauscht.
       Damit hat der Ausschnitt aus dem Feld die Form
       \[ \cdots,\; 7,\; 2,\; 5,\; 1,\; 8,\; 9,\; 11,\;\cdots \]
-\item Jetzt geht es in die zweite Runde der äußeren \texttt{while}-Schleife.
-      Zunächst vergleichen wir in der inneren \texttt{while}-Schleife die Elemente
+\item Jetzt geht es in die zweite Runde der \"au\3eren \texttt{while}-Schleife.
+      Zun\"achst vergleichen wir in der inneren \texttt{while}-Schleife die Elemente
       5 und 7.  Da $5 \leq 7$ ist, wird der Index \texttt{left} inkrementiert.
 \item Dann vergleichen wir die Zahlen 1 und 7.  Da $1 \leq 7$ ist, wird der Index
       \texttt{left} ein weiteres Mal inkrementiert und zeigt nun auf die 8.
-\item Der Vergleich $8 \leq 7$ fällt negativ aus, daher wird die erste
+\item Der Vergleich $8 \leq 7$ f\"allt negativ aus, daher wird die erste
       \texttt{while}-Schleife jetzt abgebrochen.
 \item Die zweite \texttt{while}-Schleife vergleicht nun 7 und 9.  Da $7 < 9$ ist,
       wird der Index \texttt{right} dekrementiert und zeigt jetzt auf die 8.
-\item Anschließend werden die Zahlen 7 und 8 verglichen.  Da auch $7 < 8$ gilt, wird der
+\item Anschlie\3end werden die Zahlen 7 und 8 verglichen.  Da auch $7 < 8$ gilt, wird der
       Index \texttt{right} ein weiteres Mal dekrementiert und zeigt nun auf die 1.
 \item Jetzt werden die Zahlen 7 und 1 verglichen.  Wegen $\neg (7 < 1)$ bricht nun die
       zweite \texttt{while}-Schleife ab.
-\item Nun wird geprüft, ob der Index \texttt{right} über den Index
-      \texttt{left} hinüber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
+\item Nun wird gepr\"uft, ob der Index \texttt{right} \"uber den Index
+      \texttt{left} hin\"uber gelaufen ist und somit $\mathtt{left} \geq \mathtt{right}$
       gilt.  Diesmal ist der Test positiv, denn \texttt{left} zeigt auf die 8,
-      während \texttt{right} auf die 1 zeigt, die links von der 8 steht.
-      Also wird die äußere Schleife durch den \texttt{break}-Befehl in Zeile 28
+      w\"ahrend \texttt{right} auf die 1 zeigt, die links von der 8 steht.
+      Also wird die \"au\3ere Schleife durch den \texttt{break}-Befehl in Zeile 28
       abgebrochen.
 \item Zum Abschluss wird das Pivot-Element, das durch den Index \texttt{start}
       identifiziert wird, mit dem Element vertauscht, auf das der Index \texttt{right}
       zeigt,  wir vertauschen also die Elemente 7 und 1.  Damit hat das Feld die Form
       \[ \cdots,\; 1,\; 2,\; 5,\; 7,\; 8,\; 9,\; 11,\;\cdots \]
       Als Ergebnis wird nun der Index \texttt{right}, der jetzt auf das Pivot-Element
-      zeigt, zurück gegeben.
+      zeigt, zur\"uck gegeben.
 \end{enumerate}
  
 \subsection{Korrektheit}
 Die Implementierung der Methode \texttt{partition} ist trickreich.  Daher untersuchen wir
-die Korrektheit der Methode jetzt im Detail.  Zunächst formulieren wir Invarianten, die
-für die äußere \texttt{while}-Schleife, die sich von Zeile 23 bis Zeile 35 erstreckt,
+die Korrektheit der Methode jetzt im Detail.  Zun\"achst formulieren wir Invarianten, die
+f\"ur die \"au\3ere \texttt{while}-Schleife, die sich von Zeile 23 bis Zeile 35 erstreckt,
 gelten.   Wir bezeichnen das Pivot-Element mit $x$.  Dann gelten die folgenden Invarianten:
 \begin{enumerate}
 \item[(I1)] $\forall i \in \{ \mathtt{start}+1, \cdots, \mathtt{left} - 1 \} \colon\; \mathtt{mArray}[i] \preceq x$
@@ -1680,23 +1680,23 @@ gelten.   Wir bezeichnen das Pivot-Element mit $x$.  Dann gelten die folgenden I
 \item[(I4)] $\mathtt{right} \leq \mathtt{end}$ 
 \item[(I5)] $\mathtt{left} \leq \mathtt{right} + 1$
 \end{enumerate}
-Wir weisen die Gültigkeit dieser Invarianten nach.  Dazu ist zunächst zu zeigen,
-dass diese Invarianten dann erfüllt sind, wenn die Schleife zum ersten Mal durchlaufen wird.
+Wir weisen die G\"ultigkeit dieser Invarianten nach.  Dazu ist zun\"achst zu zeigen,
+dass diese Invarianten dann erf\"ullt sind, wenn die Schleife zum ersten Mal durchlaufen wird.
 Zu Beginn gilt \\[0.2cm]
 \hspace*{1.3cm} $\texttt{left} = \mathtt{start} + 1$. \\[0.2cm]
-Daraus folgt sofort, dass die dritte Invariante anfangs erfüllt ist.  Außerdem gilt dann \\[0.2cm]
+Daraus folgt sofort, dass die dritte Invariante anfangs erf\"ullt ist.  Au\3erdem gilt dann \\[0.2cm]
 \hspace*{1.3cm} 
 $\{ \mathtt{start}+1, \cdots, \mathtt{left}-1 \} = \{ \mathtt{start}+1, \cdots, \mathtt{start} \} = \{\}$
 \\[0.2cm]
-und damit ist auch klar, dass die erste Invariante gilt, denn für $\mathtt{left} = \mathtt{start}+1$
+und damit ist auch klar, dass die erste Invariante gilt, denn f\"ur $\mathtt{left} = \mathtt{start}+1$
 ist die erste Invariante eine leere Aussage.  Weiter gilt zu Beginn \\[0.2cm]
 \hspace*{1.3cm} $\mathtt{right} = \mathtt{end}$,
 \\[0.2cm]
-woraus unmittelbar die Gültigkeit der vierten Invariante folgt.  Außerdem gilt dann \\[0.2cm]
+woraus unmittelbar die G\"ultigkeit der vierten Invariante folgt.  Au\3erdem gilt dann \\[0.2cm]
 \hspace*{1.3cm} 
 $\{ \mathtt{right}+1, \cdots, \mathtt{end} \} = \{ \mathtt{end}+1, \cdots, \mathtt{end} \} = \{\}$,
 \\[0.2cm]
-so dass auch die zweite Invariante trivialerweise erfüllt ist.  Für die fünfte Invariante gilt anfangs
+so dass auch die zweite Invariante trivialerweise erf\"ullt ist.  F\"ur die f\"unfte Invariante gilt anfangs
  \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{left} \leq \mathtt{right} + 1 \;\leftrightarrow\; \mathtt{start} + 1 \leq \mathtt{end} + 1 \;\leftrightarrow\;
@@ -1707,34 +1707,34 @@ falls $\mathtt{start} < \mathtt{end}$ ist.
 \vspace*{0.3cm}
 
 \noindent
-Als nächstes zeigen wir, dass die Invarianten bei einem Schleifen-Durchlauf erhalten
+Als n\"achstes zeigen wir, dass die Invarianten bei einem Schleifen-Durchlauf erhalten
 bleiben.  
 \begin{enumerate}
 \item Die erste Invariante gilt, weil \texttt{left} nur dann inkrementiert wird,
       wenn vorher \\[0.2cm]
       \hspace*{1.3cm} $\texttt{mArray}[\texttt{left}] \preceq x$ \\[0.2cm]
       gilt.  Wenn die Menge $\{\mathtt{start}+1, \cdots, \mathtt{left}-1\}$ also um 
-      $i = \mathtt{left}$ vergrößert wird, so ist sichergestellt, dass für dieses $i$ gilt:
+      $i = \mathtt{left}$ vergr\"o\3ert wird, so ist sichergestellt, dass f\"ur dieses $i$ gilt:
       \\[0.2cm]
       \hspace*{1.3cm} $\texttt{mArray}[i] \preceq x$.
 \item Die zweite Invariante gilt, weil \texttt{right} nur dann dekrementiert wird,
       wenn vorher \\[0.2cm]
       \hspace*{1.3cm} $x \prec \texttt{mArray}[\texttt{right}]$ \\[0.2cm]
       gilt.  Wenn die Menge $\{\mathtt{right}+1, \cdots, \mathtt{end}\}$ also um 
-      $i = \mathtt{right}$ vergrößert wird, so ist sichergestellt, dass für dieses $i$ gilt
+      $i = \mathtt{right}$ vergr\"o\3ert wird, so ist sichergestellt, dass f\"ur dieses $i$ gilt
       \\[0.2cm]
       \hspace*{1.3cm} $x \prec \texttt{mArray}[i]$.
-\item Die Gültigkeit der dritten Invariante folgt aus der Tatsache, dass \texttt{left}
-      in der ganzen Schleife höchstens inkrementiert wird.  Wenn also zu Beginn 
+\item Die G\"ultigkeit der dritten Invariante folgt aus der Tatsache, dass \texttt{left}
+      in der ganzen Schleife h\"ochstens inkrementiert wird.  Wenn also zu Beginn 
       $\mathtt{start} + 1 \leq \mathtt{left}$ gilt, so wird dies immer gelten.  
-\item Analog ist die vierten Invariante gültig, weil zu Beginn $\mathtt{right} \leq \mathtt{end}$ gilt und
+\item Analog ist die vierten Invariante g\"ultig, weil zu Beginn $\mathtt{right} \leq \mathtt{end}$ gilt und
       \texttt{right} immer nur dekrementiert wird.
 \item Aus den ersten beiden Invarianten (I1) und (I2) folgt: \\[0.2cm]
       \hspace*{1.3cm} 
       $\{ \mathtt{start}+1, \cdots, \mathtt{left} - 1 \} \cap \{ \mathtt{right}+1, \cdots, \mathtt{end} \} = \{\}$,
       \\[0.2cm]
       denn ein Element des Arrays kann nicht gleichzeitig kleiner-gleich $x$ und 
-      größer $x$ sein.
+      gr\"o\3er $x$ sein.
       Wenn $\texttt{right} + 1 \leq \texttt{end}$ ist, dann ist die zweite Menge
       nicht-leer und es folgt \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} - 1 < \mathtt{right} + 1$ \quad und das impliziert \quad $\mathtt{left} \leq \mathtt{right} + 1$. 
@@ -1746,25 +1746,25 @@ bleiben.
        \mathtt{left} \leq \mathtt{end} + 1 \;\leftrightarrow\; \mathtt{true}$,
       \\[0.2cm]
       denn wenn $\texttt{left} > \mathtt{end}$ ist, wird \texttt{left} in der ersten
-      Schleife nicht mehr erhöht.  \texttt{left} wird nur dann und auch nur um 1
+      Schleife nicht mehr erh\"oht.  \texttt{left} wird nur dann und auch nur um 1
       inkrementiert, solange $\texttt{left} \leq \mathtt{end}$ gilt.
       Also kann \texttt{left} maximal den Wert $\texttt{end} + 1$ annehmen.
 \end{enumerate}
-Um den Beweis der Korrektheit abzuschließen, muss noch gezeigt werden, dass 
-alle \texttt{while}-Schleifen terminieren.  Für die erste innere
+Um den Beweis der Korrektheit abzuschlie\3en, muss noch gezeigt werden, dass 
+alle \texttt{while}-Schleifen terminieren.  F\"ur die erste innere
 \texttt{while}-Schleife folgt das daraus, dass bei jedem Schleifen-Durchlauf die Variable
 \texttt{left} inkrementiert wird.  Da die Schleife andererseits die Bedingung \\[0.2cm]
 \hspace*{1.3cm} $\texttt{left} \leq \mathtt{end}$ \\[0.2cm]
-enthält, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muss
+enth\"alt, kann \texttt{left} nicht beliebig oft inkrementiert werden und die Schleife muss
 irgendwann abbrechen. 
 
 Die zweite innere
 \texttt{while}-Schleife terminiert, weil einerseits \texttt{right} in jedem Schleifen-Durchlauf
-dekrementiert wird und andererseits aus der dritten und der fünften Invariante folgt: \\[0.2cm]
+dekrementiert wird und andererseits aus der dritten und der f\"unften Invariante folgt: \\[0.2cm]
 \hspace*{1.3cm} $\texttt{right} + 1\geq \texttt{left} \geq \mathtt{start} + 1$. \\[0.2cm]
-Die äußere \texttt{while}-Schleife terminiert, weil die Menge \\[0.2cm]
+Die \"au\3ere \texttt{while}-Schleife terminiert, weil die Menge \\[0.2cm]
 \hspace*{1.3cm} $M = \{ \mathtt{left}, \cdots, \mathtt{right} \}$ \\[0.2cm]
-ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung durch:
+st\"andig verkleinert wird.  Um das zu sehen, f\"uhren wir eine Fall-Unterscheidung durch:
 \begin{enumerate}
 \item Fall: Nach dem Ende der Schleife in Zeile 24 -- 26 gilt \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} > \mathtt{end}$. \\[0.2cm]
@@ -1775,7 +1775,7 @@ ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung 
       \\[0.2cm]
       gelten muss.  Daraus folgt aber sofort \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} > \mathtt{right}$ \\[0.2cm]
-      und folglich wird die äußere Schleife dann durch den Befehl \texttt{break} in Zeile 32 abgebrochen.
+      und folglich wird die \"au\3ere Schleife dann durch den Befehl \texttt{break} in Zeile 32 abgebrochen.
 \item Fall: Nach dem Ende der Schleife in Zeile 24 -- 26 gilt \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{left} \leq \mathtt{end}$. \\[0.2cm]
       Die Schleife bricht also ab, weil die Bedingung 
@@ -1783,24 +1783,24 @@ ständig verkleinert wird.  Um das zu sehen, führen wir eine Fall-Unterscheidung 
       \hspace*{1.3cm} $x \prec \mathtt{mArray}[\mathtt{left}]$. \\[0.2cm]
       Analog gilt nach dem Abbruch der zweiten inneren \texttt{while}-Schleife \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{mArray}[\mathtt{right}] \preceq x$. \\[0.2cm]
-      Wenn die äußere Schleife nun nicht abbricht weil $\texttt{left} < \mathtt{right}$ ist,
+      Wenn die \"au\3ere Schleife nun nicht abbricht weil $\texttt{left} < \mathtt{right}$ ist,
       dann werden die Elemente $\mathtt{mArray}[\mathtt{left}]$ und
       $\mathtt{mArray}[\mathtt{right}]$ vertauscht.  Nach dieser Vertauschung gilt 
       offenbar \\[0.2cm]
       \hspace*{1.3cm} 
       $x \prec \mathtt{mArray}[\mathtt{right}]$ \quad und \quad $\mathtt{mArray}[\mathtt{left}] \preceq x$. 
       \\[0.2cm]
-      Wenn nun also die äußere Schleife erneut durchlaufen wird, dann wird die zweite
+      Wenn nun also die \"au\3ere Schleife erneut durchlaufen wird, dann wird die zweite
       innere Schleife mindestens einmal durchlaufen, so dass also \texttt{right}
       dekrementiert wird und folglich die Menge $M = \{ \mathtt{left}, \cdots, \mathtt{right} \}$ 
-      um ein Element verkleinert wird.  Das geht aber nur endlich oft, denn spätestens
+      um ein Element verkleinert wird.  Das geht aber nur endlich oft, denn sp\"atestens
       wenn die Menge leer ist, gilt $\mathtt{left} = \mathtt{right} + 1$
       und die Schleife wird durch den Befehl \texttt{break} in Zeile 32 abgebrochen. 
 \end{enumerate}
 Jetzt haben wir alles Material zusammen, um die Korrektheit unserer Implementierung zu zeigen.
-Wenn die Schleife abbricht, gilt $\mathtt{left} > \mathtt{right}$.  Wegen der fünften
+Wenn die Schleife abbricht, gilt $\mathtt{left} > \mathtt{right}$.  Wegen der f\"unften
 Invariante gilt $\texttt{left} \leq \mathtt{right} + 1$.  Also gibt es nur noch die
-Möglichkeit
+M\"oglichkeit
 \\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{left} = \mathtt{right} +
@@ -1814,26 +1814,26 @@ wissen wir also \\[0.2cm]
  $\forall j \in \{ \mathtt{right}+1, \cdots, \mathtt{end} \} \colon\; x \prec \mathtt{mArray}[j]$
 \\[0.2cm]
 Durch das \texttt{swap} in Zeile 17 wird nun $x$ mit dem Element an der Position
-\texttt{right} vertauscht.  Dann sind anschließend alle Elemente links von $x$
-kleiner-gleich $x$ und alle Elemente rechts von $x$ sind größer.
+\texttt{right} vertauscht.  Dann sind anschlie\3end alle Elemente links von $x$
+kleiner-gleich $x$ und alle Elemente rechts von $x$ sind gr\"o\3er.
 Damit ist die Korrektheit von \texttt{partition}() nachgewiesen.
 
-\subsection{Mögliche Verbesserungen}
+\subsection{M\"ogliche Verbesserungen}
 In der Praxis gibt es noch eine Reihe Tricks, um die Implementierung von \emph{Quick-Sort}
 effizienter zu machen:
 \begin{enumerate}
-\item Anstatt immer das erste Element als Pivot-Element zu wählen,
-      werden drei Elemente aus der zu sortierenden Liste ausgewählt,
+\item Anstatt immer das erste Element als Pivot-Element zu w\"ahlen,
+      werden drei Elemente aus der zu sortierenden Liste ausgew\"ahlt,
       z.~B.~das erste, das letzte und ein Element aus der Mitte des Feldes.
-      Als Pivot-Element wird dann das Element gewählt, was der Größe nach zwischen den
+      Als Pivot-Element wird dann das Element gew\"ahlt, was der Gr\"o\3e nach zwischen den
       anderen Elementen liegt.
 
       Der Vorteil dieser Strategie liegt darin, dass der schlechteste Fall, bei dem die Laufzeit
       von \emph{Quick-Sort} quadratisch ist, wesentlich unwahrscheinlicher wird.
       Insbesondere kann der schlechteste Fall nicht mehr bei Listen auftreten, die bereits
       sortiert sind.
-\item Falls weniger als 10 Elemente zu sortieren sind, wird auf ``\emph{Sortieren durch Einfügen}''
-      zurück gegriffen.
+\item Falls weniger als 10 Elemente zu sortieren sind, wird auf ``\emph{Sortieren durch Einf\"ugen}''
+      zur\"uck gegriffen.
 \end{enumerate}
 Der Artikel von Bentley and M. Douglas McIlroy ``\emph{Engineering a Sort Function}''
 \cite{bentley:93} beschreibt diese und weitere Verbesserungen des Quick-Sort Algorithmus. 

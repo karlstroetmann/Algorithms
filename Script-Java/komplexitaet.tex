@@ -1,23 +1,23 @@
-\chapter{Komplexität von Algorithmen} 
-In diesem Kapitel führen wir 
+\chapter{Komplexit\"at von Algorithmen} 
+In diesem Kapitel f\"uhren wir 
 Rekurrenz-Gleichungen\footnote{
 Rekurrenz-Gleichungen werden in der Literatur auch als \emph{Rekursions-Gleichungen} bezeichnet.}
-ein und zeigen, wie diese in einfachen Fällen gelöst werden können.  Außerdem stellen wir
-die $O$-Notation vor.  Diese beiden Begriffe benötigen wir, um die Laufzeit von
-Algorithmen analysieren zu können.  Die Algorithmen selber stehen in diesem Kapitel noch
+ein und zeigen, wie diese in einfachen F\"allen gel\"ost werden k\"onnen.  Au\3erdem stellen wir
+die $O$-Notation vor.  Diese beiden Begriffe ben\"otigen wir, um die Laufzeit von
+Algorithmen analysieren zu k\"onnen.  Die Algorithmen selber stehen in diesem Kapitel noch
 im Hintergrund.
 
 \section{Die Fibonacci-Zahlen}
 Wir wollen \emph{Rekurrenz-Gleichungen} anhand eines eher spielerischen Beispiels
-einführen.  Dazu betrachten wir eine Kaninchen-Farm, für die wir einen Geschäftsplan
-erstellen wollen.   Wir beschäftigen uns hier nur mit der Frage, wie sich eine
+einf\"uhren.  Dazu betrachten wir eine Kaninchen-Farm, f\"ur die wir einen Gesch\"aftsplan
+erstellen wollen.   Wir besch\"aftigen uns hier nur mit der Frage, wie sich eine
 Kaninchen-Population entwickelt.  Wir gehen dabei von folgenden vereinfachenden Annahmen aus:
 \begin{enumerate}
 \item Jedes Kaninchen-Paar bringt jeden Monat ein neues Kaninchen-Paar zur Welt.
 \item Kaninchen haben nach zwei Monaten zum ersten Mal Junge.
 \item Kaninchen leben ewig.
 \end{enumerate}
-Wir nehmen nun an, wir hätten ein neugeborenes Kaninchen-Paar und stellen uns die Frage, wie
+Wir nehmen nun an, wir h\"atten ein neugeborenes Kaninchen-Paar und stellen uns die Frage, wie
 viele Kaninchen-Paare wir nach $n$ Monaten haben.  Bezeichnen wir die Zahl der
 Kaninchen-Paare nach $n$ Monaten mit $k(n)$, so gilt:
 \begin{enumerate}
@@ -27,7 +27,7 @@ Kaninchen-Paare nach $n$ Monaten mit $k(n)$, so gilt:
 \item $k(1) = 1$
 
       Kaninchen bekommen das erste Mal nach zwei Monaten Junge, also hat sich die Zahl
-      der Kaninchen-Paare nach einem Monat noch nicht verändert.
+      der Kaninchen-Paare nach einem Monat noch nicht ver\"andert.
 \item $k(2) = 1 + 1$
 
       Nach zwei Monaten bekommt unser Kaninchen-Paar zum ersten Mal Junge.
@@ -36,12 +36,12 @@ Kaninchen-Paare nach $n$ Monaten mit $k(n)$, so gilt:
       $k(n+2) = k(n+1) + k(n)$
 
       Alle Kaninchen-Paare, die zum Zeitpunkt $n$ schon da sind, bekommen zum Zeitpunkt
-      $n+2$ Junge. Dies erklärt den Term $k(n)$.  Da wir zur Vereinfachung unserer
+      $n+2$ Junge. Dies erkl\"art den Term $k(n)$.  Da wir zur Vereinfachung unserer
       Rechnung von genetisch manipulierten unsterblichen Kaninchen ausgehen, sind alle
       Kaninchen, die zum Zeitpunkt $n+1$ vorhanden sind, auch noch zum Zeitpunkt $n+2$
-      vorhanden. Dies erklärt den Term $k(n+1)$. 
+      vorhanden. Dies erkl\"art den Term $k(n+1)$. 
 \end{enumerate}
-Die Folge der Zahlen $\bigl(k(n)\bigr)_{n\in\mathbb{N}}$ heißt Folge der \emph{Fibonacci-Zahlen}.  Das \Java-Programm in Abbildung
+Die Folge der Zahlen $\bigl(k(n)\bigr)_{n\in\mathbb{N}}$ hei\3t Folge der \emph{Fibonacci-Zahlen}.  Das \Java-Programm in Abbildung
 \ref{fig:fibonacci} auf Seite \pageref{fig:fibonacci} berechnet diese Zahlen.
 
 \begin{figure}[!h]
@@ -76,9 +76,9 @@ Die Folge der Zahlen $\bigl(k(n)\bigr)_{n\in\mathbb{N}}$ heißt Folge der \emph{F
 \end{figure} 
 
 Wenn wir dieses Programm laufen lassen, stellen wir fest, dass die Laufzeiten mit
-wachsendem Parameter $n$ sehr schnell anwachsen.  Um dieses Phänomen zu analysieren,
+wachsendem Parameter $n$ sehr schnell anwachsen.  Um dieses Ph\"anomen zu analysieren,
 untersuchen wir exemplarisch, wie viele Additionen bei der Berechnung von
-$\texttt{fibonacci}(n)$ für ein gegebenes $n \in \mathbb{N}$ benötigt werden.  Bezeichnen wir
+$\texttt{fibonacci}(n)$ f\"ur ein gegebenes $n \in \mathbb{N}$ ben\"otigt werden.  Bezeichnen wir
 diese Zahl mit $a_n$, so finden wir:
 \begin{enumerate}
 \item $a_0 = 0$.
@@ -89,21 +89,21 @@ diese Zahl mit $a_n$, so finden wir:
       $a_{n-1}$ bzw.~$a_{n-2}$ Additionen und dazu kommt noch die Addition der Werte
       $\texttt{fibonacci}(n-1)$ und $\texttt{fibonacci}(n-2)$.
 \end{enumerate}
-Wir setzen in der  Gleichung $a_n = 1 + a_{n-1} + a_{n-2}$ für $n$ den Wert $i+2$ ein und
+Wir setzen in der  Gleichung $a_n = 1 + a_{n-1} + a_{n-2}$ f\"ur $n$ den Wert $i+2$ ein und
 haben dann \\[0.1cm]
 \hspace*{1.3cm} $a_{i+2} = a_{i+1} + a_i + 1$ \hspace*{\fill} $(1)$\\[0.1cm]
 Eine solche Gleichung nennen wir eine \emph{lineare} \emph{inhomogene}
 \emph{Rekur\-renz-Gleichung}.   Die dieser Gleichung zugeordnete \emph{homogene}
 \emph{Rekurrenz-Gleichung} lautet \\[0.1cm]
 \hspace*{1.3cm} $a_{i+2} = a_{i+1} + a_i$ \hspace*{\fill} $(2)$\\[0.1cm]
-Wir lösen diese Gleichung mit folgendem Ansatz: \\[0.1cm]
+Wir l\"osen diese Gleichung mit folgendem Ansatz: \\[0.1cm]
 \hspace*{1.3cm} $a_i = \lambda^i$. \\[0.1cm]
-Einsetzen dieses Ansatzes in $(*)$ führt auf die Gleichung 
+Einsetzen dieses Ansatzes in $(*)$ f\"uhrt auf die Gleichung 
 \[ \lambda^{i+2} = \lambda^{i+1} + \lambda^i. \]
 Wenn wir beide Seiten  dieser Gleichung durch $\lambda^i$ dividieren, erhalten wir die
 quadratische Gleichung \\[0.1cm]
 \hspace*{1.3cm} $\lambda^2 = \lambda + 1$, \\[0.1cm]
-die wir mit Hilfe einer quadratischen Ergänzung lösen: \\[0.1cm]
+die wir mit Hilfe einer quadratischen Erg\"anzung l\"osen: \\[0.1cm]
 \[\begin{array}{lcll}
   \lambda^2     & = & \lambda + 1                               & |\;- \lambda \\[0.1cm]
   \lambda^2 - 2 \cdot \frac{1}{2} \lambda & = & 1                   & |\;+ \frac{1}{4} \\[0.1cm]
@@ -118,31 +118,31 @@ Wir bemerken, dass jede Linear-Kombination der Form
 \hspace*{1.3cm}
 $a_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n$
 \\[0.2cm]
-eine Lösung der homogenen Rekurrenz-Gleichung $(2)$ ist.
-Wir bemerken weiter, dass für die Lösungen $\lambda_1$ und $\lambda_2$ folgende Identitäten gelten:
+eine L\"osung der homogenen Rekurrenz-Gleichung $(2)$ ist.
+Wir bemerken weiter, dass f\"ur die L\"osungen $\lambda_1$ und $\lambda_2$ folgende Identit\"aten gelten:
 \\[0.1cm]
 \hspace*{1.3cm} 
 $\lambda_1 - \lambda_2 = \sqrt{5}$ \quad und \quad $\lambda_1 + \lambda_2 = 1$. \hspace*{\fill} (3) \\[0.1cm]
 Aus der letzen Gleichung folgt dann sofort \\[0.1cm]
 \hspace*{1.3cm} $1 - \lambda_1 = \lambda_2$ \quad und \quad $1 - \lambda_2 = \lambda_1$ \hspace*{\fill} (4)  \\[0.1cm]
-Um nun die ursprüngliche Rekurrenz-Gleichung (1) zu lösen, machen wir den Ansatz 
+Um nun die urspr\"ungliche Rekurrenz-Gleichung (1) zu l\"osen, machen wir den Ansatz 
 $a_i = c$.  Setzen wir diesen Ansatz in der Gleichung (1) ein, so erhalten wir die Gleichung \\[0.1cm]
 \hspace*{1.3cm} $c = c + c + 1$, \\[0.1cm]
-die die Lösung $c = -1$ hat.  Diese Lösung bezeichnen wir als eine \emph{spezielle Lösumg}.
-Die \emph{allgemeine Lösung} der Rekurrenz-Gleichung (1) 
-ergibt sich als Summe aus der Lösung der homogenen Rekurrenz-Gleichung und der speziellen
-Lösung und lautet daher 
+die die L\"osung $c = -1$ hat.  Diese L\"osung bezeichnen wir als eine \emph{spezielle L\"osumg}.
+Die \emph{allgemeine L\"osung} der Rekurrenz-Gleichung (1) 
+ergibt sich als Summe aus der L\"osung der homogenen Rekurrenz-Gleichung und der speziellen
+L\"osung und lautet daher 
 \[ a_i = \alpha \cdot \lambda_1^i + \beta \cdot \lambda_2^i - 1 \]
 mit $\lambda_1 = \frac{1}{2} (1 + \sqrt{5})$ und $\lambda_2 = \frac{1}{2} (1 - \sqrt{5})$.
 Die Koeffizienten $\alpha$ und $\beta$ sind jetzt so zu bestimmen, dass die
-Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 0$ erfüllt sind.  Das führt auf folgendes
+Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 0$ erf\"ullt sind.  Das f\"uhrt auf folgendes
 lineares Gleichungs-System: 
 \[\begin{array}{lcl}
     0 & = & \alpha \cdot \lambda_1^0 + \beta \cdot \lambda_2^0 - 1 \\[0.1cm]
     0 & = & \alpha \cdot \lambda_1^1 + \beta \cdot \lambda_2^1 - 1 \\
   \end{array}
 \]
-Addieren wir bei beiden Gleichungen 1 und vereinfachen für $i=1,2$ die Potenzen $\lambda_i^0$ zu $1$ und
+Addieren wir bei beiden Gleichungen 1 und vereinfachen f\"ur $i=1,2$ die Potenzen $\lambda_i^0$ zu $1$ und
 $\lambda_i^1$ zu $\lambda_i$, so erhalten wir:
 \[\begin{array}{lcl}
     1 & = & \alpha + \beta \\[0.1cm]
@@ -150,7 +150,7 @@ $\lambda_i^1$ zu $\lambda_i$, so erhalten wir:
   \end{array}
 \]
 Die erste dieser beiden Gleichungen liefert die Beziehung $\alpha = 1 - \beta$.  Setzen
-wir dies für $\alpha$ in der zweiten Gleichung ein, so erhalten wir 
+wir dies f\"ur $\alpha$ in der zweiten Gleichung ein, so erhalten wir 
 \[
 \begin{array}{clcl}
                       &  1 & = & (1 - \beta)\cdot  \lambda_1 + \beta \cdot \lambda_2 \\[0.1cm]
@@ -165,13 +165,13 @@ Wegen $\alpha = 1 - \beta$ finden wir dann \\[0.1cm]
 Verwenden  wir hier die Gleichungen (3) und (4), so finden wir \\[0.1cm]
 \hspace*{1.3cm} 
 $\alpha = \bruch{\lambda_1}{\sqrt{5}} $ \quad und \quad $\beta  = -\bruch{\lambda_2}{\sqrt{5}}$. \\[0.1cm]
-Damit können wir die Folge $(a_i)_i$ explizit angeben: \\[0.1cm]
+Damit k\"onnen wir die Folge $(a_i)_i$ explizit angeben: \\[0.1cm]
 \hspace*{1.3cm} 
 $\displaystyle 
    a_i = \bruch{1}{\sqrt{5}} \cdot \left( \lambda_1^{i+1} - \lambda_2^{i+1} \right) - 1$ \\[0.1cm]
 Wegen $\lambda_1\approx 1.61803$ und $\lambda_2 \approx - 0.61803$ dominiert der erste Term
-der Summe und die Zahl der Additionen wächst exponentiell mit dem Faktor $\lambda_1$ an.
-Dies erklärt das starke Anwachsen der Rechenzeit.
+der Summe und die Zahl der Additionen w\"achst exponentiell mit dem Faktor $\lambda_1$ an.
+Dies erkl\"art das starke Anwachsen der Rechenzeit.
 \vspace*{0.3cm}
 
 \noindent
@@ -181,27 +181,27 @@ und spielt sowohl in der Geometrie als auch in der Kunst eine Rolle.
 \noindent
 Die Ursache der Ineffezienz der Berechnung der Fibonacci-Zahlen ist leicht zu sehen: Berechnen wir 
 den Wert \texttt{fibonacci(5)} mit dem Programm aus Abbildung
-\ref{fig:fibonacci}, so müssen wir \texttt{fibonacci(4)} und \texttt{fibonacci(3)} berechnen.
+\ref{fig:fibonacci}, so m\"ussen wir \texttt{fibonacci(4)} und \texttt{fibonacci(3)} berechnen.
 Die Berechnung von \texttt{fibonacci(4)} erfordert ihrerseits die Berechnung von \texttt{fibonacci(3)} und \texttt{fibonacci(2)}. 
 Dann berechnen wir \texttt{fibonacci(3)} aber zweimal!  
-Abbildung \ref{fig:fibonacci.eps} zeigt den sogenannten \emph{Rekursions-Baum} für den
+Abbildung \ref{fig:fibonacci.eps} zeigt den sogenannten \emph{Rekursions-Baum} f\"ur den
 Aufruf von $\textsl{fibonacci}(5)$, der den oben dargestellten Zusammenhang graphisch verdeutlicht.
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=fibonacci.eps, scale=0.6}} 
-  \caption{Rekursions-Baum für die Berechnung von $\textsl{fibonacci}(5)$.}
+  \caption{Rekursions-Baum f\"ur die Berechnung von $\textsl{fibonacci}(5)$.}
   \label{fig:fibonacci.eps}
 \end{figure}
 
 
-Wir können eine effizientere Berechnung der Fibonacci-Zahlen implementieren, indem wir
-uns die berechneten Werte merken.  Dazu können wir in \Java\ ein Feld benutzen.
- Dies führt zu dem in Abbildung \ref{fig:fibonacci-dynamic}
+Wir k\"onnen eine effizientere Berechnung der Fibonacci-Zahlen implementieren, indem wir
+uns die berechneten Werte merken.  Dazu k\"onnen wir in \Java\ ein Feld benutzen.
+ Dies f\"uhrt zu dem in Abbildung \ref{fig:fibonacci-dynamic}
 auf Seite \pageref{fig:fibonacci-dynamic} angegebenen Programm.
 Da die Werte der Funktion \texttt{fibonacci}() exponentiell wachsen, reichen 32-Bit-Zahlen
 nicht aus, um diese Werte darzustellen.  Wir verwenden daher die Klasse
-\texttt{BigInteger}, mit der sich ganze Zahlen beliebiger Größe darstellen lassen.
+\texttt{BigInteger}, mit der sich ganze Zahlen beliebiger Gr\"o\3e darstellen lassen.
 Da Felder in \Java\ genau wie in \texttt{C} mit 0 beginnend indiziert werden,
 hat ein Feld, dessen oberster Index $n$ ist, insgesamt $n+1$ Elemente.  Wir legen daher in
 Zeile 19 ein Feld von $n+1$ Elementen an.
@@ -250,12 +250,12 @@ Zeile 19 ein Feld von $n+1$ Elementen an.
 
 
 \section{Lineare Rekurrenz-Gleichung \label{sec:lineare-RG}}
-Wir waren bei der Analyse der Komplexität des ersten Programms zur Berechnung der
+Wir waren bei der Analyse der Komplexit\"at des ersten Programms zur Berechnung der
 Fibonacci-Zahlen auf die Gleichung \\[0.1cm]
-\hspace*{1.3cm} $a_{i+2} = a_{i+1} + {a_i} + 1$ \quad für alle $i \in \mathbb{N}$ \\[0.1cm]
-gestoßen. Gleichungen dieser Form treten bei der Analyse der Komplexität rekursiver
-Programme häufig auf. Wir wollen uns daher in diesem Abschnitt näher mit solchen
-Gleichungen beschäftigen.
+\hspace*{1.3cm} $a_{i+2} = a_{i+1} + {a_i} + 1$ \quad f\"ur alle $i \in \mathbb{N}$ \\[0.1cm]
+gesto\3en. Gleichungen dieser Form treten bei der Analyse der Komplexit\"at rekursiver
+Programme h\"aufig auf. Wir wollen uns daher in diesem Abschnitt n\"aher mit solchen
+Gleichungen besch\"aftigen.
 
 \begin{Definition}[Lineare homogene Rekurrenz-Gleichung] \hspace*{\fill} \\
 {\em 
@@ -263,50 +263,50 @@ Gleichungen beschäftigen.
   \begin{equation}
     \label{eq:lhrg}
   a_{n+k} = c_{k-1} \cdot a_{n+k-1} + c_{k-2} \cdot a_{n+k-2} + \cdots + c_1 \cdot a_{n+1} + c_0 \cdot a_{n}
-     \quad \mbox{für alle $n \in \N$}. 
+     \quad \mbox{f\"ur alle $n \in \N$}. 
   \end{equation}
      In Summen-Schreibweise kann diese Gleichung kompakter als 
      \\[0.1cm]
      \hspace*{1.3cm}
-     $a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i}$ \quad für alle $n \in \mathbb{N}$
+     $a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i}$ \quad f\"ur alle $n \in \mathbb{N}$
      \\[0.1cm]
      geschreiben werden.
-     Zusätzlich werden \emph{Anfangs-Bedingungen}  
+     Zus\"atzlich werden \emph{Anfangs-Bedingungen}  
       \\[0.1cm]
       \hspace*{1.3cm}      
       $a_0 = d_0, \cdots, a_{k-1} = d_{k-1}$ 
       \\[0.1cm]
-      für die Folge $\folge{a_n}$ vorgegeben.    
+      f\"ur die Folge $\folge{a_n}$ vorgegeben.    
     \hspace*{\fill} $\Box$
 }
 \end{Definition}
 Durch eine lineare homogene Rekurrenz-Gleichung wird die Folge $(a_n)_{n\in\mathbb{N}}$
-eindeutig bestimmt: Die Werte $a_n$ für $n < k$ sind durch die Anfangs-Bedingungen gegeben und
-alle weiteren Werte können dann durch die Rekurrenz-Gleichung (\ref{eq:lhrg}) bestimmt werden.
+eindeutig bestimmt: Die Werte $a_n$ f\"ur $n < k$ sind durch die Anfangs-Bedingungen gegeben und
+alle weiteren Werte k\"onnen dann durch die Rekurrenz-Gleichung (\ref{eq:lhrg}) bestimmt werden.
 Noch  etwas zur Nomenklatur:
 \begin{enumerate}
-\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) heißt \emph{linear}, weil die Glieder der Folge $(a_n)_n$ nur
-      linear in der Gleichung (\ref{eq:lhrg}) auftreten.  Ein Beispiel für eine
-      Rekurrenz-Gleichung, die nicht linear ist, wäre \\[0.1cm]
-      \hspace*{1.3cm} $a_{n+1} = a_n^2$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-      Nicht-lineare Rekurrenz-Gleichungen sind nur in Spezialfällen geschlossen lösbar.
-\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) heißt \emph{homogen}, weil auf der rechten Seite
-      dieser Gleichung kein konstantes Glied mehr auftritt.  Ein Beispiel für eine
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\3t \emph{linear}, weil die Glieder der Folge $(a_n)_n$ nur
+      linear in der Gleichung (\ref{eq:lhrg}) auftreten.  Ein Beispiel f\"ur eine
+      Rekurrenz-Gleichung, die nicht linear ist, w\"are \\[0.1cm]
+      \hspace*{1.3cm} $a_{n+1} = a_n^2$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+      Nicht-lineare Rekurrenz-Gleichungen sind nur in Spezialf\"allen geschlossen l\"osbar.
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\3t \emph{homogen}, weil auf der rechten Seite
+      dieser Gleichung kein konstantes Glied mehr auftritt.  Ein Beispiel f\"ur eine
       Gleichung, die nicht homogen ist (wir sprechen auch von \emph{inhomogenen}
-      Rekurrenz-Gleichungen), wäre \\[0.1cm]
-      \hspace*{1.3cm} $a_{n+2} = a_{n+1} + a_n + 1$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-      Mit inhomogenen Rekurrenz-Gleichungen werden wir uns später noch beschäftigen.
+      Rekurrenz-Gleichungen), w\"are \\[0.1cm]
+      \hspace*{1.3cm} $a_{n+2} = a_{n+1} + a_n + 1$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+      Mit inhomogenen Rekurrenz-Gleichungen werden wir uns sp\"ater noch besch\"aftigen.
 \item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hat \emph{konstante Koeffizienten}, weil die
-      Werte $c_i$ Konstanten sind, die nicht von dem Index $n$ abhängen.  Ein Beispiel für
+      Werte $c_i$ Konstanten sind, die nicht von dem Index $n$ abh\"angen.  Ein Beispiel f\"ur
       eine Rekurrenz-Gleichung, die keine konstanten Koeffizienten hat, ist \\[0.1cm]
-      \hspace*{1.3cm} $a_{n+1} = n\cdot a_n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-      Solche Rekurrenz-Gleichungen können in vielen Fällen auf Rekurrenz-Gleichungen mit
-      konstanten Koeffizienten zurück geführt werden.  Wir werden das später noch im
+      \hspace*{1.3cm} $a_{n+1} = n\cdot a_n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+      Solche Rekurrenz-Gleichungen k\"onnen in vielen F\"allen auf Rekurrenz-Gleichungen mit
+      konstanten Koeffizienten zur\"uck gef\"uhrt werden.  Wir werden das sp\"ater noch im
       Detail besprechen.
 \end{enumerate}
-Wie lösen wir eine lineare homogene Rekurrenz-Gleichung?  Wir versuchen zunächst den Ansatz\\[0.1cm]
-\hspace*{1.3cm}  $a_n = \lambda^n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-Einsetzen dieses Ansatzes in (\ref{eq:lhrg}) führt auf die Gleichung \\[0.1cm]
+Wie l\"osen wir eine lineare homogene Rekurrenz-Gleichung?  Wir versuchen zun\"achst den Ansatz\\[0.1cm]
+\hspace*{1.3cm}  $a_n = \lambda^n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+Einsetzen dieses Ansatzes in (\ref{eq:lhrg}) f\"uhrt auf die Gleichung \\[0.1cm]
 \hspace*{1.3cm}
 $\lambda^{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot \lambda^{n+i}$
 \\[0.1cm]
@@ -317,32 +317,32 @@ Das Polynom \\[0.1cm]
 \hspace*{1.3cm} 
 $\chi(x) = x^{k} - \sum\limits_{i=0}^{k-1} c_i \cdot x^{i}$  
 \\[0.1cm]
- heißt \emph{charakteristisches Polynom} der Rekurrenz-Gleichung (\ref{eq:lhrg}).
-Wir betrachten zunächst den Fall, dass das charakteristische  Polynom  $k$  verschiedene
+ hei\3t \emph{charakteristisches Polynom} der Rekurrenz-Gleichung (\ref{eq:lhrg}).
+Wir betrachten zun\"achst den Fall, dass das charakteristische  Polynom  $k$  verschiedene
 Nullstellen hat.  In diesem Fall sagen, dass die Rekurrenz-Gleichung (\ref{eq:lhrg}) 
 \emph{nicht entartet} ist.
 Bezeichnen wir diese Nullstellen mit \\[0.1cm]
 \hspace*{1.3cm}  $\lambda_1$, $\lambda_2$, $\cdots$, $\lambda_k$, \\[0.1cm]
-so  gilt für alle $j = 1,\cdots, k$ \\[0.1cm]
+so  gilt f\"ur alle $j = 1,\cdots, k$ \\[0.1cm]
 \hspace*{1.3cm} 
 $\lambda_j^{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot \lambda_j^{n+i}$.
 \\[0.1cm]
 Damit ist die Folge  
 \[\bigl(\lambda_j^n)_{n\in\mathbb{N}}\]
-für alle $j=1,\cdots,k$ eine Lösung der Rekurrenz-Gleichung (\ref{eq:lhrg}).
-Außerdem ist auch jede Linear-Kombination dieser Lösungen eine Lösung von (\ref{eq:lhrg}):
+f\"ur alle $j=1,\cdots,k$ eine L\"osung der Rekurrenz-Gleichung (\ref{eq:lhrg}).
+Au\3erdem ist auch jede Linear-Kombination dieser L\"osungen eine L\"osung von (\ref{eq:lhrg}):
 Definieren wir die Folge $a_n$ durch \\[0.1cm]
-\hspace*{1.3cm} $a_n = \alpha_1 \lambda_1^n + \cdots + \alpha_k \lambda_k^n$ \quad für alle $n \in \mathbb{N}$ \\[0.1cm]
-mit beliebigen Koeffizienten $\alpha_i \in \R$, so erfüllt auch die Folge
+\hspace*{1.3cm} $a_n = \alpha_1 \lambda_1^n + \cdots + \alpha_k \lambda_k^n$ \quad f\"ur alle $n \in \mathbb{N}$ \\[0.1cm]
+mit beliebigen Koeffizienten $\alpha_i \in \R$, so erf\"ullt auch die Folge
 $(a_n)_n$ die Gleichung (\ref{eq:lhrg}).  Die oben definierte Folge $(a_n)_n$ bezeichnen wir als
-die  \emph{allgemeine Lösung} der Rekurrenz-Gleichung (\ref{eq:lhrg}): \\[0.1cm]
-Die Koeffizienten $\alpha_1$ bis $\alpha_k$ müssen wir nun so wählen, dass die
+die  \emph{allgemeine L\"osung} der Rekurrenz-Gleichung (\ref{eq:lhrg}): \\[0.1cm]
+Die Koeffizienten $\alpha_1$ bis $\alpha_k$ m\"ussen wir nun so w\"ahlen, dass die
 Anfangs-Bedingungen 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_0 = d_0$, $\cdots$, $a_{k-1} = d_{k-1}$
 \\[0.2cm]
-erfüllt sind.  Das liefert ein lineares Gleichungs-System für die Koeffizienten $\alpha_1$, $\cdots$, $\alpha_k$:
+erf\"ullt sind.  Das liefert ein lineares Gleichungs-System f\"ur die Koeffizienten $\alpha_1$, $\cdots$, $\alpha_k$:
 \[
 \begin{array}{lcl}
   d_0     & = & \lambda_1^0 \cdot \alpha_1 + \cdots +   \lambda_k^0 \cdot \alpha_k \\[0.1cm]
@@ -363,27 +363,27 @@ V = \left(
   \lambda_1^{k-1} & \cdots &   \lambda_{k}^{k-1} \\[0.1cm]
 \end{array}\right)
 \]
-Diese Matrix ist in der Mathematik als \emph{Vandermonde}'sche Matrix bekannt.  Für die
+Diese Matrix ist in der Mathematik als \emph{Vandermonde}'sche Matrix bekannt.  F\"ur die
 Determinate dieser Matrix gilt \\[0.1cm]
 \hspace*{1.3cm} $\det(V) = \prod\limits_{1 \leq i < j \leq k} (\lambda_i - \lambda_j)$. \\[0.1cm]
-Sind die Nullstellen $\lambda_i$ für $i=1,\cdots,k$ paarweise verschieden, so ist jeder
+Sind die Nullstellen $\lambda_i$ f\"ur $i=1,\cdots,k$ paarweise verschieden, so ist jeder
 der Faktoren $(\lambda_i - \lambda_j)$ von 0 verschieden und damit ist auch das Produkt
-von 0 verschieden.  Daraus folgt, das das zugehörige lineare Gleichungs-System eindeutig
-lösbar ist.  Mit der Lösung dieses Gleichungs-Systems
- haben wir dann die Lösung der Rekurrenz-Gleichung (\ref{eq:lhrg}) gefunden.
+von 0 verschieden.  Daraus folgt, das das zugeh\"orige lineare Gleichungs-System eindeutig
+l\"osbar ist.  Mit der L\"osung dieses Gleichungs-Systems
+ haben wir dann die L\"osung der Rekurrenz-Gleichung (\ref{eq:lhrg}) gefunden.
 \vspace*{0.1cm}
 
 \noindent
 \textbf{Beispiel}:  Wie demonstrieren das Verfahren an einem Beispiel: Wie betrachten die
 Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $F_{n+2} = F_{n+1} + F_{n}$ \quad für alle $n \in \mathbb{N}$  \\[0.1cm]
-mit den Anfangs-Bedingungen $F_0 = 0$ und $F_1 = 1$.  Die Lösung dieser
-Rekurrenz-Gleichung sind übrigens gerade die Fibonacci-Zahlen.
+\hspace*{1.3cm} $F_{n+2} = F_{n+1} + F_{n}$ \quad f\"ur alle $n \in \mathbb{N}$  \\[0.1cm]
+mit den Anfangs-Bedingungen $F_0 = 0$ und $F_1 = 1$.  Die L\"osung dieser
+Rekurrenz-Gleichung sind \"ubrigens gerade die Fibonacci-Zahlen.
 Das \emph{charakteristische Polynom} dieser Rekurrenz-Gleichung lautet: \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = x^2 - x - 1$.  \\[0.1cm]
-Das führt auf die quadratische Gleichung \\[0.1cm]
+Das f\"uhrt auf die quadratische Gleichung \\[0.1cm]
 \hspace*{1.3cm} $x^2 -x - 1 = 0$ \\[0.1cm]
-Wir haben eben schon gesehen, dass diese quadratische Gleichung die Lösung \\[0.1cm]
+Wir haben eben schon gesehen, dass diese quadratische Gleichung die L\"osung \\[0.1cm]
 \hspace*{1.3cm}
  $ x_{1/2} = \frac{1}{2} \cdot (1 \pm \sqrt{5})$ 
 \\[0.1cm]
@@ -391,8 +391,8 @@ hat.  Wir definieren \\[0.1cm]
 \hspace*{1.3cm} 
 $\lambda_1 = \frac{1}{2} \cdot (1 + \sqrt{5})$ \quad und  \quad 
 $\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5})$. \\[0.1cm]
-Damit lautet die \emph{allgemeine Lösung} der betrachteten Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm}  $F_n = \alpha_1 \cdot \lambda_1^n  + \alpha_2 \cdot \lambda_2^n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
+Damit lautet die \emph{allgemeine L\"osung} der betrachteten Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm}  $F_n = \alpha_1 \cdot \lambda_1^n  + \alpha_2 \cdot \lambda_2^n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
 Setzen wir hier die Anfangs-Bedingungen ein, so erhalten wir
 \[
 \begin{array}{lcl}
@@ -401,15 +401,15 @@ Setzen wir hier die Anfangs-Bedingungen ein, so erhalten wir
 \end{array}
 \]
 Dies ist ein lineares Gleichungs-System in den Unbekannten $\alpha_1$ und
-$\alpha_2$. Vereinfachung führt auf 
+$\alpha_2$. Vereinfachung f\"uhrt auf 
 \[
 \begin{array}{lcl}
     0 & = & \alpha_1 + \alpha_2 \\[0.1cm]
     1 & = & \lambda_1 \cdot \alpha_1 + \lambda_2 \cdot \alpha_2 
 \end{array}
 \]
-Die erste dieser beiden Gleichungen lösen wir nach $\alpha_2$ auf und finden  $\alpha_2 = - \alpha_1$.
-Diesen Wert setzen wir in der zweiten Gleichung ein.  Das führt auf
+Die erste dieser beiden Gleichungen l\"osen wir nach $\alpha_2$ auf und finden  $\alpha_2 = - \alpha_1$.
+Diesen Wert setzen wir in der zweiten Gleichung ein.  Das f\"uhrt auf
 \[
 \begin{array}{lrcl}
                  & 1 & = & \lambda_1 \cdot \alpha_1 - \lambda_2 \cdot \alpha_1 \\
@@ -421,46 +421,46 @@ Setzen wir diesen Wert in der Gleichung $\alpha_2 = - \alpha_1$ ein, so erhalten
 \hspace*{1.3cm} 
   $\alpha_2 = \bruch{- 1}{\lambda_1 - \lambda_2}$.
 \\[0.1cm]
-Setzen wir die  Werte für $\lambda_1$ und $\lambda_2$ ein, so finden wir:  \\[0.1cm]
+Setzen wir die  Werte f\"ur $\lambda_1$ und $\lambda_2$ ein, so finden wir:  \\[0.1cm]
 \hspace*{1.3cm} 
 $\alpha_1 = \bruch{1}{\sqrt{5}}$ \quad und \quad $\alpha_2 = - \bruch{1}{\sqrt{5}}$.
 \\[0.1cm]
-Die Lösung der Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $F_{n+2} = F_{n+1} + F_{n}$ \quad für alle $n \in \mathbb{N}$ \\[0.1cm]
+Die L\"osung der Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $F_{n+2} = F_{n+1} + F_{n}$ \quad f\"ur alle $n \in \mathbb{N}$ \\[0.1cm]
 mit den Anfangs-Bedingungen $F_0 = 1$ und $F_1 = 1$   lautet also 
 \\[0.1cm]
 \hspace*{1.3cm} 
 $F_n = \bruch{1}{\sqrt{5}}\cdot \left( \lambda_1^{n} - \lambda_2^{n} \right)$ 
-\quad für alle $n \in \mathbb{N}$.  
+\quad f\"ur alle $n \in \mathbb{N}$.  
 \\[0.1cm]
 Damit haben wir eine geschlossene Formel zur Berechnung der Fibonacci-Zahlen
 gefunden.  Diese Formel zeigt uns, dass die Fibonacci-Zahlen selbst exponentiell anwachsen.
-Wir werden diese Lösung bei der Analyse des Euklidischen-Algorithmus benötigen.
+Wir werden diese L\"osung bei der Analyse des Euklidischen-Algorithmus ben\"otigen.
 
 \vspace*{0.2cm}
 \noindent
-\textbf{Aufgabe}:  Lösen Sie die Rekurrenz-Gleichung 
+\textbf{Aufgabe}:  L\"osen Sie die Rekurrenz-Gleichung 
 $a_{n+2} = \bruch{3}{2} \cdot a_{n+1} - \bruch{1}{2}\cdot a_n$ mit
 den Anfangs-Bedingungen $a_0 = 3$ und $a_1 = \bruch{5}{2}$.
 
 %\noindent
-%\textbf{Lösung}: $a_n = 2 + \left(\frac{1}{2}\right)^n$.
+%\textbf{L\"osung}: $a_n = 2 + \left(\frac{1}{2}\right)^n$.
 
 \subsection{Entartete Rekurrenz-Gleichungen}
-Wir hatten oben zunächst den Fall betrachtet, dass das charakteristische Polynom der
+Wir hatten oben zun\"achst den Fall betrachtet, dass das charakteristische Polynom der
 Rekurrenz-Gleichung (\ref{eq:lhrg}) insgesamt $k$ verschiedene Nullstellen hat.   Dies muss
 keineswegs immer der Fall sein.  Wir betrachten die Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:erg}
-  a_{n+2} = 4 \cdot a_{n+1} - 4 \cdot a_n \quad \mbox{für alle $n \in \mathbb{N}$} 
+  a_{n+2} = 4 \cdot a_{n+1} - 4 \cdot a_n \quad \mbox{f\"ur alle $n \in \mathbb{N}$} 
 \end{equation}
  mit den Anfangs-Bedingungen $a_0 = 1$, $a_1 = 4$.  Das charakteristische Polynom lautet \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = x^2 - 4 \cdot x + 4 = (x - 2)^2$ \\[0.1cm]
-und hat offensichtlich nur eine Nullstelle bei $x = 2$.   Eine Lösung der
+und hat offensichtlich nur eine Nullstelle bei $x = 2$.   Eine L\"osung der
 Rekurrenz-Gleichung (\ref{eq:erg}) lautet daher \\[0.1cm]
-\hspace*{1.3cm} $a_n = 2^n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-Eine weitere Lösung ist \\[0.1cm]
-\hspace*{1.3cm} $a_n = n \cdot 2^n$ \quad für alle $n \in \mathbb{N}$.  \\[0.1cm]
+\hspace*{1.3cm} $a_n = 2^n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+Eine weitere L\"osung ist \\[0.1cm]
+\hspace*{1.3cm} $a_n = n \cdot 2^n$ \quad f\"ur alle $n \in \mathbb{N}$.  \\[0.1cm]
 Wir verifizieren dies durch Einsetzen: 
 \[
 \begin{array}{llcll}
@@ -472,9 +472,9 @@ Wir verifizieren dies durch Einsetzen:
 \Leftrightarrow & n + 2 & = & n + 2    \\
 \end{array}
 \]
-Die allgemeine Lösung der Rekurrenz-Gleichung finden wir durch Linear-Kombination der
-beiden Lösungen: \\[0.1cm]
-\hspace*{1.3cm} $a_n = \alpha \cdot 2^n + \beta \cdot n \cdot 2^n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
+Die allgemeine L\"osung der Rekurrenz-Gleichung finden wir durch Linear-Kombination der
+beiden L\"osungen: \\[0.1cm]
+\hspace*{1.3cm} $a_n = \alpha \cdot 2^n + \beta \cdot n \cdot 2^n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
 Setzen wir hier die Anfangs-Bedingungen $a_0 = 1$ und $a_2 = 4$ ein, so erhalten wir:
 \[
 \left\{
@@ -488,14 +488,14 @@ Setzen wir hier die Anfangs-Bedingungen $a_0 = 1$ und $a_2 = 4$ ein, so erhalten
   4 & = & \alpha \cdot 2 + \beta \cdot 2 \\
 \end{array}
 \right\}\]
-Die Lösung lautet offenbar $\alpha = 1$ und $\beta = 1$.  Damit lautet die Lösung der
+Die L\"osung lautet offenbar $\alpha = 1$ und $\beta = 1$.  Damit lautet die L\"osung der
 Rekurrenz-Gleichung (\ref{eq:erg}) mit den Anfangs-Bedingungen $a_0 = 1$ und $a_2 = 4$ \\[0.1cm]
-\hspace*{1.3cm} $a_n = 2^n + n \cdot 2^n = (n+1) \cdot 2^n$ \quad für alle $n \in \mathbb{N}$.  \\[0.1cm]
+\hspace*{1.3cm} $a_n = 2^n + n \cdot 2^n = (n+1) \cdot 2^n$ \quad f\"ur alle $n \in \mathbb{N}$.  \\[0.1cm]
 Im allgemeinen nennen wir die Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} $a_{n+k} = \sum\limits_{i=0}^{k-1} c_{i} \cdot a_{n+i}$ \\[0.1cm]
 \emph{entartet}, wenn das charakteristische Polynom \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = x^k - \sum\limits_{i=0}^{k-1} c_{i} \cdot x^{i}$  \\[0.1cm]
-weniger als $k$ verschiedene Nullstellen hat.  Dann lässt sich folgendes
+weniger als $k$ verschiedene Nullstellen hat.  Dann l\"asst sich folgendes
 zeigen:  Hat das charakteristische Polynom $\chi(x)$ eine $r$-fache Nullstelle
 $\lambda$, gilt also \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = (x - \lambda)^r \cdot \phi(x)$ \\[0.1cm]
@@ -507,56 +507,56 @@ mit einem geeigneten Polynom $\phi(x)$, so sind die Folgen
 \item $\vdots$
 \item $(n^{r-1}\cdot\lambda^n)_{n\in\mathbb{N}}$
 \end{enumerate}
-Lösungen der Rekurrenz-Gleichung (\ref{eq:erg}).  Durch eine geeignete Linear-Kombination dieser
-Lösungen zusammen mit den Lösungen, die sich aus den Nullstellen des Polynoms $\phi$
-ergeben, lässt sich dann immer eine Lösung finden, die auch den Anfangs-Bedingungen genügt.
+L\"osungen der Rekurrenz-Gleichung (\ref{eq:erg}).  Durch eine geeignete Linear-Kombination dieser
+L\"osungen zusammen mit den L\"osungen, die sich aus den Nullstellen des Polynoms $\phi$
+ergeben, l\"asst sich dann immer eine L\"osung finden, die auch den Anfangs-Bedingungen gen\"ugt.
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Aufgabe}: Lösen Sie die Rekurrenz-Gleichung \\[0.1cm]
+\textbf{Aufgabe}: L\"osen Sie die Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} $a_{n+3} = a_{n+2} + a_{n+1} - a_n$ \\[0.1cm]
-für die Anfangs-Bedingungen $a_0 = 0$, $a_1 = 3$, $a_2 = 2$.
+f\"ur die Anfangs-Bedingungen $a_0 = 0$, $a_1 = 3$, $a_2 = 2$.
 
 %\noindent
-%\textbf{Lösung}: allg. $a_n = \alpha + n \cdot \beta + \gamma \cdot (-1)^n$. 
+%\textbf{L\"osung}: allg. $a_n = \alpha + n \cdot \beta + \gamma \cdot (-1)^n$. 
 %Anfangs-Bedingungen: $a_n = 1 + n - (-1)^n$.
 
 \subsection{Inhomogene Rekurrenz-Gleichungen}    
 \begin{Definition}[Lineare inhomogene Rekurrenz-Gleichung]
 {\em Die \emph{lineare \underline{inhomo}g\underline{ene} Rekur\-renz-Gleichung der Ordnung
-$k$ mit konstanten Koeffizienten und konstanter Inhomogenität} hat die Form 
+$k$ mit konstanten Koeffizienten und konstanter Inhomogenit\"at} hat die Form 
 \begin{equation}
   \label{eq:lihrg}
      a_{n+k} = \sum\limits_{i=0}^{k-1} c_{i} \cdot a_{n+i} + c_{-1}  
 \end{equation}
      mit den Anfangs-Bedingungen $a_0 = d_0$, $\cdots$, $a_{k-1} = d_{k-1}$. 
-     Dabei gilt für die Koeffizienten \\[0.1cm]
-     \hspace*{1.3cm} $c_i \in \R$ \quad für alle $i = -1, 0,\cdots, k-1$. \\[0.1cm]
-     Für die  \emph{Anfangs-Bedingungen} $d_0, \cdots, d_{k-1}$ gilt ebenfalls \\[0.1cm]
-     \hspace*{1.3cm} $d_i \in \R$ \quad für alle $i = 0,\cdots, k-1$. \\[0.1cm]
-     Die Konstante $c_{-1}$ bezeichnen wir als die \emph{Inhomogenität}. 
+     Dabei gilt f\"ur die Koeffizienten \\[0.1cm]
+     \hspace*{1.3cm} $c_i \in \R$ \quad f\"ur alle $i = -1, 0,\cdots, k-1$. \\[0.1cm]
+     F\"ur die  \emph{Anfangs-Bedingungen} $d_0, \cdots, d_{k-1}$ gilt ebenfalls \\[0.1cm]
+     \hspace*{1.3cm} $d_i \in \R$ \quad f\"ur alle $i = 0,\cdots, k-1$. \\[0.1cm]
+     Die Konstante $c_{-1}$ bezeichnen wir als die \emph{Inhomogenit\"at}. 
      \hspace*{\fill} $\Box$
 }
 \end{Definition}
 
-Wie lässt sich die inhomogene Rekurrenz-Gleichung (\ref{eq:lihrg}) lösen? Wir zeigen
-zunächst, wie sich eine \emph{spezielle Lösung} der Rekurrenz-Gleichung (\ref{eq:lihrg})
-finden lässt.  Dazu betrachten wir das charakteristische Polynom \\[0.1cm]
+Wie l\"asst sich die inhomogene Rekurrenz-Gleichung (\ref{eq:lihrg}) l\"osen? Wir zeigen
+zun\"achst, wie sich eine \emph{spezielle L\"osung} der Rekurrenz-Gleichung (\ref{eq:lihrg})
+finden l\"asst.  Dazu betrachten wir das charakteristische Polynom \\[0.1cm]
 \hspace*{1.3cm} 
 $\chi(x) = x^k - \sum\limits_{i=0}^{k-1} c_{i} \cdot x^i$
 \\[0.1cm]
 und definieren die \emph{Spur} $\mathtt{sp}(\chi)$ wie folgt: \\[0.1cm]
 \hspace*{1.3cm} 
 $\mathtt{sp}(\chi) := \chi(1) = 1 - \sum\limits_{i=0}^{k-1} c_{i}$. \\[0.1cm]
-Es können zwei Fälle auftreten, $\mathtt{sp}(\chi) \not= 0$ und
+Es k\"onnen zwei F\"alle auftreten, $\mathtt{sp}(\chi) \not= 0$ und
 $\mathtt{sp}(\chi) = 0$.
-Wir betrachten die beiden Fälle getrennt.
+Wir betrachten die beiden F\"alle getrennt.
 \begin{enumerate}
 \item $\mathtt{sp}(\chi) \not= 0$.
 
-      Dann erhalten wir eine spezielle Lösung von (\ref{eq:lihrg}) durch den Ansatz \\[0.1cm]
-      \hspace*{1.3cm} $a_n = \delta$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-      Den Wert von $\delta$ bestimmen wir durch Einsetzen, es muss für alle $n\in \mathbb{N}$ gelten: \\[0.1cm]
+      Dann erhalten wir eine spezielle L\"osung von (\ref{eq:lihrg}) durch den Ansatz \\[0.1cm]
+      \hspace*{1.3cm} $a_n = \delta$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+      Den Wert von $\delta$ bestimmen wir durch Einsetzen, es muss f\"ur alle $n\in \mathbb{N}$ gelten: \\[0.1cm]
       \hspace*{1.3cm} 
       $\delta = \sum\limits_{i=0}^{k-1} c_{i} \cdot \delta + c_{-1}$.
       \\[0.1cm]
@@ -565,18 +565,18 @@ Wir betrachten die beiden Fälle getrennt.
       $\delta \cdot \left(1 - \sum\limits_{i=0}^{k-1} c_{i} \right) =  c_{-1}$. \\[0.1cm]
       Das ist aber nichts anderes als \\[0.1cm]
       \hspace*{1.3cm} $\delta \cdot \mathtt{sp}(\chi) = c_{-1}$ \\[0.1cm]
-      und damit lautet eine spezielle Lösung von (\ref{eq:lihrg}) \\[0.1cm]
+      und damit lautet eine spezielle L\"osung von (\ref{eq:lihrg}) \\[0.1cm]
       \hspace*{1.3cm} $a_n = \delta = \bruch{c_{-1}}{\mathtt{sp}(\chi)}$.
       \\[0.1cm]
       Jetzt sehen wir auch, warum die Voraussetzung $\mathtt{sp}(\chi) \not= 0$
-      wichtig ist, denn anderfalls wäre der Quotient
+      wichtig ist, denn anderfalls w\"are der Quotient
       $\bruch{c_{-1}}{\mathtt{sp}(\chi)}$ undefiniert.
 \item $\mathtt{sp}(\chi) = 0$.
 
-      In diesem Fall versuchen wir, eine spezielle Lösung von (\ref{eq:lihrg}) durch den
+      In diesem Fall versuchen wir, eine spezielle L\"osung von (\ref{eq:lihrg}) durch den
       Ansatz \\[0.1cm]
       \hspace*{1.3cm} $a_n = \varepsilon \cdot n $ \\[0.1cm]
-      zu finden.  Den Wert $\varepsilon$ erhalten wir durch Einsetzen, es muss für 
+      zu finden.  Den Wert $\varepsilon$ erhalten wir durch Einsetzen, es muss f\"ur 
       alle $n\in\mathbb{N}$ gelten: \\[0.1cm]
       \hspace*{1.3cm} 
       $\varepsilon \cdot (n + k) = \sum\limits_{i=0}^{k-1} c_{i} \cdot \varepsilon \cdot (n + i) + c_{-1}$  
@@ -608,52 +608,52 @@ Wir betrachten die beiden Fälle getrennt.
       \hspace*{1.3cm} 
       $\chi'(x) =\bruch{d\,\chi(x)}{dx} = k \cdot x^{k-1} - \sum\limits_{i=0}^{k-1} c_{i}\cdot i \cdot x^{i-1}$
       \\[0.1cm]
-      Setzen wir hier für $x$ den Wert $1$ ein, so finden wir \\[0.1cm]
+      Setzen wir hier f\"ur $x$ den Wert $1$ ein, so finden wir \\[0.1cm]
       \hspace*{1.3cm} 
       $\chi'(1) = k - \sum\limits_{i=0}^{k-1} c_{i}\cdot i$. 
       \\[0.1cm]
-      Insgesamt haben wir damit also die folgende spezielle Lösung $(a_n)_{n\in\mathbb{N}}$
+      Insgesamt haben wir damit also die folgende spezielle L\"osung $(a_n)_{n\in\mathbb{N}}$
       der Gleichung (\ref{eq:lihrg}) gefunden: \\[0.1cm]
       \hspace*{1.3cm} $a_n = \bruch{c_{-1}}{\;\chi'(1)\;}\cdot n$.
 
       Wir haben oben zur Vereinfachung angenommen, dass dieser Wert von 0 verschieden ist,
       dass also das charakteristische Polynom $\chi(x)$ an der Stelle $x=1$ keine mehrfache
       Nullstelle hat, denn nur dann ist $\varepsilon$ durch die
-      obige Gleichung wohldefiniert und wir haben eine spezielle Lösung der
-      Rekurrenz-Gleichung (\ref{eq:lihrg}) gefunden.  Andernfalls können wir die Reihe nach die
-      Ansätze $a_n = \varepsilon \cdot n^2$, $a_n = \varepsilon \cdot n^3$ , $\cdots$
+      obige Gleichung wohldefiniert und wir haben eine spezielle L\"osung der
+      Rekurrenz-Gleichung (\ref{eq:lihrg}) gefunden.  Andernfalls k\"onnen wir die Reihe nach die
+      Ans\"atze $a_n = \varepsilon \cdot n^2$, $a_n = \varepsilon \cdot n^3$ , $\cdots$
       versuchen, denn es kann folgendes gezeigt werden: 
       Hat das charakteristische Polynom $\chi(x)$ am Punkt $x = 1$ eine Nullstelle vom Rang $r$,
-      so führt der Ansatz $a_n = \varepsilon \cdot n^r$ zu einer speziellen Lösung von (\ref{eq:lihrg}).
+      so f\"uhrt der Ansatz $a_n = \varepsilon \cdot n^r$ zu einer speziellen L\"osung von (\ref{eq:lihrg}).
 \end{enumerate}
-Diese spezielle Lösung genügt i.~a.~noch nicht den
-Anfangs-Bedingungen. Eine Lösung, die auch den Anfangs-Bedingungen genügt, erhalten wir,
-wenn wir zu der speziellen Lösung die allgemeine Lösung der zugehörigen homogenen linearen
+Diese spezielle L\"osung gen\"ugt i.~a.~noch nicht den
+Anfangs-Bedingungen. Eine L\"osung, die auch den Anfangs-Bedingungen gen\"ugt, erhalten wir,
+wenn wir zu der speziellen L\"osung die allgemeine L\"osung der zugeh\"origen homogenen linearen
 Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} 
      $a_{n+k} = c_{k-1} \cdot a_{n+k-1} + c_{k-2} \cdot a_{n+k-2} + \cdots + c_1 \cdot a_{n+1} + c_0 \cdot a_{n}$ 
 \\[0.1cm]
-addieren und die Koeffizienten der allgemeinen Lösung so wählen, dass die
-Anfangs-Bedingungen erfüllt sind.  Wir betrachten  ein Beispiel:
- Die zu lösende Rekurrenz-Gleichung lautet \\[0.1cm]
-\hspace*{1.3cm} $a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n -1$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-Die Anfangs-Bedingungen sind $a_0 = 1$ und $a_1 = 3$.  Wir berechnen zunächst eine
-spezielle Lösung.  Das charakteristische Polynom ist \\[0.1cm]
+addieren und die Koeffizienten der allgemeinen L\"osung so w\"ahlen, dass die
+Anfangs-Bedingungen erf\"ullt sind.  Wir betrachten  ein Beispiel:
+ Die zu l\"osende Rekurrenz-Gleichung lautet \\[0.1cm]
+\hspace*{1.3cm} $a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n -1$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+Die Anfangs-Bedingungen sind $a_0 = 1$ und $a_1 = 3$.  Wir berechnen zun\"achst eine
+spezielle L\"osung.  Das charakteristische Polynom ist \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = x^2 -3 \cdot x +2 = (x - 1) \cdot (x - 2)$. \\[0.1cm]
-Es gilt $\mathtt{sp}(\chi) = \chi(1) = 0$.  Wir versuchen für die spezielle Lösung
+Es gilt $\mathtt{sp}(\chi) = \chi(1) = 0$.  Wir versuchen f\"ur die spezielle L\"osung
 den Ansatz \\[0.1cm]
 \hspace*{1.3cm} $a_n = \varepsilon \cdot n$. \\[0.1cm]
 Einsetzen in die Rekurrenz-Gleichung liefert \\[0.1cm]
-\hspace*{1.3cm}  $\varepsilon \cdot (n+2) = 3 \cdot \varepsilon \cdot(n+1) - 2 \cdot \varepsilon \cdot n -1$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-Das ist äquivalent zu \\[0.1cm]
+\hspace*{1.3cm}  $\varepsilon \cdot (n+2) = 3 \cdot \varepsilon \cdot(n+1) - 2 \cdot \varepsilon \cdot n -1$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+Das ist \"aquivalent zu \\[0.1cm]
 \hspace*{1.3cm} $\varepsilon \cdot (2 - 3) = - 1$ \\[0.1cm]
-und daraus folgt sofort $\varepsilon = 1$.  Damit lautet eine spezielle Lösung \\[0.1cm]
-\hspace*{1.3cm} $a_n = n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
+und daraus folgt sofort $\varepsilon = 1$.  Damit lautet eine spezielle L\"osung \\[0.1cm]
+\hspace*{1.3cm} $a_n = n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
 Da die Nullstellen des charakteristischen Polynoms $\chi(x)$ bei 1 und 2 liegen, finden
-wir für die allgemeine Lösung 
+wir f\"ur die allgemeine L\"osung 
 \\[0.1cm]
-\hspace*{1.3cm} $a_n = \alpha \cdot 1^n + \beta \cdot 2^n + n$ \quad für alle $n \in \mathbb{N}$. \\[0.1cm]
-Setzen wir hier für $n$ die Werte $0$ und $1$ und für $a_n$ die beiden Anfangs-Bedingungen
+\hspace*{1.3cm} $a_n = \alpha \cdot 1^n + \beta \cdot 2^n + n$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
+Setzen wir hier f\"ur $n$ die Werte $0$ und $1$ und f\"ur $a_n$ die beiden Anfangs-Bedingungen
 ein, so erhalten wir das Gleichungs-System \\[0.1cm]
 \[ \left\{
 \begin{array}{lcl}
@@ -664,64 +664,64 @@ ein, so erhalten wir das Gleichungs-System \\[0.1cm]
 1 &=& \alpha + \beta  \\
 3 &=& \alpha + 2 \cdot \beta + 1
 \end{array} \right\}\]
-Sie können leicht nachrechnen, dass dieses Gleichungs-System die Lösung $\alpha = 0$ und
-$\beta = 1$ hat.  Damit lautet die Lösung der Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $a_n = 2^n + n$ \quad für alle $n \in \mathbb{N}$.
+Sie k\"onnen leicht nachrechnen, dass dieses Gleichungs-System die L\"osung $\alpha = 0$ und
+$\beta = 1$ hat.  Damit lautet die L\"osung der Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $a_n = 2^n + n$ \quad f\"ur alle $n \in \mathbb{N}$.
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Aufgabe}: Lösen Sie die inhomogene Rekurrenz-Gleichung \\[0.1cm]
+\textbf{Aufgabe}: L\"osen Sie die inhomogene Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} $a_{n+2} = 2 \cdot a_n - a_{n+1} + 3$ \\[0.1cm]
-für die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
+f\"ur die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
 % charakteristisches Polynom: $\chi(x) = x^2 + x - 2 = (x - 1) * (x + 2)
 % sp(\chi) = 0, \chi'(x) = 2*x + 1, \chi'(1) = 3
 % Lsg: a_n = \varepsilon * n mit \varepsilon = 1
 % Lsg: a_n = 4/3 + 2/3*(-2)^n + n
 \pagebreak
 
-\subsection{Lineare inhomogene Rekurrenz-Gleichungen mit veränderlichen Inhomogenitäten}
-Gelegentlich tauchen in der Praxis Rekurrenz-Gleichungen auf, in denen die Inhomogenität
-keine Konstante ist, sondern von $n$ abhängt.  In solchen Fällen führt die
+\subsection{Lineare inhomogene Rekurrenz-Gleichungen mit ver\"anderlichen Inhomogenit\"aten}
+Gelegentlich tauchen in der Praxis Rekurrenz-Gleichungen auf, in denen die Inhomogenit\"at
+keine Konstante ist, sondern von $n$ abh\"angt.  In solchen F\"allen f\"uhrt die
 Technik des \emph{diskreten Differenzieren} oft zum Erfolg.  Wir stellen die Technik an
 einem Beispiel vor und betrachten die Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:dd}
-a_{n+1} = 2 \cdot a_n + n \quad \mbox{für alle $n \in \mathbb{N}$}  
+a_{n+1} = 2 \cdot a_n + n \quad \mbox{f\"ur alle $n \in \mathbb{N}$}  
 \end{equation}
-und der Anfangs-Bedingungen $a_0 = 0$.  Das Verfahren zur Lösung solcher
+und der Anfangs-Bedingungen $a_0 = 0$.  Das Verfahren zur L\"osung solcher
 Rekurrenz-Gleichung besteht aus vier Schritten:
 \begin{enumerate}
 \item Substitutions-Schritt: Im \emph{Substitutions-Schritt} setzen wir in der
-      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) für $n$ den Wert $n + 1$ ein und
+      urspr\"unglichen Rekurrenz-Gleichung (\ref{eq:dd}) f\"ur $n$ den Wert $n + 1$ ein und
       erhalten 
       \begin{equation}
         \label{eq:dd2}
-        a_{n+2} = 2 \cdot a_{n+1} + n + 1 \quad \mbox{für alle $n \in \N$}
+        a_{n+2} = 2 \cdot a_{n+1} + n + 1 \quad \mbox{f\"ur alle $n \in \N$}
       \end{equation}
 \item Subtraktions-Schritt: Im \emph{Subtraktions-Schritt} ziehen wir von der im
-      Substitutions-Schritt erhaltenen Rekurrenz-Gleichung (\ref{eq:dd2}) die ursprüngliche
+      Substitutions-Schritt erhaltenen Rekurrenz-Gleichung (\ref{eq:dd2}) die urspr\"ungliche
       gegebene Rekurrenz-Gleichung (\ref{eq:dd}) ab.  In unserem Fall erhalten wir \\[0.1cm]
       \hspace*{1.3cm} 
       $a_{n+2} - a_{n+1} = 2 \cdot a_{n+1} + n + 1 - \left( 2 \cdot a_n + n \right)$ 
-      \quad für alle $n \in \mathbb{N}$.       \\[0.1cm]
+      \quad f\"ur alle $n \in \mathbb{N}$.       \\[0.1cm]
       Vereinfachung dieser Gleichung liefert 
       \begin{equation}
         \label{eq:dd3}
-        a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n + 1 \quad \mbox{für alle $n \in \N$}.
+        a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n + 1 \quad \mbox{f\"ur alle $n \in \N$}.
       \end{equation}
       Die beiden Schritte 1. und 2. bezeichnen wir zusammen als 
       \emph{diskretes Differenzieren} der Rekurrenz-Gleichung.
-\item Berechnung zusätzlicher Anfangs-Bedingungen: Die Rekurrenz-Gleichung (\ref{eq:dd3})
+\item Berechnung zus\"atzlicher Anfangs-Bedingungen: Die Rekurrenz-Gleichung (\ref{eq:dd3})
       ist eine inhomogene Rekurrenz-Gleichung der Ordnung 2 mit nun aber konstanter
-      Inhomogenität.  Wir haben bereits gesehen, 
-      wie eine solche Rekurrenz-Gleichung zu lösen ist, wir benötigen aber eine
-      zusätzliche Anfangs-Bedingung für $n=1$.  Diese erhalten wir, indem wir in der
-      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) für $n$ den Wert 0 einsetzen: \\[0.1cm]
+      Inhomogenit\"at.  Wir haben bereits gesehen, 
+      wie eine solche Rekurrenz-Gleichung zu l\"osen ist, wir ben\"otigen aber eine
+      zus\"atzliche Anfangs-Bedingung f\"ur $n=1$.  Diese erhalten wir, indem wir in der
+      urspr\"unglichen Rekurrenz-Gleichung (\ref{eq:dd}) f\"ur $n$ den Wert 0 einsetzen: \\[0.1cm]
       \hspace*{1.3cm} $a_1 = 2 \cdot a_0 + 0 = 0$.
-\item Lösen der inhomogenen Rekurrenz-Gleichung mit konstanter Inhomogenität:
+\item L\"osen der inhomogenen Rekurrenz-Gleichung mit konstanter Inhomogenit\"at:
       Das charakteristische Polynom der Rekurrenz-Gleichung (\ref{eq:dd3}) lautet: \\[0.1cm]
       \hspace*{1.3cm} $\chi(x) = x^2 - 3 \cdot x + 2 = (x - 2) \cdot (x - 1)$. \\[0.1cm]
-      Offenbar gilt $\mathtt{sp}(\chi) = 0$.  Um eine spezielle Lösung der
+      Offenbar gilt $\mathtt{sp}(\chi) = 0$.  Um eine spezielle L\"osung der
       Rekurrenz-Gleichung
       (\ref{eq:dd3}) zu erhalten, machen wir daher den Ansatz \\[0.1cm]
       \hspace*{1.3cm} $a_n = \varepsilon \cdot n$ \\[0.1cm]
@@ -729,10 +729,10 @@ Rekurrenz-Gleichung besteht aus vier Schritten:
       \hspace*{1.3cm} 
       $\varepsilon \cdot (n+2) = 3 \cdot \varepsilon \cdot (n+1) - 2 \cdot \varepsilon \cdot n + 1$ 
       \\[0.1cm]
-      Diese Gleichung liefert die Lösung \\[0.1cm]
+      Diese Gleichung liefert die L\"osung \\[0.1cm]
       \hspace*{1.3cm} 
       $\varepsilon = -1$. \\[0.1cm]
-      Damit lautet die allgemeine Lösung der Rekurrenz-Gleichung (\ref{eq:dd3}): \\[0.1cm]
+      Damit lautet die allgemeine L\"osung der Rekurrenz-Gleichung (\ref{eq:dd3}): \\[0.1cm]
       \hspace*{1.3cm} $a_n = \alpha_1 \cdot 2^n + \alpha_2 \cdot 1^n - n$ \\[0.1cm]
       Die Koeffizienten $\alpha_1$ und $\alpha_2$ finden wir nun durch Einsetzen der
       Anfangs-Bedingungen:
@@ -745,52 +745,52 @@ Rekurrenz-Gleichung besteht aus vier Schritten:
       Aus der ersten Gleichung folgt $\alpha_2 = - \alpha_1$.  Damit vereinfacht sich die
       zweite Gleichung zu \\[0.1cm]
       \hspace*{1.3cm} $0 = 2 \cdot \alpha_1 - \alpha_1 - 1$ \\[0.1cm]
-      und damit lautet die Lösung $\alpha_1 = 1$ und $\alpha_2 = -1$.  Die Lösung der
-      ursprünglichen Rekurrenz-Gleichung (\ref{eq:dd}) mit der Anfangs-Bedingung $a_0 = 0$ 
+      und damit lautet die L\"osung $\alpha_1 = 1$ und $\alpha_2 = -1$.  Die L\"osung der
+      urspr\"unglichen Rekurrenz-Gleichung (\ref{eq:dd}) mit der Anfangs-Bedingung $a_0 = 0$ 
       ist also \\[0.1cm]
       \hspace*{1.3cm} $a_n = 2^n - 1 - n$.
 \end{enumerate}
-Das oben gezeigte Verfahren funktioniert, wenn die Inhomogenität der Rekurrenz-Gleichung
-linear ist, also die Form $\delta \cdot n$.  Ist die Inhomogenität quadratisch, so können wir
+Das oben gezeigte Verfahren funktioniert, wenn die Inhomogenit\"at der Rekurrenz-Gleichung
+linear ist, also die Form $\delta \cdot n$.  Ist die Inhomogenit\"at quadratisch, so k\"onnen wir
 die Gleichung durch diskretes Differenzieren auf eine Rekurrenz-Gleichung reduzieren,
-deren Inhomogenität linear ist.  Diese kann dann aber mit dem eben gezeigten Verfahren
-gelöst werden.  Allgemein gilt:  Hat die Inhomogenität der Rekurrenz-Gleichung die Form \\[0.1cm]
+deren Inhomogenit\"at linear ist.  Diese kann dann aber mit dem eben gezeigten Verfahren
+gel\"ost werden.  Allgemein gilt:  Hat die Inhomogenit\"at der Rekurrenz-Gleichung die Form \\[0.1cm]
 \hspace*{1.3cm} $\delta \cdot n^r$ \quad $r \in \mathbb{N}$ und $r > 0$, \\[0.1cm]
 so kann die Rekurrenz-Gleichung durch $r$-maliges diskretes Differenzieren auf eine
-inhomogene Rekurrenz-Gleichung mit konstanter Inhomogenität reduziert werden.
+inhomogene Rekurrenz-Gleichung mit konstanter Inhomogenit\"at reduziert werden.
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Aufgabe}:  Lösen Sie die Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $a_{n+1} = a_n + 2 \cdot n$ \quad für alle $n \in \mathbb{N}$ \\[0.1cm]
+\textbf{Aufgabe}:  L\"osen Sie die Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $a_{n+1} = a_n + 2 \cdot n$ \quad f\"ur alle $n \in \mathbb{N}$ \\[0.1cm]
 mit der Anfangs-Bedingung $a_0 = 0$.
 \vspace*{0.3cm}
 
 %\noindent
-%\textbf{Lösung}: 
+%\textbf{L\"osung}: 
 %\begin{enumerate}
 %\item Charakteristisches Polynom: $\chi(x) = (x-1)^2$, doppelte Nullstelle! 
-%\item Spezielle Lösung: $a_n = n^2$.
-%\item Allgemeine Lösung: $a_n = \alpha_1 \cdot 1^n + \alpha_2 \cdot n \cdot 1^n + n^2$
-%\item Lösung: $a_n = n\cdot(n-1)$.
+%\item Spezielle L\"osung: $a_n = n^2$.
+%\item Allgemeine L\"osung: $a_n = \alpha_1 \cdot 1^n + \alpha_2 \cdot n \cdot 1^n + n^2$
+%\item L\"osung: $a_n = n\cdot(n-1)$.
 %\end{enumerate}
 
 \noindent
-Die oben vorgestellte Technik des diskreten Differenzierens führt in leicht variierter
-Form oft auch dann noch zu einer Lösung, wenn die Inhomogenität nicht die Form eines
+Die oben vorgestellte Technik des diskreten Differenzierens f\"uhrt in leicht variierter
+Form oft auch dann noch zu einer L\"osung, wenn die Inhomogenit\"at nicht die Form eines
 Polynoms hat.  Wir betrachten als Beispiel die Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:expdd}
-  a_{n+1} = a_n + 2^n \quad \mbox{für alle $n \in \N$}
+  a_{n+1} = a_n + 2^n \quad \mbox{f\"ur alle $n \in \N$}
 \end{equation}
-mit der Anfangs-Bedingungen $a_0 = 0$.   Setzen wir in (\ref{eq:expdd}) für $n$ den Wert $n+1$
+mit der Anfangs-Bedingungen $a_0 = 0$.   Setzen wir in (\ref{eq:expdd}) f\"ur $n$ den Wert $n+1$
 ein, erhalten wir 
 \begin{equation}
   \label{eq:expdd2}
-  a_{n+2} = a_{n+1} + 2^{n+1} \quad \mbox{für alle $n \in \N$}
+  a_{n+2} = a_{n+1} + 2^{n+1} \quad \mbox{f\"ur alle $n \in \N$}
 \end{equation}
-Würden wir von Gleichung (\ref{eq:expdd2}) die Gleichung (\ref{eq:expdd}) subtrahieren, so würde
-der Term $2^n$ erhalten bleiben.  Um diesen Term zu eliminieren müssen wir statt dessen
+W\"urden wir von Gleichung (\ref{eq:expdd2}) die Gleichung (\ref{eq:expdd}) subtrahieren, so w\"urde
+der Term $2^n$ erhalten bleiben.  Um diesen Term zu eliminieren m\"ussen wir statt dessen
 von Gleichung (\ref{eq:expdd2}) 2 mal die Gleichung (\ref{eq:expdd})  subtrahieren: \\[0.1cm]
 \hspace*{1.3cm}  
 $a_{n+2} - 2 \cdot a_{n+1} = a_{n+1} + 2^{n+1} - 2 \cdot \bigl(a_n - 2^n\bigr)$ 
@@ -798,16 +798,16 @@ $a_{n+2} - 2 \cdot a_{n+1} = a_{n+1} + 2^{n+1} - 2 \cdot \bigl(a_n - 2^n\bigr)$
 Dies vereinfacht sich zu der homogenen Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:expdd3}
-  a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n \quad \mbox{für alle $n \in \N$}  
+  a_{n+2} = 3 \cdot a_{n+1} - 2 \cdot a_n \quad \mbox{f\"ur alle $n \in \N$}  
 \end{equation}
 Das charakteristische Polynom lautet \\[0.1cm]
 \hspace*{1.3cm} 
 $\chi(x) = x^2 - 3 \cdot x + 2 = (x-1) \cdot (x-2)$.  \\[0.1cm]
-Damit lautet die allgemeine Lösung der homogenen Rekurrenz-Gleichung \\[0.1cm]
+Damit lautet die allgemeine L\"osung der homogenen Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} 
 $a_n = \alpha + \beta \cdot 2^n$.  \\[0.1cm]
-Da wir hier mit $\alpha$ und $\beta$ zwei Unbekannte haben, brauchen wir eine zusätzliche
-Anfangs-Bedingung.  Diese erhalten wir, indem wir in der Gleichung (\ref{eq:expdd}) für $n$
+Da wir hier mit $\alpha$ und $\beta$ zwei Unbekannte haben, brauchen wir eine zus\"atzliche
+Anfangs-Bedingung.  Diese erhalten wir, indem wir in der Gleichung (\ref{eq:expdd}) f\"ur $n$
 den Wert $0$ einsetzen: \\[0.1cm]
 \hspace*{1.3cm} $a_1 = a_0 + 2^0 = 0 + 1 = 1$. \\[0.1cm]
 Damit erhalten wir das Gleichungs-System 
@@ -817,63 +817,63 @@ Damit erhalten wir das Gleichungs-System
 1 &=& \alpha  + 2 \cdot \beta
 \end{array} 
 \]
-Dieses Gleichungs-System hat die Lösung $\alpha = -1$ und $\beta = 1$.
-Damit lautet die Lösung der Rekurrenz-Gleichung (\ref{eq:expdd}) mit der Anfangs-Bedingung
+Dieses Gleichungs-System hat die L\"osung $\alpha = -1$ und $\beta = 1$.
+Damit lautet die L\"osung der Rekurrenz-Gleichung (\ref{eq:expdd}) mit der Anfangs-Bedingung
 $a_0 = 0$ \\[0.1cm]
 \hspace*{1.3cm} $a_n = 2^n - 1$.
 
 
 \subsection{Die Substitutions-Methode}
 Bei der Analyse von Algorithmen, die dem Paradigma \emph{Teile-und-Herrsche} folgen,
-treten häufig Rekurrenz-Gleichungen auf, bei denen der Wert von $a_n$ von dem Wert von
-$a_{n/2}$ oder gelegentlich auch $a_{n/3}$ oder sogar $a_{n/4}$ abhängt.  Wir zeigen jetzt
+treten h\"aufig Rekurrenz-Gleichungen auf, bei denen der Wert von $a_n$ von dem Wert von
+$a_{n/2}$ oder gelegentlich auch $a_{n/3}$ oder sogar $a_{n/4}$ abh\"angt.  Wir zeigen jetzt
 ein Verfahren, mit dessen Hilfe sich auch solche Rekurrenz-Gleichungen behandeln lassen.
 Wir demonstrieren das Verfahren anhand der Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:wrg}
-a_n = a_{n/2} + n \quad \mbox{für alle $n \in \{ 2^k \mid k \in \N \wedge k \geq 1\}$}  
+a_n = a_{n/2} + n \quad \mbox{f\"ur alle $n \in \{ 2^k \mid k \in \N \wedge k \geq 1\}$}  
 \end{equation}
-mit der Anfangs-Bedingung $a_1 = 0$.   Um diese Rekurrenz-Gleichung zu lösen, machen wir
+mit der Anfangs-Bedingung $a_1 = 0$.   Um diese Rekurrenz-Gleichung zu l\"osen, machen wir
 den Ansatz \\
-\hspace*{1.3cm} $b_k = a_{2^k}$ \quad für alle $k \in \mathbb{N}$. \\[0.1cm]
+\hspace*{1.3cm} $b_k = a_{2^k}$ \quad f\"ur alle $k \in \mathbb{N}$. \\[0.1cm]
  Setzen wir dies in die
-ursprüngliche Rekurrenz-Gleichung (\ref{eq:wrg}) ein, so erhalten wir \\[0.1cm]
+urspr\"ungliche Rekurrenz-Gleichung (\ref{eq:wrg}) ein, so erhalten wir \\[0.1cm]
 \hspace*{1.3cm} 
 $b_{k} = a_{2^{k}} = a_{2^{k}/2} + 2^{k} = a_{2^{k-1}} + 2^{k} = b_{k-1}+ 2^{k}$.
 \\[0.1cm]
-Setzen wir in dieser Gleichung für $k$ den Wert $k+1$ ein, so sehen wir, dass
+Setzen wir in dieser Gleichung f\"ur $k$ den Wert $k+1$ ein, so sehen wir, dass
 die Folge $(b_k)_k$ der Rekurrenz-Gleichung 
 \begin{equation}
   \label{eq:wrg2}
-  b_{k+1} = b_k + 2^{k+1} \quad \mbox{für alle $k \in \N$}
+  b_{k+1} = b_k + 2^{k+1} \quad \mbox{f\"ur alle $k \in \N$}
 \end{equation}
-genügt.  Dabei ist die Anfangs-Bedingung $b_0 = a_{2^0} = a_1 = 0$.  Das ist eine lineare
-inhomogene Rekurrenz-Gleichung mit der Inhomogenität $2^{k+1}$. Wir 
-setzen in (\ref{eq:wrg2}) für $k$ den Wert $k+1$
+gen\"ugt.  Dabei ist die Anfangs-Bedingung $b_0 = a_{2^0} = a_1 = 0$.  Das ist eine lineare
+inhomogene Rekurrenz-Gleichung mit der Inhomogenit\"at $2^{k+1}$. Wir 
+setzen in (\ref{eq:wrg2}) f\"ur $k$ den Wert $k+1$
 ein und erhalten 
 \begin{equation}
   \label{eq:wrg3}
-  b_{k+2} = b_{k+1} + 2^{k+2} \quad \mbox{für alle $k \in \N$.}
+  b_{k+2} = b_{k+1} + 2^{k+2} \quad \mbox{f\"ur alle $k \in \N$.}
 \end{equation}
 Wir multiplizieren nun die Rekurrenz-Gleichung (\ref{eq:wrg2}) mit 2 und ziehen das Ergebnis
 von Gleichung  (\ref{eq:wrg3}) ab: \\[0.1cm]
 \hspace*{1.3cm} 
-$b_{k+2} - 2 \cdot b_{k+1} = b_{k+1} + 2^{k+2} - 2 \cdot b_k - 2 \cdot 2^{k+1}$ \quad für alle $k \in \N$. 
+$b_{k+2} - 2 \cdot b_{k+1} = b_{k+1} + 2^{k+2} - 2 \cdot b_k - 2 \cdot 2^{k+1}$ \quad f\"ur alle $k \in \N$. 
 \\[0.1cm]
 Nach Vereinfachung erhalten wir 
 \begin{equation}
   \label{eq:wrg4}
-  b_{k+2} = 3 \cdot b_{k+1} - 2 \cdot b_k \quad \mbox{für alle $k \in \N$.}
+  b_{k+2} = 3 \cdot b_{k+1} - 2 \cdot b_k \quad \mbox{f\"ur alle $k \in \N$.}
 \end{equation}
-Die Anfangs-Bedingung für $k=1$ berechnen wir aus (\ref{eq:wrg2}) \\[0.1cm]
+Die Anfangs-Bedingung f\"ur $k=1$ berechnen wir aus (\ref{eq:wrg2}) \\[0.1cm]
 \hspace*{1.3cm} $b_1 = b_0 + 2^{1} = 0 + 2 = 2$. \\[0.1cm]
-Damit haben wir das ursprüngliche Problem auf eine homogene lineare Rekurrenz-Gleichung
-mit konstanten Koeffizienten zurück geführt.  Das charakteristische Polynom dieser
+Damit haben wir das urspr\"ungliche Problem auf eine homogene lineare Rekurrenz-Gleichung
+mit konstanten Koeffizienten zur\"uck gef\"uhrt.  Das charakteristische Polynom dieser
 Rekurrenz-Gleichung ist \\[0.1cm]
 \hspace*{1.3cm} $\chi(x) = x^2 - 3\cdot x + 2 = (x-2)\cdot(x-1)$. \\[0.1cm]
-Damit lautet die allgemeine Lösung der Rekurrenz-Gleichung (\ref{eq:wrg4}) \\[0.1cm]
-\hspace*{1.3cm} $b_k = \alpha_1 \cdot 2^k + \alpha_2 \cdot 1^k$ \quad für alle $k \in \N$. \\[0.1cm]
-Wir setzen die Anfangs-Bedingungen ein und erhalten so für die Koeffizienten $\alpha_1$
+Damit lautet die allgemeine L\"osung der Rekurrenz-Gleichung (\ref{eq:wrg4}) \\[0.1cm]
+\hspace*{1.3cm} $b_k = \alpha_1 \cdot 2^k + \alpha_2 \cdot 1^k$ \quad f\"ur alle $k \in \N$. \\[0.1cm]
+Wir setzen die Anfangs-Bedingungen ein und erhalten so f\"ur die Koeffizienten $\alpha_1$
 und $\alpha_2$ das lineare Gleichungs-System 
 \[
 \begin{array}{lcl}
@@ -883,37 +883,37 @@ und $\alpha_2$ das lineare Gleichungs-System
 \]
 Ziehen wir die erste Gleichung von der zweiten ab, so sehen wir $\alpha_1 = 2$.  Dann
 folgt aus der ersten Gleichung $\alpha_2 = -2$.  Damit haben wir \\[0.1cm]
-\hspace*{1.3cm} $b_k = 2^{k+1} - 2$ \quad für alle $k \in \N$. \\[0.1cm]
+\hspace*{1.3cm} $b_k = 2^{k+1} - 2$ \quad f\"ur alle $k \in \N$. \\[0.1cm]
 Setzen wir hier $b_k = a_{2^k}$ ein, so finden wir \\[0.1cm]
-\hspace*{1.3cm} $a_{2^k} = 2^{k+1} - 2$ \quad für alle $k \in \N$. \\[0.1cm]
-Mit $n = 2^k$ erhalten wir die Lösung der Rekurrenz-Gleichung (\ref{eq:wrg}) mit der wir 
+\hspace*{1.3cm} $a_{2^k} = 2^{k+1} - 2$ \quad f\"ur alle $k \in \N$. \\[0.1cm]
+Mit $n = 2^k$ erhalten wir die L\"osung der Rekurrenz-Gleichung (\ref{eq:wrg}) mit der wir 
 gestartet waren: \\[0.1cm]
-\hspace*{1.3cm} $a_n = 2 \cdot n - 2$ \quad für alle $n \in \{ 2^k \mid k \in \N\}$.  
+\hspace*{1.3cm} $a_n = 2 \cdot n - 2$ \quad f\"ur alle $n \in \{ 2^k \mid k \in \N\}$.  
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Aufgabe}:  Lösen Sie die Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $a_{n} = a_{n/2} + 1$ \quad für alle $n \in \{ 2^k \mid k \in \N \wedge k \geq 1\}$\\[0.1cm]
+\textbf{Aufgabe}:  L\"osen Sie die Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $a_{n} = a_{n/2} + 1$ \quad f\"ur alle $n \in \{ 2^k \mid k \in \N \wedge k \geq 1\}$\\[0.1cm]
 mit der Anfangs-Bedingungen $a_1 = 1$.
 \vspace*{0.3cm}
 
 %\noindent
-%\textbf{Lösung}:
+%\textbf{L\"osung}:
 %\begin{enumerate}
-%\item Rückführung auf $b_{k+1} =  b_k + 1$.
+%\item R\"uckf\"uhrung auf $b_{k+1} =  b_k + 1$.
 %\item $b_k = k$
 %\item $a_n = \log_2(n)$
 %\end{enumerate}
 
 \subsection{Das Teleskop-Verfahren}
-Bestimmte Rekurrenz-Gleichungen lassen sich auf bereits bekannte Summen zurückführen.  Wir demonstrieren
+Bestimmte Rekurrenz-Gleichungen lassen sich auf bereits bekannte Summen zur\"uckf\"uhren.  Wir demonstrieren
 das Verfahren an der Rekurrenz-Gleichung \\[0.2cm]
 \hspace*{1.3cm} $a_n = a_{n-1} + n - 1$ \quad mit $a_0 = 0$. 
 \\[0.2cm]
-Diese Gleichung tritt bei der Analyse der Komplexität von Quick-Sort auf.
-Um diese Gleichung zu lösen, setzen wir zunächst für $a_{n-1}$ den Wert $a_{n-2} + (n-1) - 1$ ein, dann 
-ersetzen wir $a_{n-2}$ durch $a_{n-3} + (n-2) -2$ und fahren so fort, bis wir schließlich $a_n$ auf $a_0$
-zurück geführt haben.
+Diese Gleichung tritt bei der Analyse der Komplexit\"at von Quick-Sort auf.
+Um diese Gleichung zu l\"osen, setzen wir zun\"achst f\"ur $a_{n-1}$ den Wert $a_{n-2} + (n-1) - 1$ ein, dann 
+ersetzen wir $a_{n-2}$ durch $a_{n-3} + (n-2) -2$ und fahren so fort, bis wir schlie\3lich $a_n$ auf $a_0$
+zur\"uck gef\"uhrt haben.
 Damit erhalten wir insgesamt:
 \[
 \begin{array}{lcl}
@@ -946,14 +946,14 @@ Wenden wir das oben demonstrierte Schema an, so erhalten wir die folgende Rechnu
       & = & a_0 + \sum\limits_{i=1}^{n} g(i).
 \end{array}
 \]
-Falls wir in der Lage sind, für die Summe $\sum_{i=1}^{n} g(i)$ einen geschlossenen Ausdruck anzugeben,
-dann haben wir damit eine Lösung der Rekurrenz-Gleichung $a_n = a_{n-1} + g(n)$
+Falls wir in der Lage sind, f\"ur die Summe $\sum_{i=1}^{n} g(i)$ einen geschlossenen Ausdruck anzugeben,
+dann haben wir damit eine L\"osung der Rekurrenz-Gleichung $a_n = a_{n-1} + g(n)$
 gefunden.
 
 \subsection{Berechnung von Summen}
-Der letzte Abschnitt hat gezeigt, dass Rekurrenz-Gleichung in bestimmten Fällen auf Summen zurück geführt
-werden können.  In diesem Abschnitt zeigen wir, dass auch der umgekehrte Weg möglich ist und die  
-Berechnung einer Summe auf die Lösung einer Rekurrenz-Gleichung zurückgeführt werden kann. Wir
+Der letzte Abschnitt hat gezeigt, dass Rekurrenz-Gleichung in bestimmten F\"allen auf Summen zur\"uck gef\"uhrt
+werden k\"onnen.  In diesem Abschnitt zeigen wir, dass auch der umgekehrte Weg m\"oglich ist und die  
+Berechnung einer Summe auf die L\"osung einer Rekurrenz-Gleichung zur\"uckgef\"uhrt werden kann. Wir
 demonstrieren das Verfahren am Beispiel der Berechnung der geometrischen Reihe.  Hier wird die Summe
 $s_n$ durch die Formel
 \begin{equation}
@@ -961,9 +961,9 @@ $s_n$ durch die Formel
   s_n = \sum\limits_{i=0}^n q^i   
 \end{equation}
 definiert, wobei wir zur Ersparung von Fallunterscheidungen voraussetzen wollen, dass $q \not= 1$ gilt.
-Diese Einschränkung ist nicht gravierend denn für $q=1$ sehen wir sofort, dass $s_n = n+1$ gilt. Der
+Diese Einschr\"ankung ist nicht gravierend denn f\"ur $q=1$ sehen wir sofort, dass $s_n = n+1$ gilt. Der
 erste Schritt besteht darin, dass wir aus der obigen Definition eine Rekurrenz-Gleichung herleiten.
-Dies erreichen wir dadurch, dass wir in Gleichung (\ref{eq:sum1}) für $n$ den Wert $n+1$ einsetzen.  Wir
+Dies erreichen wir dadurch, dass wir in Gleichung (\ref{eq:sum1}) f\"ur $n$ den Wert $n+1$ einsetzen.  Wir
 erhalten dann die Gleichung
 \begin{equation}
   \label{eq:sum2}
@@ -973,21 +973,21 @@ Wir bilden nun die Differenz von $s_{n+1} - q * s_n$ und erhalten
 \[ s_{n+1} - s_n \cdot q = 1, \]
 was wir zu
 \[ s_{n+1} = q \cdot s_n + 1 \]
-umformen.  Dies ist eine lineare inhomogene Rekurrenz-Gleichung mit konstanter Inhomogenität. 
+umformen.  Dies ist eine lineare inhomogene Rekurrenz-Gleichung mit konstanter Inhomogenit\"at. 
 Die Anfangs-Bedingung ist hier offenbar $s_0 = 1$.  Das charakteristische Polynom lautet
 \[ \chi(x) = x - q. \]
-Diese Polynom hat die Nullstelle $x = q$.  Um die spezielle Lösung der Rekurrenz-Gleichung zu finden,
+Diese Polynom hat die Nullstelle $x = q$.  Um die spezielle L\"osung der Rekurrenz-Gleichung zu finden,
 berechnen wir die Spur des charakteristischen Polynoms.  Es gilt
 \[ \mathtt{sp}(\chi) = \chi(1) = 1 - q \not= 0, \]  
-denn wir hatten ja $q \not= 1$ vorausgesetzt.  Damit lautet die spezielle Lösung
+denn wir hatten ja $q \not= 1$ vorausgesetzt.  Damit lautet die spezielle L\"osung
 \[ s_n = \frac{c_{-1}}{\mathtt{sp}(\chi)} = \frac{1}{1 - q}. \]
-Folglich lautet die allgemeine Lösung
+Folglich lautet die allgemeine L\"osung
 \[ s_n = \alpha \cdot q^n + \frac{1}{1 - q}.  \]
 Um den Koeffizienten $\alpha$ zu bestimmen, setzen wir $n=0$ und erhalten
 \[ 1 = \alpha + \frac{1}{1 - q}. \]
-Lösen wir diese Gleichung nach $\alpha$ auf, so ergibt sich
+L\"osen wir diese Gleichung nach $\alpha$ auf, so ergibt sich
 \[ \alpha = \frac{(1 - q) - 1}{1 - q} = - \frac{q}{1 - q}. \]
-Damit lautet die Lösung
+Damit lautet die L\"osung
 \[ s_n = \frac{1 - q^{n+1}}{1 - q} \]
 und wir haben insgesamt die folgende Formel hergeleitet:
 \[ \sum\limits_{i=0}^{n} q^i = \frac{1 - q^{n+1}}{1 - q}. \]
@@ -995,26 +995,26 @@ und wir haben insgesamt die folgende Formel hergeleitet:
 
 \noindent
 \textbf{Aufgabe}:
-Berechnen Sie eine geschlossene Formel für die Summe
+Berechnen Sie eine geschlossene Formel f\"ur die Summe
 der Quadratzahlen
 \[ s_n := \sum\limits_{i=0}^{n} i^2. \]
-Stellen Sie dazu eine Rekurrenz-Gleichung für $s_n$ auf und lösen Sie diese.
+Stellen Sie dazu eine Rekurrenz-Gleichung f\"ur $s_n$ auf und l\"osen Sie diese.
 
 \subsection{Weitere Rekurrenz-Gleichungen}
-Die Lösung allgemeiner Rekurrenz-Gleichungen kann beliebig schwierig sein und
-es gibt viele Fälle, in denen eine gegebene Rekurrenz-Gleichungen überhaupt keine Lösung
-hat, die sich durch elementare Funktionen als geschlossene Formel ausdrücken lässt.
-Wir wollen anhand einer etwas komplizierteren Rekurrenz-Gleichung, die uns später bei der Behandlung der
-durchschnittlichen Komplexität des Quick-Sort-Algorithmus wiederbegegnen wird, zeigen, dass im Allgemeinen bei
-der Lösung einer Rekurrenz-Gleichung Kreativität gefragt ist.
+Die L\"osung allgemeiner Rekurrenz-Gleichungen kann beliebig schwierig sein und
+es gibt viele F\"alle, in denen eine gegebene Rekurrenz-Gleichungen \"uberhaupt keine L\"osung
+hat, die sich durch elementare Funktionen als geschlossene Formel ausdr\"ucken l\"asst.
+Wir wollen anhand einer etwas komplizierteren Rekurrenz-Gleichung, die uns sp\"ater bei der Behandlung der
+durchschnittlichen Komplexit\"at des Quick-Sort-Algorithmus wiederbegegnen wird, zeigen, dass im Allgemeinen bei
+der L\"osung einer Rekurrenz-Gleichung Kreativit\"at gefragt ist.
 Wir gehen dazu von der folgenden  Rekurrenz-Gleichung aus:
 \begin{equation}
   \label{eq:cqs2}
   d_{n+1} = n + \frac{2}{n+1} \cdot \sum_{i=0}^n d_i.   
 \end{equation}
-Zunächst versuchen wir, die Summe $\sum_{i=0}^n d_i$, die auf der rechten Seite dieser Rekurrenz-Gleichung
+Zun\"achst versuchen wir, die Summe $\sum_{i=0}^n d_i$, die auf der rechten Seite dieser Rekurrenz-Gleichung
 auftritt, zu eliminieren.  Wir versuchen, analog zu dem Verfahren des diskreten Differenzierens vorzugehen
-und substituieren zunächst $n \mapsto n+1$.  Wir erhalten 
+und substituieren zun\"achst $n \mapsto n+1$.  Wir erhalten 
 \begin{equation}
   \label{eq:cqs3}
    d_{n+2} = n+1 + \frac{2}{n+2} \cdot \sum_{i=0}^{n+1} d_i.  
@@ -1052,8 +1052,8 @@ Die Substitution $n \mapsto n-2$ vereinfacht diese Gleichung zu
   \label{eq:cqs9}
  a_{n} = a_{n-1} + \frac{2\cdot(n-1)}{n\cdot(n+1)}.
 \end{equation}
-Diese Gleichung können wir mit dem Teleskop-Verfahren lösen.  Um die dabei auftretenden Summen übersichlicher
-schreiben zu können,  bilden wir die Partialbruch-Zerlegung von 
+Diese Gleichung k\"onnen wir mit dem Teleskop-Verfahren l\"osen.  Um die dabei auftretenden Summen \"ubersichlicher
+schreiben zu k\"onnen,  bilden wir die Partialbruch-Zerlegung von 
 \[ \frac{2\cdot(n-1)}{n\cdot(n+1)}. \] 
 Dazu machen wir den Ansatz
 \[ \frac{2\cdot(n-1)}{n\cdot(n+1)} = \frac{\alpha}{n} + \frac{\beta}{n+1}.\]
@@ -1067,12 +1067,12 @@ vereinfacht.  Ein Koeffizientenvergleich liefert dann das lineare Gleichungs-Sys
  -2 & = & \alpha.
 \end{eqnarray*}
 Setzen wir die zweite Gleichung in die erste Gleichung ein, so erhalten wir $\beta = 4$.
-Damit können wir die Gleichung (\ref{eq:cqs9}) als 
+Damit k\"onnen wir die Gleichung (\ref{eq:cqs9}) als 
 \begin{equation}
   \label{eq:cqs10}
  a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}  
 \end{equation}
-schreiben und mit  dem Teleskop-Verfahren lösen.  Wegen $a_0 = \frac{d_0}{1} = 0$ finden wir
+schreiben und mit  dem Teleskop-Verfahren l\"osen.  Wegen $a_0 = \frac{d_0}{1} = 0$ finden wir
 \begin{equation}
   \label{eq:cqs11}
  a_{n} = 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i}.  
@@ -1087,64 +1087,64 @@ Wir vereinfachen diese Summe:
        & = & \displaystyle - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
 \end{array}
 \]
-Um unsere Rechnung abzuschließen, berechnen wir eine Näherung für die Summe 
+Um unsere Rechnung abzuschlie\3en, berechnen wir eine N\"aherung f\"ur die Summe 
 \[ H_n = \sum\limits_{i=1}^{n}\frac{1}{i}.\]
 Der Wert $H_n$ wird in der Mathematik als die $n$-te \emph{harmonische Zahl} bezeichnet.
-Dieser Wert hängt mit dem Wert $\ln(n)$ zusammen: Leonhard Euler hat gezeigt, dass für
-große $n$ die Approximation
+Dieser Wert h\"angt mit dem Wert $\ln(n)$ zusammen: Leonhard Euler hat gezeigt, dass f\"ur
+gro\3e $n$ die Approximation
 \[ \sum\limits_{i=1}^n \frac{1}{i} \approx \ln(n) + \gamma + \frac{1}{2} \cdot \frac{1}{n} \]
 benutzt werden kann.  Hier ist $\gamma$ die Euler-Mascheroni'sche Konstante, deren Wert durch
 \[ \gamma \approx 0,5772156649 \]
-gegeben ist.  Damit haben wir für den Wert von $a_n$ die Näherung
+gegeben ist.  Damit haben wir f\"ur den Wert von $a_n$ die N\"aherung
 \[ a_n = - \frac{4 \cdot n}{n+1} + 2 \cdot H_n \approx  
          2 \cdot \ln(n) + 2 \cdot \gamma - \frac{4 \cdot n}{n+1} + \frac{1}{n} 
 \]
-gefunden. Wegen $d_n = (n+1) \cdot a_n$ können wir für die Folge $d_n$ also folgendes schreiben:
+gefunden. Wegen $d_n = (n+1) \cdot a_n$ k\"onnen wir f\"ur die Folge $d_n$ also folgendes schreiben:
 \[ d_n \approx  
        2 \cdot (n + 1) \cdot \ln(n) + 2 \cdot (n+1) \cdot \gamma - 4 \cdot n + \frac{n+1}{n}.
 \]
 \vspace*{0.3cm}
 
 
-Wir verallgemeinern die Idee, die wir bei der Lösung des obigen Beispiels benutzt haben.  Es seien
+Wir verallgemeinern die Idee, die wir bei der L\"osung des obigen Beispiels benutzt haben.  Es seien
 $f:\mathbb{N} \rightarrow \mathbb{R}$, $g:\mathbb{N} \rightarrow \mathbb{R}$ und 
 $h:\mathbb{N} \rightarrow \mathbb{R}$ 
 reelwertige Folgen und es sei die Rekurrenz-Gleichung
 \[ 
 f(n) \cdot a_n = g(n) \cdot a_{n-1} + h(n)
 \]
-zu lösen.  Die Idee ist, beide Seiten mit einem geeigneten Faktor, der im Allgemeinen von $n$ abhängt, zu
+zu l\"osen.  Die Idee ist, beide Seiten mit einem geeigneten Faktor, der im Allgemeinen von $n$ abh\"angt, zu
 multiplizieren.  Bezeichnen wir diesen Faktor mit $p(n)$, so erhalten wir die Rekurrenz-Gleichung
 \[ 
 p(n) \cdot f(n) \cdot a_n = p(n) \cdot g(n) \cdot a_{n-1} + p(n) \cdot h(n).
 \]
-Das Ziel ist dabei, den Faktor $p(n)$ so zu wählen, dass der Koeffizient von $a_n$ dieselbe Form hat wie der
+Das Ziel ist dabei, den Faktor $p(n)$ so zu w\"ahlen, dass der Koeffizient von $a_n$ dieselbe Form hat wie der
 Koeffizient von $a_{n-1}$, es soll also
 \begin{equation}
   \label{eq:chomogen}
   p(n) \cdot g(n) = p(n-1) \cdot f(n-1)  
 \end{equation}
-gelten, denn dann können wir die ursprüngliche Rekurrenz-Gleichung in der Form
+gelten, denn dann k\"onnen wir die urspr\"ungliche Rekurrenz-Gleichung in der Form
 \[ 
 p(n) \cdot f(n) \cdot a_n = p(n-1) \cdot f(n-1) \cdot a_{n-1} + p(n) \cdot h(n).
 \]
-schreiben und anschließend durch die Substitution $b_n := p(n) \cdot f(n) \cdot a_n$ auf die
+schreiben und anschlie\3end durch die Substitution $b_n := p(n) \cdot f(n) \cdot a_n$ auf die
 Rekurrenz-Gleichung 
 \[ 
 b_n = b_{n-1} + p(n) \cdot h(n).
 \]
-Diese Gleichung lässt sich mit dem Teleskop-Verfahren auf eine Summe zurückführen und die Lösung der
-ursprünglichen Gleichung kann schließlich über die Formel
+Diese Gleichung l\"asst sich mit dem Teleskop-Verfahren auf eine Summe zur\"uckf\"uhren und die L\"osung der
+urspr\"unglichen Gleichung kann schlie\3lich \"uber die Formel
 \[ 
 a_n = \frac{1}{p(n) \cdot f(n)} \cdot b_n
 \]
-aus $b_n$ berechnet werden.  Es bleibt also zu klären, wie wir den Faktor $p(n)$ so wählen können, dass
-Gleichung (\ref{eq:chomogen}) erfüllt ist. Dazu schreiben wir diese Gleichung als Rekurrenz-Gleichung für
+aus $b_n$ berechnet werden.  Es bleibt also zu kl\"aren, wie wir den Faktor $p(n)$ so w\"ahlen k\"onnen, dass
+Gleichung (\ref{eq:chomogen}) erf\"ullt ist. Dazu schreiben wir diese Gleichung als Rekurrenz-Gleichung f\"ur
 $p(n)$ um und erhalten
 \[ 
   p(n) = \frac{f(n-1)}{g(n)} \cdot p(n-1) 
 \]
-Diese Gleichung können wir mit einer Variante des Teleskop-Verfahrens lösen:
+Diese Gleichung k\"onnen wir mit einer Variante des Teleskop-Verfahrens l\"osen:
 \[ 
 \begin{array}{lcl}
 p(n) & = & \frac{f(n-1)}{g(n)} \cdot p(n-1)   \\[0.2cm]
@@ -1159,7 +1159,7 @@ p(n) & = & \frac{f(n-1)}{g(n)} \cdot p(n-1)   \\[0.2cm]
            \\[0.2cm]
 \end{array}
 \]
-Wir setzen willkürlich $p(1) = 1$ und haben dann für $p(n)$ die Lösung
+Wir setzen willk\"urlich $p(1) = 1$ und haben dann f\"ur $p(n)$ die L\"osung
 \[ p(n) = \prod\limits_{i=1}^{n-1} \frac{f(i)}{g(i+1)} \]
 gefunden.  Bei der Rekurrenz-Gleichung
 \[
@@ -1178,10 +1178,10 @@ Damit haben wir dann
 \end{array}
 \]
 Die Konstante $2$ ist hier unwichtig und wir sehen, dass der Faktor $\frac{1}{n \cdot (n+1)}$ benutzt werden
-kann, um die ursprüngliche Rekurrenz-Gleichung zu homogenisieren.
+kann, um die urspr\"ungliche Rekurrenz-Gleichung zu homogenisieren.
 
 \exercise
-Lösen Sie die Rekurrenz-Gleichung
+L\"osen Sie die Rekurrenz-Gleichung
 \[ a_n = 2 \cdot a_{n-1} + 1 \quad \mbox{mit $a_0 = 0$} \]
 mit Hilfe einer geeigneten Homogenisierung.  Gehen Sie dabei analog zu dem im letzten Abschnitt beschriebenen
 Verfahren vor.
@@ -1189,39 +1189,39 @@ Verfahren vor.
 
 
 \section{Die $\Oh$-Notation}
-Wollen wir die Komplexität eines Algorithmus abschätzen, so wäre ein mögliches Vorgehen
+Wollen wir die Komplexit\"at eines Algorithmus absch\"atzen, so w\"are ein m\"ogliches Vorgehen
 wie folgt: Wir kodieren den Algorithmus in einer Programmiersprache und berechnen,
 wieviele Additionen, Multiplikationen, Zuweisungungen, und andere elementare Operationen
-bei einer gegebenen Eingabe von dem Programm ausgeführt werden. Anschließend schlagen wir
+bei einer gegebenen Eingabe von dem Programm ausgef\"uhrt werden. Anschlie\3end schlagen wir
 im Prozessor-Handbuch nach, wieviel Zeit die einzelnen Operationen in Anspruch nehmen und
 errechnen daraus die Gesamtlaufzeit des Programms.\footnote{
-Da die heute verfügbaren Prozessoren fast alle mit \emph{Pipelining} arbeiten, werden oft
+Da die heute verf\"ugbaren Prozessoren fast alle mit \emph{Pipelining} arbeiten, werden oft
 mehrere Befehle gleichzeitig abgearbeitet. Da gleichzeitig auch das Verhalten des Caches
-eine wichtige Rolle spielt, ist die genaue Berechnung der Rechenzeit faktisch unmöglich.}
+eine wichtige Rolle spielt, ist die genaue Berechnung der Rechenzeit faktisch unm\"oglich.}
 Dieses Vorgehen ist aber in zweifacher Hinsicht problematisch:
 \begin{enumerate}
 \item Das Verfahren ist sehr kompliziert.
-\item Würden wir den selben Algorithmus anschließend in einer anderen Programmier-Sprache
-      kodieren, oder aber das Programm auf einem anderen Rechner laufen lassen, so wäre
-      unsere Rechnung wertlos und wir müssten sie wiederholen.
+\item W\"urden wir den selben Algorithmus anschlie\3end in einer anderen Programmier-Sprache
+      kodieren, oder aber das Programm auf einem anderen Rechner laufen lassen, so w\"are
+      unsere Rechnung wertlos und wir m\"ussten sie wiederholen.
 \end{enumerate}
 Der letzte Punkt zeigt, dass das Verfahren dem Begriff des Algorithmus, der ja eine
-Abstraktion des Programm-Begriffs ist, nicht gerecht wird.  Ähnlich wie der Begriff des
+Abstraktion des Programm-Begriffs ist, nicht gerecht wird.  Ã„hnlich wie der Begriff des
 Algorithmus von bestimmten Details einer Implementierung abstrahiert brauchen wir zur
-Erfassung der rechenzeitlichen Komplexität eines Algorithmus einen Begriff, der von
-bestimmten Details der Funktion, die die Rechenzeit für ein gegebenes Programm berechnet,
+Erfassung der rechenzeitlichen Komplexit\"at eines Algorithmus einen Begriff, der von
+bestimmten Details der Funktion, die die Rechenzeit f\"ur ein gegebenes Programm berechnet,
 abstrahiert.  Wir haben drei Forderungen an den zu findenden  Begriff.
 \begin{itemize}
 \item Der Begriff soll von konstanten Faktoren abstrahieren.
 \item Der Begriff soll von \emph{unwesentlichen Termen} abstrahieren.
 
-      Nehmen wir an, wir hätten ein Programm, dass zwei $n \times n$ Matrizen
-      multipliziert und wir hätten für die Rechenzeit $T(n)$ dieses Programms in Abhängigkeit von
+      Nehmen wir an, wir h\"atten ein Programm, dass zwei $n \times n$ Matrizen
+      multipliziert und wir h\"atten f\"ur die Rechenzeit $T(n)$ dieses Programms in Abh\"angigkeit von
       $n$ die Funktion \\[0.1cm]
       \hspace*{1.3cm} $T(n) = 3 \cdot n^3 + 2 \cdot n^2 + 7$ \\[0.1cm]
       gefunden.  Dann nimmt der \emph{proportionale Anteil} des Terms $2\cdot n^2 + 7$ an der
       gesamten Rechenzeit mit wachsendem $n$ immer mehr ab.  Zur Verdeutlichung haben wir
-      in einer Tabelle die Werte des proportionalen Anteils für 
+      in einer Tabelle die Werte des proportionalen Anteils f\"ur 
       $n = 1,\; 10,\; 100,\; 1000,\, 10\,000$ aufgelistet: \\[0.3cm]
       \hspace*{1.3cm} 
       \begin{tabular}{|r|r|}
@@ -1236,9 +1236,9 @@ abstrahiert.  Wir haben drei Forderungen an den zu findenden  Begriff.
         10\,000 &  6.6662224852\,e\,-05  \\
        \hline
       \end{tabular}
-\item Der Begriff soll das \emph{Wachstum} der Rechenzeit abhängig von \emph{Wachstum} der
-      Eingaben erfassen. Welchen genauen Wert die Rechenzeit für kleine Werte der Eingaben
-      hat, spielt nur eine untergeordnete Rolle, denn für kleine Werte der Eingaben 
+\item Der Begriff soll das \emph{Wachstum} der Rechenzeit abh\"angig von \emph{Wachstum} der
+      Eingaben erfassen. Welchen genauen Wert die Rechenzeit f\"ur kleine Werte der Eingaben
+      hat, spielt nur eine untergeordnete Rolle, denn f\"ur kleine Werte der Eingaben 
       wird auch die Rechenzeit nur klein sein.
 \end{itemize}
 Wir bezeichnen die Menge der positiven reellen Zahlen mit $\R_+$ \\[0.1cm]
@@ -1259,28 +1259,28 @@ $\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ ist Funktion der Form $f: \N \rightarrow
   \hspace*{\fill} $\Box$
 }
 \end{Definition}
-Was sagt die obige Definition aus? Zunächst kommt es auf kleine Werte des Arguments $n$
-nicht an, denn die obige Formel sagt ja, dass $g(n) \leq c \cdot f(n)$ nur für die $n$ gelten
-muss, für die  $n \geq k$ ist.  Außerdem kommt es auf Proportionalitäts-Konstanten nicht
-an, denn $g(n)$ muss ja nur kleinergleich $c \cdot f(n)$ sein und die Konstante $c$ können wir
-beliebig wählen.  Um den Begriff zu verdeutlichen, geben wir einige Beispiele.
+Was sagt die obige Definition aus? Zun\"achst kommt es auf kleine Werte des Arguments $n$
+nicht an, denn die obige Formel sagt ja, dass $g(n) \leq c \cdot f(n)$ nur f\"ur die $n$ gelten
+muss, f\"ur die  $n \geq k$ ist.  Au\3erdem kommt es auf Proportionalit\"ats-Konstanten nicht
+an, denn $g(n)$ muss ja nur kleinergleich $c \cdot f(n)$ sein und die Konstante $c$ k\"onnen wir
+beliebig w\"ahlen.  Um den Begriff zu verdeutlichen, geben wir einige Beispiele.
 \vspace*{0.3cm}
 
 \noindent
 \textbf{Beispiel}: Es gilt \\[0.1cm]
 \hspace*{1.3cm} $3 \cdot n^3 + 2 \cdot n^2 + 7 \in \Oh(n^3)$. \\[0.1cm]
-\textbf{Beweis}: Wir müssen eine Konstante $c$ und eine Konstante $k$ angeben, so dass für
+\textbf{Beweis}: Wir m\"ussen eine Konstante $c$ und eine Konstante $k$ angeben, so dass f\"ur
 alle $n\in \N$ mit $n \geq k$ die Ungleichung
 \\[0.1cm]
 \hspace*{1.3cm} 
 $3 \cdot n^3 + 2 \cdot n^2 + 7 \leq c \cdot n^3$
 \\[0.1cm]
-gilt.  Wir setzen  $k := 1$ und $c := 12$. Dann können wir die Ungleichung 
+gilt.  Wir setzen  $k := 1$ und $c := 12$. Dann k\"onnen wir die Ungleichung 
 \begin{equation}
   \label{eq:u1}
   1\leq n  
 \end{equation}
-voraussetzen und müssen zeigen, dass daraus 
+voraussetzen und m\"ussen zeigen, dass daraus 
 \begin{equation}
   \label{eq:u2}
   3 \cdot n^3 + 2 \cdot n^2 + 7 \leq 12 \cdot n^3  
@@ -1301,7 +1301,7 @@ Multiplizieren wir die Ungleichung (\ref{eq:u1}) mit $2\cdot n^2$, so erhalten w
   \label{eq:u4}
   2 \cdot n^2 \leq 2 \cdot n^3  
 \end{equation}
-Schließlich gilt trivialerweise 
+Schlie\3lich gilt trivialerweise 
 \begin{equation}
   \label{eq:u5}
   3 \cdot n^3 \leq 3 \cdot n^3
@@ -1316,13 +1316,13 @@ und das war zu zeigen. \hspace*{\fill} $\Box$
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Beweis}: Wir müssen eine Konstante $c$ und eine Konstante $k$ angeben, so dass für
+\textbf{Beweis}: Wir m\"ussen eine Konstante $c$ und eine Konstante $k$ angeben, so dass f\"ur
 alle $n \geq k$
 \\[0.1cm]
 \hspace*{1.3cm} $ n \leq c \cdot 2^n$ \\[0.1cm]
 gilt.  Wir setzen $k := 0$ und $c := 1$.  Wir zeigen \\[0.1cm]
-\hspace*{1.3cm} $n \leq 2^n$ \quad für alle $n \in \N$ \\[0.1cm]
-durch vollständige Induktion über $n$.
+\hspace*{1.3cm} $n \leq 2^n$ \quad f\"ur alle $n \in \N$ \\[0.1cm]
+durch vollst\"andige Induktion \"uber $n$.
 \begin{enumerate}
 \item \textbf{I.A.}: $n = 0$
 
@@ -1336,8 +1336,8 @@ durch vollständige Induktion über $n$.
       Addieren wir $(1)$ und $(2)$, so erhalten wir \\[0.1cm]
       \hspace*{1.3cm} $n+1 \leq 2^n + 2^n = 2^{n+1}$. \hspace*{\fill} $\Box$
 
-      \textbf{Bemerkung}: Die Ungleichung $1 \leq 2^n$ hätten wir eigentlich ebenfalls
-      durch Induktion  nachweisen müssen.
+      \textbf{Bemerkung}: Die Ungleichung $1 \leq 2^n$ h\"atten wir eigentlich ebenfalls
+      durch Induktion  nachweisen m\"ussen.
 \end{enumerate}
 
 \noindent
@@ -1348,13 +1348,13 @@ durch vollständige Induktion über $n$.
 \noindent
 Wir zeigen nun einige Eigenschaften der $\Oh$-Notation.
 
-\begin{Satz}[Reflexivität]
+\begin{Satz}[Reflexivit\"at]
 {\em
-  Für alle Funktionen $f\colon \N \rightarrow {\R_+}$ gilt \\[0.1cm]
+  F\"ur alle Funktionen $f\colon \N \rightarrow {\R_+}$ gilt \\[0.1cm]
   \hspace*{1.3cm} $f \in \Oh(f)$. 
 }
 \end{Satz}
-\textbf{Beweis}: Wählen wir $k:=0$ und $c:=1$, so folgt die Behauptung sofort aus der
+\textbf{Beweis}: W\"ahlen wir $k:=0$ und $c:=1$, so folgt die Behauptung sofort aus der
 Ungleichung \\[0.1cm]
 \hspace*{1.3cm} $\forall n \in \N\colon f(n) \leq f(n)$. \hspace*{\fill} $\Box$
 
@@ -1391,12 +1391,12 @@ $\forall n \in \N \colon \bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot h(n)\
 \hspace*{1.3cm} 
 $\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$
 \\[0.1cm]
-gilt.  Wir setzen $k := \max(k_1,k_2)$ und $c:= c_1 + c_2$.  Für $n \geq k$ gilt dann \\[0.1cm]
+gilt.  Wir setzen $k := \max(k_1,k_2)$ und $c:= c_1 + c_2$.  F\"ur $n \geq k$ gilt dann \\[0.1cm]
 \hspace*{1.3cm} $f(n) \leq c_1 \cdot h(n)$ und $g(n) \leq c_2 \cdot h(n)$. \\[0.1cm]
-Addieren wir diese beiden Gleichungen, dann haben wir für alle $n \geq k$ \\[0.1cm]
+Addieren wir diese beiden Gleichungen, dann haben wir f\"ur alle $n \geq k$ \\[0.1cm]
 \hspace*{1.3cm} $f(n) + g(n) \leq (c_1 + c_2) \cdot h(n) = c \cdot h(n)$. \hspace*{\fill} $\Box$
 
-\begin{Satz}[Transitivität]
+\begin{Satz}[Transitivit\"at]
 {\em
   Es seien $f,g,h \colon \N \rightarrow {\R_+}$.  Dann gilt \\[0.1cm]
   \hspace*{1.3cm} $f \in \Oh(g) \wedge g \in \Oh(h) \,\rightarrow\, f \in \Oh(h)$.
@@ -1408,7 +1408,7 @@ $\forall n \in \N \colon\bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot g(n)\b
 gilt und aus $g \in \Oh(h)$ folgt, dass es $k_2 \in \N$ und $c_2 \in \R$ gibt, so dass \\[0.1cm]
 \hspace*{1.3cm} 
 $\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$ \\[0.1cm]
-gilt.  Wir definieren $k:= \max(k_1,k_2)$ und $c := c_1 \cdot c_2$.  Dann haben wir für alle
+gilt.  Wir definieren $k:= \max(k_1,k_2)$ und $c := c_1 \cdot c_2$.  Dann haben wir f\"ur alle
 $n \geq k$:\\[0.1cm]
 \hspace*{1.3cm} $f(n) \leq c_1\cdot g(n)$ und $g(n) \leq c_2 \cdot h(n)$. \\[0.1cm]
 Die zweite dieser Ungleichungen multiplizieren wir mit $c_1$ und erhalten \\[0.1cm]
@@ -1417,7 +1417,7 @@ Daraus folgt aber sofort $f(n) \leq c \cdot h(n)$. \hspace*{\fill} $\Box$
 
 \begin{Satz}[Grenzwert-Satz] \label{limit}
 {\em
-  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Außerdem existiere der Grenzwert \\[0.1cm]
+  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Au\3erdem existiere der Grenzwert \\[0.1cm]
   \hspace*{1.3cm} $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$.  \\[0.1cm]
   Dann gilt $f \in \Oh(g)$. 
 }
@@ -1425,7 +1425,7 @@ Daraus folgt aber sofort $f(n) \leq c \cdot h(n)$. \hspace*{\fill} $\Box$
 \textbf{Beweis}: Es sei \\[0.1cm]
 \hspace*{1.3cm} $\lambda := \lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}$.  \\[0.1cm]
 Nach Definition des Grenzwertes gibt es dann eine Zahl $k \in \N$, so dass 
-für alle $n\in \N$ mit $n \geq k$ die Ungleichung \\[0.1cm]
+f\"ur alle $n\in \N$ mit $n \geq k$ die Ungleichung \\[0.1cm]
 \hspace*{1.3cm} $\left| \bruch{f(n)}{g(n)} - \lambda \right| \leq 1$ \\[0.1cm]
 gilt.  Multiplizieren wir diese Ungleichung mit $g(n)$, so erhalten wir \\[0.1cm]
 \hspace*{1.3cm} $|f(n) - \lambda \cdot g(n)| \leq g(n)$. \\[0.1cm]
@@ -1434,11 +1434,11 @@ Daraus folgt wegen \\[0.1cm]
 die Ungleichung \\[0.1cm]
 \hspace*{1.3cm} $f(n) \leq g(n) + \lambda \cdot g(n) = (1 + \lambda) \cdot g(n)$. \\[0.1cm]
 Definieren wir  $c := 1 +  \lambda$, 
-so folgt für alle $n \geq k$ die Ungleichung $f(n) \leq c \cdot g(n)$. \hspace*{\fill} $\Box$
+so folgt f\"ur alle $n \geq k$ die Ungleichung $f(n) \leq c \cdot g(n)$. \hspace*{\fill} $\Box$
 \vspace*{0.3cm}
 
 \noindent
-Wir zeigen die Nützlichkeit der obigen Sätze anhand einiger Beispiele.
+Wir zeigen die N\"utzlichkeit der obigen S\"atze anhand einiger Beispiele.
 \vspace*{0.3cm}
 
 \noindent
@@ -1467,13 +1467,13 @@ Die Behauptung folgt nun aus dem Grenzwert-Satz. \hspace*{\fill} $\Box$
   \lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{\lambda^n} = 0  
 \end{equation}
 ist, denn dann folgt die Behauptung aus dem Grenzwert-Satz. 
-Nach dem Satz von L'Hospital können wir den Grenzwert wie folgt berechnen \\[0.1cm]
+Nach dem Satz von L'Hospital k\"onnen wir den Grenzwert wie folgt berechnen \\[0.1cm]
 \hspace*{1.3cm} 
 $\displaystyle \lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{\lambda^n} =
 \lim\limits_{x \rightarrow \infty} \bruch{x^{k}}{\lambda^x} =
 \lim\limits_{x \rightarrow \infty} \bruch{\;\frac{d\,x^{k}}{dx}\;}{\frac{d\,\lambda^x}{dx}}$
 \\[0.1cm]
-Die Ableitungen  können wir berechnen, es gilt: \\[0.1cm]
+Die Ableitungen  k\"onnen wir berechnen, es gilt: \\[0.1cm]
 \hspace*{1.3cm}
  $\displaystyle \frac{d\,x^{k}}{dx} = k \cdot x^{k-1}$ \quad und \quad 
  $\displaystyle \frac{d\,\lambda^{x}}{dx} = \ln(\lambda) \cdot \lambda^x$. \\[0.1cm]
@@ -1481,7 +1481,7 @@ Berechnen wir die zweite Ableitung so sehen wir \\[0.1cm]
 \hspace*{1.3cm}  
 $\displaystyle \frac{d^{2}\,x^{k}}{dx^2} = k \cdot (k-1) \cdot x^{k-2}$ \quad und \quad 
  $\displaystyle \frac{d^2\,\lambda^{x}}{dx^2} = \ln(\lambda)^2 \cdot \lambda^x$. \\[0.1cm]
-Für die $k$-te Ableitung gilt analog \\[0.1cm]
+F\"ur die $k$-te Ableitung gilt analog \\[0.1cm]
 \hspace*{1.3cm} 
 $\displaystyle \frac{d^{k}\,x^{k}}{dx^k} = k \cdot (k-1) \cdot \cdots \cdot 1 \cdot x^{0} = k!$ \quad und \quad 
  $\displaystyle \frac{d^k\,\lambda^{x}}{dx^k} = \ln(\lambda)^k \cdot \lambda^x$. \\[0.1cm]
@@ -1529,13 +1529,13 @@ $\displaystyle \lim\limits_{n \rightarrow \infty} \bruch{\;\ln(n)\;}{n} =
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Beweis}:  Zunächst haben wir \\[0.1cm]
+\textbf{Beweis}:  Zun\"achst haben wir \\[0.1cm]
 \hspace*{1.3cm} 
 $\displaystyle\lim\limits_{n \rightarrow \infty} \bruch{2^n}{3^n} = 
  \lim\limits_{n \rightarrow \infty} \left(\bruch{2}{3}\right)^n = 0$.
 \\[0.1cm]
-Den Beweis, dass $3^n \notin \Oh(2^n)$ ist, führen wir indirekt und nehmen an, dass 
-$3^n \in \Oh(2^n)$ ist.  Dann muss es Konstanten $c$ und $k$ geben, so dass für alle $n
+Den Beweis, dass $3^n \notin \Oh(2^n)$ ist, f\"uhren wir indirekt und nehmen an, dass 
+$3^n \in \Oh(2^n)$ ist.  Dann muss es Konstanten $c$ und $k$ geben, so dass f\"ur alle $n
 \geq k$ gilt \\[0.1cm]
 \hspace*{1.3cm} $3^n \leq c \cdot 2^n$. \\[0.1cm]
 Wir logarithmieren beide Seiten dieser Ungleichung und finden \\[0.1cm]
@@ -1547,7 +1547,7 @@ Wir logarithmieren beide Seiten dieser Ungleichung und finden \\[0.1cm]
 \leftrightarrow &  n  & \leq & \bruch{\ln(c)}{\ln(3) - \ln(2)}  \\[0.1cm]
 \end{array}
 \]
-Die letzte Ungleichung müsste nun für beliebig große natürliche Zahlen $n$ gelten und liefert
+Die letzte Ungleichung m\"usste nun f\"ur beliebig gro\3e nat\"urliche Zahlen $n$ gelten und liefert
 damit den gesuchten Widerspruch zu unserer Annahme.
 \vspace*{0.3cm}
 
@@ -1565,14 +1565,14 @@ damit den gesuchten Widerspruch zu unserer Annahme.
 
 
 \section{Fallstudie: Effiziente Berechnung der Potenz}
-Wir  verdeutlichen die bisher eingeführten Begriffe an einem Beispiel.  Wir betrachten ein
-Programm zur Berechnung der Potenz $m^n$ für natürliche Zahlen $m$ und $n$.
+Wir  verdeutlichen die bisher eingef\"uhrten Begriffe an einem Beispiel.  Wir betrachten ein
+Programm zur Berechnung der Potenz $m^n$ f\"ur nat\"urliche Zahlen $m$ und $n$.
 Abbildung \ref{fig:power-naive} zeigt ein naives Programm zur Berechnung von $m^n$.
 Die diesem Programm zu Grunde liegende Idee ist es, die Berechnung von $m^n$ 
 nach der Formel \\[0.1cm]
 \hspace*{1.3cm} 
 $m^n = \underbrace{m * \cdots * m}_n$ \\[0.1cm]
-durchzuführen.  
+durchzuf\"uhren.  
 
 \begin{figure}[!h]
   \centering
@@ -1594,31 +1594,31 @@ durchzuführen.
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Naive Berechnung von $m^n$ für $m,n \in \N$.}
+  \caption{Naive Berechnung von $m^n$ f\"ur $m,n \in \N$.}
   \label{fig:power-naive}
 \end{figure} 
 
 Das Programm ist  offenbar korrekt.
-Zur Berechnung  von $m^n$ werden für positive Exponenten $n$ insgesamt $n-1$ Multiplikationen durchgeführt.
-Wir können $m^n$ aber wesentlich effizienter berechnen.  Die Grundidee erläutern wir an
+Zur Berechnung  von $m^n$ werden f\"ur positive Exponenten $n$ insgesamt $n-1$ Multiplikationen durchgef\"uhrt.
+Wir k\"onnen $m^n$ aber wesentlich effizienter berechnen.  Die Grundidee erl\"autern wir an
 der Berechnung von $m^4$.  Es gilt \\[0.1cm]
 \hspace*{1.3cm} 
 $m^4 = (m \cdot m) \cdot (m \cdot m)$.\\[0.1cm]
 Wenn wir den Ausdruck $m\cdot m$ nur einmal berechnen, dann kommen wir bei der Berechnung von
-$m^4$ nach der obigen Formel mit zwei Multiplikationen aus, während bei einem
-naiven Vorgehen 3 Multiplikationen durchgeführt würden! Für die Berechnung von $m^8$
-können wir folgende Formel verwenden: \\[0.1cm]
+$m^4$ nach der obigen Formel mit zwei Multiplikationen aus, w\"ahrend bei einem
+naiven Vorgehen 3 Multiplikationen durchgef\"uhrt w\"urden! F\"ur die Berechnung von $m^8$
+k\"onnen wir folgende Formel verwenden: \\[0.1cm]
 \hspace*{1.3cm} 
 $m^8 = \bigl( (m \cdot m) \cdot (m \cdot m) \bigr) \cdot \bigl( (m \cdot m) \cdot (m \cdot m) \bigr)$. \\[0.1cm]
 Berechnen wir den Term $(m \cdot m) \cdot (m \cdot m)$ nur einmal, so werden jetzt 3 Multiplikationen
-benötigt um $m^8$ auszurechnen.  Ein naives Vorgehen würde 7 Multiplikationen benötigen.
-Wir versuchen die oben an Beispielen erläuterte Idee in ein Programm umzusetzen.
+ben\"otigt um $m^8$ auszurechnen.  Ein naives Vorgehen w\"urde 7 Multiplikationen ben\"otigen.
+Wir versuchen die oben an Beispielen erl\"auterte Idee in ein Programm umzusetzen.
 Abbildung \ref{fig:power} zeigt das Ergebnis.  Es berechnet die Potenz $m^n$ nicht durch eine
 naive $(n-1)$-malige Multiplikation sondern es verwendet das Paradigma \\[0.1cm]
 \hspace*{1.3cm} \emph{Teile und Herrsche}. \quad (engl. \emph{divide and conquer})
 \\[0.1cm]
-Die Grundidee um den Term $m^n$ für $n \geq 1$ effizient zu berechnen,
-lässt sich durch folgende Formel beschreiben: \\[0.1cm] 
+Die Grundidee um den Term $m^n$ f\"ur $n \geq 1$ effizient zu berechnen,
+l\"asst sich durch folgende Formel beschreiben: \\[0.1cm] 
 \hspace*{1.3cm} 
 $m^n = 
 \left\{\begin{array}{ll}
@@ -1652,25 +1652,25 @@ $
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Berechnung von $m^n$ für $m,n \in \N$.}
+  \caption{Berechnung von $m^n$ f\"ur $m,n \in \N$.}
   \label{fig:power}
 \end{figure} 
 
 Da es keineswegs offensichtlich ist, dass das Programm in \ref{fig:power} 
-tatsächlich die Potenz $m^n$ berechnet,  wollen wir dies nachweisen.  Wir benutzen dazu
+tats\"achlich die Potenz $m^n$ berechnet,  wollen wir dies nachweisen.  Wir benutzen dazu
 die Methode der \emph{Wertverlaufs-Induktion} (engl. \emph{computational induction}).
-Die Wertverlaufs-Induktion ist eine Induktion über die Anzahl der rekursiven Aufrufe.
+Die Wertverlaufs-Induktion ist eine Induktion \"uber die Anzahl der rekursiven Aufrufe.
 Diese Methode bietet sich immer dann an, wenn die Korrektheit einer rekursiven Prozedur
 nachzuweisen ist. Das Verfahren besteht aus zwei Schritten:
 \begin{enumerate}
 \item \emph{Induktions-Anfang}.
 
-      Beim Induktions-Anfang weisen wir nach, dass die Prozedur in allen den Fällen korrekt arbeitet,
+      Beim Induktions-Anfang weisen wir nach, dass die Prozedur in allen den F\"allen korrekt arbeitet,
       in denen sie sich nicht selbst aufruft.  
 \item \emph{Induktions-Schritt}
 
-      Im Induktions-Schritt beweisen wir, dass die Prozedur auch in den Fällen korrekt
-      arbeitet, in denen sie sich rekursiv aufruft.   Beim Beweis dieser Tatsache dürfen
+      Im Induktions-Schritt beweisen wir, dass die Prozedur auch in den F\"allen korrekt
+      arbeitet, in denen sie sich rekursiv aufruft.   Beim Beweis dieser Tatsache d\"urfen
       wir voraussetzen, dass die Prozedur bei jedem rekursiven Aufruf den korrekten Wert
       produziert. Diese Voraussetzung wird auch als \emph{Induktions-Voraussetzung} bezeichnet.
 \end{enumerate}
@@ -1690,8 +1690,8 @@ gilt:
       Der rekursive Aufruf der Prozedur $\mathtt{power}$ hat die Form 
        $\mathtt{power}(m,n/2)$.  Also gilt nach Induktions-Voraussetzung \\[0.1cm]
        \hspace*{1.3cm} $\displaystyle \mathtt{power}(m,n/2) \leadsto m^{n/2}$. \\[0.1cm]
-       Danach können in der weiteren Rechnung zwei Fälle auftreten.
-       Wir führen daher eine Fallunterscheidung entsprechend der \texttt{if}-Abfrage in Zeile 6 durch:
+       Danach k\"onnen in der weiteren Rechnung zwei F\"alle auftreten.
+       Wir f\"uhren daher eine Fallunterscheidung entsprechend der \texttt{if}-Abfrage in Zeile 6 durch:
       \begin{enumerate}
       \item $n \;\mathtt{\%}\; 2 = 0$, $n$ ist also gerade.
 
@@ -1720,10 +1720,10 @@ gilt:
       \end{enumerate}
       Damit ist der Beweis der Korrektheit abgeschlossen. \hspace*{\fill} $\Box$
 \end{enumerate}
-Als nächstes wollen wir die Komplexität des obigen Programms untersuchen. Dazu berechnen
-wir zunächst die Anzahl der Multiplikationen, die beim Aufruf $\mathtt{power}(m,n)$
-durchgeführt werden.  Je nach dem, ob der Test in Zeile 6 negativ ausgeht oder nicht, gibt
-es mehr oder weniger Multiplikationen.  Wir untersuchen zunächst den schlechtesten Fall
+Als n\"achstes wollen wir die Komplexit\"at des obigen Programms untersuchen. Dazu berechnen
+wir zun\"achst die Anzahl der Multiplikationen, die beim Aufruf $\mathtt{power}(m,n)$
+durchgef\"uhrt werden.  Je nach dem, ob der Test in Zeile 6 negativ ausgeht oder nicht, gibt
+es mehr oder weniger Multiplikationen.  Wir untersuchen zun\"achst den schlechtesten Fall
 (engl. \emph{worst case}).  Der schlechteste Fall tritt dann ein, wenn es
 ein $l\in \N$ gibt, so dass \\[0.1cm]
 \hspace*{1.3cm} $n = 2^l - 1$ \\[0.1cm]
@@ -1737,52 +1737,52 @@ $2 \cdot(n/2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l -
 verifizieren.  Folglich ist, wenn $n$ die Form $2^l - 1$ hat, bei jedem rekursiven Aufruf
 der Exponent $n$ ungerade. 
 Wir nehmen also $n = 2^l - 1$ an und berechnen die Zahl $a_n$ der Multiplikationen, die beim
-Aufruf von $\mathtt{power}(m,n)$ durchgeführt werden. \\[0.1cm]
-Zunächst gilt $a_0 = 0$, denn wenn $n =0$  ist, wird keine Multiplikation durchgeführt.
+Aufruf von $\mathtt{power}(m,n)$ durchgef\"uhrt werden. \\[0.1cm]
+Zun\"achst gilt $a_0 = 0$, denn wenn $n =0$  ist, wird keine Multiplikation durchgef\"uhrt.
 Ansonsten haben wir in Zeile 9 zwei Multiplikationen, die zu den Multiplikationen, die beim
-rekursiven Aufruf in Zeile $5$ anfallen, hinzu addiert werden müssen.  Damit erhalten wir
+rekursiven Aufruf in Zeile $5$ anfallen, hinzu addiert werden m\"ussen.  Damit erhalten wir
 die folgende Rekurrenz-Gleichung: \\[0.1cm]
-\hspace*{1.3cm} $a_n = a_{n/2} + 2$ \qquad für alle $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad mit $a_0 = 0$. \\[0.1cm]
-Wir definieren $b_l := a_{2^l-1}$ und erhalten dann für die Folge $(b_l)_l$ die
+\hspace*{1.3cm} $a_n = a_{n/2} + 2$ \qquad f\"ur alle $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad mit $a_0 = 0$. \\[0.1cm]
+Wir definieren $b_l := a_{2^l-1}$ und erhalten dann f\"ur die Folge $(b_l)_l$ die
 Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l-1} = a_{(2^l-1)/2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad für alle $l\in\N$. \\[0.1cm]
+$b_l = a_{2^l-1} = a_{(2^l-1)/2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad f\"ur alle $l\in\N$. \\[0.1cm]
 Die Anfangs-Bedingung lautet $b_0 = a_{2^0-1} = a_0 = 0$.  
-Offenbar lautet die Lösung der Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad für alle $l \in \N$. \\[0.1cm] 
-Diese Behauptung können Sie durch eine triviale Induktion verifizieren. 
-Für die Folge $a_n$ haben wir dann: \\[0.1cm]
+Offenbar lautet die L\"osung der Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad f\"ur alle $l \in \N$. \\[0.1cm] 
+Diese Behauptung k\"onnen Sie durch eine triviale Induktion verifizieren. 
+F\"ur die Folge $a_n$ haben wir dann: \\[0.1cm]
 \hspace*{1.3cm} $a_{2^l-1} = 2 \cdot l$. \\[0.1cm]
 Formen wir die Gleichung $n = 2^l - 1$ nach $l$ um, so erhalten wir $l =
 \log_2(n+1)$. Setzen wir diesen Wert ein, so sehen wir \\[0.1cm]
 \hspace*{1.3cm} $a_n = 2 \cdot \log_2(n+1) \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
 
-Wir betrachten jetzt den günstigsten Fall, der bei der Berechnung von
-$\mathtt{power}(m,n)$ auftreten kann. Der günstigste Fall tritt dann ein, wenn 
+Wir betrachten jetzt den g\"unstigsten Fall, der bei der Berechnung von
+$\mathtt{power}(m,n)$ auftreten kann. Der g\"unstigste Fall tritt dann ein, wenn 
 der Test in Zeile 6 immer gelingt weil $n$ jedesmal eine gerade Zahl ist.  In diesem Fall muss
 es ein $l\in \N$ geben, so dass $n$ die Form \\[0.1cm]
 \hspace*{1.3cm} $n = 2^l$ \\[0.1cm]
 hat. Wir nehmen also $n = 2^l$ an und berechnen die Zahl $a_n$ der Multiplikationen, die
 dann beim
-Aufruf von $\mathtt{power}(m,n)$ durchgeführt werden. \\[0.1cm]
-Zunächst gilt $a_{2^0} = a_1 = 2$, denn wenn $n = 1$  ist, scheitert der Test in Zeile 6 und Zeile 9
+Aufruf von $\mathtt{power}(m,n)$ durchgef\"uhrt werden. \\[0.1cm]
+Zun\"achst gilt $a_{2^0} = a_1 = 2$, denn wenn $n = 1$  ist, scheitert der Test in Zeile 6 und Zeile 9
 liefert 2 Multiplikationen.  Zeile 5 liefert in diesem Fall keine Multiplikation, weil
-beim Aufruf $\mathtt{power}(m,0)$ sofort das Ergebnis in Zeile 4 zurück gegeben wird.
+beim Aufruf $\mathtt{power}(m,0)$ sofort das Ergebnis in Zeile 4 zur\"uck gegeben wird.
 
 Ist $n = 2^l > 1$, so  haben wir in Zeile 7 eine Multiplikation, die zu den Multiplikationen, die beim
 rekursiven Aufruf in Zeile $5$ anfallen, hinzu addiert werden muss.  Damit erhalten wir
 die folgende Rekurrenz-Gleichung: \\[0.1cm]
-\hspace*{1.3cm} $a_n = a_{n/2} + 1$ \qquad für alle $n \in \left\{2^l \mid l \in \N\right\}$\quad mit $a_1 = 2$. \\[0.1cm]
-Wir definieren $b_l := a_{2^l}$ und erhalten dann für die Folge $(b_l)_l$ die
+\hspace*{1.3cm} $a_n = a_{n/2} + 1$ \qquad f\"ur alle $n \in \left\{2^l \mid l \in \N\right\}$\quad mit $a_1 = 2$. \\[0.1cm]
+Wir definieren $b_l := a_{2^l}$ und erhalten dann f\"ur die Folge $(b_l)_l$ die
 Rekurrenz-Gleichung \\[0.1cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l} = a_{(2^l)/2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad für alle $l\in\N$, \\[0.1cm]
+$b_l = a_{2^l} = a_{(2^l)/2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad f\"ur alle $l\in\N$, \\[0.1cm]
 mit der Anfangs-Bedingungen $b_0 = a_{2^0} = a_1 = 2$.
-Also lösen wir die Rekurrenz-Gleichung \\[0.1cm]
-\hspace*{1.3cm} $b_{l+1} = b_l + 1$ \qquad für alle $l \in \N$ \quad mit $b_0 = 2$.\\[0.1cm]
-Offenbar lautet die Lösung \\[0.1cm]
-\hspace*{1.3cm} $b_l = 2 + l$ \qquad für alle $l\in\N$.
+Also l\"osen wir die Rekurrenz-Gleichung \\[0.1cm]
+\hspace*{1.3cm} $b_{l+1} = b_l + 1$ \qquad f\"ur alle $l \in \N$ \quad mit $b_0 = 2$.\\[0.1cm]
+Offenbar lautet die L\"osung \\[0.1cm]
+\hspace*{1.3cm} $b_l = 2 + l$ \qquad f\"ur alle $l\in\N$.
 \\[0.1cm]
 Setzen wir hier $b_l = a_{2^l}$, so erhalten wir: \\[0.1cm]
 \hspace*{1.3cm} $a_{2^l} = 2 + l$. \\[0.1cm]
@@ -1793,52 +1793,52 @@ ein, so sehen wir \\[0.1cm]
 \vspace*{0.3cm}
 
 Da wir sowohl im besten als auch im schlechtesten Fall dasselbe Ergebnis bekommen haben,
-können wir schließen, dass für die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
+k\"onnen wir schlie\3en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
 \hspace*{1.3cm} $a_n \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
 
 \noindent
 \textbf{Bemerkung}:  Wenn wir nicht die Zahl der Multiplikationen sondern die Rechenzeit
-ermitteln wollen, die der obige Algorithmus benötigt, so wird die Rechnung wesentlich
-aufwendiger.  Der Grund ist, dass wir dann berücksichtigen müssen, dass die Rechenzeit bei
-der Berechnung der Produkte in den Zeilen 7 und 9 von der Größe der Faktoren abhängig ist.
+ermitteln wollen, die der obige Algorithmus ben\"otigt, so wird die Rechnung wesentlich
+aufwendiger.  Der Grund ist, dass wir dann ber\"ucksichtigen m\"ussen, dass die Rechenzeit bei
+der Berechnung der Produkte in den Zeilen 7 und 9 von der Gr\"o\3e der Faktoren abh\"angig ist.
 \vspace*{0.3cm}
 
 \noindent
 \textbf{Aufgabe}:
 Schreiben Sie eine Prozedur $\mathtt{prod}$ zur Multiplikation zweier Zahlen.
-Für zwei natürliche Zahlen $m$ und $n$ soll der Aufruf $\mathtt{prod}(m, n)$  das Produkt
+F\"ur zwei nat\"urliche Zahlen $m$ und $n$ soll der Aufruf $\mathtt{prod}(m, n)$  das Produkt
 $m\cdot n$ mit Hilfe von Additionen
 berechnen.  Benutzen Sie bei der Implementierung das Paradigma ``Teile und Herrsche'' und
 beweisen Sie die Korrektheit des Algorithmus mit Hilfe einer Wertverlaufs-Induktion.
-Schätzen  Sie die Anzahl der Additionen, die beim Aufruf von $\mathtt{prod}(m,n)$
-im schlechtesten Fall durchgeführt werden, mit Hilfe der $\Oh$-Notation ab. 
+Sch\"atzen  Sie die Anzahl der Additionen, die beim Aufruf von $\mathtt{prod}(m,n)$
+im schlechtesten Fall durchgef\"uhrt werden, mit Hilfe der $\Oh$-Notation ab. 
 \pagebreak
 
 \section{Der Hauptsatz der Laufzeit-Funktionen}
 Im letzten Abschnitt haben wir zur Analyse der Rechenzeit der Funktion $\textsl{power}()$
-zunächst eine Rekurrenz-Gleichung aufgestellt, diese gelöst und anschließend das Ergebnis
-mit Hilfe der $\Oh$-Notation abgeschätzt.  Wenn wir nur an einer Abschätzung interessiert
-sind, dann ist es in vielen Fällen nicht notwendig, die zu Grunde liegende
-Rekurrenz-Gleichung exakt zu lösen, denn der \textsl{Hauptsatz der Laufzeit-Funktionen}
-(Englisch:~\textsl{Master Theorem}) \cite{cormen:01} bietet eine Methode zur Gewinnung von Abschätzungen,
-bei der es nicht notwendig ist, die Rekurrenz-Gleichung zu lösen.  
-Wir präsentieren eine etwas vereinfachte Form dieses Hauptsatzes.
+zun\"achst eine Rekurrenz-Gleichung aufgestellt, diese gel\"ost und anschlie\3end das Ergebnis
+mit Hilfe der $\Oh$-Notation abgesch\"atzt.  Wenn wir nur an einer Absch\"atzung interessiert
+sind, dann ist es in vielen F\"allen nicht notwendig, die zu Grunde liegende
+Rekurrenz-Gleichung exakt zu l\"osen, denn der \textsl{Hauptsatz der Laufzeit-Funktionen}
+(Englisch:~\textsl{Master Theorem}) \cite{cormen:01} bietet eine Methode zur Gewinnung von Absch\"atzungen,
+bei der es nicht notwendig ist, die Rekurrenz-Gleichung zu l\"osen.  
+Wir pr\"asentieren eine etwas vereinfachte Form dieses Hauptsatzes.
 
 \begin{Theorem}[Hauptsatz der Laufzeit-Funktionen] 
   Es seien 
   \begin{enumerate}
   \item $\alpha,\beta \in \mathbb{N}$ mit $\alpha \geq 1$ und $\beta > 1$,
   \item $f:\N \rightarrow \R_+$,
-  \item die Funktion $g:\N \rightarrow \R_+$ genüge der Rekurrenz-Gleichung 
+  \item die Funktion $g:\N \rightarrow \R_+$ gen\"uge der Rekurrenz-Gleichung 
         \\[0.2cm]
         \hspace*{1.3cm}
         $g(n) = \alpha \cdot g\left(n/\beta\right) + f(n)$,
         \\[0.2cm]
         wobei der Ausdruck $n/\beta$ die ganzzahlige Division von $n$ durch $\beta$ bezeichnet.
   \end{enumerate}
-  Dann können wir in den gleich genauer beschriebenen Situationen asymptotische
-  Abschätzungen für die Funktion $g(n)$ angeben:
+  Dann k\"onnen wir in den gleich genauer beschriebenen Situationen asymptotische
+  Absch\"atzungen f\"ur die Funktion $g(n)$ angeben:
   \begin{enumerate}
   \item Falls es eine Konstante $\varepsilon > 0$ gibt, so dass 
         \\[0.2cm]
@@ -1855,7 +1855,7 @@ Wir präsentieren eine etwas vereinfachte Form dieses Hauptsatzes.
         \hspace*{1.3cm}
         $g(n) \in \Oh\bigl(\log_\beta(n) \cdot n^{\log_\beta(\alpha)}\bigr)$. 
   \item Falls es eine Konstante $\gamma < 1$ und eine Konstante $k \in \mathbb{N}$ gibt, so dass
-        für $n \geq k$
+        f\"ur $n \geq k$
         \\[0.2cm]
         \hspace*{1.3cm}
         $\alpha \cdot f\left(n/\beta\right) \leq \gamma \cdot f(n)$        
@@ -1866,32 +1866,32 @@ Wir präsentieren eine etwas vereinfachte Form dieses Hauptsatzes.
         $g(n) \in \Oh\bigl(f(n)\bigr)$. \hspace*{\fill} $\Box$
   \end{enumerate}
 \end{Theorem}
-\textbf{Erläuterung}:
-Ein vollständiger Beweis dieses Theorems geht über den Rahmen einer einführenden Vorlesung hinaus.
-Wir wollen aber erklären, wie die drei Fälle zustande kommen.
+\textbf{Erl\"auterung}:
+Ein vollst\"andiger Beweis dieses Theorems geht \"uber den Rahmen einer einf\"uhrenden Vorlesung hinaus.
+Wir wollen aber erkl\"aren, wie die drei F\"alle zustande kommen.
 \begin{enumerate}
-\item Wir betrachten zunächst den ersten Fall.  In diesem Fall kommt der asymptotisch 
+\item Wir betrachten zun\"achst den ersten Fall.  In diesem Fall kommt der asymptotisch 
 wesentliche Anteil des Wachstums der Funktion $g$ von der Rekursion. 
 Um diese Behauptung einzusehen, betrachten wir die homogene Rekurrenz-Gleichung
 \[ g(n) = \alpha \cdot g\left(n/\beta\right). \]
-Wir beschränken uns auf solche Werte von $n$, die sich als Potenzen von $\beta$ schreiben
+Wir beschr\"anken uns auf solche Werte von $n$, die sich als Potenzen von $\beta$ schreiben
 lassen, also Werte der Form 
 \[ n = \beta^k \quad \mbox{mit $k\in\N$.} \]
-Definieren wir für $k \in \N$ die Folge $\bigl(b_k\bigr)_{k\in\N}$ durch
+Definieren wir f\"ur $k \in \N$ die Folge $\bigl(b_k\bigr)_{k\in\N}$ durch
 \[ b_k := g\bigl(\beta^k\bigr), \]
-so erhalten wir für die Folgenglieder $b_k$ die Rekurrenz-Gleichung 
+so erhalten wir f\"ur die Folgenglieder $b_k$ die Rekurrenz-Gleichung 
 \[
      b_k = g\bigl(\beta^k\bigr) = \alpha \cdot g\left( \beta^k/\beta \right) 
    = \alpha \cdot g\bigl(\beta^{k-1}\bigr) = \alpha \cdot b_{k-1}.
 \]
-Wir sehen unmittelbar, dass diese Rekurrenz-Gleichung die Lösung 
+Wir sehen unmittelbar, dass diese Rekurrenz-Gleichung die L\"osung 
 \begin{equation}
   \label{eq:master}
   b_k = \alpha^k \cdot b_0   
 \end{equation}
 hat.  Aus $n = \beta^k$ folgt sofort 
 \[  k = \log_\beta(n). \]
-Berücksichtigen wir, dass $b_k = g(n)$ ist, so liefert Gleichung (\ref{eq:master}) also 
+Ber\"ucksichtigen wir, dass $b_k = g(n)$ ist, so liefert Gleichung (\ref{eq:master}) also 
 \begin{equation}
   \label{eq:master2}
    g(n) = \alpha^{\log_\beta(n)} \cdot b_0.   
@@ -1901,7 +1901,7 @@ Wir zeigen, dass
   \label{eq:master1}
   \alpha^{\log_\beta(n)} = n^{\log_\beta(\alpha)} 
 \end{equation}
-gilt.  Dazu betrachten wir die folgende Kette von Äquivalenz-Umformungen:
+gilt.  Dazu betrachten wir die folgende Kette von Ã„quivalenz-Umformungen:
 \[ 
 \begin{array}[t]{llcll}
                 & \alpha^{\log_\beta(n)} & = & n^{\log_\beta(\alpha)} & \mid\; \log_\beta(\cdot)  \\[0.2cm]
@@ -1912,17 +1912,17 @@ gilt.  Dazu betrachten wir die folgende Kette von Äquivalenz-Umformungen:
                   \mbox{wegen $\log_b(x^y) = y \cdot \log_b(x)$}
 \end{array}
 \]
-Da die letzte Gleichung offenbar richtig ist, und wir zwischendurch nur Äquivalenz-Umformungen
-durchgeführt haben, ist auch die erste Gleichung richtig und wir haben Gleichung (\ref{eq:master1}) gezeigt.
+Da die letzte Gleichung offenbar richtig ist, und wir zwischendurch nur Ã„quivalenz-Umformungen
+durchgef\"uhrt haben, ist auch die erste Gleichung richtig und wir haben Gleichung (\ref{eq:master1}) gezeigt.
 Insgesamt haben wir damit 
 \[ g(n) = n^{\log_\beta(\alpha)} \cdot b_0 \]
-gezeigt.  Also gilt: Vernachlässigen wir die Inhomogenität $f$, so erhalten wir
-die folgende asymptotische Abschätzung:
+gezeigt.  Also gilt: Vernachl\"assigen wir die Inhomogenit\"at $f$, so erhalten wir
+die folgende asymptotische Absch\"atzung:
 \[ g(n) \in \Oh\bigl(n^{\log_\beta(\alpha)}\bigr). \]
 \item Im zweiten Fall liefert
-die Inhomogenität $f$ einen Beitrag, der genau so groß ist wie die Lösung der homogenen
-Rekurrenz-Gleichung.  Dies führt dazu, dass die Lösung asymptotisch um einen Faktor
-$\log_\beta(n)$ größer wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
+die Inhomogenit\"at $f$ einen Beitrag, der genau so gro\3 ist wie die L\"osung der homogenen
+Rekurrenz-Gleichung.  Dies f\"uhrt dazu, dass die L\"osung asymptotisch um einen Faktor
+$\log_\beta(n)$ gr\"o\3er wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
 \[ g(n) = \alpha \cdot g\left(n/\beta\right) + n^{\log_\beta(\alpha)} \]
 mit der Anfangs-Bedingung $g(1) = 0$.  Wir betrachten wieder nur Werte 
 $n \in \{ \beta^k \mid k \in \N \}$ und setzen daher
@@ -1934,8 +1934,8 @@ Das liefert
        = \alpha \cdot g(\beta^{k-1}) + \left(\beta^{\log_\beta(\alpha)}\right)^k
        = \alpha \cdot b_{k-1} + \alpha^k.
  \]
-Nun gilt $b_0 = g(1) = 0$.  Um die Rekurrenz-Gleichung $b_k = \alpha \cdot b_{k-1} + \alpha^k$ zu lösen,
-berechnen wir zunächst die Werte für $k=1,2,3$:
+Nun gilt $b_0 = g(1) = 0$.  Um die Rekurrenz-Gleichung $b_k = \alpha \cdot b_{k-1} + \alpha^k$ zu l\"osen,
+berechnen wir zun\"achst die Werte f\"ur $k=1,2,3$:
 \begin{eqnarray*}
   b_1 & = & \alpha \cdot b_0 + \alpha^1               \\
       & = & \alpha \cdot 0 + \alpha                   \\
@@ -1947,9 +1947,9 @@ berechnen wir zunächst die Werte für $k=1,2,3$:
       & = & \alpha \cdot 2 \cdot \alpha^2 + \alpha^3  \\
       & = & 3 \cdot \alpha^3                          
 \end{eqnarray*}
-Wir vermuten hier, dass die Lösung dieser Rekurrenz-Gleichung durch die Formel
+Wir vermuten hier, dass die L\"osung dieser Rekurrenz-Gleichung durch die Formel
 \[ b_k = k \cdot \alpha^k \]
-gegeben wird.  Den Nachweis dieser Vermutung führen wir durch eine triviale Induktion:
+gegeben wird.  Den Nachweis dieser Vermutung f\"uhren wir durch eine triviale Induktion:
 \begin{enumerate}
 \item[I.A.:] $k = 0$
              
@@ -1966,25 +1966,25 @@ gegeben wird.  Den Nachweis dieser Vermutung führen wir durch eine triviale Indu
             \end{array}
             \]
 \end{enumerate}
-Da aus $n = \beta^k$ sofort $k = \log_\beta(n)$ folgt, ergibt sich für die Funktion
+Da aus $n = \beta^k$ sofort $k = \log_\beta(n)$ folgt, ergibt sich f\"ur die Funktion
 $g(n)$ 
 \[ g(n) = b_k = k \cdot \alpha^k = \log_\beta(n) \cdot \alpha^{\log_\beta(n)} = \log_\beta(n) \cdot
 n^{\log_\beta(\alpha)} \]
 und das ist genau die Form, durch die im zweiten Fall des Hauptsatzes die Funktion
-$g(n)$ abgeschätzt wird.
+$g(n)$ abgesch\"atzt wird.
 \item
-Im letzten Fall des Hauptsatzes überwiegt schließlich der Beitrag der Inhomogenität, so dass die Lösung 
-nun asymptotisch durch die Inhomogenität dominiert wird.
+Im letzten Fall des Hauptsatzes \"uberwiegt schlie\3lich der Beitrag der Inhomogenit\"at, so dass die L\"osung 
+nun asymptotisch durch die Inhomogenit\"at dominiert wird.
 Wir machen wieder den Ansatz 
 \[ n = \beta^k \quad \mbox{und} \quad b_k = g\bigl(\beta^k\bigr). \]
-Wir überlegen uns, wie die Ungleichung 
+Wir \"uberlegen uns, wie die Ungleichung 
 \[ \alpha \cdot f\left(n/\beta\right) \leq \gamma \cdot f(n) \]
-für $n = \beta^k$ aussieht und erhalten
+f\"ur $n = \beta^k$ aussieht und erhalten
 \begin{equation}
   \label{eq:master_u1}
  \alpha \cdot f\left(\beta^{k-1}\right) \leq \gamma \cdot f\bigl(\beta^k\bigr) 
 \end{equation}
-Setzen wir hier für $k$ den Wert $k-1$ ein, so erhalten wir
+Setzen wir hier f\"ur $k$ den Wert $k-1$ ein, so erhalten wir
 \begin{equation}
   \label{eq:master_u2}
  \alpha \cdot f\left(\beta^{k-2}\right) \leq \gamma \cdot f\bigl(\beta^{k-1}\bigr) 
@@ -2002,7 +2002,7 @@ Iterieren wir diesen Prozess, so sehen wir, dass
 \begin{equation}
   \label{eq:master_u3}
 \alpha^i \cdot f\bigl(\beta^{k-i}\bigr) \leq \gamma^i \cdot f(\beta^k) 
-   \quad \mbox{für alle $i \in \{1,\cdots k\}$ gilt.}   
+   \quad \mbox{f\"ur alle $i \in \{1,\cdots k\}$ gilt.}   
 \end{equation}
 Wir berechnen nun $g(\beta^k)$ durch Iteration der Rekurrenz-Gleichung:
 \[
@@ -2018,9 +2018,9 @@ g(\beta^k) & = & \alpha \cdot g(\beta^{k-1}) + f(\beta^k) \\
            & = & \alpha^k \cdot g(\beta^0) + \sum\limits_{i=1}^{k} \alpha^{k-i} \cdot f(\beta^i)
 \end{array}
 \]
-Da bei der $\Oh$-Notation die Werte von $f$ für kleine Argumente keine Rolle spielen,
-können wir ohne Beschränkung der Allgemeinheit annehmen, dass $g(\beta^0) \leq f(\beta^0)$
-ist.  Damit erhalten wir dann die Abschätzung
+Da bei der $\Oh$-Notation die Werte von $f$ f\"ur kleine Argumente keine Rolle spielen,
+k\"onnen wir ohne Beschr\"ankung der Allgemeinheit annehmen, dass $g(\beta^0) \leq f(\beta^0)$
+ist.  Damit erhalten wir dann die Absch\"atzung
 \[ 
 \begin{array}{lcl}
 g(\beta^k) & \leq & \alpha^k \cdot f(\beta^0) + \sum\limits_{i=1}^{k} \alpha^{k-i} \cdot f(\beta^i) \\[0.3cm]
@@ -2028,7 +2028,7 @@ g(\beta^k) & \leq & \alpha^k \cdot f(\beta^0) + \sum\limits_{i=1}^{k} \alpha^{k-
            & =    & \sum\limits_{j=0}^{k} \alpha^{j} \cdot f(\beta^{k-j}) 
 \end{array}
 \]
-wobei wir im letzten Schritt den Index $i$ durch $k-j$ ersetzt haben.  Berücksichtigen wir
+wobei wir im letzten Schritt den Index $i$ durch $k-j$ ersetzt haben.  Ber\"ucksichtigen wir
 nun die Ungleichung (\ref{eq:master_u3}), so erhalten wir die Ungleichungen
 \[
 \begin{array}{lcl}
@@ -2038,7 +2038,7 @@ nun die Ungleichung (\ref{eq:master_u3}), so erhalten wir die Ungleichungen
               & =    & f(\beta^k) \cdot \bruch{1}{\;1 - \gamma\;},
 \end{array}
 \]
-wobei wir im letzten Schritt die Formel für die geometrische Reihe 
+wobei wir im letzten Schritt die Formel f\"ur die geometrische Reihe 
 \[ \sum\limits_{j=0}^{\infty} q^j = \bruch{1}{1 - q} \]
 benutzt haben.  Ersetzen wir nun $\beta^k$ wieder durch $n$, so sehen wir, dass 
 \[ g(n) \leq \bruch{1}{\;1 - \gamma\;} \cdot f(n) \]
@@ -2059,7 +2059,7 @@ Damit gilt
 \[ \log_\beta(\alpha) = \log_3(9) = 2. \]
 Wir setzen $\varepsilon := 1 > 0$.  Dann gilt
 \[ f(n) = n \in \Oh(n) = \Oh\left(n^{2-1}\right) = \Oh\left(n^{2-\varepsilon}\right). \]
-Damit liegt der erste Fall des Hauptsatzes vor und wir können schließen, dass
+Damit liegt der erste Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
 \[ g(n) \in \Oh(n^2) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -2073,7 +2073,7 @@ $a_n = a_{n/2} + 2$
 \\[0.2cm]
 und analysieren das asymptotische Wachstum der Funktion $n \mapsto a_n$ mit Hilfe des
 Hauptsatzes der Laufzeit-Funktionen.
-Wir setzen $g(n) := a_n$ und haben also für die Funktion $g$ die Rekurrenz-Gleichung
+Wir setzen $g(n) := a_n$ und haben also f\"ur die Funktion $g$ die Rekurrenz-Gleichung
 \\[0.2cm]
 \hspace*{1.3cm}
 $g(n) = 1 \cdot g\left(n/2\right) + 2$
@@ -2084,7 +2084,7 @@ Wir definieren $\alpha := 1$, $\beta := 2$ und $f(n) = 2$.  Wegen
 $\log_\beta(\alpha) = \log_2(1) = 0$ \quad und \quad
 $2 \in \Oh(1)= \Oh(n^0)$ \quad sowie \quad $n^0 \in \Oh(2)$
 \\[0.2cm]
-sind die Voraussetzungen des zweiten Falls erfüllt und wir erhalten 
+sind die Voraussetzungen des zweiten Falls erf\"ullt und wir erhalten 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n \in \Oh\bigl(\log_2(n)\bigr)$.
@@ -2100,19 +2100,19 @@ $a_n = 3 \cdot a_{n/4} + n \cdot \log_2(n)$.
 \\[0.2cm]
 Es gilt $\alpha = 3$, $\beta = 4$ und $f(n) = n \cdot \log_2(n)$.  Damit gilt
 \[ log_\beta(\alpha) = \log_4(3) < 1. \]
-Damit ist klar, dass die Funktion $f(n) = n \cdot log_2(n)$ schneller wächst als die
-Funktion $n^{\log_4(3)}$.  Damit kann höchstens der dritte Fall des Hauptsatzes vorliegen.
+Damit ist klar, dass die Funktion $f(n) = n \cdot log_2(n)$ schneller w\"achst als die
+Funktion $n^{\log_4(3)}$.  Damit kann h\"ochstens der dritte Fall des Hauptsatzes vorliegen.
 Wir suchen also ein $\gamma < 1$, so dass die Ungleichung
 \[ \alpha \cdot f(n/\beta) \leq \gamma \cdot f(n) \]
-gilt.  Setzen wir hier die Funktion $f(n) = n \cdot \log_2(n)$ und die Werte für $\alpha$
+gilt.  Setzen wir hier die Funktion $f(n) = n \cdot \log_2(n)$ und die Werte f\"ur $\alpha$
 und $\beta$ ein, so erhalten wir die Ungleichung 
 \[ 3 \cdot n/4 \cdot \log_2(n/4) \leq \gamma \cdot n \cdot \log_2(n), \]
-die für durch 4 teilbares $n$ offenbar äquivalent ist zu
+die f\"ur durch 4 teilbares $n$ offenbar \"aquivalent ist zu
 \[ \frac{3}{4} \cdot \log_2(n/4) \leq \gamma \cdot \log_2(n). \]
-Setzen wir $\gamma := \frac{3}{4}$ und kürzen, so geht diese Ungleichung über in die
+Setzen wir $\gamma := \frac{3}{4}$ und k\"urzen, so geht diese Ungleichung \"uber in die
 offensichtlich wahre Ungleichung
 \[ \log_2(n/4) \leq \log_2(n). \] 
-Damit liegt also der dritte Fall des Hauptsatzes vor und wir können schließen, dass
+Damit liegt also der dritte Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
 \[ a_n \in \Oh\left(n \cdot \log_2(n)\right) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -2120,8 +2120,8 @@ gilt. \qed
 \noindent
 \textbf{Aufgabe}:
 Benutzen Sie den Hauptsatz der Laufzeit-Funktionen um das asymptotische Wachstum 
-der Folgen $\folge{a_n}$, $\folge{b_n}$ und $\folge{c_n}$  abzuschätzen, falls diese
-Folgen den nachstehenden Rekurrenz-Gleichungen genügen:
+der Folgen $\folge{a_n}$, $\folge{b_n}$ und $\folge{c_n}$  abzusch\"atzen, falls diese
+Folgen den nachstehenden Rekurrenz-Gleichungen gen\"ugen:
 \begin{enumerate}
 \item $a_n = 4 \cdot a_{n/2} + 2 \cdot n + 3$.
 \item $b_n = 4 \cdot b_{n/2} + n^2$.
@@ -2129,42 +2129,42 @@ Folgen den nachstehenden Rekurrenz-Gleichungen genügen:
 \end{enumerate}
 
 \noindent
-\textbf{Bemerkung}: Es ist wichtig zu sehen, dass die drei Fälle des Theorems nicht vollständig sind:
-Es gibt Situationen, in denen der Hauptsatz nicht anwendbar ist.  Beispielsweise lässt sich der Hauptsatz nicht
-für die Funktion $g$, die durch die Rekurrenz-Gleichung
+\textbf{Bemerkung}: Es ist wichtig zu sehen, dass die drei F\"alle des Theorems nicht vollst\"andig sind:
+Es gibt Situationen, in denen der Hauptsatz nicht anwendbar ist.  Beispielsweise l\"asst sich der Hauptsatz nicht
+f\"ur die Funktion $g$, die durch die Rekurrenz-Gleichung
 \[ g(n) = 2 \cdot g(n/2) + n \cdot \log_2(n) \quad \mbox{mit der Anfangs-Bedingung $g(1) = 0$}\]
-definiert ist, anwenden, denn die Inhomogenität wächst schneller als im zweiten Fall, aber
-nicht so schnell, dass der dritte Fall vorliegen würde.  Dies können wir wie folgt sehen.
+definiert ist, anwenden, denn die Inhomogenit\"at w\"achst schneller als im zweiten Fall, aber
+nicht so schnell, dass der dritte Fall vorliegen w\"urde.  Dies k\"onnen wir wie folgt sehen.
 Es gilt 
 \[ \alpha = 2, \quad \beta = 2 \quad \mbox{und damit} \quad \log_\beta(\alpha) = 1. \]
-Damit der zweite Fall vorliegt, müsste 
+Damit der zweite Fall vorliegt, m\"usste 
 \[ n \cdot \log_2(n) \in \Oh(n^1) \]
-gelten, was sicher falsch ist.  Da die Inhomogenität $n \cdot \log_2(n)$ offenbar
-schneller wächst als der Term $n^1$, kann jetzt höchstens noch der dritte Fall vorliegen.
-Um diese Vermutung zu überprüfen, nehmen wir an, dass ein $\gamma < 1$ existiert, so dass die Inhomogenität 
+gelten, was sicher falsch ist.  Da die Inhomogenit\"at $n \cdot \log_2(n)$ offenbar
+schneller w\"achst als der Term $n^1$, kann jetzt h\"ochstens noch der dritte Fall vorliegen.
+Um diese Vermutung zu \"uberpr\"ufen, nehmen wir an, dass ein $\gamma < 1$ existiert, so dass die Inhomogenit\"at 
 \[ f(n) := n \cdot \log_2(n) \]
 die Ungleichung 
 \[ \alpha \cdot f(n/\beta) \leq \gamma \cdot f(n) \]
-erfüllt.  Einsetzen von $f$ sowie von $\alpha$ und $\beta$ führt auf die Ungleichung
+erf\"ullt.  Einsetzen von $f$ sowie von $\alpha$ und $\beta$ f\"uhrt auf die Ungleichung
 \[ 2 \cdot n/2 \cdot \log_2(n/2) \leq \gamma \cdot n \cdot \log_2(n). \]
 Dividieren wir diese Ungleichung durch $n$ und vereinfachen, so erhalten wir
 \[ \log_2(n) - \log_2(2) \leq \gamma \cdot \log_2(n). \]
 Wegen $\log_2(2) = 1$ addieren wir auf beiden Seiten 1 und subtrahieren $\gamma \cdot \log_2(n)$.
 Dann erhalten wir
 \[ \log_2(n) \cdot (1 - \gamma) \leq 1, \]
-woraus schließlich 
+woraus schlie\3lich 
 \[ \log_2(n) \leq \bruch{1}{\;1 - \gamma\;} \]
 folgt.  Daraus folgt durch Anwenden der Funktion $x \mapsto 2^x$ die Ungleichung
 \[ \displaystyle n \leq 2^\frac{1}{\;1 - \gamma\;}, \]
-die aber sicher nicht für beliebige $n$ gelten kann.  Damit haben wir einen Widerspruch
+die aber sicher nicht f\"ur beliebige $n$ gelten kann.  Damit haben wir einen Widerspruch
 zu der Annahme, dass der dritte Fall des Hauptsatzes vorliegt.
 \hspace*{\fill} $\Box$
 \vspace*{0.3cm}
 
 \noindent
-\textbf{Aufgabe}:  Lösen Sie die Rekurrenz-Gleichung
+\textbf{Aufgabe}:  L\"osen Sie die Rekurrenz-Gleichung
 \[ g(n) = 2 \cdot g(n/2) + n \cdot \log_2(n) \quad \mbox{mit der Anfangs-Bedingung $g(1) = 0$} \]
-für den Fall, dass $n$ eine Zweier-Potenz ist.
+f\"ur den Fall, dass $n$ eine Zweier-Potenz ist.
 \hspace*{\fill} $\Box$
 
 

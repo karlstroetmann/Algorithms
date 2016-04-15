@@ -63,32 +63,32 @@ Baum--Implementierung von \textsl{Dictionary}
 \vspace*{0.5cm}
 
 \footnotesize
-Komplexität der Listen--Implementierung: 
+Komplexit\"at der Listen--Implementierung: 
 
 Ist $n$ Zahl der Elemente der Liste, so gilt im \emph{worst case}:
 \begin{enumerate}
-\item Komplexität \texttt{insert(t, k, v)} $\in \Oh(1)$
-\item Komplexität \texttt{search(t, k)} $\in \Oh(n)$
-\item Komplexität \texttt{delete(t, k)} $\in \Oh(n)$
+\item Komplexit\"at \texttt{insert(t, k, v)} $\in \Oh(1)$
+\item Komplexit\"at \texttt{search(t, k)} $\in \Oh(n)$
+\item Komplexit\"at \texttt{delete(t, k)} $\in \Oh(n)$
 \end{enumerate}
 Es geht schneller!
 
-Idee: Daten in binärem Suchbaum organisieren
+Idee: Daten in bin\"arem Suchbaum organisieren
 
-Jeder Knoten enthält:
+Jeder Knoten enth\"alt:
 \begin{enumerate}
-\item Schlüssel
+\item Schl\"ussel
 \item Wert
 \item Zeiger auf linken Teilbaum
 \item Zeiger auf rechten Teilbaum
 \end{enumerate}
 
-Ordnungs--Prinzip: Für jeden Knoten $n$ gilt:
+Ordnungs--Prinzip: F\"ur jeden Knoten $n$ gilt:
 \begin{enumerate}
-\item Alle Schlüssel im linken Teilbaum sind kleiner als \\
-      Schlüssel am Knoten $n$
-\item Alle Schlüssel im rechten Teilbaum sind größer als
-      Schlüssel am Knoten $n$
+\item Alle Schl\"ussel im linken Teilbaum sind kleiner als \\
+      Schl\"ussel am Knoten $n$
+\item Alle Schl\"ussel im rechten Teilbaum sind gr\"o\3er als
+      Schl\"ussel am Knoten $n$
 \end{enumerate}
 
 
@@ -121,7 +121,7 @@ struct BinNode {
 typedef BinNodePtr BinTree;
 typedef BinTree    Table;
 \end{verbatim}
-Einfügen von Knoten
+Einf\"ugen von Knoten
 \begin{verbatim}
 Table insert(Table t, Key key, Value val) {
     if (t == 0) {
@@ -162,7 +162,7 @@ Baum--Implementierung von Dictionaries
 \vspace*{0.5cm}
 
 \footnotesize
-Suchen nach einem Schlüssel
+Suchen nach einem Schl\"ussel
 \begin{verbatim}
 Value* search(BinTree t, Key key) 
 {
@@ -177,13 +177,13 @@ Value* search(BinTree t, Key key)
 }
 \end{verbatim}
 
-Komplexität der Baum--Implementierung: 
+Komplexit\"at der Baum--Implementierung: 
 
-Ist $l$ die Länge des längsten Pfades im Baum, so gilt im \emph{worst case}:
+Ist $l$ die L\"ange des l\"angsten Pfades im Baum, so gilt im \emph{worst case}:
 \begin{enumerate}
-\item Komplexität \texttt{insert(t, k, v)} $\in \Oh(l)$
-\item Komplexität \texttt{search(t, k)} $\in \Oh(l)$
-\item Komplexität \texttt{delete(t, k)} $\in \Oh(l)$
+\item Komplexit\"at \texttt{insert(t, k, v)} $\in \Oh(l)$
+\item Komplexit\"at \texttt{search(t, k)} $\in \Oh(l)$
+\item Komplexit\"at \texttt{delete(t, k)} $\in \Oh(l)$
 \end{enumerate}
 
 Ist $n$ die Anzahl der Elemente des Baums, so gilt:
@@ -191,10 +191,10 @@ Ist $n$ die Anzahl der Elemente des Baums, so gilt:
 \item Im besten Fall ist $n = 2^{l+1} - 1$, also \\[0.3cm]
       \hspace*{1.3cm} $l = \mathtt{log}_2(n+1) - 1$
 
-      Dann ist die Komplexität der Implementierung logarithmisch!
+      Dann ist die Komplexit\"at der Implementierung logarithmisch!
 \item Im schlechtesten Fall ist $n = l + 1$.
 
-      Dann ist die Komplexität linear!
+      Dann ist die Komplexit\"at linear!
 \end{enumerate}
 
 \vspace*{\fill}
@@ -209,31 +209,31 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Entfernen eines Schlüssels
+Entfernen eines Schl\"ussels
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Beim Löschen eines Knotens sind 3 Fälle möglich:
+Beim L\"oschen eines Knotens sind 3 F\"alle m\"oglich:
 \begin{enumerate}
 \item Knoten hat keine Kinder
 
-      Knoten löschen und 0 zurückgeben
+      Knoten l\"oschen und 0 zur\"uckgeben
 \item Knoten hat nur ein Kind
 
-      Knoten löschen, Kind zurückgeben
+      Knoten l\"oschen, Kind zur\"uckgeben
 \item Knoten hat zwei Kinder
   \begin{enumerate}
   \item Finde \emph{Nachfolger} des Knotens im rechten Teilbaum
   \item Ersetze Daten des Knotens durch Daten des Nachfolgers
-  \item Lösche Nachfolger
+  \item L\"osche Nachfolger
   \end{enumerate}
 \end{enumerate}
 
 \textbf{Definition}: Knoten $n$ ist Nachfolger des Knotens $m$ g.d.w.
 \begin{enumerate}
 \item $m\rightarrow\mathtt{key} < n\rightarrow\mathtt{key}$
-\item Es gibt keinen Knoten $x$, dessen Schlüssel $x\rightarrow\mathtt{key}$ zwischen  
+\item Es gibt keinen Knoten $x$, dessen Schl\"ussel $x\rightarrow\mathtt{key}$ zwischen  
       $m\rightarrow\mathtt{key}$ und $n\rightarrow\mathtt{key}$ liegt: \\[0.3cm]
      \hspace*{-1.3cm}
  $\neg \exists x \in \mathtt{BinNode}: m\rightarrow\mathtt{key} < x\rightarrow\mathtt{key} \;\wedge\; x\rightarrow\mathtt{key} < n\rightarrow\mathtt{key}$
@@ -307,18 +307,18 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Binäre Bäume
+Bin\"are B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Formalisierung der Theorie der binären Bäume 
+Formalisierung der Theorie der bin\"aren B\"aume 
 \begin{enumerate}
 \item Typen: \textsl{Key}, \textsl{Value}, \textsl{Tree}
 \item $\mathtt{nil}: \textsl{Tree}$
 \item $\mathtt{bin}: \textsl{Key} \times \textsl{Value} \times \textsl{Tree} \times \textsl{Tree} \rightarrow \textsl{Tree}$
 \end{enumerate}
-Wir definieren folgende Prädikate 
+Wir definieren folgende Pr\"adikate 
 \begin{enumerate}
 \item $<: \textsl{Key} \times \textsl{Tree} \rightarrow \mathbb{B}$ 
 \item $>: \textsl{Key} \times \textsl{Tree} \rightarrow \mathbb{B}$ 
@@ -337,7 +337,7 @@ Wir definieren folgende Prädikate
 \item $\textsl{ordered}\bigg(\mathtt{bin}(k,v,l,r)\bigg) \;\;\leftrightarrow\;$ \\[0.3cm]
       \hspace*{1.3cm} $k > l \;\wedge\; k < r \;\wedge\; \textsl{ordered}(l) \;\wedge\; \textsl{ordered}(r)$
 \end{enumerate}
-\textbf{Definition}: $t \in \textsl{Tree}$ heißt \emph{geordneter} Baum g.d.w. \\[0.3cm]
+\textbf{Definition}: $t \in \textsl{Tree}$ hei\3t \emph{geordneter} Baum g.d.w. \\[0.3cm]
 \hspace*{1.3cm} $\textsl{ordered}(t) = \mathtt{true}$
 
 \vspace*{\fill}
@@ -352,12 +352,12 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Binäre Bäume (Fortsetzung)
+Bin\"are B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Berechnung der \textsl{Höhe} eines Baums \\[0.3cm]
+Berechnung der \textsl{H\"ohe} eines Baums \\[0.3cm]
 \hspace*{1.3cm} $\textsl{height}: \textsl{Tree} \rightarrow \mathbb{N}$
 \begin{enumerate}
 \item $\textsl{height}(\mathtt{nil}) = 0$
@@ -370,8 +370,8 @@ Berechnung der Zahl der Knoten eines Baumes \\[0.3cm]
 \item $\textsl{count}\bigg(\mathtt{bin}(k,v,l,r)\bigg) = 1 + \textsl{count}(l) + \textsl{count}(r)$
 \end{enumerate}
 
-Berechnung der gesamten Pfadlänge im Baum: \\[0.3cm]
-anderer Begriff \emph{innere Pfadlänge}
+Berechnung der gesamten Pfadl\"ange im Baum: \\[0.3cm]
+anderer Begriff \emph{innere Pfadl\"ange}
 \begin{enumerate}
 \item $\textsl{totalLength}(\mathtt{nil}) = 0$
 \item $\textsl{totalLength}(\mathtt{bin}(k,v,l,r) \;= $\\[0.3cm]
@@ -381,8 +381,8 @@ anderer Begriff \emph{innere Pfadlänge}
    + & \textsl{count}(r) & + & \textsl{totalLength}(r) \\
 \end{array}$
 \end{enumerate}
-Durchschnittliche Pfadlänge: \\[0.3cm]
-\hspace*{1.3cm} gesamte Pfadlänge / Anzahl Knoten
+Durchschnittliche Pfadl\"ange: \\[0.3cm]
+\hspace*{1.3cm} gesamte Pfadl\"ange / Anzahl Knoten
 
 
 \vspace*{\fill}
@@ -397,23 +397,23 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Volle binäre Bäume
+Volle bin\"are B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-\textbf{Definition}: Ein binärer Baum ist \emph{voll} wenn er die bei gegebener Höhe
+\textbf{Definition}: Ein bin\"arer Baum ist \emph{voll} wenn er die bei gegebener H\"ohe
 maximale Anzahl an Knoten hat.
 
-$c_h$: Zahl Knoten des vollen binären Baums der Höhe $h$.
+$c_h$: Zahl Knoten des vollen bin\"aren Baums der H\"ohe $h$.
 \begin{enumerate}
 \item $c_0 = 0$
 \item $c_{h+1} = c_h + c_h + 1$
 \end{enumerate}
 Daraus folgt: $c_h = 2^{h} - 1$
 
-$g_h$: gesamte Pfadlänge des vollen binäre Baums \\[0.3cm]
-$h$: Höhe des vollen binären Baum
+$g_h$: gesamte Pfadl\"ange des vollen bin\"are Baums \\[0.3cm]
+$h$: H\"ohe des vollen bin\"aren Baum
 \begin{enumerate}
 \item $g_1 = 0$
 \item $g_{h+1} = c_h + c_h + g_h + g_h$, also \\[0.3cm]
@@ -423,7 +423,7 @@ Homogenisierung dieser Rekursions--Gleichung liefert \\[0.3cm]
 \hspace*{1.3cm} $g_{h+3} = 5 * g_{h+2} - 8 * g_{h+1} + 4 * g_h$ \\[0.3cm]
 Charakteristisches Polynom: \\[0.3cm]
 \hspace*{1.3cm} $\chi(x) = x^3 - 5 * x^2 + 8 * x - 4 = (x - 1) * (x - 2)^2$ \\[0.3cm]
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $g_h = \alpha + \beta * 2^h + \gamma * h * 2^h$ \\[0.3cm]
 
 
@@ -438,7 +438,7 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \footnotesize
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $g_h = \alpha + \beta * 2^h + \gamma * h * 2^h$ \\[0.3cm]
 Berechnung der Anfangs--Bedingungen
 \begin{enumerate}
@@ -454,22 +454,22 @@ $$
  10 & = & \alpha + 8 * \beta + 24 * \gamma \\
 \end{array}
 $$
-Lösung: \\[0.3cm]
+L\"osung: \\[0.3cm]
 \hspace*{1.3cm}  $\alpha = 2$, $\beta = -2$, $\gamma = 1$.
 
-Tool zur Online--Lösung im Internet unter \\[0.3cm]
+Tool zur Online--L\"osung im Internet unter \\[0.3cm]
 \hspace*{0.3cm} \texttt{mss.math.vanderbilt.edu/\symbol{126}pscrooke/MSS/solvesystem.html}
 
 
 
-Lösung der Rekursions--Gleichung: \\[0.3cm]
+L\"osung der Rekursions--Gleichung: \\[0.3cm]
 \hspace*{1.3cm} $g_h = 2 + (h-2) * 2^{h}$ 
 
-Erwartungswert für den Aufwand bei der Suche nach einem Schlüssel ist die durchschnittliche Pfadlänge + 1.
-Für den vollen Baum, also im Optimal--Fall, gilt: \\[0.3cm]
+Erwartungswert f\"ur den Aufwand bei der Suche nach einem Schl\"ussel ist die durchschnittliche Pfadl\"ange + 1.
+F\"ur den vollen Baum, also im Optimal--Fall, gilt: \\[0.3cm]
 \hspace*{1.3cm} $\bruch{g_h}{c_h} + 1 = \bruch{2 + (h-2) * 2^{h}}{2^{h} -1} + 1\;\; _{\displaystyle \longrightarrow \atop {\scriptstyle h \rightarrow \infty}} \;\; h - 1$
 
-Ausgedrückt durch Anzahl $n$ der Knoten: \\[0.3cm]
+Ausgedr\"uckt durch Anzahl $n$ der Knoten: \\[0.3cm]
 \hspace*{1.3cm} $n = c_h = 2^h -1 \;\Leftrightarrow\; h = \log_2(n + 1)$
 
 \hspace*{1.3cm} $\bruch{g(n)}{n}\;  _{\displaystyle \longrightarrow \atop {\scriptstyle n \rightarrow \infty}} \;\; \log_2(n + 1) - 1$
@@ -486,7 +486,7 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Berechnung der durchschnittlichen gesamten Pfadlänge für zufällig erzeugte binäre Bäume
+Berechnung der durchschnittlichen gesamten Pfadl\"ange f\"ur zuf\"allig erzeugte bin\"are B\"aume
 mit $n$ Knoten
 \end{center}
 \vspace*{0.5cm}
@@ -529,12 +529,12 @@ Ist $k \in M$ erster Knoten, so hat Baum die Gestalt:
 \item Linker Teilbaum: Knoten $\{1,\cdots,k-1\}$
 \item Rechter Teilbaum: Knoten $\{k+1,\cdots,n\}$
 \end{enumerate}
-Die Wahrscheinlichkeit dafür, dass gerade Knoten $k$ als erstes eingefügt wird, beträgt: \\[0.3cm]
+Die Wahrscheinlichkeit daf\"ur, dass gerade Knoten $k$ als erstes eingef\"ugt wird, betr\"agt: \\[0.3cm]
 \hspace*{1.3cm} $\bruch{1}{n}$
 
 
-$g_n$: statistischer Mittelwert für gesamte Pfadlänge des \\
-\hspace*{0.8cm}  zufällig erzeugten binären Baums mit $n$ Knoten \\[0.5cm]
+$g_n$: statistischer Mittelwert f\"ur gesamte Pfadl\"ange des \\
+\hspace*{0.8cm}  zuf\"allig erzeugten bin\"aren Baums mit $n$ Knoten \\[0.5cm]
 \hspace*{1.3cm} $g_n = \bruch{1}{n} \sum\limits_{k=1}^n \Bigg(\; (k - 1) + g_{k-1} \;+\; (n-k) + g_{n-k} \;\Bigg)$
 
 \vspace*{\fill}
@@ -549,13 +549,13 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Pfadlänge zufäliger Bäume (Fortsetzung)
+Pfadl\"ange zuf\"aliger B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \hspace*{1.3cm} $g_n = \bruch{1}{n} \sum\limits_{k=1}^n \Bigg(\; (k - 1) + g_{k-1} \;+\; (n-k) + g_{n-k} \;\Bigg)$
-\textbf{Erklärung}:
+\textbf{Erkl\"arung}:
 \begin{enumerate}
 \item $\textsl{totalLength}(\mathtt{bin}(k,v,l,r) \;= $\\[0.3cm]
 \hspace*{1.3cm} $
@@ -564,10 +564,10 @@ Pfadlänge zufäliger Bäume (Fortsetzung)
    + & \textsl{count}(r) & + & \textsl{totalLength}(r) \\
 \end{array}$
 \item $k - 1$: Anzahl Knoten im linken Teilbaum
-\item $g_{k-1}$: gesamte Pfadlänge im linken Teilbaum
+\item $g_{k-1}$: gesamte Pfadl\"ange im linken Teilbaum
 \item $n - k$: Anzahl Knoten im rechten Teilbaum
-\item $g_{n-k}$: gesamte Pfadlänge im rechten Teilbaum
-\item $\bruch{1}{n}$: Wahrscheinlichkeit für jeden der $n$ Fälle
+\item $g_{n-k}$: gesamte Pfadl\"ange im rechten Teilbaum
+\item $\bruch{1}{n}$: Wahrscheinlichkeit f\"ur jeden der $n$ F\"alle
 \end{enumerate}
 Vereinfachungen: 
 \begin{enumerate}
@@ -590,7 +590,7 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Lösung von $g_n = n - 1 + \bruch{2}{n} \sum\limits_{i=0}^{n-1} g_i$
+L\"osung von $g_n = n - 1 + \bruch{2}{n} \sum\limits_{i=0}^{n-1} g_i$
 \end{center}
 \vspace*{0.5cm}
 
@@ -668,9 +668,9 @@ Approximation von $g_n$
 \vspace*{0.5cm}
 
 \footnotesize
-Für große $n$ gilt \\[0.3cm]
+F\"ur gro\3e $n$ gilt \\[0.3cm]
 \hspace*{1.3cm} $H(n) = \sum\limits_{i=1}^n \bruch{1}{n} \approx \int\limits_1^n \bruch{dx}{x} = \ln(x)$ \\[0.3cm]
-Mathematisch präzise ist \\[0.3cm]
+Mathematisch pr\"azise ist \\[0.3cm]
 \hspace*{1.3cm} $\lim\limits_{n\rightarrow\infty} \bruch{H(n)}{\ln(n)} = 1$ \\[0.3cm]
 Also \\[0.3cm]
 \hspace*{1.3cm} $g_n = 2 * n * \ln(n) + \Oh(n)$ \\[0.3cm]
@@ -680,11 +680,11 @@ Also \\[0.3cm]
 \hspace*{1.3cm} $g_n = 2 * \ln(2) n * \log_2(n) + \Oh(n)$ \\[0.3cm]
 Vergleich: im optimalen Fall gilt: \\[0.3cm]
 \hspace*{1.3cm} $g_n = n * (\log_2(n+1)-1)= n * \log_2(n) + \Oh(n)$ \\[0.3cm]
-Also gilt für das Verhältnis \\[0.3cm]
-\hspace*{1.3cm} $\bruch{g_n\;\; \mbox{zufällig}}{g_n\;\; \mbox{optimal}} \;\;_{\displaystyle \longrightarrow \atop {\scriptstyle n \rightarrow \infty}}\;\; 2 * \ln(2) \approx 1.386$
+Also gilt f\"ur das Verh\"altnis \\[0.3cm]
+\hspace*{1.3cm} $\bruch{g_n\;\; \mbox{zuf\"allig}}{g_n\;\; \mbox{optimal}} \;\;_{\displaystyle \longrightarrow \atop {\scriptstyle n \rightarrow \infty}}\;\; 2 * \ln(2) \approx 1.386$
 
-\textbf{Konklusion} für Suche: \\[0.9cm]
-\hspace*{0.3cm} \framebox{zufälliger Baum  im Durchschnitt $39\%$ schlechter}
+\textbf{Konklusion} f\"ur Suche: \\[0.9cm]
+\hspace*{0.3cm} \framebox{zuf\"alliger Baum  im Durchschnitt $39\%$ schlechter}
 
 
 \vspace*{0.3cm}
@@ -701,14 +701,14 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Erzeugung balancierter Bäume
+Erzeugung balancierter B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \textbf{Gegeben}: Liste $l$ von $\langle\textsl{Key}, \textsl{Value}\rangle$ Paaren \\[0.3cm]
 \textbf{Gesucht}: Balancierter Baum, der alle Elemente aus $l$ \\
-\hspace*{2.88cm} enthält \\[0.3cm]
+\hspace*{2.88cm} enth\"alt \\[0.3cm]
 \textbf{Vorgehen}: Divide--and--Conquer Algorithmus
 \begin{enumerate}
 \item Sortieren der Liste $l$: Sortierte Liste $s$
@@ -716,7 +716,7 @@ Erzeugung balancierter Bäume
   \begin{enumerate}
   \item mittleres Element $m$
   \item linke Liste: Elemente kleiner als $m$
-  \item rechte Liste: Elemente größer als $m$
+  \item rechte Liste: Elemente gr\"o\3er als $m$
   \end{enumerate}
 \item Bilde rekursiv balancierten Baum $l$ aus linker Liste
 \item Bilde rekursiv balancierten Baum $r$ aus rechter Liste
@@ -749,7 +749,7 @@ Dictionaries  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Komplexität des Verfahrens
+Komplexit\"at des Verfahrens
 \end{center}
 \vspace*{0.5cm}
 
@@ -763,8 +763,8 @@ NodePtr ithNode(List l, unsigned i) {
 \end{verbatim}
 Analyse des Algorithmus ergibt: 
 
-Sei $n = 2^k -1$ Zahl der Knoten der Liste. Sei $b_k$ ``Aufwand'' für Berechnung des Teilbaums.
-Dann gilt näherungsweise 
+Sei $n = 2^k -1$ Zahl der Knoten der Liste. Sei $b_k$ ``Aufwand'' f\"ur Berechnung des Teilbaums.
+Dann gilt n\"aherungsweise 
 \begin{enumerate}
 \item $b_0 = 1$
 \item $b_1 = 2^k + 2 * b_k$
@@ -773,17 +773,17 @@ Der Summand $2^k$ kommt von \\[0.3cm]
 \hspace*{1.3cm} \texttt{ithNode(l, middle);}
 
 Ergebnis:
-Ist $n$ Länge der anfangs gegebenen Liste, so beträgt der Aufwand der Berechnung des balancierten Baums\\[0.3cm]
+Ist $n$ L\"ange der anfangs gegebenen Liste, so betr\"agt der Aufwand der Berechnung des balancierten Baums\\[0.3cm]
 \hspace*{1.3cm} $\Oh(n * \log(n))$
 
-Aufwand zum Sortieren beträgt ebenfalls \\[0.3cm]
+Aufwand zum Sortieren betr\"agt ebenfalls \\[0.3cm]
 \hspace*{1.3cm} $\Oh(n * \log(n))$
 
-Gesamte Komplexität:\\[0.3cm]
+Gesamte Komplexit\"at:\\[0.3cm]
 \hspace*{1.3cm} $\Oh(n * \log(n))$
 
 Verfahren ist geeignet falls Tabelle, in der gesucht werden soll,
-von Anfang an vollständig bekannt ist.
+von Anfang an vollst\"andig bekannt ist.
 
 
 \vspace*{\fill}

@@ -1,9 +1,9 @@
 \chapter{Daten-Kompression}
-In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ möglichst platzsparend
-abspeichern können.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
+In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ m\"oglichst platzsparend
+abspeichern k\"onnen.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
 Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
-Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben Länge
-von $b$ Bits kodieren wollen, dann muss für diese Zahl von Bits offenbar
+Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben L\"ange
+von $b$ Bits kodieren wollen, dann muss f\"ur diese Zahl von Bits offenbar
 \[ n \leq 2^b \] 
 gelten, woraus
 \[ b = \textsl{ceil}\bigl(\log_2(n)\bigr) \]
@@ -12,20 +12,20 @@ rundet eine gegebene reelle Zahl immer auf, es gilt also
 \[ \textsl{ceil}(x) = \min \{ k \in \N \mid x \leq k \}. \]
 Besteht der String $s$ aus $m$ Buchstaben, so werden zur Kodierung des Strings insgesamt
 $m \cdot b$ Bits gebraucht.  Lassen wir die Forderung, dass alle Buchstaben mit derselben
-Anzahl von Bits kodiert werden, fallen, dann ist es unter Umständen möglich, den String
+Anzahl von Bits kodiert werden, fallen, dann ist es unter Umst\"anden m\"oglich, den String
 $s$ mit weniger Bits zu kodieren.  Die zentrale Idee ist dabei, dass Buchstaben, die sehr
-häufig auftreten, mit möglichst wenig Bits kodiert werden, während Buchstaben, die sehr selten
-auftreten, mit einer größeren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
+h\"aufig auftreten, mit m\"oglichst wenig Bits kodiert werden, w\"ahrend Buchstaben, die sehr selten
+auftreten, mit einer gr\"o\3eren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
 wir folgendes Beispiel:  Unser Alphabet  $\Sigma$ bestehe nur aus vier Buchstaben,
 \[ \Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}. \]
 In dem zu speichernden String $s$ trete der Buchstabe \texttt{a} insgesamt $990$ mal auf, der
 Buchstabe \texttt{b} trete $8$ mal auf und die Buchstaben \texttt{c} und \texttt{d} treten
 jeweil $1$ mal auf.  Dann besteht der String $s$ aus insgesamt $1\,000$ 
 Buchstaben.  Wenn wir jeden Buchstaben mit $2 = \log_2(4)$ Bits kodieren, dann werden also
-insgesamt $2\,000$ Bits benötigt um den String $s$ abzuspeichern.  Wir können den String
+insgesamt $2\,000$ Bits ben\"otigt um den String $s$ abzuspeichern.  Wir k\"onnen den String
 aber auch mit weniger Bits abspeichern, wenn wir die einzelnen Buchstaben mit Bitfolgen
-unterschiedlicher Länge kodieren.   In unserem konkreten
-Beispiel wollen wir versuchen den Buchstaben \texttt{a}, der mit Abstand am häufigsten
+unterschiedlicher L\"ange kodieren.   In unserem konkreten
+Beispiel wollen wir versuchen den Buchstaben \texttt{a}, der mit Abstand am h\"aufigsten
 vorkommt, mit einem einzigen Bit zu kodieren.  Bei den  Buchstaben
 \texttt{c} und \texttt{d}, die nur sehr selten auftreten, ist es kein Problem auch mehr
 Bits zu verwenden.  Tabelle \ref{tab:coding} zeigt eine Kodierung, die von dieser Idee
@@ -40,28 +40,28 @@ Buchstabe & \texttt{a} & \texttt{b}  & \texttt{c}   & \texttt{d}   \\
 Kodierung & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
 \hline
 \end{tabular}
-  \caption{Kodierung der Buchstaben mit variabler Länge.}
+  \caption{Kodierung der Buchstaben mit variabler L\"ange.}
   \label{tab:coding}
 \end{table}
 
 Um zu verstehen, wie diese Kodierung funktioniert, stellen wir sie in
 Abbildung \ref{fig:coding-tree} als Baum dar.  Die inneren 
 Knoten dieses Baums enthalten keine Attribute und werden als leere Kreise dargestellt.
-Die Blätter des Baums sind mit den Buchstaben markiert.
-Die Kodierung eines Buchstabens ergibt sich über die Beschriftung der Kanten, die von dem
-Wurzel-Knoten zu dem Buchstaben führen.  Beispielsweise führt von der Wurzel eine
+Die Bl\"atter des Baums sind mit den Buchstaben markiert.
+Die Kodierung eines Buchstabens ergibt sich \"uber die Beschriftung der Kanten, die von dem
+Wurzel-Knoten zu dem Buchstaben f\"uhren.  Beispielsweise f\"uhrt von der Wurzel eine
 Kante direkt zu dem Blatt, das mit dem Buchstaben ``\texttt{a}'' markiert ist.  Diese
 Kante ist mit dem Label ``\texttt{0}'' beschriftet.  Also wird der Buchstabe
 ``\texttt{a}'' durch den String ``\texttt{0}'' kodiert.  Um ein weiteres Beispiel zu
 geben, betrachten wir den Buchstaben ``\texttt{c}''.   Der Pfad, der von der Wurzel zu dem
-Blatt führt, das mit ``\texttt{c}'' markiert ist, enthält drei Kanten.  Die ersten beiden
+Blatt f\"uhrt, das mit ``\texttt{c}'' markiert ist, enth\"alt drei Kanten.  Die ersten beiden
 Kanten sind jeweils mit ``\texttt{1}'' markiert, die letzte Kante ist mit ``\texttt{0}''
 markiert.  Also wird der Buchstabe ''\texttt{c}'' durch den String ``\texttt{110}''
-kodiert.  Kodieren wir nun unseren ursprünglichen String $s$, der aus $990$
+kodiert.  Kodieren wir nun unseren urspr\"unglichen String $s$, der aus $990$
 \texttt{a}'s, $8$ \texttt{b}'s, einem \texttt{c} und einem \texttt{d} besteht, so
-benötigen wir insgesamt
+ben\"otigen wir insgesamt
 \[ 990 \cdot 1 + 8 \cdot 2 + 1 \cdot 3 + 1 \cdot 3 = 1\,012 \]
-Bits.  Gegenüber der ursprünglichen Kodierung, die $2\,000$ Bits verwendet, haben wir $49,4\%$
+Bits.  Gegen\"uber der urspr\"unglichen Kodierung, die $2\,000$ Bits verwendet, haben wir $49,4\%$
 gespart!
 
 \begin{figure}[!ht]
@@ -74,12 +74,12 @@ gespart!
 Um zu sehen, wie mit Hilfe des Kodierungs-Baums ein String dekodiert werden kann,
 betrachten wir als Beispiel den String ``\texttt{100111}''.  Wir beginnen mit der
 ``\texttt{1}'', die uns sagt, vom Wurzel-Knoten dem rechten Pfeil zu folgen.  Die
-anschließende ``\texttt{0}'' spezifiziert dann den linken Pfeil.  Jetzt sind wir bei dem
+anschlie\3ende ``\texttt{0}'' spezifiziert dann den linken Pfeil.  Jetzt sind wir bei dem
 mit ''\texttt{b}'' markierten Blatt angekommen und haben damit den ersten Buchstaben
-gefunden.  Wir gehen wieder zur Wurzel des Baums zurück. Die folgende ``\texttt{0}'' führt
+gefunden.  Wir gehen wieder zur Wurzel des Baums zur\"uck. Die folgende ``\texttt{0}'' f\"uhrt
 uns zu dem Blatt, das mit ``\texttt{a}'' markiert ist, also haben wir den zweiten
-Buchstaben gefunden. Wir gehen wieder zur Wurzel zurück.  Die Ziffern ``\texttt{111}''
-führen uns nun zu dem Buchstaben ``\texttt{d}''.  Damit haben wir insgesamt
+Buchstaben gefunden. Wir gehen wieder zur Wurzel zur\"uck.  Die Ziffern ``\texttt{111}''
+f\"uhren uns nun zu dem Buchstaben ``\texttt{d}''.  Damit haben wir insgesamt
 \\[0.2cm]
 \hspace*{1.3cm}
 ``\texttt{100111}'' $\simeq$ ``\texttt{bad}''.
@@ -87,42 +87,42 @@ führen uns nun zu dem Buchstaben ``\texttt{d}''.  Damit haben wir insgesamt
 
 \section{Der Algorithmus von Huffman}
 Angenommen, wir haben einen String $s$, der aus Buchstaben eines Alphabets $\Sigma$
-aufgebaut ist.  Wie finden wir dann eine Kodierung für die einzelnen Buchstaben, die
-mit möglichst wenig Bits auskommt?  Der Algorithmus von Huffman gibt eine Antwort auf diese
-Frage. Um diesen Algorithmus präsentieren zu können, definieren wir die Menge
-$\mathcal{K}$ der \emph{Kodierungs-Bäume} induktiv.  
+aufgebaut ist.  Wie finden wir dann eine Kodierung f\"ur die einzelnen Buchstaben, die
+mit m\"oglichst wenig Bits auskommt?  Der Algorithmus von Huffman gibt eine Antwort auf diese
+Frage. Um diesen Algorithmus pr\"asentieren zu k\"onnen, definieren wir die Menge
+$\mathcal{K}$ der \emph{Kodierungs-B\"aume} induktiv.  
 \begin{enumerate}
 \item $\textsl{leaf}(c,f) \in \mathcal{K} \quad \mbox{falls $c \in \Sigma$ und $f \in \N$}$.
 
-      Ausdrücke der Form $\textsl{leaf}(c,f)$ sind die Blätter eines Kodierungs-Baums.
+      Ausdr\"ucke der Form $\textsl{leaf}(c,f)$ sind die Bl\"atter eines Kodierungs-Baums.
       Dabei ist $c$ ein Buchstabe aus unserem Alphabet $\Sigma$ und $f$ gibt die
-      Häufigkeit an, mit der dieser Buchstabe in dem zu kodierenden String auftritt.
+      H\"aufigkeit an, mit der dieser Buchstabe in dem zu kodierenden String auftritt.
 
-      Gegenüber Abbildung \ref{fig:coding-tree} kommen hier bei den Blättern noch die
-      Häufigkeiten hinzu.  Diese benötigen wir, denn wir wollen ja später Buchstaben,
-      die sehr häufig auftreten, mit möglichst wenig Bits kodieren.  
+      Gegen\"uber Abbildung \ref{fig:coding-tree} kommen hier bei den Bl\"attern noch die
+      H\"aufigkeiten hinzu.  Diese ben\"otigen wir, denn wir wollen ja sp\"ater Buchstaben,
+      die sehr h\"aufig auftreten, mit m\"oglichst wenig Bits kodieren.  
 
 \item $\textsl{node}(l,r) \in \mathcal{K} \quad 
        \mbox{falls $l \in\mathcal{K}$ und $r \in \mathcal{K}$.}$ 
 
-      Ausdrücke der Form $\textsl{node}(l,r)$ sind die inneren Knoten eines
+      Ausdr\"ucke der Form $\textsl{node}(l,r)$ sind die inneren Knoten eines
       Kodierungs-Baums.  
 \end{enumerate}
-Als nächstes  definieren wir eine Funktion 
+Als n\"achstes  definieren wir eine Funktion 
 \[  \textsl{count} : \mathcal{K} \rightarrow \N, \]
-welche die  Gesamt-Häufigkeiten aller in dem Baum auftretenden Buchstaben aufsummiert.
+welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufsummiert.
 \begin{enumerate}
-\item Die Definition der Funktion \textsl{count} ist für Blätter trivial:
+\item Die Definition der Funktion \textsl{count} ist f\"ur Bl\"atter trivial:
       \[ \textsl{leaf}(c,f).\textsl{count}() = f. \]
-\item Die Gesamt-Häufigkeit des Knotens $\textsl{node}(l,r)$
-      ergibt sich als Summe der Gesamt-Häufigkeiten von $l$ und $r$. Also gilt
+\item Die Gesamt-H\"aufigkeit des Knotens $\textsl{node}(l,r)$
+      ergibt sich als Summe der Gesamt-H\"aufigkeiten von $l$ und $r$. Also gilt
       \[ \textsl{node}(l,r).\textsl{count}() = l.\textsl{count}() + r.\textsl{count}(). \]
 \end{enumerate}
-Weiter definieren wir auf Kodierungs-Bäumen die Funktion
+Weiter definieren wir auf Kodierungs-B\"aumen die Funktion
 \[ \textsl{cost}: \mathcal{K} \rightarrow \N. \]
-Die Funktion \textsl{cost} gibt an, wie viele Bits benötigt werden, um mit dem gegebenen
-Kodierungs-Baum eine String zu kodieren, wenn die Häufigkeiten, mit denen ein Buchstabe
-verwendet wird, mit den Häufigkeiten übereinstimmen, die an den Blättern des Baums notiert
+Die Funktion \textsl{cost} gibt an, wie viele Bits ben\"otigt werden, um mit dem gegebenen
+Kodierungs-Baum eine String zu kodieren, wenn die H\"aufigkeiten, mit denen ein Buchstabe
+verwendet wird, mit den H\"aufigkeiten \"ubereinstimmen, die an den Bl\"attern des Baums notiert
 sind.  Die Definition dieser Funktion ist induktiv:
 \begin{enumerate}
 \item $\textsl{leaf}(c,f).\textsl{cost}() = 0$,
@@ -131,15 +131,15 @@ sind.  Die Definition dieser Funktion ist induktiv:
 \item $\textsl{node}(l,r).\textsl{cost}() = 
        l.\textsl{cost}() + r.\textsl{cost}() + l.\textsl{count}() + r.\textsl{count}()$.
 
-      Wenn wir zwei Kodierungs-Bäume $l$ und $r$ zu einem neuen Kodierungs-Baum
-      zusammenfügen, verlängern sich die Kodierungen für alle Buchstaben, die in $l$ oder
+      Wenn wir zwei Kodierungs-B\"aume $l$ und $r$ zu einem neuen Kodierungs-Baum
+      zusammenf\"ugen, verl\"angern sich die Kodierungen f\"ur alle Buchstaben, die in $l$ oder
       $r$ auftreten, um ein Bit.
       Die Summe 
       \[ l.\textsl{count}() + r.\textsl{count}() \]
-      gibt die Gesamt-Häufigkeiten aller Buchstaben an, die in dem linken und
+      gibt die Gesamt-H\"aufigkeiten aller Buchstaben an, die in dem linken und
       rechten Teilbaum auftreten.  Da sich die Kodierung aller dieser Buchstaben
-      durch die Bildung des Knotens $\textsl{node}(l,r)$ gegenüber der Kodierung in $l$
-      und $r$ jeweils um 1 verlängert, müssen wir zu den Kosten der Teilbäume $l$ und $r$
+      durch die Bildung des Knotens $\textsl{node}(l,r)$ gegen\"uber der Kodierung in $l$
+      und $r$ jeweils um 1 verl\"angert, m\"ussen wir zu den Kosten der Teilb\"aume $l$ und $r$
       den Term $l.\textsl{count}() + r.\textsl{count}()$ hinzuaddieren.
 \end{enumerate}
 Wir erweitern die Funktion $\textsl{cost}()$ auf Mengen von Knoten, indem wir die Kosten
@@ -147,27 +147,27 @@ einer Menge $M$ als die Summe der Kosten der Knoten von $M$ definieren:
 \[ \textsl{cost}(M) = \sum\limits_{n\in M} n.\textsl{cost}(). \]
 Ausgangs-Punkt des von David A.~Huffman (1925 -- 1999) \cite{huffman:52} angegebenen
 Algorithmus ist eine Menge von Paaren der Form $\langle c, f\rangle$.  Dabei ist $c$ ein
-Buchstabe und $f$ gibt die Häufigkeit an, mit der dieser Buchstabe auftritt.  Im ersten
-Schritt werden diese Paare in die Blätter eines Kodierungs-Baums überführt.  Besteht der
+Buchstabe und $f$ gibt die H\"aufigkeit an, mit der dieser Buchstabe auftritt.  Im ersten
+Schritt werden diese Paare in die Bl\"atter eines Kodierungs-Baums \"uberf\"uhrt.  Besteht der
 zu kodierende String aus  $n$ verschiedenen Buchstaben, so haben
-wir dann eine Menge von Kodierungs-Bäumen der Form
+wir dann eine Menge von Kodierungs-B\"aumen der Form
 \begin{equation}
   \label{eq:huffmann1}
  M = \bigl\{ \textsl{leaf}(c_1,f_1), \cdots, \textsl{leaf}(c_k,f_k) \bigr\}   
 \end{equation}
 Es werden nun solange Knoten $a$ und $b$ aus $M$ zu einem neuen Knoten
-$\textsl{node}(a,b)$ zusammengefasst, bis die Menge $M$ nur noch einen Knoten enthält.
-Offenbar gibt es im Allgemeinen sehr viele Möglichkeiten, die Knoten aus der Menge zu
+$\textsl{node}(a,b)$ zusammengefasst, bis die Menge $M$ nur noch einen Knoten enth\"alt.
+Offenbar gibt es im Allgemeinen sehr viele M\"oglichkeiten, die Knoten aus der Menge zu
 neuen Knoten zusammen zu fassen.  Das Ziel ist es die Knoten so zusammen zu fassen, dass
 die Kosten der Menge $M$ am Ende  minimal sind.
-Um zu verstehen, welche Knoten wir am geschicktesten zusammenfassen können, betrachten wir, wie
-sich die Kosten der Menge durch das Zusammenfassen zweier Knoten ändert.
+Um zu verstehen, welche Knoten wir am geschicktesten zusammenfassen k\"onnen, betrachten wir, wie
+sich die Kosten der Menge durch das Zusammenfassen zweier Knoten \"andert.
 Dazu betrachten wir zwei Mengen von Knoten $M_1$ und $M_2$, so dass 
 \[ M_1 = N \cup \{ a, b\} \quad \mathtt{und} \quad M_2 = N \cup \{ \textsl{node}(a,b) \} \]
 gilt, die Menge $M_1$ geht also aus der Menge $M_2$ dadurch hervor, dass wir
 die Knoten $a$ und $b$ zu einem neuen Knoten zusammen fassen und durch diesen ersetzen.
 Untersuchen wir, wie
-sich die Kosten der Menge dabei verändern, wir untersuchen also die folgende Differenz:
+sich die Kosten der Menge dabei ver\"andern, wir untersuchen also die folgende Differenz:
 \begin{eqnarray*}
 & & \textsl{cost}\bigl(N \cup \{ \textsl{node}(a,b) \}\bigr) - \textsl{cost}\bigl(N \cup \{ a,b \}\bigr) \\
 &=& \textsl{cost}\bigl( \{ \textsl{node}(a,b) \}\bigr) - \textsl{cost}\bigl(\{ a,b \}\bigr)              \\
@@ -176,11 +176,11 @@ sich die Kosten der Menge dabei verändern, wir untersuchen also die folgende Dif
     - a.\textsl{cost}() - b.\textsl{cost}()                                                              \\
 &=& a.\textsl{count}() + b.\textsl{count}() 
 \end{eqnarray*}
-Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so vergößern sich
+Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so verg\"o\3ern sich
 die Kosten der Menge um die Summe
 \[ a.\textsl{count}() + b.\textsl{count}(). \]
-Wenn wir die Kosten der Menge $M$ insgesamt möglichst klein halten wollen, dann ist es daher naheliegend,
-dass wir in der Menge $M$ die beiden Knoten $a$ und $b$ suchen, für die die Funktion
+Wenn wir die Kosten der Menge $M$ insgesamt m\"oglichst klein halten wollen, dann ist es daher naheliegend,
+dass wir in der Menge $M$ die beiden Knoten $a$ und $b$ suchen, f\"ur die die Funktion
 $\textsl{count}()$ den kleinsten Wert liefert.  Diese Knoten werden wir aus der Menge $M$
 entfernen und durch den neuen Knoten $\textsl{node}(a,b)$ ersetzen.
 Dieser Prozess wird solange iteriert, bis die Menge $M$ nur noch aus einem Knoten besteht.  Dieser
@@ -222,32 +222,32 @@ Der in Abbildung \ref{fig:huffman} gezeigte Pseudo-Code beschreibt diesen Algori
       in jedem Schritt um Eins.  
       \begin{enumerate}
       \item Dazu werden mit Hilfe der Funktion $\textsl{minCount}()$ die
-            beiden Knoten $a$ und $b$ berechnet, für die der Wert von $\textsl{count}()$ minimal
+            beiden Knoten $a$ und $b$ berechnet, f\"ur die der Wert von $\textsl{count}()$ minimal
             ist.  Beide Knoten werden aus der Menge $M$ entfernt.
 
-            Die Funktion $\textsl{minCount}(M)$ berechnet den Knoten der Menge $M$, für den 
+            Die Funktion $\textsl{minCount}(M)$ berechnet den Knoten der Menge $M$, f\"ur den 
             die Funktion $\textsl{count}()$ den kleinsten Wert annimmt, es gilt also
             \[ \textsl{minCount}(M) = m \;\rightarrow\; 
                \forall n \in M: m.\textsl{count}() \leq n.\textsl{count}() \]
-      \item Anschließend wird aus den beiden Knoten $a$ und $b$ ein neuer Knoten 
+      \item Anschlie\3end wird aus den beiden Knoten $a$ und $b$ ein neuer Knoten 
             $\textsl{node}(a,b)$ gebildet.
-            Dieser Knoten wird der Menge $M$ hinzugefügt.
+            Dieser Knoten wird der Menge $M$ hinzugef\"ugt.
       \end{enumerate}
-\item Die \texttt{while}-Schleife wird beendet, wenn die Menge $M$ nur noch ein Element enthält.
-      Dieses wird mit der Funktion \texttt{arb} extrahiert und als Ergebnis zurück gegeben.
+\item Die \texttt{while}-Schleife wird beendet, wenn die Menge $M$ nur noch ein Element enth\"alt.
+      Dieses wird mit der Funktion \texttt{arb} extrahiert und als Ergebnis zur\"uck gegeben.
 \end{enumerate}
-Die Laufzeit des Huffman-Algorithmus hängt stark von der Effizienz der Funktion $\textsl{minCount}()$.
-Eine naive Implementierung würde die Knoten aus der Menge $M$ in einer geordneten Liste vorhalten.
-Die Knoten $n$ wären in dieser Liste nach der Größe $n.\textsl{cost}()$ aufsteigend sortiert.
+Die Laufzeit des Huffman-Algorithmus h\"angt stark von der Effizienz der Funktion $\textsl{minCount}()$.
+Eine naive Implementierung w\"urde die Knoten aus der Menge $M$ in einer geordneten Liste vorhalten.
+Die Knoten $n$ w\"aren in dieser Liste nach der Gr\"o\3e $n.\textsl{cost}()$ aufsteigend sortiert.
 Dann ist die Funktion $\textsl{minCount}()$ zwar sehr effizient, aber die Operation
 \\[0.2cm]
 \hspace*{1.3cm}
 \texttt{M := M + \{ node(a, b) \};}
 \\[0.2cm]
-würde einen Aufwand erfordern, der linear in der Anzahl der Elemente der Menge $M$ ist.
-Es ist effizienter, die Menge $M$ durch eine Prioritäts-Warteschlange $Q$ darzustellen, denn
-dann kann die Funktion $\textsl{minCount}()$ durch $Q.\textsl{top}()$ realisiert werden, während
-das Einfügen von $\textsl{Node}(a,b)$ durch den Aufruf von $\textsl{insert}()$ realisiert wird.
+w\"urde einen Aufwand erfordern, der linear in der Anzahl der Elemente der Menge $M$ ist.
+Es ist effizienter, die Menge $M$ durch eine Priorit\"ats-Warteschlange $Q$ darzustellen, denn
+dann kann die Funktion $\textsl{minCount}()$ durch $Q.\textsl{top}()$ realisiert werden, w\"ahrend
+das Einf\"ugen von $\textsl{Node}(a,b)$ durch den Aufruf von $\textsl{insert}()$ realisiert wird.
 
 \begin{table}[htbp]
   \centering
@@ -255,15 +255,15 @@ das Einfügen von $\textsl{Node}(a,b)$ durch den Aufruf von $\textsl{insert}()$ r
 \hline
 Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} \\
 \hline
-Häufigkeit &          1 &          2 &          3 &          4 &          5 \\
+H\"aufigkeit &          1 &          2 &          3 &          4 &          5 \\
 \hline
 \end{tabular}
-  \caption{Buchstaben mit Häufigkeiten.}
+  \caption{Buchstaben mit H\"aufigkeiten.}
   \label{tab:frequency}
 \end{table}
 
 Wir illustrieren den  Huffman-Algorithmus, indem wir ihn auf die Buchstaben, die in
-Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwenden.
+Tabelle \ref{tab:frequency} zusammen mit ihren H\"aufigkeiten angegeben sind, anwenden.
 \begin{enumerate}
 \item Zu Beginn hat die Menge $M$ die Form
       \\[0.2cm]
@@ -273,8 +273,8 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
              \textsl{leaf}(\mathtt{c},3),\,
              \textsl{leaf}(\mathtt{d},4),\,
              \textsl{leaf}(\mathtt{e},5)\bigr\}. $
-\item Die Funktion $\textsl{count}()$ ist hier für die Blätter mit den Buchstaben \texttt{a} und
-      \texttt{b} minimal.  Also entfernen wir diese Blätter aus der Menge und fügen statt
+\item Die Funktion $\textsl{count}()$ ist hier f\"ur die Bl\"atter mit den Buchstaben \texttt{a} und
+      \texttt{b} minimal.  Also entfernen wir diese Bl\"atter aus der Menge und f\"ugen statt
       dessen den Knoten 
       \\[0.2cm]
       \hspace*{0.3cm}
@@ -287,7 +287,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
        = \textsl{leaf}(\mathtt{a},1).\textsl{count}()+  \textsl{leaf}(\mathtt{b},2).\textsl{count}()
        = 1 + 2 = 3$.
       \\[0.2cm]
-      Um die Funktion $\textsl{count}()$ nicht jedes Mal neu berechnen zu müssen, annotieren wir
+      Um die Funktion $\textsl{count}()$ nicht jedes Mal neu berechnen zu m\"ussen, annotieren wir
       den Wert dieser Funktion mit einem Doppelpunkt an einem Knoten $n$ in der Form 
       \\[0.2cm]
       \hspace*{0.3cm}
@@ -312,7 +312,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
            \textsl{node}\bigl((\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)\bigr),\; 
            \textsl{leaf}(\mathtt{c},3)\Bigr):6, $
       \\[0.2cm]
-      den wir der Menge $M$ hinzufügen.  Dann hat $M$ die Form
+      den wir der Menge $M$ hinzuf\"ugen.  Dann hat $M$ die Form
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \Bigl\{ 
@@ -330,7 +330,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
       \hspace*{0.3cm}
       $ \textsl{node}\bigl(\textsl{leaf}(\mathtt{d},4), \textsl{leaf}(\mathtt{e},5)\bigr):9. $
       \\[0.2cm]
-      Diesen fügen wir der Menge $M$ hinzu und erhalten
+      Diesen f\"ugen wir der Menge $M$ hinzu und erhalten
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \Bigl\{ 
@@ -338,7 +338,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren Häufigkeiten angegeben sind, anwe
         \textsl{node}\Bigl(
            \textsl{node}\bigl(\textsl{leaf}(\mathtt{a},1), \textsl{leaf}(\mathtt{b},2)\bigr),\; 
            \textsl{leaf}(\mathtt{c},3)\Bigr):6\Bigr\}. $      
-\item Jetzt enthält die Menge $M$ nur noch zwei Knoten.  Wir entfernen diese Knoten und
+\item Jetzt enth\"alt die Menge $M$ nur noch zwei Knoten.  Wir entfernen diese Knoten und
       bilden daraus den neuen Knoten
       \\[0.2cm]
       \hspace*{0.3cm}
@@ -377,7 +377,7 @@ Buchstabe &   \texttt{a} &   \texttt{b} & \texttt{c}  & \texttt{d}  & \texttt{e}
 Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11} \\
 \hline
 \end{tabular}
-  \caption{Kodierung der Buchstaben mit variabler Länge.}
+  \caption{Kodierung der Buchstaben mit variabler L\"ange.}
   \label{tab:coding2}
 \end{table}
 
@@ -410,13 +410,13 @@ Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11
 
 \noindent
 Wir zeigen nun, wie die Berechnung des Huffman-Codes in \textsl{Java} implementiert werden
-kann.  Als erstes präsentieren wir Klassen, um Kodierungs-Bäume darstellen zu
-können.  Abbildung \ref{fig:Huffman/Node.java} zeigt die Implementierung der abstrakten
-Klasse \texttt{Node}, mit der wir Elemente der Menge der Kodierungs-Bäume $\mathcal{K}$ darstellen.
-Da wir später Knoten anhand der für diesen Knoten  gespeicherten Häufigkeiten vergleichen
-müssen, implementiert diese Klasse die Schnittstelle \texttt{Comparable}.
+kann.  Als erstes pr\"asentieren wir Klassen, um Kodierungs-B\"aume darstellen zu
+k\"onnen.  Abbildung \ref{fig:Huffman/Node.java} zeigt die Implementierung der abstrakten
+Klasse \texttt{Node}, mit der wir Elemente der Menge der Kodierungs-B\"aume $\mathcal{K}$ darstellen.
+Da wir sp\"ater Knoten anhand der f\"ur diesen Knoten  gespeicherten H\"aufigkeiten vergleichen
+m\"ussen, implementiert diese Klasse die Schnittstelle \texttt{Comparable}.
 Dazu muss die Klasse \texttt{Node} die Methode $\textsl{compareTo}()$ bereitstellen.  
-Diese Methode vergleicht verschiedene Knoten über die Werte der Funktion $\textsl{count}()$.
+Diese Methode vergleicht verschiedene Knoten \"uber die Werte der Funktion $\textsl{count}()$.
 
 \begin{figure}[!ht]
 \centering
@@ -452,27 +452,27 @@ Diese Methode vergleicht verschiedene Knoten über die Werte der Funktion $\texts
 \label{fig:Leaf.java}
 \end{figure}
 
-Die Klasse \texttt{LeafNode} repräsentiert Knoten der Form $\textsl{leaf}(c,f)$.
-Der Buchstabe $c$ wird in der Member-Variablen \texttt{mCharacter} abgespeichert und die Häufigkeit
+Die Klasse \texttt{LeafNode} repr\"asentiert Knoten der Form $\textsl{leaf}(c,f)$.
+Der Buchstabe $c$ wird in der Member-Variablen \texttt{mCharacter} abgespeichert und die H\"aufigkeit
 $f$, mit der dieser Buchstabe in dem zu kodierenden String $s$ auftritt, wird in der
 Member-Variablen \texttt{mFrequency} abgelegt.
 \begin{enumerate}
 \item Der Konstruktor initialisiert die beiden Member-Variablen \texttt{mCharacter} und
       \texttt{mFrequency}. 
-\item Die Funktion $\textsl{cost}()$ liefert als Ergebnis $0$, denn für Blätter hatten wir 
+\item Die Funktion $\textsl{cost}()$ liefert als Ergebnis $0$, denn f\"ur Bl\"atter hatten wir 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\textsl{leaf}(c,f).\textsl{cost}() = 0$
       \\[0.2cm]
       definiert.
-\item Die Funktion $\textsl{count}()$ liefert die Häufigkeit \texttt{mFrequency}, denn für Blätter hatten wir
+\item Die Funktion $\textsl{count}()$ liefert die H\"aufigkeit \texttt{mFrequency}, denn f\"ur Bl\"atter hatten wir
       \\[0.2cm]
       \hspace*{1.3cm}
       $\textsl{leaf}(c,f).\textsl{count}() = f$
       \\[0.2cm]
       definiert.
 \item Die Funktion $\textsl{getCharacter}()$ gibt als Ergebnis den in der Member-Variablen \texttt{mCharacter}
-      gespeicherten Buchstaben zurück.
+      gespeicherten Buchstaben zur\"uck.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -510,18 +510,18 @@ Member-Variablen \texttt{mFrequency} abgelegt.
 \label{fig:Huffman/BinaryNode.java}
 \end{figure}
 
-Die Klasse \texttt{BinaryNode} repräsentiert einen binären Knoten der Form
+Die Klasse \texttt{BinaryNode} repr\"asentiert einen bin\"aren Knoten der Form
 $\textsl{node}(l,r)$.  Die Klasse hat vier Member-Variablen:
 \begin{enumerate}
 \item \texttt{mLeft}  speichert den linken  Teilbaum $l$ des Knotens $\textsl{node}(l,r)$.
 \item \texttt{mRight} speichert den rechten Teilbaum $r$ des Knotens $\textsl{node}(l,r)$.
 \item \texttt{mCount} speichert den Wert der Funktion $\textsl{node}(l,r).\textsl{count}()$.
       Wir speichern diesen Wert in einer Member-Variablen, damit wir ihn nur einmal berechnen
-      müssen.
+      m\"ussen.
 \item \texttt{mCost}  speichert den Wert der Funktion $\textsl{node}(l,r).\textsl{cost}()$.
 \end{enumerate}
 Der Konstruktor der Klasse \texttt{BinaryNode} bekommt als Argumente den linken Teilbaum $l$ und den
-rechten Teilbaum $r$ des zu konstruierenden Knotens $\textsl{node}(l,r)$.  Außerdem berechnet der
+rechten Teilbaum $r$ des zu konstruierenden Knotens $\textsl{node}(l,r)$.  Au\3erdem berechnet der
 Konstruktor die Werte $\textsl{node}(l,r).\textsl{count}()$ und $\textsl{node}(l,r).\textsl{cost}()$
 und speichert diese Werte in den Member-Variablen \texttt{mCount} und \texttt{mCost}.
 
@@ -590,71 +590,71 @@ und speichert diese Werte in den Member-Variablen \texttt{mCount} und \texttt{mC
 \end{figure}
 
 Die Abbildung \ref{fig:Huffman.java} auf Seite \pageref{fig:Huffman.java} zeigt die
-Implementierung der Klasse \texttt{Huffman}, die für einen gegebenen String den
+Implementierung der Klasse \texttt{Huffman}, die f\"ur einen gegebenen String den
 Huffman-Code berechnet. 
-Die Klasse \texttt{Huffman} enthält zwei Member-Variablen:
+Die Klasse \texttt{Huffman} enth\"alt zwei Member-Variablen:
 \begin{enumerate}
-\item \texttt{mFrequencyTable} ist eine Abbildung, die für jeden Buchstaben $c$, der in
+\item \texttt{mFrequencyTable} ist eine Abbildung, die f\"ur jeden Buchstaben $c$, der in
       der gegebenen Datei auftritt, angibt, wie oft dieser Buchstabe in der Datei auftritt.
 \item \texttt{mCoding} ist ein Knoten der Form $\textsl{node}(l,r)$.  Dieser Knoten ist
-      das Endergebnis der Berechnung und enthält den Kodierungs-Baum für den
+      das Endergebnis der Berechnung und enth\"alt den Kodierungs-Baum f\"ur den
       gegebenen Text.
 \end{enumerate}
 Wir besprechen jetzt die Details der Implementierung des Konstruktors und der Methoden in der Klasse
 Huffman.
 \begin{enumerate}
 \item Der Konstruktor der Klasse \texttt{Huffman} bekommt als Argument den Namen der Datei, die
-      den Text enthält, für den der Huffman-Code bestimmt werden soll.  Anschließend liest
-      die Methode $\textsl{determineFrequencies}()$  die angegebene Datei und berechnet die Häufigkeiten,
-      mit denen die einzelnen Buchstaben auftreten.  Diese Häufigkeiten dann werden in der
+      den Text enth\"alt, f\"ur den der Huffman-Code bestimmt werden soll.  Anschlie\3end liest
+      die Methode $\textsl{determineFrequencies}()$  die angegebene Datei und berechnet die H\"aufigkeiten,
+      mit denen die einzelnen Buchstaben auftreten.  Diese H\"aufigkeiten dann werden in der
       Tabelle \texttt{mFrequencyTable} abgespeichert.  Daraus berechnet die Methode
       $\textsl{createHuffmanCode}()$ den Huffman-Code mit Hilfe dieser Tabelle.
 \item Die Methode $\textsl{determineFrequencies}()$ geht davon aus, dass als Zeichen nur
       Buchstaben aus dem \textsc{Ascii}-Zeichensatz verwendet werden.
       \begin{enumerate}
-      \item Zunächst wird daher eine Tabelle für die 127 Zeichen aus dem
+      \item Zun\"achst wird daher eine Tabelle f\"ur die 127 Zeichen aus dem
             \textsc{Ascii}-Zeichensatz angelegt.   Diese Tabelle soll jedem 
-            Buchstaben die Häufigkeit, mit der dieser Buchstabe in der Datei auftritt,
-            zuordnen.  Die Einträge dieser Tabelle werden 
-            in der \texttt{for}-Schleife in Zeile 15 zunächst mit 0 initialisiert.
-            Später wird jedesmal,  wenn wir einen Buchstaben lesen, die dem Buchstaben
-            zugeordnete Häufigkeit inkrementiert.
-      \item Anschließend wir die Datei in Zeile 18 zum Lesen geöffnet.
-      \item In der anschließenden \texttt{while}-Schleife wird die Datei zeichenweise
+            Buchstaben die H\"aufigkeit, mit der dieser Buchstabe in der Datei auftritt,
+            zuordnen.  Die Eintr\"age dieser Tabelle werden 
+            in der \texttt{for}-Schleife in Zeile 15 zun\"achst mit 0 initialisiert.
+            Sp\"ater wird jedesmal,  wenn wir einen Buchstaben lesen, die dem Buchstaben
+            zugeordnete H\"aufigkeit inkrementiert.
+      \item Anschlie\3end wir die Datei in Zeile 18 zum Lesen ge\"offnet.
+      \item In der anschlie\3enden \texttt{while}-Schleife wird die Datei zeichenweise
             gelesen.  Falls dabei das Datei-Ende-Zeichen \texttt{EOF} gelesen wird,
             bricht diese Schleife durch den \texttt{break}-Befehl in Zeile 21 ab. 
             
-            Wurde ein Zeichen $c$ gelesen, so wird zunächst in der Tabelle
-            \texttt{mFrequencyTable} nachgeschlagen, wie häufig dieses Zeichen schon
+            Wurde ein Zeichen $c$ gelesen, so wird zun\"achst in der Tabelle
+            \texttt{mFrequencyTable} nachgeschlagen, wie h\"aufig dieses Zeichen schon
             aufgetreten ist.  Diese Zahl wird um 1 inkrementiert und die inkrementierte
-            Zahl wird wieder in die Tabelle zurückgeschrieben.
+            Zahl wird wieder in die Tabelle zur\"uckgeschrieben.
             
-            Da die IO-Operationen in Zeile 18 und Zeile 20 Ausnahmen auslösen können,
-            müssen diese Anweisungen in einem \texttt{try}-\texttt{catch}-Block eingerahmt
+            Da die IO-Operationen in Zeile 18 und Zeile 20 Ausnahmen ausl\"osen k\"onnen,
+            m\"ussen diese Anweisungen in einem \texttt{try}-\texttt{catch}-Block eingerahmt
             werden.
       \end{enumerate}
 \item Die Methode $\textsl{createHuffmanCode}()$ implementiert den Algorithmus von Huffman.
       \begin{enumerate}
-      \item Zunächst wird in Zeile 31 eine neue Prioritäts-Warteschlange angelegt.
-      \item In der \texttt{for}-Schleife in Zeile 32 iterieren wir über alle Zeichen.
+      \item Zun\"achst wird in Zeile 31 eine neue Priorit\"ats-Warteschlange angelegt.
+      \item In der \texttt{for}-Schleife in Zeile 32 iterieren wir \"uber alle Zeichen.
             Falls ein Zeichen mindestens einmal in dem Text vorkommt,
-            erzeugen wir in Zeile 35 einen Knoten $\textsl{leaf}(c,f)$ und fügen diesen
-            Knoten der Prioritäts-Warteschlange hinzu.
+            erzeugen wir in Zeile 35 einen Knoten $\textsl{leaf}(c,f)$ und f\"ugen diesen
+            Knoten der Priorit\"ats-Warteschlange hinzu.
       \item Die \texttt{while}-Schleife in Zeile 39 implementiert den Pseudo-Code aus 
             Abbildung \ref{fig:huffman}:  Wir entfernen die beiden Knoten $l$ und $r$ mit den
-            niedrigsten Prioritäten aus der Prioritäts-Warteschlange und bilden den neuen
+            niedrigsten Priorit\"aten aus der Priorit\"ats-Warteschlange und bilden den neuen
             Knoten $\textsl{node}(l,r)$, den wir statt dessen in die
-            Prioritäts-Warteschlange einfügen.  Wenn die Prioritäts-Warteschlange nur noch
-            genau einen Knoten enthält, sind wir am Ziel und geben diesen Knoten 
-            als Ergebnis zurück.
+            Priorit\"ats-Warteschlange einf\"ugen.  Wenn die Priorit\"ats-Warteschlange nur noch
+            genau einen Knoten enth\"alt, sind wir am Ziel und geben diesen Knoten 
+            als Ergebnis zur\"uck.
       \end{enumerate}
 \end{enumerate}
 
 \noindent
 \textbf{Aufgabe}:
 \begin{enumerate}
-\item Berechnen Sie den Huffman-Code für einen Text, der nur die Buchstaben
-      ``\texttt{a}'' bis ``\texttt{g}'' enthält und für den die Häufigkeiten,
+\item Berechnen Sie den Huffman-Code f\"ur einen Text, der nur die Buchstaben
+      ``\texttt{a}'' bis ``\texttt{g}'' enth\"alt und f\"ur den die H\"aufigkeiten,
       mit denen diese Buchstaben auftreten, durch die folgende Tabelle gegeben sind.
 
 \begin{table}[htbp]
@@ -663,45 +663,45 @@ Huffman.
 \hline
 Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} & \texttt{g} \\
 \hline
-Häufigkeit &          1 &          1 &          2 &          3 &          5 &         8 &         13 \\
+H\"aufigkeit &          1 &          1 &          2 &          3 &          5 &         8 &         13 \\
 \hline
 \end{tabular}
-  \caption{Buchstaben mit Häufigkeiten.}
+  \caption{Buchstaben mit H\"aufigkeiten.}
   \label{tab:aufgabe-huffman}
 \end{table}
 
-\item Wie groß ist die Einsparung, wenn man die Buchstaben mit einem Huffman-Code
-      kodiert gegenüber einer Kodierung mit drei Bits?
-\item Versuchen Sie das Gesetz zu erkennen, nach dem die Häufigkeiten in der obigen Tabelle 
-      gebildet wurden und versuchen Sie, den Huffman-Code für den allgemeinen Fall,
+\item Wie gro\3 ist die Einsparung, wenn man die Buchstaben mit einem Huffman-Code
+      kodiert gegen\"uber einer Kodierung mit drei Bits?
+\item Versuchen Sie das Gesetz zu erkennen, nach dem die H\"aufigkeiten in der obigen Tabelle 
+      gebildet wurden und versuchen Sie, den Huffman-Code f\"ur den allgemeinen Fall,
       in dem $n$ Buchstaben gegeben sind, anzugeben.
-\item Wie groß ist die Einsparung im allgemeinen Fall?
+\item Wie gro\3 ist die Einsparung im allgemeinen Fall?
 \end{enumerate}
 
-\section{Optimalität des Huffman'schen Kodierungsbaums}
+\section{Optimalit\"at des Huffman'schen Kodierungsbaums}
 In diesem Abschnitt zeigen wir, dass der durch den Algorithmus von Huffman berechnete Kodie\-rungs-Baum der
-Kodierungs-Baum ist, für den die Funktion $\textsl{cost}()$ minimal ist.  Dazu geben zunächst eine andere
+Kodierungs-Baum ist, f\"ur den die Funktion $\textsl{cost}()$ minimal ist.  Dazu geben zun\"achst eine andere
 Formel zur Berechnung von $n.\textsl{cost}()$ an:  Wir definieren die \emph{Tiefe}
 $n.\textsl{depth}(c)$ des Buchstabens $c$ in dem Kodierungs-Baum $n$ als den Abstand, den das Blatt $l$,
 das mit dem Buchstaben $c$ markiert ist, von der Wurzel des Kodierungs-Baums hat.  Der Kodierungs-Baum
 wird dabei als Graph aufgefasst.  Dann gibt es genau einen Pfad von der Wurzel zu dem Blatt $l$ und 
 $n.\textsl{depth}(c)$ wird als die Anzahl der Kanten dieses Pfades definiert.
-Jede der Kanten dieses Pfades trägt hinterher ein Bit zur 
+Jede der Kanten dieses Pfades tr\"agt hinterher ein Bit zur 
 Kodierung des Buchstabens bei, mit dem das Blatt $l$ markiert ist.  Um die gesamten Kosten zu berechnen
-müssen wir daher die Tiefe jedes Buchstabens mit seiner Häufigkeit multiplizieren.  Bezeichnen wir die
-Häufigkeit des Buchstabens $c$ mit $\textsl{freq}(c)$, so erhalten wir insgesamt
+m\"ussen wir daher die Tiefe jedes Buchstabens mit seiner H\"aufigkeit multiplizieren.  Bezeichnen wir die
+H\"aufigkeit des Buchstabens $c$ mit $\textsl{freq}(c)$, so erhalten wir insgesamt
 \begin{equation}
   \label{eq:cost}
   n.\textsl{cost}() = \sum\limits_{c\in\Sigma} \textsl{freq}(c) \cdot n.\textsl{depth}(c)
 \end{equation}
-Die Summe läuft dabei über alle Buchstaben des Alphabets $\Sigma$, wobei wir voraussetzen,
-dass alle Buchstaben aus $\Sigma$ auch tatsächlich in dem Kodierungs-Baum auftreten.
+Die Summe l\"auft dabei \"uber alle Buchstaben des Alphabets $\Sigma$, wobei wir voraussetzen,
+dass alle Buchstaben aus $\Sigma$ auch tats\"achlich in dem Kodierungs-Baum auftreten.
 Buchstaben, die gar nicht auftreten, werden also vorher aus dem Alphabet entfernt.
 
 \begin{Definition}[Optimaler Kodierungs-Baum]
-  Ein Kodierungs-Baum $n$ ist \emph{optimal}, wenn bei gegebener Häufigkeit der Buchstaben
-  der Wert $n.\textsl{cost}()$ minimal ist, für alle Kodierungs-Bäume $k$, bei denen die
-  Buchstaben mit derselben Häufigkeit auftreten wie in $n$,  gilt also
+  Ein Kodierungs-Baum $n$ ist \emph{optimal}, wenn bei gegebener H\"aufigkeit der Buchstaben
+  der Wert $n.\textsl{cost}()$ minimal ist, f\"ur alle Kodierungs-B\"aume $k$, bei denen die
+  Buchstaben mit derselben H\"aufigkeit auftreten wie in $n$,  gilt also
   \\[0.2cm]
   \hspace*{1.3cm} $n.\textsl{cost}() \leq k.\textsl{cost}()$.
 \end{Definition}
@@ -709,7 +709,7 @@ Buchstaben, die gar nicht auftreten, werden also vorher aus dem Alphabet entfern
 
 \begin{Lemma}
   \label{huffman:l1}
-  Es seien $x$ und $y$ die beiden Buchstaben aus dem Alphabet $\Sigma$ mit der geringsten Häufigkeit.  Dann
+  Es seien $x$ und $y$ die beiden Buchstaben aus dem Alphabet $\Sigma$ mit der geringsten H\"aufigkeit.  Dann
   gibt es einen optimalen Kodierungs-Baum $n$, bei dem sich die Kodierung der Buchstaben $x$ und $y$ nur im
   letzten Bit unterscheidet.
 \end{Lemma}
@@ -719,14 +719,14 @@ Buchstaben, die gar nicht auftreten, werden also vorher aus dem Alphabet entfern
 Kodierungs-Baum $n_2$ umgebaut werden kann, der einerseits optimal ist und bei dem sich andererseits die
 Kodierung der Buchstaben $x$ und $y$ nur im letzten Bit unterscheidet.  Wir suchen in dem Kodierungs-Baum
 $n_1$ einen Knoten $k$ der Form $\textsl{node}(l,r)$, der unter allen \emph{inneren} Knoten eine maximale
-Tiefe hat.  Dabei bezeichnen wir alle Knoten, die keine Blätter sind, als innere Knoten.
-An dem Knoten $k$ hängen zwei Buchstaben $a$ und $b$.  Wir machen nun o.B.d.A.~die folgenden Annahmen
-über die Häufigkeiten der Buchstaben:
+Tiefe hat.  Dabei bezeichnen wir alle Knoten, die keine Bl\"atter sind, als innere Knoten.
+An dem Knoten $k$ h\"angen zwei Buchstaben $a$ und $b$.  Wir machen nun o.B.d.A.~die folgenden Annahmen
+\"uber die H\"aufigkeiten der Buchstaben:
 \begin{enumerate}
 \item $\textsl{freq}(x) \leq \textsl{freq}(y)$,
 \item $\textsl{freq}(a) \leq \textsl{freq}(b)$.
 \end{enumerate}
-Da wir angenommen haben, dass $x$ und $y$ die Buchstaben mit der geringsten Häufigkeiten sind, folgt
+Da wir angenommen haben, dass $x$ und $y$ die Buchstaben mit der geringsten H\"aufigkeiten sind, folgt
 daraus
 \begin{equation}
   \label{eq:huffmannL0}
@@ -746,8 +746,8 @@ Daher gilt
     \label{eq:huffmannL1d}
  n_2.\textsl{depth}(y) &=& n_1.\textsl{depth}(b).
   \end{eqnarray}
-denn $a$ und $x$ und $b$ und $y$ vertauschen die Plätze.  Für alle Buchstaben
-$c \in \Sigma\backslash\{a,b,x,y\}$ gilt natürlich 
+denn $a$ und $x$ und $b$ und $y$ vertauschen die Pl\"atze.  F\"ur alle Buchstaben
+$c \in \Sigma\backslash\{a,b,x,y\}$ gilt nat\"urlich 
 \begin{equation}
   \label{eq:huffmannL1e}
 n_2.\textsl{depth}(c) = n_1.\textsl{depth}(c).   
@@ -759,7 +759,7 @@ Weiterhin wissen wir aufgrund der Auswahl des Knotens $k$, dass
   \label{eq:huffmannL2b}
   n_1.\textsl{depth}(a) = n_1.\textsl{depth}(b) \geq n_1.\textsl{depth}(y) \hspace*{0.95cm}
 \end{eqnarray}
-gilt.  Wir zeigen nun, dass $n_2.\textsl{cost}() \leq n_1.\textsl{cost}()$ gilt.  Dazu geben wir zunächst
+gilt.  Wir zeigen nun, dass $n_2.\textsl{cost}() \leq n_1.\textsl{cost}()$ gilt.  Dazu geben wir zun\"achst
 $n_2.\textsl{cost}()$ an.
 \begin{eqnarray*}
   n_2.\textsl{cost}() 
@@ -770,7 +770,7 @@ $n_2.\textsl{cost}()$ an.
   &   & + \;\textsl{freq}(x) \cdot n_2.\textsl{depth}(x) 
         + \textsl{freq}(y) \cdot n_2.\textsl{depth}(y) 
 \end{eqnarray*}
-Unter Berücksichtigung der Gleichungen (\ref{eq:huffmannL1a}) bis (\ref{eq:huffmannL1e}) können wir dies
+Unter Ber\"ucksichtigung der Gleichungen (\ref{eq:huffmannL1a}) bis (\ref{eq:huffmannL1e}) k\"onnen wir dies
 auch schreiben als
 \begin{eqnarray*}  
   n_2.\textsl{cost}() 
@@ -803,9 +803,9 @@ $\leq\; \textsl{freq}(a) \cdot n_1.\textsl{depth}(a)
       + \textsl{freq}(b) \cdot n_1.\textsl{depth}(b) 
       + \textsl{freq}(x) \cdot n_1.\textsl{depth}(x) 
       + \textsl{freq}(y) \cdot n_1.\textsl{depth}(y)$ \\[0.2cm]
-erfüllt ist.  Da in dieser Ungleichung nur noch der Knoten $n_1$ vorkommt, vereinfachen wir die
+erf\"ullt ist.  Da in dieser Ungleichung nur noch der Knoten $n_1$ vorkommt, vereinfachen wir die
 Schreibweise und vereinbaren, dass wir einen Ausdruck der Form $n_1.\textsl{depth}(u)$ zu
-$\textsl{depth}(u)$ abkürzen.  Die letzte Ungleichung ist dann äquivalent zu der Ungleichung
+$\textsl{depth}(u)$ abk\"urzen.  Die letzte Ungleichung ist dann \"aquivalent zu der Ungleichung
 \\[0.2cm]
 \hspace*{0.8cm}
 $0 \;\leq\; \textsl{freq}(a) \cdot \bigl(\textsl{depth}(a) - \textsl{depth}(x)\bigr)
@@ -840,56 +840,56 @@ Kodierungs-Baum.
 \end{Satz}
 
 \noindent
-\textbf{Beweis}:  Wir beweisen den Satz durch Induktion über die Anzahl $n$ der Buchstaben in dem
+\textbf{Beweis}:  Wir beweisen den Satz durch Induktion \"uber die Anzahl $n$ der Buchstaben in dem
 Alphabet $\Sigma$.
 \begin{enumerate}
 \item[I.A.:] $n = 2$.  Es sei $\Sigma= \{a,b\}$.
-  In diesem Fall führt der Huffman-Algorithmus nur einen Schritt durch und liefert den Kodierungs-Baum 
+  In diesem Fall f\"uhrt der Huffman-Algorithmus nur einen Schritt durch und liefert den Kodierungs-Baum 
   \\[0.2cm]
   \hspace*{1.3cm}
   $k=\textsl{node}\bigl(\textsl{leaf}(a, \textsl{freq}(a)), \textsl{leaf}(b,\textsl{freq}(b))\bigr)$.
   \\[0.2cm]
   Bei der Kodierung eines Alphabets, das aus zwei Buchstaben besteht, haben wir keine Wahl, 
-  was die Länge der Kodes angeht: Wir brauchen für jeden Buchstaben genau ein Bit und daher ist das vom
+  was die L\"ange der Kodes angeht: Wir brauchen f\"ur jeden Buchstaben genau ein Bit und daher ist das vom
   Huffman-Algorithmus in diesem Fall gelieferte Ergebnis offenbar optimal.
 \item[I.S.:] $n \mapsto n+1$
 
   Wir gehen jetzt davon aus, dass das Alphabet $\Sigma$ aus $n+1$ Buchstaben besteht.
-  Es seien $x$ und $y$ die beiden Buchstaben, deren Häufigkeit minimal ist.
+  Es seien $x$ und $y$ die beiden Buchstaben, deren H\"aufigkeit minimal ist.
   Es sei $z$ ein neuer Buchstabe, der nicht in dem Alphabet $\Sigma$ auftritt.  Wir definieren
   ein neues Alphabet $\Sigma'$ als
   \\[0.2cm]
   \hspace*{1.3cm}
   $\Sigma' = \bigl(\Sigma \backslash \{x,y\}\bigr) \cup \{z\}$.
   \\[0.2cm]
-  Die Häufigkeit des neuen Buchstabens $z$ definieren wir als 
+  Die H\"aufigkeit des neuen Buchstabens $z$ definieren wir als 
   \\[0.2cm]
   \hspace*{1.3cm}
   $\textsl{freq}(z) := \textsl{freq}(x) + \textsl{freq}(y)$.
   \\[0.2cm]
-  Dann enthält das Alphabet $\Sigma'$ insgesamt $n$ Buchstaben.  Wenden wir den Huffman-Algorithmus
-  auf dieses Alphabet an, so erhalten wir nach Induktions-Voraussetzung für $\Sigma'$ einen optimalen
+  Dann enth\"alt das Alphabet $\Sigma'$ insgesamt $n$ Buchstaben.  Wenden wir den Huffman-Algorithmus
+  auf dieses Alphabet an, so erhalten wir nach Induktions-Voraussetzung f\"ur $\Sigma'$ einen optimalen
   Kodierungs-Baum $k_1$.  Die Anwendung des Huffman-Algorithmus auf das Alphabet $\Sigma$ ersetzt in diesem
   Kodierungs-Baum das Blatt, das mit dem Buchstaben $z$ markiert ist, durch den Knoten 
   \\[0.2cm]
   \hspace*{1.3cm}
   $\textsl{node}\bigl(\textsl{leaf}(x, \textsl{freq}(x)), \textsl{leaf}(y,\textsl{freq}(y))\bigr)$.
   \\[0.2cm]
-  Bezeichnen wir den so entstanden Kodierungs-Baum mit $k_2$, so müssen wir zeigen, dass $k_2$ optimal
-  ist.  Wir führen den Beweis indirekt und nehmen an, dass $k_2$ nicht optimal ist. Dann gibt es einen
-  Kodierungs-Baum $k_3$ für das Alphabet $\Sigma$, so dass 
+  Bezeichnen wir den so entstanden Kodierungs-Baum mit $k_2$, so m\"ussen wir zeigen, dass $k_2$ optimal
+  ist.  Wir f\"uhren den Beweis indirekt und nehmen an, dass $k_2$ nicht optimal ist. Dann gibt es einen
+  Kodierungs-Baum $k_3$ f\"ur das Alphabet $\Sigma$, so dass 
   \\[0.2cm]
   \hspace*{1.3cm}
   $k_3.\textsl{cost}() < k_2.\textsl{cost}()$
   \\[0.2cm]
-  ist.  Nach Lemma \ref{huffman:l1} können wir o.B.d.A. voraussetzen, dass sich die Kodierung der 
+  ist.  Nach Lemma \ref{huffman:l1} k\"onnen wir o.B.d.A. voraussetzen, dass sich die Kodierung der 
   Buchstaben $x$ und $y$ in dem Kodierungs-Baum $k_3$ nur in dem letzten Bit
   unterscheidet.  Also gibt es in dem Kodierungs-Baum $k_3$ einen Knoten der Form
   \\[0.2cm]
   \hspace*{1.3cm}
   $\textsl{node}\bigl(\textsl{leaf}(x, \textsl{freq}(x)), \textsl{leaf}(y,\textsl{freq}(y))\bigr)$.
   \\[0.2cm]
-  Wir transformieren den Kodierungs-Baum $k_3$ in einen Kodierungs-Baum $k_4$ für das Alphabet $\Sigma'$ indem
+  Wir transformieren den Kodierungs-Baum $k_3$ in einen Kodierungs-Baum $k_4$ f\"ur das Alphabet $\Sigma'$ indem
   wir diesen Knoten durch das Blatt
   \\[0.2cm]
   \hspace*{1.3cm}
@@ -917,13 +917,13 @@ Alphabet $\Sigma$.
     \label{eq:huffmanns1}
     k_4.\textsl{cost}() = k_3.\textsl{cost}() - \bigl(\textsl{freq}(x) + \textsl{freq}(y)\bigr).
   \end{equation}
-  Da die Kodierungs-Bäume $k_1$ und $k_2$ in derselben Relation stehen wie die Kodierungs-Bäume
+  Da die Kodierungs-B\"aume $k_1$ und $k_2$ in derselben Relation stehen wie die Kodierungs-B\"aume
   $k_4$ und $k_3$, gilt analog
   \begin{equation}
     \label{eq:huffmanns2}
     k_1.\textsl{cost}() = k_2.\textsl{cost}() - \bigl(\textsl{freq}(x) + \textsl{freq}(y)\bigr). 
   \end{equation}
-  Damit können wir zeigen, dass die Kosten des Kodierungs-Baums $k_4$ geringer sind als die Kosten
+  Damit k\"onnen wir zeigen, dass die Kosten des Kodierungs-Baums $k_4$ geringer sind als die Kosten
   des Kodierungs-Baums $k_1$:
   \begin{eqnarray*}
          k_4.\textsl{cost}() 
