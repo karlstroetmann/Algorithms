@@ -9,13 +9,13 @@ Darstellung des Schach--Bretts in \texttt{C}
 \vspace*{0.5cm}
 
 \footnotesize
-Vorüberlegung:
+Vor\"uberlegung:
 \begin{itemize}
-\item  alle Damen müssen in verschiedenen Reihen stehen
-\item  es müssen 8 Damen gesetzt werden 
+\item  alle Damen m\"ussen in verschiedenen Reihen stehen
+\item  es m\"ussen 8 Damen gesetzt werden 
 \item  also muss in jeder Reihe eine Dame stehen.
 \item  Reihen werden sukkzessive besetzt
-\item  Zählung fängt bei 0 an
+\item  Z\"ahlung f\"angt bei 0 an
 \end{itemize}
 
 Darstellung des Bretts als \texttt{C} \texttt{struct} mit 2 Komponenten
@@ -68,7 +68,7 @@ Graphische Darstellung des Schach--Bretts
 \item Dame in der 2--ten Reihe steht in Spalte 3
 \item Dame in der 3--ten Reihe steht in Spalte 6
 \end{itemize}
-Zählung beginnt bei 0, wegen \texttt{C} Indizierung der Felder
+Z\"ahlung beginnt bei 0, wegen \texttt{C} Indizierung der Felder
 \vspace*{0.5cm}
 
 \hspace*{4cm}
@@ -175,9 +175,9 @@ Test, ob Dame gesetzt werden kann
                    Spalte & $y=\texttt{nextColumn}$ \\[0.3cm]
                     \end{tabular} \\
 \textbf{Frage}:   & Kann Dame  in $\langle x, y \rangle$ gesetzt werden? \\[0.3cm]
-\textbf{Vorgehen:} & 1. Überprüfe Spalte \texttt{nextColumn} \\[0.3cm]
-                  & 2. Überprüfe fallende Diagonale \\[0.3cm]
-                  & 3. Überprüfe steigende Diagonale \\[0.3cm]
+\textbf{Vorgehen:} & 1. Ãœberpr\"ufe Spalte \texttt{nextColumn} \\[0.3cm]
+                  & 2. Ãœberpr\"ufe fallende Diagonale \\[0.3cm]
+                  & 3. Ãœberpr\"ufe steigende Diagonale \\[0.3cm]
 \end{tabular}
 
 \begin{verbatim}
@@ -236,12 +236,12 @@ Board* createEmpty()
 }
 \end{verbatim}
 
-Hinzufügen einer Dame (erzeugt neues Brett)
+Hinzuf\"ugen einer Dame (erzeugt neues Brett)
 \begin{enumerate}
-\item Speicherplatz für neues Brett allozieren
+\item Speicherplatz f\"ur neues Brett allozieren
 \item \texttt{numberQueens} initialisieren
 \item vorhandene Damen kopieren
-\item neue Dame hinzufügen
+\item neue Dame hinzuf\"ugen
 \end{enumerate}
 
 \begin{verbatim}
@@ -277,11 +277,11 @@ Backtracking
 Algorithmus
 \begin{enumerate}
 \item Wenn alle Damen auf dem Brett sind: fertig!
-\item Finde nächste Spalte, in die Dame gesetzt werden kann
+\item Finde n\"achste Spalte, in die Dame gesetzt werden kann
       und setze Dame: neues Brett.
-\item Rekursiv: Versuche, neues Brett zu vervollständigen.
+\item Rekursiv: Versuche, neues Brett zu vervollst\"andigen.
 \item Funktioniert: fertig.
-\item Sonst: versuche nächste Spalte
+\item Sonst: versuche n\"achste Spalte
 \end{enumerate}
 
 \begin{verbatim}
@@ -326,7 +326,7 @@ Backtracking: Anwendung
 \vspace*{0.5cm}
 
 \footnotesize
-Grammatik für arithmetische Ausdrücke: \\[0.3cm]
+Grammatik f\"ur arithmetische Ausdr\"ucke: \\[0.3cm]
 \hspace*{1.3cm} $G_{\mathtt{calc}} = \langle T, N, R, S \rangle$ 
 \begin{enumerate}
 \item $T = \{ \mathbf{number} \}$
@@ -350,11 +350,11 @@ Vorteile dieser Grammatik
 \begin{enumerate}
 \item Grammatik ist \emph{eindeutig}: Jeder Ausdruck aus $\Ll(G_{\mathtt{calc}})$
       hat genau einen Parse--Baum.
-\item Grammatik berücksichtigt 
+\item Grammatik ber\"ucksichtigt 
       \begin{enumerate}
       \item \emph{Punkt vor Strich}: \\[0.3cm]
              \hspace*{1.3cm} $x+y*z = x + (y*z)$
-      \item Links--Assoziativität von ``\texttt{-}'' und ``\texttt{/}'' \\[0.3cm]
+      \item Links--Assoziativit\"at von ``\texttt{-}'' und ``\texttt{/}'' \\[0.3cm]
             \hspace*{1.3cm} $x - y - z = (x - y) - z$
       \end{enumerate}
 \end{enumerate}
@@ -379,10 +379,10 @@ Projekt: Taschenrechner
 
 \footnotesize
 \begin{tabular}{ll}
-\textbf{Ziel}:     & Sprache $\Ll(G_{\mathtt{calc}})$ der arithmetische Ausdrücke    \\
+\textbf{Ziel}:     & Sprache $\Ll(G_{\mathtt{calc}})$ der arithmetische Ausdr\"ucke    \\
                   & mit \emph{recursive descent} Parser auswerten  \\[0.3cm]
 \textbf{Problem}:  & Grammatik $G_{\mathtt{calc}}$ ist links--rekursiv                 \\[0.3cm]
-\textbf{Lösung}:   & Recursive Descent Parser muss backtracken!          \\[0.3cm]
+\textbf{L\"osung}:   & Recursive Descent Parser muss backtracken!          \\[0.3cm]
 \textbf{Nachteil}: & resultierender Parser nicht sehr effizient          \\[0.3cm]
 \textbf{Vorteil}:  & einfach zu implementieren                         
 \end{tabular}
@@ -486,7 +486,7 @@ Festlegung der Daten--Strukturen
 \vspace*{0.5cm}
 
 \footnotesize
-Grammatik--Regeln für \textsl{Prod} \\[0.3cm]
+Grammatik--Regeln f\"ur \textsl{Prod} \\[0.3cm]
 \hspace*{1.3cm} 
 $\begin{array}{lcl}
          \textsl{Prod} & \rightarrow & \textsl{Prod}\; ``\mathtt{*}\cq \; \textsl{Factor} \\
@@ -540,7 +540,7 @@ Festlegung der Daten--Strukturen
 \vspace*{0.5cm}
 
 \footnotesize
-Grammatik--Regeln für \textsl{Factor} \\[0.3cm]
+Grammatik--Regeln f\"ur \textsl{Factor} \\[0.3cm]
 \hspace*{1.3cm} $\begin{array}{lcl}
        \textsl{Factor} & \rightarrow & ``\mathtt{(}\cq \;\textsl{Sum}\; ``\mathtt{)}\cq   \\
                        & |           & \mathbf{number}                                    \\
@@ -620,10 +620,10 @@ $\begin{array}{lcl}
       \end{enumerate}
       Falls erfogreich: fertig
 
-      Sonst backtracken: Gehe zu 2. und suche nächstes Zeichen ``\texttt{+}'' oder ``\texttt{-}''.
+      Sonst backtracken: Gehe zu 2. und suche n\"achstes Zeichen ``\texttt{+}'' oder ``\texttt{-}''.
 \item Falls Suche nach ``\texttt{+}'' oder ``\texttt{-}'' scheitert: 
 
-      Parsen von \textsl{Sum} nicht möglich \\[0.3cm]
+      Parsen von \textsl{Sum} nicht m\"oglich \\[0.3cm]
       \hspace*{1.3cm} \texttt{return 0;}
 \end{enumerate}
 
@@ -708,7 +708,7 @@ $\begin{array}{lcl}
       \begin{enumerate}
       \item Parse rekursiv \textsl{Sum}: \\[0.3cm]
             \hspace*{1.3cm} \texttt{parseSum(begin + 1, end - 1);}
-      \item Überprüfe, ob letztes Zeichen ``\texttt{)}'' ist.
+      \item Ãœberpr\"ufe, ob letztes Zeichen ``\texttt{)}'' ist.
       \end{enumerate}
 \item Falls erstes Zeichen Ziffer ist, wende zweite Regel an.
     

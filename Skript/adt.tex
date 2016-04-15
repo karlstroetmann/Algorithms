@@ -1,14 +1,14 @@
 \chapter{Abstrakte Daten-Typen und elementare Daten-Stukturen}
-Ähnlich wie der Begriff des Algorithmus von bestimmten Details eines Programms
+Ã„hnlich wie der Begriff des Algorithmus von bestimmten Details eines Programms
 abstrahiert, abstrahiert der Begriff des \emph{abstrakten Daten-Typs} von bestimmten
 Details konkreter Daten-Stukturen.  Durch die Verwendung dieses Begriffs wird es
-möglich, Algorithmen von den zugrunde liegenden Daten-Stukturen zu trennen.
-Wir geben im nächsten Abschnitt eine Definition von abstrakten Daten-Typen und
+m\"oglich, Algorithmen von den zugrunde liegenden Daten-Stukturen zu trennen.
+Wir geben im n\"achsten Abschnitt eine Definition von abstrakten Daten-Typen und
 illustrieren das Konzept im folgenden Abschnitt anhand von dem abstrakten Daten-Typ \textsl{Stack}.
 Im zweiten Abschnitt zeigen wir, wie die Sprache \textsl{Java} die
-Verwendung abstrakter Daten-Typen unterstützt.  In den folgenden Abschnitten betrachten
+Verwendung abstrakter Daten-Typen unterst\"utzt.  In den folgenden Abschnitten betrachten
 wir verschiedene Implementierungen des abstrakten Daten-Typs \textsl{Stack}.
-Anschließend zeigen wir, wie sich arithmetische Ausdrücke mit Hilfe eines Stacks
+Anschlie\3end zeigen wir, wie sich arithmetische Ausdr\"ucke mit Hilfe eines Stacks
 auswerten lassen.
 Im vorletzten Abschnitt diskutieren wir den Nutzen, den die Verwendung abstrakter
 Daten-Typen hat. 
@@ -21,50 +21,50 @@ Die einzelnen Komponenten dieses Tupels haben dabei die folgende Bedeutung.
 \item $T$ ist der \emph{Name} des abstrakten Daten-Typs.
 \item $P$ ist die Menge der verwendeten \emph{Typ-Parameter}.  Ein Typ-Parameter ist dabei
       einfach ein String.  Diesen String interpretieren wir als Typ-Variable,
-      d.h.~wir können später für diesen String den Namen eines Daten-Typen einsetzen.
+      d.h.~wir k\"onnen sp\"ater f\"ur diesen String den Namen eines Daten-Typen einsetzen.
 \item $\textsl{Fz}$ ist eine Menge von \emph{Funktions-Zeichen}.  Diese Funktions-Zeichen
-      sind die Namen der Operationen, die der abstrakte Daten-Typ zur Vefrügung stellt,
+      sind die Namen der Operationen, die der abstrakte Daten-Typ zur Vefr\"ugung stellt,
 \item $\textsl{Ts}$ ist eine Menge von \emph{Typ-Spezifikation}, die zu jedem Funktions-Zeichen
       $f \in \textsl{Fz}$
       eine \emph{Typ-Spezifikation} der Form \\[0.1cm]
       \hspace*{1.3cm} 
       $f: T_1 \times \cdots \times T_n \rightarrow S$. \\[0.1cm]
-      enthält. Dabei sind $T_1$, $\cdots$, $T_n$ und $S$ Namen von 
-      Daten-Typen.  Hier gibt es drei Möglichkeiten: 
+      enth\"alt. Dabei sind $T_1$, $\cdots$, $T_n$ und $S$ Namen von 
+      Daten-Typen.  Hier gibt es drei M\"oglichkeiten: 
       \begin{enumerate}
       \item Die Namen konkreter Daten-Typen, wie z.~B.~``\texttt{int}'' 
             oder ``\texttt{String}''.
       \item Die Namen abstrakter Daten-Typen.
       \item Ein Typ-Parameter aus der Menge $P$.
       \end{enumerate}
-      Die Typ-Spezifikation $f: T_1 \times \cdots \times T_n \rightarrow S$ drückt aus, dass die
+      Die Typ-Spezifikation $f: T_1 \times \cdots \times T_n \rightarrow S$ dr\"uckt aus, dass die
       Funktion $f$ in der Form \\[0.1cm] 
       \hspace*{1.3cm} $f(t_1,\cdots,t_n)$ \\[0.1cm]
-      aufgerufen wird und dass für $i=1,\cdots,n$ das Argument $t_i$ vom Typ
-      $T_i$ sein muss.  Außerdem sagt die Typ-Spezifikation aus, dass das
+      aufgerufen wird und dass f\"ur $i=1,\cdots,n$ das Argument $t_i$ vom Typ
+      $T_i$ sein muss.  Au\3erdem sagt die Typ-Spezifikation aus, dass das
       Ergebnis, das von der Funktion $f$ berechnet wird, immer vom Typ $S$ ist.
 
-      Zusätzlich fordern wir, dass entweder $T_1 = T$ ist, oder aber $S = T$
+      Zus\"atzlich fordern wir, dass entweder $T_1 = T$ ist, oder aber $S = T$
       gilt.  Es soll also entweder das erste Argument der Funktion $f$ den Wert
       $T$ haben, oder der Typ des von $f$ berechneten Ergebnisses soll gleich
-      $T$ sein. Falls $T_1 \not= T$ ist (und damit zwangsläufig $S = T$ gilt),
+      $T$ sein. Falls $T_1 \not= T$ ist (und damit zwangsl\"aufig $S = T$ gilt),
       dann nennen wir die Funktion $f$ auch einen \emph{Konstruktor} des
       Daten-Typs $T$, andernfalls bezeichnen wir $f$ als \emph{Methode}.
-\item $Ax$ ist eine Menge von prädikaten-logischen Formeln, die das Verhalten 
+\item $Ax$ ist eine Menge von pr\"adikaten-logischen Formeln, die das Verhalten 
       des abstrakten Daten-Typs beschreiben.  Diese Formeln bezeichnen wir auch
       als die \emph{Axiome} des Daten-Typs.
 \end{enumerate}
-Wir geben sofort ein einfaches Beispiel für einen abstrakten Daten-Typ: den
+Wir geben sofort ein einfaches Beispiel f\"ur einen abstrakten Daten-Typ: den
 \emph{Keller} (engl. \emph{stack}).  Einen Keller kann man sich anschaulich als
 einen Stapel von  Elementen eines bestimmten Typs vorstellen, die aufeinander
-gelegt werden, ähnlich wie die Teller in der Essensausgabe einer Kantine.  Dort
+gelegt werden, \"ahnlich wie die Teller in der Essensausgabe einer Kantine.  Dort
 werden Teller immer oben auf den Stapel gelegt und in umgekehrter Reihenfolge
-wieder vom Stapel entfernt.  Insbesondere ist es nicht möglich, einen Teller aus
+wieder vom Stapel entfernt.  Insbesondere ist es nicht m\"oglich, einen Teller aus
 der Mitte des Stapels zu entfernen.
 Formal definieren wir den Daten-Typ des \emph{Kellers}
 wie folgt:
 \begin{enumerate}
-\item Als Namen wählen wir \textsl{Stack}.
+\item Als Namen w\"ahlen wir \textsl{Stack}.
 \item Die Menge der Typ-Parameter ist $\{ \textsl{Element} \}$.
 \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
       \hspace*{1.3cm} 
@@ -74,10 +74,10 @@ wie folgt:
       \item $\textsl{Stack}: \textsl{Stack}$
 
             Links von dem Doppelpunkt steht hier die Funktion mit dem Namen
-            \textsl{Stack}, rechts steht der Name des ADT.  In den gängigen
+            \textsl{Stack}, rechts steht der Name des ADT.  In den g\"angigen
             Programmier-Sprachen (\textsl{Java}, \texttt{C++}, etc.) 
-            werden bestimmte Funktionen mit dem selben Namen bezeichnet wie der zugehörige
-            ADT.  Solche Funktionenen heißen Konstruktoren.  Der Rückgabe-Wert eines
+            werden bestimmte Funktionen mit dem selben Namen bezeichnet wie der zugeh\"orige
+            ADT.  Solche Funktionenen hei\3en Konstruktoren.  Der R\"uckgabe-Wert eines
             Konstruktors hat immer den Typ des ADT.
 
             Der Konstruktor $\textsl{Stack}$ kommt ohne Eingabe-Argumente aus.  Ein
@@ -106,7 +106,7 @@ erfasst:
 \item $\textsl{Stack}().\textsl{top}() = \Omega$
 
       Hier bezeichnet $\Omega$ den undefinierten Wert.  Der Aufruf $\textsl{Stack}()$
-      liefert zunächst einen leeren Stack.  Das Axiom drückt also aus,
+      liefert zun\"achst einen leeren Stack.  Das Axiom dr\"uckt also aus,
       das ein leerer Stack kein oberstes Element hat.
 \item $S.\textsl{push}(x).\textsl{top}() = x$
 
@@ -119,43 +119,43 @@ erfasst:
 \item $S.\textsl{push}(x).\textsl{pop}() = S$
 
       Wenn wir auf den Stack $S$
-      ein Element legen, und anschließend von dem resultierenden Stack das
+      ein Element legen, und anschlie\3end von dem resultierenden Stack das
       oberste Element wieder herunter nehmen, dann erhalten wir den
-      ursprünglichen Stack $S$, mit dem wir gestartet sind.
+      urspr\"unglichen Stack $S$, mit dem wir gestartet sind.
 \item $\textsl{Stack}().\textsl{isEmpty}() = \mathtt{true}$
 
       Erzeugen wir mit $\textsl{Stack}()$ einen neuen Stack, so ist dieser
-      zunächst leer.
+      zun\"achst leer.
 \item $S.\textsl{push}(x).\textsl{isEmpty}() = \mathtt{false}$
 
       Legen wir ein Element $x$ auf einen Stack $S$, so kann der Stack $S$
       danach nicht leer sein.
 \end{enumerate}
-Beim Betrachten der Axiome lässt sich eine gewisse Systematik erkennen.
+Beim Betrachten der Axiome l\"asst sich eine gewisse Systematik erkennen.
 Bezeichnen wir die Funktionen \texttt{Stack} und \texttt{push} als Generatoren
 so geben die Axiome das Verhalten der restlichen Funktionen auf den von den Generatoren
 erzeugten Stacks an. 
 
 Stacks spielen in vielen Bereichen der Informatik eine wichtige Rolle.  Es gibt
-sogar Stack-basierte Programmier-Sprachen: Dort müssen bei einem
-Funktions-Aufruf alle Argumente zunächst auf einen Stack gelegt werden.  Die
+sogar Stack-basierte Programmier-Sprachen: Dort m\"ussen bei einem
+Funktions-Aufruf alle Argumente zun\"achst auf einen Stack gelegt werden.  Die
 aufrufende Funktion nimmt dann ihre Argumente vom Stack und legt das berechnete
 Ergebnis wieder auf den Stack.  Die Sprache \textsl{PostScript} funktioniert
 nach diesem Prinzip.  Die Sprache \textsl{Java} wird in einen \emph{Byte-Code}
-übersetzt, der von der \emph{Java Virtual Machine} (kurz JVM) interpretiert
+\"ubersetzt, der von der \emph{Java Virtual Machine} (kurz JVM) interpretiert
 wird.  Die JVM ist ebenfalls stack-basiert.
 
-Wir werden später noch sehen, wie  arithmetische Ausdrücke mit Hilfe
-eines Stacks ausgewertet werden können. Vorher zeigen wir, wie sich der
+Wir werden sp\"ater noch sehen, wie  arithmetische Ausdr\"ucke mit Hilfe
+eines Stacks ausgewertet werden k\"onnen. Vorher zeigen wir, wie sich der
 abstrakte Daten-Typ des Stacks in der Programmier-Sprache \textsl{Java}
-implementieren lässt.
+implementieren l\"asst.
 
 \section{Darstellung abstrakter Daten-Typen in \textsl{Java}}
-In \textsl{Java} können abstrakte Daten-Typen entweder durch ein \emph{Interface} oder
-durch eine \emph{abstrakte Klasse} repräsentiert werden.   Für den Stack wählen wir die Darstellung
+In \textsl{Java} k\"onnen abstrakte Daten-Typen entweder durch ein \emph{Interface} oder
+durch eine \emph{abstrakte Klasse} repr\"asentiert werden.   F\"ur den Stack w\"ahlen wir die Darstellung
 durch eine abstrakte Klasse, die in Abbildung \ref{fig:stack.java} auf Seite
 \pageref{fig:stack.java} gezeigt wird.   Die Darstellung durch eine abstrakte Klasse ist
-insofern flexibler, als wir hier die Möglichkeit haben, Methoden, die sich
+insofern flexibler, als wir hier die M\"oglichkeit haben, Methoden, die sich
 bereits auf der Abstraktions-Ebene des ADT realisieren lassen, zu implementieren.
 
 \begin{figure}[!h]
@@ -210,21 +210,21 @@ bereits auf der Abstraktions-Ebene des ADT realisieren lassen, zu implementieren
   \label{fig:stack.java}
 \end{figure} 
 
-Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile für Zeile.
+Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile f\"ur Zeile.
 \begin{enumerate}
 \item In der ersten Zeile deklarieren wir die Klasse \texttt{Stack<Element>} als
-      \emph{abstrakt}.  Das Schlüsselwort \texttt{abstract} drückt dabei aus,
+      \emph{abstrakt}.  Das Schl\"usselwort \texttt{abstract} dr\"uckt dabei aus,
       das wir in dieser Klasse lediglich die Signaturen der Methoden angeben,
       die Implementierungen der Methoden werden in der abstrakten Klasse
       nicht angegeben.
 
       Der Name der Klasse ist \texttt{Stack<Element>}.  Die Typ-Parameter des ADT 
       sind hier in spitzen Klammern eingefasst.  Wenn es mehr als einen Typ-Parameter gibt,
-      dann müssen diese durch Kommata getrennt werden.
+      dann m\"ussen diese durch Kommata getrennt werden.
       
-      Durch  ``\texttt{implements Cloneable}'' drücken wir aus, 
-      dass Objekte der Klasse \texttt{Stack<Element>} geklont, d.h.~kopiert werden können.
-\item Zeile 3 enthält die Typ-Spezifikationen der Method \texttt{push}.
+      Durch  ``\texttt{implements Cloneable}'' dr\"ucken wir aus, 
+      dass Objekte der Klasse \texttt{Stack<Element>} geklont, d.h.~kopiert werden k\"onnen.
+\item Zeile 3 enth\"alt die Typ-Spezifikationen der Method \texttt{push}.
       Oben hatten wir diese Typ-Spezifikation als \\[0.1cm]
       \hspace*{1.3cm} 
       $\mathtt{push}: \mathtt{Stack} \times \mathtt{Element} \rightarrow \mathtt{Stack}$
@@ -234,28 +234,28 @@ Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile für Zeile.
       Hier fallen zwei Dinge auf:
       \begin{enumerate}
       \item In \textsl{Java} hat die Methode \texttt{push} ein Argument,
-            während sie in der Definition des ADT zwei Argumente hat.
+            w\"ahrend sie in der Definition des ADT zwei Argumente hat.
 
-            In Java wird das erste Argument unterdrückt, denn dieses Argument ist bei
+            In Java wird das erste Argument unterdr\"uckt, denn dieses Argument ist bei
             jeder Methode vorhanden und hat den Wert Stack.  Dieses Argument wird daher
             auch als \emph{implizites Argument} bezeichnet.  Diesem Umstand wird auch
             durch die Syntax eines Methoden-Aufrufs Rechnung getragen.  Wir schreiben \\[0.1cm]
             \hspace*{1.3cm} $s.\mathtt{push}(e)$ \\[0.1cm]
             an Stelle von $\mathtt{push}(s,e)$.
-      \item Der Rückgabe-Typ von \texttt{push} ist als \texttt{void} deklariert und nicht
+      \item Der R\"uckgabe-Typ von \texttt{push} ist als \texttt{void} deklariert und nicht
             als \texttt{Stack<Element>}.  Der Grund ist, dass ein Aufruf der Form \\[0.1cm]
             \hspace*{1.3cm} $s.\mathtt{push}(e)$
             \\[0.1cm]
             nicht einen neuen Stack berechnet, sondern den Stack $s$, der als als
-            implizites erstes Argument der Methode verwendet wird, verändert.
+            implizites erstes Argument der Methode verwendet wird, ver\"andert.
       \end{enumerate}
 \item Die Zeilen 4 -- 6 enthalten die Typ-Spezifikationen der restlichen Methoden.
-\item Die Zeilen 8 -- 10 enthält die Definition einer Methode \texttt{clone()}.
-      Diese Methode ermöglicht es, einen Klon (also eine Kopie) eines Objektes vom Typ
-      \texttt{Stack} zu erzeugen.  Die Implementierung diskutieren wir später.
+\item Die Zeilen 8 -- 10 enth\"alt die Definition einer Methode \texttt{clone()}.
+      Diese Methode erm\"oglicht es, einen Klon (also eine Kopie) eines Objektes vom Typ
+      \texttt{Stack} zu erzeugen.  Die Implementierung diskutieren wir sp\"ater.
 \item In den Zeilen 12 -- 25 definieren wir die Methode \texttt{toString()}, mit der wir
-      ein Objekt vom Daten-Typ \texttt{Stack} in einen String umwandeln können.  Um die
-      Implementierung dieser Methode zu verstehen, betrachten wir zunächst die Wirkung
+      ein Objekt vom Daten-Typ \texttt{Stack} in einen String umwandeln k\"onnen.  Um die
+      Implementierung dieser Methode zu verstehen, betrachten wir zun\"achst die Wirkung
       dieser Methode anhand des folgenden Beispiels: 
       \begin{verbatim}
       Stack<Element> stack = new Stack<Element>();
@@ -276,50 +276,50 @@ Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile für Zeile.
       Bei dieser Darstellung ist das oberste Element des Stacks also das Element, was am
       weitesten rechts liegt.
 
-      Die Implementierung der Methode \texttt{toString} verläuft in drei Schritten.
+      Die Implementierung der Methode \texttt{toString} verl\"auft in drei Schritten.
       \begin{enumerate}
-      \item Zunächst erzeugen wir mit Hilfe der Methode \texttt{clone()} eine Kopie des
+      \item Zun\"achst erzeugen wir mit Hilfe der Methode \texttt{clone()} eine Kopie des
             Stacks.  Das ist deswegen notwendig, weil wir mit der Methode \texttt{top()}
-            ja immer nur das erste Element des Stacks anschauen können.  Um das zweite
-            Element zu bekommen, müssen wir vorher das erste Element vom Stack herunter
+            ja immer nur das erste Element des Stacks anschauen k\"onnen.  Um das zweite
+            Element zu bekommen, m\"ussen wir vorher das erste Element vom Stack herunter
             nehmen.  Das geht mit der Operation \texttt{pop()}.  Die Methode
-            \texttt{toString()} soll aber den Stack selbst nicht verändern.  Also kopieren
-            wir vorher den Stack und ändern dann die Kopie.
+            \texttt{toString()} soll aber den Stack selbst nicht ver\"andern.  Also kopieren
+            wir vorher den Stack und \"andern dann die Kopie.
 
-            Beim Ausführen der Methode \texttt{clone()} könnte es Probleme geben, es
-            könnte eine \emph{Exception} (Ausnahme) ausgelöst werden.  Die Ausnahme
+            Beim Ausf\"uhren der Methode \texttt{clone()} k\"onnte es Probleme geben, es
+            k\"onnte eine \emph{Exception} (Ausnahme) ausgel\"ost werden.  Die Ausnahme
             fangen wir durch den \texttt{try}-\texttt{catch}-Block in den Zeilen 14 -- 18
-            ab und geben in diesem Fall als Ergebnis eine Fehlermeldung zurück.
+            ab und geben in diesem Fall als Ergebnis eine Fehlermeldung zur\"uck.
       \item Die Hilfs-Methode \texttt{convert()} berechnet einen String der Form \\[0.1cm]
             \hspace*{1.3cm} \texttt{| 1 | 2 | 3 |}. \\[0.1cm]
             Hierzu wird mit der \texttt{if}-Abfrage in Zeile 28 eine Fallunterscheidung 
-            durchgeführt: Falls der Stack leer ist, so ist das Ergebnis einfach nur der
+            durchgef\"uhrt: Falls der Stack leer ist, so ist das Ergebnis einfach nur der
             String ``\texttt{|}''.  Andernfalls fragen wir das oberste Element des Stacks
             mit dem Aufruf \texttt{top()} in 31 ab, entfernen es durch einen Aufruf von
-            \texttt{pop()} vom Stack und rufen anschließend für den so verkleinerten Stack
+            \texttt{pop()} vom Stack und rufen anschlie\3end f\"ur den so verkleinerten Stack
             rekursiv die Methode \texttt{toString()} auf.  Das oberste Element des
-            ursprünglichen Stacks wird dann hinten an das Ergebnis des rekursiven Aufrufs gehängt.
-      \item Um zum Schluss noch die Linien darüber und darunter zu zeichnen, erzeugen wir
+            urspr\"unglichen Stacks wird dann hinten an das Ergebnis des rekursiven Aufrufs geh\"angt.
+      \item Um zum Schluss noch die Linien dar\"uber und darunter zu zeichnen, erzeugen wir
             in der \texttt{for}-Schleife in Zeile 21 -- 23 eine Linie der erforderlichen
-            Länge und verketten diese mit dem von \texttt{convert()} gelieferten String.
+            L\"ange und verketten diese mit dem von \texttt{convert()} gelieferten String.
       \end{enumerate}
 \end{enumerate}
-Beachten Sie, dass wir für Stacks die Methode \texttt{toString()} implementieren konnten ohne etwas
-darüber zu wissen, wie die Stacks überhaupt implementiert werden.  Dies ist der
+Beachten Sie, dass wir f\"ur Stacks die Methode \texttt{toString()} implementieren konnten ohne etwas
+dar\"uber zu wissen, wie die Stacks \"uberhaupt implementiert werden.  Dies ist der
 wesentliche Vorteil des Konzeptes des ADT: Der Begriff des ADT abstrahiert von den Details der
 Implementierung und bietet damit eine Schnittstelle zu Stacks, die einfacher zu bedienen
-ist, als wenn wir uns mit allen Details auseinander setzen müssten.  Ein weiterer
+ist, als wenn wir uns mit allen Details auseinander setzen m\"ussten.  Ein weiterer
 wesentlicher Vorteil ist die Austauschbarkeit konkreter Implementierungen des Stacks.  
-Wir werden später verschiedene konkrete
+Wir werden sp\"ater verschiedene konkrete
 Implementierungen des ADT \texttt{Stack} entwickeln.  Da die Methode \texttt{toString} auf
 der abstrakten Ebene entwickelt worden ist, ist sie von den Details einer solchen konkreten
-Implementierung unabhängig!
+Implementierung unabh\"angig!
 
 
 \section{Implementierung eines Stacks mit Hilfe eines \emph{Arrays}}
-Eine Möglichkeit, einen Stack zu implementieren, besteht darin,
+Eine M\"oglichkeit, einen Stack zu implementieren, besteht darin,
 die in einem Stack abgelegten Elemente in einem Feld abzuspeichern. 
-Zusätzlich wird dann noch eine Zeiger benötigt, der auf das oberste Element des Stacks 
+Zus\"atzlich wird dann noch eine Zeiger ben\"otigt, der auf das oberste Element des Stacks 
 zeigt. 
 Abbildung \ref{fig:ArrayStack.java} auf Seite \pageref{fig:ArrayStack.java} zeigt eine solche
  Implementierung.
@@ -337,7 +337,7 @@ Abbildung \ref{fig:ArrayStack.java} auf Seite \pageref{fig:ArrayStack.java} zeig
     public class ArrayStack<Element> extends Stack<Element>
     {
         Element[] mArray;  // abgespeicherte Elemente
-        int       mIndex;  // Index der nächsten freien Stele in mArray
+        int       mIndex;  // Index der n\"achsten freien Stele in mArray
     
         public ArrayStack() {
             mArray = (Element[]) new Object[1];
@@ -383,57 +383,57 @@ Abbildung \ref{fig:ArrayStack.java} auf Seite \pageref{fig:ArrayStack.java} zeig
             in dem die einzelnen Elemente, die auf den Stack geschoben werden,
             abgespeichert werden.
       \item Die in Zeile 4 definierte Variable \texttt{mIndex} gibt den Index in dem Feld
-            \texttt{mArray} an, an dem das nächste Element abgelegt werden kann.
+            \texttt{mArray} an, an dem das n\"achste Element abgelegt werden kann.
       \end{enumerate}
-      Ich habe mir angewöhnt, jede Member-Variable mit dem Buchstaben \texttt{m}
-      anfangen zu lassen.  Durch diese Konvention lassen sich Member-Variablen später einfach von
+      Ich habe mir angew\"ohnt, jede Member-Variable mit dem Buchstaben \texttt{m}
+      anfangen zu lassen.  Durch diese Konvention lassen sich Member-Variablen sp\"ater einfach von
       den lokalen Variablen einer Methode unterscheiden.
 \item In dem Konstruktor legen wir in Zeile 7 das Feld \texttt{mArray} mit einer
-      Größe von 1 an und initialisieren die Variable \texttt{mIndex} mit 0, denn 
+      Gr\"o\3e von 1 an und initialisieren die Variable \texttt{mIndex} mit 0, denn 
       0 ist der erste freie Index in diesem Feld.
-\item Bei der Implementierung der Methode $\texttt{push}(e)$ überprüfen wir zunächst
+\item Bei der Implementierung der Methode $\texttt{push}(e)$ \"uberpr\"ufen wir zun\"achst
       in Zeile 12, ob in dem Feld noch Platz vorhanden ist um
       ein weiteres Element abzuspeichern.  Falls dies nicht der Fall ist, 
-      legen wir in Zeile 13  ein neues Feld an, das doppelt so groß ist wie das alte Feld.
-      Anschließend kopieren wir in der \texttt{for}-Schleife in den Zeilen 14 -- 16
+      legen wir in Zeile 13  ein neues Feld an, das doppelt so gro\3 ist wie das alte Feld.
+      Anschlie\3end kopieren wir in der \texttt{for}-Schleife in den Zeilen 14 -- 16
       die Elemente aus dem alten Feld in das neue Feld und setzen dann die 
       Variable \texttt{mArray} auf das neue Feld.  Der \emph{Garbage-Collector} der 
-      \textsl{Java Virtual Machine}  sorgt jetzt dafür,
-      dass der Speicher, der für das alte Feld allokiert worden war, 
+      \textsl{Java Virtual Machine}  sorgt jetzt daf\"ur,
+      dass der Speicher, der f\"ur das alte Feld allokiert worden war, 
       wieder verwendet werden kann.
       
-      Anschließend speichern wir das Element $e$ an der durch \texttt{mIndex}
-      angegebenen Stelle ab und erhöhen die Variable \texttt{mIndex}, so dass diese jetzt 
-      wieder auf den nächsten freien Index in dem Array zeigt.
-\item Die Funktion \texttt{pop()} können wir dadurch implementieren, dass wir
+      Anschlie\3end speichern wir das Element $e$ an der durch \texttt{mIndex}
+      angegebenen Stelle ab und erh\"ohen die Variable \texttt{mIndex}, so dass diese jetzt 
+      wieder auf den n\"achsten freien Index in dem Array zeigt.
+\item Die Funktion \texttt{pop()} k\"onnen wir dadurch implementieren, dass wir
       die Variable \texttt{mIndex} dekrementieren.  Vorher stellen wir durch den Aufruf 
       von \texttt{assert} in Zeile 23 sicher, dass der Stack nicht leer ist.
-      Damit der \texttt{assert} zur Laufzeit auch tatsächlich ausgeführt wird,
-      müssen wir das Programm hinter mit der Option ``\texttt{-ea}'' starten, wir werden das
+      Damit der \texttt{assert} zur Laufzeit auch tats\"achlich ausgef\"uhrt wird,
+      m\"ussen wir das Programm hinter mit der Option ``\texttt{-ea}'' starten, wir werden das
       Programm also in der Form
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{java -ea StackTest}
       \\[0.2cm]
-      ausführen.  Die Option ``\texttt{-ea}'' steht für 
+      ausf\"uhren.  Die Option ``\texttt{-ea}'' steht f\"ur 
       \emph{\underline{e}nable \underline{a}ssertions}.
-\item Da der Stack-Pointer immer auf das nächste noch freie Feld zeigt,
+\item Da der Stack-Pointer immer auf das n\"achste noch freie Feld zeigt,
       liefert der Ausdruck \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArray[mIndex-1]} \\[0.1cm]
       in Zeile 28 das Element, das als letztes im Stack abgespeichert wurde.
-      Dieses Element wird von der Methode $\mathtt{top}()$ zurück gegeben.
-\item Die Prozedur \texttt{isEmpty()} überprüft in Zeile 31, ob der Index
+      Dieses Element wird von der Methode $\mathtt{top}()$ zur\"uck gegeben.
+\item Die Prozedur \texttt{isEmpty()} \"uberpr\"uft in Zeile 31, ob der Index
       \texttt{mIndex} den Wert 0 hat, denn dann ist der Stack leer.
 \end{enumerate}
-Damit ist unsere Implementierung des Daten-Typs Stack vollständig.  Es bleibt
-ein Programm zu erstellen, mit dem wir diese Implementierung testen können.
+Damit ist unsere Implementierung des Daten-Typs Stack vollst\"andig.  Es bleibt
+ein Programm zu erstellen, mit dem wir diese Implementierung testen k\"onnen.
 Abbildung \ref{fig:StackTest.java} auf Seite \pageref{fig:StackTest.java}
 zeigt ein sehr einfaches Programm, in dem Stacks benutzt werden.  
 Wir legen nacheinander die Zahlen $0, 1, \cdots, 32$
-auf den Stack und geben jedesmal den Stack aus.  Anschließend nehmen wir diese Zahlen der
+auf den Stack und geben jedesmal den Stack aus.  Anschlie\3end nehmen wir diese Zahlen der
 Reihe nach vom Stack herunter.
 Wir werden am Ende dieses Kapitels noch eine anspruchsvollere Anwendung von Stacks
-präsentieren, wenn wir Stacks zur Auswertung arithmetischer Ausdrücke verwenden.
+pr\"asentieren, wenn wir Stacks zur Auswertung arithmetischer Ausdr\"ucke verwenden.
 
 
 \begin{figure}[!h]
@@ -470,7 +470,7 @@ präsentieren, wenn wir Stacks zur Auswertung arithmetischer Ausdrücke verwenden.
 \end{figure} 
 
 \section{Eine Listen-basierte Implementierung von Stacks}
-Als nächstes zeigen wir eine alternative Implementierung des abstrakten Daten-Typs
+Als n\"achstes zeigen wir eine alternative Implementierung des abstrakten Daten-Typs
 \textsl{Stack}, die auf einer verketteten Liste basiert.
 Abbildung \ref{fig:ListStack.java} auf Seite \pageref{fig:ListStack.java} zeigt die
 Implementierung.
@@ -541,23 +541,23 @@ Implementierung.
 
 Um eine verkette Liste darzustellen, brauchen wir eine Daten-Struktur die Paare darstellt.
 Dabei ist die erste Komponente eines solchen Paares ein Element, das abgespeichert werden
-soll, und die zweite Komponente ist eine Referenz auf das nächste Paar.
-In der Klasse \texttt{ListStack<Element>} definieren wir daher zunächst 
+soll, und die zweite Komponente ist eine Referenz auf das n\"achste Paar.
+In der Klasse \texttt{ListStack<Element>} definieren wir daher zun\"achst 
 eine \emph{innere} Klasse \texttt{DPP} (zu lesen als \emph{data pointer pair}),
 die ein solches Paar darstellt.
 \begin{enumerate}
-\item Die Klasse enthält ein Element, abgespeichert in der Variablen \texttt{mData}
+\item Die Klasse enth\"alt ein Element, abgespeichert in der Variablen \texttt{mData}
       und eine Referenz auf das folgende Paar.  Die Referenz wird in der Variablen
       \texttt{mNextPointer} abgespeichert.
 \item Der Konstruktor dieser Klasse bekommt als Argumente ein abzuspeicherndes Element
-      und eine Referenz auf das nächste Paar.  Mit diesen Argumenten werden dann die
+      und eine Referenz auf das n\"achste Paar.  Mit diesen Argumenten werden dann die
       Variablen \texttt{mData} und \texttt{mNextPointer} initialisiert.
-\item Weierhin enthält die Klasse noch die Methode \texttt{recursiveCopy()},
-      die später gebraucht wird um eine Liste zu klonen.  Diese Methode erzeugt ein neues
+\item Weierhin enth\"alt die Klasse noch die Methode \texttt{recursiveCopy()},
+      die sp\"ater gebraucht wird um eine Liste zu klonen.  Diese Methode erzeugt ein neues
       Paar.  Die erste Komponente dieses Paars ist ist das Daten-Element, die zweite
       Komponente erhalten wir durch einen rekursiven Aufruf von
       $\texttt{recursiveCopy}()$.  
-\item Die Klasse \texttt{ListStack<Element>} selber enthält als einzige Member-Variable
+\item Die Klasse \texttt{ListStack<Element>} selber enth\"alt als einzige Member-Variable
       die Referenz \texttt{mPointer}.  Wenn der Stack leer ist, dann hat dieser Pointer
       den Wert \texttt{null}. Sonst verweist die Referenz auf ein Objekt vom Typ \texttt{DPP}.
       In diesem Objekt liegt dann das oberste Stack-Element.
@@ -565,17 +565,17 @@ die ein solches Paar darstellt.
       dem Wert \texttt{null} initialisiert wird.
 \item Um ein neues Element auf den Stack zu legen, erzeugen wir ein Paar, das als erste
       Komponente das neue Element und als zweite Komponente eine Referenz auf die Liste
-      enthält, die den bisherigen Stack repräsentierte.  Anschließend lassen wir
+      enth\"alt, die den bisherigen Stack repr\"asentierte.  Anschlie\3end lassen wir
       \texttt{mPointer} auf dieses Paar zeigen.
 \item Um die Funktion \texttt{pop()} zu implementieren, setzen wir \texttt{mPointer}
       auf die zweite Komponente des ersten Paares.
 \item Die Funktion \texttt{top()} implementieren wir, indem wir die erste Komponente des
-      Paares, auf das \texttt{mPointer} zeigt, zurück geben.
+      Paares, auf das \texttt{mPointer} zeigt, zur\"uck geben.
 \item Der Stack ist genau dann leer, wenn \texttt{mPointer} den Wert \texttt{null} hat.
 \end{enumerate}
 Um diese zweite Implementierung des ADT \textsl{Stack} zu testen, reicht es aus, die Zeile
 6 in der Implementierung der Klasse \texttt{StackTest} in Abbildung \ref{fig:StackTest.java}
- zu ändern.  Ursprünglich steht dort: \\[0.1cm]
+ zu \"andern.  Urspr\"unglich steht dort: \\[0.1cm]
 \hspace*{1.3cm} \texttt{Stack<Integer> stack = new ArrayStack<Integer>();}
 \\[0.2cm]
 Wir ersetzen hier den Konstruktor-Aufruf \texttt{new ArrayStack<Integer>()} durch den
@@ -586,30 +586,30 @@ Aufruf des Konstruktors der  Klasse \texttt{ListStack} und erhalten dann:
 Vergleichen wir die beiden Implementierungen, so stellen wir fest, das die
 Listen-basierte Implementierung mehr Speicherplatz als die Feld-basierte Implementierung
 verwendet, weil wir jedes Element in einem Objekt der Klasse \texttt{DPP} verpacken
-müssen.  Auf der anderen Seite sind aber die Laufzeiten bei allen Methoden der
+m\"ussen.  Auf der anderen Seite sind aber die Laufzeiten bei allen Methoden der
 Listen-basierten Implementierung konstant, wohingegen die Operation $\mathtt{push}(x)$ bei der
-Feld-basierten Implementierung unter Umständen einen Aufwand erfordert, der proportional
+Feld-basierten Implementierung unter Umst\"anden einen Aufwand erfordert, der proportional
 zur Anzahl der im Stack gespeicherten Elemente ist.
 
 
-\section{Auswertung arithmetischer Ausdrücke}
-Wir zeigen jetzt, wie Stacks zur Auswertung arithmetischer Ausdrücke benutzt werden
-können.  Unter einem \emph{arithmetischen Ausdruck} verstehen wir in diesem Zusammenhang
-einen String, der aus natürlichen Zahlen und den Operator-Symbolen ``\texttt{+}'',
+\section{Auswertung arithmetischer Ausdr\"ucke}
+Wir zeigen jetzt, wie Stacks zur Auswertung arithmetischer Ausdr\"ucke benutzt werden
+k\"onnen.  Unter einem \emph{arithmetischen Ausdruck} verstehen wir in diesem Zusammenhang
+einen String, der aus nat\"urlichen Zahlen und den Operator-Symbolen ``\texttt{+}'',
 ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', ``\texttt{\symbol{37}}'' und
-``\texttt{\symbol{94}}'' aufgebaut ist.  Hierbei steht $x \;\mathtt{\symbol{37}}\; y$ für
-den Rest, der bei der Division von $x$ durch $y$ übrig bleibt und
-$x\;\mathtt{\symbol{94}}\;y$ steht für die Potenz $x^y$.  Alternativ kann die Potenz $x^y$
+``\texttt{\symbol{94}}'' aufgebaut ist.  Hierbei steht $x \;\mathtt{\symbol{37}}\; y$ f\"ur
+den Rest, der bei der Division von $x$ durch $y$ \"ubrig bleibt und
+$x\;\mathtt{\symbol{94}}\;y$ steht f\"ur die Potenz $x^y$.  Alternativ kann die Potenz $x^y$
 auch als $x \;\mathtt{**}\; y$ geschrieben werden.
-Außerdem können arithmetische
-Ausdrücke noch die beiden Klammer-Symbole ``\texttt{(}'' und ``\texttt{)}'' enthalten.  
-Formal wird die Menge der arithmetische Ausdrücke \textsl{ArithExpr} induktiv definiert:
+Au\3erdem k\"onnen arithmetische
+Ausdr\"ucke noch die beiden Klammer-Symbole ``\texttt{(}'' und ``\texttt{)}'' enthalten.  
+Formal wird die Menge der arithmetische Ausdr\"ucke \textsl{ArithExpr} induktiv definiert:
 \begin{enumerate}
 \item Jede Zahl $n \in \mathbb{N}$ ist ein arithmetischer Ausdruck:
       \[ n \in \textsl{ArithExpr} \quad \mbox{f.a. $n \in \mathbb{N}$}. \]
-\item Sind $s$ und $t$ arithmetische Ausdrücke, so sind auch $s + t$, $s - t$, $s * t$, 
+\item Sind $s$ und $t$ arithmetische Ausdr\"ucke, so sind auch $s + t$, $s - t$, $s * t$, 
       $s / t$, $s \texttt{\symbol{37}} t$ und $s \texttt{\symbol{94}} t$
-      arithmetische Ausdrücke:
+      arithmetische Ausdr\"ucke:
       \begin{enumerate}
       \item $s \in \textsl{ArithExpr} \wedge t \in \textsl{ArithExpr} \rightarrow s + t \in \textsl{ArithExpr}$,
       \item $s \in \textsl{ArithExpr} \wedge t \in \textsl{ArithExpr} \rightarrow s - t \in \textsl{ArithExpr}$,
@@ -621,17 +621,17 @@ Formal wird die Menge der arithmetische Ausdrücke \textsl{ArithExpr} induktiv de
       \item $s \in \textsl{ArithExpr} \rightarrow (\, s\,) \in \textsl{ArithExpr}$.
       \end{enumerate}
 \end{enumerate}
-Haben wir nun einen String gegeben, der einen arithmetischen Ausdruck repräsentiert, als
+Haben wir nun einen String gegeben, der einen arithmetischen Ausdruck repr\"asentiert, als
 Beispiel betrachten wir den String
 \[ 4 + 3 * 2 \mathop{\mathtt{\symbol{94}}} 2 \mathop{\mathtt{\symbol{94}}} 3, \]
-so ist zunächst nicht klar, in welcher Reihenfolge die arithmetischen Operationen
-ausgeführt werden sollen.   Um hier Klarheit zu schaffen müssen wir festlegen, wie stark die
+so ist zun\"achst nicht klar, in welcher Reihenfolge die arithmetischen Operationen
+ausgef\"uhrt werden sollen.   Um hier Klarheit zu schaffen m\"ussen wir festlegen, wie stark die
 verschiedenen Operator-Symbol binden. Wir
-vereinbaren, dass, wie in der Mathematik üblich, die Operatoren ``\texttt{*}'',
-``\texttt{/}'' und ``\texttt{\symbol{37}}'' stärker binden als die
+vereinbaren, dass, wie in der Mathematik \"ublich, die Operatoren ``\texttt{*}'',
+``\texttt{/}'' und ``\texttt{\symbol{37}}'' st\"arker binden als die
 Operatoren ``\texttt{+}'' und ``\texttt{-}''.  Der Operator ``\texttt{\symbol{94}}''
-bindet stärker als alle anderen Operatoren.
-Außerdem sind die Operatoren ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'',
+bindet st\"arker als alle anderen Operatoren.
+Au\3erdem sind die Operatoren ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'',
 ``\texttt{/}'', ``\texttt{\symbol{37}}'' alle \emph{links-assoziativ}:  Ein Ausdruck der
 Form \\[0.1cm]
 \hspace*{1.3cm} \texttt{1 - 2 - 3} \quad wird  wie der Ausdruck \quad \texttt{(1 - 2) - 3} \\[0.1cm]
@@ -643,31 +643,31 @@ interpretiert.  Unser Ziel ist es, ein Programm zu erstellen, dass einen String,
 einen arithmetischen Ausdruck darstellt, auswertet.  Dieses Programm wird ganz wesentlich
 mit dem abstrakten Daten-Typ \textsl{Stack} arbeiten.
 
-\subsection{Ein einführendes Beispiel}
-Wir demonstrieren das Verfahren, mit dem wir arithmetische Ausdrücke auswerten, zunächst
+\subsection{Ein einf\"uhrendes Beispiel}
+Wir demonstrieren das Verfahren, mit dem wir arithmetische Ausdr\"ucke auswerten, zun\"achst
 anhand eines Beispiels.
 Wir betrachten den arithmetischen Ausdruck \\[0.1cm]
 \hspace*{1.3cm} \texttt{1 + 2 * 3 - 4}. \\[0.1cm]
-Wir verarbeiten einen solchen Ausdruck von links nach rechts, Token für Token.  Ein
+Wir verarbeiten einen solchen Ausdruck von links nach rechts, Token f\"ur Token.  Ein
 \emph{Token} ist dabei entweder eine Zahl, eines der Operator-Symbole oder ein Klammer-Symbol.
 Bei der Verarbeitung benutzen wir drei Stacks:
 \begin{enumerate}
-\item Der \emph{Token-Stack} enthält die eingegebenen Token.  Dieser Stack enthält also
+\item Der \emph{Token-Stack} enth\"alt die eingegebenen Token.  Dieser Stack enth\"alt also
       sowohl Zahlen als auch Operator-Symbole und Klammer-Symbole.
-\item Der \emph{Argument-Stack} enthält  Zahlen.
-\item Der \emph{Operator-Stack} enthält Operator-Symbole und 
+\item Der \emph{Argument-Stack} enth\"alt  Zahlen.
+\item Der \emph{Operator-Stack} enth\"alt Operator-Symbole und 
       Klammer-Symbole der Form ``\texttt{(}''.
 \end{enumerate}
-Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
+Die Auswertung von \texttt{1 + 2 * 3 - 4} verl\"auft wie folgt:
 \begin{enumerate}
-\item Zu Beginn des Algorithmus enthält der Token-Stack die eingegebenen Tokens und die
+\item Zu Beginn des Algorithmus enth\"alt der Token-Stack die eingegebenen Tokens und die
       anderen beiden Stacks sind leer: \\[0.1cm]
       \hspace*{1.3cm} 
       \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
         \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
       \\[0.1cm]
       Beachten Sie, dass bei der horizontalen Darstellung des Stacks das Token, was als
-      nächstes von der Methode $\textsl{top}()$ zurück gegeben würde, am rechten Ende der
+      n\"achstes von der Methode $\textsl{top}()$ zur\"uck gegeben w\"urde, am rechten Ende der
       Liste liegt.  \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArguments = []}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mOperators = []}. 
@@ -688,10 +688,10 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
 \item Wir nehmen den Operator \texttt{\symbol{34}*\symbol{34}} vom Token-Stack und vergleichen diesen Operator mit
       dem Operator \texttt{\symbol{34}+\symbol{34}}, der oben auf dem Operator-Stack liegt.
-      Da der Operator \texttt{\symbol{34}*\symbol{34}} stärker bindet als der Operator \texttt{\symbol{34}+\symbol{34}}
+      Da der Operator \texttt{\symbol{34}*\symbol{34}} st\"arker bindet als der Operator \texttt{\symbol{34}+\symbol{34}}
       legen wir den Operator \texttt{\symbol{34}*\symbol{34}} ebenfalls auf den Operator-Stack, denn wir 
-      müssen diesen Operator auswerten, bevor wir den Operator \texttt{\symbol{34}+\symbol{34}} auswerten
-      können.
+      m\"ussen diesen Operator auswerten, bevor wir den Operator \texttt{\symbol{34}+\symbol{34}} auswerten
+      k\"onnen.
       Dann gilt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.1cm]
@@ -703,14 +703,14 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
 \item Wir nehmen den Operator \texttt{\symbol{34}-\symbol{34}} vom Token-Stack und vergleichen diesen Operator mit dem
       Operator \texttt{\symbol{34}*\symbol{34}}, der jetzt oben auf dem Stack liegt.  Da der Operator
-      \texttt{\symbol{34}*\symbol{34}} stärker bindet als der Operator \texttt{\symbol{34}-\symbol{34}},
+      \texttt{\symbol{34}*\symbol{34}} st\"arker bindet als der Operator \texttt{\symbol{34}-\symbol{34}},
       werten wir jetzt den Operator \texttt{\symbol{34}*\symbol{34}} aus:  Dazu      
       nehmen wir die  beiden Argumente 3 und 2 vom Argument-Stack, nehmen den Operator
       \texttt{\symbol{34}*\symbol{34}} vom Operator-Stack und berechnen, wie vom Operator \texttt{\symbol{34}*\symbol{34}}
       gefordert, das Produkt der beiden Argumente. Dieses Produkt legen wir dann wieder auf
       den Argument-Stack.  Den Operator \texttt{\symbol{34}-\symbol{34}} legen wir wieder
-      auf den Token-Stack zurück, denn wir haben die entsprechende Operation ja noch nicht
-      ausgeführt.   
+      auf den Token-Stack zur\"uck, denn wir haben die entsprechende Operation ja noch nicht
+      ausgef\"uhrt.   
       Dann haben unsere Stacks die folgende Gestalt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArguments = [ 1, 6 ]}, \\[0.1cm]
@@ -720,8 +720,8 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
       Da beide Operatoren gleich stark binden und verschieden sind, werten wir jetzt den Operator
       \texttt{\symbol{34}+\symbol{34}} aus:  Dazu nehmen wir die letzten beiden Argumente vom Argument-Stack, nehmen den Operator
       \texttt{\symbol{34}+\symbol{34}} vom Operator-Stack und berechnen die Summe der beiden Argumente.
-      Diese Summe legen wir dann auf den Argument-Stack.  Außerdem legen wir den Operator
-      \texttt{\symbol{34}-\symbol{34}} wieder auf den Token-Stack zurück.      
+      Diese Summe legen wir dann auf den Argument-Stack.  Au\3erdem legen wir den Operator
+      \texttt{\symbol{34}-\symbol{34}} wieder auf den Token-Stack zur\"uck.      
       Dann gilt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArguments = [ 7 ]}, \\[0.1cm]
@@ -737,9 +737,9 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mArguments = [ 7, 4 ]}, \\[0.1cm]
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
-\item Der Input ist nun vollständig gelesen.
+\item Der Input ist nun vollst\"andig gelesen.
       Wir nehmen daher nun den Operator \texttt{\symbol{34}-\symbol{34}} vom Operator-Stack, der damit leer wird.
-      Anschließend nehmen wir die beiden Argumente vom Argument-Stack, bilden die
+      Anschlie\3end nehmen wir die beiden Argumente vom Argument-Stack, bilden die
       Differenz und legen diese auf den Argument-Stack.
       Damit gilt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.1cm]
@@ -749,9 +749,9 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verläuft wie folgt:
       Zahl 3.
 \end{enumerate}
 
-\subsection{Ein Algorithmus zur Auswertung arithmetischer Ausdrücke \label{algo-arith}}
-Nach dem einführenden Beispiel entwickeln wir nun einen Algorithmus zur Auswertung
-arithmetischer Ausdrücke.  Zunächst legen wir fest, welche Daten-Stukturen wir benutzen
+\subsection{Ein Algorithmus zur Auswertung arithmetischer Ausdr\"ucke \label{algo-arith}}
+Nach dem einf\"uhrenden Beispiel entwickeln wir nun einen Algorithmus zur Auswertung
+arithmetischer Ausdr\"ucke.  Zun\"achst legen wir fest, welche Daten-Stukturen wir benutzen
 wollen.
 \begin{enumerate}
 \item \texttt{mTokens} ist ein Stack von Eingabe-Token.  Wenn es sich bei den Token um Operatoren oder
@@ -764,28 +764,28 @@ wollen.
 \item \texttt{mArguments} ist ein Stack von ganzen Zahlen.  Wir deklarieren diesen Stack
       als \\[0.1cm]
       \hspace*{1.3cm} \texttt{Stack<BigInteger> mArguments;}
-\item \texttt{mOperators} ist ein Stack, der die Operatoren und eventuell öffnende
-      Klammern enthält.  Da wir Operatoren
+\item \texttt{mOperators} ist ein Stack, der die Operatoren und eventuell \"offnende
+      Klammern enth\"alt.  Da wir Operatoren
       durch Strings darstellen, deklarieren wir diesen Stack als \\[0.1cm]
       \hspace*{1.3cm} \texttt{Stack<String> mOperators;}
 \end{enumerate}
-Wenn wir das einführende Beispiel betrachten und verallgemeinern, dann stellen wir fest,
+Wenn wir das einf\"uhrende Beispiel betrachten und verallgemeinern, dann stellen wir fest,
 dass wir Zahlen immer auf 
-den Argument-Stack legen müssen, während bei Behandlung der Operatoren
-zwei Fälle auftreten können:
+den Argument-Stack legen m\"ussen, w\"ahrend bei Behandlung der Operatoren
+zwei F\"alle auftreten k\"onnen:
 \begin{enumerate}
-\item Der Operator wird auf den Operator-Stack gelegt, falls einer der folgenden Fälle
+\item Der Operator wird auf den Operator-Stack gelegt, falls einer der folgenden F\"alle
       vorliegt:
       \begin{enumerate}
       \item Der Operator-Stack ist leer.
-      \item Es liegt eine öffnende Klammer \texttt{\symbol{34}(\symbol{34}}
+      \item Es liegt eine \"offnende Klammer \texttt{\symbol{34}(\symbol{34}}
             auf dem Operator-Stack.
-      \item Der neue Operator bindet stärker als der Operator, der bereits oben auf dem Operator-Stack liegt.
+      \item Der neue Operator bindet st\"arker als der Operator, der bereits oben auf dem Operator-Stack liegt.
       \item Der neue Operator ist identisch mit dem Operator, der bereits oben auf dem Operator-Stack
-            liegt und dieser Operator-Stack ist außerdem rechts-assoziativ.
+            liegt und dieser Operator-Stack ist au\3erdem rechts-assoziativ.
         
       \end{enumerate}
-\item Andernfalls wird der Operator wieder auf den Token-Stack zurück gelegt.
+\item Andernfalls wird der Operator wieder auf den Token-Stack zur\"uck gelegt.
       Dann wird der oberste Operator, der auf dem Operator-Stack liegt,
       vom Operator-Stack heruntergenommen, die Argumente  dieses Operators werden vom
       Argument-Stack genommen, der Operator wird ausgewertet
@@ -860,8 +860,8 @@ Die Abbildungen \ref{fig:calculator.java}, \ref{fig:calculator2.java} und
 \ref{fig:calculator3.java}
 auf den Seiten \pageref{fig:calculator.java}, \pageref{fig:calculator2.java} und
 \pageref{fig:calculator3.java} zeigen  eine Implementierung des Algorithmus
-zur Auswertung arithmetischer Ausdrücke in \textsl{Java}.
-Wir diskutieren zunächst die Implementierung der statischen Methode \\[0.1cm]
+zur Auswertung arithmetischer Ausdr\"ucke in \textsl{Java}.
+Wir diskutieren zun\"achst die Implementierung der statischen Methode \\[0.1cm]
 \hspace*{1.3cm} \texttt{static boolean evalBefore(String op1, String op2)}.\\[0.1cm]
 Diese Methode vergleicht die Operatoren \texttt{op1} und \texttt{op2} und entscheidet, ob
 der Operator \texttt{op1} vor dem Operator \texttt{op2} ausgewertet werden muss.
@@ -869,10 +869,10 @@ Beim Aufruf dieser Methode
 ist der Operator \texttt{op1} der Operator, der oben auf dem Operator-Stack liegt
 und der Operator \texttt{op2} ist der Operator, der als letztes von dem Token-Stack
 genommen worden ist.
-Um entscheiden zu können, ob der Operator \texttt{op1}
+Um entscheiden zu k\"onnen, ob der Operator \texttt{op1}
 vor dem Operator \texttt{op2} auszuwerten ist, ordnen wir jedem
-Operator eine \emph{Präzedenz} zu.  Dies ist eine natürliche Zahl, die angibt, wie stark
-der Operator bindet. Tabelle \ref{tab:predence} zeigt die Präzedenzen der von uns
+Operator eine \emph{Pr\"azedenz} zu.  Dies ist eine nat\"urliche Zahl, die angibt, wie stark
+der Operator bindet. Tabelle \ref{tab:predence} zeigt die Pr\"azedenzen der von uns
 verwendeten Operatoren.
 
 \begin{table}[!h]
@@ -880,7 +880,7 @@ verwendeten Operatoren.
 \framebox{
   \begin{tabular}{|l|l|}
 \hline
-   Operator             & Präzedenz  \\
+   Operator             & Pr\"azedenz  \\
 \hline
 \hline
    \texttt{\symbol{34}+\symbol{34}}, \texttt{\symbol{34}-\symbol{34}}  & 1   \\
@@ -890,24 +890,24 @@ verwendeten Operatoren.
    \texttt{\symbol{94}}, \texttt{**}  & 3   \\
 \hline
   \end{tabular}}
-  \caption{Präzedenzen der Operatoren.}
+  \caption{Pr\"azedenzen der Operatoren.}
   \label{tab:predence}
 \end{table}
 
-Ist die Präzedenz des Operators \texttt{op1} höher als die Präzedenz des Operators \texttt{op2}, so
-bindet \texttt{op1} stärker als \texttt{op2} und wird daher vor diesem ausgewertet.
-Ist die Präzedenz des Operators \texttt{op1} kleiner als die Präzedenz des Operators \texttt{op2}, so
+Ist die Pr\"azedenz des Operators \texttt{op1} h\"oher als die Pr\"azedenz des Operators \texttt{op2}, so
+bindet \texttt{op1} st\"arker als \texttt{op2} und wird daher vor diesem ausgewertet.
+Ist die Pr\"azedenz des Operators \texttt{op1} kleiner als die Pr\"azedenz des Operators \texttt{op2}, so
 wird der Operator \texttt{op2} auf den Operator-Stack gelegt.
-In dem Fall, dass die Präzedenzen von \texttt{op1} und \texttt{op2} gleich sind, gibt es zwei Fälle:
+In dem Fall, dass die Pr\"azedenzen von \texttt{op1} und \texttt{op2} gleich sind, gibt es zwei F\"alle:
 \begin{enumerate}
 \item $\mathtt{op1} \not= \mathtt{op2}$.
 
       Betrachten wir eine Beispiel: Der arithmetischer Ausdruck \\[0.1cm]
       \hspace*{1.3cm} \texttt{2 + 3 - 4} \quad wird implizit links geklammert: \quad \texttt{(2 + 3) - 4}. \\[0.1cm]
-      Also wird in diesem Fall zunächst \texttt{op1} ausgewertet.  
+      Also wird in diesem Fall zun\"achst \texttt{op1} ausgewertet.  
 \item $\mathtt{op1} = \mathtt{op2}$.
 
-      In diesem Fall  spielt die \emph{Assoziativität} des Operators eine Rolle.
+      In diesem Fall  spielt die \emph{Assoziativit\"at} des Operators eine Rolle.
       Betrachten wir dazu zwei Beispiele: \\[0.1cm]
       \hspace*{1.3cm} \texttt{2 + 3 + 4} \quad wird interpretiert wie \quad \texttt{(2 + 3) + 4}, \\[0.1cm]
       denn wir sagen, dass der Operator ``\texttt{\symbol{34}+\symbol{34}}'' \emph{links-assoziativ}
@@ -916,24 +916,24 @@ In dem Fall, dass die Präzedenzen von \texttt{op1} und \texttt{op2} gleich sind,
       denn wir sagen, dass der Operator ``\texttt{\symbol{94}}'' \emph{rechts-assoziativ} ist.
 
       Die Operatoren ``\texttt{\symbol{34}+\symbol{34}}'', ``\texttt{\symbol{34}-\symbol{34}}'', ``\texttt{\symbol{34}*\symbol{34}}'', ``\texttt{/}'' und 
-      ``\texttt{\symbol{37}}'' sind alle links-assoziativ.  Hier wird als zunächst \texttt{op1} ausgewertet.
+      ``\texttt{\symbol{37}}'' sind alle links-assoziativ.  Hier wird als zun\"achst \texttt{op1} ausgewertet.
       Der Operator  ``\texttt{\symbol{94}}'' ist rechts-assoziativ.  Ist der oberste
       Operator auf dem Operator-Stack also ``\texttt{\symbol{94}}'' und wird dann nochmal
       der Operator ``\texttt{\symbol{94}}'' gelesen, so wird auch die neue Instanz dieses
       Operators auf den Stack gelegt.
 \end{enumerate}
-Mit diesem Vorüberlegung können wir nun die Implementierung von
+Mit diesem Vor\"uberlegung k\"onnen wir nun die Implementierung von
 $\texttt{evalBefore}(\mathtt{op1},\mathtt{op2})$ in  Abbildung \ref{fig:calculator.java}  verstehen.
 \begin{enumerate}
 \item Falls \texttt{op1} der String \texttt{\symbol{34}(\symbol{34}} ist, so legen wir
       \texttt{op2} auf jeden Fall auf den Stack, denn \texttt{\symbol{34}(\symbol{34}}
-      ist ja gar kein Operator, denn wir auswerten könnten.
-      Daher geben wir in Zeile 11 den Wert \texttt{false} zurück.
-\item Falls die Präzedenz des Operators \texttt{op1} höher ist als die Präzedenz des
+      ist ja gar kein Operator, denn wir auswerten k\"onnten.
+      Daher geben wir in Zeile 11 den Wert \texttt{false} zur\"uck.
+\item Falls die Pr\"azedenz des Operators \texttt{op1} h\"oher ist als die Pr\"azedenz des
       Operators \texttt{op2}, so liefert $\texttt{evalBefore}(\mathtt{op1},\mathtt{op2})$
       in Zeile 14 den Wert \texttt{true}.
-\item Falls die Präzedenzen der Operatoren \texttt{op1} und \texttt{op2} identisch sind,
-      so gibt es zwei Fälle:
+\item Falls die Pr\"azedenzen der Operatoren \texttt{op1} und \texttt{op2} identisch sind,
+      so gibt es zwei F\"alle:
       \begin{enumerate}
       \item Sind die beiden Operatoren gleich, so ist das Ergebnis von
             \texttt{evalBefore(op1,op2)} genau dann \texttt{true}, wenn der Operator
@@ -941,8 +941,8 @@ $\texttt{evalBefore}(\mathtt{op1},\mathtt{op2})$ in  Abbildung \ref{fig:calculat
       \item Falls die beiden Operatoren verschieden sind, hat das Ergebnis von
             \texttt{evalBefore(op1,op2)} den Wert \texttt{true}. 
       \end{enumerate}
-      Diese beiden Fälle werden in Zeile 16 behandelt.
-\item Ist die Präzedenz  des Operators \texttt{op1} kleiner als die Präzedenz des
+      Diese beiden F\"alle werden in Zeile 16 behandelt.
+\item Ist die Pr\"azedenz  des Operators \texttt{op1} kleiner als die Pr\"azedenz des
       Operators \texttt{op2}, so liefert $\texttt{evalBefore}(\mathtt{op1},\mathtt{op2})$
       in Zeile 18 den Wert \texttt{false}.
 \end{enumerate}
@@ -952,7 +952,7 @@ Die Implementierung der Methode \texttt{isLeftAssociative()} in den Zeilen 35 --
 legt fest, dass die Operatoren \texttt{\symbol{34}+\symbol{34}},
 \texttt{\symbol{34}-\symbol{34}}, \texttt{\symbol{34}*\symbol{34}},
 \texttt{\symbol{34}/\symbol{34}} und 
-\texttt{\symbol{34}\symbol{37}\symbol{34}} links-assoziativ sind, während die Operatoren
+\texttt{\symbol{34}\symbol{37}\symbol{34}} links-assoziativ sind, w\"ahrend die Operatoren
 \texttt{\symbol{34}**\symbol{34}} und \texttt{\symbol{34}\symbol{94}\symbol{34}}
 rechts-assoziativ sind.
 
@@ -1064,57 +1064,57 @@ Aufgabe dieser Methode ist es,
   \label{fig:calculator3.java}
 \end{figure}
 \noindent
-Damit können wir die in Abbildung \ref{fig:calculator3.java} gezeigte
+Damit k\"onnen wir die in Abbildung \ref{fig:calculator3.java} gezeigte
 Implementierung des Konstruktors der Klasse \texttt{Calculator}
 diskutieren.  
 \begin{enumerate}
-\item Zunächst erzeugen wir in Zeile 73 ein Objekt der Klasse \texttt{MyScanner}.
+\item Zun\"achst erzeugen wir in Zeile 73 ein Objekt der Klasse \texttt{MyScanner}.
       Dieser Scanner liest einen String ein und zerlegt diesen in Token.
-      Wir erhalten in Zeile 74 einen Stack zurück, der die Token in der Reihenfolge
-      enthält, in der sie eingelesen worden sind.  Geben wir beispielsweise den String \\[0.1cm]
+      Wir erhalten in Zeile 74 einen Stack zur\"uck, der die Token in der Reihenfolge
+      enth\"alt, in der sie eingelesen worden sind.  Geben wir beispielsweise den String \\[0.1cm]
       \hspace*{1.3cm} ``\texttt{1 + 2 * 3 - 4}'' \\[0.1cm]
       ein, so bekommt die Variable \texttt{mTokenStack} in Zeile 74 den Wert \\[0.1cm]
       \hspace*{1.3cm} [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]
       \\[0.1cm]
       zugewiesen.
-      Außerdem initialisieren wir den Argument-Stack und den Operator-Stack in Zeile 75 und 76.      
-\item In der nächsten Phase verarbeiten wir die einzelnen Tokens des Token-Stacks
+      Au\3erdem initialisieren wir den Argument-Stack und den Operator-Stack in Zeile 75 und 76.      
+\item In der n\"achsten Phase verarbeiten wir die einzelnen Tokens des Token-Stacks
       und verteilen
       diese Tokens auf Argument-Stack und Operator-Stack wie folgt:
       \begin{enumerate}
       \item Ist das gelesene Token eine Zahl, so legen wir diese auf den Argument-Stack
-            und lesen das nächste Token.
+            und lesen das n\"achste Token.
         
-            Im folgenden können wir immer davon ausgehen, dass das gelesene Token ein
+            Im folgenden k\"onnen wir immer davon ausgehen, dass das gelesene Token ein
             Operator oder eine der beiden Klammern \texttt{\symbol{34}(\symbol{34}} oder
             \texttt{\symbol{34})\symbol{34}} ist. 
-      \item Falls der Operator-Stack leer ist oder wenn das gelesene Token eine öffnende Klammer
+      \item Falls der Operator-Stack leer ist oder wenn das gelesene Token eine \"offnende Klammer
             \texttt{\symbol{34}(\symbol{34}} ist, legen wir den Operator oder die Klammer auf den Operator-Stack.
-      \item Falls das  Token eine schließende Klammer \texttt{\symbol{34})\symbol{34}} ist und wenn zusätzlich
-            der Operator auf dem Operator-Stack eine öffnende Klammer \texttt{\symbol{34}(\symbol{34}} ist, so 
+      \item Falls das  Token eine schlie\3ende Klammer \texttt{\symbol{34})\symbol{34}} ist und wenn zus\"atzlich
+            der Operator auf dem Operator-Stack eine \"offnende Klammer \texttt{\symbol{34}(\symbol{34}} ist, so 
             entfernen wir diese Klammer vom Operator-Stack.
-      \item Falls jetzt das Token aus dem Token-Stacks eine schließende Klammer
+      \item Falls jetzt das Token aus dem Token-Stacks eine schlie\3ende Klammer
             \texttt{\symbol{34})\symbol{34}} 
-            ist, so wissen wir, dass das Token auf dem Operator-Stack keine öffnende
+            ist, so wissen wir, dass das Token auf dem Operator-Stack keine \"offnende
             Klammer sein kann, sondern ein echter Operator ist. 
             Diesen Operator evaluieren wir mit Hilfe der Methode \texttt{popAndEvaluate()}.
-            Gleichzeitig schieben wir die schließende Klammer, die wir vom Token-Stack genommen
-            haben, wieder auf den Token-Stack zurück, denn wir haben die dazu gehörige
-            öffnende Klammer ja noch nicht gefunden.
+            Gleichzeitig schieben wir die schlie\3ende Klammer, die wir vom Token-Stack genommen
+            haben, wieder auf den Token-Stack zur\"uck, denn wir haben die dazu geh\"orige
+            \"offnende Klammer ja noch nicht gefunden.
 
-            Da wir danach wieder zum Beginn der Schleife zurück kehren, werden wir in
+            Da wir danach wieder zum Beginn der Schleife zur\"uck kehren, werden wir in
             diesem Fall solange Operatoren vom Operator-Stack nehmen und auswerten bis wir
-            im Operator-Stack auf eine öffnende Klammer treffen.
+            im Operator-Stack auf eine \"offnende Klammer treffen.
 
-            Im folgenden können wir davon ausgehen, dass weder das oberste Zeichen auf dem
+            Im folgenden k\"onnen wir davon ausgehen, dass weder das oberste Zeichen auf dem
             Operator-Stack, noch das oberste Token auf dem Token-Stack eine Klammer ist.
-      \item Falls der oberste Operator auf dem Operator-Stack eine höhere Präzedenz hat
+      \item Falls der oberste Operator auf dem Operator-Stack eine h\"ohere Pr\"azedenz hat
             als der zuletzt gelesene
             Operator,  evaluieren wir den obersten Operator auf dem
             Operator-Stack mit Hilfe der Methode \texttt{popAndEvaluate()}.
 
             Gleichzeitig schieben wir den Operator, den wir vom Token-Stack genommen
-            haben, wieder auf den Token-Stack zurück, denn wir haben diesen Operator ja
+            haben, wieder auf den Token-Stack zur\"uck, denn wir haben diesen Operator ja
             noch nicht weiter behandelt.
       \item Andernfalls legen wir den zuletzt gelesenen Operator auf den Operator-Stack.
       \end{enumerate}
@@ -1125,18 +1125,18 @@ diskutieren.
       dann sollte am Ende der Rechnung noch genau eine Zahl auf  dem Argument-Stack
       liegen.  Diese Zahl ist dann unser Ergebnis, das wir ausgeben.
 \end{enumerate}
-Aus Gründen der Vollständigkeit zeigen wir in Abbildung \ref{fig:myscanner.java}
+Aus Gr\"unden der Vollst\"andigkeit zeigen wir in Abbildung \ref{fig:myscanner.java}
 noch die Implementierung der Klasse \texttt{MyScanner}.  Wir benutzen die Klasse
 \texttt{Scanner} aus dem Paket \texttt{java.io}.  Diese Klasse stellt unter anderem die
-Methoden $\textsl{hasNext}()$ und $\textsl{hasNextBigInteger}()$ mit denen wir überprüfen
-können, ob die Eingabe noch ungelesene Zeichen enthält und ob diese ungelesenen Zeichen
-als ganze Zahl interpretiert werden können.  Die Methode $\textsl{nextBigInteger}()$ gibt
-dann diese Zahl zurück.  Ein Aufruf von $\textsl{next}()$ liefert als Ergebnis den
-nächsten String, der durch Leerzeichen, Tabulatoren oder Zeilenumbrüche begrenzt wird.
-Um das Programm später laufen lassen zu können, müssen also alle arithmetischen Operatoren
-von Leerzeichen begrenzt werden.  Außerdem ist beim Aufruf zu beachten, dass die Eingabe mit einem
+Methoden $\textsl{hasNext}()$ und $\textsl{hasNextBigInteger}()$ mit denen wir \"uberpr\"ufen
+k\"onnen, ob die Eingabe noch ungelesene Zeichen enth\"alt und ob diese ungelesenen Zeichen
+als ganze Zahl interpretiert werden k\"onnen.  Die Methode $\textsl{nextBigInteger}()$ gibt
+dann diese Zahl zur\"uck.  Ein Aufruf von $\textsl{next}()$ liefert als Ergebnis den
+n\"achsten String, der durch Leerzeichen, Tabulatoren oder Zeilenumbr\"uche begrenzt wird.
+Um das Programm sp\"ater laufen lassen zu k\"onnen, m\"ussen also alle arithmetischen Operatoren
+von Leerzeichen begrenzt werden.  Au\3erdem ist beim Aufruf zu beachten, dass die Eingabe mit einem
 \emph{End-Of-File}-Zeichen abgeschlossen werden muss.  Unter Unix ist dies Ctrl-D, unter
-Windows wird hierfür Ctrl-Z verwendet.
+Windows wird hierf\"ur Ctrl-Z verwendet.
 
 \begin{figure}[!h]
   \centering
@@ -1193,43 +1193,43 @@ Wir sind nun in der Lage den Nutzen, den die Verwendung abstrakter Daten-Typen h
 erkennen. 
 \begin{enumerate}
 \item Abstrakte Daten-Typen machen die Implementierung eines Algorithmus von der
-      Implementierung der Daten-Typen unabhängig.
+      Implementierung der Daten-Typen unabh\"angig.
 
-      Bei der Implementierung des Algorithmus zur Auswertung arithmetischer Ausdrücke
-      mussten wir uns um die zugrunde liegenden Daten-Strukturen nicht weiter kümmern. 
+      Bei der Implementierung des Algorithmus zur Auswertung arithmetischer Ausdr\"ucke
+      mussten wir uns um die zugrunde liegenden Daten-Strukturen nicht weiter k\"ummern. 
       Es reichte aus, zwei Dinge zu wissen: 
       \begin{enumerate}
       \item Die Typ-Spezifikationen der verwendeten Funktionen.
       \item Die Axiome, die das Verhalten dieser Funktionen beschreiben.
       \end{enumerate}
       Der abstrakte Daten-Typ ist damit eine \emph{Schnittstelle} zwischen dem Algorithmus
-      einerseits und der Daten-Struktur andererseits.  Dadurch ist es möglich, Algorithmus
+      einerseits und der Daten-Struktur andererseits.  Dadurch ist es m\"oglich, Algorithmus
       und Daten-Struktur von unterschiedlichen Personen entwickeln zu lassen.
 \item Abstrakte Daten-Typen sind \emph{wiederverwendbar}.
 
       Die Definition des abstrakten Daten-Typs \emph{Stack} ist sehr allgemein. Dadurch
-      ist dieser Daten-Typ vielseitig einsetzbar:  Wir werden später noch sehen, wie der
+      ist dieser Daten-Typ vielseitig einsetzbar:  Wir werden sp\"ater noch sehen, wie der
       ADT \emph{Stack} bei der Traversierung gerichteter Graphen eingesetzt werden kann.
 \item Abstrakte Daten-Typen sind \emph{austauschbar}.
 
-      Bei der Auswertung arithmetischer Ausdrücke können wir die
+      Bei der Auswertung arithmetischer Ausdr\"ucke k\"onnen wir die
       Feld-basierte Implementierung des ADT \emph{Stack} mit minimalen Aufwand durch 
       eine Listen-basierte Implementierung ersetzen.  Dazu ist lediglich an drei Stellen
-      der Aufruf eines Konstruktors abzuändern.
+      der Aufruf eines Konstruktors abzu\"andern.
       Dadurch wird bei der
-      Programm-Entwicklung das folgende Vorgehen möglich: Wir entwerfen den benötigten
-      Algorithmus auf der Basis abstrakter Daten-Typen.  Für diese geben wir zunächst sehr
-      einfache Implementierungen an, deren Effizienz eventuell noch zu wünschen übrig
-      lässt.  In einem späteren Schritt wird evaluiert wo der Schuh am meisten drückt.
-      Die ADTs, die bei dieser Evaluierung als performance-kritisch erkannt werden, können
-      anschließend mit dem Ziel der Effizienz-Steigerung reimplementiert werden.
+      Programm-Entwicklung das folgende Vorgehen m\"oglich: Wir entwerfen den ben\"otigten
+      Algorithmus auf der Basis abstrakter Daten-Typen.  F\"ur diese geben wir zun\"achst sehr
+      einfache Implementierungen an, deren Effizienz eventuell noch zu w\"unschen \"ubrig
+      l\"asst.  In einem sp\"ateren Schritt wird evaluiert wo der Schuh am meisten dr\"uckt.
+      Die ADTs, die bei dieser Evaluierung als performance-kritisch erkannt werden, k\"onnen
+      anschlie\3end mit dem Ziel der Effizienz-Steigerung reimplementiert werden.
 \end{enumerate}
 \pagebreak
 
 %\section{Abstrakte Daten-Typen in \textsc{Setl2}}
 %Das Konzept abstrakter Daten-Typen kann in jeder Programmier-Sprache verwendet werden. 
-%Einige Programmier-Sprachen bieten zusätzliche Unterstützung für dieses Konzept.
-%Als objekt-orientierte Sprache unterstützt  \textsc{Setl2} abstrakte Daten-Typen 
+%Einige Programmier-Sprachen bieten zus\"atzliche Unterst\"utzung f\"ur dieses Konzept.
+%Als objekt-orientierte Sprache unterst\"utzt  \textsc{Setl2} abstrakte Daten-Typen 
 %durch die Definition von Klassen.
 %Wir demonstrieren die Verwendung von Klassen in \textsc{Setl2} am  Beispiel des abstrakten
 %Daten-Typs \textsl{Stack}.
@@ -1289,8 +1289,8 @@ erkennen.
 
 %\noindent
 %Abbildung \ref{fig:stack-setl} auf Seite \pageref{fig:stack-setl} zeigt, wie der ADT
-%\emph{Stack} sich in \textsc{Setl2} mit Hilfe einer Klasse implementieren lässt.  Alle
-%Schlüsselwörter der Sprache \textsc{Setl2} sind in der Abbildung unterstrichen worden.
+%\emph{Stack} sich in \textsc{Setl2} mit Hilfe einer Klasse implementieren l\"asst.  Alle
+%Schl\"usselw\"orter der Sprache \textsc{Setl2} sind in der Abbildung unterstrichen worden.
 %\begin{enumerate}
 %\item In \textsc{Setl2} besteht ein ADT aus zwei Teilen, einer \emph{Klassen-Deklaration}
 %      und einer \emph{Klassen-Definition}.
@@ -1302,8 +1302,8 @@ erkennen.
 %      \hspace*{2.3cm} \emph{procedure-declaration}\texttt{;} \\[0.1cm]
 %      \hspace*{1.3cm} \texttt{end} \textsl{name}\texttt{;} \\[0.1cm]
 %      Hierbei ist \textsl{name} der Name der Klasse.  Innerhalb der Klasse stehen
-%      dann die Deklarationen der verschiedenen Prozeduren, die die Klasse nach außen zur
-%      Verfügung stellt. Dabei hat die erste Prozedur-Deklaration eine besondere Form:
+%      dann die Deklarationen der verschiedenen Prozeduren, die die Klasse nach au\3en zur
+%      Verf\"ugung stellt. Dabei hat die erste Prozedur-Deklaration eine besondere Form:
 %      Die dort deklarierte Funktion hat immer den Namen \texttt{create()}.
 %      Bei dieser Funktion handelt es sich um den \emph{Konstruktor} der Klasse.
 
@@ -1326,15 +1326,15 @@ erkennen.
 %            intern durch den Wert der Variablen \texttt{list} dargestellt wird.
 %      \item Danach folgen die Definitionen der in der Klassen-Deklaration aufgelisteten 
 %            Prozeduren.  Diese Prozedur-Definitionen unterscheiden sich nicht von den
-%            Definitionen gewöhnlicher Prozeduren.
+%            Definitionen gew\"ohnlicher Prozeduren.
 
-%      \item Zusätzlich können weiter Prozeduren definiert werden, die in der
+%      \item Zus\"atzlich k\"onnen weiter Prozeduren definiert werden, die in der
 %            Klassen-Deklaration nicht genannt werden.  Solche Hilfs-Prozeduren sind dann
-%            außerhalb der Klasse nicht sichtbar und können nur innerhalb der Klasse
+%            au\3erhalb der Klasse nicht sichtbar und k\"onnen nur innerhalb der Klasse
 %            verwendet werden, also nur innerhalb der Prozedur-Definitionen in der
 %            Klassen-Definition. 
 %      \item Die Prozedur \texttt{selfstr()} hat eine besondere Funktion:
-%            Sie wandelt ein Objekt des ADT in einen String um.  Dadurch können Objekte des
+%            Sie wandelt ein Objekt des ADT in einen String um.  Dadurch k\"onnen Objekte des
 %            ADTs dann mit \texttt{print()} ausgedruckt werden.
 
 %            In Abbildung \ref{fig:stack-setl} wird \texttt{selfstr()} mit Hilfe der
@@ -1376,27 +1376,27 @@ erkennen.
 %\end{figure} 
 
 %\noindent
-%Werden die obige Klassen-Deklaration und die Klassen-Definition übersetzt, so wird der ADT
+%Werden die obige Klassen-Deklaration und die Klassen-Definition \"ubersetzt, so wird der ADT
 %\texttt{Stack} mit seinen Funktionen in der \textsc{Setl2}-Bibliothek \texttt{setl2.lib}
-%abgespeichert.  Um diesen Daten-Typ auch nutzen zu können, muss ein Programm die Direktive \\[0.1cm]
+%abgespeichert.  Um diesen Daten-Typ auch nutzen zu k\"onnen, muss ein Programm die Direktive \\[0.1cm]
 %\hspace*{1.3cm} \texttt{use Stack;} \\[0.1cm]
 %enthalten.  Abbildung \ref{fig:stack-setl-use} zeigt ein solches Programm mit der
 %Direktive in Zeile 2.  Ein Stack kann nun mit Hilfe der Funktion \texttt{Stack()}  erzeugt
 %werden.  Ein solcher Aufruf ruft intern den \emph{Konstruktor} der Klasse \texttt{Stack}
 %auf.  Der Konstruktor war die Prozedur, die den Namen \texttt{create()} hat.  Aufgabe dieser
-%Prozedur ist es, die internen Daten-Strukturen zu initialisieren, die den ADT repräsentieren.
+%Prozedur ist es, die internen Daten-Strukturen zu initialisieren, die den ADT repr\"asentieren.
 %Im Falle des Stacks wurde einfach die Variable \texttt{list} auf die leere Liste \texttt{[]} gesetzt.
 
-%Die Prozeduren, die der Daten-Typ Stack zur Verfügung stellt, werden nun in der Form \\[0.1cm]
+%Die Prozeduren, die der Daten-Typ Stack zur Verf\"ugung stellt, werden nun in der Form \\[0.1cm]
 %\hspace*{1.3cm} $S$\texttt{.}\textsl{function}($\cdots$) \\[0.1cm]
 %aufgerufen. Hierbei muss $S$ ein Objekt sein, dass mit dem Konstruktor des Daten-Typs
 %Stack erzeugt wurde. Zeile 8 und Zeile 13 zeigen, wie die Prozeduren \texttt{push()} und
 %\texttt{pop()} aufgerufen werden.
 
 %\subsection{Realisierung von komplexen Zahlen in \textsc{Setl2}}
-%Wir geben ein weiteres Beispiel für die Implementierung eines abstrakten Daten-Typs in
-%\textsc{Setl2}, an dem wir das Konzept des \emph{Überladens von Operatoren} demonstrieren
-%können:
+%Wir geben ein weiteres Beispiel f\"ur die Implementierung eines abstrakten Daten-Typs in
+%\textsc{Setl2}, an dem wir das Konzept des \emph{Ãœberladens von Operatoren} demonstrieren
+%k\"onnen:
 %Die Sprache \textsc{Setl2} selbst kennt keine komplexen Zahlen.  Es ist aber einfach,
 %komplexe Zahlen als ADT in \textsc{Setl2} zu realisieren.
 %Abbildung \ref{fig:complex-setl} auf Seite \pageref{fig:complex-setl}
@@ -1458,30 +1458,30 @@ erkennen.
 
 %\begin{enumerate}
 %\item Die Klassen-Deklaration deklariert nur den Konstruktor.
-%      Dieser bekommt als Argumente den Real- und Imaginär-Teil der komplexen Zahl.
-%\item Die Klassen-Definition legt in Zeile 6 zunächst fest, dass eine komplexe Zahl intern
-%      durch die beiden Variablen \texttt{real} und \texttt{imag} repräsentiert wird,
-%      die respektive den Real- und Imaginär-Teil der Zahl enthalten.
+%      Dieser bekommt als Argumente den Real- und Imagin\"ar-Teil der komplexen Zahl.
+%\item Die Klassen-Definition legt in Zeile 6 zun\"achst fest, dass eine komplexe Zahl intern
+%      durch die beiden Variablen \texttt{real} und \texttt{imag} repr\"asentiert wird,
+%      die respektive den Real- und Imagin\"ar-Teil der Zahl enthalten.
 %      Im Konstruktor werden diese beiden Variablen mit den Argumenten \texttt{x} und
 %      \texttt{y} initialisiert.
-%\item Zusätzlich enthält die Klassen-Definition die Definition der Rechen-Operationen.
+%\item Zus\"atzlich enth\"alt die Klassen-Definition die Definition der Rechen-Operationen.
 %      Diese Definitionen erfolgen mit einer speziellen Syntax: \\[0.1cm]
 %      \hspace*{1.3cm} \texttt{procedure self} \textsl{op} \textsl{arg}\texttt{;} \\[0.1cm]
 %      \hspace*{2.3cm} \textsl{body} \\[0.1cm]
 %      \hspace*{1.3cm} \texttt{end;} \\[0.1cm]
 %      Hier ist \textsl{op} der Name des zu definierenden Operators, also
-%      z.B.~``\texttt{\symbol{34}+\symbol{34}}'' oder ``\texttt{\symbol{34}*\symbol{34}}'' und \textsl{arg} steht für das zweite
-%      Argument dieses Operators.  \textsl{body} steht für den Rumpf der Prozedur.
-%      Innerhalb des Rumpfes kann auf Real- und Imaginär-Teil des Arguments \textsl{arg} 
+%      z.B.~``\texttt{\symbol{34}+\symbol{34}}'' oder ``\texttt{\symbol{34}*\symbol{34}}'' und \textsl{arg} steht f\"ur das zweite
+%      Argument dieses Operators.  \textsl{body} steht f\"ur den Rumpf der Prozedur.
+%      Innerhalb des Rumpfes kann auf Real- und Imagin\"ar-Teil des Arguments \textsl{arg} 
 %      mit Hilfe der Notation \textsl{arg}\texttt{.real} und \textsl{arg}\texttt{.imag}
-%      zurück gegriffen werden.
+%      zur\"uck gegriffen werden.
 %\end{enumerate}
 %Das Programm in Abbildung \ref{fig:complex-test.setl} zeigt, dass mit Hilfe der so
-%eingeführten Klasse \texttt{Complex} in \textsc{Setl2} so mit komplexen Zahlen gerechnet werden kann, als ob
-%diese ein Teil der Sprache \textsc{Setl2} wären.  In \textsl{Java} ist soetwas nicht
-%möglich, dort können Operatoren nicht überladen werden.  Im Gegensatz dazu bietet die
-%Sprache \texttt{C++} ebenfalls die Möglichkeit, Operatoren zu  
-%überladen.
+%eingef\"uhrten Klasse \texttt{Complex} in \textsc{Setl2} so mit komplexen Zahlen gerechnet werden kann, als ob
+%diese ein Teil der Sprache \textsc{Setl2} w\"aren.  In \textsl{Java} ist soetwas nicht
+%m\"oglich, dort k\"onnen Operatoren nicht \"uberladen werden.  Im Gegensatz dazu bietet die
+%Sprache \texttt{C++} ebenfalls die M\"oglichkeit, Operatoren zu  
+%\"uberladen.
 
 %\begin{figure}[!h]
 %  \centering

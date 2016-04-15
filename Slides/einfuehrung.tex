@@ -31,33 +31,33 @@ Algorithmen und Daten--Strukturen
 \rule{17cm}{1mm}
 
 \footnotesize
-Überblick 
+Ãœberblick 
 \begin{enumerate}
-\item Unlösbarkeit des Halte-Problems
-\item Komplexität von Algorithmen
+\item Unl\"osbarkeit des Halte-Problems
+\item Komplexit\"at von Algorithmen
       \begin{enumerate}
       \item Rekurrenz-Gleichungen
       \item $O$-Schreibweise
       \end{enumerate}
 \item Abstrakte Daten-Typen und elementare Daten-Strukturen
   
-      Stacks, später Abbildungen, Prioritäts-Warteschlangen
+      Stacks, sp\"ater Abbildungen, Priorit\"ats-Warteschlangen
 \item Sortier-Algorithmen
 
       Minsort, Bubble-Sort, Quick-Sort, Merge-Sort, $\cdots$
 \item Abbildungen
   \begin{enumerate}
-  \item AVL-Bäume
+  \item AVL-B\"aume
   \item Hashing
   \end{enumerate}
 \item Graphen 
 
       Algorithmus von Dijkstra \\
-      Berechnung kürzester Wege
+      Berechnung k\"urzester Wege
 \end{enumerate}
 
 \begin{center}
-\framebox{Ziel: selbständig Algorithmen entwickeln und analysieren}
+\framebox{Ziel: selbst\"andig Algorithmen entwickeln und analysieren}
 \end{center}
 
 \vspace*{0.2cm}
@@ -84,10 +84,10 @@ Algorithmen und Programme
 \item \emph{Algorithmus}
   \begin{enumerate}
   \item abstrakt
-  \item lässt vieles offen
+  \item l\"asst vieles offen
   \item Beschreibung durch 
     \begin{enumerate}
-    \item natürlich sprachlichen Text
+    \item nat\"urlich sprachlichen Text
     \item mathematische Formeln
     \item Pseudo-Code, Programm
     \end{enumerate}
@@ -110,13 +110,13 @@ Beschreibung von Algorithmen in Vorlesung
 \begin{enumerate}
 \item mathematische Formeln (Sprache der Mengen-Lehre)
 \item \textsl{Setl2}-Programme
-\item \textsl{Java}-Programme (Übungen)
+\item \textsl{Java}-Programme (Ãœbungen)
 \end{enumerate}
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Einführung \hspace*{\fill} Seite \arabic{mypage}
+Einf\"uhrung \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,7 +137,7 @@ Literatur
 \item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, \textsl{Jeffrey D.~Ullman}:
       \emph{Data Structures and Algorithms}. 
 
-      primäre Quelle für Vorlesung
+      prim\"are Quelle f\"ur Vorlesung
 \item \textsl{Frank M.~Carrano}: \\
       \emph{Data Abstraction and Problem Solving with \texttt{C++}}.
 
@@ -165,7 +165,7 @@ Literatur
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Einführung \hspace*{\fill} Seite \arabic{mypage}
+Einf\"uhrung \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,7 +174,7 @@ Einführung \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Beispiele für Test-Funktionen
+Beispiele f\"ur Test-Funktionen
 \end{center}
 \vspace*{0.5cm}
 
@@ -193,7 +193,7 @@ Beispiele für Test-Funktionen
       \hspace*{1.3cm}  nur Deklaration, keine Definition.
 \item $s_4$ = ``{\tt int hugo(char* x) begin i := 1; end;}''
 
-      keine Test-Funktion: lässt sich nicht parsen.
+      keine Test-Funktion: l\"asst sich nicht parsen.
 \item $s_5$ = ``{\tt int hugo(int x) \{ return i*i; \}}''
 
       keine Test-Funktion: \\[0.3cm]
@@ -265,16 +265,16 @@ Halte-Problem  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Äquivalenz-Problem
+Ã„quivalenz-Problem
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \textbf{Geg.}: $n_1$, $n_2$: Namen zweier $k$-stelliger \texttt{C}-Funktionen \\[0.1cm]
-\hspace*{1.8cm} $a_1$, $\cdots$, $a_k$: Argumente für $n_1$ und $n_2$
+\hspace*{1.8cm} $a_1$, $\cdots$, $a_k$: Argumente f\"ur $n_1$ und $n_2$
 
 \textbf{Def.}: $n_1(a_1,\cdots,a_k) \simeq n_2(a_1,\cdots,a_k)$ \\[0.1cm]
-g.d.w. einer der beiden folgen Fälle auftritt:
+g.d.w. einer der beiden folgen F\"alle auftritt:
 \begin{enumerate}
 \item $n_1(a_1,\cdots,a_k)\uparrow \quad\wedge\quad n_2(a_1,\cdots,a_k)\uparrow$
 \item $\exists r: n_1(a_1,\cdots,a_k) \leadsto r \quad\wedge\quad n_2(a_1,\cdots,a_k) \leadsto r$
@@ -283,7 +283,7 @@ g.d.w. einer der beiden folgen Fälle auftritt:
 \begin{verbatim}
        int equal(char* p1, char* p2, char* a)
 \end{verbatim}
-löst \emph{Äquivalenz-Problem} falls gilt:
+l\"ost \emph{Ã„quivalenz-Problem} falls gilt:
 \begin{enumerate}
 \item $p_1 \not\in T\!F \;\vee\; p_2 \not\in T\!F \quad\Leftrightarrow\quad \mathtt{equal}(p_1, p_2, a) \leadsto 2$.
 \item Falls 
@@ -302,7 +302,7 @@ löst \emph{Äquivalenz-Problem} falls gilt:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Äquivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
+Ã„quivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,7 +311,7 @@ löst \emph{Äquivalenz-Problem} falls gilt:
 \normalsize
 
 \begin{center}
-Unlösbarkeit des Äquivalenz-Problems
+Unl\"osbarkeit des Ã„quivalenz-Problems
 \end{center}
 \vspace*{0.5cm}
 
@@ -336,7 +336,7 @@ Unlösbarkeit des Äquivalenz-Problems
    }
 \end{Verbatim}
 
-\textbf{Behauptung}: \texttt{stops} löst Halte-Problem.
+\textbf{Behauptung}: \texttt{stops} l\"ost Halte-Problem.
 
 Setze: \textsl{Loop} := \texttt{\symbol{34}int loop(char* x) \{ while (1) ++x; \}\symbol{34}}
 
@@ -358,12 +358,12 @@ Betrachte $\texttt{stops}(p, a)$.
 
       Also $\texttt{stops}(p,a) = 1 - 1 = 0$
 \end{enumerate}
-Damit löst \texttt{stops} das Halte-Problem!
+Damit l\"ost \texttt{stops} das Halte-Problem!
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Äquivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
+Ã„quivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -377,7 +377,7 @@ Fibonacci--Zahlen
 \vspace*{0.5cm}
 
 \footnotesize
-Kaninchen-Farm: Business-Plan für 
+Kaninchen-Farm: Business-Plan f\"ur 
 $$\textsl{Bunnies Incorporated}^{\,T\!M}$$
 \begin{enumerate}
 \item Jedes Kaninchen-Weibchen bringt jeden Monat ein
@@ -388,7 +388,7 @@ $$\textsl{Bunnies Incorporated}^{\,T\!M}$$
 Wie entwickelt sich nach $n$ Monaten die Zahl $k(n)$ der Kaninchen-Paare, wenn im ersten Monat
 1 Paar junge Kaninchen eingekauft wird?
 
-Lösung: Rekursions-Gleichung
+L\"osung: Rekursions-Gleichung
 \begin{enumerate}
 \item $k(0) = 1$
 \item $k(1) = 1$
@@ -419,30 +419,30 @@ Berechnung der Rechenzeit eines Algorithmus
 \vspace*{0.5cm}
 
 \footnotesize
-Mögliches Vorgehen:
+M\"ogliches Vorgehen:
 \begin{enumerate}
 \item Implementiere Algorithmus in Programmiersprache
-\item Zähle alle Operationen (RG aufstellen, lösen)
+\item Z\"ahle alle Operationen (RG aufstellen, l\"osen)
       \begin{enumerate}
       \item Zuweisungen,
       \item arithmetische Operationen,
       \item $\cdots$
       \end{enumerate}
-\item Schlage Ausführungs-Zeiten im Prozessorhandbuch nach    
+\item Schlage Ausf\"uhrungs-Zeiten im Prozessorhandbuch nach    
 \end{enumerate}
 
 Probleme dieses Verfahrens
 \begin{enumerate}
 \item sehr aufwendig
-\item praktisch bei modernen Prozessoren gar nicht durchführbar,
+\item praktisch bei modernen Prozessoren gar nicht durchf\"uhrbar,
       da Verhalten des Caches kaum vorhersehbar
-\item Ergebnis vom Prozessor abhängig
+\item Ergebnis vom Prozessor abh\"angig
 \item Ergebnis beschreibt Programm statt Algorithmus
 \end{enumerate}
 
 \framebox{\framebox{
 \begin{minipage}[c]{16cm}
-    Wir brauchen abstrakten Begriff der Rechenzeit, um Komplexität abstrakter Algorithmen zu
+    Wir brauchen abstrakten Begriff der Rechenzeit, um Komplexit\"at abstrakter Algorithmen zu
     untersuchen.
 \end{minipage}
 }}
@@ -474,15 +474,15 @@ Rechen-Zeiten  verschiedener Algorithmen zur Berechnung der Fibonacci-Zahlen:
 \item Algorithmus zur Berechnung von $\mathtt{fib}(n)$: \\[0.3cm]
       \hspace*{1.3cm} 
       $4 * (n - 2) + 5$ Additionen, \\[0.3cm]
-      mit $c$ unabhängig von $n$.
+      mit $c$ unabh\"angig von $n$.
 \end{enumerate}
-Gesucht: Komplexitäts-Begriff, der
+Gesucht: Komplexit\"ats-Begriff, der
 \begin{enumerate}
 \item \underline{Wachstum} der Funktionen erfasst.
-\item Terme niedriger Ordnung vernachlässigt.
+\item Terme niedriger Ordnung vernachl\"assigt.
 
       ($\lambda_2^n$ im 1. Fall, Konstante $5$ im 2. Fall)
-\item Konstante Faktoren vernachlässigt.
+\item Konstante Faktoren vernachl\"assigt.
 
       (Faktor $\bruch{1}{\sqrt{5}}$ im 1. Fall, Faktor 4 im zweiten Fall)
 \end{enumerate}
@@ -526,12 +526,12 @@ Seien $f:\mathbb{N} \rightarrow  \mathbb{N}$, \ $g:\mathbb{N} \rightarrow  \math
 
 
 \begin{enumerate}
-\item Kompexität des 1. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+\item Kompexit\"at des 1. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
       \hspace*{1.3cm} 
       $\bruch{1}{\sqrt{5}} * (\lambda_1^n - \lambda_2^n) - 1 \;\in\;\Oh(\lambda_1^n)$
-\item Kompexität des 2. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+\item Kompexit\"at des 2. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
       \hspace*{1.3cm} $4 * (n - 2) + c \;\in\; \Oh(n)$
-\item Kompexität des 3. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
+\item Kompexit\"at des 3. Alg. zur Ber. von $\mathtt{fib}(n)$: \\[0.3cm]
       \hspace*{1.3cm} $d \in \Oh(1)$
 \end{enumerate}
 
@@ -589,7 +589,7 @@ Teile und Herrsche
 \vspace*{0.5cm}
 
 \footnotesize
-Programm zur Berechnung von $x^n$ für $n \in \mathbb{n}$
+Programm zur Berechnung von $x^n$ f\"ur $n \in \mathbb{n}$
 \begin{verbatim}
 double power(double x, unsigned n) {
     if (n == 0)
@@ -604,7 +604,7 @@ double power(double x, unsigned n) {
 \end{verbatim}
 \textbf{Beh}.: \quad $\texttt{power}(x, n) = x^n$
 
-\textbf{Beweis}: Induktion über $n$
+\textbf{Beweis}: Induktion \"uber $n$
 \begin{enumerate}
 \item I.A.: $n = 0$ 
 
@@ -641,12 +641,12 @@ Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Komplexitäts-Abschätzung
+Komplexit\"ats-Absch\"atzung
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Günstigster Fall:  $n\;\%\;2 = 0$ für jeden rekursiven Aufruf.
+G\"unstigster Fall:  $n\;\%\;2 = 0$ f\"ur jeden rekursiven Aufruf.
 
 $a_n$: Anzahl Multiplikationen bei Berechnung $\mathtt{power}(x,n)$ \\[0.3cm]
 \hspace*{1.3cm} $a_n = a_{n/2} + 1$ \quad mit $a_0 = 0$
@@ -665,7 +665,7 @@ Also: $b_{k+2} = 2 * b_{k+1} - b_k$
 Charakteristisches Polynom: \\[0.3cm]
 \hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
 
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
 
 Rand-Bedingungen: \\[0.3cm]
@@ -674,7 +674,7 @@ Rand-Bedingungen: \\[0.3cm]
 
 Also: $\alpha = 1$ und $\beta = 1$
 
-Lösung: $b_k = k + 1$, folglich $a_{2^k} = k + 1$
+L\"osung: $b_k = k + 1$, folglich $a_{2^k} = k + 1$
 
 Setze $n = 2^k$, also $k = \log_2(n)$, dann: \\[0.3cm]
 \hspace*{1.3cm} $a_n = \log_2(n) + 1 \in \Oh\left(\log_2(n)\right)$
@@ -693,12 +693,12 @@ Rekurrenzen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Komplexitäts-Abschätzung (Fortsetzung)
+Komplexit\"ats-Absch\"atzung (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Ungünstigster Fall: $n = 2^k - 1$, denn $n/2 = 2^{k-1} - 1$ \\[0.3cm]
+Ung\"unstigster Fall: $n = 2^k - 1$, denn $n/2 = 2^{k-1} - 1$ \\[0.3cm]
 \hspace*{1.3cm} $a_n = a_{n/2} + 2$ mit $a_0 = 0$
 
 Setze $b_k := a_{2^k - 1}$ \\[0.3cm]
@@ -715,7 +715,7 @@ Subtraktion: \\[0.3cm]
 Charakteristisches Polynom: \\[0.3cm]
 \hspace*{1.3cm} $\chi(x) = x^2 - 2 * x + 1 = (x-1)^2$
 
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $b_k = \alpha * 1^k + \beta * k * 1^k = a + \beta * k$
 
 Rand-Bedingungen: \\[0.3cm]
@@ -724,7 +724,7 @@ Rand-Bedingungen: \\[0.3cm]
 
 Also: $\alpha = 0$ und $\beta = 2$
 
-Lösung: $b_k = 2 * k$, folglich $a_{2^k-1} = 2*k$
+L\"osung: $b_k = 2 * k$, folglich $a_{2^k-1} = 2*k$
 
 Setze $n = 2^k-1$, also $k = \log_2(n+1)$, dann: \\[0.3cm]
 \hspace*{1.3cm} $a_n = 2*\log_2(n + 1)  \in \Oh\left(\log_2(n)\right)$

@@ -1,38 +1,38 @@
-\chapter{Prioritäts-Warteschlangen \label{chap:prioqueue}}
-Um den Begriff der  \emph{Prioritäts-Warteschlange} zu verstehen, betrachten wir zunächst
-den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingefügt und vorne werden
-Daten entnommen. Das führt dazu, dass Daten in derselben Reihenfolge entnommen werden,
-wie sie eingefügt werden.  Anschaulich ist das so wie bei der Warteschlange vor einer
+\chapter{Priorit\"ats-Warteschlangen \label{chap:prioqueue}}
+Um den Begriff der  \emph{Priorit\"ats-Warteschlange} zu verstehen, betrachten wir zun\"achst
+den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingef\"ugt und vorne werden
+Daten entnommen. Das f\"uhrt dazu, dass Daten in derselben Reihenfolge entnommen werden,
+wie sie eingef\"ugt werden.  Anschaulich ist das so wie bei der Warteschlange vor einer
 Kino-Kasse, wo die Leute in der Reihenfolge bedient werden, in der sie sich anstellen.
-Bei einer Prioritäts-Warteschlange haben die Daten zusätzlich Prioritäten.  Es wird immer
-das Datum entnommen, was die höchste Priorität hat.  Anschaulich ist das so wie im
+Bei einer Priorit\"ats-Warteschlange haben die Daten zus\"atzlich Priorit\"aten.  Es wird immer
+das Datum entnommen, was die h\"ochste Priorit\"at hat.  Anschaulich ist das so wie im
 Wartezimmer eines Zahnarztes. Wenn Sie schon eine Stunde gewartet haben und dann ein
-Privat-Patient aufkreuzt, dann müssen Sie halt noch eine Stunde warten, weil der
-Privat-Patient eine höhere Priorität hat.
+Privat-Patient aufkreuzt, dann m\"ussen Sie halt noch eine Stunde warten, weil der
+Privat-Patient eine h\"ohere Priorit\"at hat.
 
-Prioritäts-Warteschlangen spielen in vielen Bereichen der Informatik  eine wichtige
-Rolle.  Wir werden Prioritäts-Warteschlangen später sowohl in dem Kapitel über
+Priorit\"ats-Warteschlangen spielen in vielen Bereichen der Informatik  eine wichtige
+Rolle.  Wir werden Priorit\"ats-Warteschlangen sp\"ater sowohl in dem Kapitel \"uber
 Daten-Kompression als auch bei der Implementierung des Algorithmus zur Bestimmung
-kürzester Wege in einem Graphen einsetzen.  Daneben werden Prioritäts-Warteschlangen unter anderem in
+k\"urzester Wege in einem Graphen einsetzen.  Daneben werden Priorit\"ats-Warteschlangen unter anderem in
 Simulations-Systemen und beim Scheduling von Prozessen in Betriebs-Systemen eingesetzt.
 
 
 \section{Definition des ADT \textsl{PrioQueue}}
-Wir versuchen den Begriff der Prioritäts-Warteschlange jetzt formal durch Definition eines
+Wir versuchen den Begriff der Priorit\"ats-Warteschlange jetzt formal durch Definition eines
 abstrakten Daten-Typs zu fassen.
-Wir geben hier eine eingeschränkte Definition von Prioritäts-Warteschlangen, die nur die
-Funktionen enthält, die wir später für den Algorithmus von Dijkstra benötigen.
-\begin{Definition}[Prioritäts-Warteschlange] \hspace*{\fill} \\
+Wir geben hier eine eingeschr\"ankte Definition von Priorit\"ats-Warteschlangen, die nur die
+Funktionen enth\"alt, die wir sp\"ater f\"ur den Algorithmus von Dijkstra ben\"otigen.
+\begin{Definition}[Priorit\"ats-Warteschlange] \hspace*{\fill} \\
 {\em
-  Wir definieren den abstrakten Daten-Typ der \emph{Prioritäts-Warteschlange} wie folgt:
+  Wir definieren den abstrakten Daten-Typ der \emph{Priorit\"ats-Warteschlange} wie folgt:
   \begin{enumerate}
-  \item Als Namen wählen wir \textsl{PrioQueue}.
+  \item Als Namen w\"ahlen wir \textsl{PrioQueue}.
   \item Die Menge der Typ-Parameter ist \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Key}, \textsl{Value} \}$.
 
         Dabei muss auf der Menge $\textsl{Key}$ eine totale Quasi-Ordnung $<$ existieren,
-        so dass wir die Prioritäten verschiedener Elemente anhand der Schlüssel
-        vergleichen können. 
+        so dass wir die Priorit\"aten verschiedener Elemente anhand der Schl\"ussel
+        vergleichen k\"onnen. 
   \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
        \hspace*{1.3cm} 
        $\{ \textsl{PrioQueue}, \textsl{insert}, \textsl{remove}, \textsl{top}, \textsl{change} \}$.
@@ -41,73 +41,73 @@ Funktionen enthält, die wir später für den Algorithmus von Dijkstra benötigen.
         \item $\textsl{PrioQueue}: \textsl{PrioQueue}$
 
               Der Aufruf ``$\textsl{PrioQueue}()$'' erzeugt eine leere
-              Prioritäts-Warteschlange. 
+              Priorit\"ats-Warteschlange. 
         \item $\textsl{top}: \textsl{PrioQueue}  \rightarrow (\textsl{Key} \times \textsl{Value}) \cup \{\Omega\}$
 
               Der Aufruf $Q.\textsl{top}()$ liefert ein Paar $\pair(k,v)$.  Dabei ist $v$ ein Element
-              aus $Q$, das eine maximale Priorität hat. $k$ ist die Priorität des Elements $v$.
+              aus $Q$, das eine maximale Priorit\"at hat. $k$ ist die Priorit\"at des Elements $v$.
         \item $\textsl{insert}: \textsl{PrioQueue} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{PrioQueue}$
 
-              Der Aufruf $Q.\textsl{insert}(k,v)$ fügt das Element $v$ mit der Priorität $k$ in
-              die Prioritäts-Warteschlange $Q$ ein.  
+              Der Aufruf $Q.\textsl{insert}(k,v)$ f\"ugt das Element $v$ mit der Priorit\"at $k$ in
+              die Priorit\"ats-Warteschlange $Q$ ein.  
         \item $\textsl{remove}: \textsl{PrioQueue} \rightarrow \textsl{PrioQueue}$
 
-              Der Aufruf $Q.\textsl{remove}()$ entfernt aus der Prioritäts-Warteschlange
-              $Q$ ein Element, das eine maximale Priorität hat.
+              Der Aufruf $Q.\textsl{remove}()$ entfernt aus der Priorit\"ats-Warteschlange
+              $Q$ ein Element, das eine maximale Priorit\"at hat.
         \item $\textsl{change}: \textsl{PrioQueue} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{PrioQueue}$
 
-              Der Aufruf $Q.\textsl{change}(k,v)$ ändert die Priorität des Elements $v$ in
-              der Prioritäts-Warte\-schlange $Q$ so ab, dass
-              $k$ die neue Priorität dieses Elements ist. 
+              Der Aufruf $Q.\textsl{change}(k,v)$ \"andert die Priorit\"at des Elements $v$ in
+              der Priorit\"ats-Warte\-schlange $Q$ so ab, dass
+              $k$ die neue Priorit\"at dieses Elements ist. 
               Wir setzen dabei voraus, dass einerseits dass Element $v$ in der
-              Prioritäts-Warteschlange $Q$ auftritt und dass andererseits die neue
-              Priorität mindestens so hoch ist wie die Priorität, die $v$
+              Priorit\"ats-Warteschlange $Q$ auftritt und dass andererseits die neue
+              Priorit\"at mindestens so hoch ist wie die Priorit\"at, die $v$
               vorher hatte.
         \end{enumerate}
-\item Bevor wir das Verhalten der einzelnen Methoden axiomatisch definieren, müssen wir
-      noch festlegen, was wir unter den \emph{Prioritäten} verstehen wollen, die den
+\item Bevor wir das Verhalten der einzelnen Methoden axiomatisch definieren, m\"ussen wir
+      noch festlegen, was wir unter den \emph{Priorit\"aten} verstehen wollen, die den
       einzelnen Elementen aus $\textsl{Value}$ zugeordnet sind.  Wir nehmen an, dass die
-      Prioritäten Elemente einer Menge $\textsl{Key}$ sind und dass auf der Menge \textsl{Key}
+      Priorit\"aten Elemente einer Menge $\textsl{Key}$ sind und dass auf der Menge \textsl{Key}
       eine totale Quasi-Ordnung $\leq$ existiert. Falls dann $k_1 < k_2$ ist, sagen wir, 
-      dass $k_1$ eine höhere Priorität als $k_2$ hat.  Dass die Prioritäten höher
-      werden wenn die Schlüssel kleiner werden erscheint im ersten Moment vielleicht
-      paradox. Es wird aber später verständlich, wenn wir den Algorithmus zur
-      Berechnung kürzester Wege von Dijkstra diskutieren. Dort sind die Prioritäten
-      Entfernungen im Graphen und die Priorität eines Knotens ist um so höher, je näher
+      dass $k_1$ eine h\"ohere Priorit\"at als $k_2$ hat.  Dass die Priorit\"aten h\"oher
+      werden wenn die Schl\"ussel kleiner werden erscheint im ersten Moment vielleicht
+      paradox. Es wird aber sp\"ater verst\"andlich, wenn wir den Algorithmus zur
+      Berechnung k\"urzester Wege von Dijkstra diskutieren. Dort sind die Priorit\"aten
+      Entfernungen im Graphen und die Priorit\"at eines Knotens ist um so h\"oher, je n\"aher
       der Knoten zu einem als \emph{Startknoten} ausgezeichneten Knoten ist. 
 
       Wir spezifizieren das Verhalten der Methoden nun dadurch, dass wir eine einfache
       \emph{Referenz-Implementierung} des ADT \textsl{PrioQueue} angeben und dann fordern,
-      dass sich eine Implementierung des ADT \textsl{PrioQueue} genauso verhält wie unsere
+      dass sich eine Implementierung des ADT \textsl{PrioQueue} genauso verh\"alt wie unsere
       Referenz-Implementierung.  Bei unserer Referenz-Implementierung stellen wir eine
-      Prioritäts-Warteschlange durch eine Menge von Paaren von Prioritäten und Werten 
-      dar.   Für solche Mengen definieren wir unserer Methoden wie folgt.
+      Priorit\"ats-Warteschlange durch eine Menge von Paaren von Priorit\"aten und Werten 
+      dar.   F\"ur solche Mengen definieren wir unserer Methoden wie folgt.
       \begin{enumerate}
       \item $\textsl{PrioQueue}() = \{\}$,
 
              der Konstruktor erzeugt also eine leere
-            Prioritäts-Warteschlange, die als leere Menge dargestellt wird. 
+            Priorit\"ats-Warteschlange, die als leere Menge dargestellt wird. 
       \item $Q.\textsl{insert}(k, v) = Q \cup \{ \pair(k,v) \}$,
         
-            Um einen Wert $v$ mit einer Priorität $k$ in die Prioritäts-Warteschlange 
-            $Q$ einzufügen, reicht es aus, das Paar $\pair(k,v)$ zu der Menge $Q$ hinzuzufügen.
+            Um einen Wert $v$ mit einer Priorit\"at $k$ in die Priorit\"ats-Warteschlange 
+            $Q$ einzuf\"ugen, reicht es aus, das Paar $\pair(k,v)$ zu der Menge $Q$ hinzuzuf\"ugen.
       \item Wenn $Q$ leer ist, dann ist $Q.\textsl{top}()$ undefiniert: \\[0.1cm]
             \hspace*{1.3cm} $Q = \{\} \;\rightarrow\; Q.\textsl{top}() = \Omega$.
      \item Wenn $Q$ nicht leer ist, wenn es also ein Paar $\pair(k_1, v_1)$ in $Q$
               gibt, dann liefert $Q.\textsl{top}()$ ein Paar $\pair(k_2,v)$ aus der Menge
-              $Q$, so dass der Schlüssel $k_2$ minimal wird.  Dann gilt also für
-              alle $\pair(k_1,v_1) \in Q$, dass $k_2 \leq k_1$ ist.  Formal können wir schreiben:
+              $Q$, so dass der Schl\"ussel $k_2$ minimal wird.  Dann gilt also f\"ur
+              alle $\pair(k_1,v_1) \in Q$, dass $k_2 \leq k_1$ ist.  Formal k\"onnen wir schreiben:
               \\[0.1cm]
               \hspace*{1.3cm} 
               $\pair(k_1,v_1) \in Q \;\wedge\; Q.\textsl{top}() = \pair(k_2,v_2)
               \;\rightarrow\; k_2 \leq k_1 \;\wedge\; \pair(k_2,v_2) \in Q$.
-      \item Falls $Q$ leer ist, dann ändert $\textsl{remove}()$ nichts daran: \\[0.1cm]
+      \item Falls $Q$ leer ist, dann \"andert $\textsl{remove}()$ nichts daran: \\[0.1cm]
             \hspace*{1.3cm} $Q = \{\} \rightarrow Q.\textsl{remove}() = Q$.
-      \item Sonst entfernt $Q.\textsl{remove}()$ ein Paar mit der höchsten Priorität: \\[0.1cm]
+      \item Sonst entfernt $Q.\textsl{remove}()$ ein Paar mit der h\"ochsten Priorit\"at: \\[0.1cm]
             \hspace*{1.3cm} 
             $Q \not= \{\} \rightarrow Q.\textsl{remove}() = Q \backslash \bigl\{ Q.\textsl{top}() \bigr\}$.
-      \item Die Methode \textsl{change}() ändert die Priorität des Paares,
-            dessen Wert als Argument übergeben wird: \\[0.1cm]
+      \item Die Methode \textsl{change}() \"andert die Priorit\"at des Paares,
+            dessen Wert als Argument \"ubergeben wird: \\[0.1cm]
             \hspace*{1.3cm} 
             $Q.\textsl{change}(k_1,v_1) = \bigl\{ \pair(k_2,v_2) \in Q \mid v_2 \not= v_1 \bigr\} \cup \bigl\{ \pair(k_1,v_1) \bigr\}$.
       \end{enumerate}
@@ -115,80 +115,80 @@ Funktionen enthält, die wir später für den Algorithmus von Dijkstra benötigen.
 }
 \end{Definition}
 
-Wir können den abstrakten Daten-Typ \textsl{PrioQueue} dadurch implementieren,
-dass wir eine Prioritäts-Warteschlange durch eine Liste realisieren, in der die Elemente
+Wir k\"onnen den abstrakten Daten-Typ \textsl{PrioQueue} dadurch implementieren,
+dass wir eine Priorit\"ats-Warteschlange durch eine Liste realisieren, in der die Elemente
 aufsteigend geordnet sind. Die einzelnen Operationen werden dann wie folgt implementiert:
 \begin{enumerate}
 \item $\textsl{PrioQueue}()$ erzeugt eine leere Liste.
 \item $Q.\textsl{insert}(d)$ kann durch die Prozedur \texttt{insert} implementiert werden,
-      die wir beim ``\emph{Sortieren durch Einfügen}'' entwickelt haben.
-\item $Q.\textsl{top}()$ gibt das erste Element der Liste zurück.
+      die wir beim ``\emph{Sortieren durch Einf\"ugen}'' entwickelt haben.
+\item $Q.\textsl{top}()$ gibt das erste Element der Liste zur\"uck.
 \item $Q.\textsl{remove}()$ entfernt das erste Element der Liste.
-\item $Q.\textsl{change}(k,v)$ geht alle Einträge der Liste durch.
-      Falls dabei ein Eintrag mit dem Wert $v$ gefunden wird, so wird das zugehörige
-      Paar aus der Liste gelöscht.  Anschließend wird das Paar $\pair(k,v)$ neu in die
-      Liste eingefügt.
+\item $Q.\textsl{change}(k,v)$ geht alle Eintr\"age der Liste durch.
+      Falls dabei ein Eintrag mit dem Wert $v$ gefunden wird, so wird das zugeh\"orige
+      Paar aus der Liste gel\"oscht.  Anschlie\3end wird das Paar $\pair(k,v)$ neu in die
+      Liste eingef\"ugt.
 \end{enumerate}
-Bei dieser Implementierung ist die Komplexität der Operationen $\textsl{insert}()$ und
+Bei dieser Implementierung ist die Komplexit\"at der Operationen $\textsl{insert}()$ und
 $\textsl{change}()$ linear in der
-Anzahl $n$ der Elemente der Prioritäts-Warteschlange.  Alle anderen Operationen sind
+Anzahl $n$ der Elemente der Priorit\"ats-Warteschlange.  Alle anderen Operationen sind
 konstant. Wir werden jetzt eine andere
-Implementierung vorstellen, bei der die Komplexität von $\textsl{insert}()$ und
-$\textsl{change}()$ den Wert $\Oh\bigl(\log(n)\bigr)$ hat.  Dazu müssen wir eine neue Daten-Struktur einführen: \emph{Heaps}.
+Implementierung vorstellen, bei der die Komplexit\"at von $\textsl{insert}()$ und
+$\textsl{change}()$ den Wert $\Oh\bigl(\log(n)\bigr)$ hat.  Dazu m\"ussen wir eine neue Daten-Struktur einf\"uhren: \emph{Heaps}.
 
 \section{Die Daten-Struktur \emph{Heap}}
 Wir definieren die Menge \textsl{Heap}\footnote{
-Der Begriff \textsl{Heap} wird in der Informatik für zwei unterschiedliche Dinge
+Der Begriff \textsl{Heap} wird in der Informatik f\"ur zwei unterschiedliche Dinge
 verwendet:  Zum einen wird die in diesem Abschnitt beschriebene Daten-Struktur als
 \textsl{Heap} bezeichnet, zum anderen wird der Teil des Speichers, in dem dynamisch
 erzeugte Objekte abgelegt werden, als \textsl{Heap} bezeichnet.}
 induktiv als Teilmenge der Menge $\Bin$ der
-binären Bäume. Dazu definieren wir zunächst für einen Schlüssel $k_1\in \textsl{Key}$ und
-einen binären Baum $b \in \Bin$ die Relation $k_1 \leq b$ durch Induktion über $b$.
-Die Intention ist dabei, dass $k_1 \leq b$ genau dann gilt, wenn für jeden Schlüssel $k_2$,
+bin\"aren B\"aume. Dazu definieren wir zun\"achst f\"ur einen Schl\"ussel $k_1\in \textsl{Key}$ und
+einen bin\"aren Baum $b \in \Bin$ die Relation $k_1 \leq b$ durch Induktion \"uber $b$.
+Die Intention ist dabei, dass $k_1 \leq b$ genau dann gilt, wenn f\"ur jeden Schl\"ussel $k_2$,
 der in $b$ auftritt,  $k_1 \leq k_2$ gilt. Die formale Definition ist wie folgt:
 \begin{enumerate}
 \item $k_1 \leq \textsl{nil}$,
 
-      denn in dem leeren Baum treten überhaupt keine Schlüssel auf.
+      denn in dem leeren Baum treten \"uberhaupt keine Schl\"ussel auf.
 \item $k_1 \leq \textsl{node}(k_2,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\longleftrightarrow}\; k_1 \leq k_2 \;\wedge\; k_1 \leq l \;\wedge\; k_1 \leq r$,
          
-      denn $k_1$ ist genau dann kleiner-gleich als alle Schlüssel, die in dem Baum 
-      $\textsl{node}(k_2,v,l,r)$ auftreten, wenn $k_1 \leq k_2$ gilt und wenn zusätzlich
-      $k_1$ kleiner-gleich als alle Schlüssel ist, die in $l$ oder $r$ auftreten.
+      denn $k_1$ ist genau dann kleiner-gleich als alle Schl\"ussel, die in dem Baum 
+      $\textsl{node}(k_2,v,l,r)$ auftreten, wenn $k_1 \leq k_2$ gilt und wenn zus\"atzlich
+      $k_1$ kleiner-gleich als alle Schl\"ussel ist, die in $l$ oder $r$ auftreten.
 \end{enumerate}
-Als nächstes definieren wir eine Funktion \\[0.1cm]
+Als n\"achstes definieren wir eine Funktion \\[0.1cm]
 \hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}$, \\[0.1cm]
-die für einen binären Baum die Anzahl der Knoten berechnet.  Die Definition erfolgt durch
+die f\"ur einen bin\"aren Baum die Anzahl der Knoten berechnet.  Die Definition erfolgt durch
 Induktion:
 \begin{enumerate}
 \item $\textsl{nil}.\textsl{count}() = 0$.
 \item $\textsl{node}(k,v,l,r).\textsl{count}() = 1 + l.\textsl{count}() + r.\textsl{count}()$.
 \end{enumerate}
-Mit diesen Vorbereitungen können wir nun die Menge \textsl{Heap} induktiv definieren:
+Mit diesen Vorbereitungen k\"onnen wir nun die Menge \textsl{Heap} induktiv definieren:
 \begin{enumerate}
 \item $\textsl{nil} \in \textsl{Heap}$.
 \item $\textsl{node}(k,v,l,r) \in \textsl{Heap}$ g.d.w. folgendes gilt:
       \begin{enumerate}
       \item $k \leq l \;\wedge\; k \leq r$,
 
-            Der Schlüssel an der Wurzel ist also kleiner-gleich als alle anderen Schlüssel.
+            Der Schl\"ussel an der Wurzel ist also kleiner-gleich als alle anderen Schl\"ussel.
             Diese Bedingung bezeichnen wir auch als die \emph{Heap-Bedingung}.
       \item $\mid l.\textsl{count}() - r.\textsl{count}() \mid \;\leq\, 1$,
 
-            Die Zahl der Schlüssel im linken Teilbaum ist also höchstens 1 größer oder
-            kleiner als die Zahl der Schlüssel im rechten Teilbaum.
+            Die Zahl der Schl\"ussel im linken Teilbaum ist also h\"ochstens 1 gr\"o\3er oder
+            kleiner als die Zahl der Schl\"ussel im rechten Teilbaum.
             Diese Bedingung bezeichen wir als die \emph{Balancierungs-Bedingung}.  Sie ist
-            ganz ähnlich zu der Balancierungs-Bedingung bei AVL-Bäumen, nur dass es dort
-            die Höhe der Bäume ist, die verglichen wird, während wir hier die Zahl der
+            ganz \"ahnlich zu der Balancierungs-Bedingung bei AVL-B\"aumen, nur dass es dort
+            die H\"ohe der B\"aume ist, die verglichen wird, w\"ahrend wir hier die Zahl der
             im Baum gespeicherten Elemente vergleichen.
       \item $l \in \textsl{Heap} \;\wedge\; r \in \textsl{Heap}$.
       \end{enumerate}
 \end{enumerate}
 Aus der \emph{Heap-Bedingung} folgt, dass ein nicht-leerer Heap die Eigenschaft hat, dass
-das Element, welches an der Wurzel steht, immer die höchste Priorität hat.  Abbildung
+das Element, welches an der Wurzel steht, immer die h\"ochste Priorit\"at hat.  Abbildung
 \ref{fig:heap-list} auf Seite \pageref{fig:heap-list} zeigt einen einfachen Heap.
-In den Knoten steht im oberen Teil die Prioritäten (in der Abbildung sind das natürliche Zahlen) und
+In den Knoten steht im oberen Teil die Priorit\"aten (in der Abbildung sind das nat\"urliche Zahlen) und
 darunter stehen die Werte (in der Abbildung sind dies Buchstaben).
 
 \begin{figure}[!t]
@@ -199,18 +199,18 @@ darunter stehen die Werte (in der Abbildung sind dies Buchstaben).
 \end{figure}
 
 
-Da Heaps binäre
-Bäume sind, können wir Sie ganz ähnlich wie geordnete binäre Bäume  implementieren. 
-Wir stellen zunächst Gleichungen auf, die die Implementierung der verschiedenen Methoden
+Da Heaps bin\"are
+B\"aume sind, k\"onnen wir Sie ganz \"ahnlich wie geordnete bin\"are B\"aume  implementieren. 
+Wir stellen zun\"achst Gleichungen auf, die die Implementierung der verschiedenen Methoden
 beschreiben.  Wir beginnen mit der  Methode \textsl{top}.  Es gilt:
 \begin{enumerate}
 \item $\textsl{nil}.\textsl{top}() = \Omega$.
 \item $\textsl{node}(k,v,l,r).\textsl{top}() = \pair(k,v)$,
 
-      denn aufgrund der Heap-Bedingung wird der Wert mit der höchsten Priorität 
+      denn aufgrund der Heap-Bedingung wird der Wert mit der h\"ochsten Priorit\"at 
       an der Wurzel gespeichert.
 \end{enumerate}
-Die Methoden \textsl{insert} müssen wir nun so implementieren, dass
+Die Methoden \textsl{insert} m\"ussen wir nun so implementieren, dass
 sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
 \begin{enumerate}
 \item $\textsl{nil}.\textsl{insert}(k,v) = \textsl{node}(k,v,\textsl{nil}, \textsl{nil})$.
@@ -219,27 +219,27 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k_\mathrm{top},v_\mathrm{top},l.\textsl{insert}(k,v), r\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat wie das
-      Paar, welches sich an der Wurzel befindet, und falls zusätzlich die Zahl der Paare im linken Teilbaum
-      kleiner-gleich der Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
+      Falls das einzuf\"ugende Paar eine geringere oder dieselbe Priorit\"at hat wie das
+      Paar, welches sich an der Wurzel befindet, und falls zus\"atzlich die Zahl der Paare im linken Teilbaum
+      kleiner-gleich der Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
       Paar im linken Teilbaum ein.
 \item $k_{\mathrm{top}} \leq k \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $   \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k_\mathrm{top},v_\mathrm{top},l,r.\textsl{insert}(k,v)\bigr)$.
 
-      Falls das einzufügende Paar eine geringere oder dieselbe Priorität hat als das
-      Paar an der Wurzel und falls zusätzlich die Zahl der Paare im linken Teilbaum
-      größer als die Zahl der Paare im rechten Teilbaum ist, dann fügen wir das
+      Falls das einzuf\"ugende Paar eine geringere oder dieselbe Priorit\"at hat als das
+      Paar an der Wurzel und falls zus\"atzlich die Zahl der Paare im linken Teilbaum
+      gr\"o\3er als die Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
       Paar im rechten Teilbaum ein.
 \item $k_{\mathrm{top}} > k \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $ \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k,v,l.\textsl{insert}(k_\mathrm{top},v_\mathrm{top}), r\bigr)$.
 
-      Falls das einzufügende Paar eine höhere Priorität hat als das Paar an
-      der Wurzel, dann müssen wir das neu einzufügende Paar an der Wurzel
-      positionieren.  Das Paar, das dort vorher steht, fügen wir in den linken
+      Falls das einzuf\"ugende Paar eine h\"ohere Priorit\"at hat als das Paar an
+      der Wurzel, dann m\"ussen wir das neu einzuf\"ugende Paar an der Wurzel
+      positionieren.  Das Paar, das dort vorher steht, f\"ugen wir in den linken
       Teilbaum ein, falls  die Zahl der Paare im linken Teilbaum
       kleiner-gleich der Zahl der Paare im rechten Teilbaum ist.
 \item $k_{\mathrm{top}} > k \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $ \\[0.1cm] 
@@ -247,13 +247,13 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
       $\textsl{node}(k_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(k,v) =
                  \textsl{node}\bigl(k,v,l,r.\textsl{insert}(k_\mathrm{top},v_\mathrm{top})\bigr)$.
 
-      Falls wir das einzufügende Paar an der Wurzel
-      positionieren müssen und die Zahl der Paare im linken Teilbaum
-      größer als die Zahl der Paare im rechten Teilbaum ist,
-      dann müssen wir das Paar, das vorher an der Wurzel stand, im rechten Teilbaum
-      einfügen.
+      Falls wir das einzuf\"ugende Paar an der Wurzel
+      positionieren m\"ussen und die Zahl der Paare im linken Teilbaum
+      gr\"o\3er als die Zahl der Paare im rechten Teilbaum ist,
+      dann m\"ussen wir das Paar, das vorher an der Wurzel stand, im rechten Teilbaum
+      einf\"ugen.
 \end{enumerate}
-Als nächstes beschreiben wir die Implementierung der Methode \textsl{remove}.
+Als n\"achstes beschreiben wir die Implementierung der Methode \textsl{remove}.
 \begin{enumerate}
 \item $\textsl{nil}.\textsl{remove}() = \textsl{nil}$,
 
@@ -262,38 +262,38 @@ Als nächstes beschreiben wir die Implementierung der Methode \textsl{remove}.
   
 \item $\textsl{node}(k,v,l,\textsl{nil}).\textsl{remove}() = l$,
 
-      denn wir entfernen immer das Paar mit der höchsten Priorität und das ist an der
-      Wurzel.  Wenn einer der beiden Teilbäume leer ist, können wir einfach den anderen
-      zurück geben.
+      denn wir entfernen immer das Paar mit der h\"ochsten Priorit\"at und das ist an der
+      Wurzel.  Wenn einer der beiden Teilb\"aume leer ist, k\"onnen wir einfach den anderen
+      zur\"uck geben.
 
-      Jetzt betrachten wir die Fälle, wo keiner der beiden Teilbäume leer ist.
+      Jetzt betrachten wir die F\"alle, wo keiner der beiden Teilb\"aume leer ist.
       Dann muss entweder das Paar an der Wurzel des linken Teilbaums
-      oder das Paar an der Wurzel des rechten Teilbaums an die Wurzel aufrücken.
-      Welches dieser beiden Paare wir nehmen, hängt davon ab, welches dr Paare die höhere
-      Priorität hat.
+      oder das Paar an der Wurzel des rechten Teilbaums an die Wurzel aufr\"ucken.
+      Welches dieser beiden Paare wir nehmen, h\"angt davon ab, welches dr Paare die h\"ohere
+      Priorit\"at hat.
 \item $k_1 \leq k_2 \;\wedge\; l = \textsl{node}(k_1,v_1,l_1,r_1) \;\wedge\; r =
       \textsl{node}(k_2,v_2,l_2,r_2) \;\rightarrow$ \\[0.1cm] 
       \hspace*{1.3cm} 
       $\textsl{node}(k,v,l,r).\textsl{remove}() =      \textsl{node}(k_1,v_1,l.\textsl{remove}(),r)$,
 
-      denn wenn das Paar an der Wurzel des linken Teilbaums eine höhere Priorität hat
-      als das Paar an der Wurzel des rechten Teilbaums, dann rückt dieses Paar an
-      die Wurzel auf und muss folglich aus dem linken Teilbaum gelöscht werden.
+      denn wenn das Paar an der Wurzel des linken Teilbaums eine h\"ohere Priorit\"at hat
+      als das Paar an der Wurzel des rechten Teilbaums, dann r\"uckt dieses Paar an
+      die Wurzel auf und muss folglich aus dem linken Teilbaum gel\"oscht werden.
 \item $k_1 > k_2 \;\wedge\; l = \textsl{node}(k_1,v_1,l_1,r_1) \;\wedge\; r = \textsl{node}(k_2,v_2,l_2,r_2) \rightarrow$ \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{node}(k,v,l,r).\textsl{remove}() = \textsl{node}(k_2,v_2,l,r.\textsl{remove}())$,
 
-      denn wenn das Paar an der Wurzel des rechten Teilbaums eine höhere Priorität hat
-      als das Paar an der Wurzel des linken Teilbaums, dann rückt dieses Paar an
-      die Wurzel auf und muss folglich aus dem rechten Teilbaum gelöscht werden.  
+      denn wenn das Paar an der Wurzel des rechten Teilbaums eine h\"ohere Priorit\"at hat
+      als das Paar an der Wurzel des linken Teilbaums, dann r\"uckt dieses Paar an
+      die Wurzel auf und muss folglich aus dem rechten Teilbaum gel\"oscht werden.  
 \end{enumerate}
 An dieser Stelle wird der aufmerksame Leser vermutlich bemerken, dass die obige
 Implementierung der Methode \textsl{remove} die Balancierungs-Bedingung verletzt.
-Es ist nicht schwierig, die Implementierung so abzuändern, dass die
+Es ist nicht schwierig, die Implementierung so abzu\"andern, dass die
 Balancierungs-Bedingung erhalten bleibt. Es zeigt sich jedoch, dass die
 Balancierungs-Bedingung  nur beim Aufbau eines Heaps mittels \textsl{insert}() wichtig ist,
-denn dort garantiert sie, dass die Höhe des Baums in logarithmischer Weise von der Zahl
-seiner Knoten abhängt.  Beim Löschen wird die Höhe des Baums sowieso nur kleiner, also
+denn dort garantiert sie, dass die H\"ohe des Baums in logarithmischer Weise von der Zahl
+seiner Knoten abh\"angt.  Beim L\"oschen wird die H\"ohe des Baums sowieso nur kleiner, also
 brauchen wir uns da keine Sorgen machen.
 
 \section{Implementierung in \textsl{Java}}
@@ -322,15 +322,15 @@ brauchen wir uns da keine Sorgen machen.
   \caption{Die abstrakte Klasse \textsl{HeapNode}.}
   \label{fig:HeapNode}
 \end{figure}
-Zunächst implementieren wir eine abstrakte Klasse \textsl{HeapNode}.  Elemente dieser
-Klasse sollen Heaps repräsentieren und zwar sowohl leere Heaps als auch nicht-leere Heaps.
+Zun\"achst implementieren wir eine abstrakte Klasse \textsl{HeapNode}.  Elemente dieser
+Klasse sollen Heaps repr\"asentieren und zwar sowohl leere Heaps als auch nicht-leere Heaps.
 Abbildung \ref{fig:HeapNode} auf Seite \pageref{fig:HeapNode} zeigt die Implementierung.
 Wir haben eine Member-Variable mit dem Namen \texttt{mCount} in Zeile 3 definiert.
 Diese Variable gibt die Zahl der in dem Heap abgespeicherten Werte an.
 
-Wir werden uns mit der Implementierung der Methode $\textsl{change}()$ erst später
-beschäftigen. Daher fehlt diese Methode in der Klasse \textsl{HeapNode}.
-Statt dessen haben wir eine zusätzliche Methode \textsl{isEmpty}(), die wir später bei der
+Wir werden uns mit der Implementierung der Methode $\textsl{change}()$ erst sp\"ater
+besch\"aftigen. Daher fehlt diese Methode in der Klasse \textsl{HeapNode}.
+Statt dessen haben wir eine zus\"atzliche Methode \textsl{isEmpty}(), die wir sp\"ater bei der
 Implementierung der Methoden \textsl{insert}() und \textsl{remove}() benutzen werden.
 
 \begin{figure}[!h]
@@ -369,12 +369,12 @@ Implementierung der Methoden \textsl{insert}() und \textsl{remove}() benutzen we
 \end{figure}
 
 Abbildung \ref{fig:EmptyHeapNode} auf Seite \pageref{fig:EmptyHeapNode} zeigt die
-Implementierung der Klasse \textsl{EmptyHeapNode}.  Elemente dieser Klasse repräsentieren
+Implementierung der Klasse \textsl{EmptyHeapNode}.  Elemente dieser Klasse repr\"asentieren
 den leeren Heap \textsl{nil}.  Im Konstruktor setzen wir in Zeile 5 die Member-Variable
-\texttt{mCount} auf 0, denn der leere Heap enthält keine Werte. Die Methode \textsl{top}()
-gibt \texttt{null} zurück, denn es gibt ja keinen sinnvollen Wert, den wir hier zurück
-geben können.   Die Methode \textsl{insert}() erzeugt einen neuen Knoten vom Typ
-\textsl{BinaryHeapNode}, der dann zurück gegeben wird. 
+\texttt{mCount} auf 0, denn der leere Heap enth\"alt keine Werte. Die Methode \textsl{top}()
+gibt \texttt{null} zur\"uck, denn es gibt ja keinen sinnvollen Wert, den wir hier zur\"uck
+geben k\"onnen.   Die Methode \textsl{insert}() erzeugt einen neuen Knoten vom Typ
+\textsl{BinaryHeapNode}, der dann zur\"uck gegeben wird. 
 
 
 \begin{figure}[!h]
@@ -437,19 +437,19 @@ geben können.   Die Methode \textsl{insert}() erzeugt einen neuen Knoten vom Typ
 Die Klasse \textsl{BinaryHeapNode}, deren Implementierung in den Abbildungen
 \ref{fig:BinaryHeapNode-I} und \ref{fig:BinaryHeapNode-II} auf den Seiten
 \pageref{fig:BinaryHeapNode-I} und \pageref{fig:BinaryHeapNode-II} gezeigt wird,
-repräsentiert einen Knoten der Form \\[0.1cm]
+repr\"asentiert einen Knoten der Form \\[0.1cm]
 \hspace*{1.3cm} 
 $\textsl{node}(\texttt{mKey}, \mathtt{mValue}, \mathtt{mLeft}, \mathtt{mRight})$. 
 \\[0.1cm]
 Die Implementierung setzt die rekursiven Gleichungen, die wir im vorhergehenden
-Unterabschnitt gezeigt haben, 1-zu-1 um.  Diskutiert werden muss höchstens noch die
+Unterabschnitt gezeigt haben, 1-zu-1 um.  Diskutiert werden muss h\"ochstens noch die
 Implementierung der Methode \textsl{remove}.  Wenn der Kontrollfluss in Zeile 51 ankommt,
 dann ist klar, dass weder der linke Teilbaum \texttt{mLeft} noch der rechte Teilbaum
 \texttt{mRight} leer ist.
-Daher sind diese Teilbäume Objekte der Klasse \textsl{BinaryHeapNode} und wir können
+Daher sind diese Teilb\"aume Objekte der Klasse \textsl{BinaryHeapNode} und wir k\"onnen
 \texttt{mLeft} und \texttt{mRight} auf den Typ \textsl{BinaryHeapNode} casten.
-Dies ist notwendig, weil wir auf die Schlüssel, die an der Wurzel dieser Bäume
-abgespeichert sind, zurückgreifen müssen.  Das geht aber nur, wenn diese den Typ
+Dies ist notwendig, weil wir auf die Schl\"ussel, die an der Wurzel dieser B\"aume
+abgespeichert sind, zur\"uckgreifen m\"ussen.  Das geht aber nur, wenn diese den Typ
 \textsl{BinaryHeapNode} haben, denn nur in diesem Typ sind die Member-Variablen
 \texttt{mKey} und \texttt{mValue} definiert.
 
@@ -498,63 +498,63 @@ abgespeichert sind, zurückgreifen müssen.  Das geht aber nur, wenn diese den Typ
 Als letztes beschreiben wir, wie die Methode \textsl{change}() effizient implementiert werden kann.
 Wir setzen voraus, dass bei einem Aufruf der Form \\[0.1cm]
 \hspace*{1.3cm} $h.\textsl{change}(k,v)$ \\[0.1cm]
-die Priorität des Elements $v$ vergößert wird.  Ist $p = \textsl{node}(k',v,l,r)$ der Knoten,
-in dem der Wert $v$ gespeichert ist, dann gilt also $k < k'$.  Um die Priorität von $v$
-abzuändern, müssen wir zunächst den Knoten $p$ finden.  Eine Möglichkeit um diesen Knoten
+die Priorit\"at des Elements $v$ verg\"o\3ert wird.  Ist $p = \textsl{node}(k',v,l,r)$ der Knoten,
+in dem der Wert $v$ gespeichert ist, dann gilt also $k < k'$.  Um die Priorit\"at von $v$
+abzu\"andern, m\"ussen wir zun\"achst den Knoten $p$ finden.  Eine M\"oglichkeit um diesen Knoten
 zu finden besteht darin, dass wir einfach alle Knoten des Heaps durchsuchen und den dort
 gespeicherten Wert mit $v$ vergleichen.  Wenn der Heap aus  $n$ Knoten besteht,
-dann brauchen wir dazu insgesamt $n$ Vergleiche.  Damit würde die Implementierung der Methode
-\textsl{change}() eine Komplexität $\Oh(n)$ haben.  Es geht aber schneller.  Die Idee ist,
-dass wir in einer Hash-Tabelle\footnote{Wir können an dieser Stelle auch eine
+dann brauchen wir dazu insgesamt $n$ Vergleiche.  Damit w\"urde die Implementierung der Methode
+\textsl{change}() eine Komplexit\"at $\Oh(n)$ haben.  Es geht aber schneller.  Die Idee ist,
+dass wir in einer Hash-Tabelle\footnote{Wir k\"onnen an dieser Stelle auch eine
   \textsl{AVL}-Baum nehmen um die Zuordnung der Knoten zu den Werten zu speichern.
-Damit dies möglich ist, muss allerdings auf der Menge der Werte eine totale Ordnung existieren.
+Damit dies m\"oglich ist, muss allerdings auf der Menge der Werte eine totale Ordnung existieren.
 }
  die Zuordnung der Knoten zu den Werten speichern.  
-Damit eine eindeutige Zuordnung von Werten zu Knoten überhaupt möglich ist, gehen wir
-davon aus, dass jeder Wert höchstens einmal in einem Heap auftritt.
+Damit eine eindeutige Zuordnung von Werten zu Knoten \"uberhaupt m\"oglich ist, gehen wir
+davon aus, dass jeder Wert h\"ochstens einmal in einem Heap auftritt.
 Die HashTabelle realisiert dann die Funktion \\[0.1cm]
 \hspace*{1.3cm} $\textsl{nodeMap}: \textsl{Value} \rightarrow \textsl{Node}$, \\[0.1cm]
-für welche die Invariante \\[0.1cm]
+f\"ur welche die Invariante \\[0.1cm]
 \hspace*{1.3cm} $\textsl{nodeMap}(v_1) = \textsl{node}(k,v_2,l,r) \rightarrow v_1 = v_2$ \\[0.1cm]
-gilt. Mit andern Worten: Der Aufruf $\textsl{nodeMap}(v)$ gibt den Knoten zurück, in dem
+gilt. Mit andern Worten: Der Aufruf $\textsl{nodeMap}(v)$ gibt den Knoten zur\"uck, in dem
 der Wert $v$ gespeichert ist.  
 
 Wenn wir nun den Knoten $p = \textsl{node}(k',v,l,r)$ gefunden haben, in dem der Wert $v$
-gespeichert ist, dann reicht es nicht aus, wenn wir in dem Knoten $p$ einfach die Priorität $k'$
-durch $k$ ersetzen, denn es könnte sein, dass dann die Heap-Bedingung verletzt wird und
-der Schlüssel, der in dem Knoten $p$ gespeichert ist, eine höhere Priorität hat als der
-Vater-Knoten dieses Knotens.  In diesem Fall müssen wir das Paar, dass in diesem Knoten
+gespeichert ist, dann reicht es nicht aus, wenn wir in dem Knoten $p$ einfach die Priorit\"at $k'$
+durch $k$ ersetzen, denn es k\"onnte sein, dass dann die Heap-Bedingung verletzt wird und
+der Schl\"ussel, der in dem Knoten $p$ gespeichert ist, eine h\"ohere Priorit\"at hat als der
+Vater-Knoten dieses Knotens.  In diesem Fall m\"ussen wir das Paar, dass in diesem Knoten
 gespeichert ist, mit dem Paar, das in dem Vater-Knoten gespeichert ist, vertauschen.
-Anschließend könnte es sein, dass für den Vater-Knoten und dessen Vater-Knoten die
+Anschlie\3end k\"onnte es sein, dass f\"ur den Vater-Knoten und dessen Vater-Knoten die
 Heap-Bedingung verletzt ist, so dass wir nun rekursiv den Vater-Knoten weiter untersuchen
-müssen.  Das Verfahren lässt sich nicht ohne weiteres durch rekursive Gleichungen
-beschreiben, denn wenn wir einen binären Knoten in der Form
+m\"ussen.  Das Verfahren l\"asst sich nicht ohne weiteres durch rekursive Gleichungen
+beschreiben, denn wenn wir einen bin\"aren Knoten in der Form
 \[ \textsl{node}(k,v,l,r) \]
-darstellen, haben wir keine Informationen über den Vaterknoten.  Wir führen daher zunächst
+darstellen, haben wir keine Informationen \"uber den Vaterknoten.  Wir f\"uhren daher zun\"achst
 ein Paar Hilfsfunktionen ein.
 \begin{enumerate}
 \item $\textsl{parent}: \textsl{Node} \rightarrow \textsl{Node} \cup \{ \Omega \}$
 
-      Für jeden Knoten $n$ gibt der Aufruf $n.\textsl{parent}(n)$ den Vaterknoten zurück.
+      F\"ur jeden Knoten $n$ gibt der Aufruf $n.\textsl{parent}(n)$ den Vaterknoten zur\"uck.
       Falls zu dem Knoten $n$ kein Vaterknoten existiert, wird statt dessen $\Omega$
-      zurück geliefert.
+      zur\"uck geliefert.
 \item $\textsl{nodeMap}: \textsl{Value} \rightarrow \textsl{Node} \cup \{ \Omega \}$
 
-      Für einen Wert $v$ liefert der Aufruf $\textsl{nodeMap}(v)$ den Knoten, in dem der Wert
+      F\"ur einen Wert $v$ liefert der Aufruf $\textsl{nodeMap}(v)$ den Knoten, in dem der Wert
       $v$ gespeichert ist.
 \item $\textsl{key}: \textsl{Node} \rightarrow \textsl{Key}$
 
-      Für einen Knoten $n$ liefert der Aufruf $n.\textsl{key}()$ den in dem Knoten
-      gespeicherten Schlüssel zurück.
+      F\"ur einen Knoten $n$ liefert der Aufruf $n.\textsl{key}()$ den in dem Knoten
+      gespeicherten Schl\"ussel zur\"uck.
 
 \item $\textsl{value}: \textsl{Node} \rightarrow \textsl{Value}$
 
-      Für einen Knoten $n$ liefert der Aufruf $n.\textsl{value}()$ den in dem Knoten
-      gespeicherten Wert zurück.
+      F\"ur einen Knoten $n$ liefert der Aufruf $n.\textsl{value}()$ den in dem Knoten
+      gespeicherten Wert zur\"uck.
 \end{enumerate}
-Damit können wir nun eine Methode $\textsl{upheap}()$ entwickeln, so dass der Aufruf
+Damit k\"onnen wir nun eine Methode $\textsl{upheap}()$ entwickeln, so dass der Aufruf
 $n.\textsl{upheap}()$ die Heap-Bedingung an dem Knoten $n$ wiederherstellt, falls diese
-dadurch verletzt wurde, dass die an dem Knoten gespeicherte Priorität erhöht wurde.
+dadurch verletzt wurde, dass die an dem Knoten gespeicherte Priorit\"at erh\"oht wurde.
 Abbildungen \ref{fig:upheap.pseudo} zeigt den Pseudo-Code, den wir jetzt im Detail diskutieren.
 
 \begin{figure}[!ht]
@@ -595,22 +595,22 @@ Abbildungen \ref{fig:upheap.pseudo} zeigt den Pseudo-Code, den wir jetzt im Deta
 \end{figure}%\$ 
 
 \begin{enumerate}
-\item Zunächst bezeichnen wir die Priorität, die an dem Knoten $n$ gespeichert ist,
-      mit $k_1$ und den zugehörigen Wert mit $v_1$.
-\item Der Vaterknoten von $n$ wird mit $p$ bezeichnet und die Priorität, die dort gespeichert ist,
-      wird mit $k_2$, der zugehörige Wert mit $v_2$ bezeichnet.  
+\item Zun\"achst bezeichnen wir die Priorit\"at, die an dem Knoten $n$ gespeichert ist,
+      mit $k_1$ und den zugeh\"origen Wert mit $v_1$.
+\item Der Vaterknoten von $n$ wird mit $p$ bezeichnet und die Priorit\"at, die dort gespeichert ist,
+      wird mit $k_2$, der zugeh\"orige Wert mit $v_2$ bezeichnet.  
 
       Falls der Knoten $n$
       bereits der Wurzel-Knoten ist, so exitiert kein  Vaterknoten und damit kann die
       Heap-Bedingung auch nicht verletzt sein, so dass die Methode $\textsl{upheap}()$
       beendet werden kann.
-\item Hat nun der an dem Knoten $n$ gespeicherte Wert eine höhere Priorität als der an dem
-      Vaterknoten $p$ gespeicherte Wert, so werden die Werte (inklusive Prioritäten), die
+\item Hat nun der an dem Knoten $n$ gespeicherte Wert eine h\"ohere Priorit\"at als der an dem
+      Vaterknoten $p$ gespeicherte Wert, so werden die Werte (inklusive Priorit\"aten), die
       an den Knoten $n$ und $p$ gespeichert sind, vertauscht.  
 
-      Zusätzlich achten wir darauf, dass die in der Tabelle \textsl{nodeMap} hinterlegte
+      Zus\"atzlich achten wir darauf, dass die in der Tabelle \textsl{nodeMap} hinterlegte
       Zuordung von Werten zu Knoten korrekt bleibt.
-\item Schließlich müssen wir die Methode \textsl{upheap} rekursiv für den Vaterknoten aufrufen.
+\item Schlie\3lich m\"ussen wir die Methode \textsl{upheap} rekursiv f\"ur den Vaterknoten aufrufen.
 \end{enumerate}
 
 
@@ -647,21 +647,21 @@ Abbildungen \ref{fig:upheap.pseudo} zeigt den Pseudo-Code, den wir jetzt im Deta
 Die Abbildungen \ref{fig:HeapNode-2},  \ref{fig:EmptyHeapNode-2},
 \ref{fig:BinaryHeapNode-2-I},  \ref{fig:BinaryHeapNode-repair-2},
 \ref{fig:BinaryHeapNode-repair-2}, \ref{fig:BinaryHeapNode-change} und \ref{fig:HeapTree} 
-auf den folgenden Seiten zeigen eine vollständige
+auf den folgenden Seiten zeigen eine vollst\"andige
 Implementierung des abstrakten Daten-Typs \textsl{PrioQueue}.  Wir diskutieren nun die
-Veränderungen gegenüber der bisher gezeigten Implementierung.  
+Ver\"anderungen gegen\"uber der bisher gezeigten Implementierung.  
 Wir beginnen mit der abstrakten Klasse \textsl{HeapNode}, die in Abbildung
 \ref{fig:HeapNode-2} auf Seite \pageref{fig:HeapNode-2} gezeigt wird.
-Gegenüber der Implementierung in Abbildung \ref{fig:HeapNode} auf Seite \ref{fig:HeapNode}
-gibt es die folgenden Änderungen.
+Gegen\"uber der Implementierung in Abbildung \ref{fig:HeapNode} auf Seite \ref{fig:HeapNode}
+gibt es die folgenden Ã„nderungen.
 \begin{enumerate}
-\item Die Klasse enthält eine zusätzliche Member-Variable \texttt{mParent}, die in Zeile 6
+\item Die Klasse enth\"alt eine zus\"atzliche Member-Variable \texttt{mParent}, die in Zeile 6
       definiert wird.  Hierbei handelt es sich um eine Referenz auf den Vater-Knoten.
-      Diese Referenz ist notwendig für die Implementierung der Methode \textsl{change}(),
-      denn dort müssen wir nach einer Änderung der Priorität eines Schlüssel überprüfen, 
-      ob die Priorität des Vater-Knotens immer noch größer ist als die Priorität des Knotens dessen
-      Priorität wir geändert haben.
-\item Außerdem enthält jeder Knoten jetzt eine Referenz auf die Abbildung
+      Diese Referenz ist notwendig f\"ur die Implementierung der Methode \textsl{change}(),
+      denn dort m\"ussen wir nach einer Ã„nderung der Priorit\"at eines Schl\"ussel \"uberpr\"ufen, 
+      ob die Priorit\"at des Vater-Knotens immer noch gr\"o\3er ist als die Priorit\"at des Knotens dessen
+      Priorit\"at wir ge\"andert haben.
+\item Au\3erdem enth\"alt jeder Knoten jetzt eine Referenz auf die Abbildung
       \textsl{nodeMap}, in der die Zuordnung der Knoten zu den Werten gespeichert wird.
       Diese Referenz wird in der in Zeile 7 definierten Member-Variable \texttt{mNodeMap}
       gespeichert.
@@ -708,16 +708,16 @@ gibt es die folgenden Änderungen.
   \label{fig:EmptyHeapNode-2}
 \end{figure}
 
-Als nächstes diskutieren wir die Änderungen in der Klasse \textsl{EmptyHeapNode}.
+Als n\"achstes diskutieren wir die Ã„nderungen in der Klasse \textsl{EmptyHeapNode}.
 \begin{enumerate}
-\item Da die Klasse nun zwei zusätzliche Member-Variablen von der Klasse \textsl{HeapNode}
-      erbt, hat der Konstruktor, der in Zeile 6 -- 12 implementiert ist, zwei zusätzliche
+\item Da die Klasse nun zwei zus\"atzliche Member-Variablen von der Klasse \textsl{HeapNode}
+      erbt, hat der Konstruktor, der in Zeile 6 -- 12 implementiert ist, zwei zus\"atzliche
       Argumente, die zur Initialisierung der beiden Member-Variablen \texttt{mParent}
       und \texttt{mNodeMap} genutzt werden.
 \item Die Implementierung der Methode \textsl{insert}() ist nun aufwendiger, denn wir
-      müssen den erzeugten Knoten in die HashTabelle \texttt{mNodeMap} eintragen.
+      m\"ussen den erzeugten Knoten in die HashTabelle \texttt{mNodeMap} eintragen.
 \item Die Implementierung der Methode \textsl{change}(), die ebenfalls neu hinzu gekommen
-      ist, ist für einen leeren Knoten trivial. 
+      ist, ist f\"ur einen leeren Knoten trivial. 
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -893,58 +893,58 @@ Als nächstes diskutieren wir die Änderungen in der Klasse \textsl{EmptyHeapNode}
   \label{fig:BinaryHeapNode-change}
 \end{figure}
 
-In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Änderungen.
+In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Ã„nderungen.
 \begin{enumerate}
-\item Zunächst bekommt der Konstruktor zwei zusätzliche Argumente um die 
+\item Zun\"achst bekommt der Konstruktor zwei zus\"atzliche Argumente um die 
       Member-Variablen \texttt{mParent} und \texttt{mNodeMap} zu initialisieren. 
 \item Bei der Methode \textsl{insert}() behandeln wir in den Zeilen 31 -- 39 
-      den Fall, dass der neu einzufügende Wert eine höhere Priorität hat als der Wert, der
-      momentan an der Wurzel steht.  Daher wird der neu einzufügende Wert
+      den Fall, dass der neu einzuf\"ugende Wert eine h\"ohere Priorit\"at hat als der Wert, der
+      momentan an der Wurzel steht.  Daher wird der neu einzuf\"ugende Wert
       jetzt an der Wurzel gespeichert und der Wert, der vorher dort stand,
       wird entweder in den linken Teilbaum \texttt{mLeft} oder in den
-      rechten Teilbaum \texttt{mRight} eingefügt.
+      rechten Teilbaum \texttt{mRight} eingef\"ugt.
 
-      Wir müssen hier darauf achten, dass die HashTabelle \texttt{mNodeMap} konsistent
+      Wir m\"ussen hier darauf achten, dass die HashTabelle \texttt{mNodeMap} konsistent
       bleibt.  Daher entfernen wir in Zeile 31 die Zuordnung von \texttt{mValue} zu dem
-      Knoten \texttt{this} aus der Tabelle und fügen in Zeile 39 statt dessen 
-      die Zuordnung von dem neu eingefügten Wert \textsl{value} zu dem Knoten
+      Knoten \texttt{this} aus der Tabelle und f\"ugen in Zeile 39 statt dessen 
+      die Zuordnung von dem neu eingef\"ugten Wert \textsl{value} zu dem Knoten
       \texttt{this} ein.
-\item Entsprechende Änderungen gibt es auch in der Methode \texttt{remove}.
-      Wir löschen zunächst in Zeile 51 die unter dem Schlüssel \texttt{mValue}
+\item Entsprechende Ã„nderungen gibt es auch in der Methode \texttt{remove}.
+      Wir l\"oschen zun\"achst in Zeile 51 die unter dem Schl\"ussel \texttt{mValue}
       abgespeicherte Zuordnung, denn diesen Wert wollen wir ja entfernen.
-      Da wir anschließend entweder den Wert aus dem linken oder dem rechten Teilbaum 
-      nach oben ziehen, müssen wir für den Wert, den wir nach oben gezogen haben,
+      Da wir anschlie\3end entweder den Wert aus dem linken oder dem rechten Teilbaum 
+      nach oben ziehen, m\"ussen wir f\"ur den Wert, den wir nach oben gezogen haben,
       eine Zuordnung in der HashTabelle \texttt{mNodeMap} eintragen. Dies geschieht
       in Zeile 73.
 
       In der Methode \texttt{remove} gibt es in den Zeile 52 und 56 noch eine wichtige 
-      Änderung: Da wir dort den Knoten im rechten bzw.~linken Teilbaum nach oben schieben,
-      müssen wir dessen Zeiger zum Vaterknoten umsetzen, denn sonst würde dieser immer noch
-      auf einen Knoten zeigen, den wir löschen.
-\item Zusätzlich sehen Sie in den Zeilen 77 bis 98 noch die Methode $\textsl{repair}()$,
+      Ã„nderung: Da wir dort den Knoten im rechten bzw.~linken Teilbaum nach oben schieben,
+      m\"ussen wir dessen Zeiger zum Vaterknoten umsetzen, denn sonst w\"urde dieser immer noch
+      auf einen Knoten zeigen, den wir l\"oschen.
+\item Zus\"atzlich sehen Sie in den Zeilen 77 bis 98 noch die Methode $\textsl{repair}()$,
       mit der die Balan\-cierungs-Bedingung an einem Knoten dann wiederhergestellt werden kann, 
       falls sie durch einen vorhergehenden Aufruf von $\textsl{remove}()$ verletzt worden ist.
       Die Idee, die dieser Methode zu Grunde liegt, ist simpel:  Falls ein Teilbaum einen Knoten
-      mehr als erlaubt enthält, so wird in diesem Teilbaum ein Knoten entfernt und dann in den
-      andern Teilbaum eingefügt.
-\item Bei der Implementierung der Methode \textsl{change}() suchen wir zunächst
-      den Knoten, an dem der zu ändernde Wert gespeichert ist.  Anschließend
-      ändern wir die in diesem Knoten abgespeicherte Priorität.  Dabei kann die
-      Heap-Bedingung verletzt werden: Es könnte sein, dass der Knoten jetzt eine höhere
-      Priorität hat als der Vater dieses Knotens.  Um die Heap-Bedingung
+      mehr als erlaubt enth\"alt, so wird in diesem Teilbaum ein Knoten entfernt und dann in den
+      andern Teilbaum eingef\"ugt.
+\item Bei der Implementierung der Methode \textsl{change}() suchen wir zun\"achst
+      den Knoten, an dem der zu \"andernde Wert gespeichert ist.  Anschlie\3end
+      \"andern wir die in diesem Knoten abgespeicherte Priorit\"at.  Dabei kann die
+      Heap-Bedingung verletzt werden: Es k\"onnte sein, dass der Knoten jetzt eine h\"ohere
+      Priorit\"at hat als der Vater dieses Knotens.  Um die Heap-Bedingung
       wiederherzustellen rufen wir daher die Methode \texttt{upHeap}() auf.
-\item Die Methode \texttt{upHeap}() prüft zunächst, ob überhaupt ein Vater-Knoten
+\item Die Methode \texttt{upHeap}() pr\"uft zun\"achst, ob \"uberhaupt ein Vater-Knoten
       vorhanden ist, denn nur dann kann die Heap-Bedingung verletzt sein.
-      Falls ein Vater-Knoten vorhanden ist, wird als nächstes geprüft, ob die 
+      Falls ein Vater-Knoten vorhanden ist, wird als n\"achstes gepr\"uft, ob die 
       Heap-Bedingung verletzt ist.  Wenn dies so ist,
-      dann vertauscht die Methode die Priorität und den Wert, der im Vater-Knoten
-      abgespeichert ist mit der Priorität und dem Wert, der in diesem Knoten 
+      dann vertauscht die Methode die Priorit\"at und den Wert, der im Vater-Knoten
+      abgespeichert ist mit der Priorit\"at und dem Wert, der in diesem Knoten 
       abgespeichert ist.  Gleichzeitig wird darauf geachtet, dass die HashTabelle
       \texttt{mNodeMap} konsistent bleibt.
       
-      Wenn der Wert und die Priorität des aktuellen Knotens an den Vater-Knoten
+      Wenn der Wert und die Priorit\"at des aktuellen Knotens an den Vater-Knoten
       geschoben  worden sind, dann kann es passieren, dass nun dort die Heap-Bedingung
-      verletzt ist.  Daher wird jetzt für den Vater-Knoten rekursiv die Methode
+      verletzt ist.  Daher wird jetzt f\"ur den Vater-Knoten rekursiv die Methode
       \textsl{upHeap}() aufgerufen.
 \end{enumerate}
 
@@ -991,39 +991,39 @@ In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Änderungen.
 
 Wir betrachten als letztes die
 Klasse \textsl{HeapTree}, die in Abbildungen \ref{fig:HeapTree} auf Seite
-\pageref{fig:HeapTree} gezeigt wird.  Diese Klasse repräsentiert einen vollständigen
+\pageref{fig:HeapTree} gezeigt wird.  Diese Klasse repr\"asentiert einen vollst\"andigen
 \textsl{Heap}.  
 \begin{enumerate}
 \item Der Wurzel-Knoten  des Heaps wird in der Member-Variablen \texttt{mRoot}
       gepeichert. 
-\item Außerdem verwaltet diese Klasse die HashTabelle \textsl{nodeMap}, die
+\item Au\3erdem verwaltet diese Klasse die HashTabelle \textsl{nodeMap}, die
       die Zuordnung zwischen den Werten und den Knoten herstellt.  Diese Tabelle
-      wird in dem Konstruktor in Zeile 8 zunächst als leere Tabelle angelegt.
-      Anschließend wird ein leerer Knoten erzeugt, der eine Referenz auf die
-      gerade angelegte Tabelle erhält.  Dieser leere Knoten ist der Wurzel-Knoten
+      wird in dem Konstruktor in Zeile 8 zun\"achst als leere Tabelle angelegt.
+      Anschlie\3end wird ein leerer Knoten erzeugt, der eine Referenz auf die
+      gerade angelegte Tabelle erh\"alt.  Dieser leere Knoten ist der Wurzel-Knoten
       des Heaps.
 \item Die Signaturen der Methoden \textsl{insert}(), \textsl{change}() und
-      \textsl{remove}() sind gegenüber den entsprechenden Methoden in der Klasse
+      \textsl{remove}() sind gegen\"uber den entsprechenden Methoden in der Klasse
       \textsl{HeapNode} und in den davon abgeleiteten Klassen
-      \textsl{EmptyHeapNode} und \textsl{BinaryHeapNode} dahingehend verändert,
-      dass diese Methoden nun nichts mehr zurück geben. Statt dessen ändern
+      \textsl{EmptyHeapNode} und \textsl{BinaryHeapNode} dahingehend ver\"andert,
+      dass diese Methoden nun nichts mehr zur\"uck geben. Statt dessen \"andern
       diese Methoden jetzt den zugrunde liegenden Heap \textsl{mRoot}.  Diese
-      Änderung der Signaturen ist der Grund für die Existenz der Klasse
+      Ã„nderung der Signaturen ist der Grund f\"ur die Existenz der Klasse
       \textsl{HeapTree}: In der Klasse \textsl{HeapTree} haben die Methoden
       \textsl{insert}(), \textsl{change}() und \textsl{remove} die Signaturen,
-      die wir brauchen und die Methoden ändern den zugrunde liegenden Heap.  
-      In der Klasse \textsl{HeapNode} sind diese Signaturen so nicht möglich,
-      denn beispsielsweise ist es unmöglich, beim Einfügen aus einem
+      die wir brauchen und die Methoden \"andern den zugrunde liegenden Heap.  
+      In der Klasse \textsl{HeapNode} sind diese Signaturen so nicht m\"oglich,
+      denn beispsielsweise ist es unm\"oglich, beim Einf\"ugen aus einem
       \textsl{EmptyHeapNode} einen \textsl{BinaryHeapNode} zu machen, da sich in
-      \textsl{Java} der Typ eines Objektes zur Laufzeit nicht ändern kann.
+      \textsl{Java} der Typ eines Objektes zur Laufzeit nicht \"andern kann.
 \end{enumerate}
 
-\subsection{Prioritäts-Warteschlangen in \textsl{Java}}
-In \textsl{Java} werden Prioritäts-Warteschlangen durch die Klasse \texttt{PriorityQueue<E>}
+\subsection{Priorit\"ats-Warteschlangen in \textsl{Java}}
+In \textsl{Java} werden Priorit\"ats-Warteschlangen durch die Klasse \texttt{PriorityQueue<E>}
 implementiert.  Als Datenstruktur wird dabei ein Feld verwendet um den zu Grunde liegenden
-binären Baum darzustellen.  Bezeichnen wir das Feld mit \texttt{mArray}, so gilt:
+bin\"aren Baum darzustellen.  Bezeichnen wir das Feld mit \texttt{mArray}, so gilt:
 \begin{enumerate}
-\item Die Wurzel des binären Baums wird in dem Element \texttt{mArray[0]} gespeichert.
+\item Die Wurzel des bin\"aren Baums wird in dem Element \texttt{mArray[0]} gespeichert.
 \item Wird der Knoten $\textsl{node}(k,v,l,r)$ als \texttt{mArray[i]} abgespeichert,
       so wird der Knoten an der Wurzel des linkes Teilbaum $l$ an der Position $2\cdot i
       +1$ abgespeichert und der Knoten an der Wurzel
@@ -1031,13 +1031,13 @@ binären Baum darzustellen.  Bezeichnen wir das Feld mit \texttt{mArray}, so gilt
 \item Wird der Knoten $n$ an der Position $i$ abgespeichert, so findet sich der
       Vater-Knoten von $n$ an der Position $(i - 1) / 2$.
 \end{enumerate}
-Damit eine solche Feld-basierte Darstellung möglich ist, ist es erforderlich, die
-Balancierungs-Bedingung für Heaps etwas abzuändern.  Wir skizzieren kurz die Idee,
-die der abgeänderten Definition zu Grunde liegt.
+Damit eine solche Feld-basierte Darstellung m\"oglich ist, ist es erforderlich, die
+Balancierungs-Bedingung f\"ur Heaps etwas abzu\"andern.  Wir skizzieren kurz die Idee,
+die der abge\"anderten Definition zu Grunde liegt.
 \begin{enumerate}
-\item Ein binärer Baum heißt \emph{vollständig}, wenn alle Blätter des Baums
-      den selben Abstand zur Wurzel haben.  Bezeichnen wir die Menge der vollständigen binären
-      Bäume mit $\overline{\Bin}$, so können können wir die folgende induktive Definition geben:
+\item Ein bin\"arer Baum hei\3t \emph{vollst\"andig}, wenn alle Bl\"atter des Baums
+      den selben Abstand zur Wurzel haben.  Bezeichnen wir die Menge der vollst\"andigen bin\"aren
+      B\"aume mit $\overline{\Bin}$, so k\"onnen k\"onnen wir die folgende induktive Definition geben:
       \begin{enumerate}
       \item $\textsl{nil} \in \overline{\Bin}$,
       \item $\textsl{node}(k,v,l,r) \in \overline{\Bin} 
@@ -1045,7 +1045,7 @@ die der abgeänderten Definition zu Grunde liegt.
              l \in \overline{\Bin} \,\wedge\, r \in \overline{\Bin} \,\wedge\,
              l.\textsl{height}() = r.\textsl{height}()$ 
       \end{enumerate}
-      Abbildung \ref{fig:complete-tree.eps} zeigt einen vollständigen Baum der Tiefe 4.
+      Abbildung \ref{fig:complete-tree.eps} zeigt einen vollst\"andigen Baum der Tiefe 4.
       Teilen wir die Knoten nach ihrem Abstand $h$ von der Wurzel in verschiedene
       Schichten ein, so sehen wir, dass es auf der Schicht, die von der Wurzel den Abstand
       $h$ hat, insgesamt $2^h$ Knoten gibt.
@@ -1053,7 +1053,7 @@ die der abgeänderten Definition zu Grunde liegt.
       \begin{figure}[!ht]
         \centering
         \epsfig{file=Abbildungen/complete-tree.eps}
-        \caption{Ein vollständiger Baum der Tiefe 4.}
+        \caption{Ein vollst\"andiger Baum der Tiefe 4.}
         \label{fig:complete-tree.eps}
       \end{figure}
 
@@ -1062,27 +1062,27 @@ die der abgeänderten Definition zu Grunde liegt.
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{[ 2, 3, 7, 15, 9, 11, 8, 16, 27, 13, 12, 14, 21, 22, 17]}
-\item Bei einem vollständigen binären Baum sind auf der untersten Ebene 
-      alle möglichen Knoten vorhanden.  Sie können leicht durch Induktion nachrechnen,
-      dass ein solcher Baum immer $2^h - 1$ Knoten enthält, wobei $h$ die Höhe des Baums angibt.
-      Daraus folgt, dass es nicht möglich ist, einen vollständigen binären Baum zu bilden,
+\item Bei einem vollst\"andigen bin\"aren Baum sind auf der untersten Ebene 
+      alle m\"oglichen Knoten vorhanden.  Sie k\"onnen leicht durch Induktion nachrechnen,
+      dass ein solcher Baum immer $2^h - 1$ Knoten enth\"alt, wobei $h$ die H\"ohe des Baums angibt.
+      Daraus folgt, dass es nicht m\"oglich ist, einen vollst\"andigen bin\"aren Baum zu bilden,
       der beispielsweise aus $13$ Knoten besteht, denn die Zahl 13 ist nicht in der Form
-      $2^h - 1$ darstellbar.  Der Begriff des \emph{nahezu vollständigen} binären Baums
-      ist eine Verallgemeinerung des Begriffs des vollständigen binären Baums, der 
-      eine beliebige Anzahl von Knoten zulässt.
+      $2^h - 1$ darstellbar.  Der Begriff des \emph{nahezu vollst\"andigen} bin\"aren Baums
+      ist eine Verallgemeinerung des Begriffs des vollst\"andigen bin\"aren Baums, der 
+      eine beliebige Anzahl von Knoten zul\"asst.
 
-      Ein binärer Baum heißt \emph{nahezu vollständig}, wenn er aus einem binären Baum
+      Ein bin\"arer Baum hei\3t \emph{nahezu vollst\"andig}, wenn er aus einem bin\"aren Baum
       dadurch entsteht, dass auf der untersten Ebene von rechts nach links Knoten entfernt
       werden, ohne dass dabei Knoten ausgelassen werden.  Abbildung
       \ref{fig:nearly-complete-tree.eps} auf Seite \pageref{fig:nearly-complete-tree.eps}
-      zeigt einen nahezu vollständigen Baum, der aus dem Baum aus Abbildung
-      \ref{fig:complete-tree.eps} dadurch entsteht, dass die letzten drei Blätter
+      zeigt einen nahezu vollst\"andigen Baum, der aus dem Baum aus Abbildung
+      \ref{fig:complete-tree.eps} dadurch entsteht, dass die letzten drei Bl\"atter
       weggelassen wurden.
 
       \begin{figure}[!ht]
         \centering
         \epsfig{file=nearly-complete-tree.eps}
-        \caption{Ein nahezu vollständiger Baum der Tiefe 4.}
+        \caption{Ein nahezu vollst\"andiger Baum der Tiefe 4.}
         \label{fig:nearly-complete-tree.eps}
       \end{figure}
       
@@ -1092,119 +1092,119 @@ die der abgeänderten Definition zu Grunde liegt.
       \texttt{[ 2, 3, 8, 15, 9, 11, 7, 16, 27, 13, 12, 14]} 
       \\[0.2cm]
       Dieses Feld entsteht aus dem vorigen Feld dadurch, dass wir die letzten drei
-      Einträge gelöscht haben.  Schließlich zeigt Abbildung
+      Eintr\"age gel\"oscht haben.  Schlie\3lich zeigt Abbildung
       \ref{fig:not-nearly-complete-tree.eps} auf Seite
-      \pageref{fig:not-nearly-complete-tree.eps} noch einen binären Baum, der nicht nahezu
-      vollständig ist, denn er enthält auf der untersten Ebene eine Lücke, weil die Knoten
+      \pageref{fig:not-nearly-complete-tree.eps} noch einen bin\"aren Baum, der nicht nahezu
+      vollst\"andig ist, denn er enth\"alt auf der untersten Ebene eine L\"ucke, weil die Knoten
       nicht von rechts nach links entfernt wurden.
 
       \begin{figure}[!ht]
         \centering
         \epsfig{file=not-nearly-complete-tree.eps}
-        \caption{Ein Baum, der nicht nahezu vollständig ist.}
+        \caption{Ein Baum, der nicht nahezu vollst\"andig ist.}
         \label{fig:not-nearly-complete-tree.eps}
       \end{figure}
 
-      Bezeichnen wir die Menge der nahezu vollständigen binären Bäume mit $\Bin^*$, so
-      können wir diese Menge formal durch eine Induktion definieren:
+      Bezeichnen wir die Menge der nahezu vollst\"andigen bin\"aren B\"aume mit $\Bin^*$, so
+      k\"onnen wir diese Menge formal durch eine Induktion definieren:
       \begin{enumerate}
       \item $n \in \overline{\Bin} \rightarrow n \in \Bin^*$,
 
-            jeder vollständige binäre Baum ist natürlich erst recht nahezu vollständig.
+            jeder vollst\"andige bin\"are Baum ist nat\"urlich erst recht nahezu vollst\"andig.
       \item $l \in \overline{\Bin} \wedge l.\textsl{height}() = h \wedge r \in \overline{\Bin}
              \wedge r.\textsl{height}() = h-1 \,\rightarrow\,
              \textsl{node}(k,v,l,r) \in \Bin^*$,
 
-            falls $l$ ein vollständiger binärer Baum der Höhe $h$ ist und $r$ ein 
-            vollständiger binärer Baum der Höhe $h-1$, dann ist
-            $\textsl{node}(k,v,l,r)$ ein nahezu vollständiger binärer Baum.
+            falls $l$ ein vollst\"andiger bin\"arer Baum der H\"ohe $h$ ist und $r$ ein 
+            vollst\"andiger bin\"arer Baum der H\"ohe $h-1$, dann ist
+            $\textsl{node}(k,v,l,r)$ ein nahezu vollst\"andiger bin\"arer Baum.
       \item $l \in \overline{\Bin} \wedge l.\textsl{height}() = h \wedge r \in \Bin^*
              \wedge r.\textsl{height}() = h \,\rightarrow\,
              \textsl{node}(k,v,l,r) \in \Bin^*$,
 
-            falls $l$ ein vollständiger binärer Baum der Höhe $h$ ist und $r$ ein nahezu
-            vollständiger binärer Baum, der ebenfalls die Höhe $h$ hat, dann ist
-            $\textsl{node}(k,v,l,r)$ ein nahezu vollständiger binärer Baum.
+            falls $l$ ein vollst\"andiger bin\"arer Baum der H\"ohe $h$ ist und $r$ ein nahezu
+            vollst\"andiger bin\"arer Baum, der ebenfalls die H\"ohe $h$ hat, dann ist
+            $\textsl{node}(k,v,l,r)$ ein nahezu vollst\"andiger bin\"arer Baum.
 
       \item $l \in \Bin^* \wedge l.\textsl{height}() = h \wedge r \in \overline{\Bin}
              \wedge r.\textsl{height}() = h-1 \,\rightarrow\,
              \textsl{node}(k,v,l,r) \in \Bin^*$,
 
-            falls $l$ ein nahezu vollständiger binärer Baum der Höhe $h$ ist und $r$ ein 
-            vollständiger binärer Baum der Höhe $h-1$ hat, dann ist
-            $\textsl{node}(k,v,l,r)$ ein nahezu vollständiger binärer Baum.
+            falls $l$ ein nahezu vollst\"andiger bin\"arer Baum der H\"ohe $h$ ist und $r$ ein 
+            vollst\"andiger bin\"arer Baum der H\"ohe $h-1$ hat, dann ist
+            $\textsl{node}(k,v,l,r)$ ein nahezu vollst\"andiger bin\"arer Baum.
       \end{enumerate}
 \end{enumerate}
-Nahezu vollständige binäre Bäume lassen sich durch ein Feld darstellen, weil dann für
+Nahezu vollst\"andige bin\"are B\"aume lassen sich durch ein Feld darstellen, weil dann f\"ur
 den linken und den rechten Teilbaum keine expliziten Referenzen abgespeichert werden
-müssen.  Das spart Speicherplatz, die Implementierung ist aber etwas komplizierter als die
+m\"ussen.  Das spart Speicherplatz, die Implementierung ist aber etwas komplizierter als die
 von uns entwickelte Variante.
 
-Wir kommen nun zurück zur Diskussion der Klasse \texttt{PriorityQueue}.
-Diese Klasse enthält die folgenden Konstruktoren.
+Wir kommen nun zur\"uck zur Diskussion der Klasse \texttt{PriorityQueue}.
+Diese Klasse enth\"alt die folgenden Konstruktoren.
 \begin{enumerate}
 \item \texttt{PriorityQueue()}
 
-      Dieser Konstruktor erzeugt einen neue Prioritäts-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei zunächst die Größe 11.
-      Wenn später der Platz in diesem Feld nicht mehr ausreicht, wird es dynamisch
-      vergrößert. 
+      Dieser Konstruktor erzeugt einen neue Priorit\"ats-Warteschlange.
+      Das zu Grunde liegende Feld hat dabei zun\"achst die Gr\"o\3e 11.
+      Wenn sp\"ater der Platz in diesem Feld nicht mehr ausreicht, wird es dynamisch
+      vergr\"o\3ert. 
 \item \texttt{PriorityQueue(Collection<E> $c$)}
   
-      Dieser Konstruktor erzeugt eine Prioritäts-Warteschlange, die alle Elemente der
-      Zusammenfassung $c$ enthält.
+      Dieser Konstruktor erzeugt eine Priorit\"ats-Warteschlange, die alle Elemente der
+      Zusammenfassung $c$ enth\"alt.
 \item \texttt{PriorityQueue(int initialCapacity)}
   
-      Dieser Konstruktor  erzeugt eine neue Prioritäts-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei die Größe \texttt{initialCapacity}.
+      Dieser Konstruktor  erzeugt eine neue Priorit\"ats-Warteschlange.
+      Das zu Grunde liegende Feld hat dabei die Gr\"o\3e \texttt{initialCapacity}.
 \item \texttt{PriorityQueue(int initialCapacity, Comparator<E> comparator)}
 
-      Dieser Konstruktor  erzeugt einen neue Prioritäts-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei die Größe \texttt{initialCapacity}.
+      Dieser Konstruktor  erzeugt einen neue Priorit\"ats-Warteschlange.
+      Das zu Grunde liegende Feld hat dabei die Gr\"o\3e \texttt{initialCapacity}.
       Die Elemente dieser Warteschlange werden nicht durch einen Aufruf der
       Methode 
       \\[0.2cm]
       \hspace*{1.3cm}
       $x.\texttt{compareTo}(y)$ 
       \\[0.2cm]
-      verglichen, sondern statt dessen wird der als Argument übergebene Comparator
+      verglichen, sondern statt dessen wird der als Argument \"ubergebene Comparator
       zum Vergleich benutzt:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\mathtt{comparator}.\texttt{compare}(x,y)$. 
 \end{enumerate}
-Die Methoden, die zur Verfügung gestellt werden, kennen wir schon aus unserer Diskussion
+Die Methoden, die zur Verf\"ugung gestellt werden, kennen wir schon aus unserer Diskussion
 der Schnittstellen \texttt{Collection<E>} und \texttt{Queue<E>}. 
 \begin{enumerate}
 \item \texttt{boolean offer(E $e$)}
 
-      Der Aufruf $q.\mathtt{offer}(e)$ fügt das Element $e$ in die
-      Prioritäts-Warteschlange $q$ an und
+      Der Aufruf $q.\mathtt{offer}(e)$ f\"ugt das Element $e$ in die
+      Priorit\"ats-Warteschlange $q$ an und
       entspricht unserer Methode \textsl{insert}. 
 \item \texttt{E peek()}
 
-      Der Aufruf $q.\mathtt{peek}()$ liefert das Element mit der höchsten Priorität in der
-      Prioritäts-Warte\-schlange $q$ als Ergebnis.   $q$ wird dabei nicht verändert.  Falls $q$
-      leer ist, wird \texttt{null} zurück gegeben.
+      Der Aufruf $q.\mathtt{peek}()$ liefert das Element mit der h\"ochsten Priorit\"at in der
+      Priorit\"ats-Warte\-schlange $q$ als Ergebnis.   $q$ wird dabei nicht ver\"andert.  Falls $q$
+      leer ist, wird \texttt{null} zur\"uck gegeben.
 \item \texttt{E poll()}
 
-      Der Aufruf $q.\mathtt{poll}()$ liefert das Element mit der höchsten Priorität in der
-      Prioritäts-Warte\-schlange $q$ als Ergebnis.  
+      Der Aufruf $q.\mathtt{poll}()$ liefert das Element mit der h\"ochsten Priorit\"at in der
+      Priorit\"ats-Warte\-schlange $q$ als Ergebnis.  
       Das Element wird dabei aus $q$ entfernt.  Falls $q$
-      leer ist, wird \texttt{null} zurück gegeben.
+      leer ist, wird \texttt{null} zur\"uck gegeben.
 \item \texttt{boolean remove(E $e$)}
 
       Der Aufruf $q.\mathtt{remove}(e)$ entfernt das Element $e$ aus
-      der Prioritäts-Warteschlange $q$.  Falls $q$ das Element $e$ nicht enthält, bleibt
-      $q$ unverändert.  In diesem Fall wird als Ergebnis \texttt{false} zurück gegeben,
-      sonst wird \texttt{true} zurück gegeben.
+      der Priorit\"ats-Warteschlange $q$.  Falls $q$ das Element $e$ nicht enth\"alt, bleibt
+      $q$ unver\"andert.  In diesem Fall wird als Ergebnis \texttt{false} zur\"uck gegeben,
+      sonst wird \texttt{true} zur\"uck gegeben.
 \end{enumerate}
-Die Klasse \texttt{PriorityQueue} enthält keine Methode, um die Priorität eines Elements
-zu ändern.  Das geht auch gar nicht, denn bei dieser Klasse wird nicht zwischen dem Wert
-und dem Schlüssel unterschieden, beide sind Teil eines Elements.  Um also einen Priorität
-zu ändern, müssen wir das betreffende Element zunächst aus der Prioritäts-Warteschlange
-entfernen, die Priorität ändern und anschließend das Element mit der geänderten Priorität
-wieder einfügen.
+Die Klasse \texttt{PriorityQueue} enth\"alt keine Methode, um die Priorit\"at eines Elements
+zu \"andern.  Das geht auch gar nicht, denn bei dieser Klasse wird nicht zwischen dem Wert
+und dem Schl\"ussel unterschieden, beide sind Teil eines Elements.  Um also einen Priorit\"at
+zu \"andern, m\"ussen wir das betreffende Element zun\"achst aus der Priorit\"ats-Warteschlange
+entfernen, die Priorit\"at \"andern und anschlie\3end das Element mit der ge\"anderten Priorit\"at
+wieder einf\"ugen.
 
 
 %\input{prioqueue-list}

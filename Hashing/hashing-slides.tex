@@ -10,8 +10,8 @@ Analyse der naiven Methode
 
 \footnotesize
 \begin{enumerate}
-\item Sei $n$ Zahl der Einträge im Telefon--Buch.
-\item Aufwand, um neuen Eintrag hinzuzufügen: \\[0.3cm]
+\item Sei $n$ Zahl der Eintr\"age im Telefon--Buch.
+\item Aufwand, um neuen Eintrag hinzuzuf\"ugen: \\[0.3cm]
       \hspace*{1.3cm} $\Oh(1)$
 \item Aufwand, um Eintrag nachzuschlagen: \\[0.3cm]
       \hspace*{1.3cm} $\Oh(1)$
@@ -30,7 +30,7 @@ Probleme der naiven Methode:
 \item Braucht sehr, sehr viel Speicher!
 \item Funktioniert nicht, wenn Namen mehr als 10 \\
       Buchstaben haben.
-\item In der Funktion \texttt{computeIndex} tritt Überlauf ein.
+\item In der Funktion \texttt{computeIndex} tritt Ãœberlauf ein.
 \end{enumerate}
 
 
@@ -59,7 +59,7 @@ Ziel: Entwicklung einer Methode, die
 
 Erster Versuch:
 \begin{enumerate}
-\item Anlegen eines Feldes der Größe $n$ \\[0.3cm]
+\item Anlegen eines Feldes der Gr\"o\3e $n$ \\[0.3cm]
       \hspace*{1.3cm} $\texttt{unsigned telephone[}n\mathtt{];}$
 \item Berechnung des Index
 \begin{verbatim} 
@@ -99,7 +99,7 @@ Analyse des 1. Versuchs
 \footnotesize
 \begin{enumerate}
 \item Performanz: \textbf{ok}
-\item Speicher--Verbrauch: Feld der Länge $n$: \textbf{ok}
+\item Speicher--Verbrauch: Feld der L\"ange $n$: \textbf{ok}
 \item \textbf{Korrektheit}? \textbf{Nein}!
 \end{enumerate}
 
@@ -108,11 +108,11 @@ Analyse des 1. Versuchs
     computeIndex( "Pfennig",   22 ) = 12
     computeIndex( "Schlensog", 22 ) = 12
 \end{verbatim}
-Verschiedene Schüssel können auf den gleichen Wert 
+Verschiedene Sch\"ussel k\"onnen auf den gleichen Wert 
 abgebildet werden!
 \vspace*{0.5cm}
 
-\textbf{Lösung}: Feld \texttt{telephone} enthält nicht 
+\textbf{L\"osung}: Feld \texttt{telephone} enth\"alt nicht 
 \begin{itemize}
 \item Telefon--Nummer, sondern
 \item Zeiger auf verkette Liste mit Paaren $\langle \mathtt{Name}, \mathtt{telNr} \rangle$
@@ -125,7 +125,7 @@ Suchen nun in zwei Stufen:
 \item Suche in verketteter Liste \texttt{telephone[index]} \\[0.3cm]
      \hspace*{1.3cm} \texttt{search(telephone[index], key)}
 \end{enumerate}
-Einfügen und Löschen analog
+Einf\"ugen und L\"oschen analog
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -164,11 +164,11 @@ Implementierung in C
 \vspace*{0.5cm}
 
 \footnotesize
-Hash--Tabelle benötigt folgende Daten
+Hash--Tabelle ben\"otigt folgende Daten
 \begin{enumerate}
-\item Zahl der Einträge \\[0.3cm]
+\item Zahl der Eintr\"age \\[0.3cm]
       \hspace*{1.3cm} \texttt{unsigned noEntries;}
-\item Größe des angelegten Feldes \\[0.3cm]
+\item Gr\"o\3e des angelegten Feldes \\[0.3cm]
       \hspace*{1.3cm} \texttt{unsigned noBuckets;}
 \item Feld mit Zeigern auf Listen--Knoten \\[0.3cm]
       \hspace*{1.3cm} \texttt{List* table;}
@@ -187,8 +187,8 @@ Also Definition der Daten--Struktur wie folgt:
 \hspace*{1.3cm} $\alpha = \bruch{\mathtt{noEntries}}{\mathtt{noBuckets}}$
 \vspace*{0.5cm}
 
-Falls Hash--Funktion die Schlüssel gut über Tabelle verteilt, gibt $\alpha$
-mittlere Länge der Listen an.
+Falls Hash--Funktion die Schl\"ussel gut \"uber Tabelle verteilt, gibt $\alpha$
+mittlere L\"ange der Listen an.
 
 Praxis: $\alpha \leq 4$ ist gute Wahl.
 
@@ -218,7 +218,7 @@ Value* searchTable(HashTable* htPtr, Key key)
     return search(htPtr->table[index], key);
 }
       \end{verbatim}
-\item Einfügen
+\item Einf\"ugen
 \begin{verbatim}
 void insertTable(HashTable* htPtr, Key key, Value val)
 {
@@ -228,7 +228,7 @@ void insertTable(HashTable* htPtr, Key key, Value val)
         insert(htPtr->table[index], key, val);
 }
 \end{verbatim}
-\item Löschen
+\item L\"oschen
 \begin{verbatim}
 void deleteTable(HashTable* htPtr, Key key) 
 {
@@ -276,12 +276,12 @@ HashTable* makeTable(unsigned size) {
 }
 \end{verbatim}
 \begin{enumerate}
-\item \texttt{primes}: Feld, was wachsende Primzahlen enthält.
+\item \texttt{primes}: Feld, was wachsende Primzahlen enth\"alt.
 
       $\mathtt{primes}[i+1] \approx 2 * \mathtt{primes}[i]$
-\item \texttt{index} wird hochgezählt, bis Primzahl \texttt{count} gefunden ist,
-      die Größer als \texttt{size} ist.
-\item Dann wird Feld der Größe \texttt{count} angelegt.
+\item \texttt{index} wird hochgez\"ahlt, bis Primzahl \texttt{count} gefunden ist,
+      die Gr\"o\3er als \texttt{size} ist.
+\item Dann wird Feld der Gr\"o\3e \texttt{count} angelegt.
 \item Feld wird mit 0--Pointern initialisiert.
 
       (0--Pointer $\widehat{=}$ leere Liste)
@@ -300,14 +300,14 @@ Hashing  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Komplexität 
+Komplexit\"at 
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Abschätzung der Komplexitäten für naives \emph{Hashing}
+Absch\"atzung der Komplexit\"aten f\"ur naives \emph{Hashing}
 
-$n$: Zahl der Einträge in Hash--Tabelle
+$n$: Zahl der Eintr\"age in Hash--Tabelle
 
 $\alpha$: Auslastungs--Faktor
 \begin{enumerate}
@@ -316,12 +316,12 @@ $\alpha$: Auslastungs--Faktor
   \item Worst Case                 \hspace*{6.0cm} $n \in \Oh(n)$
   \item Statistischer Durchschnitt \hspace*{1.3cm} $\bruch{\alpha}{2} \in \Oh(1)$ 
   \end{enumerate}
-\item Löschen: 
+\item L\"oschen: 
   \begin{enumerate}
   \item Worst Case                 \hspace*{6.0cm} $n \in \Oh(n)$
   \item Statistischer Durchschnitt \hspace*{1.3cm} $\bruch{\alpha}{2} \in \Oh(1)$ 
   \end{enumerate}
-\item Einfügen: \hspace*{1.3cm}   
+\item Einf\"ugen: \hspace*{1.3cm}   
   \begin{enumerate}
   \item Worst Case                 \hspace*{7.2cm} $\Oh(1)$
   \item Statistischer Durchschnitt \hspace*{2.9cm} $\Oh(1)$ 
@@ -330,11 +330,11 @@ $\alpha$: Auslastungs--Faktor
 \textbf{Worst Case}: 
 \begin{enumerate}
 \item Hash--Funktion berechnet immer selben Index
-\item Alle $n$ Einträge in einer Zeile
+\item Alle $n$ Eintr\"age in einer Zeile
 \end{enumerate}
 \textbf{Statistischer Mittelwert}
 \begin{enumerate}
-\item Jede Zeile enthält im Durchschnitt $\alpha$ Einträge
+\item Jede Zeile enth\"alt im Durchschnitt $\alpha$ Eintr\"age
 \end{enumerate}
 
 \vspace*{\fill}
@@ -356,25 +356,25 @@ Hash--Funktion
 \footnotesize
 
 \textbf{Definition}: \\[0.3cm]
-\emph{Hash--Funktion} berechnet zu gegeb. Schlüssel den Index: \\[0.3cm]
+\emph{Hash--Funktion} berechnet zu gegeb. Schl\"ussel den Index: \\[0.3cm]
 \hspace*{1.3cm} $\textsl{hash}: \textsl{Key} \rightarrow \mathbb{N}$
 
 \textbf{Anforderungen}:
 \begin{enumerate}
-\item Ist $n$ Größe der Tabelle, so muss gelten: \\[0.3cm]
+\item Ist $n$ Gr\"o\3e der Tabelle, so muss gelten: \\[0.3cm]
       \hspace*{1.3cm} $\textsl{hash}(k) < n$
-\item Schlüssel sollen möglichst gleichmäßig auf Tabelle verteilt werden
+\item Schl\"ussel sollen m\"oglichst gleichm\"a\3ig auf Tabelle verteilt werden
 \item Hash--Funktion soll einfach zu berechnen sein
 \end{enumerate}
-Gebräuchliche Hash--Funktionen
+Gebr\"auchliche Hash--Funktionen
 \begin{enumerate}
 \item Divisions--Methode \\[0.3cm]
       \hspace*{1.3cm} $\textsl{hash}(k) \;=\; k\;\%\; n$ \\[0.3cm]
-      Dabei sollte Tabellen--Größe $n$  Primzahl sein!
+      Dabei sollte Tabellen--Gr\"o\3e $n$  Primzahl sein!
 \item Multiplikations--Methode: Sei $k\in\mathbb{R}$ \\[0.3cm]
       \hspace*{1.3cm} $\mathtt{floor}\bigg(n * \mathtt{fract}(A * k) \bigg)$ 
       \begin{enumerate}
-      \item $\mathtt{floor}(x)$: größte natürliche Zahl kleiner $x$
+      \item $\mathtt{floor}(x)$: gr\"o\3te nat\"urliche Zahl kleiner $x$
       \item $\mathtt{fract}(x) := x - \mathtt{floor}(x)$
       \item $A := \bruch{\sqrt{5} - 1}{2} \approx 0.61803398875$    
       \end{enumerate}
@@ -393,7 +393,7 @@ Hashing  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Hash--Funktion für Strings
+Hash--Funktion f\"ur Strings
 \end{center}
 \vspace*{0.5cm}
 
@@ -418,10 +418,10 @@ Hash--Funktion für Strings
     }
 \end{verbatim}
 \begin{enumerate}
-\item Alle Buchstaben werden berücksichtigt
+\item Alle Buchstaben werden ber\"ucksichtigt
 \item Verschiedene Bits der Buchstaben werden durch die Operationen 
       \texttt{\^} (exklusives Oder) und Addition vermischt
-\item Wird in der Praxis für Symbol--Tabellen in Compilern
+\item Wird in der Praxis f\"ur Symbol--Tabellen in Compilern
       eingesetzt.
 
       (siehe auch Aho, Sethi, Ullmann: \\[0.3cm]
@@ -449,25 +449,25 @@ Kritik der bisherigen Methode
 Probleme der Implementierung:
 \begin{enumerate}
 \item Bisher vorgestelltes Verfahren setzt Kenntnis 
-      der maximalen Anzahl von Einträgen in Tabelle voraus
-\item Wird Tabelle zu klein gewählt: \\[0.3cm]
+      der maximalen Anzahl von Eintr\"agen in Tabelle voraus
+\item Wird Tabelle zu klein gew\"ahlt: \\[0.3cm]
       \hspace*{1.3cm} \textbf{schlechte Performanz}
-\item Wird Tabelle zu groß gewählt: \\[0.3cm]
+\item Wird Tabelle zu gro\3 gew\"ahlt: \\[0.3cm]
       \hspace*{1.3cm} \textbf{Verschwendung von Speicherplatz}
-\item Falls Zahl der Einträge mit der Zeit wächst, kann
+\item Falls Zahl der Eintr\"age mit der Zeit w\"achst, kann
       der Auslastungs--Faktor gar nicht optimal eingestellt werden:
       \begin{enumerate}
-      \item entweder ist die Tabelle am Anfang zu groß
-      \item oder die Tabelle ist später zu klein
+      \item entweder ist die Tabelle am Anfang zu gro\3
+      \item oder die Tabelle ist sp\"ater zu klein
       \end{enumerate}
 \end{enumerate}
 
-\textbf{Lösung}: Tabelle muss dynamisch wachsen können
+\textbf{L\"osung}: Tabelle muss dynamisch wachsen k\"onnen
 \begin{enumerate}
-\item Bei jedem Einfügen kontrollieren des Auslastungs--Faktors $\alpha$
+\item Bei jedem Einf\"ugen kontrollieren des Auslastungs--Faktors $\alpha$
 \item Falls $\alpha > 4$ \emph{Rehashing}: 
   \begin{enumerate}
-  \item Lege doppelt so große neue Tabelle an
+  \item Lege doppelt so gro\3e neue Tabelle an
   \item Kopiere alte Tabelle in neue Tabelle
   \end{enumerate}
 \end{enumerate}
@@ -516,9 +516,9 @@ HashTable* rehash(HashTable* htPtr) {
 Algorithmus
 \begin{enumerate}
 \item neue Tabelle anlegen
-\item alte Tabelle Zeile für Zeile durchgehen
-\item jeden Eintrag aus alter Tabelle in neue Tabelle einfügen
-\item alte Tabelle löschen
+\item alte Tabelle Zeile f\"ur Zeile durchgehen
+\item jeden Eintrag aus alter Tabelle in neue Tabelle einf\"ugen
+\item alte Tabelle l\"oschen
 \end{enumerate}
 
 \vspace*{\fill}
@@ -533,26 +533,26 @@ Hashing  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Komplexität 
+Komplexit\"at 
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Abschätzung der Komplexitäten für \emph{dynamisches Hashing}
+Absch\"atzung der Komplexit\"aten f\"ur \emph{dynamisches Hashing}
 
-Sei $n$ Zahl der Einträge in Hash--Tabelle
+Sei $n$ Zahl der Eintr\"age in Hash--Tabelle
 \begin{enumerate}
 \item Suche:    
   \begin{enumerate}
   \item Worst Case                 \hspace*{7.2cm} $\Oh(n)$
   \item Statistischer Durchschnitt \hspace*{2.9cm} $\Oh(1)$ 
   \end{enumerate}
-\item Löschen: 
+\item L\"oschen: 
   \begin{enumerate}
   \item Worst Case                 \hspace*{7.2cm} $\Oh(n)$
   \item Statistischer Durchschnitt \hspace*{2.9cm} $\Oh(1)$ 
   \end{enumerate}
-\item Einfügen: \hspace*{1.3cm}   
+\item Einf\"ugen: \hspace*{1.3cm}   
   \begin{enumerate}
   \item Worst Case                 \hspace*{7.2cm} $\Oh(n)$
   \item Statistischer Durchschnitt \hspace*{1.5cm} $\Oh\bigg(\log(n)\bigg)$ 
@@ -561,11 +561,11 @@ Sei $n$ Zahl der Einträge in Hash--Tabelle
 \textbf{Worst Case}: 
 \begin{enumerate}
 \item Hash--Funktion berechnet immer selben Index
-\item Alle $n$ Einträge in einer Zeile
+\item Alle $n$ Eintr\"age in einer Zeile
 \end{enumerate}
 \textbf{Statistischer Mittelwert}
 \begin{enumerate}
-\item Jede Zeile enthält $\alpha$ Einträge
+\item Jede Zeile enth\"alt $\alpha$ Eintr\"age
 \item $\alpha < 4$
 \end{enumerate}
 

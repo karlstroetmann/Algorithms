@@ -1,50 +1,50 @@
-\subsection{Repräsentierung von Heaps durch Listen}
-Anstatt  Heaps durch binäre Bäume zu repräsentieren, können wir Heaps auch
+\subsection{Repr\"asentierung von Heaps durch Listen}
+Anstatt  Heaps durch bin\"are B\"aume zu repr\"asentieren, k\"onnen wir Heaps auch
 durch Listen darstellen.   Die Idee ist, einen Heap durch eine  Liste der Form \\[0.1cm]
 \hspace*{1.3cm} 
 $L = \bigl[ \pair(k_1,v_1), \pair(k_2,v_2), \pair(k_3,v_3), \cdots, \pair(k_n,v_n) \bigr]$
 \\[0.1cm]
-zu repräsentieren.  Dazu müssen wir zunächst festlegen, wie eine solche Liste als Heap
+zu repr\"asentieren.  Dazu m\"ussen wir zun\"achst festlegen, wie eine solche Liste als Heap
 interpretiert werden kann.  Wir definieren daher eine Funktion \\[0.1cm]
 \hspace*{1.3cm} 
 $\textsl{interpret}: \textsl{List}\bigl((\textsl{Key}\times \textsl{Value})\cup \{\Omega\}\bigr) \times \mathbb{N}  \rightarrow \textsl{Heap}$
 \\[0.1cm]
-die eine Liste, deren Elemente entweder Paare von Prioritäten und Werten sind, oder aber
+die eine Liste, deren Elemente entweder Paare von Priorit\"aten und Werten sind, oder aber
 der spezielle Wert $\Omega$, in einem Heap umwandelt.  Die Funktion \textsl{interpret}
 bekommt als zweites Argument einen Index, der in die Liste zeigt. Die Idee ist, dass der
 Wert, der in der Liste unter diesem Index abgespeichert ist, die Wurzel des Baums
 $\textsl{interpret}(L,i)$ markiert.  Bei der Definition von \textsl{interpret} gibt es zwei
-Fälle:
+F\"alle:
 \begin{enumerate}
-\item $L(i) = \Omega$.  Dann gilt natürlich \ 
+\item $L(i) = \Omega$.  Dann gilt nat\"urlich \ 
        $\textsl{interpret}(L,i) = \textsl{nil}$.
 \item $L(i) = \pair(k, v)$. Dann gilt:\\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{interpret}(L,i) = \textsl{node}\bigl(k,v,\textsl{interpret}(L,2*i),\textsl{interpret}(L,2*i+1)\bigr)$.
 
       Die Idee bei dieser Definition ist es, dass der linke Sohn des durch den Index $i$
-      repräsentierten Knotens an der Stelle $2*i$ abgespeichert wird, während der rechte
+      repr\"asentierten Knotens an der Stelle $2*i$ abgespeichert wird, w\"ahrend der rechte
       Sohn unter dem Index $2*i + 1$ abgespeichert wird.
 \end{enumerate}
 Abbildung \ref{fig:heap-list} auf Seite \pageref{fig:heap-list} zeigt einen Heap, der die Zahlen $1, \cdots, 9$ als
-Prioritäten enthält.  Als Werte sind die Buchstaben ``\texttt{a}'', $\cdots$,
+Priorit\"aten enth\"alt.  Als Werte sind die Buchstaben ``\texttt{a}'', $\cdots$,
 ``\texttt{i}'' eingetragen.
-  Als Liste repräsentiert hat dieser Heap die Form \\[0.1cm]
+  Als Liste repr\"asentiert hat dieser Heap die Form \\[0.1cm]
 \hspace*{1.3cm} $L = \bigl[ \pair(1,\mathtt{a}), \pair(2,\mathtt{b}),
 \pair(3,\mathtt{c}), \pair(4,\mathtt{d}), \pair(6,\mathtt{f}), 
 \pair(5,\mathtt{e}), \pair(7,\mathtt{g}), \pair(8,\mathtt{h}), \Omega, \Omega,
 \Omega, \pair(9, \mathtt{i}) \bigr]$.
 \\[0.1cm]
-Diese Liste hat gewissermassen Löcher, die durch die drei $\Omega$s repräsentiert
+Diese Liste hat gewissermassen L\"ocher, die durch die drei $\Omega$s repr\"asentiert
 werden. Diese $\Omega$s entsprechen dem rechten Teilbaum des mit $4$ beschrifteten Knotens
-und die beiden Teilbäume des mit $6$ beschrifteten Knotens.
-Wollen wir Heaps durch Listen auf die oben skizzierte Weise implementieren, so brauchen wir außer der Liste $L$ noch
+und die beiden Teilb\"aume des mit $6$ beschrifteten Knotens.
+Wollen wir Heaps durch Listen auf die oben skizzierte Weise implementieren, so brauchen wir au\3er der Liste $L$ noch
 eine Liste \textsl{Counts}, wobei $\textsl{Counts}(i)$ die Zahl der Knoten in dem Teilbaum
 angibt, dessen Wurzel an der Stelle $i$ in der Liste $L$ steht. 
-Schließlich benötigen wir zur effizienten Implementierung der Methode $\textsl{change}()$
-noch eine Funktion, die zu einem gegebenen Wert $v$ den Index $i$ berechnet, für den 
+Schlie\3lich ben\"otigen wir zur effizienten Implementierung der Methode $\textsl{change}()$
+noch eine Funktion, die zu einem gegebenen Wert $v$ den Index $i$ berechnet, f\"ur den 
  $L(i) = \pair(k,v)$ \\[0.1cm]
-gilt.  Wir realisieren diese Funktion in Form einer binären Relation.  Diese binäre
+gilt.  Wir realisieren diese Funktion in Form einer bin\"aren Relation.  Diese bin\"are
 Relation speichern wir in der Instanz-Variablen \texttt{nodeIndex} ab.
 Das folgende Listing zeigt die Listen-basierte Implementierung der Klasse \textsl{Heap}.
 

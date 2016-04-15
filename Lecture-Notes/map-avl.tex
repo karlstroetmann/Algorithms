@@ -790,9 +790,9 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 
 
 \section{Tries}
-In der Praxis kommt es häufig vor, dass die Schlüssel des ADT \textsl{Map} Strings sind.
-In dem einführenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-Bäumen, die an diese Situation besonders angepasst ist.  Diese Such-Bäume
+In der Praxis kommt es h\"aufig vor, dass die Schl\"ussel des ADT \textsl{Map} Strings sind.
+In dem einf\"uhrenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
+Form von Such-B\"aumen, die an diese Situation besonders angepasst ist.  Diese Such-B\"aume
 haben den Namen \href{https://en.wikipedia.org/?title=Trie}{\emph{Tries}}.  Dieses Wort ist von dem
 Englischen Wort  
 \emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
@@ -802,16 +802,16 @@ Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandai
 
 
 Die Grundidee bei der Datenstruktur \emph{Trie} ist ein Baum, an dem jeder Knoten nicht
-nur zwei Nachfolger hat, wie das bei binären Bäumen der Fall ist, sondern stattdessen
-potentiell für jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
-können, nehmen wir zunächst an, dass folgendes gegeben ist:
+nur zwei Nachfolger hat, wie das bei bin\"aren B\"aumen der Fall ist, sondern stattdessen
+potentiell f\"ur jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
+k\"onnen, nehmen wir zun\"achst an, dass folgendes gegeben ist:
 \begin{enumerate}
 \item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
-      bezeichnen. $\Sigma$ selbst heißt das \emph{Alphabet}.
-\item $\Sigma^*$ bezeichnet die Menge der \emph{Wörter} (engl.~\emph{strings}), die wir aus den Buchstaben
-      des Alphabets bilden können.  Mathematisch können wir Wörter als Listen von 
+      bezeichnen. $\Sigma$ selbst hei\3t das \emph{Alphabet}.
+\item $\Sigma^*$ bezeichnet die Menge der \emph{W\"orter} (engl.~\emph{strings}), die wir aus den Buchstaben
+      des Alphabets bilden k\"onnen.  Mathematisch k\"onnen wir W\"orter als Listen von 
       Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
-      $c$ der erste Buchstabe von $w$ ist und $r$ das Wort ist, das durch Löschen des
+      $c$ der erste Buchstabe von $w$ ist und $r$ das Wort ist, das durch L\"oschen des
       ersten Buchstabens aus $w$ entsteht.  
 \item $\varepsilon$ bezeichnet das leere Wort.  
 \item \textsl{Value} ist eine Menge von \emph{Werten}.  
@@ -825,22 +825,22 @@ Die induktive Definition besteht nur aus einer einzigen Klausel: Falls
 \begin{enumerate}
 \item $v \in \textsl{Value} \cup \{\Omega\}$
 \item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ eine Liste von Buchstaben der
-      Länge $n$ ist,
-\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ eine Liste von Tries derselben Länge $n$ ist, 
+      L\"ange $n$ ist,
+\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ eine Liste von Tries derselben L\"ange $n$ ist, 
 \end{enumerate}
 dann gilt \\[0.2cm]
 \hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  \\[0.2cm]
 Als erstes fragen Sie sich
 vermutlich, wo bei dieser induktiven Definition der Induktions-Anfang ist.
 Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $C$ und $T$ leer.
-Als nächstes überlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
+Als n\"achstes \"uberlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
 \hspace*{1.3cm}  $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]) \in \mathbb{T}$ \\[0.2cm]
-dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen für die
+dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen f\"ur die
 Methode \\[0.2cm]
 \hspace*{1.3cm} $\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
 \\[0.2cm]
 angeben.  Wir werden den Ausdruck $\texttt{Node}(v,C,T).\textsl{find}(s)$ durch
-Induktion über den String $s$ 
+Induktion \"uber den String $s$ 
 definieren:
 \begin{enumerate}
 \item $\texttt{Node}(v, C, T).\textsl{find}(\varepsilon) = v$.
@@ -859,11 +859,11 @@ definieren:
         \end{array}
        \right.$
 
-      Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enthält also genau
-      dann einen Wert zu dem Schlüssel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
+      Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enth\"alt also genau
+      dann einen Wert zu dem Schl\"ussel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
       eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
-      übereinstimmt und wenn außerdem der Trie $t_i$ einen Wert zu dem
-      Schlüssel $r$ enthält.
+      \"ubereinstimmt und wenn au\3erdem der Trie $t_i$ einen Wert zu dem
+      Schl\"ussel $r$ enth\"alt.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -873,26 +873,26 @@ definieren:
   \label{fig:trie}
 \end{figure}
 
-Zum besseren Verständnis wollen wir Tries graphisch als Bäume darstellen.
-Nun ist es nicht sinnvoll, die Knoten dieser Bäume mit langen Listen zu beschriften.
+Zum besseren Verst\"andnis wollen wir Tries graphisch als B\"aume darstellen.
+Nun ist es nicht sinnvoll, die Knoten dieser B\"aume mit langen Listen zu beschriften.
 Wir behelfen uns mit einem Trick.  Um einen Knoten der Form \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
 darzustellen, zeichnen wir einen Kreis,
 den wir durch einen horizontalen Strich in der Mitte aufteilen.
-Falls $v$ von $\Omega$ verschieden ist, schreiben wir den Wert $v$ in die untere Hälfte
+Falls $v$ von $\Omega$ verschieden ist, schreiben wir den Wert $v$ in die untere H\"alfte
 des Kreises.
-Das, was wir über dem Strich schreiben,
-hängt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abhängt, sehen wir gleich.
+Das, was wir \"uber dem Strich schreiben,
+h\"angt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abh\"angt, sehen wir gleich.
 Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
-Wurzeln der Bäume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Außerdem markieren wir die diese Knoten darstellenden Kreise in den oberen Hälften 
+Wurzeln der B\"aume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
+Au\3erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alften 
 mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
 
 
 Zur Verdeutlichung geben wir ein Beispiel in 
 Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
-Die Funktion, die hier dargestellt wird, lässt sich wie folgt als binäre Relation
+Die Funktion, die hier dargestellt wird, l\"asst sich wie folgt als bin\"are Relation
 schreiben: \\[0.2cm]
 \hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
              \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
@@ -900,18 +900,18 @@ schreiben: \\[0.2cm]
   \langle \textrm{``Schnupp''},   8  \rangle, 
   \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
 Der Wurzel-Knoten ist hier leer, denn dieser Knoten hat keinen Vater-Knoten, von dem er
-eine Markierung erben könnte.  Diesem Knoten entspricht der Term \\[0.2cm]
+eine Markierung erben k\"onnte.  Diesem Knoten entspricht der Term \\[0.2cm]
 \hspace*{1.3cm} $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. \\[0.2cm]
 Dabei bezeichnet $t$ den Trie, dessen Wurzel mit dem Buchstaben `S' markiert ist.
-Diesen Trie können wir seinerseits durch den Term \\[0.2cm]
+Diesen Trie k\"onnen wir seinerseits durch den Term \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$ \\[0.2cm]
-darstellen.  Daher hat dieser Knoten drei Söhne, die mit den Buchstaben `t', `a' und `c'
+darstellen.  Daher hat dieser Knoten drei S\"ohne, die mit den Buchstaben `t', `a' und `c'
 markiert sind.
 
-\subsection{Einfügen in Tries}
-Wir stellen nun bedingte Gleichungen auf, mit denen wir das Einfügen eines Schlüssels mit
-einem zugehörigen Wert beschreiben können.  Bezeichnen wir die Methode für das Einfügen
+\subsection{Einf\"ugen in Tries}
+Wir stellen nun bedingte Gleichungen auf, mit denen wir das Einf\"ugen eines Schl\"ussels mit
+einem zugeh\"origen Wert beschreiben k\"onnen.  Bezeichnen wir die Methode f\"ur das Einf\"ugen
 mit $\textsl{insert}()$, so hat diese Methode die Signatur
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -921,44 +921,44 @@ Wir definieren den Wert von \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w,v)$
 \\[0.2cm]
-für ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der Länge des Wortes $w$.
+f\"ur ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der L\"ange des Wortes $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
 
-      Einfügen eines Wertes mit dem leeren String als Schlüssel überschreibt einfach
+      Einf\"ugen eines Wertes mit dem leeren String als Schl\"ussel \"uberschreibt einfach
       den an dem Wurzel-Knoten gespeicherten Wert. 
 \item $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\textsl{insert}(c_ir,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\textsl{insert}(r,v_2),\cdots,t_n]\bigr)$.
 
       Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
-      $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
+      $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
       an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muss der Wert $v_2$
-      rekursiv in dem Trie $t_i$ unter dem Schlüssel 
-      $r$ eingefügt werden.
+      rekursiv in dem Trie $t_i$ unter dem Schl\"ussel 
+      $r$ eingef\"ugt werden.
 
 \item $c \not\in\{c_1,\cdots,c_n\} \;\rightarrow\;\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr).\textsl{insert}(cr,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\texttt{Node}(\Omega,[],[]).\textsl{insert}(r,v_2)]\bigr)$.
       
       Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$
-      ein Wert $v_2$ zu dem Schlüssel $cr$ eingefügt werden soll, und falls der Buchstabe
-      $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zunächst ein Trie
-      erzeugt, der die leere Abbildung repräsentiert.  Dieser Trie hat die Form \\[0.2cm]
+      ein Wert $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe
+      $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zun\"achst ein Trie
+      erzeugt, der die leere Abbildung repr\"asentiert.  Dieser Trie hat die Form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
-      Anschließend wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schlüssel $r$
-      eingefügt. Zum Schluss hängen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
-      an und fügen den Trie  \\[0.2cm] 
+      Anschlie\3end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
+      eingef\"ugt. Zum Schluss h\"angen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
+      an und f\"ugen den Trie  \\[0.2cm] 
       \hspace*{1.3cm}
       $\texttt{Node}(\Omega, [], []).\textsl{insert}(r,v_2)$ 
       \\[0.2cm]
       am Ende der Liste $[t_1,\cdots,t_n]$ ein.
 \end{enumerate}
 
-\subsection{Löschen in Tries}
-Als letztes stellen wir die bedingten Gleichungen auf, die das Löschen von
-Schlüsseln und den damit verknüpften Werten in einem Trie beschreiben.
-Um diese Gleichungen einfacher schreiben zu können, definieren wir zunächst eine
+\subsection{L\"oschen in Tries}
+Als letztes stellen wir die bedingten Gleichungen auf, die das L\"oschen von
+Schl\"usseln und den damit verkn\"upften Werten in einem Trie beschreiben.
+Um diese Gleichungen einfacher schreiben zu k\"onnen, definieren wir zun\"achst eine
 Hilfs-Funktion 
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -973,13 +973,13 @@ $t$ die leere Funktion darstellt.  Wir definieren also:
 \item $\texttt{Node}(\Omega, L, T).\textsl{isEmpty}() = \textsl{isEmptyList}(T)$
 \end{enumerate}
 In der letzten Gleichung haben wir eine weitere Hilfs-Funktion benutzt, die wir noch
-definieren müssen.  Die Funktion
+definieren m\"ussen.  Die Funktion
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$
 \\[0.2cm]
-prüft für eine gegebene Liste von Tries, ob alle in der Liste vorhandenen Tries leer sind.
-Die Definition dieser Funktion erfolgt durch Induktion über die Länge der Liste.
+pr\"uft f\"ur eine gegebene Liste von Tries, ob alle in der Liste vorhandenen Tries leer sind.
+Die Definition dieser Funktion erfolgt durch Induktion \"uber die L\"ange der Liste.
 \begin{enumerate}
 \item $\textsl{isEmptyList}\bigl([]\bigr) = \mathtt{true}$,
 \item $\textsl{isEmptyList}\bigl([t] + r\bigr) = \bigl(t.\textsl{isEmpty}() \wedge \textsl{isEmptyList}(r)\bigr)$,
@@ -987,7 +987,7 @@ Die Definition dieser Funktion erfolgt durch Induktion über die Länge der Liste.
       denn alle Tries in der Liste $[t]+r$ sind leer, wenn einerseits $t$ ein leerer
       Trie ist und wenn andererseits auch alle Tries in $r$ leer sind.
 \end{enumerate}
-Nun können wir die Methode
+Nun k\"onnen wir die Methode
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$
@@ -996,14 +996,14 @@ spezifizieren:  Wir definieren den Wert von \\[0.2cm]
 \hspace*{1.3cm} 
 $t.\textsl{delete}(w)$
 \\[0.2cm]
-für einen Trie $t \in \mathbb{T}$ und ein Wort $w \in \Sigma^*$
-durch Induktion nach der Länge des Wortes $w$.
+f\"ur einen Trie $t \in \mathbb{T}$ und ein Wort $w \in \Sigma^*$
+durch Induktion nach der L\"ange des Wortes $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$,
 
       denn der Wert, der unter dem leeren String $\varepsilon$ in einem Trie
       gespeichert wird, befindet sich unmittelbar an der Wurzel des Tries und
-      kann dort sofort gelöscht werden.
+      kann dort sofort gel\"oscht werden.
 \item $\begin{array}[t]{ll}
        t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
@@ -1013,8 +1013,8 @@ durch Induktion nach der Länge des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu löschende String mit dem Buchstaben $c_i$ anfängt, und wenn
-       das Löschen des Schlüssels $r$ in dem $i$-ten Trie $t_i$ einen leeren
+       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
+       das L\"oschen des Schl\"ussels $r$ in dem $i$-ten Trie $t_i$ einen leeren
        Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
        korrespondierenden $i$-ten Trie $t_i$.
 \item $\begin{array}[t]{ll}
@@ -1025,16 +1025,16 @@ durch Induktion nach der Länge des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu löschende String mit dem Buchstaben $c_i$ anfängt, und wenn
-       der Baum $t_i$, der durch das  Löschen des Schlüssels $r$ in dem $i$-ten
-       Trie $t_i$ entsteht, nicht leer ist, dann löschen wir rekursiv in dem Baum $t_i$ den Schlüssel
+       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
+       der Baum $t_i$, der durch das  L\"oschen des Schl\"ussels $r$ in dem $i$-ten
+       Trie $t_i$ entsteht, nicht leer ist, dann l\"oschen wir rekursiv in dem Baum $t_i$ den Schl\"ussel
        $r$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\textsl{delete}(cr) =
        \texttt{Node}(v, C, T)$. 
 
-       Wenn der zu löschende String mit dem Buchstaben $c$ anfängt und wenn der
+       Wenn der zu l\"oschende String mit dem Buchstaben $c$ anf\"angt und wenn der
        Buchstabe $c$ gar kein Element der Buchstaben-Liste $C$ des Tries
-       ist, dann verändert das Löschen den Trie nicht.
+       ist, dann ver\"andert das L\"oschen den Trie nicht.
 \end{enumerate}
 
 \subsection{Implementing Tries in \textsc{SetlX}}
@@ -1302,9 +1302,9 @@ Finally, the implementation of \texttt{removeIthElement}, which is shown in Figu
 
 
 \exercise
-\textbf{Binäre Tries}:  Wir nehmen im Folgenden an, dass unser Alphabet nur aus den beiden
-Ziffern $0$ und $1$ besteht, es gilt also $\Sigma = \{0,1\}$.  Dann können wir natürliche
-Zahlen als Worte aus $\Sigma^*$ auffassen.  Wir wollen die Menge der \emph{binären Tries}
+\textbf{Bin\"are Tries}:  Wir nehmen im Folgenden an, dass unser Alphabet nur aus den beiden
+Ziffern $0$ und $1$ besteht, es gilt also $\Sigma = \{0,1\}$.  Dann k\"onnen wir nat\"urliche
+Zahlen als Worte aus $\Sigma^*$ auffassen.  Wir wollen die Menge der \emph{bin\"aren Tries}
 mit $\BT$ bezeichnen und wie folgt induktiv definieren:
 \begin{enumerate}
 \item $\textsl{Nil} \in \BT$.
@@ -1319,41 +1319,41 @@ Die Semantik legen wir fest, indem wir eine Funktion
 \hspace*{1.3cm}
 $\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$
 \\[0.2cm]
-definieren.  Für einen binären Trie $b$ und eine natürliche Zahl $n$ gibt
-$\textsl{find}(b,n)$ den Wert zurück, der unter dem Schlüssel $n$ in dem binären Trie $b$ gespeichert ist.
-Falls in dem binären Trie $b$ unter dem Schlüssel $n$ kein Wert gespeichert ist, wird
-$\Omega$ zurück gegeben.
+definieren.  F\"ur einen bin\"aren Trie $b$ und eine nat\"urliche Zahl $n$ gibt
+$\textsl{find}(b,n)$ den Wert zur\"uck, der unter dem Schl\"ussel $n$ in dem bin\"aren Trie $b$ gespeichert ist.
+Falls in dem bin\"aren Trie $b$ unter dem Schl\"ussel $n$ kein Wert gespeichert ist, wird
+$\Omega$ zur\"uck gegeben.
 Formal definieren wir den Wert von $\textsl{find}(b,n)$ durch Induktion nach dem Aufbau
 von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{find}(n) = \Omega$,
 
-      denn in dem leeren binären Trie finden wir keine Werte.
+      denn in dem leeren bin\"aren Trie finden wir keine Werte.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(0) = v$,
 
-      denn der Schlüssel $0$ entspricht dem leeren String $\varepsilon$.
+      denn der Schl\"ussel $0$ entspricht dem leeren String $\varepsilon$.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2\cdot n + 2) = l.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Binärsystem darstellen, so hat bei geraden Zahlen das letzte
+      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei geraden Zahlen das letzte
       Bit den Wert 0 und die 0 soll dem linken Teilbaum entsprechen.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2 \cdot n + 1) = r.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Binärsystem darstellen, so hat bei ungeraden Zahlen das letzte
+      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei ungeraden Zahlen das letzte
       Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
 \end{enumerate}
 Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
 \begin{enumerate}[(a)]
-\item Stellen Sie Gleichungen auf, die das Einfügen und das Löschen in einem
-      binären Trie beschreiben.  Achten Sie beim Löschen darauf,
-      dass binäre Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
+\item Stellen Sie Gleichungen auf, die das Einf\"ugen und das L\"oschen in einem
+      bin\"aren Trie beschreiben.  Achten Sie beim L\"oschen darauf,
+      dass bin\"are Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
       zu $\textsl{Nil}$ vereinfacht werden.
 
       \textbf{Hinweis}:  Um die Gleichungen zur Spezifikation der Funktion
       $\textsl{delete}()$ nicht zu komplex werden zu lassen ist es sinnvoll, eine
-      Hilfsfunktion zur Vereinfachung von binären Tries zu definieren.
-\item Implementieren Sie binäre Tries in \textsc{SetlX}.
+      Hilfsfunktion zur Vereinfachung von bin\"aren Tries zu definieren.
+\item Implementieren Sie bin\"are Tries in \textsc{SetlX}.
 \end{enumerate}
-\textbf{Bemerkung}: Binäre Tries werden auch als \emph{digitale Suchbäume} bezeichnet.
+\textbf{Bemerkung}: Bin\"are Tries werden auch als \emph{digitale Suchb\"aume} bezeichnet.
 
 \section{Hash Tables}
 It is very simple to implement a function of the form \\[0.2cm]

@@ -16,7 +16,7 @@ Grundidee
 \item Jeder Knoten besteht aus zwei Komponenten
   \begin{enumerate}
   \item Daten
-  \item Zeiger auf nächsten Knoten
+  \item Zeiger auf n\"achsten Knoten
   \end{enumerate}
 \end{enumerate}
 Realisierung als \texttt{struct}:
@@ -34,9 +34,9 @@ typedef NodePtr List;
 \item \texttt{n} letzter Knoten der Liste g.d.w. \texttt{n->nextPtr == 0}
 \item Liste wird realisiert durch Zeiger auf Knoten
 
-      \texttt{typedef NodePtr List} wird aus konzeptionellen Gründen
-      eingeführt:  Unterscheidung Knoten $\longleftrightarrow$ Listen.
-\item \texttt{Data} wird anderswo über \texttt{typedef} definiert
+      \texttt{typedef NodePtr List} wird aus konzeptionellen Gr\"unden
+      eingef\"uhrt:  Unterscheidung Knoten $\longleftrightarrow$ Listen.
+\item \texttt{Data} wird anderswo \"uber \texttt{typedef} definiert
 
       dadurch wird Daten--Struktur \texttt{generisch}, 
       d.h.~mehrfach verwendbar
@@ -63,22 +63,22 @@ Funktionen auf Knoten und Listen
 \item Erzeugung eines Knotens
 
       \texttt{NodePtr createNode(Data data, NodePtr next);}
-\item Anfügen eines Knotens an den Anfang einer Liste
+\item Anf\"ugen eines Knotens an den Anfang einer Liste
 
       \texttt{List push(Data data, List l);}
-\item Löschen einer Liste
+\item L\"oschen einer Liste
 
       \texttt{void deleteList(List l);}
 \item Ausgabe einer Liste
 
       \texttt{void printList(List l);}
-\item Einfügen eines Knotens in sortierte Liste, Liste bleibt dabei sortiert
+\item Einf\"ugen eines Knotens in sortierte Liste, Liste bleibt dabei sortiert
 
       \texttt{List insert(NodePtr n, List l);}
 \item Sortieren einer Liste
 
       \texttt{List sortList(List n);}
-\item Überprüfung, ob Liste geordnet ist
+\item Ãœberpr\"ufung, ob Liste geordnet ist
 
       \texttt{bool  isOrdered(List l)}
 \item Haupt--Programm zum Testen
@@ -115,7 +115,7 @@ NodePtr createNode(Data data, NodePtr next) {
 }
 \end{verbatim}
 
-\item Anfügen eines Knotens an Listen--Anfang
+\item Anf\"ugen eines Knotens an Listen--Anfang
 
 \begin{verbatim}
 List push(Data data, List l) {
@@ -124,7 +124,7 @@ List push(Data data, List l) {
 \end{verbatim}
 
 
-\item Löschen einer Liste
+\item L\"oschen einer Liste
 
 \begin{verbatim}
 void deleteList(List l) {
@@ -137,7 +137,7 @@ void deleteList(List l) {
 \end{verbatim}
 \end{enumerate}
 
-Komplexitäten: Sei $n$ Länge von $l$
+Komplexit\"aten: Sei $n$ L\"ange von $l$
 \begin{enumerate}
 \item \texttt{createNode($d$, $n$)}: $\Oh(1)$
 \item \texttt{push($d$, $l$)}: $\Oh(1)$
@@ -176,7 +176,7 @@ void printList(List l)
 };
 \end{verbatim}
 
-\item Überprüfung, ob Liste geordnet ist
+\item Ãœberpr\"ufung, ob Liste geordnet ist
 
 \begin{verbatim}
 bool isOrdered(List l) {
@@ -195,7 +195,7 @@ bool isOrdered(List l) {
 }
 \end{verbatim}
 \end{enumerate}
-Komplexitäten: linear.
+Komplexit\"aten: linear.
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -215,7 +215,7 @@ Implementierungen
 
 \footnotesize
 \begin{enumerate}
-\item Einfügen in sortierte Liste
+\item Einf\"ugen in sortierte Liste
 
 \begin{verbatim}
 List insert(NodePtr n, List l) {
@@ -247,9 +247,9 @@ List sortList(List l) {
 }
 \end{verbatim}
 \end{enumerate}
-Komplexitäten:
+Komplexit\"aten:
 \begin{enumerate}
-\item Einfügen: linear
+\item Einf\"ugen: linear
 \item Sortieren: quadratisch
 \end{enumerate}
 
@@ -327,11 +327,11 @@ Grundidee
 \begin{enumerate}
 \item Finde Minimum $m$ einer Liste $l_1$: erhalte \\[0.3cm]
       \hspace*{1.3cm} $m = \mathtt{getMin}(l_1)$
-\item Lösche $m$ aus $l_1$, erhalte \\[0.3cm]
+\item L\"osche $m$ aus $l_1$, erhalte \\[0.3cm]
       \hspace*{1.3cm}  $l_2 = \mathtt{delete}(l_1, m)$
 \item Sortiere $l_2$ rekursiv, erhalte \\[0.3cm]
       \hspace*{1.3cm}  $l_3 = \mathtt{min\_sort}(l_2)$
-\item Füge $m$ an den Anfang von $l_3$ an, erhalte \\[0.3cm]
+\item F\"uge $m$ an den Anfang von $l_3$ an, erhalte \\[0.3cm]
       \hspace*{1.3cm}  $l_4 = \mathtt{cons}(m, l_3)$
 \end{enumerate}
 Implementierung:
@@ -396,7 +396,7 @@ List cons(NodePtr ptr, List l) {
     return ptr;
 }
 \end{verbatim}
-Aufwand \texttt{minSort}: $\Oh(n^2)$ falls $n$ Länge der Liste
+Aufwand \texttt{minSort}: $\Oh(n^2)$ falls $n$ L\"ange der Liste
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -485,7 +485,7 @@ void split(List l, List* l1_ptr, List* l2_ptr)
 Eigenschaft: \\[0.3cm]
 \hspace*{1.3cm} $x\in l \wedge \mathtt{split}(l, \&l_1, \&l_2) \leftrightarrow x \in l_1 \vee x \in l_2$
  
-Wichtig für Komplexität: Teile sind etwa gleich groß 
+Wichtig f\"ur Komplexit\"at: Teile sind etwa gleich gro\3 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -560,8 +560,8 @@ ist eine \emph{elementare} Operation.
 \item Zuweisung:  \hspace*{\fill} \texttt{x = y}
 \item Rechen--Operationen:  \hspace*{\fill} \texttt{x + y}, \texttt{x - y}, \texttt{x * y}, \texttt{x / y}
 \item Pointer--Zugriff: \hspace*{\fill} \texttt{*n}, \texttt{l->nextPtr}
-\item Rückgabe eines Ergebnisses: \hspace*{\fill} \texttt{return l}
-\item Positionieren eines Arguments auf dem Stack für einen Funktions--Aufruf
+\item R\"uckgabe eines Ergebnisses: \hspace*{\fill} \texttt{return l}
+\item Positionieren eines Arguments auf dem Stack f\"ur einen Funktions--Aufruf
 \item Starten des Aufrufs einer Funktion
 \end{enumerate}
     Ein Funktions--Aufruf selber ist keine elementare Operation: \\[0.3cm]
@@ -599,11 +599,11 @@ Berechnung der Anzahl elementarer Operationen
 \end{verbatim}
 \begin{itemize}
 \item 2 elementare Operationen um Argumente \texttt{ptr} und \texttt{l} vom Stack zu lesen
-\item 1 elementare Operation für Pointer--Zugriff \\[0.3cm]
+\item 1 elementare Operation f\"ur Pointer--Zugriff \\[0.3cm]
       \hspace*{1.3cm} \texttt{ptr->nextPtr}
-\item 1 elementare Operation für Zuweisung \\[0.3cm]
+\item 1 elementare Operation f\"ur Zuweisung \\[0.3cm]
       \hspace*{1.3cm} \texttt{ptr->nextPtr = l}
-\item 1 elementare Operation für Ergebnis--Rückgabe  \\[0.3cm]
+\item 1 elementare Operation f\"ur Ergebnis--R\"uckgabe  \\[0.3cm]
       \hspace*{1.3cm}  \texttt{return ptr}
 \end{itemize}
 
@@ -628,13 +628,13 @@ Listen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Anzahl der elementaren Operationen für \texttt{split}
+Anzahl der elementaren Operationen f\"ur \texttt{split}
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 $a_n$: Zahl elementaren Operationen bei Aufruf von \texttt{split} \\[0.3cm]
-\hspace*{0.8cm} mit Liste der Länge $n$
+\hspace*{0.8cm} mit Liste der L\"ange $n$
 
 \begin{enumerate}
 \item[0.] 3 Argumente auf Stack legen, Funktion starten, 3 Argumente vom Stack 
@@ -675,12 +675,12 @@ Listen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Lösung der Rekursions--Gleichungen
+L\"osung der Rekursions--Gleichungen
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Wir betrachten die Fälle $n = 2*m$ und $n = 2* m + 1$.
+Wir betrachten die F\"alle $n = 2*m$ und $n = 2* m + 1$.
 \begin{enumerate}
 \item $n = 2 * m$
       $$
@@ -727,7 +727,7 @@ Zahl der elementaren Operationen von \texttt{merge}
 
 \footnotesize
 $b_{n,m}$: Anzahl elementarer Operationen bei $\texttt{merge}(l_1, l_2)$ falls\\[0.3cm]
-\hspace*{1.3cm}  $l_1$ Länge $n$ und $l_2$ Länge $m$ hat.
+\hspace*{1.3cm}  $l_1$ L\"ange $n$ und $l_2$ L\"ange $m$ hat.
 
 \begin{enumerate}
 \item Fall: \texttt{l1 == 0}.
@@ -746,7 +746,7 @@ $b_{n,m}$: Anzahl elementarer Operationen bei $\texttt{merge}(l_1, l_2)$ falls\\
             $b_{n,m} = 5 + 2 + 2 + 2 + 8 + 1 + 8 + b_{n,m-1}$
       \end{enumerate}
 \end{enumerate}
-Definere für \emph{worst case} Abschätzung \\[0.3cm]
+Definere f\"ur \emph{worst case} Absch\"atzung \\[0.3cm]
  $c_{n + m} = b_{n,m} = \left\{ \begin{array}{ll}
                                                  28 + b_{n-1,m} & \mbox{falls}\; \mathtt{cmp} \leq 0 \\[0.2cm]
                                                  28 + b_{n,m-1} & \mbox{falls}\; \mathtt{cmp} > 0 \\
@@ -779,7 +779,7 @@ Zahl der elementaren Operationen von \texttt{mergeSort}
 
 \footnotesize
 $d_n$: Zahl elementare Operationen von $\texttt{mergeSort}(l)$ falls \\
-\hspace*{1.3cm} $l$ Länge $n$ hat.
+\hspace*{1.3cm} $l$ L\"ange $n$ hat.
 
 Vereinfachung: $n = 2^k$
 \begin{enumerate}
@@ -798,7 +798,7 @@ Vereinfachung: $n = 2^k$
       \end{array}$
 
 \end{enumerate}
-Setze $f_k := d_{2^k}$. Das führt auf Rekursions--Gleichung \\[0.3cm]
+Setze $f_k := d_{2^k}$. Das f\"uhrt auf Rekursions--Gleichung \\[0.3cm]
 \hspace*{1.3cm} $f_{k+1} = 32 + 46 * 2^{k+1} + 2 * f_k$ 
 
 Anfangs--Bedingungen
@@ -821,7 +821,7 @@ Listen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Lösung der Rekursions--Gleichung 
+L\"osung der Rekursions--Gleichung 
 \end{center}
 \vspace*{0.5cm}
 
@@ -854,7 +854,7 @@ Characteristisches Polynom: \\[0.3cm]
                 \end{array}$
 
 
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $f_k = \alpha + \beta * 2^k + \gamma * k * 2^k$
 
 
@@ -870,12 +870,12 @@ Listen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Lösung der Rekursions--Gleichung (Fortsetzung)
+L\"osung der Rekursions--Gleichung (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Allgemeine Lösung: \\[0.3cm]
+Allgemeine L\"osung: \\[0.3cm]
 \hspace*{1.3cm} $f_k = \alpha + \beta * 2^k + \gamma * k * 2^k$
 
 Anfangs--Bedingungen liefern lineares Gleichungs-System 
@@ -886,10 +886,10 @@ $$
  k = 2:\quad & 492 & = & \alpha \;+\; \beta * 2^2 \;+\; \gamma * 2 * 2^2 \\
 \end{array}
 $$
-Lösung dies Gleichungs-Systems: \\[0.3cm]
+L\"osung dies Gleichungs-Systems: \\[0.3cm]
 \hspace*{1.3cm} $\alpha = -32, \quad \beta = 39, \quad \gamma = 46$
 
-Lösung der Rekursions--Gleichung: \\[0.3cm]
+L\"osung der Rekursions--Gleichung: \\[0.3cm]
 \hspace*{1.3cm} $f_k = -32 + 39 * 2^k + 46 * k * 2^k$
 
 Setze $n = 2^k$, also $k = \mathtt{log}_2(n)$ \\[0.3cm]
@@ -899,7 +899,7 @@ Ergebnis \\[0.3cm]
 \hspace*{3.3cm} \fbox{\fbox{$d_n =  46 * n * \log_2(n) + \Oh(n)$}}
 \vspace*{0.5cm}
 
-Die Komplexität von \texttt{Merge--Sort} ist $\Oh(n * \log_2(n))$!
+Die Komplexit\"at von \texttt{Merge--Sort} ist $\Oh(n * \log_2(n))$!
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -1082,10 +1082,10 @@ Nachweis durch Wertverlaufs--Induktion:
       &                 & x \in \textsl{ms}(l) \\[0.3cm]
       & \leftrightarrow & x \in \mathtt{merge}(\;\mathtt{ms}(\mathtt{split}_1(l)),\; \mathtt{ms}(\mathtt{split}_2(l))\;) \\[0.3cm]
       & \leftrightarrow & x \in \mathtt{ms}(\mathtt{split}_1(l)) \vee x \in \mathtt{ms}(\mathtt{split}_2(l)) \\[0.3cm]
-      &                 &   (\mbox{nach Lemma über \texttt{merge}})                              \\[0.5cm]
+      &                 &   (\mbox{nach Lemma \"uber \texttt{merge}})                              \\[0.5cm]
       & {IV \atop \displaystyle\leftrightarrow} & x \in \mathtt{split}_1(l) \vee x \in \mathtt{split}_2(l) \\[0.3cm]
       & \leftrightarrow & x \in l  \\[0.3cm]
-      &                 &   (\mbox{nach Lemma über \texttt{split}})  
+      &                 &   (\mbox{nach Lemma \"uber \texttt{split}})  
       \end{array}
       $
 \end{enumerate}
@@ -1107,14 +1107,14 @@ Nachweis von $\texttt{ordered}(\texttt{ms}(l))$
 \vspace*{0.5cm}
 
 \footnotesize
-Definition des Prädikats $\mathtt{leq}: \textsl{Data} \times \textsl{List} \rightarrow \mathbb{B}$
+Definition des Pr\"adikats $\mathtt{leq}: \textsl{Data} \times \textsl{List} \rightarrow \mathbb{B}$
 
 \begin{enumerate}
 \item $\mathtt{leq}(x,[]) \leftrightarrow \mathtt{true}$
 \item $\mathtt{leq}(x,[d|r]) \leftrightarrow x \leq d$
 \end{enumerate}
 
-Distributivität von \texttt{leq} und \texttt{merge}: \\[0.3cm]
+Distributivit\"at von \texttt{leq} und \texttt{merge}: \\[0.3cm]
 \hspace*{1.3cm}  $\mathtt{leq}(x, \mathtt{merge}(l_1, l_2)) \leftrightarrow \mathtt{leq}(x,l_1) \wedge \mathtt{leq}(x,l_2)$
 
 Nachweis durch Wertverlaufs--Induktion:
@@ -1163,12 +1163,12 @@ Nachweis von $\texttt{ord}(\texttt{ms}(l))$
 \vspace*{0.5cm}
 
 \footnotesize
-Definition des Prädikats $\mathtt{ord}: \textsl{List} \rightarrow \mathbb{B}$
+Definition des Pr\"adikats $\mathtt{ord}: \textsl{List} \rightarrow \mathbb{B}$
 \begin{enumerate}
 \item $\texttt{ord}([]) \leftrightarrow \mathtt{true}$
 \item $\texttt{ord}([d|r]) \leftrightarrow \mathtt{leq}(d,r) \wedge \mathtt{ord}(r)$
 \end{enumerate}
-Distributivität von \texttt{ord} und \texttt{merge}: \\[0.3cm]
+Distributivit\"at von \texttt{ord} und \texttt{merge}: \\[0.3cm]
 \hspace*{1.3cm}  $\mathtt{ord}(\mathtt{merge}(l_1,l_2)) \leftrightarrow \mathtt{ord}(l_1) \wedge \mathtt{ord}(l_2)$
 
 \begin{enumerate}
@@ -1190,7 +1190,7 @@ Distributivität von \texttt{ord} und \texttt{merge}: \\[0.3cm]
       & \leftrightarrow & \mathtt{ord}([d_1|\mathtt{merge}(r_1, [d_2|r_2])]) \\[0.3cm]
       & \leftrightarrow & \mathtt{leq}(d_1, \mathtt{merge}(r_1, [d_2|r_2])) \wedge \mathtt{ord}(\mathtt{merge}(r_1, [d_2|r_2])) \\[0.3cm]
       & \leftrightarrow & \mathtt{leq}(d_1, r_1) \wedge \mathtt{leq}(d_1, [d_2|r_2]) \wedge \mathtt{ord}(\mathtt{merge}(r_1, [d_2|r_2])) \\[0.3cm]
-      &                 & (\mbox{wegen der Distributivität von \texttt{leq} und \texttt{merge}})  \\[0.3cm]
+      &                 & (\mbox{wegen der Distributivit\"at von \texttt{leq} und \texttt{merge}})  \\[0.3cm]
       & {IV \atop \displaystyle\leftrightarrow} & 
         \mathtt{leq}(d_1, r_1) \wedge \mathtt{leq}(d_1, [d_2|r_2]) \wedge \mathtt{ord}(r_1) \wedge \mathtt{ord}([d_2|r_2]) \\[0.3cm]
       & \leftrightarrow & \mathtt{leq}(d_1, r_1) \wedge d_1 \leq d_2 \wedge \mathtt{ord}(r_1) \wedge \mathtt{ord}([d_2|r_2]) \\[0.3cm]
@@ -1245,7 +1245,7 @@ Nachweis durch Wertverlaufs--Induktion
       &                 & \mathtt{ord}(\mathtt{ms}(l))  \\[0.3cm]
       & \leftrightarrow & \mathtt{ord}(\;\mathtt{merge}(\mathtt{ms}(\mathtt{split}_1(l)),\; \mathtt{ms}(\mathtt{split}_2(l))\;) \\[0.3cm]
       & \leftrightarrow & \mathtt{ord}(\mathtt{ms}(\mathtt{split}_1(l))) \wedge \mathtt{ord}(\mathtt{ms}(\mathtt{split}_2(l))) \\[0.3cm]
-      &                 & (\mbox{wegen der Distributivität von \texttt{ord} und \texttt{merge}}) \\[0.3cm]
+      &                 & (\mbox{wegen der Distributivit\"at von \texttt{ord} und \texttt{merge}}) \\[0.3cm]
       & {IV \atop \displaystyle\leftrightarrow} & \mathtt{true} \wedge \mathtt{true} \\[0.3cm]
       & \leftrightarrow & \mathtt{true}  \\[0.3cm]
       \end{array}
@@ -1324,7 +1324,7 @@ Definition von \texttt{ordered}:
 \item $\mathtt{ordered}([d|r]) \leftrightarrow d \leq r \wedge \mathtt{ordered}(r)$
 \end{enumerate}
 
-Benötigte Lemmata:
+Ben\"otigte Lemmata:
 \begin{enumerate}
 \item $x \leq y \wedge y \leq l \rightarrow x \leq l$
 \item $l \not= [] \rightarrow \bigg(x \leq l \leftrightarrow x \leq \mathtt{getMin}(l)\bigg)$
@@ -1337,7 +1337,7 @@ Benötigte Lemmata:
 \item $l \not= [] \rightarrow \mathtt{getMin}(l) \in l$
 \end{enumerate}
 
-Sätze
+S\"atze
 \begin{enumerate}
 \item $x \in \mathtt{minSort}(l) \leftrightarrow x \in l$
 \item $\mathtt{ordered}(\mathtt{minSort}(l))$

@@ -25,21 +25,21 @@
 \noindent
 \textbf{Aufgabe 1}:
 \begin{enumerate}
-\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+\item L\"osen Sie die Rekursions-Gleichung \\[0.2cm]
       \hspace*{1.3cm} $a_{n+2} = a_n + 2$ \\[0.2cm]
-      für die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
+      f\"ur die Anfangs-Bedingungen $a_0 = 2$ und $a_1 = 1$.
       \hspace*{\fill} (10 Punkte)
-\item Lösen Sie die Rekursions-Gleichung \\[0.2cm]
+\item L\"osen Sie die Rekursions-Gleichung \\[0.2cm]
       \hspace*{1.3cm} $a_{n+2} = 2 \cdot a_n - a_{n+1}$ \\[0.2cm]
-      für die Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 3$.
+      f\"ur die Anfangs-Bedingungen $a_0 = 0$ und $a_1 = 3$.
       \hspace*{\fill} (10 Punkte)
 \end{enumerate}
 \vspace{0.3cm}
 
 \noindent
 \textbf{Aufgabe 2}:
-Der geordnete binäre Baum $t$ sei durch den folgenden Term definiert,
-wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+Der geordnete bin\"are Baum $t$ sei durch den folgenden Term definiert,
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schl\"usseln
 assoziiert sind, verzichtet wurde.
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -49,23 +49,23 @@ $t = \textsl{node}(11, \textsl{node}(10, \textsl{nil}, \textsl{nil}), \textsl{no
 $
 %\hspace*{1.3cm}\epsfig{file=aufgabe2,scale=0.5}
 \begin{enumerate}
-\item Fügen Sie in diesem Baum den Schlüssel \texttt{16} ein und geben Sie den
+\item F\"ugen Sie in diesem Baum den Schl\"ussel \texttt{16} ein und geben Sie den
       resultierenden Term an.  \\ 
       \hspace*{\fill} (3 Punkte)
-\item Fügen Sie in dem in Teil (a) berechneten Baum den Schlüssel \texttt{13} ein und
+\item F\"ugen Sie in dem in Teil (a) berechneten Baum den Schl\"ussel \texttt{13} ein und
       geben Sie den resultierenden Baum an.     
       \hspace*{\fill} (3 Punkte)
-\item Löschen Sie aus dem in Teil (b) berechneten Baum den Schlüssel \texttt{15} und
+\item L\"oschen Sie aus dem in Teil (b) berechneten Baum den Schl\"ussel \texttt{15} und
       geben Sie den resultierenden Baum. 
       \hspace*{\fill} (4 Punkte)
 \end{enumerate}
-\textbf{Hinweis}: Bei der Lösung dieser und der folgenden Aufgabe sind selbstverständlich
+\textbf{Hinweis}: Bei der L\"osung dieser und der folgenden Aufgabe sind selbstverst\"andlich
 die in der Vorlesung vorgestellten Algorithmen zu verwenden.
 \vspace{0.2cm}
 
 \noindent
 \textbf{Aufgabe 3}: Der AVL-Baum $t$ sei durch den folgenden Term gegeben,
-wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schlüsseln
+wobei zur Vereinfachung auf die Angabe der Werte, die mit den Schl\"usseln
 assoziiert sind, verzichtet wurde.
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -73,13 +73,13 @@ $t = \textsl{node}(17, \textsl{node}(8, \textsl{node}(2, \textsl{nil}, \textsl{n
  \textsl{node}(10, \textsl{nil}, \textsl{nil})), \textsl{node}(23,\textsl{nil},\textsl{nil}))$
 %\epsfig{file=avl1,scale=0.5}
 \begin{enumerate}
-\item Fügen Sie  in diesem Baum den Schlüssel \texttt{13} ein und geben Sie den
+\item F\"ugen Sie  in diesem Baum den Schl\"ussel \texttt{13} ein und geben Sie den
       resultierenden Baum an.   \\[0.2cm]
       \hspace*{\fill} (4 Punkte)
-\item Fügen Sie in dem Baum aus Teil den Schlüssel \texttt{15} ein und geben Sie den
+\item F\"ugen Sie in dem Baum aus Teil den Schl\"ussel \texttt{15} ein und geben Sie den
       resultierenden Baum an.
       \hspace*{\fill} (3 Punkte)
-\item Entfernen Sie den Schlüssel 2 aus dem unter Teil (b) berechneten Baum und geben Sie
+\item Entfernen Sie den Schl\"ussel 2 aus dem unter Teil (b) berechneten Baum und geben Sie
       den resultierenden Baum an.
       \hspace*{\fill} (4 Punkte)
 \end{enumerate}
@@ -94,7 +94,7 @@ $t = \textsl{node}(17, \textsl{node}(8, \textsl{node}(2, \textsl{nil}, \textsl{n
     }
 \end{verbatim}
 Weisen Sie mit Wertverlaufs-Induktion nach, dass die Funktion $\textsl{sum}()$  die
-folgende Spezifikation erfüllt:
+folgende Spezifikation erf\"ullt:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$.
@@ -114,13 +114,13 @@ $\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$.
         return s;
     }
 \end{verbatim}
-Die Funktion $\textsl{sum}()$  soll die folgende Spezifikation erfüllen:
+Die Funktion $\textsl{sum}()$  soll die folgende Spezifikation erf\"ullen:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$
 \begin{enumerate}
-\item Weisen Sie mit Hilfe des Hoare-Kalküls nach, dass das Programm korrekt ist.
-\item Beweisen Sie mit Hilfe der Methode der symbolischen Programm-Ausführung nach,
+\item Weisen Sie mit Hilfe des Hoare-Kalk\"uls nach, dass das Programm korrekt ist.
+\item Beweisen Sie mit Hilfe der Methode der symbolischen Programm-Ausf\"uhrung nach,
       dass das Programm korrekt ist.
 \end{enumerate}
 \vspace{0.3cm}
@@ -139,25 +139,25 @@ $\textsl{sum}(n) = \frac{1}{2} \cdot n \cdot (n + 1)$
       \hspace*{1.3cm}
       $0 \leq \biggl(\sum\limits_{i=1}^n \frac{1}{i}\biggr) - \ln(n) \leq 1$
       \\[0.2cm]
-      indem Sie die Summe $\sum\limits_{i=1}^n \frac{1}{i}$ durch geeignete Integrale abschätzen.
+      indem Sie die Summe $\sum\limits_{i=1}^n \frac{1}{i}$ durch geeignete Integrale absch\"atzen.
 \end{enumerate}
 \vspace{0.3cm}
 
 
 \noindent
 \textbf{Aufgabe 7}:  Im Abschnitt 8.2 des Skriptes
-werden Gleichungen angegeben, die das Einfügen und Löschen in einem Heap beschreiben.
-In diesem Zusammenhang sollen Sie in dieser Aufgabe  einige zusätzliche Methoden auf
-binären Bäumen durch bedingte Gleichungen spezifizieren.
+werden Gleichungen angegeben, die das Einf\"ugen und L\"oschen in einem Heap beschreiben.
+In diesem Zusammenhang sollen Sie in dieser Aufgabe  einige zus\"atzliche Methoden auf
+bin\"aren B\"aumen durch bedingte Gleichungen spezifizieren.
 \begin{enumerate}
 \item Spezifizieren Sie eine Methode \textsl{isHeap}, so
-      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      dass f\"ur einen bin\"aren Baum $b \in \mathcal{B}$ der Ausdruck 
       $b.\mathtt{isHeap}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
-      \emph{Heap-Bedingung} erfüllt.  \hspace*{\fill} (10 Punkte)
+      \emph{Heap-Bedingung} erf\"ullt.  \hspace*{\fill} (10 Punkte)
 \item Implementieren Sie eine Methode \textsl{isBalanced}, so
-      dass für einen binären Baum $b \in \mathcal{B}$ der Ausdruck 
+      dass f\"ur einen bin\"aren Baum $b \in \mathcal{B}$ der Ausdruck 
       $b.\mathtt{isBalanced}()$ genau dann den Wert $\mathtt{true}$ hat, wenn $b$ die
-      \emph{Balancierungs-Bedingung} für \emph{Heaps} erfüllt.  
+      \emph{Balancierungs-Bedingung} f\"ur \emph{Heaps} erf\"ullt.  
       \hspace*{\fill} (5 Punkte)
 \end{enumerate}
 \vspace{0.3cm}
@@ -166,7 +166,7 @@ binären Bäumen durch bedingte Gleichungen spezifizieren.
 \noindent
 \textbf{Aufgabe 8}:
 Es gelte $\Sigma = \{ \mathtt{a},\,\mathtt{b},\,\mathtt{c},\,\mathtt{d},\,\mathtt{e},\,\mathtt{f} \}$.
-Die Häufigkeit, mit der diese Buchstaben in dem zu kodierenden String $s$ auftreten, sei durch die
+Die H\"aufigkeit, mit der diese Buchstaben in dem zu kodierenden String $s$ auftreten, sei durch die
 folgende Tabelle gegeben:
 
 \begin{center}
@@ -174,12 +174,12 @@ folgende Tabelle gegeben:
 \hline
 Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} \\
 \hline
-Häufigkeit &          8 &          9 &         10 &         11 &         12 &         13 \\
+H\"aufigkeit &          8 &          9 &         10 &         11 &         12 &         13 \\
 \hline
 \end{tabular}
 \end{center}
 \begin{enumerate}
-\item Berechnen sie einen optimalen Kodierungs-Baum für die angegebenen Häufigkeiten.
+\item Berechnen sie einen optimalen Kodierungs-Baum f\"ur die angegebenen H\"aufigkeiten.
 \item Geben die Kodierung der einzelnen Buchstaben an, die sich aus diesem Baum ergibt.
 \end{enumerate}
 

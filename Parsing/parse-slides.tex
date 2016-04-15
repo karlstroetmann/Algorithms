@@ -4,18 +4,18 @@
 \normalsize
 
 \begin{center}
-Beispiel: Arithmetische Ausdrücke
+Beispiel: Arithmetische Ausdr\"ucke
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Beschreibung arithmetischer Ausdrücke möglich durch \\[0.3cm]
+Beschreibung arithmetischer Ausdr\"ucke m\"oglich durch \\[0.3cm]
 \hspace*{1.3cm} $G_{\mathtt{arith}} := \langle T, N, R, \textsl{Expr} \rangle$
 \begin{enumerate}
 \item $T = \{ \mathbf{number}, \mathbf{variable}, ``\mathtt{+}\symbol{34},
   ``\mathtt{-}\cq, ``\mathtt{*}\cq, ``\mathtt{/}\cq, ``\mathtt{(}\cq, ``\mathtt{)}\cq \}$
 \item $N = \{ \textsl{Expr} \}$
-\item Die Menge $R$ enthält folgende Regeln 
+\item Die Menge $R$ enth\"alt folgende Regeln 
 
       $\begin{array}{lcl}
       \textsl{Expr} & \rightarrow & \textsl{Expr}\; ``\mathtt{+}\cq \;\textsl{Expr} \\
@@ -29,19 +29,19 @@ Beschreibung arithmetischer Ausdrücke möglich durch \\[0.3cm]
 \end{enumerate}
 Es gibt zwei Arten von Terminalen
 \begin{enumerate}
-\item \emph{Wörtliche Terminale} stehen für sich selbst.
+\item \emph{W\"ortliche Terminale} stehen f\"ur sich selbst.
 
       Beispiel: $``\texttt{+}\cq,\; ``\texttt{-}\cq,\; ``\texttt{*}\cq,\; ``\texttt{-}\cq,\; ``\mathtt{(}\cq,\; ``\mathtt{)}\cq$
 
       Werden in Regeln durch\  ``\ und\ \cq\ abgegrenzt.
 \item \emph{Token--Terminale} beschreiben Klassen von Strings und 
-      werden durch reguläre Ausdrücke implementiert 
+      werden durch regul\"are Ausdr\"ucke implementiert 
 
       \textbf{Beispiel}: $\mathbf{number}$, $\mathbf{variable}$
     
       werden in Beispielen $\mathbf{fett}$ gesetzt, klein geschrieben
 \end{enumerate}
-Nicht--Terminale werden \textsl{schräg} gesetzt, groß geschrieben
+Nicht--Terminale werden \textsl{schr\"ag} gesetzt, gro\3 geschrieben
 
 \textbf{Beispiel}: \textsl{Expr}
 
@@ -74,8 +74,8 @@ ist, so sagen wir, dass \\[0.3cm]
 \hspace*{1.3cm} $\alpha X \gamma \rightarrow \alpha \beta \gamma$ \\[0.3cm]
 ein \emph{Ableitungs--Schritt}  ist.
 
-Die \emph{transitive Hülle} von $\rightarrow$ bezeichen wir mit $\rightarrow^*$: \\
-Für $\alpha, \beta, \gamma \in V^*$ gilt also:
+Die \emph{transitive H\"ulle} von $\rightarrow$ bezeichen wir mit $\rightarrow^*$: \\
+F\"ur $\alpha, \beta, \gamma \in V^*$ gilt also:
 \begin{enumerate}
 \item $\alpha \rightarrow^* \alpha$
 \item Falls $\alpha \rightarrow \beta$ und $\beta \rightarrow^* \gamma$, so folgt $\alpha \rightarrow^* \gamma$
@@ -108,7 +108,7 @@ Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Parse--Bäume
+Parse--B\"aume
 \end{center}
 \vspace*{0.5cm}
 
@@ -127,7 +127,7 @@ $\begin{array}{lcl}
 $
 \vspace*{0.5cm}
 
-Zugehöriger Parse--Baum: \\[0.8cm]
+Zugeh\"origer Parse--Baum: \\[0.8cm]
 \hspace*{1.3cm} 
 \epsfig{file=parse-tree1}
 
@@ -148,7 +148,7 @@ Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Parse--Bäume (Fortsetzung)
+Parse--B\"aume (Fortsetzung)
 \end{center}
 \vspace*{0.5cm}
 
@@ -166,7 +166,7 @@ $\begin{array}{lcl}
 $
 \vspace*{0.5cm}
 
-Zugehöriger Parse--Baum: \\[0.8cm]
+Zugeh\"origer Parse--Baum: \\[0.8cm]
 \hspace*{1.3cm} 
 \epsfig{file=parse-tree2}
 
@@ -190,17 +190,17 @@ Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Grammatik für reguläre Ausdrücke
+Grammatik f\"ur regul\"are Ausdr\"ucke
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Beschreibung regulärer Ausdrücke möglich durch \\[0.3cm]
+Beschreibung regul\"arer Ausdr\"ucke m\"oglich durch \\[0.3cm]
 \hspace*{1.3cm} $G_{\mathtt{RegExp}} = \langle T, N, R, \textsl{Expr} \rangle$
 \begin{enumerate}
 \item $T = \{ \mathbf{letter}, \mathbf{escape}, ``\mathtt{+}\symbol{34},  ``\mathtt{*}\cq, ``\mathtt{(}\cq, ``\mathtt{)}\cq\}$
 \item $N = \{ \textsl{Expr}, \textsl{Term}, \textsl{Factor} \}$
-\item Die Menge $R$ enthält folgende Regeln 
+\item Die Menge $R$ enth\"alt folgende Regeln 
 
       $\begin{array}{lcl}
        \textsl{Expr} & \rightarrow & \textsl{Term}\; ``\mathtt{+}\cq \textsl{Expr} \\
@@ -215,10 +215,10 @@ Beschreibung regulärer Ausdrücke möglich durch \\[0.3cm]
                      & |           & \mathbf{escape}\\
      \end{array}$
 \end{enumerate}
-Grammatik  eindeutig! Wurde erreicht durch \emph{Prioritäten}: \\[0.3cm]
+Grammatik  eindeutig! Wurde erreicht durch \emph{Priorit\"aten}: \\[0.3cm]
 \hspace*{1.3cm}  $\textsl{Factor}\; > \;\textsl{Term}\; > \;\textsl{Expr}$
 
-entspricht Priorität der Operations--Symbole
+entspricht Priorit\"at der Operations--Symbole
 \begin{enumerate}
 \item Abschluss ``\texttt{*}\cq
 \item Konkatenation
@@ -237,7 +237,7 @@ Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Beispiele für $\Ll(G_{\mathtt{RegExp}})$
+Beispiele f\"ur $\Ll(G_{\mathtt{RegExp}})$
 \end{center}
 \vspace*{0.5cm}
 
@@ -246,25 +246,25 @@ Interpretation der Terminale
 
 Sei $\Sigma$ Menge aller \sc{Ascii}--Zeichen. 
 \begin{enumerate}
-\item $\mathbf{letter}$: Alle Zeichen außer $``\mathtt{+}\cq,\; ``\mathtt{*}\cq,\; ``\mathtt{(}\cq,\;
+\item $\mathbf{letter}$: Alle Zeichen au\3er $``\mathtt{+}\cq,\; ``\mathtt{*}\cq,\; ``\mathtt{(}\cq,\;
 ``\mathtt{)}\cq,\; ``\mathtt{\symbol{92}}\cq$, also \\[0.3cm]
       \hspace*{1.3cm} $\Ll(\mathbf{letter}) = \Sigma \,\backslash\, \{ ``\mathtt{+}\cq,\; ``\mathtt{*}\cq,\; ``\mathtt{(}\cq,\;
 ``\mathtt{)}\cq,\; ``\mathtt{\symbol{92}}\cq \}$
-\item $\mathbf{escape}$: Wörter, die aus zwei Zeichen bestehen, wobei das erste Zeichen
+\item $\mathbf{escape}$: W\"orter, die aus zwei Zeichen bestehen, wobei das erste Zeichen
       ein Backslash ``$\symbol{92}$'' ist: \\[0.3cm]
       \hspace*{1.3cm} $\Ll(escape) = \{ c_1c_2 \in \Sigma^* \;|\; c_1 = ``\mathtt{\symbol{92}}\cq \}$
 
       Semantik:
       \begin{enumerate}
-      \item $\mathtt{\symbol{92}e}$ steht für $\varepsilon$
-      \item $\mathtt{\symbol{92}}c$ mit $c \not= \mathtt{e}$ steht für $c$
+      \item $\mathtt{\symbol{92}e}$ steht f\"ur $\varepsilon$
+      \item $\mathtt{\symbol{92}}c$ mit $c \not= \mathtt{e}$ steht f\"ur $c$
 
-            notwendig, um mit regulären Ausdrücken nach \\[0.3cm]
+            notwendig, um mit regul\"aren Ausdr\"ucken nach \\[0.3cm]
             \hspace*{1.3cm} $``\mathtt{+}\cq,\; ``\mathtt{*}\cq,\; ``\mathtt{(}\cq,\; ``\mathtt{)}\cq,\; ``\mathtt{\symbol{92}}\cq$ \\[0.3cm]
-            suchen zu können
+            suchen zu k\"onnen
       \end{enumerate}
 \end{enumerate}
-\textbf{Beispiele} für reguläre Ausdrücke
+\textbf{Beispiele} f\"ur regul\"are Ausdr\"ucke
 \begin{enumerate}
 \item $\mathtt{(a+\symbol{92}e)b*}$
     
@@ -287,12 +287,12 @@ Kontext--freie Grammatik  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-\emph{Recursive--Descent}--Parser für $G_{\mathtt{RegExp}}$
+\emph{Recursive--Descent}--Parser f\"ur $G_{\mathtt{RegExp}}$
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-Die Regeln für \textsl{Expr} \\[0.3cm]
+Die Regeln f\"ur \textsl{Expr} \\[0.3cm]
 \hspace*{1.3cm} $
 \begin{array}{lcl}
 \textsl{Expr} & \rightarrow & \textsl{Term}\; ``\mathtt{+}\cq \;\textsl{Expr}  \\
@@ -305,8 +305,8 @@ Die Regeln für \textsl{Expr} \\[0.3cm]
 \item Falls dananch ``\texttt{+}'' in Eingabe, parse \texttt{Expr}, \\
       erhalte FSM \texttt{f2}.
 
-      Gebe \texttt{alternative(f1, f2)} zurück.
-\item Sonst: Gebe \texttt{f1} zurück.
+      Gebe \texttt{alternative(f1, f2)} zur\"uck.
+\item Sonst: Gebe \texttt{f1} zur\"uck.
 \end{enumerate}
 \textbf{Implementierung}:
 \begin{verbatim}
@@ -346,7 +346,7 @@ Parsen von \textsl{Term}
 \vspace*{0.5cm}
 
 \footnotesize
-Die Regeln für \textsl{Term}:
+Die Regeln f\"ur \textsl{Term}:
 
 $
 \begin{array}{lcl}
@@ -361,8 +361,8 @@ $
 \item Falls Zeichen danach \textbf{erstes} Zeichen von \textsl{Term} sein kann,
       parse \textsl{Term}, erhalte FSM \texttt{f2}.
 
-      Gebe \texttt{concat(f1, f2)} zurück.
-\item Sonst: Gebe \texttt{f1} zurück
+      Gebe \texttt{concat(f1, f2)} zur\"uck.
+\item Sonst: Gebe \texttt{f1} zur\"uck
 \end{enumerate}
 \textbf{Implementierung}:
 \begin{verbatim}
@@ -398,7 +398,7 @@ Parsen von \textsl{Factor}
 \vspace*{0.5cm}
 
 \footnotesize
-Die Regeln für \textsl{Factor}:
+Die Regeln f\"ur \textsl{Factor}:
 
 $
 \begin{array}{lcl}
@@ -414,16 +414,16 @@ $
 \item Falls erstes Zeichen ``\texttt{(}'':
       \begin{enumerate}
       \item Parse \textsl{Expr}, erhalte FSM \texttt{f}
-      \item Falls nächstes Zeichen ``\texttt{*}'':
+      \item Falls n\"achstes Zeichen ``\texttt{*}'':
 
-            Gebe \texttt{closure(f)} zurück
-      \item Sonst: Gebe \texttt{f} zurück.
+            Gebe \texttt{closure(f)} zur\"uck
+      \item Sonst: Gebe \texttt{f} zur\"uck.
       \end{enumerate}
 \item Falls erstes Zeichen ``\texttt{\symbol{92}}'':
 
-      Erhöhe \texttt{charPtr}
+      Erh\"ohe \texttt{charPtr}
       \begin{enumerate}
-      \item Falls nächstes Zeichen ``\texttt{e}'':
+      \item Falls n\"achstes Zeichen ``\texttt{e}'':
 
             erzeuge FSM \texttt{f} zum Erkennen von $\varepsilon$
       \item Sonst: Gehe zu 3.
@@ -432,10 +432,10 @@ $
       \begin{enumerate}
       \item erzeuge FSM \texttt{f} zum \\ 
             Erkennen  des Buchstabens \texttt{*charPtr}
-      \item Falls nächstes Zeichen ``\texttt{*}'':
+      \item Falls n\"achstes Zeichen ``\texttt{*}'':
 
-            Gebe \texttt{closure(f)} zurück
-      \item Sonst: Gebe \texttt{f} zurück.
+            Gebe \texttt{closure(f)} zur\"uck
+      \item Sonst: Gebe \texttt{f} zur\"uck.
       \end{enumerate}
 \end{enumerate}
 
@@ -508,7 +508,7 @@ Aufgaben
 \hspace*{1.3cm}
  $\Ll(G) = \{ \mathtt{a}^m\mathtt{b}^{m+n}\mathtt{a}^n \;|\; n,m \in \mathbb{N} \wedge m \geq 1 \wedge n \geq 1 \}$
 
-\textbf{Lösung}: $G = \bigg\langle \{``\mathtt{a}\cq, ``\mathtt{b}\cq \}, \{\textsl{S}, \textsl{A}, \textsl{B}\}, R, \textsl{S} \bigg\rangle$ wobei $R$ durch  \\[0.3cm]
+\textbf{L\"osung}: $G = \bigg\langle \{``\mathtt{a}\cq, ``\mathtt{b}\cq \}, \{\textsl{S}, \textsl{A}, \textsl{B}\}, R, \textsl{S} \bigg\rangle$ wobei $R$ durch  \\[0.3cm]
 \hspace*{2.5cm}  folgende Regeln gegeben ist \\[0.8cm]
 \hspace*{3.3cm} $
 \begin{array}{lcl}
@@ -526,7 +526,7 @@ $
 ``\mathtt{(}\cq, ``\mathtt{)}\cq \}$ \\[0.6cm]
 Geben Sie eine Grammatik $G_{\mathtt{Prop}}$ an, welche die Sprache der aussagenlogischen Formeln beschreibt.
 
-\textbf{Lösung}: Die Grammatik $R$ kann durch folgende Regeln definiert werden \\[0.8cm]
+\textbf{L\"osung}: Die Grammatik $R$ kann durch folgende Regeln definiert werden \\[0.8cm]
 \hspace*{3.3cm} $
 \begin{array}{lcl}
     \textsl{Prop} & \rightarrow & ``\neg\cq \textsl{Prop} \\[0.3cm]

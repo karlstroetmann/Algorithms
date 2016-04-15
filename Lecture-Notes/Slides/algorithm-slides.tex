@@ -49,20 +49,20 @@
 
 \begin{slide}{}
  \begin{center}
-Überblick über die Vorlesung \\
+Ãœberblick \"uber die Vorlesung \\
  \textsl{Algorithmen und Datenstrukturen}
 \end{center}
 
 \footnotesize
 \begin{enumerate}
-\item Unlösbarkeit des Halte-Problems
+\item Unl\"osbarkeit des Halte-Problems
 
       \begin{tabbing}
       \textbf{Gegeben}: \= Programm $P$ \\
                         \> Eingabe $x$
       \textbf{Frage}:   \= terminiert Aufruf $P(x)$
       \end{tabbing}
-\item Komplexität von Algorithmen
+\item Komplexit\"at von Algorithmen
 
       Hilfsmittel:
       \begin{enumerate}
@@ -75,7 +75,7 @@
       \end{enumerate}
 \item Abstrakte Daten-Typen und Daten-Strukturen
 
-      \textsl{Stack}, später \textsl{Map} 
+      \textsl{Stack}, sp\"ater \textsl{Map} 
 \item Sortier-Algorithmen
       \begin{enumerate}
       \item \emph{Insertion-Sort}
@@ -85,16 +85,16 @@
       \end{enumerate}
 \item Abbildungen (ADT \textsl{Map})
   
-      binäre Bäume, AVL-Bäume
+      bin\"are B\"aume, AVL-B\"aume
 \item Graphen
 
-      Berechnung kürzester Wege
+      Berechnung k\"urzester Wege
 \end{enumerate}
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Überblick  \hspace*{\fill} Seite \arabic{mypage}
+Ãœberblick  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +105,7 @@ Ziel der Vorlesung
 \end{center}
 
 \footnotesize
- Einführung in die Denkweisen und Methoden zur
+ Einf\"uhrung in die Denkweisen und Methoden zur
 \begin{enumerate}
 \item Konstruktion
 \item Analyse
@@ -122,15 +122,15 @@ Algorithmen und Programme
 \begin{enumerate}
 \item Algorithmus: 
   \begin{enumerate}
-  \item Konzept für systematisches Lösen eines Problems
+  \item Konzept f\"ur systematisches L\"osen eines Problems
   \item abstrakt
   \item oft: Darstellung als Pseudo-Code
-  \item auch: natürlich-sprachlicher Text
+  \item auch: nat\"urlich-sprachlicher Text
   \item Logik und Mengen-Lehre
   \end{enumerate}
 \item Programm:
   \begin{enumerate}
-  \item ausführbar
+  \item ausf\"uhrbar
   \item konkret
   \end{enumerate}
 \end{enumerate}
@@ -138,7 +138,7 @@ Algorithmen und Programme
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Überblick  \hspace*{\fill} Seite \arabic{mypage}
+Ãœberblick  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,7 +172,7 @@ Algorithmen und Datenstrukturen
 \item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
       Pearson, 2002.    
 \item \textsl{Heinz-Peter Gumm und Manfred Sommer},
-      \emph{Einführung in die Informatik},
+      \emph{Einf\"uhrung in die Informatik},
       Oldenbourg Verlag, 2006.
 \end{enumerate}
 
@@ -194,7 +194,7 @@ $t$ Test-Funktion mit Namen $n$ g.d.w.
 \begin{enumerate}
 \item $t$ ist ein String,
 \item $t = \symbol{34}\texttt{int }n(\texttt{char* x})\; \{ \;\cdots\; \}\symbol{34}$ 
-\item $t$ lässt sich vom C-Compiler fehlerfrei parsen
+\item $t$ l\"asst sich vom C-Compiler fehlerfrei parsen
 \end{enumerate}
 
 \textbf{Beispiele}
@@ -206,7 +206,7 @@ $t$ Test-Funktion mit Namen $n$ g.d.w.
       Deklaration, keine Definition, also keine Test-Funktion
 \item $s_4$ = ``{\tt int hugo(char* x) begin i := 1; end;}''
 
-      $s_4$ ist keine Test-Funktion, denn es lässt sich mit einem
+      $s_4$ ist keine Test-Funktion, denn es l\"asst sich mit einem
       \texttt{C}-Compiler nicht fehlerfrei parsen.
 \item $s_5$ = ``{\tt int hugo(int x) \{ return i*i; \}}''
 
@@ -273,11 +273,11 @@ Halte-Problem \hspace*{\fill} Seite \arabic{mypage}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{slide}{}
  \begin{center}
-Das Äquivalenz-Problem
+Das Ã„quivalenz-Problem
 \end{center}
 
 \footnotesize
-\textbf{Äquivalenz-Problem}:
+\textbf{Ã„quivalenz-Problem}:
 Gibt es \texttt{C}-Funktion 
 \begin{verbatim}
        int equal(char* p1, char* p2, char* a)
@@ -321,7 +321,7 @@ mit folgender  Spezifikation:
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Äquivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
+Ã„quivalenz-Problem  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,7 +340,7 @@ Fibonacci alias Leonardo Bigollo, ca.~1170 -- 1250
 \item (Genetisch manipulierte) Kaninchen leben ewig.
 \end{enumerate}
 
-Geschäftsplan: ein frisches Kaninchen-Paar kaufen
+Gesch\"aftsplan: ein frisches Kaninchen-Paar kaufen
 \begin{enumerate}
 \item $k(0) = 1$
 \item $k(1) = 1$
@@ -357,7 +357,7 @@ Geschäftsplan: ein frisches Kaninchen-Paar kaufen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Komplexität  \hspace*{\fill} Seite \arabic{mypage}
+Komplexit\"at  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -396,15 +396,15 @@ Komplexität  \hspace*{\fill} Seite \arabic{mypage}
   }
 \end{Verbatim}
 
-Übersetzen: \quad \texttt{javac Fibonacci.java}
+Ãœbersetzen: \quad \texttt{javac Fibonacci.java}
 
-Ausführen: \quad$\;$ \texttt{java Fibonacci}
+Ausf\"uhren: \quad$\;$ \texttt{java Fibonacci}
 
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Komplexität  \hspace*{\fill} Seite \arabic{mypage}
+Komplexit\"at  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -417,7 +417,7 @@ Komplexität  \hspace*{\fill} Seite \arabic{mypage}
 
 \footnotesize
 \[a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i} \quad
-     \mbox{für alle $n \in \N$}.\] 
+     \mbox{f\"ur alle $n \in \N$}.\] 
 
 Anfangs-Bedingungen:
 \\[0.3cm]
@@ -430,7 +430,7 @@ charakteristisches Polynom nicht entartet, falls
 \chi(x) = \prod\limits_{i=1}^k (x - \lambda_i) \quad
 \mbox{mit $i \not= j \rightarrow \lambda_i \not= \lambda_j$}
 \]
-allgemeine Lösung: 
+allgemeine L\"osung: 
 \[ a_n = \sum\limits_{i=1}^k \alpha_i \cdot \lambda_i^n \]
 Anfangs-Bedingungen liefern lineares Gleichungssystem zur Bestimmung der $\alpha_i$
 \[
@@ -460,7 +460,7 @@ Rekurrenz-Gleichungen  \hspace*{\fill} Seite \arabic{mypage}
 
 \footnotesize
 \[a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i} \quad
-     \mbox{für alle $n \in \N$}.\] 
+     \mbox{f\"ur alle $n \in \N$}.\] 
 
 Anfangs-Bedingungen:
 \\[0.3cm]
@@ -473,7 +473,7 @@ charakteristisches Polynom entartet, falls $\chi(x)$ mehrfache Nullstelle hat:
 \[
 \chi(x) = (x - \lambda)^r \cdot \phi(x) \quad \mbox{mit $r \geq 2$}
 \]
-allgemeine Lösung: 
+allgemeine L\"osung: 
 \[ a_n = \sum\limits_{i=0}^{r-1} \alpha_i \cdot n^i \cdot \lambda^n + \mbox{Lsg. von $\phi(x)$} \]
 bestimme Koeffizienten $\alpha_i$ aus Anfangs-Bedingungen
 
@@ -493,7 +493,7 @@ Rekurrenz-Gleichungen  \hspace*{\fill} Seite \arabic{mypage}
 \vspace*{-0.3cm}
 \footnotesize
 \[a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i} + c_{-1}\quad
-     \mbox{für alle $n \in \N$}.\] 
+     \mbox{f\"ur alle $n \in \N$}.\] 
 Anfangs-Bedingungen:
 \\[0.3cm]
 \hspace*{1.3cm}      
@@ -505,24 +505,24 @@ charakteristisches Polynom: \quad $\chi(x) = x^k - \sum\limits_{i=0}^{k-1} c_{i}
 \begin{enumerate}
 \item Fall: $\mathtt{sp}(\chi) \not= 0$.
 
-      Ansatz für spezielle Lösung: \quad $a_n = \delta$
+      Ansatz f\"ur spezielle L\"osung: \quad $a_n = \delta$
 
-      Lösung:
+      L\"osung:
       \vspace*{-0.5cm}
       \[ a_n = \delta = \bruch{c_{-1}}{\mathtt{sp}(\chi)} \]
 \item Fall: $\mathtt{sp}(\chi) = 0$, $\chi'(1) \not= 0$.
 
-      Ansatz für spezielle Lösung: \quad $a_n = \varepsilon \cdot n$
+      Ansatz f\"ur spezielle L\"osung: \quad $a_n = \varepsilon \cdot n$
 
-      Lösung:  
+      L\"osung:  
       \vspace*{-0.5cm}
       \[a_n = \bruch{c_{-1}}{\;\chi'(1)\;}\cdot n\]
       \vspace*{-0.5cm}
 \item Fall: $\mathtt{sp}(\chi) = 0$, $\chi'(1) = 0$,  $\chi''(1) \not= 0$.
 
-      Ansatz für spezielle Lösung: \quad $a_n = \varepsilon \cdot n^2$
+      Ansatz f\"ur spezielle L\"osung: \quad $a_n = \varepsilon \cdot n^2$
 
-      Lösung:  
+      L\"osung:  
       \vspace*{-0.5cm}
       \[a_n = \bruch{c_{-1}}{\;\chi''(1)\;}\cdot n^2\]
       \vspace*{-0.5cm}
@@ -543,11 +543,11 @@ Rekurrenz-Gleichungen  \hspace*{\fill} Seite \arabic{mypage}
 \end{center}
 
 \footnotesize
-allg.~Lösung inhomogenene lineare Rek.~Gl.: \\[0.3cm]
+allg.~L\"osung inhomogenene lineare Rek.~Gl.: \\[0.3cm]
 \hspace*{1.3cm}
-allg.~Lösung homogene Rek.~Gl.~ + spezielle Lösung
+allg.~L\"osung homogene Rek.~Gl.~ + spezielle L\"osung
 
-Bestimmung der Parameter der allg.~Lösung: 
+Bestimmung der Parameter der allg.~L\"osung: 
 \\[0.3cm]
 \hspace*{1.3cm}
 Einsetzen der Anfangs-Bedingungen
@@ -555,7 +555,7 @@ Einsetzen der Anfangs-Bedingungen
 \normalsize
  \begin{center}
   Inhomogene lineare Rekurrenz-Gleichungen \\
-  nicht-konstante Inhomogenität
+  nicht-konstante Inhomogenit\"at
 \end{center}
 \footnotesize
 
@@ -573,12 +573,12 @@ $\displaystyle a_{n+1} = 2 \cdot a_n + n \quad \mbox{mit $a_0 = 0$}$
       \hspace*{\fill} (3)
 
       1.+2.: \emph{diskretes Differenzieren}
-\item Berechne zusätzliche Anfangs-Bedingungen: 
+\item Berechne zus\"atzliche Anfangs-Bedingungen: 
 
       $a_1 = 2 \cdot a_0 + 0 = 0$.
-\item Lösen der inhomogenen Rekurrenz-Gleichung mit konstanter Inhomogenität
+\item L\"osen der inhomogenen Rekurrenz-Gleichung mit konstanter Inhomogenit\"at
 \end{enumerate}
-quadratische Inhomogenität: 
+quadratische Inhomogenit\"at: 
 $a_{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot a_{n+i} + c_{-1}\cdot n^2$
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -602,7 +602,7 @@ $\Oh$-Notation: Motivation
 Berechnung der Rechenzeit eines Programms
 \begin{enumerate}
 \item Kodiere Algorithmus in Programmiersprache
-\item Rekurrenz-Gleichungen für Anzahl 
+\item Rekurrenz-Gleichungen f\"ur Anzahl 
       \\[0.3cm]
       \hspace*{1.3cm}
       Zuweisungen, Additionen, Subtraktionen, $\cdots$
@@ -617,13 +617,13 @@ Probleme:
       \\[0.3cm]
       \hspace*{0.3cm}
       genaue Dauer von Operationen nicht vorhersagbar
-\item Ergebnis hängt ab von 
+\item Ergebnis h\"angt ab von 
       \\[0.3cm]
       \hspace*{1.3cm} Programmiersprache und Prozessor
       \\[0.3cm]
-      Keine Aussage über Algorithmus
+      Keine Aussage \"uber Algorithmus
 \end{enumerate}
-Benötigt: abstrakterer Begriff zur Angabe von Rechenzeit
+Ben\"otigt: abstrakterer Begriff zur Angabe von Rechenzeit
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
@@ -663,7 +663,7 @@ Abstrakter Begriff zur Erfassung der Rechenzeit
       \end{tabular}
 \item Wachstum Rechenzeit vs. Wachstum Eingabe
 
-      Verhalten bei großen Eingaben entscheidend 
+      Verhalten bei gro\3en Eingaben entscheidend 
 \end{enumerate}
 
 \vspace*{\fill}
@@ -821,7 +821,7 @@ Hauptsatz der Laufzeit-Funktionen \\
 \begin{enumerate}
 \item $\alpha,\beta \in \N$ mit $\alpha \geq 1$ und $\beta > 1$,
 \item $f:\N \rightarrow \R_+$,
-\item $g:\N \rightarrow \R_+$ genügt der Rekurrenz-Gleichung 
+\item $g:\N \rightarrow \R_+$ gen\"ugt der Rekurrenz-Gleichung 
       \\[0.2cm]
       \hspace*{1.3cm}
       $g(n) = \alpha \cdot g\left(n/\beta\right) + f(n)$,
@@ -958,7 +958,7 @@ Stack: Anwendungen
 
       JVM (Java Virtual Machine): Stack-Maschine
 \item \textsl{PostScript}
-\item Parameter-Übergabe bei Funktionen
+\item Parameter-Ãœbergabe bei Funktionen
 \item Parser
       \begin{enumerate}
       \item \textsl{Operator Precedence Parser}
@@ -1078,7 +1078,7 @@ Iterative Squaring \hspace*{\fill} Seite \arabic{mypage}
 
 \begin{slide}{}
   \begin{center}
-Sortieren durch Einfügen
+Sortieren durch Einf\"ugen
 \end{center}
 
 \footnotesize
@@ -1116,7 +1116,7 @@ Sortieren durch Einfügen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Sortieren durch Einfügen  \hspace*{\fill} Seite \arabic{mypage}
+Sortieren durch Einf\"ugen  \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1125,16 +1125,16 @@ Sortieren durch Einfügen  \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Eigenschaften des Algorithmus \\ \textsl{Sortieren durch Einfügen}
+Eigenschaften des Algorithmus \\ \textsl{Sortieren durch Einf\"ugen}
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item Distributivität von \texttt{le} über \texttt{insert}
+\item Distributivit\"at von \texttt{le} \"uber \texttt{insert}
 
       $\mathtt{le}\bigl(x, \mathtt{insert}(y,L) \bigr) \leftrightarrow x \preceq y \wedge \mathtt{le}(x,L)$. 
-\item Transitivität von \texttt{le}
+\item Transitivit\"at von \texttt{le}
 
       $x \preceq y \wedge \mathtt{le}(y,L) \rightarrow \mathtt{le}(x,L)$
 
@@ -1142,15 +1142,15 @@ Eigenschaften des Algorithmus \\ \textsl{Sortieren durch Einfügen}
 
       $x \preceq y \wedge \mathtt{isSorted}(L) \rightarrow \mathtt{le}(x,L)$.
 
-\item Distributivität von \texttt{isSorted} über \texttt{insert}
+\item Distributivit\"at von \texttt{isSorted} \"uber \texttt{insert}
 
       $\mathtt{isSorted}\bigl(\mathtt{insert}(x,S) \bigr) \leftrightarrow \mathtt{isSorted}(S)$
 \item Korrektheit von \texttt{sort}, Teil 1
       $\mathtt{isSorted}\bigl(\mathtt{sort}(L) \bigr)$. 
-\item Distributivität von \texttt{count} über \texttt{insert}
+\item Distributivit\"at von \texttt{count} \"uber \texttt{insert}
 
       $\mathtt{count}\bigl(x, \mathtt{insert}(y, S) \bigr) = \mathtt{eq}(x,y) + \mathtt{count}(x,S)$
-\item Distributivität von \texttt{count} über \texttt{sort} 
+\item Distributivit\"at von \texttt{count} \"uber \texttt{sort} 
 
       $\texttt{count}(x,L) = \texttt{count}\bigl(x, \texttt{sort}(L) \bigr)$
 \end{enumerate}
@@ -1158,7 +1158,7 @@ Eigenschaften des Algorithmus \\ \textsl{Sortieren durch Einfügen}
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Sortieren durch Einfügen --- Korrektheit \hspace*{\fill} Seite \arabic{mypage}
+Sortieren durch Einf\"ugen --- Korrektheit \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1362,7 +1362,7 @@ Merge-Sort,  nicht-rekursiv
 
 \textbf{Invariante}:
 \\[0.3cm]
-Für alle passenden $k$ und $l$ gilt: Das Teilfeld
+F\"ur alle passenden $k$ und $l$ gilt: Das Teilfeld
 \\[0.3cm]
 \hspace*{1.3cm}
 $\biggl[\mathtt{mArray}[k\cdot l,\; \cdots,\; k\cdot l+(l-1)]\biggr]$ 
@@ -1469,21 +1469,21 @@ Quick-Sort \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Hoare-Kalkül
+Hoare-Kalk\"ul
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 Hoare-Tripel: \qquad $\hoare{F}{P}{G}$
 
-$P$ erfüllt die Spez. ``wenn vorher $F$, dann nachher $G$''
+$P$ erf\"ullt die Spez. ``wenn vorher $F$, dann nachher $G$''
 
 Zuweisungs-Regeln:
 \begin{enumerate}
 \item $\hoare{F}{x = h(x);}{F\sigma} \quad \mathrm{mit} \quad \sigma = \bigl[x \mapsto h^{-1}(x)\bigr]$
 \item $\hoare{F}{x = c;}{F \wedge x = c}$
 \end{enumerate}
-Abschwächungs-Regel:
+Abschw\"achungs-Regel:
 \[ \bruch{\quad \hoare{F}{P}{G}, \qquad G \rightarrow H \quad}{\hoare{F}{P}{H}} \]
 Zusammengesetze Anweisungen:
 \[ \bruch{\quad\hoare{F_1}{P}{G_1}, \qquad \hoare{G_1}{Q}{G_2}\quad}{ \hoare{F_1}{P;Q}{G_2}} \]
@@ -1501,7 +1501,7 @@ Schleifen
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Hoare-Kalkül \hspace*{\fill} Seite \arabic{mypage}
+Hoare-Kalk\"ul \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1602,7 +1602,7 @@ Berechnung der Potenz \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Symbolische Programm-Ausführung
+Symbolische Programm-Ausf\"uhrung
 \end{center}
 \vspace*{0.5cm}
 
@@ -1636,7 +1636,7 @@ Indiziertes Programm
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Symbolische Programm-Ausführung \hspace*{\fill} Seite \arabic{mypage}
+Symbolische Programm-Ausf\"uhrung \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1668,7 +1668,7 @@ Symbolische Programm-Ausführung \hspace*{\fill} Seite \arabic{mypage}
 
 
 \begin{center}
-Binäre Bäume
+Bin\"are B\"aume
 \end{center}
 
 \footnotesize
@@ -1703,7 +1703,7 @@ Binäre Bäume
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Binäre Bäume \hspace*{\fill} Seite \arabic{mypage}
+Bin\"are B\"aume \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1712,7 +1712,7 @@ Binäre Bäume \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-AVL-Bäume
+AVL-B\"aume
 \end{center}
 
 \footnotesize
@@ -1746,7 +1746,7 @@ AVL-Bäume
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-AVL-Bäume \hspace*{\fill} Seite \arabic{mypage}
+AVL-B\"aume \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1804,7 +1804,7 @@ Implementierung von \textsl{restore}, 2. Fall
 \normalsize
 
 \begin{center}
-AVL-Bäume
+AVL-B\"aume
 \end{center}
 
 \footnotesize
@@ -1840,7 +1840,7 @@ AVL-Bäume
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-AVL-Bäume \hspace*{\fill} Seite \arabic{mypage}
+AVL-B\"aume \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1895,10 +1895,10 @@ Abbildung von Namen auf Zahlen
 
 \footnotesize
 \begin{enumerate}
-\item Annahme: Namen haben Länge 8
+\item Annahme: Namen haben L\"ange 8
       \begin{itemize}
-      \item kürzere Namen mit Blanks auffüllen
-      \item längere Namen abschneiden
+      \item k\"urzere Namen mit Blanks auff\"ullen
+      \item l\"angere Namen abschneiden
       \end{itemize}
 \item Buchstaben als Ziffern $\{0, \cdots 26\}$ interpretieren:
   
@@ -1915,11 +1915,11 @@ Abbildung von Namen auf Zahlen
 \end{enumerate}
 Probleme: 
 \begin{enumerate}
-\item Größe des Feldes: \\[0.2cm]
+\item Gr\"o\3e des Feldes: \\[0.2cm]
       \hspace*{1.3cm} $(27^8-1) / 26 + 1 = 10\,862\,674\,481$ \\[0.2cm]
 \item Funktion $\textsl{code}: \Sigma^* \rightarrow \mathbb{N}$ nicht bijektiv:
   
-      nur die ersten 8 Buchstaben werden berücksichtigt.
+      nur die ersten 8 Buchstaben werden ber\"ucksichtigt.
 \end{enumerate}
 
 \vspace*{\fill}
@@ -2161,9 +2161,9 @@ Generische Felder \hspace*{\fill} Seite \arabic{mypage}
 \setcounter{enumi}{13}
 \item \texttt{Iterator<E> iterator()}
 
-      $c.\mathtt{iterator}()$ liefert Iterator für Zusammenfassungen $c$
+      $c.\mathtt{iterator}()$ liefert Iterator f\"ur Zusammenfassungen $c$
 
-      ermöglicht erweiterte \texttt{for}-Schleife
+      erm\"oglicht erweiterte \texttt{for}-Schleife
       \\[0.2cm]
       \hspace*{1.3cm} \texttt{for (E e: c) \{} \\
       \hspace*{2.3cm} \texttt{System.out.println(e);} \\
@@ -2179,10 +2179,10 @@ Schnittstelle \texttt{Iterator<E>}
 \begin{enumerate}
 \item \texttt{boolean hasNext()}
 
-      noch nicht alle Elemente aufgezählt
+      noch nicht alle Elemente aufgez\"ahlt
 \item \texttt{E next()}
 
-      liefert nächstes Element
+      liefert n\"achstes Element
 \item \texttt{void remove()}
 
       entfernt zuletzt geliefertes Element 
@@ -2216,7 +2216,7 @@ Bedingung: Elemente vergleichbar
       $s.\mathtt{first}()$: \quad kleinstes Element von $s$
 \item \texttt{E last()}
 
-      $s.\mathtt{last}()$: \quad größtes Element von $s$.
+      $s.\mathtt{last}()$: \quad gr\"o\3tes Element von $s$.
 \end{enumerate}
 Konstruktoren
 \begin{enumerate}
@@ -2228,7 +2228,7 @@ Konstruktoren
 \vspace*{0.5cm}
 
 \begin{center}
-Implementierung: Rot-Schwarz-Bäume  
+Implementierung: Rot-Schwarz-B\"aume  
 \end{center}
 
 
@@ -2246,22 +2246,22 @@ Implementierung: Rot-Schwarz-Bäume
 \normalsize
 
 \begin{center}
-Rot-Schwarz-Bäume
+Rot-Schwarz-B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
 \begin{enumerate}
-\item Näherungsweise balancierte binäre Bäume.
+\item N\"aherungsweise balancierte bin\"are B\"aume.
 \item Knoten markiert: rot oder schwarz
 \item Wurzel: schwarz.
 \item Kinder eines roten Knotens: schwarz. 
 \item Kinder eines schwarzen Knotens: rot oder schwarz.  
-\item Höhe:  rote Knoten werden nicht gezählt.
-\item Linker und rechter Teil-Baum: selbe Höhe.
+\item H\"ohe:  rote Knoten werden nicht gez\"ahlt.
+\item Linker und rechter Teil-Baum: selbe H\"ohe.
 \end{enumerate}
 
-Komplexität
+Komplexit\"at
 \begin{enumerate}
 \item $\textsl{find}()$:   \quad $\Oh\bigl(\log(n)\bigr)$
 \item $\textsl{insert}()$: \quad $\Oh\bigl(\log(n)\bigr)$
@@ -2293,18 +2293,18 @@ Komplexität
 
       Load-Faktor: $0.75$ 
 
-      Initiale Größe des Feldes: 16
+      Initiale Gr\"o\3e des Feldes: 16
 \item \texttt{HashSet(Collection<E> $c$)}
 
       Load-Faktor: $0.75$.
 \item \texttt{HashSet(int $n$)}
   
-      Initiale Größe: $n$.  
+      Initiale Gr\"o\3e: $n$.  
 
       Load-Faktor: $0.75$.
 \item \texttt{HashSet(int $n$, float $\alpha$)}
 
-      Initiale Größe: $n$.  
+      Initiale Gr\"o\3e: $n$.  
 
       Load-Faktor: $\alpha$.
 \end{enumerate}
@@ -2329,7 +2329,7 @@ Komplexität
 \end{center}
 
 \footnotesize
-zusätzlich: Index
+zus\"atzlich: Index
 \begin{enumerate}
 \item \texttt{E get(int $i$)}
 
@@ -2339,27 +2339,27 @@ zusätzlich: Index
       $l.\mathtt{set}(i, e)$: \quad ersetze $i$-te Element.
 \item \texttt{add}, \texttt{addAll}: 
 
-      Einfügen am Ende der Liste
+      Einf\"ugen am Ende der Liste
 \item \texttt{void add(int $i$, E $e$)}
 
-      Einfügen an Position $i$ 
+      Einf\"ugen an Position $i$ 
 \item \texttt{void addAll(int $i$, Collection<E> $c$)}
 
-      Einfügen an Position $i$ 
+      Einf\"ugen an Position $i$ 
 \end{enumerate}
 
 Implementierungen
 \begin{enumerate}
 \item \texttt{LinkedList}: \quad verkettete Listen
 
-      Komplexität $l.\mathtt{get}(i)$, $l.\mathtt{set}(i,e)$: \quad linear
+      Komplexit\"at $l.\mathtt{get}(i)$, $l.\mathtt{set}(i,e)$: \quad linear
 
-      Komplexität $l.\mathtt{add}(e)$: \hspace*{3.5cm} konstant
+      Komplexit\"at $l.\mathtt{add}(e)$: \hspace*{3.5cm} konstant
 \item \texttt{ArrayList}: \quad Feld
 
-      Komplexität $l.\mathtt{get}(i)$, $l.\mathtt{set}(i,e)$: \quad konstant
+      Komplexit\"at $l.\mathtt{get}(i)$, $l.\mathtt{set}(i,e)$: \quad konstant
 
-      Komplexität $l.\mathtt{add}(0,e)$: \hspace*{2.9cm} linear
+      Komplexit\"at $l.\mathtt{add}(0,e)$: \hspace*{2.9cm} linear
 \end{enumerate}
 
 \vspace*{\fill}
@@ -2386,19 +2386,19 @@ Implementierungen
   
       $q.\mathtt{element}()$: erstes Element 
 
-      $q$ wird nicht verändert
+      $q$ wird nicht ver\"andert
 
       $q$ leer, dann \texttt{NoSuchElementException} 
 \item \texttt{boolean offer(E $e$)}
 
-      $q.\mathtt{offer}(e)$: \quad einfügen von e $e$ am Ende
+      $q.\mathtt{offer}(e)$: \quad einf\"ugen von e $e$ am Ende
 
       $q$ voll:  \texttt{false}, sonst \texttt{true}.
 \item \texttt{E peek()}
 
       $q.\mathtt{element}()$: erstes Element 
 
-      $q$ wird nicht verändert
+      $q$ wird nicht ver\"andert
 
       $q$ leer: Ergebnis \texttt{null} 
 \item \texttt{E poll()}
@@ -2408,7 +2408,7 @@ Implementierungen
       Element wird entfernt
 
       $q$ leer: Ergebnis \texttt{null} 
-      Warteschlange leer ist, wird \texttt{null} zurück gegeben.
+      Warteschlange leer ist, wird \texttt{null} zur\"uck gegeben.
 \item \texttt{E remove()}
 
       $q.\mathtt{remove}()$: erstes Element 
@@ -2453,12 +2453,12 @@ Abbildungen: \texttt{Map<K,V>}
       entspricht  $\texttt{delete}()$ 
 \item \texttt{void clear()}
 
-      löscht alle Zuordnungen
+      l\"oscht alle Zuordnungen
 \item \texttt{boolean containsValue(V $v$)}
 
       $m.\mathtt{containsValue}(v) \leftrightarrow \Bigl(\exists k: m.\mathtt{get}(k) = v\Bigr)$
 
-      Komplexität: linear 
+      Komplexit\"at: linear 
 \item \texttt{boolean isEmpty()}
   
 \end{enumerate}
@@ -2488,12 +2488,12 @@ Abbildungen: \texttt{Map<K,V>}
       $m.\mathtt{keySet}() = \{ k \mid m.\mathtt{get}(k) \not= \mathtt{null} \}$
       \vspace*{0.3cm}
 
-      \emph{Ansicht} der Schlüssel (engl. \emph{view})
+      \emph{Ansicht} der Schl\"ussel (engl. \emph{view})
       \begin{enumerate}
-      \item Löschen in $m.\mathtt{keySet}()$
+      \item L\"oschen in $m.\mathtt{keySet}()$
 
             Zuordnung verschwindet aus $m$
-      \item kein Einfügen: 
+      \item kein Einf\"ugen: 
 
             $m.\mathtt{keySet}().\mathtt{add}(x) \mapsto \texttt{UnsupportedOperationException}$
       \end{enumerate}
@@ -2504,12 +2504,12 @@ Abbildungen: \texttt{Map<K,V>}
 
       $m.\mathtt{values}() = \{ v \mid \exists k: m.\mathtt{get}(k) = v \}$
 
-      Löschen erlaubt, Einfügen nicht
+      L\"oschen erlaubt, Einf\"ugen nicht
 \item \texttt{void putAll(Map<K,V> $t$)}
 
       $m.\mathtt{putAll}(t) \approx m \cup t$ 
 
-      Zuordnungen aus $t$ überschreiben Zuordnungen aus $m$
+      Zuordnungen aus $t$ \"uberschreiben Zuordnungen aus $m$
 \item \texttt{int size()}
 
       $m.\mathtt{size}() = \#\{ k \mid m.\mathtt{get}(k) \not= \mathtt{null} \}$
@@ -2534,9 +2534,9 @@ Abbildungen: \texttt{Map<K,V>}
 \vspace*{0.5cm}
 
 \footnotesize
-Bedingung:  Schlüssel geordnet
+Bedingung:  Schl\"ussel geordnet
 \begin{enumerate}
-\item natürlicher Vergleich: \quad \texttt{K implements Comparable<K>}
+\item nat\"urlicher Vergleich: \quad \texttt{K implements Comparable<K>}
 
       \hspace*{1.3cm} $k_1.\mathtt{compareTo}(k_2)$
 
@@ -2583,21 +2583,21 @@ Bedingung:  Schlüssel geordnet
 
       Load-Faktor: $0.75$ 
 
-      initiale Größe: 16
+      initiale Gr\"o\3e: 16
 \item \texttt{HashMap(int $n$)}
   
       leere Hash-Tabelle.  
 
       Load-Faktor: $0.75$ 
 
-      initiale Größe: $n$
+      initiale Gr\"o\3e: $n$
 \item \texttt{HashMap(int $n$, float $\alpha$)}
 
       leere Hash-Tabelle.  
 
       Load-Faktor: $\alpha$ 
 
-      initiale Größe: $n$
+      initiale Gr\"o\3e: $n$
 \item \texttt{HashMap(Map<K,V> $m$)}
 
       Load-Faktor: $0.75$ 
@@ -2607,7 +2607,7 @@ Bedingung:  Schlüssel geordnet
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Prioritäts-Warteschlangen \hspace*{\fill} Seite \arabic{mypage}
+Priorit\"ats-Warteschlangen \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2616,7 +2616,7 @@ Prioritäts-Warteschlangen \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Prioritäts-Warteschlangen
+Priorit\"ats-Warteschlangen
 \end{center}
 \vspace*{0.5cm}
 
@@ -2656,7 +2656,7 @@ Prioritäts-Warteschlangen
 \normalsize
 
 \begin{center}
-Prioritäts-Warteschlangen --- Axiome \\[0.4cm]
+Priorit\"ats-Warteschlangen --- Axiome \\[0.4cm]
 Referenz-Implementierung
 \end{center}
 \vspace*{0.5cm}
@@ -2678,12 +2678,12 @@ Referenz-Implementierung
 
 Einfache Implementierungen: \quad geordnete Liste
 
-Komplexität von $Q.\textsl{insert}(k,v)$: \quad $\Oh(\#Q)$
+Komplexit\"at von $Q.\textsl{insert}(k,v)$: \quad $\Oh(\#Q)$
 
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Prioritäts-Warteschlangen: Verhalten \hspace*{\fill} Seite \arabic{mypage}
+Priorit\"ats-Warteschlangen: Verhalten \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2882,12 +2882,12 @@ Heap --- Implementierung \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Vollständige binäre Bäume
+Vollst\"andige bin\"are B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-vollständiger binärer Baum
+vollst\"andiger bin\"arer Baum
 
 \epsfig{file=../complete-tree.eps,scale=1.8}
  
@@ -2906,7 +2906,7 @@ vollständiger binärer Baum
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-vollständige binäre Bäume \hspace*{\fill} Seite \arabic{mypage}
+vollst\"andige bin\"are B\"aume \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2915,16 +2915,16 @@ vollständige binäre Bäume \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-Nahezu vollständige binäre Bäume
+Nahezu vollst\"andige bin\"are B\"aume
 \end{center}
 \vspace*{0.5cm}
 
 \footnotesize
-nahezu vollständiger binärer Baum
+nahezu vollst\"andiger bin\"arer Baum
 
 \epsfig{file=../nearly-complete-tree.eps,scale=1.5}
 
-nicht nahezu vollständiger binärer Baum
+nicht nahezu vollst\"andiger bin\"arer Baum
 
 \epsfig{file=../not-nearly-complete-tree.eps,scale=1.5}
 
@@ -2932,7 +2932,7 @@ nicht nahezu vollständiger binärer Baum
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-nahezu vollständige binäre Bäume \hspace*{\fill} Seite \arabic{mypage}
+nahezu vollst\"andige bin\"are B\"aume \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3040,7 +3040,7 @@ Zusammenfassen der einzelnen Knoten:
 \normalsize
 
 \begin{center}
- Berechnung kürzester Wege
+ Berechnung k\"urzester Wege
 \end{center}
 \vspace*{0.5cm}
 
@@ -3052,7 +3052,7 @@ Zusammenfassen der einzelnen Knoten:
 \item $\edges \subseteq \nodes \times \nodes$ ist Menge von \textsl{Kanten}.
 \item $\weight{\cdot}: \edges \rightarrow \N \backslash\{0\}$ 
 
-      Funktion, die jeder Kante positive \textsl{Länge} zuordnet.
+      Funktion, die jeder Kante positive \textsl{L\"ange} zuordnet.
 \end{enumerate}
 
 \textsl{Pfad} $P$ ist  Liste  $P = [ x_1, x_2, x_3, \cdots, x_n ]$  mit\\[0.3cm]
@@ -3061,7 +3061,7 @@ $\forall i \in \{1, \cdots, n-1\}\colon \pair(x_i,x_{i+1}) \in \edges$.
 
 $\mathbb{P}$:  Menge aller Pfade in $G$
 
-Pfad-Länge:  \quad
+Pfad-L\"ange:  \quad
 $\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1}
 \Weight{\pair(x_i,x_{i+1})}$. 
 
@@ -3079,7 +3079,7 @@ Shortest-Path Funktion \\[0.3cm]
 \vspace*{\fill}
 \tiny \addtocounter{mypage}{1}
 \rule{17cm}{1mm}
-Kürzeste Wege \hspace*{\fill} Seite \arabic{mypage}
+K\"urzeste Wege \hspace*{\fill} Seite \arabic{mypage}
 \end{slide}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3252,15 +3252,15 @@ Die Monte-Carlo-Methode
 
 \footnotesize
 \begin{enumerate}
-\item Idee:  Problem durch zufällige Simulation lösen
+\item Idee:  Problem durch zuf\"allige Simulation l\"osen
 \item Anwendungen
       \begin{enumerate}
       \item Berechnung komplexer Volumina oder allgemein mehrfacher Integrale
-      \item Verhalten eines Systems hängt von zufälligen Einflüssen ab
+      \item Verhalten eines Systems h\"angt von zuf\"alligen Einfl\"ussen ab
 
-            Beispiel: U-Bahn, Anzahl der Passagiere schwankt zufällig
+            Beispiel: U-Bahn, Anzahl der Passagiere schwankt zuf\"allig
       \item Berechnung von Wahrscheinlichkeiten beim \\
-            Glückspiel
+            Gl\"uckspiel
 
             Gewinn-Wahrscheinlichkeit bei Poker
       \item Historisch: Konstruktion der ersten Atom-Bombe
@@ -3270,7 +3270,7 @@ Die Monte-Carlo-Methode
 Beispiele in der Vorlesung
 \begin{enumerate}
 \item Berechnung von $\pi$
-\item Berechnung zufälliger Permutationen 
+\item Berechnung zuf\"alliger Permutationen 
 
       Anwendung: Gewinn-Wahrscheinlichkeiten beim \\
       Texas Hold'em
@@ -3278,8 +3278,8 @@ Beispiele in der Vorlesung
 
 Merkmale:
 \begin{enumerate}
-\item gut geeignet für grobe Abschätzungen
-\item aufwendig für hohe Genauigkeit
+\item gut geeignet f\"ur grobe Absch\"atzungen
+\item aufwendig f\"ur hohe Genauigkeit
 \end{enumerate}
 
 
