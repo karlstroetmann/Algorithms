@@ -91,7 +91,7 @@ $\sigma = [ x \mapsto x - 1 ]$ und damit hat $F\sigma$ die Form
 von Formeln ausdr\"ucken zu k\"onnen, die ihrerseits das Gleichheitszeichen ``$=$''
 enthalten.)  Damit lautet die Spezifikation also 
 \[ \hoare{x = 7}{x := x + 1;}{x - 1 = 7}. \]
-Wegen der Äquivalenz $x - 1 = 7 \leftrightarrow x = 8$ ist das logisch dasselbe wie
+Wegen der \"Aquivalenz $x - 1 = 7 \leftrightarrow x = 8$ ist das logisch dasselbe wie
 \[ \hoare{x = 7}{x := x + 1;}{x = 8} \]
 und diese Spezifikation ist offenbar korrekt, denn wenn $x$ vor der Zuweisung
 ``\texttt{x := x + 1;}'' den Wert $7$ hat, dann hat $x$ hinterher den Wert 8.
@@ -152,7 +152,7 @@ denn wenn nach Ausf\"uhrung von $P$ die Formel $G$ gilt, dann gilt die Formel $H
 Wir fassen diesen Tatbestand in einer \emph{Verifikations-Regel} zusammen:
 \\[-0.2cm]
 \[ \bruch{\quad \hoare{F}{P}{G}, \qquad G \rightarrow H \quad}{\hoare{F}{P}{H}}. \]
-Über dem Bruchstrich stehen hier die beiden \emph{Pr\"amissen} und unter dem Bruchstrich steht
+\"Uber dem Bruchstrich stehen hier die beiden \emph{Pr\"amissen} und unter dem Bruchstrich steht
 die \emph{Konklusion}.  Die Konklusion und die erste Pr\"amisse sind 
 Hoare-Tripel, die zweite Pr\"amisse  ist eine ganz normale logische Formel.
 Falls die Pr\"amissen wahr sind, so gilt auch die Konklusion.
@@ -167,7 +167,7 @@ Spezifikation
 denn wenn anfangs $F_1$ gilt und zun\"achst $P$ ausgef\"uhrt wird, dann gilt danach $G_1$.
 Aus $G_1$ folgt $F_2$ und wenn das Programm-Fragment $Q$ in der Situation $F_2$ ausgef\"uhrt
 wird, dann wissen wir, dass danach $G_2$ gilt.
-Wir fassen diese Überlegungen in einer Verifikations-Regel zusammen:
+Wir fassen diese \"Uberlegungen in einer Verifikations-Regel zusammen:
 \\[-0.2cm]
 \[ \bruch{\quad\hoare{F_1}{P}{G_1}, \qquad G_1 \rightarrow F_2, \qquad \hoare{F_2}{Q}{G_2}\quad}{
     \hoare{F_1}{P;Q}{G_2}} \]

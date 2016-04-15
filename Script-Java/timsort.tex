@@ -343,7 +343,7 @@ dass diese Invarianten bei jedem Schleifendurchlauf erhalten bleiben.
       \hspace*{1.3cm}
       \texttt{(left + middle) / 2}
       \\[0.2cm]
-      zu einem Überlauf kommen kann.
+      zu einem \"Uberlauf kommen kann.
 \item Falls $\mathtt{mArray}[i] < \mathtt{mArray}[\textsl{middle}]$ ist, so sind alle Elemente
       rechts von dem Index \textsl{middle} sicher gr\"o\3er als das einzusortierende Element 
       $\textsl{mArray}[i]$ und damit gilt f\"ur den Index $k$, den wir suchen, die Ungleichung
@@ -840,7 +840,7 @@ Wir diskutieren nun die Details der in Abbildung \ref{fig:TimSort.java:gallop} g
       \\[0.2cm]
       Dabei merken wir uns jedesmal den alten Wert von $k$ in der Variablen \textsl{lastK}.
 \item Bei sehr gro\3en Feldern kann es bei der Berechnung von $2 * k + 1$ zu einem
-      Überlauf kommen.  Einen Überlauf k\"onnen wir daran erkennen, dass $2 * k + 1$ negativ wird.
+      \"Uberlauf kommen.  Einen \"Uberlauf k\"onnen wir daran erkennen, dass $2 * k + 1$ negativ wird.
       In diesem Fall setzen wir $k$ auf den maximal zul\"assigen Wert $l$.
 \item Wenn die \texttt{while}-Schleife in Zeile 7 abbricht, kann es passieren, dass $k$ \"uber die
       rechte Intervall-Grenze 
