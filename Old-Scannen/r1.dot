@@ -1,9 +1,0 @@
-digraph G {
-    rankdir=LR;    
-    Start->q1;
-    Start [shape = plaintext];
-    subgraph cluster0 {
-        q1 -> f1 [ color = white ];
-        f1 [ peripheries = 2 ];
-    };
-}
