@@ -45,29 +45,32 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
             unimportant details when discussing the runtime of algorithms.  
       \item \href{http://en.wikipedia.org/wiki/Recurrence_relation}{\emph{Recurrence relations}}
             are discrete analogues of differential equations.  Recurrence relations occur naturally
-            when analyzing the runtime of algorithms.  We present the Master Theorem that can be
+            when analyzing the runtime of algorithms.  We present the 
+            \href{https://en.wikipedia.org/wiki/Master_theorem}{\emph{Master Theorem}} that can be
             used to describe the growth of functions that are specified via recurrence relations.
       \end{enumerate}
-\pagebreak
-
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}.
 
       Abstract data types are a means to describe the behavior of an algorithm in a concise way.
+      Furthermore, abstract data types are part of the foundations of 
+      \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{\emph{object-oriented programmming}}. 
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}.
 
-      Sorting algorithm are the algorithms that are most frequently used in practice.  As these
-      algorithms are, furthermore, quite easy to understand they serve best for an introduction to
-      the design of algorithms.  We discuss the following sorting algorithms:
+      Sorting algorithm are the algorithms that are most frequently used in practice.  Furthermore,
+      these algorithms are easy to understand and easy to analyze.  Therefore, we start our
+      discussion of algorithms and their complexity with sorting algorithms. 
+      In this lecture, we discuss the following sorting algorithms:
       \begin{enumerate}
       \item \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort},
       \item \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort},
-      \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, and
-      \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}.
+      \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, 
+      \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, and
+      \item \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}.
       \end{enumerate}
-\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
-  
-      The most important property of an algorithm is its correctness.  The \emph{Hoare calculus}
-      is a method to investigate the correctness of an algorithm.  
+%\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
+%  
+%      The most important property of an algorithm is its correctness.  The \emph{Hoare calculus}
+%      is a method to investigate the correctness of an algorithm.  
 
 \item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Associative arrays}.
   
@@ -87,6 +90,9 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       In particular, we will discuss
       \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
       for computing the shortest path.
+      Furthermore, we discuss 
+      \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
+      \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{\emph{minimum spannning tree}} of a graph.
 \item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
  
       Many important problems either do not have an exact solution at all or the computation of an
@@ -97,10 +103,10 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       Carlo method.
 \end{enumerate}
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
-Instead, I want to teach how to think algorithmically:  At the end of these
-lectures, you should be able to develop your own algorithms yourself.  This is a process that
-requires a lot of creativity on your side, as there are no cookbook recipes that can be followed.
-However, once you are acquainted with a fair number of algorithms, you should be able to discover
+Instead, my goal is to enable you to think algorithmically:  At the end of these
+lectures, you should be able to develop your own algorithms.  This is a process that
+requires a lot of creativity on your side.
+However, once you are acquainted with a fair number of algorithms, you should be able to develop
 new algorithms on your own.
 
 \section{Algorithms and Programs}
@@ -111,7 +117,7 @@ algorithm by a program we have to cover every detail, be it trivial or not.  On 
 to specify an algorithm it is often sufficient to describe the interesting aspects.  It is
 quite possible for an algorithm to leave a number of questions open.
 
-In the literature, algorithms are mostly presented as pseudo code.  Syntactically, pseudo code looks
+In the literature, algorithms are usuallyxbnjjxjxjk presented as pseudo code.  Syntactically, pseudo code looks
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
 described in natural language.   However, it is important to realize that a piece of pseudo code is
 \underline{not} an algorithm but is only a \emph{ representation} of an algorithm.  However, the
@@ -163,12 +169,7 @@ the correctness of the implementation.  Therefore, the third goal is strongly re
 goal.  
 
 \section{Literature}
-These lecture notes are available online at
-\\[0.2cm]
-\hspace*{-0.3cm}
-\href{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}.  
-\\[0.2cm]
-They are intended to be the main source for my lecture.  Additionally, I want
+These lecture notes are intended to be the main source for my lecture.  Additionally, I want
 to mention those books that have inspired me most.
 \begin{enumerate}
 \item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
@@ -178,10 +179,9 @@ to mention those books that have inspired me most.
       of additional material.  This book seems to be the best choice for the working practitioner.
       Furthermore, \href{http://www.cs.princeton.edu/~rs/}{Professor Sedgewick} teaches an excellent 
       \href{https://www.coursera.org/course/algs4partI}{course} on algorithms that is available at
-      \href{https://www.coursera.org/}{coursera.org} that is based on this book.
-
-      If you intend to buy any of the books mentioned in this section, then I would strongy advise
-      you to buy this book.
+      \href{https://www.coursera.org/}{coursera.org} that is based on this book.  Furthermore, all
+      the algorithms discussed in this book are implemented in \textsl{Java}, so reading this book
+      also strengthens your knowledge of \textsl{Java}.
 \item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
       \emph{Data Structures and Algorithms}, Addison-Wesley, 1987, \cite{aho:87}.
       
@@ -213,7 +213,7 @@ to mention those books that have inspired me most.
       written by \emph{Kurt Mehlhorn and Peter Sanders} \cite{mehlhorn:2008} is another good text
       book on algorithms that is available online.
 \end{enumerate}
-\pagebreak
+
 
 \section{A Final Remark}
 There is one final remark I would like to make at this point:  Frequently, I get questions from
@@ -234,12 +234,13 @@ please take the time and send me an email.  My email address is
 If you are familiar with \href{http://github.com}{\texttt{github}}, you might even consider
 sending me a \href{https://help.github.com/articles/using-pull-requests}{pull request}.
 
-\section{An Offer}
 Finally, if you have any questions regarding the material presented in this course, you are
-welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or via
-\textsl{Skype}.  My \textsl{Skype} name is \texttt{karlstroetmann}.  It is not necessary for you to
-struggle for hours with a question that I can answer in minutes.  Furthermore, your questions do
-give me some valuable feedback about which parts of my lecture notes I should improve.
+welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or 
+\textsl{Skype}.  My \textsl{Skype} name is \texttt{karlstroetmann}.  If you think that others might
+have the same question, it is best if you ask your question via
+\href{https://discordapp.com}{\texttt{discord}}.  If you need an invitation for my discord server,
+do not hesitate to send me an email.  
+All your questions are welcome since they give me valuable feedback how to improve my lecture. 
 
 
 %%% local Variables: 
