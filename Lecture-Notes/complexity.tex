@@ -2,7 +2,7 @@
 In diesem Kapitel f\"uhren wir 
 Rekurrenz-Gleichungen\footnote{
 Rekurrenz-Gleichungen werden in der Literatur auch als \emph{Rekursions-Gleichungen} bezeichnet.}
-ein und zeigen, wie diese in einfachen F\"allen gel\"ost werden k\"onnen.  Au\3erdem stellen wir
+ein und zeigen, wie diese in einfachen F\"allen gel\"ost werden k\"onnen.  Au\ss{}erdem stellen wir
 die $O$-Notation vor.  Diese beiden Begriffe ben\"otigen wir, um die Laufzeit von
 Algorithmen analysieren zu k\"onnen.  Die Algorithmen selber stehen in diesem Kapitel noch
 im Hintergrund.
@@ -41,7 +41,7 @@ Kaninchen-Paare nach $n$ Monaten mit $k(n)$, so gilt:
       Kaninchen, die zum Zeitpunkt $n+1$ vorhanden sind, auch noch zum Zeitpunkt $n+2$
       vorhanden. Dies erkl\"art den Term $k(n+1)$. 
 \end{enumerate}
-Die Folge der Zahlen $\bigl(k(n)\bigr)_{n\in\mathbb{N}}$ hei\3t Folge der \emph{Fibonacci-Zahlen}.  Das \Java-Programm in Abbildung
+Die Folge der Zahlen $\bigl(k(n)\bigr)_{n\in\mathbb{N}}$ hei\ss{}t Folge der \emph{Fibonacci-Zahlen}.  Das \Java-Programm in Abbildung
 \ref{fig:fibonacci} auf Seite \pageref{fig:fibonacci} berechnet diese Zahlen.
 
 \begin{figure}[!h]
@@ -201,7 +201,7 @@ uns die berechneten Werte merken.  Dazu k\"onnen wir in \Java\ ein Feld benutzen
 auf Seite \pageref{fig:fibonacci-dynamic} angegebenen Programm.
 Da die Werte der Funktion \texttt{fibonacci}() exponentiell wachsen, reichen 32-Bit-Zahlen
 nicht aus, um diese Werte darzustellen.  Wir verwenden daher die Klasse
-\texttt{BigInteger}, mit der sich ganze Zahlen beliebiger Gr\"o\3e darstellen lassen.
+\texttt{BigInteger}, mit der sich ganze Zahlen beliebiger Gr\"o\ss{}e darstellen lassen.
 Da Felder in \Java\ genau wie in \texttt{C} mit 0 beginnend indiziert werden,
 hat ein Feld, dessen oberster Index $n$ ist, insgesamt $n+1$ Elemente.  Wir legen daher in
 Zeile 19 ein Feld von $n+1$ Elementen an.
@@ -253,7 +253,7 @@ Zeile 19 ein Feld von $n+1$ Elementen an.
 Wir waren bei der Analyse der Komplexit\"at des ersten Programms zur Berechnung der
 Fibonacci-Zahlen auf die Gleichung \\[0.1cm]
 \hspace*{1.3cm} $a_{i+2} = a_{i+1} + {a_i} + 1$ \quad f\"ur alle $i \in \mathbb{N}$ \\[0.1cm]
-gesto\3en. Gleichungen dieser Form treten bei der Analyse der Komplexit\"at rekursiver
+gesto\ss{}en. Gleichungen dieser Form treten bei der Analyse der Komplexit\"at rekursiver
 Programme h\"aufig auf. Wir wollen uns daher in diesem Abschnitt n\"aher mit solchen
 Gleichungen besch\"aftigen.
 
@@ -285,12 +285,12 @@ eindeutig bestimmt: Die Werte $a_n$ f\"ur $n < k$ sind durch die Anfangs-Bedingu
 alle weiteren Werte k\"onnen dann durch die Rekurrenz-Gleichung (\ref{eq:lhrg}) bestimmt werden.
 Noch  etwas zur Nomenklatur:
 \begin{enumerate}
-\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\3t \emph{linear}, weil die Glieder der Folge $(a_n)_n$ nur
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\ss{}t \emph{linear}, weil die Glieder der Folge $(a_n)_n$ nur
       linear in der Gleichung (\ref{eq:lhrg}) auftreten.  Ein Beispiel f\"ur eine
       Rekurrenz-Gleichung, die nicht linear ist, w\"are \\[0.1cm]
       \hspace*{1.3cm} $a_{n+1} = a_n^2$ \quad f\"ur alle $n \in \mathbb{N}$. \\[0.1cm]
       Nicht-lineare Rekurrenz-Gleichungen sind nur in Spezialf\"allen geschlossen l\"osbar.
-\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\3t \emph{homogen}, weil auf der rechten Seite
+\item Die Rekurrenz-Gleichung (\ref{eq:lhrg}) hei\ss{}t \emph{homogen}, weil auf der rechten Seite
       dieser Gleichung kein konstantes Glied mehr auftritt.  Ein Beispiel f\"ur eine
       Gleichung, die nicht homogen ist (wir sprechen auch von \emph{inhomogenen}
       Rekurrenz-Gleichungen), w\"are \\[0.1cm]
@@ -317,7 +317,7 @@ Das Polynom \\[0.1cm]
 \hspace*{1.3cm} 
 $\chi(x) = x^{k} - \sum\limits_{i=0}^{k-1} c_i \cdot x^{i}$  
 \\[0.1cm]
- hei\3t \emph{charakteristisches Polynom} der Rekurrenz-Gleichung (\ref{eq:lhrg}).
+ hei\ss{}t \emph{charakteristisches Polynom} der Rekurrenz-Gleichung (\ref{eq:lhrg}).
 Wir betrachten zun\"achst den Fall, dass das charakteristische  Polynom  $k$  verschiedene
 Nullstellen hat.  In diesem Fall sagen, dass die Rekurrenz-Gleichung (\ref{eq:lhrg}) 
 \emph{nicht entartet} ist.
@@ -330,7 +330,7 @@ $\lambda_j^{n+k} = \sum\limits_{i=0}^{k-1} c_i \cdot \lambda_j^{n+i}$.
 Damit ist die Folge  
 \[\bigl(\lambda_j^n)_{n\in\mathbb{N}}\]
 f\"ur alle $j=1,\cdots,k$ eine L\"osung der Rekurrenz-Gleichung (\ref{eq:lhrg}).
-Au\3erdem ist auch jede Linear-Kombination dieser L\"osungen eine L\"osung von (\ref{eq:lhrg}):
+Au\ss{}erdem ist auch jede Linear-Kombination dieser L\"osungen eine L\"osung von (\ref{eq:lhrg}):
 Definieren wir die Folge $a_n$ durch \\[0.1cm]
 \hspace*{1.3cm} $a_n = \alpha_1 \lambda_1^n + \cdots + \alpha_k \lambda_k^n$ \quad f\"ur alle $n \in \mathbb{N}$ \\[0.1cm]
 mit beliebigen Koeffizienten $\alpha_i \in \R$, so erf\"ullt auch die Folge
@@ -912,7 +912,7 @@ das Verfahren an der Rekurrenz-Gleichung \\[0.2cm]
 \\[0.2cm]
 Diese Gleichung tritt bei der Analyse der Komplexit\"at von Quick-Sort auf.
 Um diese Gleichung zu l\"osen, setzen wir zun\"achst f\"ur $a_{n-1}$ den Wert $a_{n-2} + (n-1) - 1$ ein, dann 
-ersetzen wir $a_{n-2}$ durch $a_{n-3} + (n-2) -2$ und fahren so fort, bis wir schlie\3lich $a_n$ auf $a_0$
+ersetzen wir $a_{n-2}$ durch $a_{n-3} + (n-2) -2$ und fahren so fort, bis wir schlie\ss{}lich $a_n$ auf $a_0$
 zur\"uck gef\"uhrt haben.
 Damit erhalten wir insgesamt:
 \[
@@ -1087,11 +1087,11 @@ Wir vereinfachen diese Summe:
        & = & \displaystyle - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
 \end{array}
 \]
-Um unsere Rechnung abzuschlie\3en, berechnen wir eine N\"aherung f\"ur die Summe 
+Um unsere Rechnung abzuschlie\ss{}en, berechnen wir eine N\"aherung f\"ur die Summe 
 \[ H_n = \sum\limits_{i=1}^{n}\frac{1}{i}.\]
 Der Wert $H_n$ wird in der Mathematik als die $n$-te \emph{harmonische Zahl} bezeichnet.
 Dieser Wert h\"angt mit dem Wert $\ln(n)$ zusammen: Leonhard Euler hat gezeigt, dass f\"ur
-gro\3e $n$ die Approximation
+gro\ss{}e $n$ die Approximation
 \[ \sum\limits_{i=1}^n \frac{1}{i} \approx \ln(n) + \gamma + \frac{1}{2} \cdot \frac{1}{n} \]
 benutzt werden kann.  Hier ist $\gamma$ die Euler-Mascheroni'sche Konstante, deren Wert durch
 \[ \gamma \approx 0,5772156649 \]
@@ -1128,13 +1128,13 @@ gelten, denn dann k\"onnen wir die urspr\"ungliche Rekurrenz-Gleichung in der Fo
 \[ 
 p(n) \cdot f(n) \cdot a_n = p(n-1) \cdot f(n-1) \cdot a_{n-1} + p(n) \cdot h(n).
 \]
-schreiben und anschlie\3end durch die Substitution $b_n := p(n) \cdot f(n) \cdot a_n$ auf die
+schreiben und anschlie\ss{}end durch die Substitution $b_n := p(n) \cdot f(n) \cdot a_n$ auf die
 Rekurrenz-Gleichung 
 \[ 
 b_n = b_{n-1} + p(n) \cdot h(n).
 \]
 Diese Gleichung l\"asst sich mit dem Teleskop-Verfahren auf eine Summe zur\"uckf\"uhren und die L\"osung der
-urspr\"unglichen Gleichung kann schlie\3lich \"uber die Formel
+urspr\"unglichen Gleichung kann schlie\ss{}lich \"uber die Formel
 \[ 
 a_n = \frac{1}{p(n) \cdot f(n)} \cdot b_n
 \]
@@ -1192,7 +1192,7 @@ Verfahren vor.
 Wollen wir die Komplexit\"at eines Algorithmus absch\"atzen, so w\"are ein m\"ogliches Vorgehen
 wie folgt: Wir kodieren den Algorithmus in einer Programmiersprache und berechnen,
 wieviele Additionen, Multiplikationen, Zuweisungungen, und andere elementare Operationen
-bei einer gegebenen Eingabe von dem Programm ausgef\"uhrt werden. Anschlie\3end schlagen wir
+bei einer gegebenen Eingabe von dem Programm ausgef\"uhrt werden. Anschlie\ss{}end schlagen wir
 im Prozessor-Handbuch nach, wieviel Zeit die einzelnen Operationen in Anspruch nehmen und
 errechnen daraus die Gesamtlaufzeit des Programms.\footnote{
 Da die heute verf\"ugbaren Prozessoren fast alle mit \emph{Pipelining} arbeiten, werden oft
@@ -1201,7 +1201,7 @@ eine wichtige Rolle spielt, ist die genaue Berechnung der Rechenzeit faktisch un
 Dieses Vorgehen ist aber in zweifacher Hinsicht problematisch:
 \begin{enumerate}
 \item Das Verfahren ist sehr kompliziert.
-\item W\"urden wir den selben Algorithmus anschlie\3end in einer anderen Programmier-Sprache
+\item W\"urden wir den selben Algorithmus anschlie\ss{}end in einer anderen Programmier-Sprache
       kodieren, oder aber das Programm auf einem anderen Rechner laufen lassen, so w\"are
       unsere Rechnung wertlos und wir m\"ussten sie wiederholen.
 \end{enumerate}
@@ -1261,7 +1261,7 @@ $\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ ist Funktion der Form $f: \N \rightarrow
 \end{Definition}
 Was sagt die obige Definition aus? Zun\"achst kommt es auf kleine Werte des Arguments $n$
 nicht an, denn die obige Formel sagt ja, dass $g(n) \leq c \cdot f(n)$ nur f\"ur die $n$ gelten
-muss, f\"ur die  $n \geq k$ ist.  Au\3erdem kommt es auf Proportionalit\"ats-Konstanten nicht
+muss, f\"ur die  $n \geq k$ ist.  Au\ss{}erdem kommt es auf Proportionalit\"ats-Konstanten nicht
 an, denn $g(n)$ muss ja nur kleinergleich $c \cdot f(n)$ sein und die Konstante $c$ k\"onnen wir
 beliebig w\"ahlen.  Um den Begriff zu verdeutlichen, geben wir einige Beispiele.
 \vspace*{0.3cm}
@@ -1301,7 +1301,7 @@ Multiplizieren wir die Ungleichung (\ref{eq:u1}) mit $2\cdot n^2$, so erhalten w
   \label{eq:u4}
   2 \cdot n^2 \leq 2 \cdot n^3  
 \end{equation}
-Schlie\3lich gilt trivialerweise 
+Schlie\ss{}lich gilt trivialerweise 
 \begin{equation}
   \label{eq:u5}
   3 \cdot n^3 \leq 3 \cdot n^3
@@ -1417,7 +1417,7 @@ Daraus folgt aber sofort $f(n) \leq c \cdot h(n)$. \hspace*{\fill} $\Box$
 
 \begin{Proposition}[Grenzwert-Satz] \label{limit}
 {\em
-  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Au\3erdem existiere der Grenzwert \\[0.1cm]
+  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Au\ss{}erdem existiere der Grenzwert \\[0.1cm]
   \hspace*{1.3cm} $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$.  \\[0.1cm]
   Dann gilt $f \in \Oh(g)$. 
 }
@@ -1547,7 +1547,7 @@ Wir logarithmieren beide Seiten dieser Ungleichung und finden \\[0.1cm]
 \leftrightarrow &  n  & \leq & \bruch{\ln(c)}{\ln(3) - \ln(2)}  \\[0.1cm]
 \end{array}
 \]
-Die letzte Ungleichung m\"usste nun f\"ur beliebig gro\3e nat\"urliche Zahlen $n$ gelten und liefert
+Die letzte Ungleichung m\"usste nun f\"ur beliebig gro\ss{}e nat\"urliche Zahlen $n$ gelten und liefert
 damit den gesuchten Widerspruch zu unserer Annahme.
 \vspace*{0.3cm}
 
@@ -1793,7 +1793,7 @@ ein, so sehen wir \\[0.1cm]
 \vspace*{0.3cm}
 
 Da wir sowohl im besten als auch im schlechtesten Fall dasselbe Ergebnis bekommen haben,
-k\"onnen wir schlie\3en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
+k\"onnen wir schlie\ss{}en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
 \hspace*{1.3cm} $a_n \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
 
@@ -1801,7 +1801,7 @@ k\"onnen wir schlie\3en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemei
 \textbf{Bemerkung}:  Wenn wir nicht die Zahl der Multiplikationen sondern die Rechenzeit
 ermitteln wollen, die der obige Algorithmus ben\"otigt, so wird die Rechnung wesentlich
 aufwendiger.  Der Grund ist, dass wir dann ber\"ucksichtigen m\"ussen, dass die Rechenzeit bei
-der Berechnung der Produkte in den Zeilen 7 und 9 von der Gr\"o\3e der Faktoren abh\"angig ist.
+der Berechnung der Produkte in den Zeilen 7 und 9 von der Gr\"o\ss{}e der Faktoren abh\"angig ist.
 \vspace*{0.3cm}
 
 \noindent
@@ -1817,7 +1817,7 @@ im schlechtesten Fall durchgef\"uhrt werden, mit Hilfe der $\Oh$-Notation ab.
 
 \section{Der Hauptsatz der Laufzeit-Funktionen}
 Im letzten Abschnitt haben wir zur Analyse der Rechenzeit der Funktion $\textsl{power}()$
-zun\"achst eine Rekurrenz-Gleichung aufgestellt, diese gel\"ost und anschlie\3end das Ergebnis
+zun\"achst eine Rekurrenz-Gleichung aufgestellt, diese gel\"ost und anschlie\ss{}end das Ergebnis
 mit Hilfe der $\Oh$-Notation abgesch\"atzt.  Wenn wir nur an einer Absch\"atzung interessiert
 sind, dann ist es in vielen F\"allen nicht notwendig, die zu Grunde liegende
 Rekurrenz-Gleichung exakt zu l\"osen, denn der \textsl{Hauptsatz der Laufzeit-Funktionen}
@@ -1920,9 +1920,9 @@ gezeigt.  Also gilt: Vernachl\"assigen wir die Inhomogenit\"at $f$, so erhalten 
 die folgende asymptotische Absch\"atzung:
 \[ g(n) \in \Oh\bigl(n^{\log_\beta(\alpha)}\bigr). \]
 \item Im zweiten Fall liefert
-die Inhomogenit\"at $f$ einen Beitrag, der genau so gro\3 ist wie die L\"osung der homogenen
+die Inhomogenit\"at $f$ einen Beitrag, der genau so gro\ss{} ist wie die L\"osung der homogenen
 Rekurrenz-Gleichung.  Dies f\"uhrt dazu, dass die L\"osung asymptotisch um einen Faktor
-$\log_\beta(n)$ gr\"o\3er wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
+$\log_\beta(n)$ gr\"o\ss{}er wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
 \[ g(n) = \alpha \cdot g\left(n/\beta\right) + n^{\log_\beta(\alpha)} \]
 mit der Anfangs-Bedingung $g(1) = 0$.  Wir betrachten wieder nur Werte 
 $n \in \{ \beta^k \mid k \in \N \}$ und setzen daher
@@ -1973,7 +1973,7 @@ n^{\log_\beta(\alpha)} \]
 und das ist genau die Form, durch die im zweiten Fall des Hauptsatzes die Funktion
 $g(n)$ abgesch\"atzt wird.
 \item
-Im letzten Fall des Hauptsatzes \"uberwiegt schlie\3lich der Beitrag der Inhomogenit\"at, so dass die L\"osung 
+Im letzten Fall des Hauptsatzes \"uberwiegt schlie\ss{}lich der Beitrag der Inhomogenit\"at, so dass die L\"osung 
 nun asymptotisch durch die Inhomogenit\"at dominiert wird.
 Wir machen wieder den Ansatz 
 \[ n = \beta^k \quad \mbox{und} \quad b_k = g\bigl(\beta^k\bigr). \]
@@ -2059,7 +2059,7 @@ Damit gilt
 \[ \log_\beta(\alpha) = \log_3(9) = 2. \]
 Wir setzen $\varepsilon := 1 > 0$.  Dann gilt
 \[ f(n) = n \in \Oh(n) = \Oh\left(n^{2-1}\right) = \Oh\left(n^{2-\varepsilon}\right). \]
-Damit liegt der erste Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
+Damit liegt der erste Fall des Hauptsatzes vor und wir k\"onnen schlie\ss{}en, dass
 \[ g(n) \in \Oh(n^2) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -2112,7 +2112,7 @@ die f\"ur durch 4 teilbares $n$ offenbar \"aquivalent ist zu
 Setzen wir $\gamma := \frac{3}{4}$ und k\"urzen, so geht diese Ungleichung \"uber in die
 offensichtlich wahre Ungleichung
 \[ \log_2(n/4) \leq \log_2(n). \] 
-Damit liegt also der dritte Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
+Damit liegt also der dritte Fall des Hauptsatzes vor und wir k\"onnen schlie\ss{}en, dass
 \[ a_n \in \Oh\left(n \cdot \log_2(n)\right) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -2152,7 +2152,7 @@ Dividieren wir diese Ungleichung durch $n$ und vereinfachen, so erhalten wir
 Wegen $\log_2(2) = 1$ addieren wir auf beiden Seiten 1 und subtrahieren $\gamma \cdot \log_2(n)$.
 Dann erhalten wir
 \[ \log_2(n) \cdot (1 - \gamma) \leq 1, \]
-woraus schlie\3lich 
+woraus schlie\ss{}lich 
 \[ \log_2(n) \leq \bruch{1}{\;1 - \gamma\;} \]
 folgt.  Daraus folgt durch Anwenden der Funktion $x \mapsto 2^x$ die Ungleichung
 \[ \displaystyle n \leq 2^\frac{1}{\;1 - \gamma\;}, \]

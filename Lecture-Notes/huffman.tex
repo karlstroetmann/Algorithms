@@ -29,7 +29,7 @@ $m \cdot b$ Bits gebraucht.  Nun gibt es zwei M\"oglichkeiten, weiterzumachen:
 \section[Motivation]{Motivation des Algorithmus von Huffman}
 Die zentrale Idee des von Huffman entwickelten Algorithmus ist die, dass Buchstaben, die sehr
 h\"aufig auftreten, mit m\"oglichst wenig Bits kodiert werden, w\"ahrend Buchstaben, die seltener
-auftreten, mit einer gr\"o\3eren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
+auftreten, mit einer gr\"o\ss{}eren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
 wir folgendes Beispiel:  Unser Alphabet  $\Sigma$ bestehe nur aus vier Buchstaben,
 \[ \Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}. \]
 In dem zu speichernden String $s$ trete der Buchstabe \texttt{a} insgesamt $990$ mal auf, der
@@ -91,7 +91,7 @@ gespart!
 Um zu sehen, wie mit Hilfe des Kodierungs-Baums ein String dekodiert werden kann,
 betrachten wir als Beispiel den String ``\texttt{100111}''.  Wir beginnen mit der
 ``\texttt{1}'', die uns sagt, vom Wurzel-Knoten dem rechten Pfeil zu folgen.  Die
-anschlie\3ende ``\texttt{0}'' spezifiziert dann den linken Pfeil.  Jetzt sind wir bei dem
+anschlie\ss{}ende ``\texttt{0}'' spezifiziert dann den linken Pfeil.  Jetzt sind wir bei dem
 mit ``\texttt{b}'' markierten Blatt angekommen und haben damit den ersten Buchstaben
 gefunden.  Wir gehen wieder zur Wurzel des Baums zur\"uck. Die folgende ``\texttt{0}'' f\"uhrt
 uns zu dem Blatt, das mit ``\texttt{a}'' markiert ist, also haben wir den zweiten
@@ -194,7 +194,7 @@ sich die Kosten der Menge dabei ver\"andern, wir untersuchen also die folgende D
     - a.\textsl{cost}() - b.\textsl{cost}()                                                              \\
 &=& a.\textsl{count}() + b.\textsl{count}() 
 \end{eqnarray*}
-Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so verg\"o\3ern sich
+Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so verg\"o\ss{}ern sich
 die Kosten der Menge um die Summe
 \[ a.\textsl{count}() + b.\textsl{count}(). \]
 Wenn wir die Kosten der Menge $M$ insgesamt m\"oglichst klein halten wollen, dann ist es daher naheliegend,
@@ -294,7 +294,7 @@ implementiert diesen Algorithmus.
             ab.
       \item Die beiden Knoten $a$ und $b$ mit der geringsten H\"aufigkeit werden in Zeile 4 und 6
             aus der Menge $m$ entfernt.
-      \item Anschlie\3end wird aus den beiden Knoten $a$ und $b$ ein neuer Knoten 
+      \item Anschlie\ss{}end wird aus den beiden Knoten $a$ und $b$ ein neuer Knoten 
             $\textsl{Node}(a,b)$ gebildet.
             Dieser neue Knoten wird zusammen mit der Gesamth\"aufigkeit der Knoten $a$ und $b$ in Zeile
             7 der Menge $m$ hinzugef\"ugt.
@@ -304,7 +304,7 @@ implementiert diesen Algorithmus.
 \end{enumerate}
 Die Laufzeit des Huffman-Algorithmus h\"angt stark von der Effizienz der Funktion $\textsl{first}()$ ab.
 Eine naive Implementierung w\"urde die Knoten aus der Menge $m$ in einer geordneten Liste vorhalten.
-Die Knoten $n$ w\"aren in dieser Liste nach der Gr\"o\3e $n.\textsl{cost}()$ aufsteigend sortiert.
+Die Knoten $n$ w\"aren in dieser Liste nach der Gr\"o\ss{}e $n.\textsl{cost}()$ aufsteigend sortiert.
 Dann ist die Funktion $\textsl{first}()$ zwar sehr effizient, aber das Einf\"ugen des neuen Knotens,
 dass wir oben \"uber den Befehl 
 \\[0.2cm]
@@ -470,12 +470,12 @@ H\"aufigkeit &          1 &          1 &          2 &          3 &          5 & 
   \label{tab:aufgabe-huffman}
 \end{table}
 
-\item Wie gro\3 ist die Einsparung, wenn man die Buchstaben mit einem Huffman-Code
+\item Wie gro\ss{} ist die Einsparung, wenn man die Buchstaben mit einem Huffman-Code
       kodiert gegen\"uber einer Kodierung mit drei Bits?
 \item Versuchen Sie das Gesetz zu erkennen, nach dem die H\"aufigkeiten in der obigen Tabelle 
       gebildet wurden und versuchen Sie, den Huffman-Code f\"ur den allgemeinen Fall,
       in dem $n$ Buchstaben gegeben sind, anzugeben.
-\item Wie gro\3 ist die Einsparung im allgemeinen Fall?
+\item Wie gro\ss{} ist die Einsparung im allgemeinen Fall?
 \end{enumerate}
 
 
