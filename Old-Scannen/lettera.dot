@@ -1,7 +1,0 @@
-digraph G {
-    rankdir=LR;    
-    Start->0;
-    Start [shape = plaintext];
-    0 -> 1 [ label = b ];
-    1 [ peripheries = 2 ];
-}
