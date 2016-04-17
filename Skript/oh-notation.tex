@@ -8,7 +8,7 @@ im Hintergrund.
 Wollen wir die Komplexit\"at eines Algorithmus absch\"atzen, so w\"are ein m\"ogliches Vorgehen
 wie folgt: Wir kodieren den Algorithmus in einer Programmiersprache und berechnen,
 wieviele Additionen, Multiplikationen, Zuweisungungen, und andere elementare Operationen
-bei einer gegebenen Eingabe von dem Programm ausgef\"uhrt werden. Anschlie\3end schlagen wir
+bei einer gegebenen Eingabe von dem Programm ausgef\"uhrt werden. Anschlie{\ss}end schlagen wir
 im Prozessor-Handbuch nach, wieviel Zeit die einzelnen Operationen in Anspruch nehmen und
 errechnen daraus die Gesamtlaufzeit des Programms.\footnote{
 Da die heute verf\"ugbaren Prozessoren fast alle mit \emph{Pipelining} arbeiten, werden oft
@@ -17,7 +17,7 @@ eine wichtige Rolle spielt, ist die genaue Berechnung der Rechenzeit faktisch un
 Dieses Vorgehen ist aber in zweifacher Hinsicht problematisch:
 \begin{enumerate}
 \item Das Verfahren ist sehr kompliziert.
-\item W\"urden wir den selben Algorithmus anschlie\3end in einer anderen Programmier-Sprache
+\item W\"urden wir den selben Algorithmus anschlie{\ss}end in einer anderen Programmier-Sprache
       kodieren, oder aber das Programm auf einem anderen Rechner laufen lassen, so w\"are
       unsere Rechnung wertlos und wir m\"ussten sie wiederholen.
 \end{enumerate}
@@ -77,7 +77,7 @@ $\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ ist Funktion der Form $f: \N \rightarrow
 \end{Definition}
 Was sagt die obige Definition aus? Zun\"achst kommt es auf kleine Werte des Arguments $n$
 nicht an, denn die obige Formel sagt ja, dass $g(n) \leq c \cdot f(n)$ nur f\"ur die $n$ gelten
-muss, f\"ur die  $n \geq k$ ist.  Au\3erdem kommt es auf Proportionalit\"ats-Konstanten nicht
+muss, f\"ur die  $n \geq k$ ist.  Au{\ss}erdem kommt es auf Proportionalit\"ats-Konstanten nicht
 an, denn $g(n)$ muss ja nur kleinergleich $c \cdot f(n)$ sein und die Konstante $c$ k\"onnen wir
 beliebig w\"ahlen.  Um den Begriff zu verdeutlichen, geben wir einige Beispiele.
 \vspace*{0.3cm}
@@ -117,7 +117,7 @@ Multiplizieren wir die Ungleichung (\ref{eq:u1}) mit $2\cdot n^2$, so erhalten w
   \label{eq:u4}
   2 \cdot n^2 \leq 2 \cdot n^3  
 \end{equation}
-Schlie\3lich gilt trivialerweise 
+Schlie{\ss}lich gilt trivialerweise 
 \begin{equation}
   \label{eq:u5}
   3 \cdot n^3 \leq 3 \cdot n^3
@@ -233,7 +233,7 @@ Daraus folgt aber sofort $f(n) \leq c \cdot h(n)$. \hspace*{\fill} $\Box$
 
 \begin{Satz}[Grenzwert-Satz] \label{limit}
 {\em
-  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Au\3erdem existiere der Grenzwert \\[0.1cm]
+  Es seien $f,g \colon \N \rightarrow {\R_+}$.  Au{\ss}erdem existiere der Grenzwert \\[0.1cm]
   \hspace*{1.3cm} $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$.  \\[0.1cm]
   Dann gilt $f \in \Oh(g)$. 
 }
@@ -363,7 +363,7 @@ Wir logarithmieren beide Seiten dieser Ungleichung und finden \\[0.1cm]
 \leftrightarrow &  n  & \leq & \bruch{\ln(c)}{\ln(3) - \ln(2)}  \\[0.1cm]
 \end{array}
 \]
-Die letzte Ungleichung m\"usste nun f\"ur beliebig gro\3e nat\"urliche Zahlen $n$ gelten und liefert
+Die letzte Ungleichung m\"usste nun f\"ur beliebig gro{\ss}e nat\"urliche Zahlen $n$ gelten und liefert
 damit den gesuchten Widerspruch zu unserer Annahme.
 
 \exercise
@@ -605,7 +605,7 @@ ein, so sehen wir \\[0.1cm]
 \vspace*{0.3cm}
 
 Da wir sowohl im besten als auch im schlechtesten Fall dasselbe Ergebnis bekommen haben,
-k\"onnen wir schlie\3en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
+k\"onnen wir schlie{\ss}en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemein gilt:\\[0.1cm]
 \hspace*{1.3cm} $a_n \in \Oh\bigl(\log_2(n)\bigr)$.
 \vspace*{0.3cm}
 
@@ -613,7 +613,7 @@ k\"onnen wir schlie\3en, dass f\"ur die Zahl $a_n$ der Multiplikationen allgemei
 \textbf{Bemerkung}:  Wenn wir nicht die Zahl der Multiplikationen sondern die Rechenzeit
 ermitteln wollen, die der obige Algorithmus ben\"otigt, so wird die Rechnung wesentlich
 aufwendiger.  Der Grund ist, dass wir dann ber\"ucksichtigen m\"ussen, dass die Rechenzeit bei
-der Berechnung der Produkte in den Zeilen 7 und 9 von der Gr\"o\3e der Faktoren abh\"angig ist.
+der Berechnung der Produkte in den Zeilen 7 und 9 von der Gr\"o{\ss}e der Faktoren abh\"angig ist.
 \vspace*{0.3cm}
 
 \exercise
@@ -628,7 +628,7 @@ im schlechtesten Fall durchgef\"uhrt werden, mit Hilfe der $\Oh$-Notation ab.
 
 \section{Der Hauptsatz der Laufzeit-Funktionen}
 Im letzten Abschnitt haben wir zur Analyse der Rechenzeit der Funktion $\textsl{power}()$
-zun\"achst eine Rekurrenz-Gleichung aufgestellt, diese gel\"ost und anschlie\3end das Ergebnis
+zun\"achst eine Rekurrenz-Gleichung aufgestellt, diese gel\"ost und anschlie{\ss}end das Ergebnis
 mit Hilfe der $\Oh$-Notation abgesch\"atzt.  Wenn wir nur an einer Absch\"atzung interessiert
 sind, dann ist es in vielen F\"allen nicht notwendig, die zu Grunde liegende
 Rekurrenz-Gleichung exakt zu l\"osen, denn der \textsl{Hauptsatz der Laufzeit-Funktionen}
@@ -731,9 +731,9 @@ gezeigt.  Also gilt: Vernachl\"assigen wir die Inhomogenit\"at $f$, so erhalten 
 die folgende asymptotische Absch\"atzung:
 \[ g(n) \in \Oh\bigl(n^{\log_\beta(\alpha)}\bigr). \]
 \item Im zweiten Fall liefert
-die Inhomogenit\"at $f$ einen Beitrag, der genau so gro\3 ist wie die L\"osung der homogenen
+die Inhomogenit\"at $f$ einen Beitrag, der genau so gro{\ss} ist wie die L\"osung der homogenen
 Rekurrenz-Gleichung.  Dies f\"uhrt dazu, dass die L\"osung asymptotisch um einen Faktor
-$\log_\beta(n)$ gr\"o\3er wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
+$\log_\beta(n)$ gr\"o{\ss}er wird.  Um das zu verstehen, betrachten wir exemplarisch die Rekurrenz-Gleichung
 \[ g(n) = \alpha \cdot g\left(n/\beta\right) + n^{\log_\beta(\alpha)} \]
 mit der Anfangs-Bedingung $g(1) = 0$.  Wir betrachten wieder nur Werte 
 $n \in \{ \beta^k \mid k \in \N \}$ und setzen daher
@@ -784,7 +784,7 @@ n^{\log_\beta(\alpha)} \]
 und das ist genau die Form, durch die im zweiten Fall des Hauptsatzes die Funktion
 $g(n)$ abgesch\"atzt wird.
 \item
-Im letzten Fall des Hauptsatzes \"uberwiegt schlie\3lich der Beitrag der Inhomogenit\"at, so dass die L\"osung 
+Im letzten Fall des Hauptsatzes \"uberwiegt schlie{\ss}lich der Beitrag der Inhomogenit\"at, so dass die L\"osung 
 nun asymptotisch durch die Inhomogenit\"at dominiert wird.
 Wir machen wieder den Ansatz 
 \[ n = \beta^k \quad \mbox{und} \quad b_k = g\bigl(\beta^k\bigr). \]
@@ -870,7 +870,7 @@ Damit gilt
 \[ \log_\beta(\alpha) = \log_3(9) = 2. \]
 Wir setzen $\varepsilon := 1 > 0$.  Dann gilt
 \[ f(n) = n \in \Oh(n) = \Oh\left(n^{2-1}\right) = \Oh\left(n^{2-\varepsilon}\right). \]
-Damit liegt der erste Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
+Damit liegt der erste Fall des Hauptsatzes vor und wir k\"onnen schlie{\ss}en, dass
 \[ g(n) \in \Oh(n^2) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -923,7 +923,7 @@ die f\"ur durch 4 teilbares $n$ offenbar \"aquivalent ist zu
 Setzen wir $\gamma := \frac{3}{4}$ und k\"urzen, so geht diese Ungleichung \"uber in die
 offensichtlich wahre Ungleichung
 \[ \log_2(n/4) \leq \log_2(n). \] 
-Damit liegt also der dritte Fall des Hauptsatzes vor und wir k\"onnen schlie\3en, dass
+Damit liegt also der dritte Fall des Hauptsatzes vor und wir k\"onnen schlie{\ss}en, dass
 \[ a_n \in \Oh\left(n \cdot \log_2(n)\right) \]
 gilt. \qed
 \vspace*{0.3cm}
@@ -962,7 +962,7 @@ Dividieren wir diese Ungleichung durch $n$ und vereinfachen, so erhalten wir
 Wegen $\log_2(2) = 1$ addieren wir auf beiden Seiten 1 und subtrahieren $\gamma \cdot \log_2(n)$.
 Dann erhalten wir
 \[ \log_2(n) \cdot (1 - \gamma) \leq 1, \]
-woraus schlie\3lich 
+woraus schlie{\ss}lich 
 \[ \log_2(n) \leq \bruch{1}{\;1 - \gamma\;} \]
 folgt.  Daraus folgt durch Anwenden der Funktion $x \mapsto 2^x$ die Ungleichung
 \[ \displaystyle n \leq 2^\frac{1}{\;1 - \gamma\;}, \]

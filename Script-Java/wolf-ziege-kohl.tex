@@ -90,7 +90,7 @@ Rot-Schwarz-B\"aumen implementiert, w\"ahrend die Klasse \texttt{HashSet} mit Hi
 Hash-Tabellen implementiert ist.  Letztere haben im schlechtesten Fall eine h\"ohere
 Komplexit\"at.  Daher entscheiden wir uns f\"ur die Klasse \texttt{TreeSet}.  Versuchen wir
 das Programm aus Abbildung \ref{fig:wolf-ziege-kohl.stl} in \textsl{Java} umzusetzen,
-so sto\3en wir allerdings sofort auf ein Problem:  Bei der Umsetzung ben\"otigen wir Mengen,
+so sto{\ss}en wir allerdings sofort auf ein Problem:  Bei der Umsetzung ben\"otigen wir Mengen,
 deren Elemente selbst wieder Mengen sind.  Die Elemente eines \texttt{TreeSet}s m\"ussen
 aber vergleichbar sein, f\"ur eine beliebige Klasse \texttt{E} kann nur dann eine Klasse
 \texttt{TreeSet<E>} gebildet werden, wenn 
@@ -440,7 +440,7 @@ Implementierung jetzt im Detail.
       \\[0.2cm]
       gilt.  Hier steht das Fragezeichen ``\texttt{?}'' f\"ur eine Oberklasse \texttt{O}
       von \texttt{T}.  Die Forderung ist also, dass es eine Klasse \texttt{O} gibt, die
-      eine Oberklasse der Elemente von \texttt{T} ist, und f\"ur die au\3erdem
+      eine Oberklasse der Elemente von \texttt{T} ist, und f\"ur die au{\ss}erdem
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{T extends Comparable<O>}
@@ -500,7 +500,7 @@ Implementierung jetzt im Detail.
       \hspace*{1.3cm}
       $a.\textsl{union}(b) = a \cup b$
       \\[0.2cm]
-      gilt und dass au\3erdem die Variablen $a$ und $b$ bei dieser Operation ihre alten Werte behalten.
+      gilt und dass au{\ss}erdem die Variablen $a$ und $b$ bei dieser Operation ihre alten Werte behalten.
       Diese Methode $\textsl{union}()$ soll die in der Klasse \texttt{TreeSet} implementierte Klasse
       $\textsl{addAll}()$ ersetzen.  W\"urden wir die Klasse \texttt{ComparableSet} von der Klasse
       \texttt{TreeSet} ableiten, so h\"atte der Beutzer immer noch die M\"oglichkeit, beispielsweise die
@@ -523,7 +523,7 @@ Implementierung jetzt im Detail.
 \item Der Aufruf $c.\textsl{isSubset}(s)$ \"uberpr\"uft, ob $c$ eine Teilmenge der Menge $s$ ist.
 \item Der Aufruf $c.\textsl{compareTo}(s)$ vergleicht die Menge $c$ mit der Menge $s$.
       Der Vergleich ist ein \emph{lexikografischer} Vergleich.  Da sowohl $c$ als auch $s$
-      geordnete Mengen sind, lassen sich die Elemente von $c$ und $s$ der Gr\"o\3e nach
+      geordnete Mengen sind, lassen sich die Elemente von $c$ und $s$ der Gr\"o{\ss}e nach
       auflisten.  Wir vergleichen nun die Elemente von $c$ und $s$ paarweise, wobei wir
       mit dem kleinsten Element beginnen.  Das erste Element, bei dem sich die Mengen $c$
       und $s$ unterscheiden, entscheidet dann \"uber den Vergleich.
@@ -540,7 +540,7 @@ Implementierung jetzt im Detail.
       Falls die Ordnung auf den Elementen eine totale Ordnung ist, so l\"asst sich zeigen,
       dass auch die lexikografische Ordnung, die auf Mengen von Mengen definiert ist, eine
       totale Ordnung ist. 
-\item Anschlie\3end definieren wir die Methoden 
+\item Anschlie{\ss}end definieren wir die Methoden 
       $\textsl{union}()$,
       $\textsl{intersection}()$ und
       $\textsl{difference}()$ so, dass die Methoden  die Vereinigung, den Schnitt und die
@@ -569,7 +569,7 @@ Implementierung jetzt im Detail.
       folgt spezifiziert werden: Der Aufruf $s.\textsl{headSet}(l)$ liefert alle alle
       Elemente aus der Menge $s$, die kleiner als $l$ sind:
       \[ s.\textsl{headSet}(l) = \{ x \in s \mid x < l \}. \]
-      Der Aufruf $s.\textsl{last}()$ liefert das gr\"o\3te Element der Menge $s$.  Damit k\"onnen wir
+      Der Aufruf $s.\textsl{last}()$ liefert das gr\"o{\ss}te Element der Menge $s$.  Damit k\"onnen wir
       eine Menge $s$ in der Form
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -786,7 +786,7 @@ Implementierung jetzt im Detail.
 
 \subsection{Die Klasse \texttt{ComparableList}}
 Nachdem wir nun mit Mengen so arbeiten k\"onnen, wie wir dass in dr Sprache \textsl{Setl} gewohnt sind,
-ben\"otigen wir als n\"achstes eine Klasse \texttt{ComparableList}, die Listen darstellt und au\3erdem das
+ben\"otigen wir als n\"achstes eine Klasse \texttt{ComparableList}, die Listen darstellt und au{\ss}erdem das
 Interface \texttt{Comparable} implementiert.  Die Implementierung dieser Klasse ist in Abbildung
 \ref{fig:ComparableList.java} auf Seite \pageref{fig:ComparableList.java} gezeigt.  Bei der L\"osung des
 Wolf-Ziege-Kohl-Problems haben wir Listen nur ben\"otigt, um die verschiedenen Pfade in einem Graphen
@@ -974,7 +974,7 @@ Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser \"Ubersetzung.
       Menge wird im Programm mit \texttt{as} bezeichnet.  Das Boot, also die Menge der
       Objekte, die von rechts nach links \"ubersetzen, ist daher nun eine Teilmenge von \texttt{as}.
       Der Rest der Rechnung ist nun analog zum ersten Fall.
-\item Anschlie\3end wird in Zeil 36 der Zielzustand definiert:
+\item Anschlie{\ss}end wird in Zeil 36 der Zielzustand definiert:
       Am Ende sollen alle Objekte am rechten Ufer sein.  Links ist dann niemand mehr,
       folglich ist die entsprechende Menge leer.  Da der Aufruf
       \\[0.2cm]

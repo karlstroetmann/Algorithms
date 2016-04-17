@@ -78,7 +78,7 @@ Regul"are Ausdr"ucke
       \hspace*{1.3cm}  $\Ll(r_1r_2) = \{ vw \in \Sigma^* \;|\; v \in \Ll(r_1) \wedge w \in \Ll(r_2) \}$
 \item Alternative: $r_1, r_2 \in \mathtt{RegExp}  \;\Rightarrow\; (r_1|r_2) \in \mathtt{RegExp}$ \\[0.3cm]
       \hspace*{1.3cm}  $\Ll\bigg((r_1|r_2)\bigg) = \Ll(r_1) \cup \Ll(r_2)$
-\item Abschlu\3: $r \in \mathtt{RegExp}   \;\Rightarrow\; (r)^* \in \mathtt{RegExp}$ \\[0.3cm]
+\item Abschlu{\ss}: $r \in \mathtt{RegExp}   \;\Rightarrow\; (r)^* \in \mathtt{RegExp}$ \\[0.3cm]
       \hspace*{1.3cm}  $\Ll\bigg((r)^*\bigg) = \bigg\{ \varepsilon \bigg\} \cup \bigg\{ w_1 \cdots w_n \;|\; w_i \in \Ll(r) \bigg\}$
 \end{enumerate}
 
@@ -102,7 +102,7 @@ Vereinfachung von regul"aren Ausdr"ucken
 
 Bindungs--Regeln 
 \begin{enumerate}
-\item Abschlu\3 bindet st"arker als Konkatenation
+\item Abschlu{\ss} bindet st"arker als Konkatenation
 \item Konkatenation bindet st"arker als Alternative
 \end{enumerate}
 Dann k"onnen Klammer weggelassen werden:
@@ -224,7 +224,7 @@ ist ein deterministischer endlicher Automat falls
 \item $s_0$: Start--Zustand, $s_0 \in Z$
 \item $\mathtt{next}: Z \times \Sigma \rightarrow Z$
 
-      hei\3t \emph{Zustands--"Ubergangs--Funktion}
+      hei{\ss}t \emph{Zustands--"Ubergangs--Funktion}
 \end{enumerate}
 
 Graphische Darstellung:
@@ -477,10 +477,10 @@ falls
 \item $s_0$: Start--Zustand, $s_0 \in Z$
 \item $\mathtt{next}: Z \times \Sigma \rightarrow 2^Z$
 
-      hei\3t nicht--determ. \emph{Zustands--"Ubergangs--Funktion}
+      hei{\ss}t nicht--determ. \emph{Zustands--"Ubergangs--Funktion}
 \item $\mathtt{eps}: Z  \rightarrow 2^Z$
 
-      hei\3t  \emph{Epsilon--"Ubergangs--Funktion}
+      hei{\ss}t  \emph{Epsilon--"Ubergangs--Funktion}
 \end{enumerate}
 \vspace*{-1cm}
 \hspace*{-1cm}
@@ -620,7 +620,7 @@ mit $\Ll(F_{det}) = \Ll(F_{nd})$
 \item $S_0 := \{s_0\}$
 \item $\NS(Q) := \mathtt{Eps}\Bigg(\; \mathtt{Next}\bigg(\, \mathtt{Eps}(Q), b \,\bigg) \;\Bigg)$
 \end{enumerate}
-Zahl der Zust"ande: $|\cl{Z}| = 2^{|Z|}$: sehr gro\3!
+Zahl der Zust"ande: $|\cl{Z}| = 2^{|Z|}$: sehr gro{\ss}!
 
 \textbf{Satz}:  $\Ll(F_{det}) = \Ll(F_{nd})$
 
@@ -770,7 +770,7 @@ Simulation nicht--deterministischer FSMs
 \vspace*{0.5cm}
 
 \footnotesize
-\textbf{Problem}: Gr"o\3e  Potenz--Mengen--Konstruktion: $2^{|Z|}$
+\textbf{Problem}: Gr"o{\ss}e  Potenz--Mengen--Konstruktion: $2^{|Z|}$
 
 \textbf{L"osung}: \emph{Simulation} der Potenz--Mengen--Konstruktion
 
@@ -836,7 +836,7 @@ Respresentation der Beispiel--FSM
 \end{verbatim}
 \vspace*{0.5cm}
 
-Berechnung des Epsilon--Abschlu\3 \\[0.3cm]
+Berechnung des Epsilon--Abschlu{\ss} \\[0.3cm]
 \hspace*{1.3cm} $\mathtt{epsClose}: 2^Z \rightarrow 2^Z$ \\[0.3cm]
 $\mathtt{epsClose}(Q)$: Menge der Zust"ande, die von Zust"anden in $Q$ durch
 Epsilon--"Ubergange erreicht werden k"onnen.
@@ -1068,9 +1068,9 @@ Implementierung der Konkatenation
 
 Implementierung
 \begin{enumerate}
-\item Gr"o\3e Fsm \texttt{f1}: \texttt{n1}.
-\item Gr"o\3e Fsm \texttt{f2}: \texttt{n2}.
-\item Gr"o\3e neue Fsm: \texttt{n1 + n2 - 1}
+\item Gr"o{\ss}e Fsm \texttt{f1}: \texttt{n1}.
+\item Gr"o{\ss}e Fsm \texttt{f2}: \texttt{n2}.
+\item Gr"o{\ss}e neue Fsm: \texttt{n1 + n2 - 1}
 \item Kopiere \texttt{f1} an Offsett 0 in neuer Fsm.
 \item Kopiere \texttt{f2} an Offsett \texttt{n1-1} in neuer Fsm.
 \end{enumerate}
@@ -1112,9 +1112,9 @@ Implementierung der Alternative
 
 Implementierung
 \begin{enumerate}
-\item Gr"o\3e Fsm \texttt{f1}: \texttt{n1}.
-\item Gr"o\3e Fsm \texttt{f2}: \texttt{n2}.
-\item Gr"o\3e neue Fsm: \texttt{n1 + n2 + 2}
+\item Gr"o{\ss}e Fsm \texttt{f1}: \texttt{n1}.
+\item Gr"o{\ss}e Fsm \texttt{f2}: \texttt{n2}.
+\item Gr"o{\ss}e neue Fsm: \texttt{n1 + n2 + 2}
 \item Kopiere \texttt{f1} an Offsett 1 in neuer Fsm.
 \item Kopiere \texttt{f2} an Offsett \texttt{n1+1} in neuer Fsm.
 \end{enumerate}
@@ -1158,8 +1158,8 @@ Implementierung des Abschlusses
 \epsfig{file=closurea}
 
 \begin{enumerate}
-\item Gr"o\3e Fsm \texttt{f}: \texttt{n}.
-\item Gr"o\3e neue Fsm: \texttt{n + 2}
+\item Gr"o{\ss}e Fsm \texttt{f}: \texttt{n}.
+\item Gr"o{\ss}e neue Fsm: \texttt{n + 2}
 \item Kopiere \texttt{f} an Offsett 1 in neuer Fsm.
 \end{enumerate}
 
@@ -1206,7 +1206,7 @@ Konstruktion einer \texttt{RegExp} aus einer FSM
       \item[I.A.] $n \mapsto 0$:    \hspace*{2.3cm} $\Ll^0 := \{ \varepsilon \}$
       \item[I.S.] $n \mapsto n+1$: \hspace*{1.0cm} $\Ll^{n+1} := \Ll^n \Ll$
       \end{enumerate}
-\item Sei $\Ll \subseteq \Sigma^*$. Wir definieren den \emph{Abschlu\3} von $\Ll$ als \\[0.3cm]
+\item Sei $\Ll \subseteq \Sigma^*$. Wir definieren den \emph{Abschlu{\ss}} von $\Ll$ als \\[0.3cm]
       \hspace*{1.3cm} $\Ll^* = \bigcup\limits_{n=0}^\infty \Ll^n$
 \item Seien $u,w \in \Sigma^*$.  $u$ ist \emph{Pr"afix} von $w$,
       g.d.w. es gibt $v \in \Sigma^*$  mit $v \not= \varepsilon$ und $uv = w$.
@@ -1324,7 +1324,7 @@ Pattern Matching \hspace*{\fill} Seite \arabic{mypage}
 \normalsize
 
 \begin{center}
-  Abschlu\3 der Konstruktion
+  Abschlu{\ss} der Konstruktion
 \end{center}
 
 \footnotesize
@@ -1481,7 +1481,7 @@ F"ur $n \in \mathbb{N}$ definieren wir $w^n$ induktiv:
 \textbf{Definition}: Sei $\Sigma$ Alphabet. Eine Sprache $\Ll \subseteq \Sigma^*$
 ist \emph{regul"ar der Ordnung $n$} g.d.w. es einen endl. Automaten \\[0.3cm]
 \hspace*{1.3cm} $F = \langle \Sigma, Z, A, s_0, \mathtt{next} \rangle$ \\[0.3cm]
-gibt, so da\3 gilt: \quad $\Ll = \Ll(F)$ und $\mathtt{card}(Z) = n$.
+gibt, so da{\ss} gilt: \quad $\Ll = \Ll(F)$ und $\mathtt{card}(Z) = n$.
 
 Hier bezeichnet $\texttt{card}(Z)$ die Zahl der Zust"ande.
 
@@ -1636,16 +1636,16 @@ Regul"are Ausdr"ucke in der Praxis: \texttt{sed}
 \footnotesize
 Zeichen mit Sonderbedeutung bei \texttt{sed}:
 \begin{enumerate}
-\item ``\texttt{.}'': pa\3t auf jeden Buchstaben au\3er Zeilenumbruch.
+\item ``\texttt{.}'': pa{\ss}t auf jeden Buchstaben au{\ss}er Zeilenumbruch.
 
 
-      ``\texttt{a.c}'' pa\3t auf 
+      ``\texttt{a.c}'' pa{\ss}t auf 
       ``\texttt{abc}'', ``\texttt{azc}'', ``\texttt{a1c}'', $\cdots$
 \item ``\texttt{\symbol{92}*}'': Quantor
 
       beliebig viele Wiederholungen. 
       
-      ``\texttt{fo\symbol{92}*}'' pa\3t auf 
+      ``\texttt{fo\symbol{92}*}'' pa{\ss}t auf 
       ``\texttt{f}'', 
       ``\texttt{fo}'', 
       ``\texttt{foo}'', 
@@ -1654,7 +1654,7 @@ Zeichen mit Sonderbedeutung bei \texttt{sed}:
 
       mindestens eine Wiederholung. 
 
-      ``\texttt{fo\symbol{92}+}'' pa\3t auf 
+      ``\texttt{fo\symbol{92}+}'' pa{\ss}t auf 
       ``\texttt{fo}'', 
       ``\texttt{foo}'', 
       ``\texttt{fooo}'', $\cdots$
@@ -1662,20 +1662,20 @@ Zeichen mit Sonderbedeutung bei \texttt{sed}:
 
       keine oder eine Wiederholung. 
 
-      ``\texttt{fo\symbol{92}?}'' pa\3t auf ``\texttt{f}'' und ``\texttt{fo}''.
+      ``\texttt{fo\symbol{92}?}'' pa{\ss}t auf ``\texttt{f}'' und ``\texttt{fo}''.
 \item ``\texttt{\symbol{92}|}: Auswahl von zwei M"oglichkeiten
 
 
-     ``\texttt{eins\symbol{92}|zwei}'' pa\3t sowohl auf ``\texttt{eins}'' als auch auf
+     ``\texttt{eins\symbol{92}|zwei}'' pa{\ss}t sowohl auf ``\texttt{eins}'' als auch auf
      ``\texttt{zwei}''
-\item ``\texttt{\symbol{94}}'' pa\3t auf leeren String am Zeilen--Anfang
+\item ``\texttt{\symbol{94}}'' pa{\ss}t auf leeren String am Zeilen--Anfang
 
-     ``\texttt{\symbol{94}int}'' pa\3t auf ``\texttt{int}'' am Zeilen--Anfang.
+     ``\texttt{\symbol{94}int}'' pa{\ss}t auf ``\texttt{int}'' am Zeilen--Anfang.
 \item ``\texttt{\$}'' %\$
-     pa\3t auf leeren String am Zeilen--Ende.
+     pa{\ss}t auf leeren String am Zeilen--Ende.
 
      ``\texttt{\symbol{94}\$}'' %\$
-     pa\3t auf Leerzeile.
+     pa{\ss}t auf Leerzeile.
 \end{enumerate}
 
 \setcounter{page}{1}
@@ -1697,28 +1697,28 @@ Regul"are Ausdr"ucke
 \begin{enumerate}
 \item[8.] ``\texttt{[}'' und ``\texttt{]}'' begrenzen \emph{Zeichen--Mengen}
 
-     ``\texttt{[ad]}'' pa\3t auf ``\texttt{a}'' und ``\texttt{d}''.
+     ``\texttt{[ad]}'' pa{\ss}t auf ``\texttt{a}'' und ``\texttt{d}''.
      \vspace*{0.3cm}
 
      Spezifikation von \emph{Intervallen} durch   ``\texttt{-}''
            \begin{enumerate}
-           \item ``\texttt{[a-z]}'' pa\3t auf jeden Klein--Buchstaben.
-           \item ``\texttt{[a-z*.]}'' pa\3t auf jeden Klein--Buchstaben und auf
+           \item ``\texttt{[a-z]}'' pa{\ss}t auf jeden Klein--Buchstaben.
+           \item ``\texttt{[a-z*.]}'' pa{\ss}t auf jeden Klein--Buchstaben und auf
                  ``\texttt{*}'' und ``\texttt{.}''
 
                  \textbf{Merke}: ``\texttt{*}'',  ``\texttt{+}'',  ``\texttt{?}'', ``\texttt{.}''
                  verlieren Sonderbedeutung in Zeichen--Mengen.
            \item ``\texttt{\symbol{94}}'': Komplement einer Zeichen--Mengen.
 
-                  ``\texttt{[\symbol{94}0-9]}'' pa\3t auf alle Zeichen, die keine
+                  ``\texttt{[\symbol{94}0-9]}'' pa{\ss}t auf alle Zeichen, die keine
                  Ziffern sind.
            \end{enumerate}
 \item[9.] ``\texttt{\symbol{92}(}'' und ``\texttt{\symbol{92})}'': Gruppierung
 
-      ``\texttt{\symbol{92}(ja\symbol{92})\symbol{92}+}'' pa\3t auf \\[0.1cm]
+      ``\texttt{\symbol{92}(ja\symbol{92})\symbol{92}+}'' pa{\ss}t auf \\[0.1cm]
       \hspace*{1.3cm} ``\texttt{ja}'', ``\texttt{jaja}'', ``\texttt{jajaja}'', $\cdots$
 
-      ``\texttt{\symbol{92}(J\symbol{92}|j\symbol{92})a}'' pa\3t auf \\[0.1cm]
+      ``\texttt{\symbol{92}(J\symbol{92}|j\symbol{92})a}'' pa{\ss}t auf \\[0.1cm]
       \hspace*{1.3cm} ``\texttt{Ja}'' und ``\texttt{ja}''
       
 \end{enumerate}

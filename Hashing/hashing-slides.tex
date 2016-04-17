@@ -59,7 +59,7 @@ Ziel: Entwicklung einer Methode, die
 
 Erster Versuch:
 \begin{enumerate}
-\item Anlegen eines Feldes der Gr\"o\3e $n$ \\[0.3cm]
+\item Anlegen eines Feldes der Gr\"o{\ss}e $n$ \\[0.3cm]
       \hspace*{1.3cm} $\texttt{unsigned telephone[}n\mathtt{];}$
 \item Berechnung des Index
 \begin{verbatim} 
@@ -168,7 +168,7 @@ Hash--Tabelle ben\"otigt folgende Daten
 \begin{enumerate}
 \item Zahl der Eintr\"age \\[0.3cm]
       \hspace*{1.3cm} \texttt{unsigned noEntries;}
-\item Gr\"o\3e des angelegten Feldes \\[0.3cm]
+\item Gr\"o{\ss}e des angelegten Feldes \\[0.3cm]
       \hspace*{1.3cm} \texttt{unsigned noBuckets;}
 \item Feld mit Zeigern auf Listen--Knoten \\[0.3cm]
       \hspace*{1.3cm} \texttt{List* table;}
@@ -280,8 +280,8 @@ HashTable* makeTable(unsigned size) {
 
       $\mathtt{primes}[i+1] \approx 2 * \mathtt{primes}[i]$
 \item \texttt{index} wird hochgez\"ahlt, bis Primzahl \texttt{count} gefunden ist,
-      die Gr\"o\3er als \texttt{size} ist.
-\item Dann wird Feld der Gr\"o\3e \texttt{count} angelegt.
+      die Gr\"o{\ss}er als \texttt{size} ist.
+\item Dann wird Feld der Gr\"o{\ss}e \texttt{count} angelegt.
 \item Feld wird mit 0--Pointern initialisiert.
 
       (0--Pointer $\widehat{=}$ leere Liste)
@@ -361,20 +361,20 @@ Hash--Funktion
 
 \textbf{Anforderungen}:
 \begin{enumerate}
-\item Ist $n$ Gr\"o\3e der Tabelle, so muss gelten: \\[0.3cm]
+\item Ist $n$ Gr\"o{\ss}e der Tabelle, so muss gelten: \\[0.3cm]
       \hspace*{1.3cm} $\textsl{hash}(k) < n$
-\item Schl\"ussel sollen m\"oglichst gleichm\"a\3ig auf Tabelle verteilt werden
+\item Schl\"ussel sollen m\"oglichst gleichm\"a{\ss}ig auf Tabelle verteilt werden
 \item Hash--Funktion soll einfach zu berechnen sein
 \end{enumerate}
 Gebr\"auchliche Hash--Funktionen
 \begin{enumerate}
 \item Divisions--Methode \\[0.3cm]
       \hspace*{1.3cm} $\textsl{hash}(k) \;=\; k\;\%\; n$ \\[0.3cm]
-      Dabei sollte Tabellen--Gr\"o\3e $n$  Primzahl sein!
+      Dabei sollte Tabellen--Gr\"o{\ss}e $n$  Primzahl sein!
 \item Multiplikations--Methode: Sei $k\in\mathbb{R}$ \\[0.3cm]
       \hspace*{1.3cm} $\mathtt{floor}\bigg(n * \mathtt{fract}(A * k) \bigg)$ 
       \begin{enumerate}
-      \item $\mathtt{floor}(x)$: gr\"o\3te nat\"urliche Zahl kleiner $x$
+      \item $\mathtt{floor}(x)$: gr\"o{\ss}te nat\"urliche Zahl kleiner $x$
       \item $\mathtt{fract}(x) := x - \mathtt{floor}(x)$
       \item $A := \bruch{\sqrt{5} - 1}{2} \approx 0.61803398875$    
       \end{enumerate}
@@ -452,12 +452,12 @@ Probleme der Implementierung:
       der maximalen Anzahl von Eintr\"agen in Tabelle voraus
 \item Wird Tabelle zu klein gew\"ahlt: \\[0.3cm]
       \hspace*{1.3cm} \textbf{schlechte Performanz}
-\item Wird Tabelle zu gro\3 gew\"ahlt: \\[0.3cm]
+\item Wird Tabelle zu gro{\ss} gew\"ahlt: \\[0.3cm]
       \hspace*{1.3cm} \textbf{Verschwendung von Speicherplatz}
 \item Falls Zahl der Eintr\"age mit der Zeit w\"achst, kann
       der Auslastungs--Faktor gar nicht optimal eingestellt werden:
       \begin{enumerate}
-      \item entweder ist die Tabelle am Anfang zu gro\3
+      \item entweder ist die Tabelle am Anfang zu gro{\ss}
       \item oder die Tabelle ist sp\"ater zu klein
       \end{enumerate}
 \end{enumerate}
@@ -467,7 +467,7 @@ Probleme der Implementierung:
 \item Bei jedem Einf\"ugen kontrollieren des Auslastungs--Faktors $\alpha$
 \item Falls $\alpha > 4$ \emph{Rehashing}: 
   \begin{enumerate}
-  \item Lege doppelt so gro\3e neue Tabelle an
+  \item Lege doppelt so gro{\ss}e neue Tabelle an
   \item Kopiere alte Tabelle in neue Tabelle
   \end{enumerate}
 \end{enumerate}
