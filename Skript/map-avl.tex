@@ -40,7 +40,7 @@ mit der wir die Bedingung \"uber den H\"ohenunterschied von
 Teilb\"aumen wiederherstellen k\"onnen, wenn diese beim Einf\"ugen oder L\"oschen eines Elements
 verletzt wird.  
 Der Aufruf $b.\textsl{restore}()$ setzt voraus, dass $b$ ein geordneter bin\"arer Baum ist,
-f\"ur den au\3er an der Wurzel \"uberall die Balancierungs-Bedingung erf\"ullt ist.
+f\"ur den au{\ss}er an der Wurzel \"uberall die Balancierungs-Bedingung erf\"ullt ist.
 An der Wurzel kann die H\"ohe des linken Teilbaums um maximal 2 von der H\"ohe des rechten
 Teilbaums abweichen. Beim Aufruf der Methode $b.\textsl{restore}()$ liegt also einer der
 beiden folgenden F\"alle vor: 
@@ -151,7 +151,7 @@ bedingte Gleichungen.
       \hspace*{1.3cm} $l_2 < k_2 < l_3 < k_3 < r_3 < k_1 < r_1$.
 
       Es gibt noch zwei weitere F\"alle die auftreten, wenn der rechte Teilbaum um mehr als
-      Eins gr\"o\3er ist als der linke Teilbaum.  Diese beiden F\"alle sind aber zu den beiden
+      Eins gr\"o{\ss}er ist als der linke Teilbaum.  Diese beiden F\"alle sind aber zu den beiden
       vorherigen F\"allen v\"ollig analog, so dass wir die Gleichungen hier ohne weitere
       Diskussion angeben.
 \item $\begin{array}[t]{cl}
@@ -555,8 +555,8 @@ gibt es die folgenden Änderungen:
             korrekt gesetzt ist.  Dazu wird die Methode Methode $\textsl{restoreHeight()}$
             aufgerufen.  Diese Methode ist in Zeile 120 -- 122 implementiert und berechnet
             die H\"ohe neu.
-      \item Falls die H\"ohe des linken Teilbaums nun gr\"o\3er als die H\"ohe des rechten
-            Teilbaums ist und au\3erdem die Balancierungs-Bedingung verletzt ist,
+      \item Falls die H\"ohe des linken Teilbaums nun gr\"o{\ss}er als die H\"ohe des rechten
+            Teilbaums ist und au{\ss}erdem die Balancierungs-Bedingung verletzt ist,
             dann gibt es eine weitere Fall-Unterscheidung, die wir bei der Herleitung
             der bedingten Gleichungen zur Spezifikation der Methode $\textsl{restore}()$
             bereits diskutiert hatten.  Diese beiden F\"alle werden in Zeile 89 -- 113
@@ -567,7 +567,7 @@ gibt es die folgenden Änderungen:
             den Fall behandeln, der in den Abbildungen \ref{fig:caselr} und
             \ref{fig:caselr-nach} dargestellt wird.
       \item Der Code, der den Fall betrachtet, in dem einerseits
-            die H\"ohe des rechten Teilbaums  gr\"o\3er als die H\"ohe des linken
+            die H\"ohe des rechten Teilbaums  gr\"o{\ss}er als die H\"ohe des linken
             Teilbaums ist und andererseits die Balancierungs-Bedingung verletzt ist,
             ist v\"ollig analog zu dem vorigen Fall und wird deshalb in der Abbildung nicht
             explizit wiedergegeben.
@@ -582,8 +582,8 @@ Wir analysieren jetzt die Komplexit\"at von AVL-B\"aumen im schlechtesten Fall. 
 schlechteste Fall tritt dann ein, wenn bei einer vorgegebenen Zahl von Schl\"usseln die H\"ohe
 maximal wird.  Das ist aber dasselbe wie wenn in einem Baum gegebener H\"ohe die Zahl der
 Schl\"ussel minimal wird.  Wir definieren daher $b_h(k)$ als einen AVL-Baum der H\"ohe $h$, der
-unter allen AVL-B\"aumen der H\"ohe $h$ die minimale Anzahl von Schl\"usseln hat.  Au\3erdem
-sollen alle Schl\"ussel, die in $b_h(k)$ auftreten, gr\"o\3er als der Schl\"ussel $k$ sein.
+unter allen AVL-B\"aumen der H\"ohe $h$ die minimale Anzahl von Schl\"usseln hat.  Au{\ss}erdem
+sollen alle Schl\"ussel, die in $b_h(k)$ auftreten, gr\"o{\ss}er als der Schl\"ussel $k$ sein.
 Sowohl die Schl\"ussel als auch die Werte sind in diesem Zusammenhang eigentlich unwichtig,
 wir m\"ussen nur darauf achten, dass die Ordnungs-Bedingung f\"ur bin\"are B\"aume erf\"ullt ist.
 Wir werden f\"ur die Schl\"ussel nat\"urliche Zahlen nehmen, f\"ur die Werte nehmen wir immer die
@@ -591,7 +591,7 @@ Zahl $0$.  Bevor wir mit der Definition von $b_h(k)$ beginnen k\"onnen, ben\"oti
 Hilfs-Funktion $\textsl{maxKey}()$ mit der Signatur  
 \[ \textsl{maxKey}:\mathcal{B}_< \rightarrow \textsl{Key} \]
 F\"ur einen gegebenen geordneten nicht-leeren bin\"aren Baum $b$ 
-berechnet $b.\textsl{maxKey}()$ den gr\"o\3ten Schl\"ussel, der in $b$ auftritt.  Die
+berechnet $b.\textsl{maxKey}()$ den gr\"o{\ss}ten Schl\"ussel, der in $b$ auftritt.  Die
 Definition von $b.\textsl{maxKey}()$ ist induktiv:
 \begin{enumerate}
 \item $\textsl{node}(k,v,l,\textsl{nil}).\textsl{maxKey}() = k$,
@@ -611,7 +611,7 @@ Damit k\"onnen wir nun die B\"aume $b_h(k)$ durch Induktion nach der H\"ohe $h$ 
       denn um einen AVL-Baum der H\"ohe $h+2$ mit einer minimalen Anzahl an Schl\"usseln zu
       konstruieren, erzeugen wir zun\"achst den AVL-Baum $b_{h+1}(k)$ der H\"ohe $h+1$.
       Dann bestimmen wir den maximalen Schl\"ussel $l$ in diesem Baum, der Schl\"ussel $l+1$
-      kommt nun an die Wurzel des zu erzeugenden Baums der H\"ohe $h+2$ und schlie\3lich erzeugen wir noch
+      kommt nun an die Wurzel des zu erzeugenden Baums der H\"ohe $h+2$ und schlie{\ss}lich erzeugen wir noch
       den Baum $b_h(l+1)$ der H\"ohe $h$, den wir als rechten Teilbaum in den neu zu
       erzeugenden Baum der H\"ohe $h+2$  einf\"ugen.
 \end{enumerate}
@@ -653,7 +653,7 @@ $\lambda_1 = \displaystyle \frac{1}{2}(1 + \sqrt{5}) \approx  1.62$ \quad und \q
 \displaystyle \frac{1}{2}(1 - \sqrt{5}) \approx -0.62$.
 \\[0.2cm]
 Da $|\lambda_2| < 1$ ist, spielt der Wert $\displaystyle\lambda_2^{h+2}$
-f\"ur gro\3e Werte von $h$   praktisch keine Rolle und die
+f\"ur gro{\ss}e Werte von $h$   praktisch keine Rolle und die
 minimale Zahl $n$ der Schl\"ussel in einem Baum der H\"ohe $h$ ist durch \\[0.2cm]
 \hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$ \\[0.2cm]
 gegeben.  Um diese Gleichung nach $h$ aufzul\"osen, bilden wir auf beiden Seiten den
@@ -672,7 +672,7 @@ Jetzt teilen wir durch $\log_2(\lambda_1)$.  Dann erhalten wir
 \hspace*{1.3cm}
 $\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$
 \\[0.2cm]
-L\"osen wir diese Gleichung nach $h$ auf, so haben wir f\"ur gro\3e $n$
+L\"osen wir diese Gleichung nach $h$ auf, so haben wir f\"ur gro{\ss}e $n$
 das Ergebnis
 \\[0.4cm]
 \hspace*{0.3cm} 
@@ -680,7 +680,7 @@ $h = \displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lamb
       \bruch{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \approx 1,44 \cdot \log_2(n) + \Oh(1)$ 
 \\[0.2cm]
 gewonnen. 
-Die Gr\"o\3e $h$ gibt aber die Zahl der Vergleiche an, die wir im ung\"unstigsten Fall bei
+Die Gr\"o{\ss}e $h$ gibt aber die Zahl der Vergleiche an, die wir im ung\"unstigsten Fall bei
 einem Aufruf von \textsl{find} in einem AVL-Baum mit $n$ Schl\"usseln durchf\"uhren m\"ussen.
 Wir sehen also, dass bei einem AVL-Baum auch im schlechtesten Fall die Komplexit\"at
 logarithmisch bleibt.  Abbildung
@@ -718,7 +718,7 @@ potentiell f\"ur jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries def
 k\"onnen, nehmen wir zun\"achst an, dass folgendes gegeben ist:
 \begin{enumerate}
 \item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
-      bezeichnen. $\Sigma$ selbst hei\3t das \emph{Alphabet}.
+      bezeichnen. $\Sigma$ selbst hei{\ss}t das \emph{Alphabet}.
 \item $\Sigma^*$ bezeichnet die Menge der \emph{W\"orter} (engl.~\emph{strings}), die wir aus den Buchstaben
       des Alphabets bilden k\"onnen.  Mathematisch k\"onnen wir W\"orter als Listen von 
       Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
@@ -804,7 +804,7 @@ Das, was wir \"uber dem Strich schreiben,
 h\"angt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abh\"angt, sehen wir gleich.
 Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
 Wurzeln der B\"aume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Au\3erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alfte 
+Au{\ss}erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alfte 
 mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
 
 
@@ -863,7 +863,7 @@ durch Induktion nach der L\"ange des Wortes $w$.
       $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zun\"achst ein Trie
       erzeugt, der die leere Abbildung repr\"asentiert.  Dieser Trie hat die Form \\[0.2cm]
       \hspace*{1.3cm} $\textsl{node}(\Omega, [], [])$. \\[0.2cm]
-      Anschlie\3end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
+      Anschlie{\ss}end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
       eingef\"ugt. Zum Schluss h\"angen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$
       an und f\"ugen den Trie  \\[0.2cm] 
       \hspace*{1.3cm} $\textsl{node}(\Omega, [], []).\textsl{insert}(r,v_2)$ \\[0.2cm]
@@ -1036,7 +1036,7 @@ Die Abbildungen \ref{fig:TrieNode-I} und \ref{fig:TrieNode-II} auf den Seiten
             $\textsl{firstChar} = c$ und $\textsl{rest} = r$.  Wir gehen nun die
             Buchstaben-Liste \texttt{mCharList} durch und schauen, ob wir 
             dabei den Buchstaben $c$ finden.  Wenn  wir den Buchstaben $c$ an der $i$-ten
-            Stelle finden, dann suchen wir anschlie\3end  in dem $i$-ten Trie in der Liste 
+            Stelle finden, dann suchen wir anschlie{\ss}end  in dem $i$-ten Trie in der Liste 
             \texttt{mNodeList} nach dem Schl\"ussel $r$.
 
             Falls der Buchstabe $c$ nicht gefunden wird, geben wir \texttt{null} zur\"uck um
@@ -1051,7 +1051,7 @@ Die Abbildungen \ref{fig:TrieNode-I} und \ref{fig:TrieNode-II} auf den Seiten
             $\textsl{firstChar} = c$ und $\textsl{rest} = r$.  Wir gehen nun die
             Buchstaben-Liste \texttt{mCharList} durch und suchen den Buchstaben $c$.  
             Wenn wir $c$ an der $i$-ten
-            Stelle finden, dann f\"ugen wir anschlie\3end  in dem $i$-ten Trie in der Liste 
+            Stelle finden, dann f\"ugen wir anschlie{\ss}end  in dem $i$-ten Trie in der Liste 
             \texttt{mNodeList} den Wert \texttt{value} unter dem Schl\"ussel $r$ ein.
 
             Falls der Buchstabe $c$ nicht in der Liste \texttt{mCharList} auftritt,
@@ -1194,7 +1194,7 @@ Eine Abbildung \\[0.2cm]
 \hspace*{1.3cm} $f: \textsl{Key} \rightarrow \textsl{Value}$ \\[0.2cm]
 kann dann sehr einfach implementiert werden, wenn \\[0.2cm]
 \hspace*{1.3cm} $\textsl{Key} = \{ 0, 1, 2, \cdots, n \}$, \\[0.2cm]
-denn dann reicht es aus, ein Feld der Gr\"o\3e $n+1$ zu verwenden.
+denn dann reicht es aus, ein Feld der Gr\"o{\ss}e $n+1$ zu verwenden.
 Abbildung \ref{fig:ArrayMap} zeigt, dass sich der ADT \textsl{Map} 
 in diesem Fall trivial implementieren l\"asst.
 
@@ -1264,9 +1264,9 @@ Wir betrachten eine naive Methode um ein Telefon-Buch abzuspeichern:
 \end{enumerate}
 Leider hat diese naive Implementierung mehrere Probleme: 
 \begin{enumerate}
-\item Das Feld, das wir anlegen m\"ussen, hat eine Gr\"o\3e von \\[0.2cm]
+\item Das Feld, das wir anlegen m\"ussen, hat eine Gr\"o{\ss}e von \\[0.2cm]
       \hspace*{1.3cm} $27^8 = 282\,429\,536\,481$ \\[0.2cm]
-      Eintr\"agen.  Selbst wenn jeder Eintrag nur die Gr\"o\3e zweier Maschinen-Worte hat und
+      Eintr\"agen.  Selbst wenn jeder Eintrag nur die Gr\"o{\ss}e zweier Maschinen-Worte hat und
       ein Maschinen-Wort aus 4 Byte besteht, so br\"auchten wir 
       etwas mehr als ein Terabyte um eine
       solche Tabelle anzulegen.
@@ -1277,7 +1277,7 @@ Wir k\"onnen diese Probleme wir folgt l\"osen:
 \begin{enumerate}
 \item Wir \"andern die Funktion \texttt{code} so ab, dass das Ergebnis
       immer kleiner-gleich einer vorgegebene Zahl \texttt{size} ist.  Die Zahl
-      \texttt{size} gibt dabei die Gr\"o\3e eines Feldes an und ist so klein,
+      \texttt{size} gibt dabei die Gr\"o{\ss}e eines Feldes an und ist so klein,
       dass wir ein solches Feld bequem anlegen k\"onnen.
 
       Eine einfache M\"oglichkeit, die Funktion \textsl{code} entsprechend abzu\"andern,
@@ -1295,7 +1295,7 @@ Wir k\"onnen diese Probleme wir folgt l\"osen:
       \hspace*{1.3cm} 
       $s_0 = \left(\sum\limits_{i=0}^n \textsl{ord}(c_i) \cdot 27^i\right) \;\%\; \textsl{size}$.
       
-\item In dem Feld der Gr\"o\3e \textsl{size} speichern wir nun nicht mehr die Werte, sondern statt dessen
+\item In dem Feld der Gr\"o{\ss}e \textsl{size} speichern wir nun nicht mehr die Werte, sondern statt dessen
       Listen von Paaren aus Schl\"usseln und Werten.  Dies ist notwendig, denn wir k\"onnen
       nicht verhindern, dass die Funktion \texttt{code}() f\"ur zwei verschiedene
       Schl\"ussel den selben Index liefert.
@@ -1463,29 +1463,29 @@ als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \texts
             deklariert werden.  Die Erzeugung generischer Felder ist in \textsl{Java} 
             aber sehr trickreich.  Um nicht zu sehr vom eigentlichen Thema abzukommen
             haben wir daher eine Implementierung gew\"ahlt, die nicht Typ-sicher ist.
-      \item Wenn die einzelnen Listen zu gro\3 werden, wird die Suche ineffizient.
-            Daher ist es notwendig, die Gr\"o\3e dieser Listen zu kontrollieren,
-            wenn die Listen zu gro\3 werden, muss das Feld vergr\"o\3ert werden.
+      \item Wenn die einzelnen Listen zu gro{\ss} werden, wird die Suche ineffizient.
+            Daher ist es notwendig, die Gr\"o{\ss}e dieser Listen zu kontrollieren,
+            wenn die Listen zu gro{\ss} werden, muss das Feld vergr\"o{\ss}ert werden.
             Um diesen Prozess zu steuern, m\"ussen wir zun\"achst nachhalten, 
             wieviele Elemente schon in der Hash-Tabelle abgespeichert sind.
             Dies geschieht in der Member-Variable \texttt{mNumberEntries}, die in Zeile 12
             definiert wird.
 
             Theoretische Untersuchungen, die \"uber den Rahmen der Vorlesung hinausgehen, zeigen, dass
-            die Gr\"o\3e der Tabelle eine Primzahl sein sollte.  Daher verf\"ugt der
+            die Gr\"o{\ss}e der Tabelle eine Primzahl sein sollte.  Daher verf\"ugt der
             Konstruktor \"uber eine Liste von Primzahlen, 
             die in der statistischen Member-Variablen \texttt{sPrimes}, die in Zeile 4
             definiert ist, abgelegt sind.  
-            Die $i+1$-te Primzahlen in dieser Liste ist in etwa doppelt so gro\3 wie die $i$-te
+            Die $i+1$-te Primzahlen in dieser Liste ist in etwa doppelt so gro{\ss} wie die $i$-te
             Primzahl. Die Member-Variable \texttt{mPrimeIndex}, die
-            in Zeile 11 definiert wird, kodiert nun die Gr\"o\3e des
+            in Zeile 11 definiert wird, kodiert nun die Gr\"o{\ss}e des
             Feldes \texttt{mArray}.  Es gilt immer \\[0.2cm]
             \hspace*{1.3cm} \texttt{mArray.length == sPrimes[mPrimeIndex]}. \\[0.2cm]
             Die durchschnittliche L\"ange der einzelnen Listen ergibt sich als
             der Quotient aus der Zahl \texttt{mNumberEntries} und der L\"ange des Feldes
-            \texttt{mArray}.  Wird nun dieser Wert gr\"o\3er als der
+            \texttt{mArray}.  Wird nun dieser Wert gr\"o{\ss}er als der
             \emph{Auslastungs-Faktor} (engl.~\emph{load factor})             
-            \texttt{sAlpha}, der in Zeile 3 definiert ist, dann verdoppeln wir die Gr\"o\3e
+            \texttt{sAlpha}, der in Zeile 3 definiert ist, dann verdoppeln wir die Gr\"o{\ss}e
             des Feldes.
       \end{enumerate}
 \item Der Konstruktor in Zeile 14 initialsiert \texttt{mPrimeIndex} mit dem gegebenen Argument.
@@ -1499,7 +1499,7 @@ als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \texts
       Wir modifizieren diese Zahl in Zeile 20 durch Bilden von Modulo und Absolutbetrag
       so, dass das Ergebnis in der Menge 
       $\{\,0,\; \cdots,\; \mathtt{mArray.length} - 1\,\}$ liegt.
-      Anschlie\3end holen wir die Liste, in der Werte zu dem gegebenen Schl\"ussel
+      Anschlie{\ss}end holen wir die Liste, in der Werte zu dem gegebenen Schl\"ussel
       abgespeichert sein m\"ussen.  Falls in dem Feld an der Stelle, die durch den berechneten 
       Index angegeben wird, noch gar keine Liste gespeichert ist,
       hat die Hash-Tabelle zu dem gegebenen Schl\"ussel noch keinen Eintrag und wir geben in
@@ -1516,17 +1516,17 @@ als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \texts
 
 \item Bei der Implementierung der Methode \textsl{insert} berechnen wir zun\"achst den
       aktuellen Auslastungs-Faktor, also die durchschnittliche L\"ange der Listen.  Falls diese L\"ange
-      gr\"o\3er als der vorgegebene maximale Auslastungs-Faktor \texttt{sAlpha} ist,
+      gr\"o{\ss}er als der vorgegebene maximale Auslastungs-Faktor \texttt{sAlpha} ist,
       f\"uhren wir ein sogenanntes \emph{Rehashing} durch, das wir weiter unten im Detail
       diskutieren.
 
-      Anschlie\3end ist die Implementierung analog zur Implementierung der Methode
+      Anschlie{\ss}end ist die Implementierung analog zur Implementierung der Methode
       \textsl{find}().  Wir berechnen also zun\"achst die Liste, in der Schl\"ussel
       \texttt{key} und der Wert \texttt{value} einzuf\"ugen sind.  Falls unter dem Index
       noch keine Liste existiert, erzeugen wir in den Zeilen 42 und 43 eine neue leere
       Liste und tragen diese Liste in das Feld ein.  
 
-      Anschlie\3end durchlaufen wir die Liste und suchen den Schl\"ussel \texttt{key}.
+      Anschlie{\ss}end durchlaufen wir die Liste und suchen den Schl\"ussel \texttt{key}.
       Wenn wir den Schl\"ussel finden, dann wird einfach der zugeh\"orige Wert \"uberschrieben.
       Wenn wir den Schl\"ussel \texttt{key} in der Liste nicht finden, dann f\"ugen wir den
       Schl\"ussel zusammen mit dem zugeordneten Wert \texttt{value} in Zeile 52 an das Ende der Liste an.
@@ -1534,21 +1534,21 @@ als Hash-Tabelle.  Wir diskutieren nun die Implementierung dieser Idee in \texts
       inkrementieren.
 \item Als n\"achstes besprechen wir das \emph{Rehashing}, das in Zeile 55 -- 69
       implementiert ist.  Wir inkrementieren zun\"achst \texttt{mPrimeIndex} und
-      bilden dann eine neue Hash-Tabelle, die in etwa doppelt so gro\3 ist, wie die alte
-      Hash-Tabelle. Anschlie\3end kopieren wir die Werte aus der alten Hash-Tabelle in die
+      bilden dann eine neue Hash-Tabelle, die in etwa doppelt so gro{\ss} ist, wie die alte
+      Hash-Tabelle. Anschlie{\ss}end kopieren wir die Werte aus der alten Hash-Tabelle in die
       neue Tabelle.  Dazu durchlaufen wir das Feld \texttt{mArray} in der
       \texttt{for}-Schleife, die sich von Zeile 58 -- 66 erstreckt.
-      Anschlie\3end f\"ugen wir die Elemente aus dem Feld \texttt{mArray} in der inneren
+      Anschlie{\ss}end f\"ugen wir die Elemente aus dem Feld \texttt{mArray} in der inneren
       Schleife, die sich von 62 -- 65 erstreckt, in die neue Hash-Tabelle ein.
       Wir k\"onnen die einzelnen Werte nicht einfach kopieren, denn der Index, der angibt,
       in welcher Liste ein Schl\"ussel eingetragen ist, h\"angt ja nicht nur von dem
-      Hash-Code des Schl\"ussels sondern auch von der Gr\"o\3e des Feldes ab.
+      Hash-Code des Schl\"ussels sondern auch von der Gr\"o{\ss}e des Feldes ab.
       Zum Schluss kopieren wir in Zeile 67  das Feld der neu angelegten Hash-Tabelle in die
       urspr\"ungliche Hash-Tabelle.
 \item Als letztes diskutieren wir das L\"oschen in einer Hash-Tabelle.
       Genau wie beim Suchen und Einf\"ugen berechnen wir zun\"achst den Index der Liste, in
       der sich der Schl\"ussel befinden muss, falls die Hash-Tabelle \"uberhaupt einen Eintrag
-      zu dem Schl\"ussel enth\"alt.  Anschlie\3end vergleichen wir in der \texttt{for}-Schleife
+      zu dem Schl\"ussel enth\"alt.  Anschlie{\ss}end vergleichen wir in der \texttt{for}-Schleife
       in Zeile 75 -- 82 alle Schl\"ussel dieser Liste mit dem Schl\"ussel \texttt{key}.
       Falls wir den Schl\"ussel in der Liste finden, l\"oschen wir das Paar, dass diesen
       Schl\"ussel enth\"alt, aus  der Liste.  Zus\"atzlich erniedrigen wir in diesem Fall die
@@ -1563,7 +1563,7 @@ ist der, dass alle Listen etwa gleich lang sind.  Die durchschnittliche L\"ange 
 ist dann \\[0.2cm]
 \hspace*{1.3cm} $\alpha = \displaystyle \frac{\mathtt{count}}{\mathtt{size}}$. \\[0.2cm]
 Hierbei ist $\mathtt{count}$ die Gesamtzahl der Eintr\"age in der Tabelle und \texttt{size}
-gibt die Gr\"o\3e der Tabelle an.  Das Verh\"altnis $\alpha$ dieser beiden Zahlen bezeichnen wir 
+gibt die Gr\"o{\ss}e der Tabelle an.  Das Verh\"altnis $\alpha$ dieser beiden Zahlen bezeichnen wir 
 als den \emph{Auslastungs-Faktor} der Hash-Tabelle.  In der Praxis zeigt sich, dass
 $\alpha$ kleiner als 4 sein sollte.  In \textsl{Java} gibt es die Klasse \textsl{HashMap},
 die Abbildungen als Hash-Tabellen implementiert.  Dort hat der per Default eingestellte maximale
@@ -1693,10 +1693,10 @@ Diese Schnittstelle spezifiziert die folgenden Methoden:
 
 \item \texttt{T[] toArray(T[] $a$)}
 
-      Falls $c$ eine Zusammenfassung vom Typ \texttt{T} ist und wenn au\3erdem $a$ ein Feld
+      Falls $c$ eine Zusammenfassung vom Typ \texttt{T} ist und wenn au{\ss}erdem $a$ ein Feld
       von Elementen des selben Typs \texttt{T} ist, dann liefert der Aufruf
       $c.\mathtt{toArray}(a)$ ein Feld, das alle Elemente der Zusammenfassung $c$ enth\"alt
-      und das au\3erdem ein Feld vom Typ \texttt{T} ist.
+      und das au{\ss}erdem ein Feld vom Typ \texttt{T} ist.
       Die Verwendung dieser Methode erh\"alt im Gegensatz zu der vorhin diskutierten Methode
       die Typ-Information.  Die Methode kann allerdings nur verwendet werden, wenn ein
       geeignetes Hilfsfeld $a$ zur Verf\"ugung steht.  Das Problem ist hier, dass es in
@@ -1710,7 +1710,7 @@ Diese Schnittstelle spezifiziert die folgenden Methoden:
       \texttt{Object[]}, das von der Methode \texttt{toArray()} ohne Parameter angelegt
       wurde, in ein anderes Feld zu casten.  In Abbildung \ref{fig:TestCast.java}
       wird zun\"achst eine Liste von Elementen des Typs \texttt{Integer} angelegt.
-      anschlie\3end wird diese Liste mit der Methode \texttt{toArray} in das Feld \texttt{a}
+      anschlie{\ss}end wird diese Liste mit der Methode \texttt{toArray} in das Feld \texttt{a}
       umgewandelt.   Dieses Feld enth\"alt zwar jetzt nur Elemente des Typs
       \texttt{Integer}, trotzdem kann es nicht zu einem Feld des Typs \texttt{Integer[]}
       gecastet werden, die Anwendung des Cast-Operators in Zeile 10 liefert
@@ -1810,7 +1810,7 @@ denen f\"ur uns die folgenden drei wichtig sind:
             Der Aufruf $s.\mathtt{first}()$ liefert das kleinste Element der Menge $s$.
       \item \texttt{E last()}
 
-            Der Aufruf $s.\mathtt{last}()$ liefert das gr\"o\3te Element der Menge $s$.
+            Der Aufruf $s.\mathtt{last}()$ liefert das gr\"o{\ss}te Element der Menge $s$.
       \end{enumerate}
       Die Klasse \texttt{TreeSet<E>} stellt die folgenden Konstruktoren zur Verf\"ugung.
       \begin{enumerate}
@@ -1854,7 +1854,7 @@ denen f\"ur uns die folgenden drei wichtig sind:
             Dieser Konstruktor erzeugt eine leere Hash-Tabelle.  Per Default ist
             hier der Load-Faktor auf $0.75$ gesetzt, was zur Folge hat, dass mindestens
             ein Viertel der Eintr\"age des Feldes, das der Hash-Tabelle zu Grunde liegt,
-            leer sind.  Das Feld selbst hat zun\"achst eine Gr\"o\3e von 16.
+            leer sind.  Das Feld selbst hat zun\"achst eine Gr\"o{\ss}e von 16.
       \item \texttt{HashSet(Collection<E> $c$)}
 
             Dieser Konstruktor erzeugt eine Hash-Tabelle, die alle Elemente aus der
@@ -1862,11 +1862,11 @@ denen f\"ur uns die folgenden drei wichtig sind:
       \item \texttt{HashSet(int $n$)}
         
             Dieser Konstruktor erzeugt eine leere Hash-Tabelle, f\"ur die das zu Grunde
-            liegende Feld die Gr\"o\3e $n$ hat.  Der Load-Faktor ist $0.75$.
+            liegende Feld die Gr\"o{\ss}e $n$ hat.  Der Load-Faktor ist $0.75$.
       \item \texttt{HashSet(int $n$, float $\alpha$)}
 
             Dieser Konstruktor erzeugt eine leere Hash-Tabelle, f\"ur die das zu Grunde
-            liegende Feld die Gr\"o\3e $n$ hat.  Der Load-Faktor ist $\alpha$.
+            liegende Feld die Gr\"o{\ss}e $n$ hat.  Der Load-Faktor ist $\alpha$.
       \end{enumerate}
 \item Die Schnittstelle \texttt{List<E>} beschreibt Listen, deren Elemente den Typ
       \texttt{E} haben.
@@ -1897,8 +1897,8 @@ denen f\"ur uns die folgenden drei wichtig sind:
             Der Aufruf $l.\mathtt{add}(i, e)$ f\"ugt das Element $e$
             an der Position in die Liste $l$ ein, die durch den Index $i$ gegeben ist.
             Die Elemente, die vorher schon in 
-            der Liste $l$ enthalten waren und die zus\"atzlich einen Index gr\"o\3er oder
-            gleich $i$ hatten, vergr\"o\3ern ihren Index um 1.  Beispielsweise hat das
+            der Liste $l$ enthalten waren und die zus\"atzlich einen Index gr\"o{\ss}er oder
+            gleich $i$ hatten, vergr\"o{\ss}ern ihren Index um 1.  Beispielsweise hat das
             Element, das vorher den Index $i$ hatte, hinterher den Index $i+1$.
             Also wird bei dem Aufruf $l.\mathtt{add}(0,e)$ das Element $e$ am Anfang der
             Liste $l$ eingef\"ugt, wobei alle bereits vorher in der Liste vorhandenen
@@ -2040,14 +2040,14 @@ resultierende Programm, das wir jetzt diskutieren.
       In \textsc{Setl} schreibt sich diese Menge als \texttt{\{l..h\}}.  
 
       Um diese Menge zu erzeugen, legen wir in Zeile 6 eine leere Menge an.
-      Abschlie\3end lassen wir in einer Schleife die Variable $i$ von $l$ bis $h$ laufen
+      Abschlie{\ss}end lassen wir in einer Schleife die Variable $i$ von $l$ bis $h$ laufen
       und f\"ugen jedesmal $i$ zu der Menge hinzu.
 \item Die Methode $\texttt{products}(s_1,s_2)$ berechnet f\"ur zwei Mengen $s_1$ und $s_2$
       die Menge aller Produkte von Zahlen aus $s_1$ und $s_2$:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\{ p \cdot q \mid p \in s_1 \wedge q \in s_2 \}$.
-\item Die Methode $\mathtt{primes}(n)$ berechnet die Menge aller Primzahlen bis zur Gr\"o\3e
+\item Die Methode $\mathtt{primes}(n)$ berechnet die Menge aller Primzahlen bis zur Gr\"o{\ss}e
       $n$.   Dazu wird in Zeile 25 von der Menge $\{2 .. n\}$ die Menge
       aller Produkte $p \cdot q$ von Zahlen aus der Menge $\{2 .. n \}$
       abgezogen.  Die dann in der Menge \texttt{primes} verbleibenden Zahlen lassen sich
@@ -2080,7 +2080,7 @@ Teilmenge von \texttt{V} ist.  Wir stellen die wichtigsten Methoden der Schnitts
 \item \texttt{V put(K $k$, V $v$)}
 
       Der Aufruf $m.\mathtt{put}(k,v)$ ordnet dem Schl\"ussel $k$ den Wert $v$ zu.
-      Au\3erdem wird der Wert zur\"uck gegeben, der vorher unter dem Schl\"ussel $k$ in $m$
+      Au{\ss}erdem wird der Wert zur\"uck gegeben, der vorher unter dem Schl\"ussel $k$ in $m$
       gespeichert war.  Falls die Abbildung $m$ dem Schl\"ussel $k$ vorher keinen Wert
       zugeordnet hat, dann wird als Ergebnis \texttt{null} zur\"uck gegeben.
 
@@ -2139,7 +2139,7 @@ die Klasse \texttt{TreeMap<K,V>} und die Klasse \texttt{HashMap<K,V>}.
 
 \subsubsection{Die Klasse \texttt{TreeMap<K,V>}}
 Die Klasse \texttt{TreeMap<K,V>} ist mit Hilfe von Rot-Schwarz-B\"aumen implementiert.  Um diese
-Klasse verwenden zu k\"onnen, m\"ussen die Schl\"ussel vergleichbar sein.  Standardm\"a\3ig wird
+Klasse verwenden zu k\"onnen, m\"ussen die Schl\"ussel vergleichbar sein.  Standardm\"a{\ss}ig wird
 zum Vergleich zweier Schl\"ussel $k_1$ und $k_2$ die Methode
 \\[0.2cm]
 \hspace*{1.3cm} $k_1.\mathtt{compareTo}(k_2)$
@@ -2182,15 +2182,15 @@ wird durch eine Hash-Tabelle implementiert. Diese Klasse verf\"ugt \"uber die fo
       Dieser Konstruktor erzeugt eine leere Hash-Tabelle.  Per Default ist
       hier der Load-Faktor auf $0.75$ gesetzt, was zur Folge hat, dass mindestens
       ein Viertel der Eintr\"age des Feldes, das der Hash-Tabelle zu Grunde liegt,
-      leer sind.  Das Feld selbst hat zun\"achst eine Gr\"o\3e von 16.
+      leer sind.  Das Feld selbst hat zun\"achst eine Gr\"o{\ss}e von 16.
 \item \texttt{HashMap(int $n$)}
   
       Dieser Konstruktor erzeugt eine leere Hash-Tabelle, f\"ur die das zu Grunde
-      liegende Feld die Gr\"o\3e $n$ hat.  Der Load-Faktor ist $0.75$.
+      liegende Feld die Gr\"o{\ss}e $n$ hat.  Der Load-Faktor ist $0.75$.
 \item \texttt{HashMap(int $n$, float $\alpha$)}
 
       Dieser Konstruktor erzeugt eine leere Hash-Tabelle, f\"ur die das zu Grunde
-      liegende Feld die Gr\"o\3e $n$ hat.  Der Load-Faktor ist $\alpha$.
+      liegende Feld die Gr\"o{\ss}e $n$ hat.  Der Load-Faktor ist $\alpha$.
 \item \texttt{HashMap(Map<K,V> $m$)}
 
       Dieser Konstruktor erzeugt eine Hash-Tabelle, die alle Zuordnungen aus der

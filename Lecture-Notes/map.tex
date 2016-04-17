@@ -219,7 +219,7 @@ Als n\"achstes definieren wir, was wir unter einem \emph{geordneten bin\"aren Ba
         \item Alle Schl\"ussel, die in dem linken Teilbaum $l$ auftreten,
               sind kleiner als $k$.
         \item Alle Schl\"ussel, die in dem rechten Teilbaum $r$ auftreten,
-              sind gr\"o\ss{}er als $k$.
+              sind gr\"o{\ss}er als $k$.
         \end{enumerate}
         Die beiden letzten  Bedingungen bezeichnen wir als die \emph{Ordnungs-Bedingung}.
         \hspace*{\fill} $\Box$
@@ -233,7 +233,7 @@ Geordnete bin\"are B\"aume lassen sich grafisch wir folgt darstellen:
       Oval gezeichnet wird, in dem oben der Schl\"ussel $k$ und darunter, getrennt durch
       einen waagerechten Strich, der dem Schl\"ussel zugeordnete Wert $v$ eingetragen wird.
       Dieses Oval bezeichnen wir auch als einen \emph{Knoten} des bin\"aren Baums.
-      Anschlie\ss{}end wird links unten von diesem Knoten rekursiv der Baum $l$ ge\-zeich\-net
+      Anschlie{\ss}end wird links unten von diesem Knoten rekursiv der Baum $l$ ge\-zeich\-net
       und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluss zeichnen wir
       von dem mit $k$ und $v$ markierten Knoten jeweils einen Pfeil zu dem linken und dem
       rechten Teilbaum.
@@ -274,7 +274,7 @@ F\"ur die Methode $\textsl{find}()$ erhalten wir die folgenden Gleichungen:
       eine Zuordnung f\"ur $k_1$ nur in dem linken Teilbaum $l$ gespeichert sein.
 \item $k_1 > k_2 \rightarrow \textsl{Node}(k_2, v, l, r).\textsl{find}(k_1) = r.\textsl{find}(k_1)$,
 
-      denn wenn $k_1$ gr\"o\ss{}er als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
+      denn wenn $k_1$ gr\"o{\ss}er als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
       eine Zuordnung f\"ur $k_1$ nur in dem rechten Teilbaum $r$ gespeichert sein.
 \end{enumerate}
 Als n\"achstes definieren wir die Funktion \textsl{insert}.  Die Definition erfolgt
@@ -299,7 +299,7 @@ Funktion \textsl{find}.
          \textsl{Node}(k_2, v_2, l, r).\textsl{insert}(k_1, v_1) = 
          \textsl{Node}(k_2, v_2, l, r.\textsl{insert}(k_1, v_1))$,
 
-      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, gr\"o\ss{}er
+      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, gr\"o{\ss}er
       als der Schl\"ussel $k_2$ an der Wurzel ist, so m\"ussen wir die einzuf\"ugende
       Information im rechten Teilbaum einf\"ugen.
 \end{enumerate}
@@ -313,13 +313,13 @@ wenn weder $l$ noch $r$ leer sind.
 Die L\"osung besteht dann darin, dass wir in dem rechten
 Teilbaum $r$ den Knoten mit dem kleinsten Schl\"ussel suchen und diesen Knoten aus dem
 Baum $r$ entfernen.  Den dadurch entstehenden Baum nennen wir $r'$.
- Anschlie\ss{}end \"uberschreiben wir in $t =\textsl{Node}(k,v,l,r')$ die
+ Anschlie{\ss}end \"uberschreiben wir in $t =\textsl{Node}(k,v,l,r')$ die
 Werte $k$ und $v$ mit dem eben gefundenen kleinsten Schl\"ussel $k_{min}$ und dem $k_{min}$
 zugeordneten Wert $v_{min}$.  Der dadurch entstehende bin\"are Baum 
 $t=\textsl{Node}(k_{min},v_{min},l,r')$
  ist auch wieder
-geordnet, denn einerseits ist der Schl\"ussel $k_{min}$  gr\"o\ss{}er als der Schl\"ussel $k$ und
-damit sicher auch gr\"o\ss{}er als alle Schl\"ussel im linken Teilbaum $l$ und andererseits ist
+geordnet, denn einerseits ist der Schl\"ussel $k_{min}$  gr\"o{\ss}er als der Schl\"ussel $k$ und
+damit sicher auch gr\"o{\ss}er als alle Schl\"ussel im linken Teilbaum $l$ und andererseits ist
 $k_{min}$ kleiner als alle  Schl\"ussel im Teilbaum $r'$, denn $k_{min}$ ist ja der
 kleinste Schl\"ussel aus $r$.  
 
@@ -579,8 +579,8 @@ the function call $b.\textsl{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.
 %\item $\textsl{node}(k,v,l,r).\textsl{height}() = 
 %       1 + \max\bigl(l.\textsl{height}(),\, r.\textsl{height}()\bigr)$.
 
-%      Die H\"ohe des Baums $\textsl{node}(k,v,l,r)$ ist um eins gr\"o\ss{}er als die H\"ohe des
-%      gr\"o\ss{}ten Teilbaums.
+%      Die H\"ohe des Baums $\textsl{node}(k,v,l,r)$ ist um eins gr\"o{\ss}er als die H\"ohe des
+%      gr\"o{\ss}ten Teilbaums.
 %\end{enumerate}
 %Analog definieren wir f\"ur einen bin\"aren Baum $b$ die Anzahl $b.\textsl{count}()$ der Schl\"ussel, die
 %der Baum enth\"alt.   Die Definition von $b.\textsl{count}()$ erfolgt durch Induktion nach $b$.
@@ -622,7 +622,7 @@ the function call $b.\textsl{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.
 %            \end{eqnarray*}
 %\end{enumerate}
 
-%Die H\"ohe eines Baumes gibt ein Ma\ss{} f\"ur die Komplexit\"at der Methoden \textsl{find},
+%Die H\"ohe eines Baumes gibt ein Ma{\ss} f\"ur die Komplexit\"at der Methoden \textsl{find},
 %\textsl{insert} und \textsl{delete}, denn bei einem Baum der H\"ohe $h$ sind f\"ur jede dieser
 %Operationen h\"ochstens $h$ Vergleiche von Schl\"usseln erforderlich.
 

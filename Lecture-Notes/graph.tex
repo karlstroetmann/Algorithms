@@ -109,14 +109,14 @@ Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in
 \item Solange es nun Knoten gibt, von denen ausgehend wir neue Wege berechnen k\"onnen,
       w\"ahlen wir in Zeile 5 einen beliebigen Knoten aus der Menge \textsl{fringe} aus
       und entfernen ihn aus dieser Menge.  
-\item Anschlie\ss{}end berechnen wir die Menge aller Knoten $v$, f\"ur die wir jetzt einen neuen
+\item Anschlie{\ss}end berechnen wir die Menge aller Knoten $v$, f\"ur die wir jetzt einen neuen
       Abstand gefunden haben:
       \begin{enumerate}
       \item Das sind einerseits die Knoten $v$, f\"ur welche die Funktion $\textsl{dist}(v)$ bisher noch
             undefiniert war, weil wir diese Knoten in unserer bisherigen Reechnung noch gar nicht gesehen
             haben.
       \item Andererseits sind dies aber auch Knoten, f\"ur die wir schon einen Abstand haben, der aber
-            gr\"o\ss{}er ist als der Abstand des Weges, den wir erhalten, wenn wir die Knoten von $u$ aus
+            gr\"o{\ss}er ist als der Abstand des Weges, den wir erhalten, wenn wir die Knoten von $u$ aus
             besuchen. 
       \end{enumerate}
       F\"ur alle diese Knoten berechnen wir den Abstand und f\"ugen diese Knoten dann in die Menge 
@@ -175,7 +175,7 @@ Implementierung des Algorithmus von Dijkstra zur Berechnung der k\"urzesten Wege
 In dem Problem in Abbildung \ref{fig:dijkstra.stlx} taucht noch eine Variable mit dem Namen \textsl{visited} auf.
 Diese Variable bezeichnet die Menge der Knoten, die der Algorithmus schon \textsl{besucht}
 hat.  Genauer sind das die Knoten $u$, die aus der Priorit\"ats-Warteschlange \texttt{fringe}
-entfernt wurden und f\"ur die dann anschlie\ss{}end in der \texttt{for}-Schleife, die in Zeile 8
+entfernt wurden und f\"ur die dann anschlie{\ss}end in der \texttt{for}-Schleife, die in Zeile 8
 beginnt, alle zu $u$ benachbarten Knoten untersucht wurden.  
 Die Menge \textsl{visited} hat f\"ur
 die eigentliche Implementierung des Algorithmus keine Bedeutung, denn die Variable \textsl{visited}
@@ -236,7 +236,7 @@ In dem Programm gibt es genau zwei Stellen, an denen die Menge \textsl{visited} 
       die Funktion \textsl{dist} neu ausgerechnet.  Insbesondere
       wurde auch $\textsl{dist}[x_{i+1}]$ neu berechnet und der Knoten $x_{i+1}$ wurde 
       sp\"atestens zu diesem Zeitpunkt in die Menge \textsl{fringe} eingef\"ugt.
-      Au\ss{}erdem wissen wir, dass $\textsl{dist}[x_{i+1}] = \textsl{sp}(x_{i+1})$ gilt,
+      Au{\ss}erdem wissen wir, dass $\textsl{dist}[x_{i+1}] = \textsl{sp}(x_{i+1})$ gilt,
       denn nach Induktions-Voraussetzung gilt $\textsl{dist}[x_i] = \textsl{sp}(x_i)$
       und die Kante $\pair(x_i,x_{i+1})$ ist Teil eines k\"urzesten Pfades von $x_i$ nach $x_{i+1}$.
       
@@ -258,7 +258,7 @@ In dem Programm gibt es genau zwei Stellen, an denen die Menge \textsl{visited} 
 \end{enumerate}
 
 \subsection{Komplexit\"at}
-Wenn ein Knoten $u$ aus der Warteschlange \textsl{fringe} entfernt wird, ist er anschlie\ss{}end ein Element der
+Wenn ein Knoten $u$ aus der Warteschlange \textsl{fringe} entfernt wird, ist er anschlie{\ss}end ein Element der
 Menge \textsl{visited} und aus der oben gezeigten Invariante folgt, dass dann 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -290,7 +290,7 @@ m\"ussen wir auch die Komplexit\"at des Aufrufs
 analysieren.
 Die Anzahl dieser Aufrufe ist durch die Anzahl der Kanten begrenzt, die zu dem Knoten $v$ hinf\"uhren.
 Da das Entfernen eines Elements aus einer Menge mit $n$ Elementen eine Rechenzeit
-der Gr\"o\ss{}e $\Oh\bigl(\log_2(n)\bigr)$ erfordert, haben wir die Absch\"atzung
+der Gr\"o{\ss}e $\Oh\bigl(\log_2(n)\bigr)$ erfordert, haben wir die Absch\"atzung
 \\[0.2cm]
 \hspace*{1.3cm}
 $\Oh\bigl(\#\edges \cdot \log_2(\#\nodes)\bigr)$

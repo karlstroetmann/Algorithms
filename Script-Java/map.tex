@@ -12,14 +12,14 @@ definieren.  Der Rest dieses Kapitels ist wie folgt aufgebaut:
 \begin{enumerate}
 \item Zun\"achst definieren wir einen abstrakten Daten-Typ, der Abbildungen spezifiziert.
 
-      Anschlie\3end stellen wir verschiedene Implementierungen dieses Daten-Typs vor.
+      Anschlie{\ss}end stellen wir verschiedene Implementierungen dieses Daten-Typs vor.
 
 \item Wir beginnen mit geordneten bin\"aren B\"aumen.
 \item Da die Komplexit\"at der Implementierung, die auf geordneten bin\"aren B\"aumen basiert,
       im schlechtesten Fall linear mit der Anzahl der Entr\"age w\"achst, betrachten wir als
       n\"achstes \emph{balancierte bin\"are B\"aume}.  Bei diesen w\"achst die Komplexit\"at der
       Operationen auch im schlechtesten Fall nur logarithmisch mit der Zahl der Eintr\"age.
-\item Anschlie\3end betrachten wir die Daten-Struktur der \emph{Tries}, die dann verwendet
+\item Anschlie{\ss}end betrachten wir die Daten-Struktur der \emph{Tries}, die dann verwendet
       werden kann, wenn die Schl\"ussel, nach denen gesucht werden soll, String sind.
 \item \textsl{Hash-Tabellen} stellen eine weitere M\"oglichkeit zur Implementierung
       von Abbildungen dar und werden im vierten Abschnitt diskutiert.
@@ -89,14 +89,14 @@ die Telefon-Nummern.
         \item $M.\textsl{insert}(k, v).\textsl{find}(k) = v$,
 
               denn wenn wir zu dem Schl\"ussel $k$ einen Wert $v$ einf\"ugen, so finden 
-              wir anschlie\3end eben diesen Wert $v$, wenn wir nach $k$ suchen.
+              wir anschlie{\ss}end eben diesen Wert $v$, wenn wir nach $k$ suchen.
         \item $k_1 \not= k_2 \rightarrow M.\textsl{insert}(k_1, v).\textsl{find}(k_2) = M.\textsl{find}(k_2)$,
 
               denn wenn wir f\"ur einen Schl\"ussel eine Wert einf\"ugen, so \"andert das
               nichts an dem Wert, der f\"ur einen anderen Schl\"ussel abgespeichert ist.
         \item $M.\textsl{delete}(k).\textsl{find}(k) = \Omega$,
 
-              denn wenn wir einen Schl\"ussel l\"oschen, so finden wir anschlie\3end auch
+              denn wenn wir einen Schl\"ussel l\"oschen, so finden wir anschlie{\ss}end auch
               keinen Wert mehr unter diesem Schl\"ussel.
         \item $k_1 \not= k_2 \rightarrow M.\textsl{delete}(k_1).\textsl{find}(k_2) = M.\textsl{find}(k_2)$,
 
@@ -219,7 +219,7 @@ Als n\"achstes definieren wir, was wir unter einem \emph{geordneten bin\"aren Ba
         \item Alle Schl\"ussel, die in dem linken Teilbaum $l$ auftreten,
               sind kleiner als $k$.
         \item Alle Schl\"ussel, die in dem rechten Teilbaum $r$ auftreten,
-              sind gr\"o\3er als $k$.
+              sind gr\"o{\ss}er als $k$.
         \end{enumerate}
         Die beiden letzten  Bedingungen bezeichnen wir als die \emph{Ordnungs-Bedingung}.
         \hspace*{\fill} $\Box$
@@ -233,7 +233,7 @@ Geordnete bin\"are B\"aume lassen sich grafisch wir folgt darstellen:
       Oval gezeichnet wird, in dem oben der Schl\"ussel $k$ und darunter, getrennt durch
       einen waagerechten Strich, der dem Schl\"ussel zugeordnete Wert $v$ eingetragen wird.
       Dieses Oval bezeichnen wir auch als einen \emph{Knoten} des bin\"aren Baums.
-      Anschlie\3end wird links unten von diesem Knoten rekursiv der Baum $l$ gezeichnet
+      Anschlie{\ss}end wird links unten von diesem Knoten rekursiv der Baum $l$ gezeichnet
       und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluss zeichnen wir
       von dem mit $k$ und $v$ markierten Knoten jeweils einen Pfeil zu dem linken und dem
       rechten Teilbaum.
@@ -274,7 +274,7 @@ F\"ur die Methode $\textsl{find}()$ erhalten wir die folgenden Gleichungen:
       eine Zuordnung f\"ur $k_1$ nur in dem linken Teilbaum $l$ gespeichert sein.
 \item $k_1 > k_2 \rightarrow \textsl{node}(k_2, v, l, r)\mathtt{.}\textsl{find}( k_1 ) = r\mathtt{.}\textsl{find}(k_1)$,
 
-      denn wenn $k_1$ gr\"o\3er als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
+      denn wenn $k_1$ gr\"o{\ss}er als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
       eine Zuordnung f\"ur $k_1$ nur in dem rechten Teilbaum $r$ gespeichert sein.
 \end{enumerate}
 Als n\"achstes definieren wir die Funktion \textsl{insert}.  Die Definition erfolgt
@@ -300,7 +300,7 @@ Funktion \textsl{find}.
          \textsl{node}(k_2, v_2, l, r)\mathtt{.}\textsl{insert}(k_1, v_1) = 
          \textsl{node}\bigl(k_2, v_2, l, r\mathtt{.}\textsl{insert}(k_1, v_1)\bigr)$,
 
-      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, gr\"o\3er
+      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, gr\"o{\ss}er
       als der Schl\"ussel $k_2$ an der Wurzel ist, so m\"ussen wir die einzuf\"ugende
       Information im rechten Teilbaum einf\"ugen.
 \end{enumerate}
@@ -314,13 +314,13 @@ wenn weder $l$ noch $r$ leer sind.
 Die L\"osung besteht dann darin, dass wir in dem rechten
 Teilbaum $r$ den Knoten mit dem kleinsten Schl\"ussel suchen und diesen Knoten aus dem
 Baum $r$ entfernen.  Den dadurch entstehenden Baum nennen wir $r'$.
- Anschlie\3end \"uberschreiben wir in $t =\textsl{node}(k,v,l,r')$ die
+ Anschlie{\ss}end \"uberschreiben wir in $t =\textsl{node}(k,v,l,r')$ die
 Werte $k$ und $v$ mit dem eben gefundenen kleinsten Schl\"ussel $k_{min}$ und dem $k_{min}$
 zugeordneten Wert $v_{min}$.  Der dadurch entstehende bin\"are Baum 
 $t=\textsl{node}(k_{min},v_{min},l,r')$
  ist auch wieder
-geordnet, denn einerseits ist der Schl\"ussel $k_{min}$  gr\"o\3er als der Schl\"ussel $k$ und
-damit sicher auch gr\"o\3er als alle Schl\"ussel im linken Teilbaum $l$ und andererseits ist
+geordnet, denn einerseits ist der Schl\"ussel $k_{min}$  gr\"o{\ss}er als der Schl\"ussel $k$ und
+damit sicher auch gr\"o{\ss}er als alle Schl\"ussel im linken Teilbaum $l$ und andererseits ist
 $k_{min}$ kleiner als alle  Schl\"ussel im Teilbaum $r'$ den $k_{min}$ ist ja der
 kleinste Schl\"ussel aus $r$.  
 
@@ -657,7 +657,7 @@ Methode \textsl{delete()}.
 
 Gegen\"uber den Methoden aus der Klasse \textsl{BinaryTree} hat die Klasse \textsl{Node} die
 zus\"atzliche Methode \textsl{isEmpty()} die \"uberpr\"uft, ob der Knoten den leeren Baum
-repr\"asentiert. Au\3erdem gibt es noch die Methode \textsl{delMin()}, die den Knoten mit dem
+repr\"asentiert. Au{\ss}erdem gibt es noch die Methode \textsl{delMin()}, die den Knoten mit dem
 kleinsten Schl\"ussel aus einem Baum l\"oscht.  Diese Methode ist nicht als \texttt{public}
 deklariert, da sie nur zur Implementierung der Methode \textsl{delete()} benutzt wird.
 
@@ -719,7 +719,7 @@ Gleichungen, mit denen wir diese Methoden spezifiziert haben, eins-zu-eins um.
 \end{figure}
 
 \noindent
-Abbildung \ref{fig:Triple.java} auf Seite \pageref{fig:Triple.java} zeigt schlie\3lich die
+Abbildung \ref{fig:Triple.java} auf Seite \pageref{fig:Triple.java} zeigt schlie{\ss}lich die
 Implementierung der Klasse \textsl{Triple}.  Diese Klasse dient dazu ein Tripel
 darzustellen und hat folglich drei Member-Variablen \texttt{mFirst}, \texttt{mSecond},
 \texttt{mThird}, die jeweils die erste, zweite und dritte Komponente des Tripels abspeichern.
@@ -733,7 +733,7 @@ Dieser Fall tritt dann ein, wenn der bin\"are Baum zu einer Liste entartet.  Abb
 \ref{fig:degenerated} zeigt den geordneten bin\"aren Baum der dann entsteht, wenn die Paare
 aus Schl\"ussel und Werten aus der Abbildung
 \ref{fig:graph1} in aufsteigender Reihenfolge eingegeben werden.  Wird hier nach dem
-gr\"o\3ten Schl\"ussel gesucht, so muss der komplette Baum durchlaufen werden.  Enth\"alt der Baum
+gr\"o{\ss}ten Schl\"ussel gesucht, so muss der komplette Baum durchlaufen werden.  Enth\"alt der Baum
 $n$ Schl\"ussel, so sind also insgesamt $n$ Vergleiche erforderlich.  In diesem Fall ist ein
 geordneter bin\"arer Baum also nicht besser als eine Liste.
 
@@ -760,8 +760,8 @@ Vergleiche erforderlich sind. Wir werden diese Behauptung nun beweisen.
 %\item $\textsl{node}(k,v,l,r).\textsl{height}() = 
 %       1 + \max\bigl(l.\textsl{height}(),\, r.\textsl{height}()\bigr)$.
 
-%      Die H\"ohe des Baums $\textsl{node}(k,v,l,r)$ ist um eins gr\"o\3er als die H\"ohe des
-%      gr\"o\3ten Teilbaums.
+%      Die H\"ohe des Baums $\textsl{node}(k,v,l,r)$ ist um eins gr\"o{\ss}er als die H\"ohe des
+%      gr\"o{\ss}ten Teilbaums.
 %\end{enumerate}
 %Analog definieren wir f\"ur einen bin\"aren Baum $b$ die Anzahl $b.\textsl{count}()$ der Schl\"ussel, die
 %der Baum enth\"alt.   Die Definition von $b.\textsl{count}()$ erfolgt durch Induktion nach $b$.
@@ -803,7 +803,7 @@ Vergleiche erforderlich sind. Wir werden diese Behauptung nun beweisen.
 %            \end{eqnarray*}
 %\end{enumerate}
 
-%Die H\"ohe eines Baumes gibt ein Ma\3 f\"ur die Komplexit\"at der Methoden \textsl{find},
+%Die H\"ohe eines Baumes gibt ein Ma{\ss} f\"ur die Komplexit\"at der Methoden \textsl{find},
 %\textsl{insert} und \textsl{delete}, denn bei einem Baum der H\"ohe $h$ sind f\"ur jede dieser
 %Operationen h\"ochstens $h$ Vergleiche von Schl\"usseln erforderlich.
 
@@ -818,7 +818,7 @@ ist, denn wenn der Baum $b$ nur einen Schl\"ussel enth\"alt, wird genau einen Ve
 Wir betrachten nun einen bin\"aren Baum $b$, der $n+1$ Schl\"ussel enth\"alt.  Dann hat $b$
 die Form \\[0.2cm]
 \hspace*{1.3cm} $b = \textsl{node}(k',v,l,r)$. \\[0.2cm]
-Ordnen wir die $n+1$ Schl\"ussel der Gr\"o\3e nach in der Form 
+Ordnen wir die $n+1$ Schl\"ussel der Gr\"o{\ss}e nach in der Form 
 \\[0.2cm]
 \hspace*{1.3cm}
 $k_0 < k_1 < \cdots < k_i < k_{i+1} < k_{i+2} < \cdots < k_{n-1} < k_n$,
@@ -872,7 +872,7 @@ $3$ M\"oglichkeiten:
       \hspace*{1.3cm} $\displaystyle\bruch{i}{n+1}$. \\[0.2cm]
        In diesem Fall werden \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle d_i + 1$ \\[0.2cm]
-      Vergleiche durchgef\"uhrt, denn au\3er den $d_i$ Vergleichen mit den Schl\"usseln aus dem
+      Vergleiche durchgef\"uhrt, denn au{\ss}er den $d_i$ Vergleichen mit den Schl\"usseln aus dem
       linken Teilbaum muss der Schl\"ussel, der gesucht wird, ja noch mit dem Schl\"ussel an
       der Wurzel verglichen werden.
 \item $k$ kann mit einem der $n-i$ Schl\"ussel im rechten Teilbaum $r$ \"ubereinstimmen.
@@ -996,11 +996,11 @@ Wegen $H_n = \displaystyle\sum\limits_{i=1}^{n} \frac{1}{i} = \ln(n) + \Oh(1)$ g
 \hspace*{1.3cm} 
 $\displaystyle c_n = 2 \cdot \ln(n) + \Oh(1)$.
 \\[0.2cm]
-Ber\"ucksichtigen wir  $d_n = \bruch{n+1}{n}\cdot c_n$, so finden wir f\"ur gro\3e $n$ ebenfalls \\[0.2cm]
+Ber\"ucksichtigen wir  $d_n = \bruch{n+1}{n}\cdot c_n$, so finden wir f\"ur gro{\ss}e $n$ ebenfalls \\[0.2cm]
 \hspace*{1.3cm} $\displaystyle d_n = 2 \cdot \ln(n) + \Oh\bigl(1\bigr)$.
 \\[0.2cm]
 Das ist unser zentrales Ergebnis: Im Durchschnitt erfordert das Suchen in einem zuf\"allig
-erzeugten geordneten bin\"aren Baum f\"ur gro\3e Werte von $n$ etwa 
+erzeugten geordneten bin\"aren Baum f\"ur gro{\ss}e Werte von $n$ etwa 
 \\[0.2cm]
 \hspace*{1.3cm}
 $2 \cdot \ln(n) = 2 \cdot \ln(2) \cdot \log_2(n) \approx 1.386 \cdot \log_2(n)$ 

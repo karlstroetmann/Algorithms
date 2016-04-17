@@ -71,7 +71,7 @@ $\textsl{dist}(v)$ undefiniert war, weil wir noch keinen Weg gefunden hatten, de
 \textsl{source} mit $v$ verbindet, k\"onnen wir \\
 \hspace*{1.3cm} $\textsl{dist}(v) := \textsl{dist}(u) + \weight{\pair(u,v)}$ \\[0.2cm]
 setzen.  Diese Zuweisung ist ebenfalls g\"ultig wenn $\textsl{dist}(v)$ bereits definiert
-ist aber einen Wert hat, der gr\"o\3er als $\textsl{dist}(u) + \weight{\pair(u,v)}$ ist.
+ist aber einen Wert hat, der gr\"o{\ss}er als $\textsl{dist}(u) + \weight{\pair(u,v)}$ ist.
 Wir fassen diese Überlegungen in den beiden
 \textsl{ASM}-Regeln zusammen, die in Abbildung \ref{fig:rule-naive} dargestellt sind.  
 Die Abk\"urzung \textsc{ASM} steht f\"ur \emph{abstract state machine}.
@@ -92,7 +92,7 @@ wesentlichen Eigenschaften von ASMs sind wie folgt:
       \hspace*{1.3cm}
       $f(x) := y$
       \\[0.2cm]
-      haben.  Diese Zuweisung \"andert die Funktion $f$ so ab, dass die Funktion anschlie\3end an der Stelle $x$
+      haben.  Diese Zuweisung \"andert die Funktion $f$ so ab, dass die Funktion anschlie{\ss}end an der Stelle $x$
       den Wert $y$ annimmt.
 \item Wenn es keine Regel mehr gibt, deren Bedingung wahr ist, dann h\"alt die ASM an.
 \item Die Zuweisungen einer Regel werden alle gleichzeitig ausgef\"uhrt.  In der Regel 
@@ -163,7 +163,7 @@ Wie ASMs im Detail funktionieren, erkl\"aren wir bei der Diskussion des in Abbil
       \begin{enumerate}
       \item $\textsl{dist}(u)$ ist definiert, es gibt also einen Pfad von
             dem Knoten $\textsl{source}$  zu dem Knoten $u$.
-      \item $\textsl{dist}(v)$ ist undefiniert oder gr\"o\3er als 
+      \item $\textsl{dist}(v)$ ist undefiniert oder gr\"o{\ss}er als 
             $\textsl{dist}(u)+\weight{\langle{}u,v\rangle}$. 
       \end{enumerate}
       Dann k\"onnen wir die Absch\"atzung
@@ -245,7 +245,7 @@ Der Algorithmus l\"auft nun in drei Phasen ab.
 \item In der \emph{Scanning}-Phase w\"ahlen wir einen Knoten $u$ aus der Menge \textsl{Fringe} aus,
       entfernen ihn aus dieser Menge und setzen \\[0.2cm]
       \hspace*{1.3cm} ${\cal E} := \textsl{edges}(u)$. \\[0.2cm]
-      Ansschlie\3end wechseln wir in die \emph{Relabeling}-Phase.
+      Ansschlie{\ss}end wechseln wir in die \emph{Relabeling}-Phase.
 \item In der \emph{Relabeling}-Phase w\"ahlen wir eine Kante 
       $\pair(u,v) \in {\cal E}$ aus, f\"ur die \\[0.2cm]
       \hspace*{1.3cm} $\textsl{dist}(v)=\Omega$ \quad oder \quad
@@ -330,7 +330,7 @@ kleinsten Abstand zum Knoten \textsl{source} hat.
 In den ASM-Regeln taucht noch eine Variable mit dem Namen \textsl{Visited} auf.
 Diese Variable bezeichnet die Menge der Knoten, die der Algorithmus schon \textsl{besucht}
 hat.  Genauer sind das die Knoten, die aus der Priorit\"ats-Warteschlange \texttt{Fringe}
-entfernt wurden und f\"ur die dann anschlie\3end in der Regel \textsl{Relabel} alle
+entfernt wurden und f\"ur die dann anschlie{\ss}end in der Regel \textsl{Relabel} alle
 benachbarten Knoten untersucht wurden.  Die Menge \textsl{Visited} hat keine Bedeutung f\"ur
 die eigentliche Implementierung des Algorithmus.  Die Variable wird eingef\"uhrt um eine Invariante formulieren
 zu k\"onnen, die f\"ur den Beweis der Korrektheit des Algorithmus zentral ist.  Die Invariante lautet
@@ -378,7 +378,7 @@ Elemente hinzuf\"ugen.
       die Funktion \textsl{dist}() neu ausgerechnet.  Insbesondere
       wurde auch $\textsl{dist}(x_{i+1})$ neu berechnet und der Knoten $x_{i+1}$ wurde 
       sp\"atestens zu diesem Zeitpunkt in die Menge \textsl{Fringe} eingef\"ugt.
-      Au\3erdem wissen wir, dass $\textsl{dist}(x_{i+1}) = \textsl{sp}(x_{i+1})$ gilt,
+      Au{\ss}erdem wissen wir, dass $\textsl{dist}(x_{i+1}) = \textsl{sp}(x_{i+1})$ gilt,
       denn nach Induktions-Voraussetzung gilt $\textsl{dist}(x_i) = \textsl{sp}(x_i)$
       und die Kante $\pair(x_i,x_{i+1})$ ist Teil eines k\"urzesten Pfades von $x_i$ nach $x_{i+1}$.
       
@@ -577,7 +577,7 @@ Sie berechnet den Abstand aller anderen Knoten zu diesem Knoten.
 \end{enumerate}
 
 \subsection{Komplexit\"at}
-Wenn ein Knoten $u$ aus der Warteschlange \textsl{Fringe} entfernt wird, ist er anschlie\3end ein Element der
+Wenn ein Knoten $u$ aus der Warteschlange \textsl{Fringe} entfernt wird, ist er anschlie{\ss}end ein Element der
 Menge \textsl{Visited} und aus der oben gezeigten Invariante folgt, dass dann 
 \\[0.2cm]
 \hspace*{1.3cm}

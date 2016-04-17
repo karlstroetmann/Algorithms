@@ -807,7 +807,7 @@ potentiell f\"ur jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries def
 k\"onnen, nehmen wir zun\"achst an, dass folgendes gegeben ist:
 \begin{enumerate}
 \item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
-      bezeichnen. $\Sigma$ selbst hei\ss{}t das \emph{Alphabet}.
+      bezeichnen. $\Sigma$ selbst hei{\ss}t das \emph{Alphabet}.
 \item $\Sigma^*$ bezeichnet die Menge der \emph{W\"orter} (engl.~\emph{strings}), die wir aus den Buchstaben
       des Alphabets bilden k\"onnen.  Mathematisch k\"onnen wir W\"orter als Listen von 
       Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
@@ -862,7 +862,7 @@ definieren:
       Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enth\"alt also genau
       dann einen Wert zu dem Schl\"ussel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
       eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
-      \"ubereinstimmt und wenn au\ss{}erdem der Trie $t_i$ einen Wert zu dem
+      \"ubereinstimmt und wenn au{\ss}erdem der Trie $t_i$ einen Wert zu dem
       Schl\"ussel $r$ enth\"alt.
 \end{enumerate}
 
@@ -886,7 +886,7 @@ Das, was wir \"uber dem Strich schreiben,
 h\"angt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abh\"angt, sehen wir gleich.
 Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
 Wurzeln der B\"aume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Au\ss{}erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alften 
+Au{\ss}erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alften 
 mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
 
 
@@ -946,7 +946,7 @@ f\"ur ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induk
       $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zun\"achst ein Trie
       erzeugt, der die leere Abbildung repr\"asentiert.  Dieser Trie hat die Form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
-      Anschlie\ss{}end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
+      Anschlie{\ss}end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
       eingef\"ugt. Zum Schluss h\"angen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
       an und f\"ugen den Trie  \\[0.2cm] 
       \hspace*{1.3cm}

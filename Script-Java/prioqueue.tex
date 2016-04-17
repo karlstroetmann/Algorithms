@@ -126,7 +126,7 @@ aufsteigend geordnet sind. Die einzelnen Operationen werden dann wie folgt imple
 \item $Q.\textsl{remove}()$ entfernt das erste Element der Liste.
 \item $Q.\textsl{change}(k,v)$ geht alle Eintr\"age der Liste durch.
       Falls dabei ein Eintrag mit dem Wert $v$ gefunden wird, so wird das zugeh\"orige
-      Paar aus der Liste gel\"oscht.  Anschlie\3end wird das Paar $\pair(k,v)$ neu in die
+      Paar aus der Liste gel\"oscht.  Anschlie{\ss}end wird das Paar $\pair(k,v)$ neu in die
       Liste eingef\"ugt.
 \end{enumerate}
 Bei dieser Implementierung ist die Komplexit\"at der Operationen $\textsl{insert}()$ und
@@ -176,7 +176,7 @@ Mit diesen Vorbereitungen k\"onnen wir nun die Menge \textsl{Heap} induktiv defi
             Diese Bedingung bezeichnen wir auch als die \emph{Heap-Bedingung}.
       \item $\mid l.\textsl{count}() - r.\textsl{count}() \mid \;\leq\, 1$,
 
-            Die Zahl der Schl\"ussel im linken Teilbaum ist also h\"ochstens 1 gr\"o\3er oder
+            Die Zahl der Schl\"ussel im linken Teilbaum ist also h\"ochstens 1 gr\"o{\ss}er oder
             kleiner als die Zahl der Schl\"ussel im rechten Teilbaum.
             Diese Bedingung bezeichen wir als die \emph{Balancierungs-Bedingung}.  Sie ist
             ganz \"ahnlich zu der Balancierungs-Bedingung bei AVL-B\"aumen, nur dass es dort
@@ -230,7 +230,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
 
       Falls das einzuf\"ugende Paar eine geringere oder dieselbe Priorit\"at hat als das
       Paar an der Wurzel und falls zus\"atzlich die Zahl der Paare im linken Teilbaum
-      gr\"o\3er als die Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
+      gr\"o{\ss}er als die Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
       Paar im rechten Teilbaum ein.
 \item $k_{\mathrm{top}} > k \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $ \\[0.1cm]
       \hspace*{1.3cm} 
@@ -249,7 +249,7 @@ sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
 
       Falls wir das einzuf\"ugende Paar an der Wurzel
       positionieren m\"ussen und die Zahl der Paare im linken Teilbaum
-      gr\"o\3er als die Zahl der Paare im rechten Teilbaum ist,
+      gr\"o{\ss}er als die Zahl der Paare im rechten Teilbaum ist,
       dann m\"ussen wir das Paar, das vorher an der Wurzel stand, im rechten Teilbaum
       einf\"ugen.
 \end{enumerate}
@@ -498,7 +498,7 @@ abgespeichert sind, zur\"uckgreifen m\"ussen.  Das geht aber nur, wenn diese den
 Als letztes beschreiben wir, wie die Methode \textsl{change}() effizient implementiert werden kann.
 Wir setzen voraus, dass bei einem Aufruf der Form \\[0.1cm]
 \hspace*{1.3cm} $h.\textsl{change}(k,v)$ \\[0.1cm]
-die Priorit\"at des Elements $v$ verg\"o\3ert wird.  Ist $p = \textsl{node}(k',v,l,r)$ der Knoten,
+die Priorit\"at des Elements $v$ verg\"o{\ss}ert wird.  Ist $p = \textsl{node}(k',v,l,r)$ der Knoten,
 in dem der Wert $v$ gespeichert ist, dann gilt also $k < k'$.  Um die Priorit\"at von $v$
 abzu\"andern, m\"ussen wir zun\"achst den Knoten $p$ finden.  Eine M\"oglichkeit um diesen Knoten
 zu finden besteht darin, dass wir einfach alle Knoten des Heaps durchsuchen und den dort
@@ -525,7 +525,7 @@ durch $k$ ersetzen, denn es k\"onnte sein, dass dann die Heap-Bedingung verletzt
 der Schl\"ussel, der in dem Knoten $p$ gespeichert ist, eine h\"ohere Priorit\"at hat als der
 Vater-Knoten dieses Knotens.  In diesem Fall m\"ussen wir das Paar, dass in diesem Knoten
 gespeichert ist, mit dem Paar, das in dem Vater-Knoten gespeichert ist, vertauschen.
-Anschlie\3end k\"onnte es sein, dass f\"ur den Vater-Knoten und dessen Vater-Knoten die
+Anschlie{\ss}end k\"onnte es sein, dass f\"ur den Vater-Knoten und dessen Vater-Knoten die
 Heap-Bedingung verletzt ist, so dass wir nun rekursiv den Vater-Knoten weiter untersuchen
 m\"ussen.  Das Verfahren l\"asst sich nicht ohne weiteres durch rekursive Gleichungen
 beschreiben, denn wenn wir einen bin\"aren Knoten in der Form
@@ -610,7 +610,7 @@ Abbildungen \ref{fig:upheap.pseudo} zeigt den Pseudo-Code, den wir jetzt im Deta
 
       Zus\"atzlich achten wir darauf, dass die in der Tabelle \textsl{nodeMap} hinterlegte
       Zuordung von Werten zu Knoten korrekt bleibt.
-\item Schlie\3lich m\"ussen wir die Methode \textsl{upheap} rekursiv f\"ur den Vaterknoten aufrufen.
+\item Schlie{\ss}lich m\"ussen wir die Methode \textsl{upheap} rekursiv f\"ur den Vaterknoten aufrufen.
 \end{enumerate}
 
 
@@ -659,9 +659,9 @@ gibt es die folgenden \"Anderungen.
       definiert wird.  Hierbei handelt es sich um eine Referenz auf den Vater-Knoten.
       Diese Referenz ist notwendig f\"ur die Implementierung der Methode \textsl{change}(),
       denn dort m\"ussen wir nach einer \"Anderung der Priorit\"at eines Schl\"ussel \"uberpr\"ufen, 
-      ob die Priorit\"at des Vater-Knotens immer noch gr\"o\3er ist als die Priorit\"at des Knotens dessen
+      ob die Priorit\"at des Vater-Knotens immer noch gr\"o{\ss}er ist als die Priorit\"at des Knotens dessen
       Priorit\"at wir ge\"andert haben.
-\item Au\3erdem enth\"alt jeder Knoten jetzt eine Referenz auf die Abbildung
+\item Au{\ss}erdem enth\"alt jeder Knoten jetzt eine Referenz auf die Abbildung
       \textsl{nodeMap}, in der die Zuordnung der Knoten zu den Werten gespeichert wird.
       Diese Referenz wird in der in Zeile 7 definierten Member-Variable \texttt{mNodeMap}
       gespeichert.
@@ -912,7 +912,7 @@ In der Klasse \textsl{BinaryHeapNode} gibt es die meisten \"Anderungen.
 \item Entsprechende \"Anderungen gibt es auch in der Methode \texttt{remove}.
       Wir l\"oschen zun\"achst in Zeile 51 die unter dem Schl\"ussel \texttt{mValue}
       abgespeicherte Zuordnung, denn diesen Wert wollen wir ja entfernen.
-      Da wir anschlie\3end entweder den Wert aus dem linken oder dem rechten Teilbaum 
+      Da wir anschlie{\ss}end entweder den Wert aus dem linken oder dem rechten Teilbaum 
       nach oben ziehen, m\"ussen wir f\"ur den Wert, den wir nach oben gezogen haben,
       eine Zuordnung in der HashTabelle \texttt{mNodeMap} eintragen. Dies geschieht
       in Zeile 73.
@@ -928,7 +928,7 @@ In der Klasse \textsl{BinaryHeapNode} gibt es die meisten \"Anderungen.
       mehr als erlaubt enth\"alt, so wird in diesem Teilbaum ein Knoten entfernt und dann in den
       andern Teilbaum eingef\"ugt.
 \item Bei der Implementierung der Methode \textsl{change}() suchen wir zun\"achst
-      den Knoten, an dem der zu \"andernde Wert gespeichert ist.  Anschlie\3end
+      den Knoten, an dem der zu \"andernde Wert gespeichert ist.  Anschlie{\ss}end
       \"andern wir die in diesem Knoten abgespeicherte Priorit\"at.  Dabei kann die
       Heap-Bedingung verletzt werden: Es k\"onnte sein, dass der Knoten jetzt eine h\"ohere
       Priorit\"at hat als der Vater dieses Knotens.  Um die Heap-Bedingung
@@ -996,10 +996,10 @@ Klasse \textsl{HeapTree}, die in Abbildungen \ref{fig:HeapTree} auf Seite
 \begin{enumerate}
 \item Der Wurzel-Knoten  des Heaps wird in der Member-Variablen \texttt{mRoot}
       gepeichert. 
-\item Au\3erdem verwaltet diese Klasse die HashTabelle \textsl{nodeMap}, die
+\item Au{\ss}erdem verwaltet diese Klasse die HashTabelle \textsl{nodeMap}, die
       die Zuordnung zwischen den Werten und den Knoten herstellt.  Diese Tabelle
       wird in dem Konstruktor in Zeile 8 zun\"achst als leere Tabelle angelegt.
-      Anschlie\3end wird ein leerer Knoten erzeugt, der eine Referenz auf die
+      Anschlie{\ss}end wird ein leerer Knoten erzeugt, der eine Referenz auf die
       gerade angelegte Tabelle erh\"alt.  Dieser leere Knoten ist der Wurzel-Knoten
       des Heaps.
 \item Die Signaturen der Methoden \textsl{insert}(), \textsl{change}() und
@@ -1035,7 +1035,7 @@ Damit eine solche Feld-basierte Darstellung m\"oglich ist, ist es erforderlich, 
 Balancierungs-Bedingung f\"ur Heaps etwas abzu\"andern.  Wir skizzieren kurz die Idee,
 die der abge\"anderten Definition zu Grunde liegt.
 \begin{enumerate}
-\item Ein bin\"arer Baum hei\3t \emph{vollst\"andig}, wenn alle Bl\"atter des Baums
+\item Ein bin\"arer Baum hei{\ss}t \emph{vollst\"andig}, wenn alle Bl\"atter des Baums
       den selben Abstand zur Wurzel haben.  Bezeichnen wir die Menge der vollst\"andigen bin\"aren
       B\"aume mit $\overline{\Bin}$, so k\"onnen k\"onnen wir die folgende induktive Definition geben:
       \begin{enumerate}
@@ -1071,7 +1071,7 @@ die der abge\"anderten Definition zu Grunde liegt.
       ist eine Verallgemeinerung des Begriffs des vollst\"andigen bin\"aren Baums, der 
       eine beliebige Anzahl von Knoten zul\"asst.
 
-      Ein bin\"arer Baum hei\3t \emph{nahezu vollst\"andig}, wenn er aus einem bin\"aren Baum
+      Ein bin\"arer Baum hei{\ss}t \emph{nahezu vollst\"andig}, wenn er aus einem bin\"aren Baum
       dadurch entsteht, dass auf der untersten Ebene von rechts nach links Knoten entfernt
       werden, ohne dass dabei Knoten ausgelassen werden.  Abbildung
       \ref{fig:nearly-complete-tree.eps} auf Seite \pageref{fig:nearly-complete-tree.eps}
@@ -1092,7 +1092,7 @@ die der abge\"anderten Definition zu Grunde liegt.
       \texttt{[ 2, 3, 8, 15, 9, 11, 7, 16, 27, 13, 12, 14]} 
       \\[0.2cm]
       Dieses Feld entsteht aus dem vorigen Feld dadurch, dass wir die letzten drei
-      Eintr\"age gel\"oscht haben.  Schlie\3lich zeigt Abbildung
+      Eintr\"age gel\"oscht haben.  Schlie{\ss}lich zeigt Abbildung
       \ref{fig:not-nearly-complete-tree.eps} auf Seite
       \pageref{fig:not-nearly-complete-tree.eps} noch einen bin\"aren Baum, der nicht nahezu
       vollst\"andig ist, denn er enth\"alt auf der untersten Ebene eine L\"ucke, weil die Knoten
@@ -1146,9 +1146,9 @@ Diese Klasse enth\"alt die folgenden Konstruktoren.
 \item \texttt{PriorityQueue()}
 
       Dieser Konstruktor erzeugt einen neue Priorit\"ats-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei zun\"achst die Gr\"o\3e 11.
+      Das zu Grunde liegende Feld hat dabei zun\"achst die Gr\"o{\ss}e 11.
       Wenn sp\"ater der Platz in diesem Feld nicht mehr ausreicht, wird es dynamisch
-      vergr\"o\3ert. 
+      vergr\"o{\ss}ert. 
 \item \texttt{PriorityQueue(Collection<E> $c$)}
   
       Dieser Konstruktor erzeugt eine Priorit\"ats-Warteschlange, die alle Elemente der
@@ -1156,11 +1156,11 @@ Diese Klasse enth\"alt die folgenden Konstruktoren.
 \item \texttt{PriorityQueue(int initialCapacity)}
   
       Dieser Konstruktor  erzeugt eine neue Priorit\"ats-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei die Gr\"o\3e \texttt{initialCapacity}.
+      Das zu Grunde liegende Feld hat dabei die Gr\"o{\ss}e \texttt{initialCapacity}.
 \item \texttt{PriorityQueue(int initialCapacity, Comparator<E> comparator)}
 
       Dieser Konstruktor  erzeugt einen neue Priorit\"ats-Warteschlange.
-      Das zu Grunde liegende Feld hat dabei die Gr\"o\3e \texttt{initialCapacity}.
+      Das zu Grunde liegende Feld hat dabei die Gr\"o{\ss}e \texttt{initialCapacity}.
       Die Elemente dieser Warteschlange werden nicht durch einen Aufruf der
       Methode 
       \\[0.2cm]
@@ -1203,7 +1203,7 @@ Die Klasse \texttt{PriorityQueue} enth\"alt keine Methode, um die Priorit\"at ei
 zu \"andern.  Das geht auch gar nicht, denn bei dieser Klasse wird nicht zwischen dem Wert
 und dem Schl\"ussel unterschieden, beide sind Teil eines Elements.  Um also einen Priorit\"at
 zu \"andern, m\"ussen wir das betreffende Element zun\"achst aus der Priorit\"ats-Warteschlange
-entfernen, die Priorit\"at \"andern und anschlie\3end das Element mit der ge\"anderten Priorit\"at
+entfernen, die Priorit\"at \"andern und anschlie{\ss}end das Element mit der ge\"anderten Priorit\"at
 wieder einf\"ugen.
 
 

@@ -240,7 +240,7 @@ F\"uhren wir die Substitution aus, so ergibt sich
 \[ \hoare{\texttt{y} = a \wedge \texttt{y - x} = b}{x := y - x;}{
           \texttt{y} = a \wedge \texttt{y - (y - x)} = b} 
 \]
-Vereinfachung der Nachbedingung liefert schlie\3lich
+Vereinfachung der Nachbedingung liefert schlie{\ss}lich
 \begin{equation}
   \label{eq:swap3}
   \hoare{\texttt{y} = a \wedge \texttt{y - x} = b}{x := y - x;}{ \texttt{y} = a \wedge \texttt{x} = b}.   
@@ -291,7 +291,7 @@ gilt.  Haben wir eine solche Formel $G$ gefunden, dann k\"onnen wir mit Hilfe de
 Abschw\"achungs-Regel (\ref{eq:abschwaechung1})
 auf die G\"ultigkeit von
 \[ \hoare{F \wedge B}{P}{G} \qquad \mathrm{und} \qquad \hoare{F \wedge \neg B}{Q}{G},    \] 
-schlie\3en und damit haben wir genau die Pr\"amissen, um die 
+schlie{\ss}en und damit haben wir genau die Pr\"amissen, um die 
 Verifikations-Regel (\ref{eq:hoareIf}) anwenden zu k\"onnen.
 \vspace*{0.3cm}
 
@@ -366,7 +366,7 @@ Wir zeigen nun, wie die im letzten Abschnitt pr\"asentierten Regeln verwendet we
 um die Korrektheit eines nicht-trivialen Programms zu zeigen.  Unser Ziel ist es, die
 Korrektheit der in Abbildung \ref{fig:ggt.c} auf Seite \pageref{fig:ggt.c} gezeigten
 \texttt{C}-Funktion nachzuweisen.  Diese Funktion implementiert den Euklid'schen
-Algorithmus zur Berechnung des gr\"o\3ten gemeinsamen Teilers zweier positiver nat\"urlicher
+Algorithmus zur Berechnung des gr\"o{\ss}ten gemeinsamen Teilers zweier positiver nat\"urlicher
 Zahlen.  Bevor wir f\"ur diesen Algorithmus den Nachweis der Korrektheit
 erbringen, erinnern wir daran, dass wir in der Mathematik-Vorlesung gezeigt haben dass
 \[ \texttt{ggt}(x + y, y) = \texttt{ggt}(x,y) \quad \mbox{f\"ur alle $x, y \in \mathbb{N}$} \]  
@@ -400,7 +400,7 @@ der in Abbildung
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{Der Euklid'sche Algorithmus zur Berechnung des gr\"o\3ten gemeinsamen Teilers.}
+\caption{Der Euklid'sche Algorithmus zur Berechnung des gr\"o{\ss}ten gemeinsamen Teilers.}
 \label{fig:ggt.c}
 \end{figure}
 
@@ -493,7 +493,7 @@ Schreiben wir die Formel $I \wedge x = y$ aus, so sehen wir, dass die Nachbeding
 \[ 
    x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y
 \]
-gegeben ist.  Daraus erschlie\3en wir die Korrektheit des Euklid'schen Algorithmus wie folgt:
+gegeben ist.  Daraus erschlie{\ss}en wir die Korrektheit des Euklid'schen Algorithmus wie folgt:
 \begin{eqnarray*}
 &             &  x > 0 \wedge y > 0 \wedge \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y \\
 & \Rightarrow & \texttt{ggt}(x,y) = \texttt{ggt}(a,b) \wedge x = y \\
@@ -501,16 +501,16 @@ gegeben ist.  Daraus erschlie\3en wir die Korrektheit des Euklid'schen Algorithm
 & \Rightarrow & x = \texttt{ggt}(a,b) \qquad\qquad \mathrm{denn} \quad \texttt{ggt}(x,x) = x.
 \end{eqnarray*}
 Damit haben wir folgendes gezeigt:  Wenn die \texttt{while}-Schleife terminiert, dann
-enth\"alt die Variable $x$ den gr\"o\3ten gemeinsamen Teiler der Werte $a$ und $b$, mit denen
+enth\"alt die Variable $x$ den gr\"o{\ss}ten gemeinsamen Teiler der Werte $a$ und $b$, mit denen
 die Variablen $x$ und $y$ initialisiert wurden.  Um den Beweis der Korrektheit
-abzuschlie\3en, m\"ussen wir noch nachweisen, dass die \texttt{while}-Schleife tats\"achlich in
+abzuschlie{\ss}en, m\"ussen wir noch nachweisen, dass die \texttt{while}-Schleife tats\"achlich in
 jedem Fall terminiert.  Zu diesem Zweck definieren wir die Variable $s$ als
 \[ s := x + y. \]
 Die Variablen $x$ und $y$ sind nat\"urliche Zahlen.  Damit ist dann auch $s$ eine nat\"urliche Zahl.
 Bei jedem Schleifendurchlauf wird die Zahl $s$ verkleinert, denn entweder wird $x$ von $s$
 abgezogen oder es wird $y$ von $s$ abgezogen und die Invariante $I$ zeigt uns, dass sowohl $x$ als auch $y$
 positiv sind.  W\"urde die Schleife unendlich lange laufen, so m\"usste $s$ irgendwann negative
-Werte annehmen.  Da wir dies ausschlie\3en k\"onnen, muss die
+Werte annehmen.  Da wir dies ausschlie{\ss}en k\"onnen, muss die
 Schleife abbrechen.  Damit ist die Korrektheit des Euklid'schen Algorithmus gezeigt.
 \pagebreak
 
@@ -739,7 +739,7 @@ Schleife abbrechen.
 \subsection{Maschinelle Programm-Verifikation}
 Die manuelle Verifikation nicht-trivialer Programm mit Hilfe des Hoare-Kalk\"uls ist sehr
 aufwendig.  Von Hand k\"onnen nur Programme verifiziert werden, die in derselben
-Gr\"o\3enordnung liegen, wie der oben behandelte Euklid'sche Algorithmus.  Es ist aber
+Gr\"o{\ss}enordnung liegen, wie der oben behandelte Euklid'sche Algorithmus.  Es ist aber
 m\"oglich, den Prozess der Programm-Verifikation zumindest partiell zu automatisieren.
 Sogenannte VCGs (\emph{\underline{v}erification \underline{c}ondition
   \underline{g}enerators}) reduzieren die Verifikation eines Programms auf den Nachweis
@@ -879,7 +879,7 @@ indizieren, dass noch ein Z\"ahler f\"ur die Anzahl der Schleifen-Durchl\"aufe i
 eingebaut ist.  Um die Diskussion nicht zu abstrakt werden zu lassen, betrachten wir das
 Beispiel in Abbildung \ref{fig:PowerIterative.iter}.  Hier hat die Variable \texttt{r} auf
 der rechten Seite der Zuweisung in Zeile 6 den Wert $\texttt{r}_n$, auf der linken Seite
-hat sie dann anschlie\3end den Wert $\texttt{r}_{n+1}$ und am Ende der Schleife in Zeile 11 hat die
+hat sie dann anschlie{\ss}end den Wert $\texttt{r}_{n+1}$ und am Ende der Schleife in Zeile 11 hat die
 Variable \texttt{r} den Wert $\texttt{r}_N$, wobei $N$ die Anzahl der Schleifen-Durchl\"aufe
 angibt.
 
@@ -968,7 +968,7 @@ erf\"ullt ist.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{Der Euklid'sche Algorithmus zur Berechnung des gr\"o\3ten gemeinsamen Teilers.}
+\caption{Der Euklid'sche Algorithmus zur Berechnung des gr\"o{\ss}ten gemeinsamen Teilers.}
 \label{fig:gcd.c}
 \end{figure}
 

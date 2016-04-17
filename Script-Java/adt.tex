@@ -8,7 +8,7 @@ illustrieren das Konzept im folgenden Abschnitt anhand von dem abstrakten Daten-
 Im zweiten Abschnitt zeigen wir, wie die Sprache \textsl{Java} die
 Verwendung abstrakter Daten-Typen unterst\"utzt.  In den folgenden Abschnitten betrachten
 wir verschiedene Implementierungen des abstrakten Daten-Typs \textsl{Stack}.
-Anschlie\3end zeigen wir, wie sich arithmetische Ausdr\"ucke mit Hilfe eines Stacks
+Anschlie{\ss}end zeigen wir, wie sich arithmetische Ausdr\"ucke mit Hilfe eines Stacks
 auswerten lassen.
 Im vorletzten Abschnitt diskutieren wir den Nutzen, den die Verwendung abstrakter
 Daten-Typen hat. 
@@ -41,7 +41,7 @@ Die einzelnen Komponenten dieses Tupels haben dabei die folgende Bedeutung.
       Funktion $f$ in der Form \\[0.1cm] 
       \hspace*{1.3cm} $f(t_1,\cdots,t_n)$ \\[0.1cm]
       aufgerufen wird und dass f\"ur $i=1,\cdots,n$ das Argument $t_i$ vom Typ
-      $T_i$ sein muss.  Au\3erdem sagt die Typ-Spezifikation aus, dass das
+      $T_i$ sein muss.  Au{\ss}erdem sagt die Typ-Spezifikation aus, dass das
       Ergebnis, das von der Funktion $f$ berechnet wird, immer vom Typ $S$ ist.
 
       Zus\"atzlich fordern wir, dass entweder $T_1 = T$ ist, oder aber $S = T$
@@ -77,7 +77,7 @@ wie folgt:
             \textsl{Stack}, rechts steht der Name des ADT.  In den g\"angigen
             Programmier-Sprachen (\textsl{Java}, \texttt{C++}, etc.) 
             werden bestimmte Funktionen mit dem selben Namen bezeichnet wie der zugeh\"orige
-            ADT.  Solche Funktionenen hei\3en Konstruktoren.  Der R\"uckgabe-Wert eines
+            ADT.  Solche Funktionenen hei{\ss}en Konstruktoren.  Der R\"uckgabe-Wert eines
             Konstruktors hat immer den Typ des ADT.
 
             Der Konstruktor $\textsl{Stack}$ kommt ohne Eingabe-Argumente aus.  Ein
@@ -119,7 +119,7 @@ erfasst:
 \item $S.\textsl{push}(x).\textsl{pop}() = S$
 
       Wenn wir auf den Stack $S$
-      ein Element legen, und anschlie\3end von dem resultierenden Stack das
+      ein Element legen, und anschlie{\ss}end von dem resultierenden Stack das
       oberste Element wieder herunter nehmen, dann erhalten wir den
       urspr\"unglichen Stack $S$, mit dem wir gestartet sind.
 \item $\textsl{Stack}().\textsl{isEmpty}() = \mathtt{true}$
@@ -296,7 +296,7 @@ Wir diskutieren die Darstellung des ADT Stack in Java nun Zeile f\"ur Zeile.
             durchgef\"uhrt: Falls der Stack leer ist, so ist das Ergebnis einfach nur der
             String ``\texttt{|}''.  Andernfalls fragen wir das oberste Element des Stacks
             mit dem Aufruf \texttt{top()} in 31 ab, entfernen es durch einen Aufruf von
-            \texttt{pop()} vom Stack und rufen anschlie\3end f\"ur den so verkleinerten Stack
+            \texttt{pop()} vom Stack und rufen anschlie{\ss}end f\"ur den so verkleinerten Stack
             rekursiv die Methode \texttt{toString()} auf.  Das oberste Element des
             urspr\"unglichen Stacks wird dann hinten an das Ergebnis des rekursiven Aufrufs geh\"angt.
       \item Um zum Schluss noch die Linien dar\"uber und darunter zu zeichnen, erzeugen wir
@@ -389,20 +389,20 @@ Abbildung \ref{fig:ArrayStack.java} auf Seite \pageref{fig:ArrayStack.java} zeig
       anfangen zu lassen.  Durch diese Konvention lassen sich Member-Variablen sp\"ater einfach von
       den lokalen Variablen einer Methode unterscheiden.
 \item In dem Konstruktor legen wir in Zeile 7 das Feld \texttt{mArray} mit einer
-      Gr\"o\3e von 1 an und initialisieren die Variable \texttt{mIndex} mit 0, denn 
+      Gr\"o{\ss}e von 1 an und initialisieren die Variable \texttt{mIndex} mit 0, denn 
       0 ist der erste freie Index in diesem Feld.
 \item Bei der Implementierung der Methode $\texttt{push}(e)$ \"uberpr\"ufen wir zun\"achst
       in Zeile 12, ob in dem Feld noch Platz vorhanden ist um
       ein weiteres Element abzuspeichern.  Falls dies nicht der Fall ist, 
-      legen wir in Zeile 13  ein neues Feld an, das doppelt so gro\3 ist wie das alte Feld.
-      Anschlie\3end kopieren wir in der \texttt{for}-Schleife in den Zeilen 14 -- 16
+      legen wir in Zeile 13  ein neues Feld an, das doppelt so gro{\ss} ist wie das alte Feld.
+      Anschlie{\ss}end kopieren wir in der \texttt{for}-Schleife in den Zeilen 14 -- 16
       die Elemente aus dem alten Feld in das neue Feld und setzen dann die 
       Variable \texttt{mArray} auf das neue Feld.  Der \emph{Garbage-Collector} der 
       \textsl{Java Virtual Machine}  sorgt jetzt daf\"ur,
       dass der Speicher, der f\"ur das alte Feld allokiert worden war, 
       wieder verwendet werden kann.
       
-      Anschlie\3end speichern wir das Element $e$ an der durch \texttt{mIndex}
+      Anschlie{\ss}end speichern wir das Element $e$ an der durch \texttt{mIndex}
       angegebenen Stelle ab und erh\"ohen die Variable \texttt{mIndex}, so dass diese jetzt 
       wieder auf den n\"achsten freien Index in dem Array zeigt.
 \item Die Funktion \texttt{pop()} k\"onnen wir dadurch implementieren, dass wir
@@ -430,7 +430,7 @@ ein Programm zu erstellen, mit dem wir diese Implementierung testen k\"onnen.
 Abbildung \ref{fig:StackTest.java} auf Seite \pageref{fig:StackTest.java}
 zeigt ein sehr einfaches Programm, in dem Stacks benutzt werden.  
 Wir legen nacheinander die Zahlen $0, 1, \cdots, 32$
-auf den Stack und geben jedesmal den Stack aus.  Anschlie\3end nehmen wir diese Zahlen der
+auf den Stack und geben jedesmal den Stack aus.  Anschlie{\ss}end nehmen wir diese Zahlen der
 Reihe nach vom Stack herunter.
 Wir werden am Ende dieses Kapitels noch eine anspruchsvollere Anwendung von Stacks
 pr\"asentieren, wenn wir Stacks zur Auswertung arithmetischer Ausdr\"ucke verwenden.
@@ -565,7 +565,7 @@ die ein solches Paar darstellt.
       dem Wert \texttt{null} initialisiert wird.
 \item Um ein neues Element auf den Stack zu legen, erzeugen wir ein Paar, das als erste
       Komponente das neue Element und als zweite Komponente eine Referenz auf die Liste
-      enth\"alt, die den bisherigen Stack repr\"asentierte.  Anschlie\3end lassen wir
+      enth\"alt, die den bisherigen Stack repr\"asentierte.  Anschlie{\ss}end lassen wir
       \texttt{mPointer} auf dieses Paar zeigen.
 \item Um die Funktion \texttt{pop()} zu implementieren, setzen wir \texttt{mPointer}
       auf die zweite Komponente des ersten Paares.
@@ -601,7 +601,7 @@ einen String, der aus nat\"urlichen Zahlen und den Operator-Symbolen ``\texttt{+
 den Rest, der bei der Division von $x$ durch $y$ \"ubrig bleibt und
 $x\;\mathtt{\symbol{94}}\;y$ steht f\"ur die Potenz $x^y$.  Alternativ kann die Potenz $x^y$
 auch als $x \;\mathtt{**}\; y$ geschrieben werden.
-Au\3erdem k\"onnen arithmetische
+Au{\ss}erdem k\"onnen arithmetische
 Ausdr\"ucke noch die beiden Klammer-Symbole ``\texttt{(}'' und ``\texttt{)}'' enthalten.  
 Formal wird die Menge der arithmetische Ausdr\"ucke \textsl{ArithExpr} induktiv definiert:
 \begin{enumerate}
@@ -631,7 +631,7 @@ vereinbaren, dass, wie in der Mathematik \"ublich, die Operatoren ``\texttt{*}''
 ``\texttt{/}'' und ``\texttt{\symbol{37}}'' st\"arker binden als die
 Operatoren ``\texttt{+}'' und ``\texttt{-}''.  Der Operator ``\texttt{\symbol{94}}''
 bindet st\"arker als alle anderen Operatoren.
-Au\3erdem sind die Operatoren ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'',
+Au{\ss}erdem sind die Operatoren ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'',
 ``\texttt{/}'', ``\texttt{\symbol{37}}'' alle \emph{links-assoziativ}:  Ein Ausdruck der
 Form \\[0.1cm]
 \hspace*{1.3cm} \texttt{1 - 2 - 3} \quad wird  wie der Ausdruck \quad \texttt{(1 - 2) - 3} \\[0.1cm]
@@ -720,7 +720,7 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verl\"auft wie folgt:
       Da beide Operatoren gleich stark binden und verschieden sind, werten wir jetzt den Operator
       \texttt{\symbol{34}+\symbol{34}} aus:  Dazu nehmen wir die letzten beiden Argumente vom Argument-Stack, nehmen den Operator
       \texttt{\symbol{34}+\symbol{34}} vom Operator-Stack und berechnen die Summe der beiden Argumente.
-      Diese Summe legen wir dann auf den Argument-Stack.  Au\3erdem legen wir den Operator
+      Diese Summe legen wir dann auf den Argument-Stack.  Au{\ss}erdem legen wir den Operator
       \texttt{\symbol{34}-\symbol{34}} wieder auf den Token-Stack zur\"uck.      
       Dann gilt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.1cm]
@@ -739,7 +739,7 @@ Die Auswertung von \texttt{1 + 2 * 3 - 4} verl\"auft wie folgt:
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
 \item Der Input ist nun vollst\"andig gelesen.
       Wir nehmen daher nun den Operator \texttt{\symbol{34}-\symbol{34}} vom Operator-Stack, der damit leer wird.
-      Anschlie\3end nehmen wir die beiden Argumente vom Argument-Stack, bilden die
+      Anschlie{\ss}end nehmen wir die beiden Argumente vom Argument-Stack, bilden die
       Differenz und legen diese auf den Argument-Stack.
       Damit gilt: \\[0.1cm]
       \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.1cm]
@@ -782,7 +782,7 @@ zwei F\"alle auftreten k\"onnen:
             auf dem Operator-Stack.
       \item Der neue Operator bindet st\"arker als der Operator, der bereits oben auf dem Operator-Stack liegt.
       \item Der neue Operator ist identisch mit dem Operator, der bereits oben auf dem Operator-Stack
-            liegt und dieser Operator-Stack ist au\3erdem rechts-assoziativ.
+            liegt und dieser Operator-Stack ist au{\ss}erdem rechts-assoziativ.
         
       \end{enumerate}
 \item Andernfalls wird der Operator wieder auf den Token-Stack zur\"uck gelegt.
@@ -1077,7 +1077,7 @@ diskutieren.
       \hspace*{1.3cm} [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]
       \\[0.1cm]
       zugewiesen.
-      Au\3erdem initialisieren wir den Argument-Stack und den Operator-Stack in Zeile 75 und 76.      
+      Au{\ss}erdem initialisieren wir den Argument-Stack und den Operator-Stack in Zeile 75 und 76.      
 \item In der n\"achsten Phase verarbeiten wir die einzelnen Tokens des Token-Stacks
       und verteilen
       diese Tokens auf Argument-Stack und Operator-Stack wie folgt:
@@ -1090,15 +1090,15 @@ diskutieren.
             \texttt{\symbol{34})\symbol{34}} ist. 
       \item Falls der Operator-Stack leer ist oder wenn das gelesene Token eine \"offnende Klammer
             \texttt{\symbol{34}(\symbol{34}} ist, legen wir den Operator oder die Klammer auf den Operator-Stack.
-      \item Falls das  Token eine schlie\3ende Klammer \texttt{\symbol{34})\symbol{34}} ist und wenn zus\"atzlich
+      \item Falls das  Token eine schlie{\ss}ende Klammer \texttt{\symbol{34})\symbol{34}} ist und wenn zus\"atzlich
             der Operator auf dem Operator-Stack eine \"offnende Klammer \texttt{\symbol{34}(\symbol{34}} ist, so 
             entfernen wir diese Klammer vom Operator-Stack.
-      \item Falls jetzt das Token aus dem Token-Stacks eine schlie\3ende Klammer
+      \item Falls jetzt das Token aus dem Token-Stacks eine schlie{\ss}ende Klammer
             \texttt{\symbol{34})\symbol{34}} 
             ist, so wissen wir, dass das Token auf dem Operator-Stack keine \"offnende
             Klammer sein kann, sondern ein echter Operator ist. 
             Diesen Operator evaluieren wir mit Hilfe der Methode \texttt{popAndEvaluate()}.
-            Gleichzeitig schieben wir die schlie\3ende Klammer, die wir vom Token-Stack genommen
+            Gleichzeitig schieben wir die schlie{\ss}ende Klammer, die wir vom Token-Stack genommen
             haben, wieder auf den Token-Stack zur\"uck, denn wir haben die dazu geh\"orige
             \"offnende Klammer ja noch nicht gefunden.
 
@@ -1134,7 +1134,7 @@ als ganze Zahl interpretiert werden k\"onnen.  Die Methode $\textsl{nextBigInteg
 dann diese Zahl zur\"uck.  Ein Aufruf von $\textsl{next}()$ liefert als Ergebnis den
 n\"achsten String, der durch Leerzeichen, Tabulatoren oder Zeilenumbr\"uche begrenzt wird.
 Um das Programm sp\"ater laufen lassen zu k\"onnen, m\"ussen also alle arithmetischen Operatoren
-von Leerzeichen begrenzt werden.  Au\3erdem ist beim Aufruf zu beachten, dass die Eingabe mit einem
+von Leerzeichen begrenzt werden.  Au{\ss}erdem ist beim Aufruf zu beachten, dass die Eingabe mit einem
 \emph{End-Of-File}-Zeichen abgeschlossen werden muss.  Unter Unix ist dies Ctrl-D, unter
 Windows wird hierf\"ur Ctrl-Z verwendet.
 
@@ -1222,7 +1222,7 @@ erkennen.
       einfache Implementierungen an, deren Effizienz eventuell noch zu w\"unschen \"ubrig
       l\"asst.  In einem sp\"ateren Schritt wird evaluiert wo der Schuh am meisten dr\"uckt.
       Die ADTs, die bei dieser Evaluierung als performance-kritisch erkannt werden, k\"onnen
-      anschlie\3end mit dem Ziel der Effizienz-Steigerung reimplementiert werden.
+      anschlie{\ss}end mit dem Ziel der Effizienz-Steigerung reimplementiert werden.
 \end{enumerate}
 \pagebreak
 
@@ -1302,7 +1302,7 @@ erkennen.
 %      \hspace*{2.3cm} \emph{procedure-declaration}\texttt{;} \\[0.1cm]
 %      \hspace*{1.3cm} \texttt{end} \textsl{name}\texttt{;} \\[0.1cm]
 %      Hierbei ist \textsl{name} der Name der Klasse.  Innerhalb der Klasse stehen
-%      dann die Deklarationen der verschiedenen Prozeduren, die die Klasse nach au\3en zur
+%      dann die Deklarationen der verschiedenen Prozeduren, die die Klasse nach au{\ss}en zur
 %      Verf\"ugung stellt. Dabei hat die erste Prozedur-Deklaration eine besondere Form:
 %      Die dort deklarierte Funktion hat immer den Namen \texttt{create()}.
 %      Bei dieser Funktion handelt es sich um den \emph{Konstruktor} der Klasse.
@@ -1330,7 +1330,7 @@ erkennen.
 
 %      \item Zus\"atzlich k\"onnen weiter Prozeduren definiert werden, die in der
 %            Klassen-Deklaration nicht genannt werden.  Solche Hilfs-Prozeduren sind dann
-%            au\3erhalb der Klasse nicht sichtbar und k\"onnen nur innerhalb der Klasse
+%            au{\ss}erhalb der Klasse nicht sichtbar und k\"onnen nur innerhalb der Klasse
 %            verwendet werden, also nur innerhalb der Prozedur-Definitionen in der
 %            Klassen-Definition. 
 %      \item Die Prozedur \texttt{selfstr()} hat eine besondere Funktion:
