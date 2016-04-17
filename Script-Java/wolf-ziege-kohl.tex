@@ -875,7 +875,7 @@ Mengen \"uber einen lexikografischen Vergleich der beiden Listen.
 Nach dem wir uns im letzten Abschnitt einen Rahmen geschaffen haben, in dem konzeptionell
 dieselben Funktionen wie in \textsl{Setl} zur Verf\"ugung stehen, k\"onnen wir nun daran
 gehen, das im ersten Semester entwickelte \textsl{Setl}-Programm in \textsl{Java} zu \"ubersetzen.
-Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.
+Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser \"Ubersetzung.
 \begin{enumerate}
 \item In den ersten beiden Zeilen definieren wir zwei Abk\"urzungen.  Zum einen m\"ochten wir
       \\[0.2cm]
@@ -923,8 +923,8 @@ Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.
 \item Die Menge \texttt{r} beschreibt die Zustands\"ubergangsrelation.
       Diese Relation wird in den beiden \texttt{for}-Schleifen in den Zeilen
       14 -- 23 und 24 -- 35 berechnet.
-      Die erste \texttt{for}-Schleife berechnet die Überg\"ange, bei denen
-      das Boot von links nach rechts \"ubersetzt.  Mathematisch k\"onnen diese Überg\"ange wie
+      Die erste \texttt{for}-Schleife berechnet die \"Uberg\"ange, bei denen
+      das Boot von links nach rechts \"ubersetzt.  Mathematisch k\"onnen diese \"Uberg\"ange wie
       folgt zu einer Relation zusammengefasst werden:
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -938,10 +938,10 @@ Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.
       rechten Ufer \"ubersetzen.  Diese Menge ist eine
       Teilmenge von $s$ und damit ein Element der Potenz-Menge von $s$.  
       Die Menge \texttt{sb} besteht
-      aus den Objekten, die nach der Überfahrt am linken Ufer verbleiben.
+      aus den Objekten, die nach der \"Uberfahrt am linken Ufer verbleiben.
       Das ist gerade die Mengendifferenz $s \backslash b$.  
       
-      Damit eine Überfahrt legal ist, m\"ussen folgende Bedingungen erf\"ullt sein:
+      Damit eine \"Uberfahrt legal ist, m\"ussen folgende Bedingungen erf\"ullt sein:
       \begin{enumerate}
       \item Der Bauer muss im Boot sitzen: 
             \\[0.2cm]
@@ -951,7 +951,7 @@ Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.
             \\[0.2cm]
             \hspace*{1.3cm}
             \texttt{b.size() <= 2}
-      \item Es darf nach der Überfahrt am linken Ufer kein Problem geben:
+      \item Es darf nach der \"Uberfahrt am linken Ufer kein Problem geben:
             \\[0.2cm]
             \hspace*{1.3cm}
             \texttt{!problem(sb)}
@@ -959,7 +959,7 @@ Abbildung \ref{fig:WolfZiegeKohl.jpre} zeigt das Ergebnis dieser Übersetzung.
       Diese Bedingungen werden durch die \texttt{if}-Abfrage in Zeile 17 sichergestellt.
       Wenn die Bedingungen erf\"ullt sind, wird das Paar $\pair(\mathtt{s}, \mathtt{sb})$
       der Relation $r$ hinzugef\"ugt.
-\item Die Überg\"ange, bei denen das Boot von rechts nach links f\"ahrt, werden analog
+\item Die \"Uberg\"ange, bei denen das Boot von rechts nach links f\"ahrt, werden analog
       berechnet.  Mathematisch hat diese Relation die Form
       \\[0.2cm]
       \hspace*{1.3cm}

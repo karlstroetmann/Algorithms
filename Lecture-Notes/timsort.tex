@@ -1,7 +1,7 @@
 
 \section{Timsort}
 Der Algorithmus ``\emph{Sortieren durch Mischen}'' ist in der Praxis der Algorithmus, der
-am effizientesten arbeitet.  Dies schlie\3e ich daraus, dass dieser Algorithmus
+am effizientesten arbeitet.  Dies schlie\ss{}e ich daraus, dass dieser Algorithmus
 beispielsweise sowohl in der Sprache \textsl{Python} als auch in \textsl{Java} in den
 Bibliotheken zum Sortieren eingesetzt wird.
 Bei einer praktischen Implementierung von Merge-Sort gibt es eine Reihe von Tricks, die
@@ -28,7 +28,7 @@ sortierenden Daten in der Praxis h\"aufig die folgenden Eigenschaften haben:
 \item Oft sind Teilfelder bereits vorsortiert, allerdings nicht immer aufsteigend sondern genau so
       h\"aufig auch absteigend.
 \item Die Daten innerhalb eines Feldes sind oft \emph{klumpig}: Damit ist gemeint, dass das Feld
-      in Teilfelder aufgeteilt werden kann, in denen die Daten entweder alle relativ gro\3 oder klein
+      in Teilfelder aufgeteilt werden kann, in denen die Daten entweder alle relativ gro\ss{} oder klein
       sind.
 \end{enumerate}
 Aus diesem Grunde verwendet \emph{Timsort} die folgenden Tricks um ein Feld zu sortieren.
@@ -36,12 +36,12 @@ Aus diesem Grunde verwendet \emph{Timsort} die folgenden Tricks um ein Feld zu s
 \item Erkennen vorsortierter Felder.
 
       In einem ersten Schritt unterteilen wir das zu sortierende Feld in Teilfelder, 
-      die wahlweise aufsteigend oder absteigend sortiert sind.  Anschlie\3end wird ein absteigend
+      die wahlweise aufsteigend oder absteigend sortiert sind.  Anschlie\ss{}end wird ein absteigend
       sortiertes Teilfeld umgedreht, so dass es danach aufsteigend sortiert ist.
 \item Verl\"angern zu kleiner Felder.
 
       ``\emph{Sortieren durch Mischen}'' hat nur dann eine Komplexit\"at von $\Oh(n \cdot \ln(n))$, wenn
-      wir sicherstellen k\"onnen, dass die zu mischenden Teilfelder ann\"ahernd die gleiche Gr\"o\3e haben.
+      wir sicherstellen k\"onnen, dass die zu mischenden Teilfelder ann\"ahernd die gleiche Gr\"o\ss{}e haben.
       Daher wird ein vorsortiertes Teilfeld, dessen L\"ange k\"urzer als eine gewisse Mindestl\"ange 
       ist, k\"unstlich auf eine vorgegebene Mindestl\"ange verl\"angert.  Als Mindestl\"ange wird ein Zahl zwischen
       32 und 63 gew\"ahlt. 
@@ -58,7 +58,7 @@ Aus diesem Grunde verwendet \emph{Timsort} die folgenden Tricks um ein Feld zu s
       sichergestellt werden, wenn die zu mischenden Teilfelder im wesentlichen dieselbe L\"ange
       haben.  Dies wird dadurch erreicht, dass die vorsortierten Teilfelder auf einem Stack
       verwaltet werden.  Dabei wird darauf geachtet, dass die zu mischenden Teilfelder im
-      wesentlichen dieselbe Gr\"o\3e haben.
+      wesentlichen dieselbe Gr\"o\ss{}e haben.
 \item Verbesserungen des Algorithmus zum Mischen.
 
       Werden zwei Teilfelder gemischt bei denen alle Elemente des ersten Teilfeldes kleiner als alle
@@ -67,7 +67,7 @@ Aus diesem Grunde verwendet \emph{Timsort} die folgenden Tricks um ein Feld zu s
       und h\"atte daher eine lineare Komplexit\"at.  \emph{Timsort} erkennt, wenn zwei Teilfelder stark
       unterschiedlich sind und verwendet in diesem Fall \emph{exponentielle Suche}.  Dadurch hat 
       das Mischen zweier Teilfelder in vielen in der Praxis wichtigen Spezialf\"allen nur eine
-      Komplexit\"at, die logarithmisch von der Gr\"o\3e der Teilfelder abh\"angt.
+      Komplexit\"at, die logarithmisch von der Gr\"o\ss{}e der Teilfelder abh\"angt.
 \end{enumerate}
 Wir diskutieren nun eine vereinfachte Version des Algorithmus \emph{Timsort}.  Ausgangspunkt bei
 dieser vereinfachten Version war die Implementierung von \emph{Timsort} in \textsl{Java 7}.
@@ -198,10 +198,10 @@ deren Aufgabe es ist, das Feld \texttt{mArray} zu sortieren.
 \item Felder mit weniger als zwei Elementen sind bereits sortiert.
 \item Kleine Felder, konkret solche Felder die weniger als \texttt{MIN\_MERGE} Elemente haben,
       werden mit Hilfe einer Variante des Algorithmus ``\emph{Sortieren durch Einf\"ugen}''
-      sortiert.  Dazu sucht die Methode $\textsl{countRunAndMakeAscending}()$ zun\"achst das gr\"o\3te
+      sortiert.  Dazu sucht die Methode $\textsl{countRunAndMakeAscending}()$ zun\"achst das gr\"o\ss{}te
       Teilfeld, das beginnend an dem Index \texttt{low} entweder aufsteigend oder absteigend
       sortiert ist.  Falls das Teilfeld absteigend sortiert ist, werden die Elemente innerhalb
-      des Teilfeldes umgedreht, so dass das Teilfeld anschlie\3end auf jeden Fall aufsteigend
+      des Teilfeldes umgedreht, so dass das Teilfeld anschlie\ss{}end auf jeden Fall aufsteigend
       sortiert ist.  Die Methode $\textsl{countRunAndMakeAscending}()$ gibt als Ergebnis die L\"ange
       des aufsteigend sortierten Teilfelds zur\"uck.  Wenn das Programm in Zeile 9 angekommen ist,
       dann wissen wir, dass das Teilfeld
@@ -212,11 +212,11 @@ deren Aufgabe es ist, das Feld \texttt{mArray} zu sortieren.
       sortiert ist.  Die Elemente beginnend mit dem Index $\mathtt{low}+ \mathtt{initRunLen}$ m\"ussen
       noch in dieses Feld einsortiert werden.  
       Dies wird von der Methode $\textsl{binarySort}()$ in Zeile 9 geleistet.
-\item Gro\3e Felder werden zun\"achst in Teilfelder, die bereits sortiert sind, aufgespalten.
+\item Gro\ss{}e Felder werden zun\"achst in Teilfelder, die bereits sortiert sind, aufgespalten.
       Dazu wird in Zeile 13 zun\"achst das l\"angste sortierte Teilfeld berechnet, dass an dem Index 
       \texttt{low} beginnt und das bereits sortiert ist.  Dann wird in Zeile 14 gepr\"uft, 
       ob dieses Teilfeld die Mindest-L\"ange \texttt{MIN\_MERGE} besitzt.  Falls nicht und wenn
-      au\3erdem noch mehr als \texttt{MIN\_MERGE} Elemente vorhanden sind, dann wird dieses Teilfeld
+      au\ss{}erdem noch mehr als \texttt{MIN\_MERGE} Elemente vorhanden sind, dann wird dieses Teilfeld
       durch den Aufruf der Methode $\textsl{binarySort}()$ in Zeile 16 zu einem sortierten
       Teilfeld der L\"ange \texttt{force} verl\"angert.  Diese L\"ange ist \texttt{MIN\_MERGE},
       falls mehr als \texttt{MIN\_MERGE} Elemente \"ubrig sind, sonst ist diese L\"ange
@@ -224,11 +224,11 @@ deren Aufgabe es ist, das Feld \texttt{mArray} zu sortieren.
       Zum Sortieren wird wieder der Algorithmus ``\emph{Sortieren durch Einf\"ugen}'' verwendet.
 \item Das sortierte Teilfeld  wird in Zeile 19 von der Methode $\textsl{pushRun}()$ auf den Stack der bereits
       sortierten Teilfelder gelegt.  Liegen schon mehrere Teilfelder auf dem Stack und sind die
-      Gr\"o\3en dieser Teilfelder nicht zu stark unterschiedlich, so mischt die Methode
+      Gr\"o\ss{}en dieser Teilfelder nicht zu stark unterschiedlich, so mischt die Methode
       $\textsl{mergeCollapse}()$ einige der auf dem Stack liegenden Teilfelder.  Dies
       werden wir sp\"ater noch im Detail analysieren, wenn wir die Methode $\textsl{mergeCollapse}()$
       besprechen.
-\item Anschlie\3end wird in Zeile 21 der Index \texttt{low} um die bereits sortierten Elemente erh\"oht,
+\item Anschlie\ss{}end wird in Zeile 21 der Index \texttt{low} um die bereits sortierten Elemente erh\"oht,
       und die Zahl der noch zu sortierenden Elemente wird entsprechend erniedrigt.
 \item Zum Abschluss der Methode werden alle noch auf dem Stack verbliebenen Teilfelder so
       gemischt, dass das resultierende Feld insgesamt aufsteigend geordnet ist.
@@ -315,7 +315,7 @@ die der Index $k$ annehmen kann:
 \begin{enumerate}
 \item Falls alle Elemente der Menge 
       $\bigl\{ \mathtt{mArray}[j] \mid j \in \{ \textsl{low}, \cdots, i-1 \}\bigr\}$
-      gr\"o\3er als $\mathtt{mArray}[i]$ sind, so wird das Element an der Position \textsl{low}
+      gr\"o\ss{}er als $\mathtt{mArray}[i]$ sind, so wird das Element an der Position \textsl{low}
       eingef\"ugt und die Elemente des Feldes \texttt{mArray} werden nach rechts verschoben.
 \item Falls alle Elemente der Menge 
       $\bigl\{ \mathtt{mArray}[j] \mid j \in \{ \textsl{low}, \cdots, i-1 \}\bigr\}$
@@ -345,7 +345,7 @@ dass diese Invarianten bei jedem Schleifendurchlauf erhalten bleiben.
       \\[0.2cm]
       zu einem Überlauf kommen kann.
 \item Falls $\mathtt{mArray}[i] < \mathtt{mArray}[\textsl{middle}]$ ist, so sind alle Elemente
-      rechts von dem Index \textsl{middle} sicher gr\"o\3er als das einzusortierende Element 
+      rechts von dem Index \textsl{middle} sicher gr\"o\ss{}er als das einzusortierende Element 
       $\textsl{mArray}[i]$ und damit gilt f\"ur den Index $k$, den wir suchen, die Ungleichung
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -360,7 +360,7 @@ dass diese Invarianten bei jedem Schleifendurchlauf erhalten bleiben.
       $k > \textsl{middle}$.
       \\[0.2cm]
       Daher k\"onnen wir in diesem Fall die linke Seite \textsl{left} des Intervalls zu $\textsl{middle}+1$
-      vergr\"o\3ern, wobei die Invariante erhalten bleibt.
+      vergr\"o\ss{}ern, wobei die Invariante erhalten bleibt.
 \end{enumerate}
 Falls nun die \texttt{while}-Schleife abbricht, muss danach $\textsl{left} = \textsl{right}$ gelten
 und damit ist \textsl{left} (oder genausogut \textsl{right}) der gesuchte Index $k$.  Wir verschieben
@@ -371,7 +371,7 @@ $[\mathtt{mArray}[\textsl{left}, \cdots, i-1]$
 \\[0.2cm]
 um eine Position
 nach rechts.  Dieses Teilfeld hat $(i-1) - \textsl{left} + 1 = i - \textsl{left}$ Elemente.
-Anschlie\3end kopieren wir das Element $\texttt{mArray}[i]$ an die nun freie Position $k = \textsl{left}$.
+Anschlie\ss{}end kopieren wir das Element $\texttt{mArray}[i]$ an die nun freie Position $k = \textsl{left}$.
 
 Es bleibt noch zu zeigen, dass die \texttt{while}-Schleife in Zeile 9 tats\"achlich abbricht.
 Das Problem ist, dass das Intervall $[\textsl{left}, \textsl{right}]$ nur solange tats\"achlich
@@ -488,16 +488,16 @@ wie folgt:
       ist absteigend sortiert.  
       \\[0.2cm]
       Daher wird die Variable \textsl{runHigh} so lange inkrementiert, solange der n\"achste Wert
-      kleiner als der vorhergehende Wert ist.  Abschlie\3end dreht die Methode
+      kleiner als der vorhergehende Wert ist.  Abschlie\ss{}end dreht die Methode
       $\textsl{reverseRange}$
       die Elemente des Teilfeldes
       \\[0.2cm]
       \hspace*{1.3cm}
       $\bigl[ \mathtt{mArray}[low], \cdots, \mathtt{mArray}[\textsl{runHigh}-1] \bigr]$
       \\[0.2cm]
-      so um, dass anschlie\3end dieses Teilfeld aufsteigend sortiert ist. 
+      so um, dass anschlie\ss{}end dieses Teilfeld aufsteigend sortiert ist. 
 \item Falls das Teilfeld aufsteigend sortiert ist, wird das Teilfeld in analoger Weise solange nach
-      oben erweitert, solange die neu hinzugef\"ugten Elemente gr\"o\3er als die bereits vorhandenen sind.
+      oben erweitert, solange die neu hinzugef\"ugten Elemente gr\"o\ss{}er als die bereits vorhandenen sind.
 \item Wenn am Schluss die Differenz $\textsl{runHigh} - \textsl{low}$ zur\"uck gegeben wird, ist dies
       genau die Zahl der Elemente des Teilfeldes.
 \end{enumerate}
@@ -511,7 +511,7 @@ $\bigl[ \mathtt{mArray}[\textsl{low}], \cdots, \mathtt{mArray}[\textsl{high}-1] 
 \\[0.2cm]
 umzudrehen.  Dazu verwaltet diese Methode zwei Indizes $l$ und $h$: $l$ startet am linken Rand des
 Feldes und $h$ am rechten Rand.  In den Zeilen 5 -- 7 werden die Werte, auf die $l$ und $h$ zeigen,
-vertauscht.  Anschlie\3end wird der linke Index inkrementiert und der rechte wird dekrementiert.
+vertauscht.  Anschlie\ss{}end wird der linke Index inkrementiert und der rechte wird dekrementiert.
 Dies geschieht solange, bis sich die Indizes kreuzen.  In diesem Fall bricht die Schleife ab.
 
 
@@ -574,7 +574,7 @@ gespeichert sind.
 
 Abbildung \ref{fig:TimSort.java:mergeCollapse} zeigt die Methode $\textsl{mergeCollapse}()$.  Diese
 Methode hat die Aufgabe daf\"ur zu sorgen, dass der Stack, auf dem die bereits sortierten Teilfelder
-abgespeichert sind, nicht zu gro\3 wird.  Dies wir durch zwei Invarianten sichergestellt:
+abgespeichert sind, nicht zu gro\ss{} wird.  Dies wir durch zwei Invarianten sichergestellt:
 \begin{enumerate}
 \item Einerseits fordern wir, dass die L\"angen der Teilfelder, die auf dem Stack liegen, absteigend
       sind, es soll also gelten
@@ -588,7 +588,7 @@ abgespeichert sind, nicht zu gro\3 wird.  Dies wir durch zwei Invarianten sicher
       $\forall i \in \{0, \cdots, \textsl{mStackSize} - 1\}: 
         \mathtt{mRunLen}[i-2] > \mathtt{mRunLen}[i-1] + \mathtt{mRunLen}[i]$.
       \\[0.2cm]
-      Die zweite Bedingung stellt sicher, dass wir mit einem Stack der Gr\"o\3e 40 auskommen, denn f\"ur die
+      Die zweite Bedingung stellt sicher, dass wir mit einem Stack der Gr\"o\ss{}e 40 auskommen, denn f\"ur die
       Summe der Fibonacci-Zahlen
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -600,10 +600,10 @@ abgespeichert sind, nicht zu gro\3 wird.  Dies wir durch zwei Invarianten sicher
       $\sum\limits_{i=0}^n F_i = F_{n+2} - 1$
       \\[0.2cm]
       gilt und  $F_{41}$ hat den Wert $267\,914\,296$.  Da jedes der Teilfelder mindestens eine
-      L\"ange von 32 hat, reicht der Stack f\"ur Felder bis zur Gr\"o\3e 
+      L\"ange von 32 hat, reicht der Stack f\"ur Felder bis zur Gr\"o\ss{}e 
       $32 \cdot 267\,914\,291 = 8\,573\,257\,312$ auf jeden Fall aus.  Ein Feld, das mit ganzen
-      Zahlen indiziert wird, hat maximal ein Gr\"o\3e von $2^{31} = 2\,147\,483\,648$,
-      so dass ein Stack der G\"o\3e 40 sicher ausreicht.
+      Zahlen indiziert wird, hat maximal ein Gr\"o\ss{}e von $2^{31} = 2\,147\,483\,648$,
+      so dass ein Stack der G\"o\ss{}e 40 sicher ausreicht.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -659,7 +659,7 @@ Stack gelegten Teilfeldes erf\"ullt sind.
       \\[0.2cm]
       werden gemischt. Falls das Teilfeld $i+1$ l\"anger ist als das Teilfeld $i-1$, so werden die 
       beiden k\"urzeren Teilfelder $i-1$ und $i$ gemischt, andernfalls werden $i$ und $i+1$ gemischt.
-\item Falls die Fibonacci-Invariante erf\"ullt ist, aber das neu auf dem Stack liegende Feld gr\"o\3er
+\item Falls die Fibonacci-Invariante erf\"ullt ist, aber das neu auf dem Stack liegende Feld gr\"o\ss{}er
       ist als das Feld darunter, so werden die beiden oben auf dem Stack liegenden Felder gemischt.
 \item Da durch das Mischen der Stack verk\"urzt wird, sind die Invarianten eventuell wieder an der
       Spitze des Stacks verletzt.  Daher  m\"ussen wir das Mischen solange weiterf\"uhren, bis
@@ -828,18 +828,18 @@ Wir diskutieren nun die Details der in Abbildung \ref{fig:TimSort.java:gallop} g
       3 den Index 0 zur\"uck.
 \item Ansonsten speichern wir in \textsl{lastK} den letzten Wert von $k$, den wir schon
       (erfolglos) ausprobiert haben und initialisieren $k$ mit $1$, den wir wissen ja schon,
-      dass $k$ gr\"o\3er als $0$ sein muss, denn das erste Element des Teilfeldes ist ja kleiner-gleich
+      dass $k$ gr\"o\ss{}er als $0$ sein muss, denn das erste Element des Teilfeldes ist ja kleiner-gleich
       $x$.
-\item Solange $k$ noch nicht \"uber den rechten Rand des Teilfeldes herauszeigt und solange au\3erdem
-      das Element an der Stelle $\mathtt{mAux}[b + k]$ kleiner-gleich $x$ ist, m\"ussen wir $k$ vergr\"o\3ern.
-      Wir inkrementieren $k$ aber nicht blo\3 um 1, was zu einer linearen Suche f\"uhren w\"urde, sondern
-      vergr\"o\3ern $k$ in Zeile 9 nach der Formel
+\item Solange $k$ noch nicht \"uber den rechten Rand des Teilfeldes herauszeigt und solange au\ss{}erdem
+      das Element an der Stelle $\mathtt{mAux}[b + k]$ kleiner-gleich $x$ ist, m\"ussen wir $k$ vergr\"o\ss{}ern.
+      Wir inkrementieren $k$ aber nicht blo\ss{} um 1, was zu einer linearen Suche f\"uhren w\"urde, sondern
+      vergr\"o\ss{}ern $k$ in Zeile 9 nach der Formel
       \\[0.2cm]
       \hspace*{1.3cm}
       $k := 2 * k + 1$.
       \\[0.2cm]
       Dabei merken wir uns jedesmal den alten Wert von $k$ in der Variablen \textsl{lastK}.
-\item Bei sehr gro\3en Feldern kann es bei der Berechnung von $2 * k + 1$ zu einem
+\item Bei sehr gro\ss{}en Feldern kann es bei der Berechnung von $2 * k + 1$ zu einem
       Überlauf kommen.  Einen Überlauf k\"onnen wir daran erkennen, dass $2 * k + 1$ negativ wird.
       In diesem Fall setzen wir $k$ auf den maximal zul\"assigen Wert $l$.
 \item Wenn die \texttt{while}-Schleife in Zeile 7 abbricht, kann es passieren, dass $k$ \"uber die
@@ -870,7 +870,7 @@ Wir diskutieren nun die Details der in Abbildung \ref{fig:TimSort.java:gallop} g
       so dass der Test $\texttt{mAux}[b + m] \leq x$ erfolgreich ist und \textsl{lastK} auf 
       $\textsl{lastK} + 1 = k$ gesetzt wird.  Im n\"achsten Schritt hat das Intervall dann die L\"ange
       0 und die Schleife bricht ab.  Tats\"achlich sind dann alle Elemente des Teilfeldes links von
-      $k$ kleiner-gleich $x$, der Wert an der Position $k$ ist aber echt gr\"o\3er als $x$, so dass $k$
+      $k$ kleiner-gleich $x$, der Wert an der Position $k$ ist aber echt gr\"o\ss{}er als $x$, so dass $k$
       nun der gesuchte Index ist.
 \end{enumerate}
 
@@ -966,7 +966,7 @@ Elemente enth\"alt aus dem ersten oder zweiten Teilfeld kopiert wird, dann wird 
 \texttt{do}-\texttt{while}-Schleife verlassen und das Programm  geht in Zeile 26 in den
 \emph{Gallop}, sprich exponentielle Suche, \"uber.  Der Hintergrund ist hier folgender:  In der Praxis
 sind zu sortierende Felder oft \emph{klumpig}, d.h.~das Feld enth\"alt Teilfelder der Art, dass
-beispielsweise alle Elemente des ersten Teilfeldes gr\"o\3er sind als die Elemente des zweiten
+beispielsweise alle Elemente des ersten Teilfeldes gr\"o\ss{}er sind als die Elemente des zweiten
 Teilfeldes.  Werden zwei Teilfelder dieser Art auf konventionelle Art gemischt, so werden der Reihe
 nach alle Elemente des zweiten Teilfeldes mit dem ersten Element des ersten Teilfeldes verglichen.
 Dies ist zu aufwendig, denn wenn wir beispeilsweise feststellen, dass das letzte Element des
@@ -985,19 +985,19 @@ des zweiten Teilfeldes sind,
 \hspace*{1.3cm}
 $\forall j \in \{ c_1, \cdots, c_1 + (n_1 - 1) \} : \mathtt{mAux}[j] \leq \mathtt{mAux}[c_2]$,
 \\[0.2cm]
-w\"ahrend das Element an der Position $c_1 + n_1$ gr\"o\3er als $\mathtt{mAux}[c_2]$ ist:
+w\"ahrend das Element an der Position $c_1 + n_1$ gr\"o\ss{}er als $\mathtt{mAux}[c_2]$ ist:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mathtt{mAux}[c_1 + n_1] > \mathtt{mAux}[c_2]$.
 \\[0.2cm]
 Diese Position bestimmen wir durch exponentielle Suche.  Dann wissen wir, dass alle die Elemente mit
 Indizes aus der Menge $\{ c_1, \cdots, c_1 + (n_1 - 1) \}$ sich bereits an der richtigen Position
-befinden.  Analog bestimmen wir anschlie\3end eine Position $c_2 + n_2$, so dass alle Elemente aus
+befinden.  Analog bestimmen wir anschlie\ss{}end eine Position $c_2 + n_2$, so dass alle Elemente aus
 dem zweiten Teilfeld, die links von dieser Position stehen, kleiner-gleich dem ersten Element
 $\mathtt{mAux}[c_1]$ des verbliebenen ersten Teilfeldes sind.   Diese Elemente k\"onnen dann in einem
 Block in das Feld \texttt{mArray} kopiert werden.  Werden bei diesem Verfahren die als Block
 kopierten Bereiche zu klein, so wechselt der Algorithmus in die konventionelle Methode zum Mischen zur\"uck.
-Am Ende der \"au\3eren \texttt{while}-Schleife sind eventuell noch Elemente in einem der beiden
+Am Ende der \"au\ss{}eren \texttt{while}-Schleife sind eventuell noch Elemente in einem der beiden
 Teilfelder vorhanden, w\"ahrend das andere Teilfeld leer ist.  Diese werden dann in Zeile 42 bzw.~44
 in das Feld \texttt{mArray} kopiert.
 

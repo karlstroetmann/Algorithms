@@ -653,12 +653,12 @@ Ver\"anderungen gegen\"uber der bisher gezeigten Implementierung.
 Wir beginnen mit der abstrakten Klasse \textsl{HeapNode}, die in Abbildung
 \ref{fig:HeapNode-2} auf Seite \pageref{fig:HeapNode-2} gezeigt wird.
 Gegen\"uber der Implementierung in Abbildung \ref{fig:HeapNode} auf Seite \ref{fig:HeapNode}
-gibt es die folgenden Änderungen.
+gibt es die folgenden \"Anderungen.
 \begin{enumerate}
 \item Die Klasse enth\"alt eine zus\"atzliche Member-Variable \texttt{mParent}, die in Zeile 6
       definiert wird.  Hierbei handelt es sich um eine Referenz auf den Vater-Knoten.
       Diese Referenz ist notwendig f\"ur die Implementierung der Methode \textsl{change}(),
-      denn dort m\"ussen wir nach einer Änderung der Priorit\"at eines Schl\"ussel \"uberpr\"ufen, 
+      denn dort m\"ussen wir nach einer \"Anderung der Priorit\"at eines Schl\"ussel \"uberpr\"ufen, 
       ob die Priorit\"at des Vater-Knotens immer noch gr\"o\3er ist als die Priorit\"at des Knotens dessen
       Priorit\"at wir ge\"andert haben.
 \item Au\3erdem enth\"alt jeder Knoten jetzt eine Referenz auf die Abbildung
@@ -708,7 +708,7 @@ gibt es die folgenden Änderungen.
   \label{fig:EmptyHeapNode-2}
 \end{figure}
 
-Als n\"achstes diskutieren wir die Änderungen in der Klasse \textsl{EmptyHeapNode}.
+Als n\"achstes diskutieren wir die \"Anderungen in der Klasse \textsl{EmptyHeapNode}.
 \begin{enumerate}
 \item Da die Klasse nun zwei zus\"atzliche Member-Variablen von der Klasse \textsl{HeapNode}
       erbt, hat der Konstruktor, der in Zeile 6 -- 12 implementiert ist, zwei zus\"atzliche
@@ -893,7 +893,7 @@ Als n\"achstes diskutieren wir die Änderungen in der Klasse \textsl{EmptyHeapNo
   \label{fig:BinaryHeapNode-change}
 \end{figure}
 
-In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Änderungen.
+In der Klasse \textsl{BinaryHeapNode} gibt es die meisten \"Anderungen.
 \begin{enumerate}
 \item Zun\"achst bekommt der Konstruktor zwei zus\"atzliche Argumente um die 
       Member-Variablen \texttt{mParent} und \texttt{mNodeMap} zu initialisieren. 
@@ -909,7 +909,7 @@ In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Änderungen.
       Knoten \texttt{this} aus der Tabelle und f\"ugen in Zeile 39 statt dessen 
       die Zuordnung von dem neu eingef\"ugten Wert \textsl{value} zu dem Knoten
       \texttt{this} ein.
-\item Entsprechende Änderungen gibt es auch in der Methode \texttt{remove}.
+\item Entsprechende \"Anderungen gibt es auch in der Methode \texttt{remove}.
       Wir l\"oschen zun\"achst in Zeile 51 die unter dem Schl\"ussel \texttt{mValue}
       abgespeicherte Zuordnung, denn diesen Wert wollen wir ja entfernen.
       Da wir anschlie\3end entweder den Wert aus dem linken oder dem rechten Teilbaum 
@@ -918,7 +918,7 @@ In der Klasse \textsl{BinaryHeapNode} gibt es die meisten Änderungen.
       in Zeile 73.
 
       In der Methode \texttt{remove} gibt es in den Zeile 52 und 56 noch eine wichtige 
-      Änderung: Da wir dort den Knoten im rechten bzw.~linken Teilbaum nach oben schieben,
+      \"Anderung: Da wir dort den Knoten im rechten bzw.~linken Teilbaum nach oben schieben,
       m\"ussen wir dessen Zeiger zum Vaterknoten umsetzen, denn sonst w\"urde dieser immer noch
       auf einen Knoten zeigen, den wir l\"oschen.
 \item Zus\"atzlich sehen Sie in den Zeilen 77 bis 98 noch die Methode $\textsl{repair}()$,
@@ -1008,7 +1008,7 @@ Klasse \textsl{HeapTree}, die in Abbildungen \ref{fig:HeapTree} auf Seite
       \textsl{EmptyHeapNode} und \textsl{BinaryHeapNode} dahingehend ver\"andert,
       dass diese Methoden nun nichts mehr zur\"uck geben. Statt dessen \"andern
       diese Methoden jetzt den zugrunde liegenden Heap \textsl{mRoot}.  Diese
-      Änderung der Signaturen ist der Grund f\"ur die Existenz der Klasse
+      \"Anderung der Signaturen ist der Grund f\"ur die Existenz der Klasse
       \textsl{HeapTree}: In der Klasse \textsl{HeapTree} haben die Methoden
       \textsl{insert}(), \textsl{change}() und \textsl{remove} die Signaturen,
       die wir brauchen und die Methoden \"andern den zugrunde liegenden Heap.  
