@@ -169,194 +169,195 @@ Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along thes
 \end{figure} 
 
 
-\section{Geordnete bin\"are B\"aume}
-Falls auf der Menge \textsl{Key} der Schl\"ussel eine totale Ordnung $\leq$ existiert, kann
-eine einfache und zumindest im statistischen Durchschnitt effiziente Implementierung des
-abstrakte Daten-Typs \textsl{Map} mit Hilfe \emph{geordneter bin\"arer B\"aume} erfolgen.
-Um diesen Begriff definieren zu k\"onnen, f\"uhren wir zun\"achst \emph{bin\"are B\"aume} ein.
+\section{Ordered Ninary Trees}
+If the set \textsl{Key} is linearly, i.e.~if there exists a binary relation
+$\leq \,\subseteq\,\textsl{Key}\times\textsl{Key}$ such that the pair $\langle \textsl{Key}, \leq \rangle$ is a linear
+order, then the abstract data type \textsl{Map} can be implemented via  
+\href{https://en.wikipedia.org/wiki/Binary_search_tree}{\emph{ordered binary trees}} also known as
+\emph{binary search trees}. 
+The implementation of the ADT map that is based on ordered binary trees has the folowing performance
+characteristics: 
+\begin{enumerate}
+\item The average case complexity of the lookup operation is logarithmic.
+\item the worst case complexity of the lookup operation is linear.  
+\end{enumerate}
+In order to define ordered binary trees we introduce
+\colorbox{orange}{\emph{binary trees}} first.
 
-\begin{Definition}[Bin\"are B\"aume] \hspace*{\fill} \\
-{\em
-  Gegeben sei eine Menge $\textsl{Key}$ von Schl\"usseln und eine Menge $\textsl{Value}$ von
-  Werten.  Dann definieren wir
-  die Menge der bin\"aren B\"aume $\Bin$ induktiv mit Hilfe der
-  beiden Funktions-Zeichen \textsl{Nil} und \textsl{Node}, deren Typ-Spezifikationen 
-  wie folgt gegeben sind: \\[0.1cm]
+\begin{Definition}[Binary Trees] \hspace*{\fill} \\
+  Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
+  The set $\Bin$ of binary trees is defined inductively as the set of terms that is build using the
+  function symbols \textsl{Nil} and \textsl{Node}, where the signature of these function symbols is
+  given as follows: \\[0.1cm]
   \hspace*{1.3cm} 
-  $\textsl{Nil}: \Bin$ \qquad und \qquad  $\textsl{Node}: \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
+  $\textsl{Nil}: \Bin$ \qquad and \qquad  $\textsl{Node}: \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
   \begin{enumerate}
-  \item $\textsl{Nil}$ ist ein bin\"arer Baum.
+  \item $\textsl{Nil}$ is a binary tree.
 
-        Dieser Baum wird als der \emph{leere Baum} bezeichnet.
-  \item $\textsl{Node}(k, v, l, r)$ ist ein bin\"arer Baum, falls gilt: 
+        This tree is called the \emph{empty tree} since it does not store any information.
+  \item $\textsl{Node}(k, v, l, r)$ is a binary tree if the following holds true: 
         \begin{enumerate}
-        \item $k$ ist ein Schl\"ussel aus der Menge $\textsl{Key}$.
-        \item $v$ ist ein Wert aus der Menge $\textsl{Value}$.
-        \item $l$ ist ein bin\"arer Baum.
+        \item $k$ is a key from the set $\textsl{Key}$.
+        \item $v$ is a value from the set $\textsl{Value}$.
+        \item $l$ is a binary tree.
 
-              $l$ wird als der \emph{linke Teilbaum} von $\textsl{Node}(k, v, l, r)$ bezeichnet.
-        \item $r$ ist ein bin\"arer Baum.
+              $l$ is the  \emph{left subtree} of the tree $\textsl{Node}(k, v, l, r)$.
+        \item $r$ is a binary tree.
 
-              $r$ wird als der \emph{rechte Teilbaum} von $\textsl{Node}(k, v, l, r)$ bezeichnet.
-              \hspace*{\fill} $\Box$
+              $r$ is the \emph{right subtree} of the tree $\textsl{Node}(k, v, l, r)$.
+              \eox
         \end{enumerate}
   \end{enumerate}
-}
 \end{Definition}
 
 \noindent
-Als n\"achstes definieren wir, was wir unter einem \emph{geordneten bin\"aren Baum} verstehen.
-\begin{Definition}[Geordnete bin\"are B\"aume] \hspace*{\fill} \\
-{\em
-  Die Menge $\Bin_<$ der \emph{geordneten bin\"aren B\"aume} wird induktiv definiert.
+Next, we define the notion of an  \emph{ordered binary tree}.
+\begin{Definition}[Ordered Binary Tree] \hspace*{\fill} \\
+  The set $\Bin_<$ of all \emph{ordered binary trees} is defined inductively.
   \begin{enumerate}
   \item $\textsl{Nil} \in \Bin_<$
-  \item $\textsl{Node}(k, v, l, r) \in \Bin_<$ \quad falls folgendes gilt:
+  \item $\textsl{Node}(k, v, l, r) \in \Bin_<$ \quad iff the following conditions hold:
         \begin{enumerate}
-        \item $k$ ist ein Schl\"ussel aus der Menge $\textsl{Key}$.
-        \item $v$ ist ein Wert aus der Menge $\textsl{Value}$.
-        \item $l$ und $r$ sind geordnete bin\"are B\"aume.
-        \item Alle Schl\"ussel, die in dem linken Teilbaum $l$ auftreten,
-              sind kleiner als $k$.
-        \item Alle Schl\"ussel, die in dem rechten Teilbaum $r$ auftreten,
-              sind gr\"o{\ss}er als $k$.
+        \item $k$ is a key from the set $\textsl{Key}$.
+        \item $v$ is a value from the set $\textsl{Value}$.
+        \item $l$ and $r$ are ordered binary trees.
+        \item All keys that occur in the left subtree $l$ are smaller than $k$.
+        \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
-        Die beiden letzten  Bedingungen bezeichnen wir als die \emph{Ordnungs-Bedingung}.
-        \hspace*{\fill} $\Box$
+        The last two conditions are known as the \emph{ordering conditions}.
+        \eox
   \end{enumerate}
-}  
 \end{Definition}
-Geordnete bin\"are B\"aume lassen sich grafisch wir folgt darstellen:
+Graphically, ordered binary trees are depicted as follows:
 \begin{enumerate}
-\item Der leere Baum \textsl{Nil} wird durch einen dicken schwarzen Punkt dargestellt.
-\item Ein Baum der Form $\textsl{Node}(k,v,l,r)$ wird dargestellt,  indem zun\"achst ein
-      Oval gezeichnet wird, in dem oben der Schl\"ussel $k$ und darunter, getrennt durch
-      einen waagerechten Strich, der dem Schl\"ussel zugeordnete Wert $v$ eingetragen wird.
-      Dieses Oval bezeichnen wir auch als einen \emph{Knoten} des bin\"aren Baums.
-      Anschlie{\ss}end wird links unten von diesem Knoten rekursiv der Baum $l$ ge\-zeich\-net
-      und  rechts unten wird rekursiv der Baum $r$ gezeichnet. Zum Abschluss zeichnen wir
-      von dem mit $k$ und $v$ markierten Knoten jeweils einen Pfeil zu dem linken und dem
-      rechten Teilbaum.
+\item The empty tree \textsl{Nil} is shown as a black circle.
+\item A binary tree of the form $\textsl{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
+      oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
+      bot are separated by a horizontal line.  This oval is then called a \emph{node} of the binary tree.
+      The left subtree $l$ of the node is depicted both to the left and  below the node,
+      while the right subtree $r$ is depicted both to the right and below the node.  Both the left
+      and the right subtree are connected to the node with an arrow that points from the node to the
+      subtree.
 \end{enumerate}
-Abbildung \ref{fig:graph1} zeigt ein Beispiel f\"ur einen
-geordneten bin\"aren Baum.  Der oberste Knoten, in der Abbildung ist das der mit dem Schl\"ussel
-$8$ und dem Wert $22$ markierte Knoten, wird als die \emph{Wurzel} des Baums bezeichnet.
-Ein \emph{Pfad der L\"ange} $k$ in dem Baum ist eine Liste $[n_0,n_1, \cdots, n_k]$ von
-$k+1$ Knoten, die durch Pfeile verbunden sind. Identifizieren wir Knoten mit ihren
-Markierungen, so ist \\[0.1cm]
+Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
+node that has the key $8$ and the value $22$ is called the \emph{root} of the binary tree.
+A \emph{path of length} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
+$k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
+\\[0.1cm]
 \hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.1cm]
-ein Pfad der L\"ange 3.
+is a path of length 3.
 
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/graph1.eps}} 
-  \caption{Ein geordneter bin\"arer Baum}
+  \caption{An ordered binary tree.}
   \label{fig:graph1}
 \end{figure}
 
 
-Wir \"uberlegen uns nun, wie wir mit Hilfe geordneter bin\"arer B\"aume den ADT \textsl{Map}
-implementieren k\"onnen.  Wir spezifizieren die einzelnen Methoden dieses Daten-Typs durch
-bedingte Gleichungen.  Der Konstruktor $\textsl{map}()$ liefert als Ergebnis den leeren Baum zur\"uck:
-\[ \textsl{map}() = \textsl{Nil}. \]
-F\"ur die Methode $\textsl{find}()$ erhalten wir die folgenden Gleichungen:
+Next, we show how ordered binary trees can be used to implement the ADT  \textsl{Map}.  We specify
+the different methods of this ADT via conditional equations.  The constructor $\textsl{map}()$
+returns the empty tree:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{map}() = \textsl{Nil}$. 
+\\[0.2cm]
+The  method $\textsl{find}()$ is specified as follows:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{find}(k) = \Omega$,
 
-      denn der leere Baum repr\"asentiert die leere Abbildung.
+      because the empty tree is interpreted as the empty map.
 \item $\textsl{Node}(k, v, l, r).\textsl{find}(k) = v$,
 
-      denn der Knoten $\textsl{Node}(k,v,l,r)$ speichert die Zuordnung $k \mapsto v$.
+      because the node $\textsl{Node}(k,v,l,r)$ stores the assignment $k \mapsto v$.
 \item $k_1 < k_2 \rightarrow \textsl{Node}(k_2, v, l, r).\textsl{find}(k_1) = l.\textsl{find}(k_1)$,
 
-      denn wenn $k_1$ kleiner als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
-      eine Zuordnung f\"ur $k_1$ nur in dem linken Teilbaum $l$ gespeichert sein.
+      because if $k_1$ is less than $k_2$, then any mapping for $k_1$ has to be stored in the left
+      subtree  $l$.
 \item $k_1 > k_2 \rightarrow \textsl{Node}(k_2, v, l, r).\textsl{find}(k_1) = r.\textsl{find}(k_1)$,
 
-      denn wenn $k_1$ gr\"o{\ss}er als $k_2$ ist, dann kann aufgrund der Ordnungs-Bedingung
-      eine Zuordnung f\"ur $k_1$ nur in dem rechten Teilbaum $r$ gespeichert sein.
+      because if $k_1$ is greater than $k_2$, then any mapping for $k_1$ has to be stored in the right
+      subtree  $r$.
 \end{enumerate}
-Als n\"achstes definieren wir die Funktion \textsl{insert}.  Die Definition erfolgt
-ebenfalls mit Hilfe rekursiver Gleichungen und ist ganz analog zur Definition der 
-Funktion \textsl{find}.
+Next, we specify the method  \textsl{insert}.  The definition of \textsl{insert} is similar to the
+definition of the method  \textsl{find}.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{insert}(k,v) = \textsl{Node}(k,v, \textsl{Nil}, \textsl{Nil})$,
   
-      denn wenn der Baum vorher leer ist, so kann die einzuf\"ugende Information direkt an
-      der Wurzel abgespeichert werden.
+      If the tree is empty, the information to be stored can be stored at the root.
 \item $\textsl{Node}(k,v_2,l,r).\textsl{insert}(k,v_1) = \textsl{Node}(k, v_1, l, r)$,
 
-      denn wenn wir den Schl\"ussel $k$ an der Wurzel finden, \"uberschreiben wir einfach den zugeordneten 
-      Wert.
+      If the key $k$ is located at the root, we can just overwrite the old information. 
 \item $k_1 < k_2 \rightarrow 
          \textsl{Node}(k_2, v_2, l, r).\textsl{insert}(k_1, v_1) = \textsl{Node}(k_2, v_2, l.\textsl{insert}(k_1, v_1), r)$,
 
-      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, kleiner
-      als der Schl\"ussel $k_2$ an der Wurzel ist, so m\"ussen wir die einzuf\"ugende
-      Information im linken Teilbaum einf\"ugen.
+      If the key $k_1$, which is the key for which we want to store a value, is less than the key
+      $k_2$ at the root, then we have to insert the information in the left subtree.
 \item $k_1 > k_2 \rightarrow 
          \textsl{Node}(k_2, v_2, l, r).\textsl{insert}(k_1, v_1) = 
          \textsl{Node}(k_2, v_2, l, r.\textsl{insert}(k_1, v_1))$,
 
-      denn wenn der Schl\"ussel $k_1$, unter dem wir Informationen einf\"ugen wollen, gr\"o{\ss}er
-      als der Schl\"ussel $k_2$ an der Wurzel ist, so m\"ussen wir die einzuf\"ugende
-      Information im rechten Teilbaum einf\"ugen.
+      If the key $k_1$, which is the key for which we want to store a value, is bigger than the key
+      $k_2$ at the root, then we have to insert the information in the right subtree.
 \end{enumerate}
-Als letztes definieren wir die Methode \textsl{delete}. Diese Definition ist schwieriger als
-die Implementierung der andern beiden Methoden.  Falls wir in einem Baum der Form
-$t =\textsl{Node}(k,v,l,r)$ den Eintrag mit dem Schl\"ussel $k$ l\"oschen wollen, so
-kommt es auf die beiden Teilb\"aume $l$ und $r$ an.  Ist $l$ der leere Teilbaum,
-so liefert $t.\textsl{delete}(k)$ als Ergebnis den Teilbaum $r$ zur\"uck.
-Ist $r$ der leere Teilbaum, so ist das Ergebnis $l$.  Problematisch ist die Situation,
-wenn weder $l$ noch $r$ leer sind.  
-Die L\"osung besteht dann darin, dass wir in dem rechten
-Teilbaum $r$ den Knoten mit dem kleinsten Schl\"ussel suchen und diesen Knoten aus dem
-Baum $r$ entfernen.  Den dadurch entstehenden Baum nennen wir $r'$.
- Anschlie{\ss}end \"uberschreiben wir in $t =\textsl{Node}(k,v,l,r')$ die
-Werte $k$ und $v$ mit dem eben gefundenen kleinsten Schl\"ussel $k_{min}$ und dem $k_{min}$
-zugeordneten Wert $v_{min}$.  Der dadurch entstehende bin\"are Baum 
-$t=\textsl{Node}(k_{min},v_{min},l,r')$
- ist auch wieder
-geordnet, denn einerseits ist der Schl\"ussel $k_{min}$  gr\"o{\ss}er als der Schl\"ussel $k$ und
-damit sicher auch gr\"o{\ss}er als alle Schl\"ussel im linken Teilbaum $l$ und andererseits ist
-$k_{min}$ kleiner als alle  Schl\"ussel im Teilbaum $r'$, denn $k_{min}$ ist ja der
-kleinste Schl\"ussel aus $r$.  
-
-Zur Veranschaulichung betrachten wir ein Beispiel: Wenn wir in dem Baum aus Abbildung 
-\ref{fig:graph1} den Knoten mit der Markierung $\pair(4,16)$ l\"oschen wollen,
-so suchen wir zun\"achst in dem Teilbaum, dessen Wurzel mit $\pair(6,36)$ markiert ist, den
-Knoten, der mit dem kleinsten Schl\"ussel markiert ist.  Dies ist der Knoten mit der
-Markierung $\pair(5,25)$.  Wir l\"oschen diesen Knoten und \"uberschreiben die Markierung
-$\pair(4,16)$ mit der Markierung $\pair(5,25)$.  Abbildung 
-\ref{fig:graph2} auf Seite \pageref{fig:graph2} zeigt das Ergebnis.
+Finally we specify the method  \textsl{delete}.  The specification of \textsl{delete} is more
+difficult than the specification of \textsl{find} and \textsl{insert}.
+If there is a tree of the form $t =\textsl{Node}(k,v,l,r)$ and we want to delete the key $k$, then
+we have to check first whether either of the subtrees  $l$ or $r$ is empty.  If $l$ is empty,
+$t.\textsl{delete}(k)$ can return the right subtree  $r$ while if $r$ is empty,
+$t.\textsl{delete}(k)$ can return the left subtree $l$.
+Things get more difficult when neither  $l$ nor $r$ are empty.  In this case,
+our solution is that we look for the smallest key in the right subtree $r$.
+This key and its corresponding value are removed from $r$.  The resulting tree is called $r'$.
+Next, we take the node $t =\textsl{Node}(k,v,l,r)$ and transform it into the node
+$t'=\textsl{Node}(k_{min},v_{min},l,r')$.  Here $k_{min}$ denotes the smallest key found in $r$ while
+$v_{min}$ denotes the corresponding value.  Note that $t'$ is again ordered:
+\begin{enumerate}
+\item The key $k_{min}$ is bigger than the key $k$ and hence it is bigger than all keys in the left
+      subtree $l$.
+\item The key $k_{min}$ is smaller than all keys in the subtree  $r'$, because $k_{min}$ is the
+      smallest key from the subtree $r$.
+\end{enumerate}
+In order to illustrate the idea, let us consider the following example: 
+If we want to delete the node with the label  $\pair(4,16)$ from the tree shown in Figure
+\ref{fig:graph1}, we first have to look for the smallest key in the subtree whose root is labeled
+$\pair(6,36)$.  We find the node marked with the label $\pair(5,25)$.  We remove this node and
+relabel the node that had the label $\pair(4,16)$ with the new label $\pair(5,25)$.  The result is
+shown in Figure \ref{fig:graph2} on page \pageref{fig:graph2}.
 
 \begin{figure}[!th]
   \centering
   \framebox{\epsfig{file=Abbildungen/graph2.eps}} 
-  \caption{Der geordnete bin\"are Baum aus Abbildung 
-          \ref{fig:graph1} nach dem Entfernen des Knotens mit der Markierung $\pair(4,16)$.}
+  \caption{The ordered binary tree from Figure  
+          \ref{fig:graph1} after deleting the node with label $\pair(4,16)$.}
   \label{fig:graph2}
 \end{figure}
 
-Wir geben nun bedingte Gleichungen an, welche die Methode \textsl{delMin} spezifizieren.
+Next, we specify the  method \textsl{delMin}.  The call $t.\textsl{delMin}()$ returns a triple.
+If 
+\\[0.2cm]
+\hspace*{1.3cm}
+$t.\textsl{delMin}() = [r,k,v]$,
+\\[0.2cm]
+then $r$ is the tree that  results from
+removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the associated value.
 \begin{enumerate}
-\item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = [r, k, v]$,
+\item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = [r, k, v]$
 
-      denn wenn der linke Teilbaum leer ist, muss $k$ der kleinste Schl\"ussel in 
-      dem Baum sein.  Wenn wir diesen  Schl\"ussel nebst dem zugeh\"origen Wert aus dem Baum
-      entfernen, bleibt der rechte Teilbaum \"ubrig.
+      If the left subtree is empty, $k$ has to be the smallest key in the tree 
+      $\textsl{Node}(k, v, \textsl{Nil}, r)$.  If $k$ is removed, we are left with the subtree $r$.
 \item $l\not= \textsl{Nil} \wedge l.\textsl{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.1cm]
        \hspace*{1.3cm} 
-       $\textsl{Node}(k, v, l, r).\textsl{delMin}() = [\textsl{Node}(k, v, l', r), k_{min}, v_{min}]$,
+       $\textsl{Node}(k, v, l, r).\textsl{delMin}() = [\textsl{Node}(k, v, l', r), k_{min}, v_{min}]$.
 
-      denn wenn der linke Teilbaum $l$ in dem bin\"aren Baum $t = \textsl{Node}(k, v, l, r)$
-      nicht leer ist, so muss der kleinste Schl\"ussel von $t$ in $l$ liegen.
-      Wir entfernen daher rekursiv den kleinsten Schl\"ussel aus $l$ und erhalten dabei den
-      Baum $l'$.  In dem urspr\"unglich gegebenen Baum $t$ ersetzen wir $l$ durch $l'$ und erhalten
-      $t = \textsl{Node}(k, v, l', r)$.
+      If the left subtree $l$ in the binary tree $t = \textsl{Node}(k, v, l, r)$
+      is not empty, than the smallest key of  $t$ is located inside the left subtree $l$.
+      This smallest key is recursively removed from  $l$. This yields the tree 
+      $l'$.  Next,  $l$ is replaced by $l'$ in $t$.  The resulting tree is
+      $t' = \textsl{Node}(k, v, l', r)$.
 \end{enumerate}
-Damit k\"onnen wir nun die Methode $\mathtt{delete}()$ spezifizieren.
+Next, we specify the method $\mathtt{delete}()$.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{delete}(k) = \textsl{Nil}$.
 \item $\textsl{Node}(k,v,\textsl{Nil},r).\textsl{delete}\bigl(k\bigr) = r$.
@@ -365,24 +366,21 @@ Damit k\"onnen wir nun die Methode $\mathtt{delete}()$ spezifizieren.
       \hspace*{1.3cm}
       $\textsl{Node}(k,v,l,r).\textsl{delete}(k) = \textsl{Node}(k_{min},v_{min},l,r')$.
       
-      Falls der zu entfernende Schl\"ussel mit dem Schl\"ussel an der Wurzel des Baums
-      \"ubereinstimmt,  entfernen wir mit dem Aufruf $r\mathtt{.}\textsl{delMin}()$
-      den kleinsten Schl\"ussel aus dem rechten Teilbaum  $r$ und produzieren dabei den Baum $r'$.
-      Gleichzeitig berechnen wir dabei f\"ur den rechten Teilbaum den kleinsten Schl\"ussel $k_{min}$ und den
-      diesem Schl\"ussel zugeordneten Wert $v_{min}$.  Diese Werte setzen wir nun an die
-      Wurzel des neuen Baums.
+      If the key to be removed is found at the root of the tree and neither of its subtrees is
+      empty, the call  $r\mathtt{.}\textsl{delMin}()$ removes the smallest key together with its
+      associated value from the subtree $r$ yielding the subtree $r'$.
+      The smallest key from $r$ is then stored at the root of the new tree.
 
 \item $k_1 < k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}\bigl(k_1) = 
        \textsl{Node}(k_2,v_2,l.\textsl{delete}(k_1),r)$.
 
-      Falls der zu entfernende Schl\"ussel kleiner ist als der Schl\"ussel an der Wurzel,
-      so kann sich der Schl\"ussel nur im linken Teilbaum befinden.  Daher wird der
-      Schl\"ussel $k_1$ rekursiv in dem linken Teilbaum $l$ entfernt.
+       If the key that is to be removed is less than the key stored at the root, the key $k$ can only be
+       located in the left subtree $l$.  Hence, $k$ is removed from the left subtree $l$ recursively.
 \item $k_1 > k_2 \rightarrow \textsl{Node}(k_2,v_2,l,r).\textsl{delete}(k_1) = 
-       \textsl{Node}(k_2,v_2,l,r.\textsl{delete}(k_1))$,
+       \textsl{Node}(k_2,v_2,l,r.\textsl{delete}(k_1))$.
 
-      denn in diesem Fall kann sich der Eintrag mit dem Schl\"ussel $k_1$  nur in dem
-      rechten Teilbaum $r$ befinden.
+       If the key that is to be removed is greater than the key stored at the root, the key $k$ can only be
+       located in the right subtree $r$.  Hence, $k$ is removed from the right subtree $r$ recursively.
 \end{enumerate}
 
 \subsection{Implementing Ordered Binary Trees in \textsc{SetlX}}
