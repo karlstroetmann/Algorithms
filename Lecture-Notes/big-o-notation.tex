@@ -264,7 +264,7 @@ We prove this claim by induction on $n$.
             us that for all $n \in \mathbb{N}$ and all $a,b \in \mathbb{R}$ the equation
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\ds\sum\limits_{k=0}^n (a+b)^k = {n \choose k} \cdot a^k \cdot b^{n-k}$
+            $\ds (a+b)^n = \sum\limits_{k=0}^n {n \choose k} \cdot a^k \cdot b^{n-k}$
             \\[0.2cm]
             holds.  Here, the expression ${n \choose k}$ is read as \emph{$n$ choose $k$} and is
             defined for all $n \in \mathbb{N}_0$ and all $k \in \{0, 1, 2, \cdots, n\}$ via
@@ -1035,7 +1035,6 @@ correctness of your implementation.  Finally, you should provide an estimate for
 additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$
 notation. 
 \eox
-\pagebreak
 
 
 \section{The Master Theorem}
@@ -1047,6 +1046,7 @@ Instead, we can use the
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}} to short
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
+\pagebreak
 
 \begin{Theorem}[Master Theorem] 
   Assume that 
