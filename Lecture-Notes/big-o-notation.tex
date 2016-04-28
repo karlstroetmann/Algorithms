@@ -71,7 +71,7 @@ specification:
       neglected. 
 \item The notion of complexity should describe how the running time increases
       when the size of the input increases:  For small inputs, the running time is not very
-      important but the question is how the running time grows when  size of the input is increased. 
+      important but the question is how the running time grows when the size of the input is increased. 
       Therefore the notion of complexity should capture the \emph{growth} of the running time.
 \end{itemize}
 Let us denote the set of all positive real numbers as $\R_+$, i.e.~let us define 
@@ -137,7 +137,7 @@ natural numbers.
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=big-o.eps, scale=0.50}} 
+  \framebox{\epsfig{file=Abbildungen/big-o.eps, scale=0.50}} 
   \caption{Example for $f \in \Oh(g)$.}
   \label{fig:big-o.eps}
 \end{figure}
@@ -229,10 +229,54 @@ We prove this claim by induction on $n$.
 \end{enumerate}
 
 \exercise
-Prove that \\[0.2cm]
-\hspace*{1.3cm}
- $n^2 \in \Oh(2^n)$. \eox
-\vspace*{0.3cm}
+\begin{enumerate}[(a)]
+\item Prove that \\[0.2cm]
+      \hspace*{1.3cm}
+      $n^2 \in \Oh(2^n)$. 
+\item Prove that \\[0.2cm]
+      \hspace*{1.3cm}
+      $n^3 \in \Oh(2^n)$. 
+\item Prove that for every $\alpha \in \mathbb{N}$ we have  \\[0.2cm]
+      \hspace*{1.3cm}
+      $n^\alpha \in \Oh(2^n)$. 
+      
+      \hint
+      \begin{enumerate}[1.]
+      \item Try to prove the following claim by induction on $\alpha$:  For every $\alpha \in \mathbb{N}_0$
+            there exists a number $c(\alpha)$ such that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $n^\alpha \leq c(\alpha) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}_0$.
+            \\[0.2cm]
+            In the induction step you will have to prove that there is a number $c(\alpha+1)$ such that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $n^{\alpha+1} \leq c(\alpha+1) \cdot 2^n$ \hspace*{\fill} $(*)$
+            \\[0.2cm]
+            holds.  When proving this claim you my assume by induction hypothesis that for all 
+            $k \leq \alpha+1$ we have numbers $c(k)$ such that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $n^{k} \leq c(k) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}_0$.
+            \\[0.2cm]
+            You can prove the claim $(*)$ via a side induction on $n$.
+      \item The \href{https://en.wikipedia.org/wiki/Binomial_theorem}{\emph{binomial theorem}} tells
+            us that for all $n \in \mathbb{N}$ and all $a,b \in \mathbb{R}$ the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds (a+b)^n = \sum\limits_{k=0}^n {n \choose k} \cdot a^k \cdot b^{n-k}$
+            \\[0.2cm]
+            holds.  Here, the expression ${n \choose k}$ is read as \emph{$n$ choose $k$} and is
+            defined for all $n \in \mathbb{N}_0$ and all $k \in \{0, 1, 2, \cdots, n\}$ via
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds {n \choose k} = \frac{n!}{k! \cdot (n-k)!}$.
+            \\[0.2cm]
+            The binomial theorem should be used to expand the term $(n+1)^{\alpha + 1}$ that occurs
+            in the induction step of the side induction.  \eox
+      \end{enumerate}
+\end{enumerate}
+
 
 
 It would be very tedious if we would have to use induction every time we need to prove that 
@@ -991,7 +1035,6 @@ correctness of your implementation.  Finally, you should provide an estimate for
 additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$
 notation. 
 \eox
-\pagebreak
 
 
 \section{The Master Theorem}
@@ -1003,6 +1046,7 @@ Instead, we can use the
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}} to short
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
+\pagebreak
 
 \begin{Theorem}[Master Theorem] 
   Assume that 
