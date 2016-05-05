@@ -1,76 +1,76 @@
-// sort the list l
-sort := procedure(rw l) {
-    quickSort(1, #l, l);
+// sort the list lst
+sort := procedure(rw lst) {
+    quickSort(1, #lst, lst);
 };
-// sort the sublist l[a, b] in place
+// sort the sublist lst[a, b] in place
 // a: start index, b: end index
-quickSort := procedure(a, b, rw l) {
+quickSort := procedure(a, b, rw lst) {
     if (b <= a) {
         return; // at most one element, nothing to do
     }
-    m := partition(a, b, l);  // split index
-    quickSort(a, m - 1, l);
-    quickSort(m + 1, b, l);
+    m := partition(a, b, lst);  // split index
+    quickSort(a, m - 1, lst);
+    quickSort(m + 1, b, lst);
 };
-// Partition the sublist l[start, end] using l[end] as a pivot element.
+// Partition the sublist lst[start, end] using lst[end] as a pivot element.
 // The for-loop maintains the following invariants:
-// (a) forall i in {start  .. left } : l[i] <= pivot
-// (b) forall i in {left+1 .. idx-1} : pivot < l[i]
-partition := procedure(start, end, rw l) {
-    pivot := l[end];
+// (a) forall i in {start  .. left } : lst[i] <= pivot
+// (b) forall i in {left+1 .. idx-1} : pivot < lst[i]
+partition := procedure(start, end, rw lst) {
+    pivot := lst[end];
     left  := start - 1;
     for (idx in [start .. end-1]) {
-        if (l[idx] <= pivot) {
+        if (lst[idx] <= pivot) {
             left += 1;
-            swap(left, idx, l);
+            swap(left, idx, lst);
         }
     }
-    swap(left + 1, end, l);
+    swap(left + 1, end, lst);
     return left + 1;
 };
 
-swap := procedure(x, y, rw l) {
-    [ l[x], l[y] ] := [ l[y], l[x] ];
+swap := procedure(x, y, rw lst) {
+    [ lst[x], lst[y] ] := [ lst[y], lst[x] ];
 };
 
 // code for testing
 
 demo := procedure() {
-    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
-    print("l = $l$");
-    sort(l);l
-    print("l = $l$");
+    lst := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("lst = $lst$");
+    sort(lst);
+    print("lst = $lst$");
 };
 
 // n iterations for lists of length k
 testSort := procedure(n, k) {
     for (i in [1 .. n]) {
-        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
-        c := l;  // save a copy
-        sort(l);
-        isOrdered(l);
-        sameElements(c, l);
+        lst := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        cpy := lst;  // save a copy
+        sort(lst);
+        isOrdered(lst);
+        sameElements(cpy, lst);
         print(".");
     }
     print("All tests passed!");
     
 };
 
-isOrdered := procedure(l) {
-    for (i in [1 .. #l-1]) {
-        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+isOrdered := procedure(lst) {
+    for (i in [1 .. #lst-1]) {
+        assert(lst[i] <= lst[i+1], "test lst[i] <= lst[i+1] failed for i = $i$, lst = $lst$");
     }
 };
 
-sameElements := procedure(l, s) {
-    for (x in l) {
-        assert(count(x, l) == count(x, s), "wrong count");
+sameElements := procedure(lst, s) {
+    for (x in lst) {
+        assert(count(x, lst) == count(x, s), "wrong count");
     }
-    assert(#l == #s, "wrong size");
+    assert(#lst == #s, "wrong size");
 };
 
-count := procedure(x, l) {
-    match (l) {
+count := procedure(x, lst) {
+    match (lst) {
         case []   : return 0;
         case [y|r]: if (x == y) {
                         return 1 + count(x, r);
