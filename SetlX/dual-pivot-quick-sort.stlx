@@ -1,14 +1,14 @@
-sort := procedure(l) {
-    match (l) {
+sort := procedure(lst) {
+    match (lst) {
     case []     : return [];
     case [x]    : return [x];
     case [x,y|r]: [p1, p2] := [min({x,y}), max({x,y})];
-                  [l1,l2,l3] := partition(p1, p2, r);
-                  return sort(l1) + [p1] + sort(l2) + [p2] + sort(l3);
+                  [lst1,lst2,lst3] := partition(p1, p2, r);
+                  return sort(lst1) + [p1] + sort(lst2) + [p2] + sort(lst3);
     }
 };
-partition := procedure(p1, p2, l) {
-    match (l) {
+partition := procedure(p1, p2, lst) {
+    match (lst) {
     case []   : return [ [], [], [] ];
     case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
                 if (x < p1) {
@@ -24,32 +24,32 @@ partition := procedure(p1, p2, l) {
 // code for testing
 
 demo := procedure() {
-    l := [ rnd({1 .. 20}) : n in [1 .. 20] ];
-    print("l = $l$");
-    s := sort(l);
+    lst := [ rnd({1 .. 20}) : n in [1 .. 20] ];
+    print("lst = $lst$");
+    s := sort(lst);
     print("s = $s$");
 };
 
 // n iterations for lists of length k
 testSort := procedure(n, k) {
     for (i in [1 .. n]) {
-        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
-        s := sort(l);
+        lst := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        s := sort(lst);
         isOrdered(s);
-        sameElements(s, l);
+        sameElements(s, lst);
         print(".");
     }
     print("All tests successful!");
 };
 
-isOrdered := procedure(l) {
-    for (i in [1 .. #l-1]) {
-        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+isOrdered := procedure(lst) {
+    for (i in [1 .. #lst-1]) {
+        assert(lst[i] <= lst[i+1], "test lst[i] <= lst[i+1] failed for i = $i$, lst = $lst$");
     }
 };
 
-sameElements := procedure(l, s) {
-    assert(collect(l) == collect(s), "different elements in $l$ and $s$");
+sameElements := procedure(lst, s) {
+    assert(collect(lst) == collect(s), "different elements in $lst$ and $s$");
 };
 
 demo();

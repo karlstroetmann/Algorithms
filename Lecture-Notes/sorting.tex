@@ -1319,7 +1319,7 @@ Next, we show how \emph{quick sort}  is implemented using arrays instead of list
         if (b <= a) {
             return; // at most one element, nothing to do
         }
-        m := partition(a, b, lst);  // split index
+        m := partition(a, b, lst);  // m is the split index
         quickSort(a, m - 1, lst);
         quickSort(m + 1, b, lst);
     };
@@ -1377,7 +1377,7 @@ Next, we show how \emph{quick sort}  is implemented using arrays instead of list
       \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{lst}[i] \leq \mathtt{pivot}$.
 
             All elements in the subarray \texttt{lst[start..left]} are less or equal than the pivot element.
-      \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < lst[i]$.
+      \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < \mathtt{lst}[i]$.
 
             All elements in the subarray \texttt{lst[left+1..idx-1]} are greater than the pivot
             element.
@@ -1414,7 +1414,7 @@ Next, we show how \emph{quick sort}  is implemented using arrays instead of list
 There are a number of tricks that can be used to increase the efficiency of \emph{quick sort}.
 \begin{enumerate}
 \item Instead of taking the first element as the pivot element, use three elements from the list
-      $l$ that is to be sorted.  For example, take the first element, the last element, and an
+      $\mathtt{lst}$ that is to be sorted.  For example, take the first element, the last element, and an
       element from the middle of the list.  Now compare these three elements and take that element as
       a pivot that is between the other two elements.
 
@@ -1448,10 +1448,11 @@ There are a number of tricks that can be used to increase the efficiency of \emp
       define
       \\[0.2cm]
       \hspace*{1.3cm}
-      $x := l[1]$ \quad and \quad $y := l[\#l]$,
+      $x := \mathtt{lst}[1]$ \quad and \quad $y := \mathtt{lst}[\#\mathtt{lst}]$,
       \\[0.2cm]
-      i.~e.~we take $x$ as the first element of $l$, while $y$ is the last element of $l$.  Then, the list
-      $l$ is split into three parts:
+      i.~e.~we take $x$ as the first element of $\mathtt{lst}$, while $y$ is the last element of
+      $\mathtt{lst}$.  Then, the list 
+      $\mathtt{lst}$ is split into three parts:
       \begin{enumerate}
       \item The first part contains those elements that are less than $x$.
       \item The second part contains those elements that are bigger or equal than $x$ but less or
@@ -1481,17 +1482,18 @@ There are a number of tricks that can be used to increase the efficiency of \emp
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
                 ]
-    sort := procedure(l) {
-        match (l) {
+    sort := procedure(lst) {
+        match (lst) {
         case []     : return [];
         case [x]    : return [x];
-        case [x,y|r]: [p1, p2] := [min({x,y}), max({x,y})];
-                      [l1,l2,l3] := partition(p1, p2, r);
-                      return sort(l1) + [p1] + sort(l2) + [p2] + sort(l3);
+        case [x,y|r]: 
+             [p1, p2] := [min({x,y}), max({x,y})];
+             [lst1,lst2,lst3] := partition(p1, p2, r);
+             return sort(lst1) + [p1] + sort(lst2) + [p2] + sort(lst3);
         }
     };
-    partition := procedure(p1, p2, l) {
-        match (l) {
+    partition := procedure(p1, p2, lst) {
+        match (lst) {
         case []   : return [ [], [], [] ];
         case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
                     if (x < p1) {

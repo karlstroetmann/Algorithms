@@ -8,7 +8,7 @@ quickSort := procedure(a, b, rw lst) {
     if (b <= a) {
         return; // at most one element, nothing to do
     }
-    m := partition(a, b, lst);  // split index
+    m := partition(a, b, lst);  // m is the split index
     quickSort(a, m - 1, lst);
     quickSort(m + 1, b, lst);
 };
