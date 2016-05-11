@@ -19,8 +19,8 @@ class stack() {
     f_str := procedure() {
          copy   := this;
          result := convert(copy);
-         dashes := "\n" + "-" * #result;
-         return dashes + "\n" + result + dashes + "\n";
+         dashes := "-" * #result;
+         return join([dashes, result, dashes], "\n");
     };
     convert := procedure(s) {
         if (s.isEmpty()) {
@@ -48,5 +48,5 @@ while (!s.isEmpty()) {
     t := s.top();
     print(t);
     s.pop();
-    print(s);
+    print(s, "\n");
 }

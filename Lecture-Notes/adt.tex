@@ -172,13 +172,10 @@ any further.
             return mStackElements == [];
         };
         f_str := procedure() {
-             copy   := this;
-             result := convert(copy);
-             dashes := "\n";
-             for (i in {1 .. #result}) {
-                  dashes += "-";
-             }
-             return dashes + "\n" + result + dashes + "\n";
+            copy   := this;
+            result := convert(copy);
+            dashes := "-" * #result;
+            return join([dashes, result, dashes], "\n");
         };
         convert := procedure(s) {
             if (s.isEmpty()) {
