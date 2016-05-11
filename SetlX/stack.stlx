@@ -19,10 +19,7 @@ class stack() {
     f_str := procedure() {
          copy   := this;
          result := convert(copy);
-         dashes := "\n";
-         for (i in {1 .. #result}) {
-              dashes += "-";
-         }
+         dashes := "\n" + "-" * #result;
          return dashes + "\n" + result + dashes + "\n";
     };
     convert := procedure(s) {
