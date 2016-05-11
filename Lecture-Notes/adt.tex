@@ -31,7 +31,7 @@ where the meaning of the components is as follows:
       Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
       these data types: 
       \begin{enumerate}
-      \item We can have concrete data types like, e.~g.~``\texttt{int}'' or ``\texttt{String}''.
+      \item We can have concrete data types like, e.g.~``\texttt{int}'' or ``\texttt{String}''.
       \item Furthermore, these can be the names of abstract data types.
       \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
       \end{enumerate}
@@ -162,7 +162,7 @@ any further.
         };
         pop := procedure() {
             assert(#mStackElements > 0, "popping empty stack");
-            this.mStackElements := mStackElements[1 .. #mStackElements - 1];
+            this.mStackElements := mStackElements[1 .. -2];
         };
         top := procedure() {
             assert(#mStackElements > 0, "top of empty stack");
