@@ -11,14 +11,13 @@ class stack() {
     };
     top := procedure() {
         assert(#mStackElements > 0, "top of empty stack");
-        return mStackElements[#mStackElements];
+        return mStackElements[-1];
     };
     isEmpty := procedure() {
         return mStackElements == [];
     };
     f_str := procedure() {
-         copy   := this;
-         result := convert(copy);
+         result := convert(this);
          dashes := "-" * #result;
          return join([dashes, result, dashes], "\n");
     };
