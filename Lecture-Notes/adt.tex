@@ -172,8 +172,7 @@ any further.
             return mStackElements == [];
         };
         f_str := procedure() {
-            copy   := this;
-            result := convert(copy);
+            result := convert(this);
             dashes := "-" * #result;
             return join([dashes, result, dashes], "\n");
         };
@@ -318,12 +317,7 @@ discussed next.
 
       The implementation of the method \texttt{f\_str} works as follows.
       \begin{enumerate}
-      \item First, line 20 creates a copy of the stack.  The reason for working with a copy is
-            that all the methods that are available on a stack only permit us to look at the 
-            topmost element of the stack.  In order to inspect the second element we first have to
-            remove the first element.  However, the method \texttt{f\_str} is not supposed to change
-            the stack.  Therefore, we have to create a copy of the stack first.
-      \item Next, we use the auxiliary method \texttt{convert}.  This method computes a string of
+      \item First, we use the auxiliary method \texttt{convert}.  This method computes a string of
             the form \\[0.2cm]
             \hspace*{1.3cm} \texttt{| 1 | 2 | 3 |}. 
             \\[0.2cm]
@@ -331,11 +325,12 @@ discussed next.
             If the given stack s is empty, the result of \texttt{convert} will be the string ``\texttt{|}''.  
             Otherwise we get the top element of the stack using the method \texttt{top()} and remove
             it using \texttt{pop()}.  Next, the remaining stack is converted to a string in
-            line 34 and finally the element \texttt{top} is appended to this string.
-      \item The method \texttt{f\_str} creates a line of dashes.
+            line 30 and finally the element \texttt{top} is appended to this string.
+      \item The method \texttt{f\_str} creates a line of dashes in line 21.
+            This line has the same length as the string produced by \texttt{convert}
             The result of \texttt{convert} is then decorated with these dashes.
       \end{enumerate}
-\item Note that there is no ``\texttt{;}'' at the end of the class definition in line 37.
+\item Note that there is no ``\texttt{;}'' at the end of the class definition in line 33.
       In contrast to a procedure definition, a class definition must \underline{not} be terminated 
       by the character ``\texttt{;}''.
 \end{enumerate}
