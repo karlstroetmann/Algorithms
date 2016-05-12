@@ -1520,7 +1520,7 @@ In this section we will show that any sorting algorithm, that sorts elements by 
 use at least 
 \\[0.2cm]
 \hspace*{1.3cm}
- $\Oh\bigl(n \cdot \log_2(n)\bigr)$ 
+ $\Omega\bigl(n \cdot \log_2(n)\bigr)$ 
 \\[0.2cm]
 comparisons.  The important caveat here is that the sorting algorithm is restricted to not make any assumptions
 on the elements of the list $l$ that is to be sorted.  The only operation that is allowed on these
@@ -1607,12 +1607,12 @@ In order to proceed, we need an approximation for the expression $\log_2(n!)$.
 A \href{http://en.wikipedia.org/wiki/Stirling's_approximation}{simple approximation} of this term is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\log_2(n!) = n \cdot \log_2(n) + \Oh(n)$.
+$\log_2(n!) = n \cdot \log_2(n) + \Theta(n)$.
 \\[0.2cm]
 Using this approximation we get
 \\[0.2cm]
 \hspace*{1.3cm}
-$k \geq n \cdot \log_2(n) + \Oh(n)$.
+$k \geq n \cdot \log_2(n) + \Theta(n)$.
 \\[0.2cm]
 As \emph{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
 we have shown that this algorithm is optimal with respect to the number of comparisons.

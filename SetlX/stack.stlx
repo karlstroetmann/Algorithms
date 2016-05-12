@@ -7,7 +7,7 @@ class stack() {
     };
     pop := procedure() {
         assert(#mStackElements > 0, "popping empty stack");
-        this.mStackElements := mStackElements[1 .. #mStackElements - 1];
+        this.mStackElements := mStackElements[1 .. -2];
     };
     top := procedure() {
         assert(#mStackElements > 0, "top of empty stack");
@@ -19,11 +19,8 @@ class stack() {
     f_str := procedure() {
          copy   := this;
          result := convert(copy);
-         dashes := "\n";
-         for (i in {1 .. #result}) {
-              dashes += "-";
-         }
-         return dashes + "\n" + result + dashes + "\n";
+         dashes := "-" * #result;
+         return join([dashes, result, dashes], "\n");
     };
     convert := procedure(s) {
         if (s.isEmpty()) {
@@ -47,3 +44,9 @@ createStack := procedure(l) {
 
 s := createStack([1..10]);
 print(s);
+while (!s.isEmpty()) {
+    t := s.top();
+    print(t);
+    s.pop();
+    print(s, "\n");
+}
