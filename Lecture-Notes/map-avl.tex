@@ -3,8 +3,9 @@ If a binary tree is \emph{balanced}, i.e.~if the left and right subtree of a bin
 roughly the same height, then the complexity of $b.\textsl{find}(k)$ is of the order
 $\Oh\bigl(\ln(n)\bigr)$  even in the worst case.  There are number of different variations of
 balanced binary trees.  Of these variations, the balanced trees that are the easiest to understand are
-called  \emph{AVL trees} \cite{adelson:62}.  AVl trees are 
-named after their inventors G.~M.~Adel'son-Vel'ski\u{\i} and E.~M.~Landis.  In order to define these
+called  \href{https://en.wikipedia.org/wiki/AVL_tree}{\emph{AVL trees}} \cite{adelson:62}.  AVl trees are 
+named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
+and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis}.  In order to define these 
 trees we need to define the \emph{height} of a binary tree formally:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{height}() = 0$.
@@ -23,7 +24,7 @@ trees we need to define the \emph{height} of a binary tree formally:
         \item $l, r \in \AVL$ \quad and
         \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1$.
 
-              This condition is called the \emph{balancing condition}.
+              This condition is called the \colorbox{orange}{\emph{balancing condition}}.
         \end{enumerate}
         According to this definition, an AVL tree is an ordered binary tree such that for every node
         $\textsl{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
@@ -57,7 +58,7 @@ The method $\textsl{restore}$ is specified via conditional equations.
 \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow 
        \textsl{Node}(k,v,l,r).\textsl{restore}() = \textsl{Node}(k,v,l,r)$,
 
-      because if the balancing condition is already satisfied, then there is nothing to be done. 
+      because if the balancing condition is already satisfied, then nothing needs to be done. 
 \item $\begin{array}[t]{cl}
               & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
        \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)                 \\
@@ -578,7 +579,7 @@ $h$ and whose number of keys is minimal among all other AVL trees of given  heig
 we demand that all keys stored in  $b_h(k)$ are bigger than  $k$.  For our investigation of the
 complexity, both the keys and the values do not really matter.  The only problem is that we have to
 make sure that the tree $b_h(k)$ is actually an ordered tree and for this reason we insist that all
-keys in $b_h(k)$ are bigger than $k$.  We will actually use natural numbers as keys, while all
+keys in $b_h(k)$ are bigger than $k$.  We will use natural numbers as keys, while all
 values will be $0$.
 Before we can actually present the definition of  $b_h(k)$ we need to define the auxiliary function
  $\textsl{maxKey}()$.  This function has the signature 
@@ -730,13 +731,13 @@ $\ds \beta  = -\frac{1}{\sqrt{5}} \cdot \lambda_2^2$.
 Therefore, $c_h$ is given by the following equation:
 \\[0.2cm]
 \hspace*{1.3cm}
-$c_h = \displaystyle \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
+$c_h = \ds \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
 1$.  
 \\[0.2cm]
-As we have  $|\lambda_2| < 1$, the value of  $\displaystyle\lambda_2^{h+2}$ isn't important for big
+As we have  $|\lambda_2| < 1$, the value of  $\ds\lambda_2^{h+2}$ isn't important for big
 values of $h$.  Therefore, for big values of $h$, the minimal number  $n$ of keys in a tree of
 height  $h$ is approximately given by the formula \\[0.2cm]
-\hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$. \\[0.2cm]
+\hspace*{1.3cm} $n \approx \ds \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$. \\[0.2cm]
 In order to solve this equation for  $h$ we take the logarithm of both side.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -750,15 +751,15 @@ $\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$.
 Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
 \\[0.4cm]
 \hspace*{1.3cm}
-$\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
+$\ds \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
 \\[0.2cm]
 Solving this equation for  $h$ gives the result 
 \\[0.4cm]
 \hspace*{1.3cm} 
 $
 \begin{array}[t]{lcl}
-h & = & \displaystyle \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
-  & = & \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
+h & = & \ds \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
+  & = & \ds \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
   & \approx & 1,44 \cdot \log_2(n) + \Oh(1).
 \end{array} 
 $
@@ -1818,7 +1819,7 @@ highly unlikely, but it is not impossible.  If we have a good function to comput
 most of the linked lists will have roughly the same length.  The average length of a list is then
  \\[0.2cm]
 \hspace*{1.3cm}
- $\alpha = \displaystyle \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
+ $\alpha = \ds \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
 \\[0.2cm]
 Here, the number $\alpha$ is the \emph{load factor} of the hash table.  In practice, in order to
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
