@@ -691,7 +691,7 @@ then there are three possibilities for the key $k$ that we want to find in $b$:
 \begin{enumerate}
 \item $k$ might be identical with the key $k'$ that is located at the root of $b$.
       In this case there is only one comparison.
-      Now there  are $n+1$ keys in $b$ and the key we are looking for will be at the root in only
+      As there  are $n+1$ keys in $b$ and the key we are looking for will be at the root in only
       one of these cases, the probability of this case is
       \\[0.2cm]
       \hspace*{1.3cm} $\bruch{1}{\,n+1\,}$.
@@ -836,8 +836,8 @@ This is our main result:  On average, the operation $b.\textsl{find}(k)$ uses
 \hspace*{1.3cm}
 $2 \cdot \ln(n) = 2 \cdot \ln(2) \cdot \log_2(n) \approx 1.386 \cdot \log_2(n)$ 
 \\[0.2cm]
-comparisons.  Hence there are about  39 \% 
-more comparisons than if we had a tree which was  optimal balanced.
+comparisons.  Hence in the average case there are about  39 \% 
+more comparisons than there would be if the tree was optimally balanced.
 There are similar results for the operations \textsl{insert} and \textsl{delete}.
 
 
