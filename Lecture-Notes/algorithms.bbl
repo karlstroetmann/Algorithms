@@ -30,11 +30,6 @@ Thomas~H. Cormen, Charles~E. Leiserson, Ronal~L. Rivest, and Clifford Stein.
 \newblock {\em Introduction to Algorithms}.
 \newblock MIT Press, third edition, 2009.
 
-\bibitem[CPR11]{cook:2011}
-Byron Cook, Andreas Podelski, and Andrey Rybalchenko.
-\newblock Proving program termination.
-\newblock {\em Communications of the ACM}, 54(5):88--98, 2011.
-
 \bibitem[Dij59]{dijkstra:59}
 Edsger~W. Dijkstra.
 \newblock A note on two problems in connexion with graphs.
@@ -51,15 +46,15 @@ Sanjoy Dasgupta, Christos~H. Papadimitriou, and Umesh~V. Vazirani.
 \newblock {\em Algorithms}.
 \newblock McGraw-Hill, 2008.
 
+\bibitem[GS78]{guibas:78}
+Leonidas~L. Guibas and Robert Sedgewick.
+\newblock A dichromatic framework for balanced trees.
+\newblock pages 8--21, 1978.
+
 \bibitem[GS08]{gumm:2008}
 Hans-Peter Gumm and Manfred Sommer.
 \newblock {\em Einführung in die Informatik}.
 \newblock Oldenbourg-Verlag, 8th edition, 2008.
-
-\bibitem[HMU06]{hopcroft:06}
-John~E. Hopcroft, Rajeev Motwani, and Jeffrey~D. Ullman.
-\newblock {\em Introduction to Automata Theory, Languages, and Computation}.
-\newblock Addison-Wesley, 3rd edition, 2006.
 
 \bibitem[Hoa61]{hoare:61}
 C.~Antony~R. Hoare.
@@ -93,13 +88,6 @@ Mark Lutz.
 \newblock {\em Learning Python}.
 \newblock O'Reilly, 4th edition, 2009.
 
-\bibitem[MGS96]{mueller:1996}
-Martin M{\"u}ller, Thomas Gla{\ss}, and Karl Stroetmann.
-\newblock Automated modular termination proofs for real prolog programs.
-\newblock In Radhia Cousot and David~A. Schmidt, editors, {\em SAS}, volume
-  1145 of {\em Lecture Notes in Computer Science}, pages 220--237. Springer,
-  1996.
-
 \bibitem[Moo59]{moore:59}
 Edward~F. Moore.
 \newblock The shortest path through a maze.
@@ -111,11 +99,6 @@ Kurt Mehlhorn and Peter Sanders.
 \newblock {\em Algorithms and Data Structures: The Basic Toolbox}.
 \newblock Springer, 2008.
 
-\bibitem[Sip96]{sipser:1996}
-Michael Sipser.
-\newblock {\em Introduction to the Theory of Computation}.
-\newblock PWS Publishing Company, 1996.
-
 \bibitem[SW11a]{sedgewick:11}
 Robert Sedgewick and Kevin Wayne.
 \newblock {\em Algorithms}.
@@ -125,13 +108,6 @@ Robert Sedgewick and Kevin Wayne.
 Robert Sedgewick and Kevin Wayne.
 \newblock {\em Algorithms in \textsl{Java}}.
 \newblock Pearson, 4th edition, 2011.
-
-\bibitem[Tur36]{turing:36}
-Alan~M. Turing.
-\newblock On computable numbers, with an application to the
-  ``{E}ntscheidungsproblem''.
-\newblock {\em Proceedings of the London Mathematical Society}, 42(2):230--265,
-  1936.
 
 \bibitem[vR95]{vanRossum:95}
 Guido van Rossum.

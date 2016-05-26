@@ -81,14 +81,16 @@ The method $\textsl{restore}$ is specified via conditional equations.
       \hspace*{1.3cm}
       $\textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)$.
       \\[0.2cm]
-      In Figure \ref{fig:casell} the second line of each node shows the height of the tree
-      corresponding to this node.  For example,  $h$ is the height of the subtree 
+      In Figure \ref{fig:casell} the label below the horizontal line of each node shows the height
+      of the tree corresponding to this node.  For subtrees, the height is given below the name of
+      the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
-      is $h'$ and we know that $h' \leq h$.  As $\textsl{Node}(k_1,v_1,r_2,r_1)$ is an  AVL tree, we
+      is $h'$ and we know that $h' \leq h$.  As $\textsl{Node}(k_2,v_2,l_2,r_2)$ is an AVL tree and we know that
+      $l_2.\textsl{height}() \geq r_2.\textsl{height}()$, we
       either have $h' = h$ or $h' = h-1$.
 
       The state shown in Figure \ref{fig:casell} can arise if either an element has been inserted
-      in the left subtree $l_2$ or if an element has been deleted from the right subtree  $r_1$.
+      in the left subtree $l_1$ or if an element has been deleted from the right subtree  $r_1$.
 
       \begin{figure}[!ht]
         \centering
@@ -578,9 +580,9 @@ possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL 
 $h$ and whose number of keys is minimal among all other AVL trees of given  height $h$.  Furthermore,
 we demand that all keys stored in  $b_h(k)$ are bigger than  $k$.  For our investigation of the
 complexity, both the keys and the values do not really matter.  The only problem is that we have to
-make sure that the tree $b_h(k)$ is actually an ordered tree and for this reason we insist that all
-keys in $b_h(k)$ are bigger than $k$.  We will use natural numbers as keys, while all
-values will be $0$.
+make sure that the tree $b_h(k)$ that we are going to construct in a moment is actually an ordered
+tree and for this reason we insist that all keys in $b_h(k)$ are bigger than $k$.  We will use
+natural numbers as keys, while all values will be $0$.
 Before we can actually present the definition of  $b_h(k)$ we need to define the auxiliary function
  $\textsl{maxKey}()$.  This function has the signature 
 \\[0.2cm]
@@ -614,7 +616,7 @@ Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
       Since $l$ is the biggest key in $b_{h+1}(k)$, all key in the left subtree of
       $b_{h+2}(k)$ are indeed smaller than the key $l+1$ at the root.  Since all keys in
       $b_h(l+1)$ are bigger than $l+1$, the keys in the right subtree are bigger than the key at the
-      root.  Therefore, $b_{h+2}(k)$ is an ordered tree.
+      root.  Therefore, $b_{h+2}(k)$ is an ordered binary tree.
 
       Furthermore, $b_{h+2}(k)$ is an AVL tree of height $h+2$ since the height of the left subtree
       is $h+1$ and the height of the right subtree is $h$.  Also, this tree is as slim as
@@ -627,8 +629,8 @@ Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furth
 $c_h := \#\, b_h(k)$
 \\[0.2cm]
 to be the number of keys in the tree $b_h(k)$.  We will see immediately that 
-$\#\,b_h(k)$ does not really depend on  $k$.  Starting from the definition of $b_h(k)$ we find the
-following equations for $c_h$:
+$\#\,b_h(k)$ does not depend on the number $k$ and therefore $c_h$ does not depend on $k$.  Starting
+from the definition of $b_h(k)$ we find the following equations for $c_h$:
 \begin{enumerate}
 \item $c_0 = \#\, b_0(k) = \#\, \textsl{Nil} = 0$,
 \item $c_1 = \#\, b_1(k) = \#\, \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil}) = 1$, 
@@ -644,7 +646,8 @@ Hence we have found the recurrence equation
 \hspace*{1.3cm}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ und $c_1 = 1$}.$
 \\[0.2cm]
-In order to solve this recurrence we first solve the corresponding homogeneous recurrence equation
+This also validates our claim that $c_h$ does not depend on $k$.  In order to solve the recurrence
+equation derived above we first solve the corresponding \emph{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{h+2} = a_{h+1} + a_h$
@@ -659,7 +662,7 @@ Substituting $a_h = \lambda^h$ into the recurrence equation for $a_h$ leaves us 
 \hspace*{1.3cm}
 $\lambda^{h+2} = \lambda^{h+1} + \lambda^{h}$.
 \\[0.2cm]
-Dividing by $\lambda^h$ produces the quadratic equation
+Dividing by $\lambda^h$ leaves the quadratic equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\lambda^2 = \lambda + 1$
@@ -685,7 +688,7 @@ Let us therefore define
 $\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
 $\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
-In order to solve the inhomogeneous recurrence equation for $c_h$ we try the ansatz
+In order to solve the \emph{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h = d$ \quad for some constant $d$.
@@ -700,7 +703,8 @@ from which we conclude that $d = -1$.  Hence the solution for $c_h$ has the form
 \hspace*{1.3cm}
 $c_h = \alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h + d =\alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h - 1$.
 \\[0.2cm]
-Here, the values of $\alpha$ and $\beta$ can be found by setting $h=0$ and $h=1$.  This results in
+Here, the values of $\alpha$ and $\beta$ can be found by setting $h=0$ and $h=1$ and using the
+initial conditions $c_0 = 0$ and $c_1 = 1$.  This results in
 the following system of linear equations for  $\alpha$ and $\beta$:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -718,7 +722,8 @@ Solving this equation for $\alpha$ gives
 \hspace*{1.3cm}
 $2 - \lambda_2 = \alpha \cdot (\lambda_1 - \lambda_2)$
 \\[0.2cm]
-Hence we have found
+You can easily verify that $\lambda_1 - \lambda_2 = \sqrt{5}$ and $2 - \lambda_2 = \lambda_1^2$
+holds.  Hence, we have found
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt{5}} \cdot \lambda_1^2$.
@@ -779,14 +784,17 @@ Figure
 \end{figure}
 
 \subsection{Further Reading}
-In practice, \emph{red-black trees} are slightly faster than \textsc{AVL} trees.  Similar to
+In practice, 
+\href{https://en.wikipedia.org/wiki/Red-black_trees}{\emph{red-black trees}} 
+are slightly faster than \textsc{AVL} trees.  Similar to
 \textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red node have to be black.  In order to keep red-black trees approximately
 balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
-\cite{sedgewick:2011}. 
+\cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and Robert
+Sedgewick \cite{guibas:78}.
 
 
 

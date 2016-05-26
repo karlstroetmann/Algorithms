@@ -1,10 +1,8 @@
-This is BibTeX, Version 0.99d (TeX Live 2012)
+This is BibTeX, Version 0.99d (TeX Live 2015)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: algorithms.aux
 A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: limits.aux
 A level-1 auxiliary file: big-o-notation.aux
-A level-1 auxiliary file: hoare.aux
 A level-1 auxiliary file: sorting.aux
 A level-1 auxiliary file: adt.aux
 A level-1 auxiliary file: map.aux
@@ -15,44 +13,51 @@ A level-1 auxiliary file: graph.aux
 A level-1 auxiliary file: monte-carlo.aux
 The style file: alpha.bst
 Database file #1: cs.bib
-You've used 31 entries,
+I was expecting a `,' or a `}'---line 1075 of file cs.bib
+ :   
+ :   publisher = {IEEE},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty journal in guibas:78
+You've used 27 entries,
             2543 wiz_defined-function locations,
-            747 strings with 8268 characters,
-and the built_in function-call counts, 11410 in all, are:
-= -- 1111
-> -- 514
-< -- 17
-+ -- 174
-- -- 166
-* -- 771
-:= -- 1909
-add.period$ -- 96
-call.type$ -- 31
-change.case$ -- 178
-chr.to.int$ -- 30
-cite$ -- 31
-duplicate$ -- 493
-empty$ -- 870
-format.name$ -- 208
-if$ -- 2335
+            720 strings with 7604 characters,
+and the built_in function-call counts, 9787 in all, are:
+= -- 957
+> -- 434
+< -- 14
++ -- 148
+- -- 139
+* -- 646
+:= -- 1640
+add.period$ -- 83
+call.type$ -- 27
+change.case$ -- 154
+chr.to.int$ -- 26
+cite$ -- 28
+duplicate$ -- 425
+empty$ -- 746
+format.name$ -- 175
+if$ -- 2000
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 44
-newline$ -- 159
-num.names$ -- 95
-pop$ -- 195
+missing$ -- 38
+newline$ -- 139
+num.names$ -- 81
+pop$ -- 170
 preamble$ -- 1
-purify$ -- 214
+purify$ -- 185
 quote$ -- 0
-skip$ -- 384
+skip$ -- 335
 stack$ -- 0
-substring$ -- 558
-swap$ -- 61
-text.length$ -- 17
-text.prefix$ -- 11
+substring$ -- 482
+swap$ -- 49
+text.length$ -- 14
+text.prefix$ -- 9
 top$ -- 0
-type$ -- 188
-warning$ -- 0
-while$ -- 105
-width$ -- 38
-write$ -- 404
+type$ -- 164
+warning$ -- 1
+while$ -- 92
+width$ -- 33
+write$ -- 350
+(There was 1 error message)
