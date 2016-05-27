@@ -799,220 +799,217 @@ Sedgewick \cite{guibas:78}.
 
 
 \section{Tries}
-In der Praxis kommt es h\"aufig vor, dass die Schl\"ussel des ADT \textsl{Map} Strings sind.
-In dem einf\"uhrenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-B\"aumen, die an diese Situation besonders angepasst ist.  Diese Such-B\"aume
-haben den Namen \href{https://en.wikipedia.org/?title=Trie}{\emph{Tries}}.  Dieses Wort ist von dem
-Englischen Wort  
-\emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
-unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
-Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandais
-\cite{briandais:59} vorgeschlagen.
+Often, the keys of a map are strings.  For example, when you search with 
+\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}, you are using a
+string as a key to lookup information that is stored in a gigantic map provided by 
+\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}.
+As another example, in an electronic phone book the keys are names and therefore are strings.  
+There is a species of search trees that is particularly well adapted to the case that the keys are
+strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{\emph{tries}}.  
+The name is derived from the word
+\emph{re\underline{trie}val}.  In order that we are able to distinguish between \emph{tries} and
+\emph{trees} we have to pronounce  \emph{trie}  so that it rhymes with \emph{pie}.   The data
+structure of tries has been proposed 1959 by Ren\'e de la Briandais \cite{briandais:59}.
 
-
-Die Grundidee bei der Datenstruktur \emph{Trie} ist ein Baum, an dem jeder Knoten nicht
-nur zwei Nachfolger hat, wie das bei bin\"aren B\"aumen der Fall ist, sondern stattdessen
-potentiell f\"ur jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
-k\"onnen, nehmen wir zun\"achst an, dass folgendes gegeben ist:
-\begin{enumerate}
-\item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
-      bezeichnen. $\Sigma$ selbst hei{\ss}t das \emph{Alphabet}.
-\item $\Sigma^*$ bezeichnet die Menge der \emph{W\"orter} (engl.~\emph{strings}), die wir aus den Buchstaben
-      des Alphabets bilden k\"onnen.  Mathematisch k\"onnen wir W\"orter als Listen von 
-      Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
-      $c$ der erste Buchstabe von $w$ ist und $r$ das Wort ist, das durch L\"oschen des
-      ersten Buchstabens aus $w$ entsteht.  
-\item $\varepsilon$ bezeichnet das leere Wort.  
-\item \textsl{Value} ist eine Menge von \emph{Werten}.  
-\end{enumerate}
-Die Menge $\mathbb{T}$ der Tries definieren wir nun induktiv mit Hilfe des 
-Konstruktors \\[0.2cm]
+Tries are also trees, but in contrast to a binary tree where every node has two children, in a trie a
+node can have as many children as there are characters in the alphabet that is used to represent the
+strings.  In order to define tries formally we assume that the following is given:
+\begin{itemize}
+\item $\Sigma$ is finite set of \emph{characters}. $\Sigma$ is called the
+      \colorbox{orange}{\emph{alphabet}}. 
+\item $\Sigma^*$ is the set of all \emph{strings} that are build from the characters of $\Sigma$.
+      Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
+      if $c$ is the first letter of $w$ and if $r$ the string that remains if we remove the first
+      character from $w$.
+\item $\varepsilon$ denotes the empty string.
+\item \textsl{Value} is the set of all the values that can be associated with the keys.  
+\end{itemize}
+The set $\mathbb{T}$ of all tries is defined inductively using the constructor \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}: \textsl{Value} \times \textsl{List}(\Sigma) \times
-\textsl{List}(\mathbb{T}) \rightarrow \mathbb{T}$. \\[0.2cm]
-Die induktive Definition besteht nur aus einer einzigen Klausel: Falls
+\textsl{List}(\mathbb{T}) \rightarrow \mathbb{T}$. 
+\\[0.2cm]
+The inductive definition of the set $\mathbb{T}$ has only a single clause: If
 \begin{enumerate}
 \item $v \in \textsl{Value} \cup \{\Omega\}$
-\item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ eine Liste von Buchstaben der
-      L\"ange $n$ ist,
-\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ eine Liste von Tries derselben L\"ange $n$ ist, 
+\item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ is a list of different characters of length
+      $n$ and
+\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ is a list of  tries of the same length $n$, 
 \end{enumerate}
-dann gilt \\[0.2cm]
-\hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  \\[0.2cm]
-Als erstes fragen Sie sich
-vermutlich, wo bei dieser induktiven Definition der Induktions-Anfang ist.
-Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $C$ und $T$ leer.
-Als n\"achstes \"uberlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
-\hspace*{1.3cm}  $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]) \in \mathbb{T}$ \\[0.2cm]
-dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen f\"ur die
-Methode \\[0.2cm]
-\hspace*{1.3cm} $\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
+then we have 
 \\[0.2cm]
-angeben.  Wir werden den Ausdruck $\texttt{Node}(v,C,T).\textsl{find}(s)$ durch
-Induktion \"uber den String $s$ 
-definieren:
+\hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  
+\\[0.2cm]
+As there is only one clause in this definition, you might ask how this inductive definition gets started.
+The answer is that the base case of this inductive definition is the case where
+$n=0$ since in that case the lists  $C$ and $T$ are both empty.
+Next, we specify the function that is represented by a trie of the form 
+\\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$.
+\\[0.2cm]
+In order to do so, we specify a function
+\\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
+\\[0.2cm]
+that takes a trie and a string.  For a trie $t$, the expression $t.\textsl{find}(s)$ returns the
+value that is associated with the string $s$ in the trie $t$.  The expression
+$\texttt{Node}(v,C,T).\textsl{find}(s)$ is defined by induction on the length of the  string $s$:
 \begin{enumerate}
 \item $\texttt{Node}(v, C, T).\textsl{find}(\varepsilon) = v$.
 
-      Der dem leeren String zugeordnete Wert wird also unmittelbar an der Wurzel
-      des Tries abgespeichert.
+      The value associated with the empty string $\varepsilon$ is stored at the root of the trie.
 \item $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{find}(cr) = 
         \left\{
         \begin{array}{ll}
-        t_1.\textsl{find}(r) & \mbox{falls} \quad c = c_1 \mbox{;} \\
+        t_1.\textsl{find}(r) & \mbox{if} \quad c = c_1 \mbox{;} \\
         \vdots &                                     \\
-        t_i.\textsl{find}(r) & \mbox{falls} \quad c = c_i \mbox{;} \\
+        t_i.\textsl{find}(r) & \mbox{if} \quad c = c_i \mbox{;} \\
         \vdots &                                     \\
-        t_n.\textsl{find}(r) & \mbox{falls} \quad c = c_n \mbox{;} \\[0.2cm]
-        \Omega               & \mbox{falls} \quad c \notin \{c_1,\cdots,c_n\} \mbox{.}         
+        t_n.\textsl{find}(r) & \mbox{if} \quad c = c_n \mbox{;} \\[0.2cm]
+        \Omega               & \mbox{if} \quad c \notin \{c_1,\cdots,c_n\} \mbox{.}         
         \end{array}
        \right.$
 
-      Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enth\"alt also genau
-      dann einen Wert zu dem Schl\"ussel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
-      eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
-      \"ubereinstimmt und wenn au{\ss}erdem der Trie $t_i$ einen Wert zu dem
-      Schl\"ussel $r$ enth\"alt.
+      The trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ associates a value with
+      the key $cr$ if the list $[c_1, \cdots, c_n]$ has a position $i$ such that $c$ equals $c_i$
+      and, furthermore, the trie  $t_i$ associates a value with the key  $r$.
 \end{enumerate}
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/trie}} 
-  \caption{Ein Beispiel Trie}
+  \caption{A trie storing some numbers.}
   \label{fig:trie}
 \end{figure}
 
-Zum besseren Verst\"andnis wollen wir Tries graphisch als B\"aume darstellen.
-Nun ist es nicht sinnvoll, die Knoten dieser B\"aume mit langen Listen zu beschriften.
-Wir behelfen uns mit einem Trick.  Um einen Knoten der Form \\[0.2cm]
+Graphically, tries are represented as trees.  Since it would be unwieldy to label the nodes of these
+trees with the lists of characters corresponding to these nodes, we use a trick:  In order to
+visualize a node of the form \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
-darzustellen, zeichnen wir einen Kreis,
-den wir durch einen horizontalen Strich in der Mitte aufteilen.
-Falls $v$ von $\Omega$ verschieden ist, schreiben wir den Wert $v$ in die untere H\"alfte
-des Kreises.
-Das, was wir \"uber dem Strich schreiben,
-h\"angt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abh\"angt, sehen wir gleich.
-Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
-Wurzeln der B\"aume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Au{\ss}erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alften 
-mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
+we draw a circle.  This circle is split into two parts by a horizontal line.
+If the value  $v$ that is stored in this node is different from $\Omega$, then the value $v$ is
+written in the lower part of the circle.  The label that we put in the upper half of the circle
+depends on the parent of the node.  We will explain how this label is computed in a moment.
+The node itsself has $n$ different children.  These $n$ children are the tries
+$t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labeled with the character $c_i$,
+i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
 
-
-Zur Verdeutlichung geben wir ein Beispiel in 
-Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
-Die Funktion, die hier dargestellt wird, l\"asst sich wie folgt als bin\"are Relation
-schreiben: \\[0.2cm]
+In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
+mapping some strings to numbers.  The mapping depicted in this tree can be written as a functional
+relation: 
+\\[0.2cm]
 \hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
              \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
 \hspace*{1.5cm} $\langle \textrm{``Schulze''},   6  \rangle, \langle \textrm{``Schnaut''},   7  \rangle, 
   \langle \textrm{``Schnupp''},   8  \rangle, 
   \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
-Der Wurzel-Knoten ist hier leer, denn dieser Knoten hat keinen Vater-Knoten, von dem er
-eine Markierung erben k\"onnte.  Diesem Knoten entspricht der Term \\[0.2cm]
-\hspace*{1.3cm} $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. \\[0.2cm]
-Dabei bezeichnet $t$ den Trie, dessen Wurzel mit dem Buchstaben `S' markiert ist.
-Diesen Trie k\"onnen wir seinerseits durch den Term \\[0.2cm]
+Since the node at the root has no parent, the upper half of  the circle representing the root is
+empty.  The lower half of  this circle is empty because the trie doesn't associate a value with the
+empty string.  This root node corresponds to the term 
+\\[0.2cm]
+\hspace*{1.3cm}
+ $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. 
+\\[0.2cm]
+Here,  $t$ denotes the trie that is labeled with the character  ``S'' at its root.
+This trie can then be represented by the term  \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$ \\[0.2cm]
-darstellen.  Daher hat dieser Knoten drei S\"ohne, die mit den Buchstaben `t', `a' und `c'
-markiert sind.
+$\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$. \\[0.2cm]
+This trie has three children that are labeled with the characters  ``t'', ``a'', and ``c''.
 
-\subsection{Einf\"ugen in Tries}
-Wir stellen nun bedingte Gleichungen auf, mit denen wir das Einf\"ugen eines Schl\"ussels mit
-einem zugeh\"origen Wert beschreiben k\"onnen.  Bezeichnen wir die Methode f\"ur das Einf\"ugen
-mit $\textsl{insert}()$, so hat diese Methode die Signatur
+\subsection{Insertion in Tries}
+Next, we present formul\ae\ that describe how new values can be inserted into an existing tries,
+i.e.~we specify the method \texttt{insert}.  The signature of \texttt{insert} is given as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{insert}: \mathbb{T} \times \Sigma^* \times \textsl{Value} \rightarrow \mathbb{T}$.
 \\[0.2cm]
-Wir definieren den Wert von \\[0.2cm]
+The result of evaluating \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w,v)$
 \\[0.2cm]
-f\"ur ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der L\"ange des Wortes $w$.
+for a string $w\in \Sigma^*$ and a value $v \in \textsl{Value}$ is defined by induction on the
+length of $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
-
-      Einf\"ugen eines Wertes mit dem leeren String als Schl\"ussel \"uberschreibt einfach
-      den an dem Wurzel-Knoten gespeicherten Wert. 
+  
+      If a new value $v_2$ is associated with the empty string $\varepsilon$, then the old value
+      $v_1$, that had been stored at the root before, is overwritten.
 \item $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\textsl{insert}(c_ir,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\textsl{insert}(r,v_2),\cdots,t_n]\bigr)$.
 
-      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
-      $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
-      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muss der Wert $v_2$
-      rekursiv in dem Trie $t_i$ unter dem Schl\"ussel 
-      $r$ eingef\"ugt werden.
-
+      In order to associate a value $v_2$ with the string $c_ir$ in the trie
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ 
+      \\[0.2cm]
+      we to have recursively associate the value $v_2$ with the string $r$ in the trie $t_i$.
 \item $c \not\in\{c_1,\cdots,c_n\} \;\rightarrow\;\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr).\textsl{insert}(cr,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\texttt{Node}(\Omega,[],[]).\textsl{insert}(r,v_2)]\bigr)$.
       
-      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$
-      ein Wert $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe
-      $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zun\"achst ein Trie
-      erzeugt, der die leere Abbildung repr\"asentiert.  Dieser Trie hat die Form \\[0.2cm]
+      If we want to associate a value $v$ with the key $cr$ in the trie
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$ then, if the character $c$
+      does not occur in the list $[c_1,\cdots,c_n]$, we first have to create a new empty trie.
+      This trie has the form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
-      Anschlie{\ss}end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
-      eingef\"ugt. Zum Schluss h\"angen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
-      an und f\"ugen den Trie  \\[0.2cm] 
+      Next, we associate the value $v_2$ with the key $r$ in this empty trie.  Finally,
+      we append the character $c$ to the end of the list $[c_1,\cdots,c_n]$ and append the trie
+        \\[0.2cm] 
       \hspace*{1.3cm}
       $\texttt{Node}(\Omega, [], []).\textsl{insert}(r,v_2)$ 
       \\[0.2cm]
-      am Ende der Liste $[t_1,\cdots,t_n]$ ein.
+      to the end of the list $[t_1,\cdots,t_n]$.
 \end{enumerate}
 
-\subsection{L\"oschen in Tries}
-Als letztes stellen wir die bedingten Gleichungen auf, die das L\"oschen von
-Schl\"usseln und den damit verkn\"upften Werten in einem Trie beschreiben.
-Um diese Gleichungen einfacher schreiben zu k\"onnen, definieren wir zun\"achst eine
-Hilfs-Funktion 
+\subsection{Deletion in Tries}
+Finally, we present formul\ae\ that specify how key can be deleted from a trie.
+To this end, we define the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\textsl{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$, 
+$\textsl{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$.
 \\[0.2cm]
-so dass $t.\textsl{isEmpty}()$ genau dann $\mathtt{true}$ liefert, wenn der Trie
-$t$ die leere Funktion darstellt.  Wir definieren also: 
+For a trie $t$, we have $t.\textsl{isEmpty}() = \mathtt{true}$ if and only if the trie $t$ does not
+store any key.  The following formul\ae\ specify the function \textsl{isEmpty}:
 \begin{enumerate}
 \item $\texttt{Node}(\Omega, [],[]).\textsl{isEmpty}() = \mathtt{true}$,
 \item $v \not= \Omega \rightarrow 
        \texttt{Node}(v, [c_1,\cdots,c_n],[t_1,\cdots,t_n]).\textsl{isEmpty}() = \mathtt{false}$,
 \item $\texttt{Node}(\Omega, L, T).\textsl{isEmpty}() = \textsl{isEmptyList}(T)$
 \end{enumerate}
-In der letzten Gleichung haben wir eine weitere Hilfs-Funktion benutzt, die wir noch
-definieren m\"ussen.  Die Funktion
+In the last formula we have used the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$
+$\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$.
 \\[0.2cm]
-pr\"uft f\"ur eine gegebene Liste von Tries, ob alle in der Liste vorhandenen Tries leer sind.
-Die Definition dieser Funktion erfolgt durch Induktion \"uber die L\"ange der Liste.
+For a list of tries, this function checks whether all tries in this list are empty.  Formally,
+$\textsl{isEmptyList}(l)$ is defined by induction on the length of the list $l$.
 \begin{enumerate}
 \item $\textsl{isEmptyList}\bigl([]\bigr) = \mathtt{true}$,
 \item $\textsl{isEmptyList}\bigl([t] + r\bigr) = \bigl(t.\textsl{isEmpty}() \wedge \textsl{isEmptyList}(r)\bigr)$,
 
-      denn alle Tries in der Liste $[t]+r$ sind leer, wenn einerseits $t$ ein leerer
-      Trie ist und wenn andererseits auch alle Tries in $r$ leer sind.
+      because all  tries in the list $[t]+r$ are empty if  $t$ is an empty trie
+      and, furthermore, all tries in  $r$ are empty.
 \end{enumerate}
-Nun k\"onnen wir die Methode
+Now, we can specify the method
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$
+$\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$.
 \\[0.2cm]
-spezifizieren:  Wir definieren den Wert von \\[0.2cm]
+For a trie  $t \in \mathbb{T}$ and a string $w \in \Sigma^*$ the value of
+ \\[0.2cm]
 \hspace*{1.3cm} 
 $t.\textsl{delete}(w)$
 \\[0.2cm]
-f\"ur einen Trie $t \in \mathbb{T}$ und ein Wort $w \in \Sigma^*$
-durch Induktion nach der L\"ange des Wortes $w$.
+is defined by induction on the length of  $w$.
 \begin{enumerate}
-\item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$,
+\item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$
 
-      denn der Wert, der unter dem leeren String $\varepsilon$ in einem Trie
-      gespeichert wird, befindet sich unmittelbar an der Wurzel des Tries und
-      kann dort sofort gel\"oscht werden.
+      The value that is associated with the empty  string $\varepsilon$ is stored at the root of the
+      trie where is can be deleted without further ado.
 \item $\begin{array}[t]{ll}
        t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
@@ -1022,10 +1019,9 @@ durch Induktion nach der L\"ange des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
-       das L\"oschen des Schl\"ussels $r$ in dem $i$-ten Trie $t_i$ einen leeren
-       Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
-       korrespondierenden $i$-ten Trie $t_i$.
+       If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
+       $r$ in the $i$th  trie $t_i$ yields an empty
+       trie, then both the $i$th character $c_i$ and the $i$th trie $t_i$ are deleted.
 \item $\begin{array}[t]{ll}
        \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
@@ -1034,16 +1030,15 @@ durch Induktion nach der L\"ange des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
-       der Baum $t_i$, der durch das  L\"oschen des Schl\"ussels $r$ in dem $i$-ten
-       Trie $t_i$ entsteht, nicht leer ist, dann l\"oschen wir rekursiv in dem Baum $t_i$ den Schl\"ussel
-       $r$.
+       If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
+       $r$ in the $i$th  trie $t_i$ yields a non-empty trie, then the key $r$ has to be deleted recursively
+       in the trie $t_i$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\textsl{delete}(cr) =
        \texttt{Node}(v, C, T)$. 
-
-       Wenn der zu l\"oschende String mit dem Buchstaben $c$ anf\"angt und wenn der
-       Buchstabe $c$ gar kein Element der Buchstaben-Liste $C$ des Tries
-       ist, dann ver\"andert das L\"oschen den Trie nicht.
+       
+       If  the key that is to be deleted starts with the character $c$ and if $c$ does not occur in
+       the list of characters $C$, then the trie does not contain the key $cr$ and therefore there
+       is nothing  to do:  The trie is left unchanged.
 \end{enumerate}
 
 \subsection{Implementing Tries in \textsc{SetlX}}
