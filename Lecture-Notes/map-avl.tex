@@ -54,7 +54,7 @@ The method $\textsl{restore}$ is specified via conditional equations.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{restore}() = \textsl{Nil}$,
 
-      because the empty tree is an  AVL tree.
+      because the empty tree already is an  AVL tree.
 \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow 
        \textsl{Node}(k,v,l,r).\textsl{restore}() = \textsl{Node}(k,v,l,r)$,
 
@@ -893,7 +893,7 @@ we draw a circle.  This circle is split into two parts by a horizontal line.
 If the value  $v$ that is stored in this node is different from $\Omega$, then the value $v$ is
 written in the lower part of the circle.  The label that we put in the upper half of the circle
 depends on the parent of the node.  We will explain how this label is computed in a moment.
-The node itsself has $n$ different children.  These $n$ children are the tries
+The node itself has $n$ different children.  These $n$ children are the tries
 $t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labeled with the character $c_i$,
 i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
 
@@ -928,9 +928,9 @@ $\textsl{insert}: \mathbb{T} \times \Sigma^* \times \textsl{Value} \rightarrow \
 \\[0.2cm]
 The result of evaluating \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w,v)$
+$\texttt{Node}(v_1, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w, v_2)$
 \\[0.2cm]
-for a string $w\in \Sigma^*$ and a value $v \in \textsl{Value}$ is defined by induction on the
+for a string $w\in \Sigma^*$ and a value $v_2 \in \textsl{Value}$ is defined by induction on the
 length of $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
@@ -946,7 +946,7 @@ length of $w$.
       \hspace*{1.3cm}
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ 
       \\[0.2cm]
-      we to have recursively associate the value $v_2$ with the string $r$ in the trie $t_i$.
+      we have to recursively associate the value $v_2$ with the string $r$ in the trie $t_i$.
 \item $c \not\in\{c_1,\cdots,c_n\} \;\rightarrow\;\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr).\textsl{insert}(cr,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\texttt{Node}(\Omega,[],[]).\textsl{insert}(r,v_2)]\bigr)$.
@@ -966,7 +966,7 @@ length of $w$.
 \end{enumerate}
 
 \subsection{Deletion in Tries}
-Finally, we present formul\ae\ that specify how key can be deleted from a trie.
+Finally, we present formul\ae\ that specify how a key can be deleted from a trie.
 To this end, we define the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -1041,6 +1041,13 @@ is defined by induction on the length of  $w$.
        is nothing  to do:  The trie is left unchanged.
 \end{enumerate}
 
+\subsection{Complexity}
+It is straightforward to see that the complexity of looking up the value associated with a string
+$s$ of length $k$ is $\Oh(k)$.  In particular, it is independent on the number of strings $n$.  As
+it is obvious that we have to check all $k$ characters of the string $s$, this bound can not be
+improved.   Another advantage of tries is the fact that they use very little storage to store the
+keys because common prefixes are only stored once. 
+
 \subsection{Implementing Tries in \textsc{SetlX}}
 \begin{figure}[!ht]
 \centering
@@ -1088,10 +1095,11 @@ tries.  Therefore, the member variables have the following semantics:
       the list $C$.
 \item \texttt{mTries} represent the list of subtries $T$.  
 \end{enumerate}
-The methods \texttt{find}, \texttt{insert}, and \texttt{delete} are inherited from the abstract data
-type \texttt{map}.  The method \texttt{isEmpty} is an auxiliary method that is needed in the
-implementation of the method \texttt{delete}.  This method checks whether the given trie corresponds
-to the empty map.  The implementation of all these methods is given below.
+The class \texttt{trieMap} implements the abstract data type \texttt{map} and therefore provides the
+methods \texttt{find}, \texttt{insert}, and \texttt{delete}.  Furthermore, the method
+\texttt{isEmpty} is an auxiliary method that is needed in the implementation of the method 
+\texttt{delete}.  This method checks whether the given trie corresponds to the empty map.  The
+implementation of all these methods is given below. 
 
 \begin{figure}[!ht]
 \centering
@@ -1132,7 +1140,7 @@ contains a value associated with the string $s$.  Essentially, the are two cases
       equal to $c$.  If this is the case, the subtrie \texttt{mTries[$i$]} contains the value
       associated with $s$.  Then, we have to invoke \texttt{find} recursively on this subtrie.
 
-      If the loop in line 4 does not find $c$ in the list \texttt{mChars}, then the method
+      If the loop in line 4 does not find the character $c$ in the list \texttt{mChars}, then the method
       \texttt{find} will just return \texttt{om} in line 9.
 \end{enumerate}
 
@@ -1241,7 +1249,7 @@ The method \texttt{delete} takes a string and, provided there is a value associa
 value is deleted,
 \begin{enumerate}
 \item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
-      Hence, this value is set to \texttt{om}.
+      In order to remove this value, the variable \texttt{mValue} is set to \texttt{om}.
 \item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
       consists of the remaining characters.  In this case, we need to check whether the list
       \texttt{mChars} contains the character $c$ or not.
@@ -1306,58 +1314,59 @@ Finally, the implementation of \texttt{removeIthElement}, which is shown in Figu
 
 
 \exercise
-\textbf{Bin\"are Tries}:  Wir nehmen im Folgenden an, dass unser Alphabet nur aus den beiden
-Ziffern $0$ und $1$ besteht, es gilt also $\Sigma = \{0,1\}$.  Dann k\"onnen wir nat\"urliche
-Zahlen als Worte aus $\Sigma^*$ auffassen.  Wir wollen die Menge der \emph{bin\"aren Tries}
-mit $\BT$ bezeichnen und wie folgt induktiv definieren:
+\textbf{Binary Tries}:  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
+only contains the two digits $0$ and $1$.  Therefore we have $\Sigma = \{0,1\}$.  Every natural
+number can be regarded as a string from the alphabet $\Sigma$, so that numbers are effectively
+elements of $\Sigma^*$.  The set $\BT$ of \colorbox{orange}{\emph{binary tries}} is defined by induction:
 \begin{enumerate}
 \item $\textsl{Nil} \in \BT$.
-\item $\textsl{Bin}(v,l,r) \in \BT$ falls
+\item $\textsl{Bin}(v,l,r) \in \BT$ provided that
       \begin{enumerate}
-      \item $v \in \textsl{Value} \cup \{\Omega\}$.
+      \item $v \in \textsl{Value} \cup \{\Omega\}$ \quad and
       \item $l,r \in \BT$.
       \end{enumerate}
 \end{enumerate}
-Die Semantik legen wir fest, indem wir eine Funktion
+The semantics of binary tries is fixed by defining the function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$
+$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$.
 \\[0.2cm]
-definieren.  F\"ur einen bin\"aren Trie $b$ und eine nat\"urliche Zahl $n$ gibt
-$\textsl{find}(b,n)$ den Wert zur\"uck, der unter dem Schl\"ussel $n$ in dem bin\"aren Trie $b$ gespeichert ist.
-Falls in dem bin\"aren Trie $b$ unter dem Schl\"ussel $n$ kein Wert gespeichert ist, wird
-$\Omega$ zur\"uck gegeben.
-Formal definieren wir den Wert von $\textsl{find}(b,n)$ durch Induktion nach dem Aufbau
-von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
+Given a binary trie $b$ and a natural number $n$, the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$b.\textsl{find}(n)$ 
+\\[0.2cm]
+returns the value in $b$ that is associated with the number $n$.  If there is no value associated
+with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the expression
+ $b.\textsl{find}(n)$ is defined by in duction on $b$.  The induction step requires a side induction
+ with respect to $n$.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{find}(n) = \Omega$,
 
-      denn in dem leeren bin\"aren Trie finden wir keine Werte.
+      since the empty trie doesn't store any values.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(0) = v$,
 
-      denn der Schl\"ussel $0$ entspricht dem leeren String $\varepsilon$.
+      because $0$ is interpreted as the empty string $\varepsilon$.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2\cdot n + 2) = l.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei geraden Zahlen das letzte
-      Bit den Wert 0 und die 0 soll dem linken Teilbaum entsprechen.
+      because if a number is represented in binary, then the last bit of every even number is zero
+      and zero chooses the left subtree.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2 \cdot n + 1) = r.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei ungeraden Zahlen das letzte
-      Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
+      because if a number is represented in binary, then the last bit of every odd number is 1 and 
+      1 is associated with the right subtree.
 \end{enumerate}
-Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
+Solve the following exercises:
 \begin{enumerate}[(a)]
-\item Stellen Sie Gleichungen auf, die das Einf\"ugen und das L\"oschen in einem
-      bin\"aren Trie beschreiben.  Achten Sie beim L\"oschen darauf,
-      dass bin\"are Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
-      zu $\textsl{Nil}$ vereinfacht werden.
+\item Provide equations that specify the methods \texttt{insert} and \texttt{delete} in a binary trie.
+      When specifying delete you should take care that empty binary trees are reduced to
+      $\textsl{Nil}$.
 
-      \textbf{Hinweis}:  Um die Gleichungen zur Spezifikation der Funktion
-      $\textsl{delete}()$ nicht zu komplex werden zu lassen ist es sinnvoll, eine
-      Hilfsfunktion zur Vereinfachung von bin\"aren Tries zu definieren.
-\item Implementieren Sie bin\"are Tries in \textsc{SetlX}.
+      \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplify those binary
+      tries that are empty.
+\item Implement binary tries in \textsc{SetlX}.
 \end{enumerate}
-\textbf{Bemerkung}: Bin\"are Tries werden auch als \emph{digitale Suchb\"aume} bezeichnet.
+\textbf{Remark}: Binary tries are known as \emph{digital search trees}.  \eox
 
 \section{Hash Tables}
 It is very simple to implement a function of the form \\[0.2cm]
@@ -1449,7 +1458,7 @@ Unfortunately, this naive implementation has several problems:
 These problems can be solved as follows:
 \begin{enumerate}
 \item We have to change the function  \texttt{code} so that the result of this function is always
-      less or equal to some given number \texttt{size}.  Here, the number \texttt{size} specifies
+      less than or equal to some given number \texttt{size}.  Here, the number \texttt{size} specifies
       the number of entries of the array that we intend to use.  This number will be in the same
       order of magnitude as the number of key-value pairs that we want to store in our dictionary.
 
