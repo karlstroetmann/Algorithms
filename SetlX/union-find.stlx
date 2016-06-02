@@ -1,75 +1,38 @@
 // This class implements the union find algorithm.
-class unionFind() {
-    mNodes   := {};
-    mParents := {};  
-    mHeights := {};
-  static {
-    // add the pair <a, b>
-    union := procedure(a, b) {
-        addNode(a);
-        addNode(b);
-        aRoot := findRoot(a);
-        bRoot := findRoot(b);
-        if (aRoot != bRoot) {
-            if (mHeights[aRoot] < mHeights[bRoot]) {
-                this.mParents[aRoot] := bRoot;
-            } else if (mHeights[bRoot] < mHeights[aRoot]) {
-                this.mParents[bRoot] := aRoot;
-            } else {  // height[aRoot] = height[bRoot]
-                this.mParents[bRoot] := aRoot;
-                this.mHeights[aRoot] += 1;
+unionFind := procedure(m, r) {
+    parent := { [n, n] : n in m };
+    height := { [n, 0] : n in m };
+    for ([x, y] in r) {
+        parentX := find(x, parent);
+        parentY := find(y, parent);
+        if (parentX != parentY) {
+            if (height[x] < height[y]) {
+                parent[parentX] := parentY;  
+            } else if (height[x] > height[y]) {
+                parent[parentY] := parentX;  
+            } else {
+                parent[parentY] := parentX;  
+                height[parentX] += 1;
             }
         }
-    };
-    addNode := procedure(n) {
-        if (mParents[n] == om) {
-            this.mParents[n] := n;
-            this.mHeights[n] := 1;
-            this.mNodes += { n };
-        }
-    };
-    // Given a node n, find the root of the tree containing this node.
-    findRoot := procedure(n) {
-        p := mParents[n];
-        if (p == n) {
-            return n;
-        }
-        return findRoot(p);
-    };
-    // Check whether two nodes are equivalent.
-    areEquivalent := procedure(a, b) {
-        return findRoot(a) == findRoot(b);
-    };
-    // Compute the set of equivalence classes.
-    allClasses := procedure() {
-        rootNodes := { n : n in mNodes | findRoot(n) == n };
-        eqClasses := { [n, {}] : n in rootNodes };
-        for (n in mNodes) {
-            root := findRoot(n);
-            eqClasses[root] += { n };
-        }
-        return { eqClasses[root] : root in rootNodes };
-    };
-    // Read a file containing equivalent pairs.
-    readPairs := procedure(fileName) {
-        lines := readFile(fileName);
-        // read all pairs of equivalent nodes
-        for (line in lines) {
-            [a, b] := split(line, " ");
-            union(a, b);
-        }
-    };
-  }
-}
-
-main := procedure(file) {
-    ufc := unionFind();
-    ufc.readPairs(file);
-    for (c in ufc.allClasses()) {
-        print(c);
     }
-    print(ufc.areEquivalent("a", "d"));
-    print(ufc.areEquivalent("a", "x"));
+    roots := { x : x in m | parent[x] == x };
+    return { { y : y in m | parent[y] == r } : r in roots };
+};
+find := procedure(x, parent) {
+    if (parent[x] == x) {
+        return x;
+    }
+    return find(parent[x], parent);
 };
 
-main("ufData.txt");
+demo := procedure() {
+    m := { 1 .. 9 };
+    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("r = $r$");
+    p := unionFind(m, r);
+    print("p = $p$");
+};
+
+demo();
+
