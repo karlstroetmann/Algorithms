@@ -82,13 +82,14 @@ demo := procedure(cmp) {
     m.insert("jens",   234);
     m.insert("hubert", 432);
     m.insert("andre",  342);
+    m.insert("philipp",  342);
     m.insert("rene",   345);
     print("\n$m$\n");
     print("m.find(\"anton\" ) = $m.find(\"anton\" )$");
     print("m.find(\"hugo\"  ) = $m.find(\"hugo\"  )$");
     print("m.find(\"gustav\") = $m.find(\"gustav\")$");
     print("m.find(\"jens\"  ) = $m.find(\"jens\"  )$");
-    m.delete("anton");
+    m.delete("philipp");
     print("\n$m$\n");
     print("m.find(\"anton\" ) = $m.find(\"anton\" )$");
     print("m.find(\"hugo\"  ) = $m.find(\"hugo\")  $");

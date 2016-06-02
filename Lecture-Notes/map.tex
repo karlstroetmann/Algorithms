@@ -170,18 +170,18 @@ Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along thes
 
 
 \section{Ordered Binary Trees}
-If the set \textsl{Key} is linearly, i.e.~if there exists a binary relation
+If the set \textsl{Key} is linearly ordered, i.e.~if there exists a binary relation
 $\leq \,\subseteq\,\textsl{Key}\times\textsl{Key}$ such that the pair $\langle \textsl{Key}, \leq \rangle$ is a linear
 order, then the abstract data type \textsl{Map} can be implemented via  
 \href{https://en.wikipedia.org/wiki/Binary_search_tree}{\emph{ordered binary trees}} also known as
-\emph{binary search trees}. 
+\colorbox{orange}{\emph{binary search trees}}. 
 The implementation of the ADT map that is based on ordered binary trees has the folowing performance
 characteristics: 
 \begin{enumerate}
 \item The average case complexity of the lookup operation is logarithmic.
-\item the worst case complexity of the lookup operation is linear.  
+\item The worst case complexity of the lookup operation is linear.  
 \end{enumerate}
-In order to define ordered binary trees we introduce
+In order to define \emph{ordered binary trees} we introduce
 \colorbox{orange}{\emph{binary trees}} first.
 
 \begin{Definition}[Binary Trees] \hspace*{\fill} \\
@@ -201,17 +201,17 @@ In order to define ordered binary trees we introduce
         \item $v$ is a value from the set $\textsl{Value}$.
         \item $l$ is a binary tree.
 
-              $l$ is the  \emph{left subtree} of the tree $\textsl{Node}(k, v, l, r)$.
+              $l$ is the  \colorbox{orange}{\emph{left subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
         \item $r$ is a binary tree.
 
-              $r$ is the \emph{right subtree} of the tree $\textsl{Node}(k, v, l, r)$.
+              $r$ is the \colorbox{orange}{\emph{right subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
               \eox
         \end{enumerate}
   \end{enumerate}
 \end{Definition}
 
 \noindent
-Next, we define the notion of an  \emph{ordered binary tree}.
+Next, we define the notion of an  \colorbox{orange}{\emph{ordered binary tree}}.
 \begin{Definition}[Ordered Binary Tree] \hspace*{\fill} \\
   The set $\Bin_<$ of all \emph{ordered binary trees} is defined inductively.
   \begin{enumerate}
@@ -224,7 +224,7 @@ Next, we define the notion of an  \emph{ordered binary tree}.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
-        The last two conditions are known as the \emph{ordering conditions}.
+        The last two conditions are known as the \colorbox{orange}{\emph{ordering conditions}}.
         \eox
   \end{enumerate}
 \end{Definition}
@@ -233,15 +233,16 @@ Graphically, ordered binary trees are depicted as follows:
 \item The empty tree \textsl{Nil} is shown as a black circle.
 \item A binary tree of the form $\textsl{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
-      bot are separated by a horizontal line.  This oval is then called a \emph{node} of the binary tree.
+      both are separated by a horizontal line.  This oval is then called a
+      \colorbox{orange}{\emph{node}} of the binary tree. 
       The left subtree $l$ of the node is depicted both to the left and  below the node,
       while the right subtree $r$ is depicted both to the right and below the node.  Both the left
       and the right subtree are connected to the node with an arrow that points from the node to the
       subtree.
 \end{enumerate}
 Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
-node that has the key $8$ and the value $22$ is called the \emph{root} of the binary tree.
-A \emph{path of length} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
+node that has the key $8$ and the value $22$ is called the \colorbox{orange}{\emph{root}} of the binary tree.
+A \colorbox{orange}{\emph{path of length}} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
 \\[0.1cm]
 \hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.1cm]
@@ -307,7 +308,7 @@ If there is a tree of the form $t =\textsl{Node}(k,v,l,r)$ and we want to delete
 we have to check first whether either of the subtrees  $l$ or $r$ is empty.  If $l$ is empty,
 $t.\textsl{delete}(k)$ can return the right subtree  $r$ while if $r$ is empty,
 $t.\textsl{delete}(k)$ can return the left subtree $l$.
-Things get more difficult when neither  $l$ nor $r$ are empty.  In this case,
+Things get more difficult when both $l$ and $r$ are non-empty.  In this case,
 our solution is that we look for the smallest key in the right subtree $r$.
 This key and its corresponding value are removed from $r$.  The resulting tree is called $r'$.
 Next, we take the node $t =\textsl{Node}(k,v,l,r)$ and transform it into the node
@@ -352,7 +353,7 @@ removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the 
        $\textsl{Node}(k, v, l, r).\textsl{delMin}() = [\textsl{Node}(k, v, l', r), k_{min}, v_{min}]$.
 
       If the left subtree $l$ in the binary tree $t = \textsl{Node}(k, v, l, r)$
-      is not empty, than the smallest key of  $t$ is located inside the left subtree $l$.
+      is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
       This smallest key is recursively removed from  $l$. This yields the tree 
       $l'$.  Next,  $l$ is replaced by $l'$ in $t$.  The resulting tree is
       $t' = \textsl{Node}(k, v, l', r)$.
@@ -401,7 +402,7 @@ binary trees.  We discuss the implementation of this class next.
       \begin{enumerate}
       \item \texttt{mKey} is the key stored at this node.  For an empty node, \texttt{mKey}
             has the value \texttt{om}, which represents $\Omega$.
-      \item \texttt{mValue} stores the value stored at this node.  For an empty node,
+      \item \texttt{mValue} stores the value that is associated with \texttt{mKey}.  For an empty node,
             \texttt{mValue} is \texttt{om}.
       \item \texttt{mLeft} is the left subtree.  An empty subtree is represented as \texttt{om}.
       \item \texttt{mRight} is the right subtree.  
@@ -418,7 +419,7 @@ binary trees.  We discuss the implementation of this class next.
             this key is \texttt{mValue}.
       \item Otherwise, we have to compare the key \texttt{k}, which is the key we are looking for,
             with the key \texttt{mKey}, which is the key stored in this node.  If \texttt{k}
-            is less than \texttt{mKey}, \texttt{k} can at most be stored in the left subtree
+            is less than \texttt{mKey}, \texttt{k} can only be stored in the left subtree
             \texttt{mLeft}, while if $k$ is greater than \texttt{mKey}, \texttt{k} can only be
             stored in the right subtree.
       \end{enumerate}
@@ -464,7 +465,7 @@ binary trees.  We discuss the implementation of this class next.
         };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Implementierung geordneter B\"aume in \textsc{SetlX}, 1.~Teil.}
+  \caption{Implementation of ordered binary trees \textsc{SetlX}, part (I).}
   \label{fig:binary-tree.stlx-1}
 \end{figure}
 \item The implementation of \texttt{insert} is similar to the implementation of \texttt{find}.
@@ -512,7 +513,7 @@ binary trees.  We discuss the implementation of this class next.
                     this.mRight := rs;
                 }
             } else if (mCmpFct(k, mKey)) {
-                if (!mLeft .isEmpty()) { mLeft.delete(k); }
+                if (!mLeft .isEmpty()) { mLeft .delete(k); }
             } else {
                 if (!mRight.isEmpty()) { mRight.delete(k); }
             }
@@ -527,13 +528,24 @@ binary trees.  We discuss the implementation of this class next.
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Ordered binary trees in \textsc{SetlX}, part2.}
+  \caption{Implementation of ordered binary trees in \textsc{SetlX}, part (II).}
   \label{fig:binary-tree.stlx-2}
 \end{figure}
 
 \item The implementation of \texttt{delMin} and \texttt{delete} is done in a similar way as the
       implementation of \texttt{insert}.  It should be noted that the implementation follows directly from the
       equations derived  previously. 
+      
+      There is however one caveat that should be mentioned.  Line 55 show the implementation of the
+      function \texttt{update}.  When we delete the key at the root of the tree and either of the
+      subtrees is empty, we would ideally just overwrite the current tree with the non-empty
+      subtree, i.e.~we would like to write something like
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{this := mLeft;}
+      \\[0.2cm]
+      However, we cannot change the object \texttt{this}.  The only thing we can do is change the
+      attributes of the object \texttt{this}.  This is done in the method \texttt{update}.
 \end{enumerate}
 
 \begin{figure}[!th]
@@ -679,7 +691,7 @@ then there are three possibilities for the key $k$ that we want to find in $b$:
 \begin{enumerate}
 \item $k$ might be identical with the key $k'$ that is located at the root of $b$.
       In this case there is only one comparison.
-      Now there  are $n+1$ keys in $b$ and the key we are looking for will be at the root in only
+      As there  are $n+1$ keys in $b$ and the key we are looking for will be at the root in only
       one of these cases, the probability of this case is
       \\[0.2cm]
       \hspace*{1.3cm} $\bruch{1}{\,n+1\,}$.
@@ -824,8 +836,8 @@ This is our main result:  On average, the operation $b.\textsl{find}(k)$ uses
 \hspace*{1.3cm}
 $2 \cdot \ln(n) = 2 \cdot \ln(2) \cdot \log_2(n) \approx 1.386 \cdot \log_2(n)$ 
 \\[0.2cm]
-comparisons.  Hence there are about  39 \% 
-more comparisons than if we had a tree which was  optimal balanced.
+comparisons.  Hence in the average case there are about  39 \% 
+more comparisons than there would be if the tree was optimally balanced.
 There are similar results for the operations \textsl{insert} and \textsl{delete}.
 
 

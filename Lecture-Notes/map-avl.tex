@@ -1,10 +1,11 @@
 \section{AVL Trees}
-If a binary tree is \emph{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
-roughly the same height, then the complexity of $b.\textsl{find}(k)$ is of the order
-$\Oh\bigl(\ln(n)\bigr)$  even in the worst case.  There are number of different variations of
-balanced binary trees.  Of these variations, the balanced trees that are the easiest to understand are
-called  \emph{AVL trees} \cite{adelson:62}.  AVl trees are 
-named after their inventors G.~M.~Adel'son-Vel'ski\u{\i} and E.~M.~Landis.  In order to define these
+If a binary tree is approximately \emph{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
+roughly the same height, then the complexity of $b.\textsl{find}(k)$ will always be of the order
+$\Oh\bigl(\ln(n)\bigr)$.  There are number of different variations of
+balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
+called an \href{https://en.wikipedia.org/wiki/AVL_tree}{\emph{AVL tree}} \cite{adelson:62}.  AVl trees are 
+named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
+and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis}.  In order to define these 
 trees we need to define the \emph{height} of a binary tree formally:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{height}() = 0$.
@@ -23,7 +24,7 @@ trees we need to define the \emph{height} of a binary tree formally:
         \item $l, r \in \AVL$ \quad and
         \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1$.
 
-              This condition is called the \emph{balancing condition}.
+              This condition is called the \colorbox{orange}{\emph{balancing condition}}.
         \end{enumerate}
         According to this definition, an AVL tree is an ordered binary tree such that for every node
         $\textsl{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
@@ -53,11 +54,11 @@ The method $\textsl{restore}$ is specified via conditional equations.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{restore}() = \textsl{Nil}$,
 
-      because the empty tree is an  AVL tree.
+      because the empty tree already is an  AVL tree.
 \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1 \rightarrow 
        \textsl{Node}(k,v,l,r).\textsl{restore}() = \textsl{Node}(k,v,l,r)$,
 
-      because if the balancing condition is already satisfied, then there is nothing to be done. 
+      because if the balancing condition is already satisfied, then nothing needs to be done. 
 \item $\begin{array}[t]{cl}
               & l_1.\textsl{height}() = r_1.\textsl{height}() + 2    \\ 
        \wedge & l_1 = \textsl{Node}(k_2,v_2,l_2,r_2)                 \\
@@ -80,14 +81,16 @@ The method $\textsl{restore}$ is specified via conditional equations.
       \hspace*{1.3cm}
       $\textsl{Node}\bigl(k_2,v_2,l_2,\textsl{Node}(k_1,v_1,r_2,r_1)\bigr)$.
       \\[0.2cm]
-      In Figure \ref{fig:casell} the second line of each node shows the height of the tree
-      corresponding to this node.  For example,  $h$ is the height of the subtree 
+      In Figure \ref{fig:casell} the label below the horizontal line of each node shows the height
+      of the tree corresponding to this node.  For subtrees, the height is given below the name of
+      the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
-      is $h'$ and we know that $h' \leq h$.  As $\textsl{Node}(k_1,v_1,r_2,r_1)$ is an  AVL tree, we
+      is $h'$ and we know that $h' \leq h$.  As $\textsl{Node}(k_2,v_2,l_2,r_2)$ is an AVL tree and we know that
+      $l_2.\textsl{height}() \geq r_2.\textsl{height}()$, we
       either have $h' = h$ or $h' = h-1$.
 
       The state shown in Figure \ref{fig:casell} can arise if either an element has been inserted
-      in the left subtree $l_2$ or if an element has been deleted from the right subtree  $r_1$.
+      in the left subtree $l_1$ or if an element has been deleted from the right subtree  $r_1$.
 
       \begin{figure}[!ht]
         \centering
@@ -577,9 +580,9 @@ possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL 
 $h$ and whose number of keys is minimal among all other AVL trees of given  height $h$.  Furthermore,
 we demand that all keys stored in  $b_h(k)$ are bigger than  $k$.  For our investigation of the
 complexity, both the keys and the values do not really matter.  The only problem is that we have to
-make sure that the tree $b_h(k)$ is actually an ordered tree and for this reason we insist that all
-keys in $b_h(k)$ are bigger than $k$.  We will actually use natural numbers as keys, while all
-values will be $0$.
+make sure that the tree $b_h(k)$ that we are going to construct in a moment is actually an ordered
+tree and for this reason we insist that all keys in $b_h(k)$ are bigger than $k$.  We will use
+natural numbers as keys, while all values will be $0$.
 Before we can actually present the definition of  $b_h(k)$ we need to define the auxiliary function
  $\textsl{maxKey}()$.  This function has the signature 
 \\[0.2cm]
@@ -613,7 +616,7 @@ Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
       Since $l$ is the biggest key in $b_{h+1}(k)$, all key in the left subtree of
       $b_{h+2}(k)$ are indeed smaller than the key $l+1$ at the root.  Since all keys in
       $b_h(l+1)$ are bigger than $l+1$, the keys in the right subtree are bigger than the key at the
-      root.  Therefore, $b_{h+2}(k)$ is an ordered tree.
+      root.  Therefore, $b_{h+2}(k)$ is an ordered binary tree.
 
       Furthermore, $b_{h+2}(k)$ is an AVL tree of height $h+2$ since the height of the left subtree
       is $h+1$ and the height of the right subtree is $h$.  Also, this tree is as slim as
@@ -626,8 +629,8 @@ Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furth
 $c_h := \#\, b_h(k)$
 \\[0.2cm]
 to be the number of keys in the tree $b_h(k)$.  We will see immediately that 
-$\#\,b_h(k)$ does not really depend on  $k$.  Starting from the definition of $b_h(k)$ we find the
-following equations for $c_h$:
+$\#\,b_h(k)$ does not depend on the number $k$ and therefore $c_h$ does not depend on $k$.  Starting
+from the definition of $b_h(k)$ we find the following equations for $c_h$:
 \begin{enumerate}
 \item $c_0 = \#\, b_0(k) = \#\, \textsl{Nil} = 0$,
 \item $c_1 = \#\, b_1(k) = \#\, \textsl{Node}(k+1,0,\textsl{Nil}, \textsl{Nil}) = 1$, 
@@ -643,7 +646,8 @@ Hence we have found the recurrence equation
 \hspace*{1.3cm}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ und $c_1 = 1$}.$
 \\[0.2cm]
-In order to solve this recurrence we first solve the corresponding homogeneous recurrence equation
+This also validates our claim that $c_h$ does not depend on $k$.  In order to solve the recurrence
+equation derived above we first solve the corresponding \emph{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{h+2} = a_{h+1} + a_h$
@@ -658,7 +662,7 @@ Substituting $a_h = \lambda^h$ into the recurrence equation for $a_h$ leaves us 
 \hspace*{1.3cm}
 $\lambda^{h+2} = \lambda^{h+1} + \lambda^{h}$.
 \\[0.2cm]
-Dividing by $\lambda^h$ produces the quadratic equation
+Dividing by $\lambda^h$ leaves the quadratic equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\lambda^2 = \lambda + 1$
@@ -684,7 +688,7 @@ Let us therefore define
 $\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
 $\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
-In order to solve the inhomogeneous recurrence equation for $c_h$ we try the ansatz
+In order to solve the \emph{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h = d$ \quad for some constant $d$.
@@ -699,7 +703,8 @@ from which we conclude that $d = -1$.  Hence the solution for $c_h$ has the form
 \hspace*{1.3cm}
 $c_h = \alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h + d =\alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h - 1$.
 \\[0.2cm]
-Here, the values of $\alpha$ and $\beta$ can be found by setting $h=0$ and $h=1$.  This results in
+Here, the values of $\alpha$ and $\beta$ can be found by setting $h=0$ and $h=1$ and using the
+initial conditions $c_0 = 0$ and $c_1 = 1$.  This results in
 the following system of linear equations for  $\alpha$ and $\beta$:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -717,7 +722,8 @@ Solving this equation for $\alpha$ gives
 \hspace*{1.3cm}
 $2 - \lambda_2 = \alpha \cdot (\lambda_1 - \lambda_2)$
 \\[0.2cm]
-Hence we have found
+You can easily verify that $\lambda_1 - \lambda_2 = \sqrt{5}$ and $2 - \lambda_2 = \lambda_1^2$
+holds.  Hence, we have found
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt{5}} \cdot \lambda_1^2$.
@@ -730,13 +736,13 @@ $\ds \beta  = -\frac{1}{\sqrt{5}} \cdot \lambda_2^2$.
 Therefore, $c_h$ is given by the following equation:
 \\[0.2cm]
 \hspace*{1.3cm}
-$c_h = \displaystyle \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
+$c_h = \ds \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -
 1$.  
 \\[0.2cm]
-As we have  $|\lambda_2| < 1$, the value of  $\displaystyle\lambda_2^{h+2}$ isn't important for big
+As we have  $|\lambda_2| < 1$, the value of  $\ds\lambda_2^{h+2}$ isn't important for big
 values of $h$.  Therefore, for big values of $h$, the minimal number  $n$ of keys in a tree of
 height  $h$ is approximately given by the formula \\[0.2cm]
-\hspace*{1.3cm} $n \approx \displaystyle \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$. \\[0.2cm]
+\hspace*{1.3cm} $n \approx \ds \frac{1}{\sqrt{5}} \lambda_1^{h+2} - 1$. \\[0.2cm]
 In order to solve this equation for  $h$ we take the logarithm of both side.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -750,15 +756,15 @@ $\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$.
 Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
 \\[0.4cm]
 \hspace*{1.3cm}
-$\displaystyle \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
+$\ds \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
 \\[0.2cm]
 Solving this equation for  $h$ gives the result 
 \\[0.4cm]
 \hspace*{1.3cm} 
 $
 \begin{array}[t]{lcl}
-h & = & \displaystyle \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
-  & = & \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
+h & = & \ds \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
+  & = & \ds \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
   & \approx & 1,44 \cdot \log_2(n) + \Oh(1).
 \end{array} 
 $
@@ -778,232 +784,232 @@ Figure
 \end{figure}
 
 \subsection{Further Reading}
-In practice, \emph{red-black trees} are slightly faster than \textsc{AVL} trees.  Similar to
+In practice, 
+\href{https://en.wikipedia.org/wiki/Red-black_trees}{\emph{red-black trees}} 
+are slightly faster than \textsc{AVL} trees.  Similar to
 \textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red node have to be black.  In order to keep red-black trees approximately
 balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
-\cite{sedgewick:2011}. 
+\cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and Robert
+Sedgewick \cite{guibas:78}.
 
 
 
 \section{Tries}
-In der Praxis kommt es h\"aufig vor, dass die Schl\"ussel des ADT \textsl{Map} Strings sind.
-In dem einf\"uhrenden Beispiel des elektronischen Telefon-Buchs ist dies der Fall.  Es gibt eine
-Form von Such-B\"aumen, die an diese Situation besonders angepasst ist.  Diese Such-B\"aume
-haben den Namen \href{https://en.wikipedia.org/?title=Trie}{\emph{Tries}}.  Dieses Wort ist von dem
-Englischen Wort  
-\emph{re\underline{trie}val} abgeleitet. Damit man \emph{Tries} und \emph{Trees}
-unterscheiden kann, wird \emph{Trie} so ausgesprochen, dass es sich mit dem Englischen
-Wort \emph{pie} reimt.  Diese Datenstruktur wurde 1959 von Ren\'e de la Briandais
-\cite{briandais:59} vorgeschlagen.
+Often, the keys of a map are strings.  For example, when you search with 
+\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}, you are using a
+string as a key to lookup information that is stored in a gigantic map provided by 
+\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}.
+As another example, in an electronic phone book the keys are names and therefore are strings.  
+There is a species of search trees that is particularly well adapted to the case that the keys are
+strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{\emph{tries}}.  
+The name is derived from the word
+\emph{re\underline{trie}val}.  In order that we are able to distinguish between \emph{tries} and
+\emph{trees} we have to pronounce  \emph{trie}  so that it rhymes with \emph{pie}.   The data
+structure of tries has been proposed 1959 by Ren\'e de la Briandais \cite{briandais:59}.
 
-
-Die Grundidee bei der Datenstruktur \emph{Trie} ist ein Baum, an dem jeder Knoten nicht
-nur zwei Nachfolger hat, wie das bei bin\"aren B\"aumen der Fall ist, sondern stattdessen
-potentiell f\"ur jeden Buchstaben des Alphabets einen Ast besitzt.  Um Tries definieren zu
-k\"onnen, nehmen wir zun\"achst an, dass folgendes gegeben ist:
-\begin{enumerate}
-\item $\Sigma$ ist eine endliche Menge, deren Elemente wir als \emph{Buchstaben}
-      bezeichnen. $\Sigma$ selbst hei{\ss}t das \emph{Alphabet}.
-\item $\Sigma^*$ bezeichnet die Menge der \emph{W\"orter} (engl.~\emph{strings}), die wir aus den Buchstaben
-      des Alphabets bilden k\"onnen.  Mathematisch k\"onnen wir W\"orter als Listen von 
-      Buchstaben auffassen. Ist $w \in \Sigma^*$ so schreiben wir $w = cr$, falls
-      $c$ der erste Buchstabe von $w$ ist und $r$ das Wort ist, das durch L\"oschen des
-      ersten Buchstabens aus $w$ entsteht.  
-\item $\varepsilon$ bezeichnet das leere Wort.  
-\item \textsl{Value} ist eine Menge von \emph{Werten}.  
-\end{enumerate}
-Die Menge $\mathbb{T}$ der Tries definieren wir nun induktiv mit Hilfe des 
-Konstruktors \\[0.2cm]
+Tries are also trees, but in contrast to a binary tree where every node has two children, in a trie a
+node can have as many children as there are characters in the alphabet that is used to represent the
+strings.  In order to define tries formally we assume that the following is given:
+\begin{itemize}
+\item $\Sigma$ is finite set of \emph{characters}. $\Sigma$ is called the
+      \colorbox{orange}{\emph{alphabet}}. 
+\item $\Sigma^*$ is the set of all \emph{strings} that are build from the characters of $\Sigma$.
+      Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
+      if $c$ is the first letter of $w$ and if $r$ the string that remains if we remove the first
+      character from $w$.
+\item $\varepsilon$ denotes the empty string.
+\item \textsl{Value} is the set of all the values that can be associated with the keys.  
+\end{itemize}
+The set $\mathbb{T}$ of all tries is defined inductively using the constructor \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}: \textsl{Value} \times \textsl{List}(\Sigma) \times
-\textsl{List}(\mathbb{T}) \rightarrow \mathbb{T}$. \\[0.2cm]
-Die induktive Definition besteht nur aus einer einzigen Klausel: Falls
+\textsl{List}(\mathbb{T}) \rightarrow \mathbb{T}$. 
+\\[0.2cm]
+The inductive definition of the set $\mathbb{T}$ has only a single clause: If
 \begin{enumerate}
 \item $v \in \textsl{Value} \cup \{\Omega\}$
-\item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ eine Liste von Buchstaben der
-      L\"ange $n$ ist,
-\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ eine Liste von Tries derselben L\"ange $n$ ist, 
+\item $C = [c_1, \cdots, c_n] \in \textsl{List}(\Sigma)$ is a list of different characters of length
+      $n$ and
+\item $T = [t_1, \cdots, t_n] \in \textsl{List}(\mathbb{T})$ is a list of  tries of the same length $n$, 
 \end{enumerate}
-dann gilt \\[0.2cm]
-\hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  \\[0.2cm]
-Als erstes fragen Sie sich
-vermutlich, wo bei dieser induktiven Definition der Induktions-Anfang ist.
-Der Induktions-Anfang ist der Fall $n=0$, denn dann sind die Listen $C$ und $T$ leer.
-Als n\"achstes \"uberlegen wir uns, welche Funktion von dem Trie \\[0.2cm]
-\hspace*{1.3cm}  $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]) \in \mathbb{T}$ \\[0.2cm]
-dargestellt wird.  Wir beantworten diese Frage, indem wir rekursive Gleichungen f\"ur die
-Methode \\[0.2cm]
-\hspace*{1.3cm} $\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
+then we have 
 \\[0.2cm]
-angeben.  Wir werden den Ausdruck $\texttt{Node}(v,C,T).\textsl{find}(s)$ durch
-Induktion \"uber den String $s$ 
-definieren:
+\hspace*{1.3cm}  $\texttt{Node}(v, C, T) \in \mathbb{T}$.  
+\\[0.2cm]
+As there is only one clause in this definition, you might ask how this inductive definition gets started.
+The answer is that the base case of this inductive definition is the case where
+$n=0$ since in that case the lists  $C$ and $T$ are both empty.
+Next, we specify the function that is represented by a trie of the form 
+\\[0.2cm]
+\hspace*{1.3cm} 
+$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$.
+\\[0.2cm]
+In order to do so, we specify a function
+\\[0.2cm]
+\hspace*{1.3cm} 
+$\textsl{find}: \mathbb{T} \times \Sigma^* \rightarrow \textsl{Value} \cup \{ \Omega\}$
+\\[0.2cm]
+that takes a trie and a string.  For a trie $t$, the expression $t.\textsl{find}(s)$ returns the
+value that is associated with the string $s$ in the trie $t$.  The expression
+$\texttt{Node}(v,C,T).\textsl{find}(s)$ is defined by induction on the length of the  string $s$:
 \begin{enumerate}
 \item $\texttt{Node}(v, C, T).\textsl{find}(\varepsilon) = v$.
 
-      Der dem leeren String zugeordnete Wert wird also unmittelbar an der Wurzel
-      des Tries abgespeichert.
+      The value associated with the empty string $\varepsilon$ is stored at the root of the trie.
 \item $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{find}(cr) = 
         \left\{
         \begin{array}{ll}
-        t_1.\textsl{find}(r) & \mbox{falls} \quad c = c_1 \mbox{;} \\
+        t_1.\textsl{find}(r) & \mbox{if} \quad c = c_1 \mbox{;} \\
         \vdots &                                     \\
-        t_i.\textsl{find}(r) & \mbox{falls} \quad c = c_i \mbox{;} \\
+        t_i.\textsl{find}(r) & \mbox{if} \quad c = c_i \mbox{;} \\
         \vdots &                                     \\
-        t_n.\textsl{find}(r) & \mbox{falls} \quad c = c_n \mbox{;} \\[0.2cm]
-        \Omega               & \mbox{falls} \quad c \notin \{c_1,\cdots,c_n\} \mbox{.}         
+        t_n.\textsl{find}(r) & \mbox{if} \quad c = c_n \mbox{;} \\[0.2cm]
+        \Omega               & \mbox{if} \quad c \notin \{c_1,\cdots,c_n\} \mbox{.}         
         \end{array}
        \right.$
 
-      Der Trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ enth\"alt also genau
-      dann einen Wert zu dem Schl\"ussel $cr$, wenn es in der Liste $[c_1, \cdots, c_n]$
-      eine Position $i$ gibt, so dass der Buchstabe $c$ mit dem Buchstaben $c_i$
-      \"ubereinstimmt und wenn au{\ss}erdem der Trie $t_i$ einen Wert zu dem
-      Schl\"ussel $r$ enth\"alt.
+      The trie $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ associates a value with
+      the key $cr$ if the list $[c_1, \cdots, c_n]$ has a position $i$ such that $c$ equals $c_i$
+      and, furthermore, the trie  $t_i$ associates a value with the key  $r$.
 \end{enumerate}
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/trie}} 
-  \caption{Ein Beispiel Trie}
+  \caption{A trie storing some numbers.}
   \label{fig:trie}
 \end{figure}
 
-Zum besseren Verst\"andnis wollen wir Tries graphisch als B\"aume darstellen.
-Nun ist es nicht sinnvoll, die Knoten dieser B\"aume mit langen Listen zu beschriften.
-Wir behelfen uns mit einem Trick.  Um einen Knoten der Form \\[0.2cm]
+Graphically, tries are represented as trees.  Since it would be unwieldy to label the nodes of these
+trees with the lists of characters corresponding to these nodes, we use a trick:  In order to
+visualize a node of the form \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
-darzustellen, zeichnen wir einen Kreis,
-den wir durch einen horizontalen Strich in der Mitte aufteilen.
-Falls $v$ von $\Omega$ verschieden ist, schreiben wir den Wert $v$ in die untere H\"alfte
-des Kreises.
-Das, was wir \"uber dem Strich schreiben,
-h\"angt von dem Vater des jeweiligen Knotens ab.  Wie genau es vom Vater abh\"angt, sehen wir gleich.
-Der Knoten selber hat $n$ Kinder. Diese $n$ Kinder sind die 
-Wurzeln der B\"aume, die die Tries $t_1$, $\cdots$, $t_n$ darstellen.
-Au{\ss}erdem markieren wir die diese Knoten darstellenden Kreise in den oberen H\"alften 
-mit den Buchstaben $c_1$, $\cdots$, $c_n$.  
+we draw a circle.  This circle is split into two parts by a horizontal line.
+If the value  $v$ that is stored in this node is different from $\Omega$, then the value $v$ is
+written in the lower part of the circle.  The label that we put in the upper half of the circle
+depends on the parent of the node.  We will explain how this label is computed in a moment.
+The node itself has $n$ different children.  These $n$ children are the tries
+$t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labeled with the character $c_i$,
+i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
 
-
-Zur Verdeutlichung geben wir ein Beispiel in 
-Abbildung \ref{fig:trie} auf Seite \pageref{fig:trie}.
-Die Funktion, die hier dargestellt wird, l\"asst sich wie folgt als bin\"are Relation
-schreiben: \\[0.2cm]
+In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
+mapping some strings to numbers.  The mapping depicted in this tree can be written as a functional
+relation: 
+\\[0.2cm]
 \hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
              \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
 \hspace*{1.5cm} $\langle \textrm{``Schulze''},   6  \rangle, \langle \textrm{``Schnaut''},   7  \rangle, 
   \langle \textrm{``Schnupp''},   8  \rangle, 
   \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
-Der Wurzel-Knoten ist hier leer, denn dieser Knoten hat keinen Vater-Knoten, von dem er
-eine Markierung erben k\"onnte.  Diesem Knoten entspricht der Term \\[0.2cm]
-\hspace*{1.3cm} $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. \\[0.2cm]
-Dabei bezeichnet $t$ den Trie, dessen Wurzel mit dem Buchstaben `S' markiert ist.
-Diesen Trie k\"onnen wir seinerseits durch den Term \\[0.2cm]
+Since the node at the root has no parent, the upper half of  the circle representing the root is
+empty.  The lower half of  this circle is empty because the trie doesn't associate a value with the
+empty string.  This root node corresponds to the term 
+\\[0.2cm]
+\hspace*{1.3cm}
+ $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. 
+\\[0.2cm]
+Here,  $t$ denotes the trie that is labeled with the character  ``S'' at its root.
+This trie can then be represented by the term  \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$ \\[0.2cm]
-darstellen.  Daher hat dieser Knoten drei S\"ohne, die mit den Buchstaben `t', `a' und `c'
-markiert sind.
+$\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$. \\[0.2cm]
+This trie has three children that are labeled with the characters  ``t'', ``a'', and ``c''.
 
-\subsection{Einf\"ugen in Tries}
-Wir stellen nun bedingte Gleichungen auf, mit denen wir das Einf\"ugen eines Schl\"ussels mit
-einem zugeh\"origen Wert beschreiben k\"onnen.  Bezeichnen wir die Methode f\"ur das Einf\"ugen
-mit $\textsl{insert}()$, so hat diese Methode die Signatur
+\subsection{Insertion in Tries}
+Next, we present formul\ae\ that describe how new values can be inserted into an existing tries,
+i.e.~we specify the method \texttt{insert}.  The signature of \texttt{insert} is given as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{insert}: \mathbb{T} \times \Sigma^* \times \textsl{Value} \rightarrow \mathbb{T}$.
 \\[0.2cm]
-Wir definieren den Wert von \\[0.2cm]
+The result of evaluating \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w,v)$
+$\texttt{Node}(v_1, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\textsl{insert}(w, v_2)$
 \\[0.2cm]
-f\"ur ein Wort $w\in \Sigma^*$ und einen Wert $v \in \textsl{Value}$ durch Induktion nach der L\"ange des Wortes $w$.
+for a string $w\in \Sigma^*$ and a value $v_2 \in \textsl{Value}$ is defined by induction on the
+length of $w$.
 \begin{enumerate}
 \item $\texttt{Node}(v_1,L,T).\textsl{insert}(\varepsilon, v_2) = \texttt{Node}(v_2,L,T)$,
-
-      Einf\"ugen eines Wertes mit dem leeren String als Schl\"ussel \"uberschreibt einfach
-      den an dem Wurzel-Knoten gespeicherten Wert. 
+  
+      If a new value $v_2$ is associated with the empty string $\varepsilon$, then the old value
+      $v_1$, that had been stored at the root before, is overwritten.
 \item $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\textsl{insert}(c_ir,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\textsl{insert}(r,v_2),\cdots,t_n]\bigr)$.
 
-      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ ein Wert
-      $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe $c$ in der Liste $[c_1,\cdots,c_n]$
-      an der Stelle $i$ vorkommt, wenn also gilt $c= c_i$, dann muss der Wert $v_2$
-      rekursiv in dem Trie $t_i$ unter dem Schl\"ussel 
-      $r$ eingef\"ugt werden.
-
+      In order to associate a value $v_2$ with the string $c_ir$ in the trie
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ 
+      \\[0.2cm]
+      we have to recursively associate the value $v_2$ with the string $r$ in the trie $t_i$.
 \item $c \not\in\{c_1,\cdots,c_n\} \;\rightarrow\;\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr).\textsl{insert}(cr,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\texttt{Node}(\Omega,[],[]).\textsl{insert}(r,v_2)]\bigr)$.
       
-      Wenn in dem Trie $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$
-      ein Wert $v_2$ zu dem Schl\"ussel $cr$ eingef\"ugt werden soll, und falls der Buchstabe
-      $c$ in der Liste $[c_1,\cdots,c_n]$ nicht vorkommt, dann wird zun\"achst ein Trie
-      erzeugt, der die leere Abbildung repr\"asentiert.  Dieser Trie hat die Form \\[0.2cm]
+      If we want to associate a value $v$ with the key $cr$ in the trie
+      $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$ then, if the character $c$
+      does not occur in the list $[c_1,\cdots,c_n]$, we first have to create a new empty trie.
+      This trie has the form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
-      Anschlie{\ss}end wird in diesem Trie der Wert $v_2$ rekursiv unter dem Schl\"ussel $r$
-      eingef\"ugt. Zum Schluss h\"angen wir den Buchstaben $c$ an die Liste $[c_1,\cdots,c_n]$      
-      an und f\"ugen den Trie  \\[0.2cm] 
+      Next, we associate the value $v_2$ with the key $r$ in this empty trie.  Finally,
+      we append the character $c$ to the end of the list $[c_1,\cdots,c_n]$ and append the trie
+        \\[0.2cm] 
       \hspace*{1.3cm}
       $\texttt{Node}(\Omega, [], []).\textsl{insert}(r,v_2)$ 
       \\[0.2cm]
-      am Ende der Liste $[t_1,\cdots,t_n]$ ein.
+      to the end of the list $[t_1,\cdots,t_n]$.
 \end{enumerate}
 
-\subsection{L\"oschen in Tries}
-Als letztes stellen wir die bedingten Gleichungen auf, die das L\"oschen von
-Schl\"usseln und den damit verkn\"upften Werten in einem Trie beschreiben.
-Um diese Gleichungen einfacher schreiben zu k\"onnen, definieren wir zun\"achst eine
-Hilfs-Funktion 
+\subsection{Deletion in Tries}
+Finally, we present formul\ae\ that specify how a key can be deleted from a trie.
+To this end, we define the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\textsl{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$, 
+$\textsl{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$.
 \\[0.2cm]
-so dass $t.\textsl{isEmpty}()$ genau dann $\mathtt{true}$ liefert, wenn der Trie
-$t$ die leere Funktion darstellt.  Wir definieren also: 
+For a trie $t$, we have $t.\textsl{isEmpty}() = \mathtt{true}$ if and only if the trie $t$ does not
+store any key.  The following formul\ae\ specify the function \textsl{isEmpty}:
 \begin{enumerate}
 \item $\texttt{Node}(\Omega, [],[]).\textsl{isEmpty}() = \mathtt{true}$,
 \item $v \not= \Omega \rightarrow 
        \texttt{Node}(v, [c_1,\cdots,c_n],[t_1,\cdots,t_n]).\textsl{isEmpty}() = \mathtt{false}$,
 \item $\texttt{Node}(\Omega, L, T).\textsl{isEmpty}() = \textsl{isEmptyList}(T)$
 \end{enumerate}
-In der letzten Gleichung haben wir eine weitere Hilfs-Funktion benutzt, die wir noch
-definieren m\"ussen.  Die Funktion
+In the last formula we have used the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$
+$\textsl{isEmptyList}: \textsl{List}(\mathbb{T}) \rightarrow \mathbb{B}$.
 \\[0.2cm]
-pr\"uft f\"ur eine gegebene Liste von Tries, ob alle in der Liste vorhandenen Tries leer sind.
-Die Definition dieser Funktion erfolgt durch Induktion \"uber die L\"ange der Liste.
+For a list of tries, this function checks whether all tries in this list are empty.  Formally,
+$\textsl{isEmptyList}(l)$ is defined by induction on the length of the list $l$.
 \begin{enumerate}
 \item $\textsl{isEmptyList}\bigl([]\bigr) = \mathtt{true}$,
 \item $\textsl{isEmptyList}\bigl([t] + r\bigr) = \bigl(t.\textsl{isEmpty}() \wedge \textsl{isEmptyList}(r)\bigr)$,
 
-      denn alle Tries in der Liste $[t]+r$ sind leer, wenn einerseits $t$ ein leerer
-      Trie ist und wenn andererseits auch alle Tries in $r$ leer sind.
+      because all  tries in the list $[t]+r$ are empty if  $t$ is an empty trie
+      and, furthermore, all tries in  $r$ are empty.
 \end{enumerate}
-Nun k\"onnen wir die Methode
+Now, we can specify the method
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$
+$\textsl{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$.
 \\[0.2cm]
-spezifizieren:  Wir definieren den Wert von \\[0.2cm]
+For a trie  $t \in \mathbb{T}$ and a string $w \in \Sigma^*$ the value of
+ \\[0.2cm]
 \hspace*{1.3cm} 
 $t.\textsl{delete}(w)$
 \\[0.2cm]
-f\"ur einen Trie $t \in \mathbb{T}$ und ein Wort $w \in \Sigma^*$
-durch Induktion nach der L\"ange des Wortes $w$.
+is defined by induction on the length of  $w$.
 \begin{enumerate}
-\item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$,
+\item $\texttt{Node}(v,L,T).\textsl{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$
 
-      denn der Wert, der unter dem leeren String $\varepsilon$ in einem Trie
-      gespeichert wird, befindet sich unmittelbar an der Wurzel des Tries und
-      kann dort sofort gel\"oscht werden.
+      The value that is associated with the empty  string $\varepsilon$ is stored at the root of the
+      trie where is can be deleted without further ado.
 \item $\begin{array}[t]{ll}
        t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
@@ -1013,10 +1019,9 @@ durch Induktion nach der L\"ange des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
-       das L\"oschen des Schl\"ussels $r$ in dem $i$-ten Trie $t_i$ einen leeren
-       Trie ergibt, dann streichen wir den $i$-ten Buchstaben und den dazu
-       korrespondierenden $i$-ten Trie $t_i$.
+       If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
+       $r$ in the $i$th  trie $t_i$ yields an empty
+       trie, then both the $i$th character $c_i$ and the $i$th trie $t_i$ are deleted.
 \item $\begin{array}[t]{ll}
        \neg t_i.\textsl{delete}(r).\textsl{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\textsl{delete}(c_ir) 
@@ -1025,17 +1030,23 @@ durch Induktion nach der L\"ange des Wortes $w$.
        \end{array}
        $
 
-       Wenn der zu l\"oschende String mit dem Buchstaben $c_i$ anf\"angt, und wenn
-       der Baum $t_i$, der durch das  L\"oschen des Schl\"ussels $r$ in dem $i$-ten
-       Trie $t_i$ entsteht, nicht leer ist, dann l\"oschen wir rekursiv in dem Baum $t_i$ den Schl\"ussel
-       $r$.
+       If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
+       $r$ in the $i$th  trie $t_i$ yields a non-empty trie, then the key $r$ has to be deleted recursively
+       in the trie $t_i$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\textsl{delete}(cr) =
        \texttt{Node}(v, C, T)$. 
-
-       Wenn der zu l\"oschende String mit dem Buchstaben $c$ anf\"angt und wenn der
-       Buchstabe $c$ gar kein Element der Buchstaben-Liste $C$ des Tries
-       ist, dann ver\"andert das L\"oschen den Trie nicht.
+       
+       If  the key that is to be deleted starts with the character $c$ and if $c$ does not occur in
+       the list of characters $C$, then the trie does not contain the key $cr$ and therefore there
+       is nothing  to do:  The trie is left unchanged.
 \end{enumerate}
+
+\subsection{Complexity}
+It is straightforward to see that the complexity of looking up the value associated with a string
+$s$ of length $k$ is $\Oh(k)$.  In particular, it is independent on the number of strings $n$.  As
+it is obvious that we have to check all $k$ characters of the string $s$, this bound can not be
+improved.   Another advantage of tries is the fact that they use very little storage to store the
+keys because common prefixes are only stored once. 
 
 \subsection{Implementing Tries in \textsc{SetlX}}
 \begin{figure}[!ht]
@@ -1084,10 +1095,11 @@ tries.  Therefore, the member variables have the following semantics:
       the list $C$.
 \item \texttt{mTries} represent the list of subtries $T$.  
 \end{enumerate}
-The methods \texttt{find}, \texttt{insert}, and \texttt{delete} are inherited from the abstract data
-type \texttt{map}.  The method \texttt{isEmpty} is an auxiliary method that is needed in the
-implementation of the method \texttt{delete}.  This method checks whether the given trie corresponds
-to the empty map.  The implementation of all these methods is given below.
+The class \texttt{trieMap} implements the abstract data type \texttt{map} and therefore provides the
+methods \texttt{find}, \texttt{insert}, and \texttt{delete}.  Furthermore, the method
+\texttt{isEmpty} is an auxiliary method that is needed in the implementation of the method 
+\texttt{delete}.  This method checks whether the given trie corresponds to the empty map.  The
+implementation of all these methods is given below. 
 
 \begin{figure}[!ht]
 \centering
@@ -1128,7 +1140,7 @@ contains a value associated with the string $s$.  Essentially, the are two cases
       equal to $c$.  If this is the case, the subtrie \texttt{mTries[$i$]} contains the value
       associated with $s$.  Then, we have to invoke \texttt{find} recursively on this subtrie.
 
-      If the loop in line 4 does not find $c$ in the list \texttt{mChars}, then the method
+      If the loop in line 4 does not find the character $c$ in the list \texttt{mChars}, then the method
       \texttt{find} will just return \texttt{om} in line 9.
 \end{enumerate}
 
@@ -1237,7 +1249,7 @@ The method \texttt{delete} takes a string and, provided there is a value associa
 value is deleted,
 \begin{enumerate}
 \item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
-      Hence, this value is set to \texttt{om}.
+      In order to remove this value, the variable \texttt{mValue} is set to \texttt{om}.
 \item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
       consists of the remaining characters.  In this case, we need to check whether the list
       \texttt{mChars} contains the character $c$ or not.
@@ -1302,58 +1314,59 @@ Finally, the implementation of \texttt{removeIthElement}, which is shown in Figu
 
 
 \exercise
-\textbf{Bin\"are Tries}:  Wir nehmen im Folgenden an, dass unser Alphabet nur aus den beiden
-Ziffern $0$ und $1$ besteht, es gilt also $\Sigma = \{0,1\}$.  Dann k\"onnen wir nat\"urliche
-Zahlen als Worte aus $\Sigma^*$ auffassen.  Wir wollen die Menge der \emph{bin\"aren Tries}
-mit $\BT$ bezeichnen und wie folgt induktiv definieren:
+\textbf{Binary Tries}:  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
+only contains the two digits $0$ and $1$.  Therefore we have $\Sigma = \{0,1\}$.  Every natural
+number can be regarded as a string from the alphabet $\Sigma$, so that numbers are effectively
+elements of $\Sigma^*$.  The set $\BT$ of \colorbox{orange}{\emph{binary tries}} is defined by induction:
 \begin{enumerate}
 \item $\textsl{Nil} \in \BT$.
-\item $\textsl{Bin}(v,l,r) \in \BT$ falls
+\item $\textsl{Bin}(v,l,r) \in \BT$ provided that
       \begin{enumerate}
-      \item $v \in \textsl{Value} \cup \{\Omega\}$.
+      \item $v \in \textsl{Value} \cup \{\Omega\}$ \quad and
       \item $l,r \in \BT$.
       \end{enumerate}
 \end{enumerate}
-Die Semantik legen wir fest, indem wir eine Funktion
+The semantics of binary tries is fixed by defining the function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$
+$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$.
 \\[0.2cm]
-definieren.  F\"ur einen bin\"aren Trie $b$ und eine nat\"urliche Zahl $n$ gibt
-$\textsl{find}(b,n)$ den Wert zur\"uck, der unter dem Schl\"ussel $n$ in dem bin\"aren Trie $b$ gespeichert ist.
-Falls in dem bin\"aren Trie $b$ unter dem Schl\"ussel $n$ kein Wert gespeichert ist, wird
-$\Omega$ zur\"uck gegeben.
-Formal definieren wir den Wert von $\textsl{find}(b,n)$ durch Induktion nach dem Aufbau
-von $b$.  Im Induktions-Schritt ist eine Neben-Induktion nach $n$ erforderlich.
+Given a binary trie $b$ and a natural number $n$, the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$b.\textsl{find}(n)$ 
+\\[0.2cm]
+returns the value in $b$ that is associated with the number $n$.  If there is no value associated
+with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the expression
+ $b.\textsl{find}(n)$ is defined by in duction on $b$.  The induction step requires a side induction
+ with respect to $n$.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{find}(n) = \Omega$,
 
-      denn in dem leeren bin\"aren Trie finden wir keine Werte.
+      since the empty trie doesn't store any values.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(0) = v$,
 
-      denn der Schl\"ussel $0$ entspricht dem leeren String $\varepsilon$.
+      because $0$ is interpreted as the empty string $\varepsilon$.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2\cdot n + 2) = l.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei geraden Zahlen das letzte
-      Bit den Wert 0 und die 0 soll dem linken Teilbaum entsprechen.
+      because if a number is represented in binary, then the last bit of every even number is zero
+      and zero chooses the left subtree.
 \item $\textsl{Bin}(v,l,r).\textsl{find}(2 \cdot n + 1) = r.\textsl{find}(n)$,
 
-      denn wenn wir Zahlen im Bin\"arsystem darstellen, so hat bei ungeraden Zahlen das letzte
-      Bit den Wert 1 und die 1 soll dem rechten Teilbaum entsprechen.
+      because if a number is represented in binary, then the last bit of every odd number is 1 and 
+      1 is associated with the right subtree.
 \end{enumerate}
-Bearbeiten Sie nun die beiden folgenden Teilaufgaben:
+Solve the following exercises:
 \begin{enumerate}[(a)]
-\item Stellen Sie Gleichungen auf, die das Einf\"ugen und das L\"oschen in einem
-      bin\"aren Trie beschreiben.  Achten Sie beim L\"oschen darauf,
-      dass bin\"are Tries der Form $\textsl{Bin}(\Omega, \textsl{Nil}, \textsl{Nil})$
-      zu $\textsl{Nil}$ vereinfacht werden.
+\item Provide equations that specify the methods \texttt{insert} and \texttt{delete} in a binary trie.
+      When specifying delete you should take care that empty binary trees are reduced to
+      $\textsl{Nil}$.
 
-      \textbf{Hinweis}:  Um die Gleichungen zur Spezifikation der Funktion
-      $\textsl{delete}()$ nicht zu komplex werden zu lassen ist es sinnvoll, eine
-      Hilfsfunktion zur Vereinfachung von bin\"aren Tries zu definieren.
-\item Implementieren Sie bin\"are Tries in \textsc{SetlX}.
+      \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplify those binary
+      tries that are empty.
+\item Implement binary tries in \textsc{SetlX}.
 \end{enumerate}
-\textbf{Bemerkung}: Bin\"are Tries werden auch als \emph{digitale Suchb\"aume} bezeichnet.
+\textbf{Remark}: Binary tries are known as \emph{digital search trees}.  \eox
 
 \section{Hash Tables}
 It is very simple to implement a function of the form \\[0.2cm]
@@ -1445,7 +1458,7 @@ Unfortunately, this naive implementation has several problems:
 These problems can be solved as follows:
 \begin{enumerate}
 \item We have to change the function  \texttt{code} so that the result of this function is always
-      less or equal to some given number \texttt{size}.  Here, the number \texttt{size} specifies
+      less than or equal to some given number \texttt{size}.  Here, the number \texttt{size} specifies
       the number of entries of the array that we intend to use.  This number will be in the same
       order of magnitude as the number of key-value pairs that we want to store in our dictionary.
 
@@ -1818,7 +1831,7 @@ highly unlikely, but it is not impossible.  If we have a good function to comput
 most of the linked lists will have roughly the same length.  The average length of a list is then
  \\[0.2cm]
 \hspace*{1.3cm}
- $\alpha = \displaystyle \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
+ $\alpha = \ds \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
 \\[0.2cm]
 Here, the number $\alpha$ is the \emph{load factor} of the hash table.  In practice, in order to
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
