@@ -1,0 +1,30 @@
+// This class implements the union find algorithm.
+unionFind := procedure(m, r) {
+    parent := { [n, n] : n in m };  
+    for ([x, y] in r) {
+        parentX := find(x, parent);
+        parentY := find(y, parent);
+        if (parentX != parentY) {
+            parent[parentY] := parentX;  // create union
+        }
+    }
+    roots := { x : x in m | parent[x] == x };
+    return { { y : y in m | parent[y] == r } : r in roots };
+};
+find := procedure(x, parent) {
+    if (parent[x] == x) {
+        return x;
+    }
+    return find(parent[x], parent);
+};
+
+demo := procedure() {
+    m := { 1 .. 9 };
+    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("r = $r$");
+    p := unionFind(m, r);
+    print("p = $p$");
+};
+
+demo();
+
