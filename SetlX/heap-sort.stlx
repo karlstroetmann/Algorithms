@@ -1,0 +1,40 @@
+swap := procedure(x, y, rw l) {
+    [l[x], l[y]] := [l[y], l[x]];
+};
+
+sink := procedure(k, rw l, n) {
+    while (2 * k <= n) {
+        j := 2 * k;
+        if (j < n && l[j] > l[j+1]) {
+            j += 1;
+        }
+        if (l[k] < l[j]) {
+            break;
+        }
+        swap(k, j, l);
+        k := j;
+    }
+};
+
+heapSort := procedure(rw l) {
+    n := #l;
+    for (k in [n\2, n\2-1 .. 1]) {
+        sink(k, l, n);
+    }
+    print(l);
+    while (n > 1) {
+        swap(1, n, l);
+        n -= 1;
+        sink(1, l, n);
+    }
+};
+
+main := procedure() {
+    s := {10 .. 99};
+    l := [rnd(s) : i in [1..31]];
+    print(l);
+    heapSort(l);
+    print(l);
+};
+
+main();
