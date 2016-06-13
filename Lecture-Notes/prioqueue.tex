@@ -89,7 +89,7 @@ These functions will also be sufficient for Huffman's algorithm.
               \hspace*{1.3cm} 
               $\pair(p_1,v_1) \in Q \;\wedge\; Q.\textsl{top}() = \pair(p_2,v_2)
               \;\rightarrow\; p_2 \leq p_1 \;\wedge\; \pair(p_2,v_2) \in Q$.
-      \item If  $Q$ is empty, then calling "andert $\textsl{remove}()$ does not change this fact: \\[0.1cm]
+      \item If  $Q$ is empty, then calling $\textsl{remove}()$ does not change this fact: \\[0.1cm]
             \hspace*{1.3cm} $Q = \{\} \rightarrow Q.\textsl{remove}() = Q$.
       \item Otherwise,  $Q.\textsl{remove}()$ removes the pair form $Q$ that is returned by $Q.\textsl{top}()$: \\[0.1cm]
             \hspace*{1.3cm} 
@@ -135,7 +135,7 @@ die in $b$ auftritt,  $p_1 \leq p_2$ gilt. Die formale Definition ist wie folgt:
       $p_1$ kleiner-gleich als alle Priorit\"aten ist, die in $l$ oder $r$ auftreten.
 \end{enumerate}
 Als n\"achstes definieren wir eine Funktion \\[0.1cm]
-\hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}$, \\[0.1cm]
+\hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}_0$, \\[0.1cm]
 die f\"ur einen bin\"aren Baum die Anzahl der Knoten berechnet.  Die Definition erfolgt durch
 Induktion:
 \begin{enumerate}
