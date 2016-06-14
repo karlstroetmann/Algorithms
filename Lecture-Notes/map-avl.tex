@@ -783,7 +783,7 @@ Figure
   \label{fig:avl-worst-case}
 \end{figure}
 
-\subsection{Further Reading}
+\subsection{Improvements}
 In practice, 
 \href{https://en.wikipedia.org/wiki/Red-black_trees}{\emph{red-black trees}} 
 are slightly faster than \textsc{AVL} trees.  Similar to
@@ -793,8 +793,96 @@ The children of a red node have to be black.  In order to keep red-black trees a
 balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
-\cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and Robert
-Sedgewick \cite{guibas:78}.
+\cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and 
+\href{https://en.wikipedia.org/wiki/Robert_Sedgewick_(computer_scientist)}{Robert Sedgewick} \cite{guibas:78}.
+
+\exercise
+Instead of using AVL trees, another alternative to implement a map is to use 
+\href{https://en.wikipedia.org/wiki/2-3_tree}{\emph{2-3 trees}}.  
+Below we describe a simplified version of these trees.  These trees do not store any values.  Hence, instead
+of implementing maps, these trees implement sets. They are built using the following constructors:
+\begin{enumerate}
+\item $\mathtt{Nil}$ is a 2-3 tree that represents the empty set.
+\item $\mathtt{Two}(l, k, r)$ is a 2-3 tree provided
+      \begin{enumerate}[(a)]
+      \item $l$ is a 2-3 tree,
+      \item $k$ is a key,
+      \item $r$ is a 2-3 tree,
+      \item all keys stored in $l$ are less than k and all keys stored in $r$ are bigger than $k$,
+            i.e.~we have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $l < k < r$.
+      \item $l$ and $r$ have the same height.
+      \end{enumerate}
+      A node of the form  $\mathtt{Two}(l, k, r)$ is called a \emph{2-node}.  Except for the fact
+      that there is no value, a 2-node is
+      interpreted in same same way as we have interpreted the term $\mathtt{Node}(k, v, l, r)$.
+\item $\mathtt{Three}(l, k_1, m, k_2, r)$ is a 2-3 tree provided
+      \begin{enumerate}[(a)]
+      \item $l$, $m$, and $r$ are 2-3 trees,
+      \item $k_1$ and $k_2$ are keys,
+      \item $l < k_1 < m < k_2 < r$,
+      \item $l$, $m$, and $r$ have the same height.
+      \end{enumerate}
+      A node of the form  $\mathtt{Three}(l, k_1, m, k_2, r)$ is called a \emph{3-node}.
+\end{enumerate}
+In order to keep 2-3 trees balanced when inserting new keys, we use a fourth constructor of the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$.
+\\[0.2cm]
+A term of the form $\mathtt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$ is a \emph{2-3-4} tree iff
+\begin{enumerate}
+\item $l$, $m_l$, $m_r$, and $r$ are 2-3 trees,
+\item $k_1$, $k_2$, and $k_3$ are keys,
+\item $l < k_1 < m_l < k_2 < m_r < k_3 < r$,
+\item $l$, $m_l$, $m_r$, and $r$ all have the same height.
+\end{enumerate}
+Nodes of this form are called 4-nodes and the key $k_2$ is called the \emph{middle key}.
+Trees containing 4-nodes are called \emph{2-3-4} trees.
+When a new key is inserted into a 2-3 tree, the challenge is to keep the tree balanced.  The easiest
+case is the case where the tree has the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{Two}(\mathtt{Nil}, k, \mathtt{Nil})$.
+\\[0.2cm]
+In this case, the 2-node is converted into a 3-node.  If the tree has the form 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{three}(\mathtt{Nil}, k_1, \mathtt{Nil}, k_2, \mathtt{Nil})$,
+\\[0.2cm]
+the 3-node is temporarily transformed into a 4-node.  Next, the middle key of this node is lifted up
+to its parent node.  For example, suppose we insert the key 3 into the tree
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{Two(Two(Nil, 1, Nil), 2, Three(Nil, 4, Nil, 5, Nil))}.
+\\[0.2cm]
+In this case, the key 3 needs to be inserted to the left of the key 4.  This yields the temporary tree 
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{Two(Two(Nil, 1, Nil), 2, Four(Nil, 3, Nil, 4, Nil, 5, Nil))}.
+\\[0.2cm]
+Since this is not a 2-3 tree, we need to lift the middle key 4 to its parent node.  This results in
+the new tree
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{Three(Two(Nil, 1, Nil), 2, Two(Nil, 3, Nil), 4, Two(Nil, 5, Nil))}.
+\\[0.2cm]
+This tree is a 2-3 tree.  In this example we have been lucky since the parent of the 4-node was
+a 2 node and therefore we could transform it into a 3-node.  If the parent node instead is a 3-node,
+it has to be transformed into a temporary 4-node.  Then, the middle key of this 4-node has to be
+lifted up recursively to its parent.  
+\begin{enumerate}[(a)]
+\item Specify a method $t.\mathtt{member}(k)$ that checks whether the key $k$ occurs in the 2-3 tree
+      $t$.  You should use recursive equations to specify  $t.\mathtt{member}(k)$.
+\item Specify a method $t.\mathtt{insert}(k)$ that inserts the key $k$ into the 2-3 tree
+      $t$.  You should make use of an auxiliary function $t.\mathtt{restore}()$ that takes a 2-3-4
+      tree and transforms it into an equivalent 2-3 tree.
+\item Implement 2-3 trees in \textsc{SetlX}.
+\end{enumerate}
+According to \cite{cormen:09}, 2-3 trees have been invented by
+\href{https://en.wikipedia.org/wiki/John_Hopcroft}{John Hopcroft} in 1970.
 
 
 
@@ -1329,7 +1417,7 @@ elements of $\Sigma^*$.  The set $\BT$ of \colorbox{orange}{\emph{binary tries}}
 The semantics of binary tries is fixed by defining the function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{find}: \BT \times \mathbb{N} \rightarrow \textsl{Value} \cup \{ \Omega \}$.
+$\textsl{find}: \BT \times \mathbb{N}_0 \rightarrow \textsl{Value} \cup \{ \Omega \}$.
 \\[0.2cm]
 Given a binary trie $b$ and a natural number $n$, the expression
 \\[0.2cm]

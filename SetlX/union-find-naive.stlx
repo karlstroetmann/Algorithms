@@ -5,21 +5,15 @@ unionFind := procedure(m, r) {
     p := { { x } : x in m };  // start with the trivial partition
     // refine this partition to acccomodate all pair [x,y] in r
     for ([x, y] in r) {
-        if (!equivalent(x, y, p)) {
-            sx := find(x, p);
-            sy := find(y, p);
+        sx := find(x, p);
+        sy := find(y, p);
+        if (sx != sy) {
             p  -= { sx, sy };  // remove old sets
             p  += { sx + sy }; // add their union
         }
     }
     return p;
 };
-
-// Check whether x and y are equivalent with respect to the partition p.
-equivalent := procedure(x, y, p) {
-    return exists(s in p | x in s && y in s);
-};
-
 // Given a partition p of a set m and an element x of m, find the set s
 // from p that conntains x.
 find := procedure(x, p) {

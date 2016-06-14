@@ -1,4 +1,4 @@
-\chapter{Daten-Kompression}
+\chapter{Data Compression}
 In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ m\"oglichst platzsparend
 abspeichern k\"onnen.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
 Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
@@ -9,7 +9,7 @@ gelten, woraus
 \[ b = \textsl{ceil}\bigl(\log_2(n)\bigr) \]
 folgt.  Hier bezeichnet $\textsl{ceil}(x)$ die \emph{Ceiling-Funktion}.  Diese Funktion
 rundet eine gegebene reelle Zahl immer auf, es gilt also
-\[ \textsl{ceil}(x) = \min \{ k \in \N \mid x \leq k \}. \]
+\[ \textsl{ceil}(x) = \min \{ k \in \mathbb{Z} \mid x \leq k \}. \]
 Besteht der String $s$ aus $m$ Buchstaben, so werden zur Kodierung des Strings insgesamt
 $m \cdot b$ Bits gebraucht.  Nun gibt es zwei M\"oglichkeiten, weiterzumachen:
 \begin{enumerate}
@@ -479,7 +479,7 @@ H\"aufigkeit &          1 &          1 &          2 &          3 &          5 & 
 \end{enumerate}
 
 
-\section[LZW Algorithm]{The Algorithm  of Lempel, Ziv, and Welch}
+\section[LZW Algorithm$^*$]{The Algorithm  of Lempel, Ziv, and Welch$^*$}
 The algorithm developed by Abraham Lempel, Jacob Ziv \cite{ziv:77,ziv:78} and Terry A.~Welch
 \cite{welch:84}, which is also known as the \emph{LZW algorithm}, is based on the idea that in most
 texts certain combinations of letters are quite frequent.  Therefore, it should pay of to view

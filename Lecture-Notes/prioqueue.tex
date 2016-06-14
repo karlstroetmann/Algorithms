@@ -1,122 +1,117 @@
 \chapter{Priority Queues \label{chap:prioqueue}}
-Um den Begriff der  \emph{Priorit\"ats-Warteschlange} zu verstehen, betrachten wir zun\"achst
-den Begriff der \emph{Warteschlange}.  Dort werden Daten hinten eingef\"ugt und vorne werden
-Daten entnommen. Das f\"uhrt dazu, dass Daten in derselben Reihenfolge entnommen werden,
-wie sie eingef\"ugt werden.  Anschaulich ist das so wie bei der Warteschlange vor einer
-Kino-Kasse, wo die Leute in der Reihenfolge bedient werden, in der sie sich anstellen.
-Bei einer Priorit\"ats-Warteschlange haben die Daten zus\"atzlich Priorit\"aten.  Es wird immer
-das Datum entnommen, was die h\"ochste Priorit\"at hat.  Anschaulich ist das so wie im
-Wartezimmer eines Zahnarztes. Wenn Sie schon eine Stunde gewartet haben und dann ein
-Privat-Patient aufkreuzt, dann m\"ussen Sie halt noch eine Stunde warten, weil der
-Privat-Patient eine h\"ohere Priorit\"at hat.
+In order to introduce \href{https://en.wikipedia.org/wiki/Priority_queue}{\emph{priority queues}},
+we first take a look at ordinary
+\href{https://en.wikipedia.org/wiki/Queue_(abstract_data_type)}{\emph{queues}}.
+Basically, a queue can be viewed as a list with the following restrictions:
+\begin{enumerate}
+\item A new elements can only be appended at the end of the list.
+\item Only the element at the beginning of the list can be removed.
+\end{enumerate}
+This is similar to the queue at a cinema box office.  There, a queue is a long line of people
+waiting to buy a ticket.  The person at the front of the queue is served and thereby removed from
+the queue.  New persons entering the cinema have to line up at the end of the queue.  In contrast, a
+priority queue is more like a dentist's waiting room.  If you have an appointment at 10:00 and you
+have already waited for an hour, suddenly a patient with no appointment but a private insurance
+shows up.  Since this has a higher priority, this patient will then be attended next while you have
+to wait for another hour. 
 
-Priorit\"ats-Warteschlangen spielen in vielen Bereichen der Informatik  eine wichtige
-Rolle.  Wir werden Priorit\"ats-Warteschlangen sp\"ater sowohl in dem Kapitel \"uber
-Daten-Kompression als auch bei der Implementierung des Algorithmus zur Bestimmung
-k\"urzester Wege in einem Graphen einsetzen.  Daneben werden Priorit\"ats-Warteschlangen unter anderem in
-Simulations-Systemen und beim Scheduling von Prozessen in Betriebs-Systemen eingesetzt.
+Priority queues have many applications in computer science.  We will make use of priority queues,
+first, when implementing Huffman's algorithm for data compression and, second, when we implement
+Dijkstra's algorithm for finding the shortest path in a weighted graph.  Furthermore, priority
+queues are used in simulation systems and in operating systems when scheduling processes.
 
 
-\section[Definition]{Definition des ADT \textsl{PrioQueue}}
-Wir versuchen den Begriff der Priorit\"ats-Warteschlange jetzt formal durch Definition eines
-abstrakten Daten-Typs zu fassen.
-Wir geben hier eine eingeschr\"ankte Definition von Priorit\"ats-Warteschlangen, die nur die
-Funktionen enth\"alt, die wir sp\"ater f\"ur den Algorithmus von Dijkstra ben\"otigen.
-\begin{Definition}[Priorit\"ats-Warteschlange] \hspace*{\fill} \\
-{\em
-  Wir definieren den abstrakten Daten-Typ der \emph{Priorit\"ats-Warteschlange} wie folgt:
+\section[Formal Definition]{Formal Definition of the ADT \textsl{PrioQueue}}
+Next, we give a formal definition of the ADT \textsl{PrioQueue}.  Since the data type
+\textsl{PrioQueue} is really just an auxiliary data type, the definition we give is somewhat
+restricted: We will only specify those functions that are needed for Dijkstra's algorithm.
+These functions will also be sufficient for Huffman's algorithm.
+
+\begin{Definition}[Priority Queue] \hspace*{\fill} \\
+  The abstract data type of priority queues is defined as follows:
   \begin{enumerate}
-  \item Als Namen w\"ahlen wir \textsl{PrioQueue}.
-  \item Die Menge der Typ-Parameter ist \\[0.1cm]
+  \item The name is \textsl{PrioQueue}.
+  \item The set of type parameters is \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Priority}, \textsl{Value} \}$.
 
-        Dabei muss auf der Menge $\textsl{Priority}$ eine totale Quasi-Ordnung $<$ existieren,
-        so dass wir die Priorit\"aten verschiedener Elemente vergleichen k\"onnen. 
-  \item Die Menge der Funktions-Zeichen ist \\[0.1cm]
+        Furtheremore, there must exist a linear ordering $<$ on the set $\textsl{Priority}$.
+        This is needed since we want to compare the priority of different elements.
+  \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
        $\{ \textsl{prioQueue}, \textsl{insert}, \textsl{remove}, \textsl{top} \}$.
-  \item Die Typ-Spezifikationen der Funktions-Zeichen sind gegeben durch:
+  \item The type specifications of these function symbols is given as follows:
         \begin{enumerate}
         \item $\textsl{prioQueue}: \textsl{PrioQueue}$
 
-              Der Aufruf ``$\textsl{prioQueue}()$'' erzeugt eine leere
-              Priorit\"ats-Warteschlange. 
+              The function invocation  ``$\textsl{prioQueue}()$'' creates a new, empty priority queue.
         \item $\textsl{top}: \textsl{PrioQueue}  \rightarrow (\textsl{Priority} \times \textsl{Value}) \cup \{\Omega\}$
 
-              Der Aufruf $Q.\textsl{top}()$ liefert ein Paar $\pair(p,v)$.  Dabei ist $v$ ein Element
-              aus $Q$, das eine maximale Priorit\"at hat. $p$ ist die Priorit\"at des Elements $v$.
+              The expression $Q.\textsl{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
+              element of $Q$ that is of maximal priority in $Q$, while $p$ is its priority.
         \item $\textsl{insert}: \textsl{PrioQueue} \times \textsl{Priority} \times \textsl{Value} \rightarrow \textsl{PrioQueue}$
 
-              Der Aufruf $Q.\textsl{insert}(p,v)$ f\"ugt das Element $v$ mit der Priorit\"at $p$ in
-              die Priorit\"ats-Warteschlange $Q$ ein.  
+              The expression $Q.\textsl{insert}(p,v)$ inserts the  element $v$ into the priority queue $Q$.
+              Furthermore, the priority of $v$ is set to be $p$.
         \item $\textsl{remove}: \textsl{PrioQueue} \rightarrow \textsl{PrioQueue}$
 
-              Der Aufruf $Q.\textsl{remove}()$ entfernt aus der Priorit\"ats-Warteschlange
-              $Q$ das Element, das durch den Ausdruck $Q.\texttt{top}()$ berechnet wird.
+              The expression $Q.\textsl{remove}()$ removes from $Q$ the element that is returned by
+              $Q.\texttt{top}()$.
         \end{enumerate}
-\item Bevor wir das Verhalten der einzelnen Methoden axiomatisch definieren, m\"ussen wir
-      noch festlegen, was wir unter den \emph{Priorit\"aten} verstehen wollen, die den
-      einzelnen Elementen aus $\textsl{Value}$ zugeordnet sind.  Wir nehmen an, dass die
-      Priorit\"aten Elemente einer Menge $\textsl{Priority}$ sind und dass auf der Menge \textsl{Priority}
-      eine totale Quasi-Ordnung $\leq$ existiert. Falls dann $p_1 < p_2$ ist, sagen wir, 
-      dass $p_1$ eine h\"ohere Priorit\"at als $p_2$ hat.  Dies erscheint im ersten Moment vielleicht
-      paradox. Es wird aber sp\"ater verst\"andlich, wenn wir den Algorithmus zur
-      Berechnung k\"urzester Wege von Dijkstra diskutieren. Dort sind die Priorit\"aten
-      Entfernungen im Graphen und die Priorit\"at eines Knotens ist um so h\"oher, je n\"aher
-      der Knoten zu einem als \emph{Startknoten} ausgezeichneten Knoten ist. 
+\item Before we are able to specify the behavior of the functions implementing the function symbols
+      given above, we have to discuss the notion of \emph{priority}.  We assume that there exists
+      a set $\textsl{Priority}$ and there is a linear order $<$ defined on this set.
+      If  $p_1 < p_2$, then the priority $p_1$ is \emph{higher} than the priority $p_2$.  This
+      nomenclature might seem counter intuitive.  It is motivated by 
+      Dijkstra's algorithm which is discussed later.  In Dijkstra's algorithm, the priorities are
+      distances in a graph and the priority of a node is higher if the node is nearer to the source
+      node.
 
-      Wir spezifizieren das Verhalten der Methoden nun dadurch, dass wir eine einfache
-      \emph{Referenz-Implementierung} des ADT \textsl{PrioQueue} angeben und dann fordern,
-      dass sich eine Implementierung des ADT \textsl{PrioQueue} genauso verh\"alt wie unsere
-      Referenz-Implementierung.  Bei unserer Referenz-Implementierung stellen wir eine
-      Priorit\"ats-Warteschlange durch eine Menge von Paaren von Priorit\"aten und Elementen 
-      dar.   F\"ur solche Mengen definieren wir unserer Methoden wie folgt.
+      Next, the behavior of the functions is specified via a reference implementation.  We demand
+      that the behavior of the functions making up the ADT \textsl{PrioQueue} is the same
+      as the behavior of the reference implementation.
+      
+      In our reference implementation a priority queue is implemented as a set of pairs of the form 
+      $\pair(p,v)$ where $p$ is a priority, while $v$ is a value.  The reference implementation
+      proceeds as follows:
       \begin{enumerate}
-      \item $\textsl{prioQueue}() = \{\}$,
+      \item $\textsl{prioQueue}() = \{\}$
 
-             der Konstruktor erzeugt also eine leere
-            Priorit\"ats-Warteschlange, die als leere Menge dargestellt wird. 
+            The constructor returns an empty priority queue.
       \item $Q.\textsl{insert}(p, v) = Q \cup \{ \pair(p,v) \}$,
         
-            Um ein Element $v$ mit einer Priorit\"at $p$ in die Priorit\"ats-Warteschlange 
-            $Q$ einzuf\"ugen, reicht es aus, das Paar $\pair(p,v)$ zu der Menge $Q$ hinzuzuf\"ugen.
-      \item Wenn $Q$ leer ist, dann ist $Q.\textsl{top}()$ undefiniert: \\[0.1cm]
+            In order to insert an  element $v$ with priority $p$ into the priority queue 
+            $Q$ it is sufficient to add the pair $\pair(p,v)$ to the set $Q$.
+      \item If  $Q$ is empty, then $Q.\textsl{top}()$ is undefined: \\[0.1cm]
             \hspace*{1.3cm} $Q = \{\} \;\rightarrow\; Q.\textsl{top}() = \Omega$.
-     \item Wenn $Q$ nicht leer ist, wenn es also ein Paar $\pair(p_1, v_1)$ in $Q$
-              gibt, dann liefert $Q.\textsl{top}()$ ein Paar $\pair(p_2,v)$ aus der Menge
-              $Q$, so dass die Priorit\"at $p_2$ minimal wird.  Dann gilt also f\"ur
-              alle $\pair(p_1,v_1) \in Q$, dass $p_2 \leq p_1$ ist.  Formal k\"onnen wir schreiben:
+     \item If $Q$ is not empty, then the expression $Q.\textsl{top}()$ returns a pair $\pair(p_2,v)$
+           from the set such that $p_2$ has the highest priority.  Hence we must have:
               \\[0.1cm]
               \hspace*{1.3cm} 
               $\pair(p_1,v_1) \in Q \;\wedge\; Q.\textsl{top}() = \pair(p_2,v_2)
               \;\rightarrow\; p_2 \leq p_1 \;\wedge\; \pair(p_2,v_2) \in Q$.
-      \item Falls $Q$ leer ist, dann \"andert $\textsl{remove}()$ nichts daran: \\[0.1cm]
+      \item If  $Q$ is empty, then calling $\textsl{remove}()$ does not change this fact: \\[0.1cm]
             \hspace*{1.3cm} $Q = \{\} \rightarrow Q.\textsl{remove}() = Q$.
-      \item Sonst entfernt $Q.\textsl{remove}()$ das Paar, dass von $Q.\textsl{top}()$ berechnet wird: \\[0.1cm]
+      \item Otherwise,  $Q.\textsl{remove}()$ removes the pair form $Q$ that is returned by $Q.\textsl{top}()$: \\[0.1cm]
             \hspace*{1.3cm} 
             $Q \not= \{\} \rightarrow Q.\textsl{remove}() = Q \backslash \bigl\{ Q.\textsl{top}() \bigr\}$.
       \end{enumerate}
 \end{enumerate}
-}
 \end{Definition}
-
-Wir k\"onnen den abstrakten Daten-Typ \textsl{PrioQueue} dadurch implementieren,
-dass wir eine Priorit\"ats-Warteschlange durch eine Liste realisieren, in der die Elemente
-aufsteigend geordnet sind. Die einzelnen Operationen werden dann wie folgt implementiert:
+We could implement the ADT \textsl{PrioQueue} as a list of pairs that is sorted ascendingly.
+Then, the different methods of \textsl{PrioQueue} would be implemented as follows:
 \begin{enumerate}
-\item $\textsl{prioQueue}()$ erzeugt eine leere Liste.
-\item $Q.\textsl{insert}(d)$ kann durch die Prozedur \texttt{insert} implementiert werden,
-      die wir beim ``\emph{Sortieren durch Einf\"ugen}'' entwickelt haben.
-\item $Q.\textsl{top}()$ gibt das erste Element der Liste zur\"uck.
-\item $Q.\textsl{remove}()$ entfernt das erste Element der Liste.
+\item $\textsl{prioQueue}()$ returns an empty list.
+\item $Q.\textsl{insert}(d)$ can be implemented via the function  \texttt{insert} that we have
+      used when implementing the algorithm ``\emph{insertion sort}''.
+\item $Q.\textsl{top}()$ return the first element from the list $Q$.
+\item $Q.\textsl{remove}()$ removes the first element from $Q$.
 \end{enumerate}
-Bei dieser Implementierung ist die Komplexit\"at der Operation $\textsl{insert}()$ 
-linear in der
-Anzahl $n$ der Elemente der Priorit\"ats-Warteschlange.  Alle anderen Operationen sind
-konstant. Wir werden jetzt eine andere
-Implementierung vorstellen, bei der die Komplexit\"at von $\textsl{insert}()$ 
- den Wert $\Oh\bigl(\log(n)\bigr)$ hat.  Dazu f\"uhren wir die Daten-Struktur eines
- \emph{Heaps} ein.
+The worst case complexity of this approach would be linear for the method $\textsl{insert}()$,
+i.e.~it would have complexity $\Oh(n)$ where $n$ is the number of elements in $Q$. 
+All other operations would have the complexity $\Oh(1)$.  
+Next, we introduce a more efficient implementation such that the complexity of $\textsl{insert}()$ 
+is only $\Oh\bigl(\log(n)\bigr)$.  To this end, we introduce
+\href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{\emph{Heaps}} next. 
 
 \section[Heaps]{Die Daten-Struktur \emph{Heap}}
 Wir definieren die Menge \textsl{Heap}\footnote{
@@ -140,7 +135,7 @@ die in $b$ auftritt,  $p_1 \leq p_2$ gilt. Die formale Definition ist wie folgt:
       $p_1$ kleiner-gleich als alle Priorit\"aten ist, die in $l$ oder $r$ auftreten.
 \end{enumerate}
 Als n\"achstes definieren wir eine Funktion \\[0.1cm]
-\hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}$, \\[0.1cm]
+\hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}_0$, \\[0.1cm]
 die f\"ur einen bin\"aren Baum die Anzahl der Knoten berechnet.  Die Definition erfolgt durch
 Induktion:
 \begin{enumerate}
@@ -489,7 +484,7 @@ to the node \texttt{this}.  This method is needed since in \textsc{SetlX}, assig
 \texttt{this := mLeft;} \quad or \quad \texttt{this := mRight;}
 \\[0.2cm]
 are not permitted.
-\pagebreak
+
 
 \exercise
 The implementation of the method \texttt{remove} given above violates the balancing condition.
