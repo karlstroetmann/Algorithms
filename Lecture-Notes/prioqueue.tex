@@ -499,6 +499,193 @@ the expression $l[i]$ stores a node of the tree.  The crucial idea is that the l
 subtree stored at the index $i$ is stored at the index $2 \cdot i$, while the right subtree is
 stored at the index $2 \cdot i + 1$.  Develop an implementation of heaps that is based on this idea.
 
+\section{Heap-Sort}
+Heaps can be used to implement a sorting algorithm that is efficient in terms of both time and
+memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the job done, the
+algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
+consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort} has
+a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and that does not require an auxiliary
+array.  Heapsort was invented by J.~W.~J.~Williams and
+\href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} in 1964.
+
+Given an array $a$ of keys to be sorted, the basic version of Heapsort proceeds as follows:
+\begin{enumerate}
+\item The elements of $a$ are inserted in a heap $h$.
+\item Now the smallest element of $a$ is at the top of $h$.  Therefore, if we remove the elements
+      from $h$ one by one, we retrieve these elements in increasing order.
+\end{enumerate}
+A basic implementation of heapsort that is based on this idea is given in Figure
+\ref{fig:basic-heapsort.stlx} on page \pageref{fig:basic-heapsort.stlx}.  This implementation makes
+use of the class \texttt{heap} that had been presented in the previous section.
+\begin{enumerate}
+\item In order to sort the list \texttt{a} that is given as argument to \texttt{heapSort}, we first
+      create the empty heap 
+      \texttt{h} in line 2 and then proceed to insert all elements of \texttt{a} into \texttt{h} 
+      in line 4.
+\item Next we create an empty list \texttt{s} in line 5. When the procedure \texttt{heapSort}
+      finishes, this list will be a sorted version of the list \texttt{a}.
+\item As long as the heap \texttt{h} is not empty, we take its top element and append it to
+      \texttt{s}.  Since the method \texttt{top} returns a pair of the form $\langle p, v\rangle$ and
+      we are only interested in the priority $p$, we just add the first element of this pair to the
+      end of the list \texttt{s}.  After we have appended $p$ to the list \texttt{s}, it is removed
+      from the heap \texttt{h}.
+\item When the heap \texttt{h} is empty, \texttt{s} contains all of the elements of the list \texttt{a}
+      sorted ascendingly.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    heapSort := procedure(a) {
+        h := heap();    
+        for (x in a) {
+            h.insert(x, x);
+        }
+        s := [];
+        while (!h.isEmpty()) {
+            s += [ h.top()[1] ];
+            h.remove();
+        }
+        return s;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{A basic version of heapsort.}
+\label{fig:basic-heapsort.stlx}
+\end{figure}
+
+The basic version of heapsort that is shown in Figure \ref{fig:basic-heapsort.stlx} can be improved
+by noting that a heap can be stored efficiently in an array \texttt{a}.  If a node of the form
+$\texttt{Node}(p, v, l, r)$ is stored at index \texttt{i}, then the left subtree $l$ is stored at
+index $2 \cdot i$ while the right subtree $r$ is stored at index $2 \cdot i + 1$:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{a}[i] = \texttt{Node}(p, v, l, r) \;\rightarrow\; \mathtt{a}[2\cdot i] = l \;\wedge\; \mathtt{a}[2\cdot i+1]$.
+\\[0.2cm]
+If we store a heap in this manner, then instead of using pointers that point to the left and right
+subtree of a node we can just use index arithmetic to retrieve the subtrees.  
+
+
+ 
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    swap := procedure(x, y, rw a) {
+        [a[x], a[y]] := [a[y], a[x]];
+    };
+    sink := procedure(k, rw a, n) {
+        while (2 * k <= n) {
+            j := 2 * k;
+            if (j < n && a[j] > a[j+1]) {
+                j += 1;
+            }
+            if (a[k] < a[j]) {
+                break;
+            }
+            swap(k, j, a);
+            k := j;
+        }
+    };
+    heapSort := procedure(rw a) {
+        n := #a;
+        for (k in [n\2, n\2-1 .. 1]) {
+            sink(k, a, n);
+        }
+        while (n > 1) {
+            swap(1, n, a);
+            n -= 1;
+            sink(1, a, n);
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{An implementation of Heapsort in \textsc{SetlX}.}
+\label{fig:heap-sort.stlx}
+\end{figure}
+
+Figure \ref{fig:heap-sort.stlx} on page \pageref{fig:basic-heapsort.stlx} makes use of this idea.
+We discuss this implementation line by line.
+\begin{enumerate}
+\item The function \texttt{swap} exchanges the elements in the array \texttt{a} that are at the
+      positions \texttt{x} and \texttt{y}.
+\item The procedure \texttt{sink} takes three arguments.
+      \begin{enumerate}
+      \item \texttt{k} is an index into the array \texttt{a}.
+      \item \texttt{a} is an array.
+      \item \texttt{n} is the size of the array.  
+
+            The array \texttt{a} might actually have more than \texttt{n} elements, but for the
+            purpose of the method \texttt{sink} we pretend that \texttt{a} has exactly \texttt{n}
+            elements. 
+      \end{enumerate}
+      When calling \texttt{sink}, the assumption is that \texttt{a[k:n]} should represent a heap 
+      that possibly has its heap condition violated at its root, i.e.~at index \texttt{k}.  The
+      purpose of the procedure \texttt{sink} is to restore the heap condition at index \texttt{k}.
+      To this end, we first compute the index \texttt{j} of the left subtree below index \texttt{k}.
+      Then we check whether there also is a right subtree at position \texttt{j+1}, which is the
+      case if \texttt{j} is less than \texttt{n}.  Now if the heap condition is violated at index
+      \texttt{k}, we have to exchange the element at  position \texttt{k} with the child that has
+      the higher priority, i.e.~the child that is smaller. Therefore, in line 8 we arrange for index
+      \texttt{j} to point to the smaller child.  Next, we check in line 10 whether the heap
+      condition is violated at index \texttt{k}.  If the heap condition is satisfied, there is
+      nothing to do and we return.  Otherwise, the element at position \texttt{k} is swapped with
+      the element at position \texttt{j}.  Of course, now it could happen that the heap condition is
+      violated at position \texttt{j}.  Therefore, we set \texttt{k} to \texttt{j}.
+      As long as the node at position \texttt{k} has a child, i.e.~as long as 
+      $2 \cdot \mathtt{k}\leq \mathtt{n}$ the \texttt{while}-loop continues.
+\item The procedure \texttt{heapSort} has the task to sort the array \texttt{a} and proceeds in two phases.
+      \begin{enumerate}
+      \item In phase 1 our goal is to transform the array \texttt{a} into a heap that is stored in \texttt{a}.
+
+            In order to do so, we traverse the array \texttt{a} in reverse using the
+            \texttt{for}-loop starting in line 19.  The invariant of this loop is that before
+            \texttt{sink} is called, all trees rooted at an index greater than
+            \texttt{k} satisfy the heap condition.  Initially this is true because the trees that
+            are rooted at indices greater than \texttt{n$\backslash$2} are trivial, i.e.~they only
+            consist of their root node.  Then, since there are no children below these nodes, the heap
+            condition is satisfied vacuously. 
+            
+            In order to satisfy the invariant for index \texttt{k}, \texttt{sink} is called with
+            argument \texttt{k},  since at this point, the tree rooted at index \texttt{k} satisfies
+            the heap condition except possibly at the root.  It is then the job of \texttt{sink} to
+            establish the heap condition for index \texttt{k}.  If the element at the root has a
+            priority that is to low, \texttt{sink} ensures that this element sinks down in the tree
+            as far as necessary.
+      \item In phase 2 we remove the elements from the heap one-by-one and insert them at the end of
+            the array.
+
+            When the \texttt{while}-loop starts, the array \texttt{a} contains a heap.  Therefore,
+            the smallest element is found at the bottom of the heap.  Since we want to sort the
+            array \texttt{a} descendingly, we move this element to the end of the array \texttt{a} and in
+            return move the element from the end of the array \texttt{a} to the front.
+            After this exchange, the sublist \texttt{a[1..n-1]} represents a heap, except that the
+            heap condition might now be violated at the root.  Next, we decrement \texttt{n} in line 24, since the
+            last element of the array \texttt{a} is already in its correct position.  
+            In order to reestablish the heap condition at the root, we call \texttt{sink} with index
+            \texttt{1} in line 25.
+
+            The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
+            a length bigger than 1.  If there is only one element left, this element is trivially
+            sorted and the function returns.
+      \end{enumerate}
+\end{enumerate}
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"

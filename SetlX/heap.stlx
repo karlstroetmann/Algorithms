@@ -78,9 +78,9 @@ class heap() {
     }
 }
 
-heapSort := procedure(l) {
+heapSort := procedure(a) {
     h := heap();    
-    for (x in l) {
+    for (x in a) {
         h.insert(x, x);
     }
     print(h);
