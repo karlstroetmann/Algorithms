@@ -176,11 +176,11 @@ values are characters.
 \begin{figure}[!t]
   \centering
   \framebox{\epsfig{file=Abbildungen/heap-with-holes,scale=0.7}} 
-  \caption{Ein Heap}
+  \caption{A heap.}
   \label{fig:heap-list}
 \end{figure}
 
-As heaps are binary trees, we can implements them in a fashion that is similar to our implementation
+As heaps are binary trees, we can implement them in a fashion that is similar to our implementation
 of AVL trees.  In order to do so, we first present equations that specify the methods of the data
 structure heap.  We start with the method \textsl{top}.  
 \begin{enumerate}
@@ -265,7 +265,7 @@ Finally, we specify our implementation of the method \textsl{remove}.
       This case is similar to the previous case, but now the value from the right subtree moves to
       the root.
 \end{enumerate}
-The eagle-eyed reader will have noticed that the specification of the method delete that is given
+The hawk-eyed reader will have noticed that the specification of the method delete that is given
 above violates the balancing condition.  It is not difficult to change the implementation so that
 the balancing condition is maintained.  However, it is not really necessary to maintain the
 balancing condition when deleting values.  The reason is that the balancing condition is needed as
@@ -394,7 +394,7 @@ Basically, there are two cases.
         than
         \texttt{mPriority}, which is the priority of the value at the current node, then we have to 
         put \texttt{value} at the current node, overwriting \texttt{mValue}.  However, as we do not want
-        to loose the value \texttt{mValue} that is currently stored at this node, we have to insert 
+        to lose the value \texttt{mValue} that is currently stored at this node, we have to insert 
         \texttt{mValue} into either the left or the right subtree.  In order to keep the heap
         balanced we insert \texttt{mValue} into the smaller subtree and choose the left subtree if
         both subtrees have the same size.
