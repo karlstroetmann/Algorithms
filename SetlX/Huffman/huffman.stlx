@@ -9,7 +9,6 @@ codingTree := procedure(m) {
     }
     return arb(m);
 };
-
 count := p |-> p[1];
 
 // h is the coding tree to print, while p is the coding prefix, n is the indent
@@ -81,5 +80,5 @@ demoFile := procedure(fn) {
 };
 
 demoFile("alice.txt");
-//demoFile("moby-dick.txt");
+demoFile("moby-dick.txt");
 

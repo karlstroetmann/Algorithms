@@ -3,7 +3,7 @@ If a binary tree is approximately \emph{balanced}, i.e.~if the left and right su
 roughly the same height, then the complexity of $b.\textsl{find}(k)$ will always be of the order
 $\Oh\bigl(\ln(n)\bigr)$.  There are number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
-called an \href{https://en.wikipedia.org/wiki/AVL_tree}{\emph{AVL tree}} \cite{adelson:62}.  AVl trees are 
+called an \href{https://en.wikipedia.org/wiki/AVL_tree}{\emph{AVL tree}} \cite{adelson:62}.  AVL trees are 
 named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
 and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis}.  In order to define these 
 trees we need to define the \emph{height} of a binary tree formally:
@@ -112,7 +112,7 @@ The method $\textsl{restore}$ is specified via conditional equations.
       Here we have used the following notation: If  $k$ is a key and  $b$ is a binary tree, then we write \\[0.2cm]
       \hspace*{1.3cm} $k < b$ \\[0.2cm]
       in order to express that  $k$ is smaller than all keys that occur in the tree  $b$.
-      Similarly,  $b < k$ denotes the fact that all keys occuring in $b$ are less than the key
+      Similarly,  $b < k$ denotes the fact that all keys occurring in $b$ are less than the key
       $k$.  The inequation  $(\star)$ describes both the ordering of keys in the left part of Figure
       \ref{fig:casell} and in the right part of this figure.  Hence, the tree shown in the right
       part of Figure \ref{fig:casell} is ordered provided the tree in the left part is ordered to begin with.
@@ -270,7 +270,7 @@ constructs an empty node.
 \end{figure}
 
 
-Figure \ref{fig:avl-tree.stlx:find} show the implementation of the function \texttt{find}.
+Figure \ref{fig:avl-tree.stlx:find} shows the implementation of the function \texttt{find}.
 Actually, the implementation is the same as the implementation in Figure
 \ref{fig:binary-tree.stlx-1}.  The reason is that every AVL tree is also an ordered binary tree and
 since searching for a key does not change the underlying tree there is no need to restore anything.
@@ -561,7 +561,7 @@ us discuss this method line by line.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{}
+\caption{Implementation of \texttt{createNode}.}
 \label{fig:avl-tree.stlx:createNode}
 \end{figure}
 
@@ -644,7 +644,7 @@ from the definition of $b_h(k)$ we find the following equations for $c_h$:
 Hence we have found the recurrence equation 
 \\[0.2cm]
 \hspace*{1.3cm}
-$c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ und $c_1 = 1$}.$
+$c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
 This also validates our claim that $c_h$ does not depend on $k$.  In order to solve the recurrence
 equation derived above we first solve the corresponding \emph{homogeneous recurrence equation} 
@@ -895,7 +895,7 @@ As another example, in an electronic phone book the keys are names and therefore
 There is a species of search trees that is particularly well adapted to the case that the keys are
 strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{\emph{tries}}.  
 The name is derived from the word
-\emph{re\underline{trie}val}.  In order that we are able to distinguish between \emph{tries} and
+\emph{re\underline{trie}val}.  In order to be able to distinguish between \emph{tries} and
 \emph{trees} we have to pronounce  \emph{trie}  so that it rhymes with \emph{pie}.   The data
 structure of tries has been proposed 1959 by Ren\'e de la Briandais \cite{briandais:59}.
 
@@ -905,7 +905,7 @@ strings.  In order to define tries formally we assume that the following is give
 \begin{itemize}
 \item $\Sigma$ is finite set of \emph{characters}. $\Sigma$ is called the
       \colorbox{orange}{\emph{alphabet}}. 
-\item $\Sigma^*$ is the set of all \emph{strings} that are build from the characters of $\Sigma$.
+\item $\Sigma^*$ is the set of all \emph{strings} that are built from the characters of $\Sigma$.
       Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
       if $c$ is the first letter of $w$ and if $r$ the string that remains if we remove the first
       character from $w$.
@@ -1132,7 +1132,7 @@ is defined by induction on the length of  $w$.
 \subsection{Complexity}
 It is straightforward to see that the complexity of looking up the value associated with a string
 $s$ of length $k$ is $\Oh(k)$.  In particular, it is independent on the number of strings $n$.  As
-it is obvious that we have to check all $k$ characters of the string $s$, this bound can not be
+it is obvious that we have to check all $k$ characters of the string $s$, this bound cannot be
 improved.   Another advantage of tries is the fact that they use very little storage to store the
 keys because common prefixes are only stored once. 
 
@@ -1426,7 +1426,7 @@ $b.\textsl{find}(n)$
 \\[0.2cm]
 returns the value in $b$ that is associated with the number $n$.  If there is no value associated
 with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the expression
- $b.\textsl{find}(n)$ is defined by in duction on $b$.  The induction step requires a side induction
+ $b.\textsl{find}(n)$ is defined by induction on $b$.  The induction step requires a side induction
  with respect to $n$.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{find}(n) = \Omega$,
@@ -1495,8 +1495,8 @@ Figure \ref{fig:map-array.stlx} shows how a map can be realized in this case.
 
 If the domain $D := \textsl{dom}(f)$ of the function $f$ is not a set of the form $\{1, \cdots, n\}$, 
 then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{1,\cdots,n\}$.
-Let us explain the idea with a simple example:  Suppose we wanted to implement a telephone
-dictionary.
+Let us explain the idea with a simple example:  Suppose we wanted to implement an electronic 
+telephone book.
 To simplify things, let us assume first that all the names stored in our telephone dictionary
 have a length of 8 characters.  To achieve this, names that are shorter than eight characters
 are filled with spaces and if a name has more than eight characters, all characters after the
@@ -1528,7 +1528,7 @@ one-to-one way to the set of numbers $\{1,\cdots,27^8\}$.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/hash-table,scale=0.6}} 
-  \caption{Eine Hash-Tabelle}
+  \caption{A hash table.}
   \label{fig:hash-example}
 \end{figure}
 
@@ -1541,7 +1541,7 @@ Unfortunately, this naive implementation has several problems:
       entries.  Even if every entry only needs 8 bytes, we still would need more than one terabyte
       of memory.
 \item If two names happen to differ only after their eighth character, then we would not be able to
-      store both of theses names as we would not be able to distinguish these names.
+      store both of these names as we would not be able to distinguish between them.
 \end{enumerate}
 These problems can be solved as follows:
 \begin{enumerate}
@@ -1703,7 +1703,7 @@ Next, we discuss the implementation of the various methods.
 \label{fig:hashTable.stlx-hashCode}
 \end{figure}
 
-Figure gives the implementation of the method \texttt{hashCode}.
+Figure \ref{fig:hashTable.stlx-hashCode} gives the implementation of the method \texttt{hashCode}.
 \begin{enumerate}
 \item The function $\texttt{hashCode}(s)$ takes a string $s$ and computes a hash code for this string.
       This hash code satisfies
@@ -1754,7 +1754,7 @@ Figure gives the implementation of the method \texttt{hashCode}.
 \label{fig:hashTable.stlx-find}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-find} show the implementation of the method \texttt{find}.
+Figure \ref{fig:hashTable.stlx-find} shows the implementation of the method \texttt{find}.
 \begin{enumerate}
 \item First, we compute the index of the key-value list that is used to store the given
       \texttt{key}.
@@ -1849,7 +1849,7 @@ The implementation works as follows.
 \end{figure}
 
 
-Figure \ref{fig:hashTable.stlx-rehash} show the implementation of the method
+Figure \ref{fig:hashTable.stlx-rehash} shows the implementation of the method
 $\mathtt{rehash}()$.  This method is called if the hash table becomes overcrowded.  The idea is to
 roughly double the size of \texttt{mArray}.  Theoretical considerations that are  beyond the scope
 of this lecture show that it is beneficial if the size of \texttt{mArray} is a prime number.
@@ -1906,10 +1906,10 @@ maintain the number of entries since we do not know whether the list of key-valu
 for the given \texttt{key}.
 
 However, there is one crucial difference compared to the implementation of \texttt{insert}.
-We do not rehash the hash table if the number of entries falls under a certain thresh hold.
+We do not rehash the hash table if the number of entries falls under a certain threshold.
 Although this could be done and there are implementations of hash tables that readjust the size of the
 hash table if the hash table gets underpopulated, we don't do so here because often a table will
-grow again after it has shrunk and in that case rehashing would be counter productive.
+grow again after it has shrunk and in that case rehashing would be counterproductive.
 
 If our implementation had used linked lists instead of functional relations then the complexity of
 the methods  \textsl{find}, \textsl{insert} and \textsl{delete} could grow linearly with the number
@@ -1923,8 +1923,8 @@ most of the linked lists will have roughly the same length.  The average length 
 \\[0.2cm]
 Here, the number $\alpha$ is the \emph{load factor} of the hash table.  In practice, in order to
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
-language \textsl{Java} provides the class  \textsl{HashMap} that implements maps via hash tables,
-Per default, the load factor used in this class is only \texttt{0.75}.
+language \textsl{Java} provides the class  \textsl{HashMap} that implements maps via hash tables.
+The default load factor used in this class is only \texttt{0.75}.
 
 
 \subsection{Further Reading}

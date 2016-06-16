@@ -15,7 +15,8 @@ $m \cdot b$ Bits gebraucht.  Nun gibt es zwei M\"oglichkeiten, weiterzumachen:
 \begin{enumerate}
 \item Lassen wir die Forderung, dass alle Buchstaben mit derselben Anzahl von Bits kodiert werden,
       fallen, dann ist es unter Umst\"anden m\"oglich, den String $s$ mit weniger Bits zu kodieren.  
-      Dies f\"uhrt zu dem 1952 von David A.~Huffman angegebenen Algorithmus, den wir in den n\"achsten
+      Dies f\"uhrt zu dem 1952 von \href{https://en.wikipedia.org/wiki/David_A._Huffman}{David A.~Huffman} 
+      angegebenen \href{https://en.wikipedia.org/wiki/Huffman_coding}{Algorithmus}, den wir in den n\"achsten 
       beiden Abschnitten vorstellen und analysieren.
 \item Alternativ k\"onnen wir versuchen, Buchstabenkombinationen, die h\"aufig auftreten, als neue
       Buchstaben aufzufassen.  Beispielsweise kommen W\"orter wie ``\emph{der}'', ``\emph{die}'' und
@@ -126,7 +127,7 @@ $\mathcal{K}$ der \emph{Kodierungs-B\"aume} induktiv.
       Kodierungs-Baums.  
 \end{enumerate}
 Als n\"achstes  definieren wir eine Funktion 
-\[  \textsl{count} : \mathcal{K} \rightarrow \N, \]
+\[  \textsl{count} : \mathcal{K} \rightarrow \N_0, \]
 welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufsummiert.
 \begin{enumerate}
 \item Die Definition der Funktion \textsl{count} ist f\"ur Bl\"atter trivial:
@@ -136,7 +137,7 @@ welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufs
       \[ \textsl{Node}(l,r).\textsl{count}() = l.\textsl{count}() + r.\textsl{count}(). \]
 \end{enumerate}
 Weiter definieren wir auf Kodierungs-B\"aumen die Funktion
-\[ \textsl{cost}: \mathcal{K} \rightarrow \N. \]
+\[ \textsl{cost}: \mathcal{K} \rightarrow \N_0. \]
 Die Funktion \textsl{cost} gibt an, wie viele Bits ben\"otigt werden, um mit dem gegebenen
 Kodierungs-Baum einen String zu kodieren, wenn die H\"aufigkeiten, mit denen ein Buchstabe
 verwendet wird, mit den H\"aufigkeiten \"ubereinstimmen, die an den Bl\"attern des Baums notiert

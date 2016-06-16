@@ -1,14 +1,11 @@
-class heap(parent) {
+class heap() {
     mPriority := om;
     mValue    := om;
     mLeft     := om;
     mRight    := om;
-    mParent   := parent;
     mCount    := 0;
 
     static {
-        sValueMap := {};
-
         top := procedure() {
             return [mPriority, mValue];
         };
@@ -16,10 +13,9 @@ class heap(parent) {
             if (isEmpty()) {
                 this.mPriority := priority;
                 this.mValue    := value;
-                this.mLeft     := heap(this);
-                this.mRight    := heap(this);
+                this.mLeft     := heap();
+                this.mRight    := heap();
                 this.mCount    := 1;
-                sValueMap[value] := this;
                 return;
             }
             this.mCount += 1;
@@ -31,7 +27,6 @@ class heap(parent) {
                 }
                 this.mPriority := priority;
                 this.mValue    := value;
-                sValueMap[value] := this;
             } else {
                 if (mLeft.mCount > mRight.mCount) { 
                     mRight.insert(priority, value);
@@ -42,15 +37,6 @@ class heap(parent) {
         };
         remove := procedure() {
             assert(mCount > 0, "mCount == 0");
-            sValueMap[mValue] := om;
-            if (mCount == 1) {
-                this.mPriority := om;
-                this.mValue    := om;
-                this.mLeft     := om;
-                this.mRight    := om;
-                this.mCount    := 0;
-                return;
-            }
             this.mCount -= 1;
             if (mLeft.isEmpty()) { 
                 update(mRight); 
@@ -70,37 +56,13 @@ class heap(parent) {
                 mRight.remove();
             }
         };
-        change := procedure(value, priority) {
-            node := sValueMap[value];
-            print("node found: \n$node$");
-            node.mPriority := priority;
-            print("node changed: \n$node$");
-            print("this: \n$this$");
-            node.upheap();
-        };
-        upheap := procedure() {
-            if (!isObject(mParent)) {  // this node has no parent node
-                return;
-            }
-            if (this.mPriority < mParent.mPriority) {
-                [tp, tv] := [mPriority, mValue];
-                [pp, pv] := [mParent.mPriority, mParent.mValue];
-                [this.mPriority, mParent.mPriority] := [pp, tp];
-                [this.mValue,    mParent.mValue   ] := [pv, tv];
-                sValueMap[tv] := mParent;
-                sValueMap[pv] := this;
-                mParent.upheap();
-            }
-        };
         update := procedure(t) {
             this.mPriority := t.mPriority;
             this.mValue    := t.mValue;
             this.mLeft     := t.mLeft;
             this.mRight    := t.mRight;
             this.mCount    := t.mCount;
-        };
-        
-        
+        };      
         isEmpty := [] |-> mCount == 0;
 
         f_str := [] |-> toString(0);
@@ -116,18 +78,9 @@ class heap(parent) {
     }
 }
 
-createHeap := procedure(priority, value) {
-    h := heap();
-    h.mPriority := priority;
-    h.mValue    := value;
-    h.mLeft     := heap();
-    h.mRight    := heap();
-    h.mCount    := 1;
-};
-
-heapSort := procedure(l) {
-    h := heap(om);    
-    for (x in l) {
+heapSort := procedure(a) {
+    h := heap();    
+    for (x in a) {
         h.insert(x, x);
     }
     print(h);
@@ -148,16 +101,4 @@ demoHeapSort := procedure() {
 
 demoHeapSort();
     
-demoChange := procedure(n) {
-    h := heap(om);
-    for (i in [1 .. n]) {
-        h.insert(i, i);
-        for ([v, n] in h.sValueMap) {
-            print("value $v$ at node \n$n$");
-        }
-    }
-    return h;
-};
 
-h := demoChange(3);
-h.change(3, 0);

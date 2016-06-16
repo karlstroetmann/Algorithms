@@ -113,165 +113,167 @@ Next, we introduce a more efficient implementation such that the complexity of $
 is only $\Oh\bigl(\log(n)\bigr)$.  To this end, we introduce
 \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{\emph{Heaps}} next. 
 
-\section[Heaps]{Die Daten-Struktur \emph{Heap}}
-Wir definieren die Menge \textsl{Heap}\footnote{
-Der Begriff \textsl{Heap} wird in der Informatik f\"ur zwei v\"ollig unterschiedliche Dinge
-verwendet:  Zum einen wird die in diesem Abschnitt beschriebene Daten-Struktur als
-\textsl{Heap} bezeichnet, zum anderen wird der Teil des Speichers, in dem dynamisch
-erzeugte Objekte abgelegt werden, ebenfalls als \textsl{Heap} bezeichnet.}
-induktiv als Teilmenge der Menge $\Bin$ der
-bin\"aren B\"aume. Dazu definieren wir zun\"achst f\"ur eine Priorit\"at $p_1\in \textsl{Priority}$ und
-einen bin\"aren Baum $b \in \Bin$ die Relation $p_1 \leq b$ durch Induktion \"uber $b$.
-Die Intention ist dabei, dass $p_1 \leq b$ genau dann gilt, wenn f\"ur jede Priorit\"at $p_2$,
-die in $b$ auftritt,  $p_1 \leq p_2$ gilt. Die formale Definition ist wie folgt:
+\section[Heaps]{The \emph{Heap} Data Structure}
+We define the set \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{\textsl{Heap}}\footnote{
+In computer science, the notion of a \textsl{Heap} is used for two different concepts:
+First, a \emph{heap} is a data structure that is organized as a tree.  This kind of data structure
+is described in more detail in this section. Second, the part of main memory that contains dynamically
+allocated objects is known as \emph{the heap}.}
+inductively as a subset of the set $\Bin$ of binary trees.  To this end, we first define a relation
+\\[0.2cm]
+\hspace*{1.3cm}
+$\leq \;\subseteq \textsl{Priority}  \times \mathcal{B}$
+\\[0.2cm]
+For a priority $p \in \textsl{Priority}$ and a binary tree $b \in \Bin$ we have  $p \leq b$ 
+if and only if $p \leq q$ for every priority $q$ occurring in $b$.  The formal definition of 
+$p \leq b$ is as follows:
 \begin{enumerate}
-\item $p_1 \leq \textsl{Nil}$,
+\item $p \leq \textsl{Nil}$,
 
-      denn in dem leeren Baum treten \"uberhaupt keine Priorit\"aten auf.
-\item $p_1 \leq \textsl{Node}(p_2,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\longleftrightarrow}\; p_1 \leq p_2 \;\wedge\; p_1 \leq l \;\wedge\; p_1 \leq r$,
+      because there are no priorities in the empty tree \textsl{Nil}.
+\item $p \leq \textsl{Node}(q,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\longleftrightarrow}\; p \leq q \;\wedge\; p \leq l \;\wedge\; p \leq r$,
          
-      denn $p_1$ ist genau dann kleiner-gleich als alle Priorit\"aten, die in dem Baum 
-      $\textsl{Node}(p_2,v,l,r)$ auftreten, wenn $p_1 \leq p_2$ gilt und wenn zus\"atzlich
-      $p_1$ kleiner-gleich als alle Priorit\"aten ist, die in $l$ oder $r$ auftreten.
+      because $p$ is less than or equal to every priority in the binary tree 
+      $\textsl{Node}(q,v,l,r)$ iff  $p \leq q$ and if, furthermore, 
+      $p$ is less than or equal to every priority occurring in either  $l$ or $r$.
 \end{enumerate}
-Als n\"achstes definieren wir eine Funktion \\[0.1cm]
+Next, we define a function \\[0.1cm]
 \hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}_0$, \\[0.1cm]
-die f\"ur einen bin\"aren Baum die Anzahl der Knoten berechnet.  Die Definition erfolgt durch
-Induktion:
+that counts the number of nodes occurring in a binary tree $b$.  The definition of
+$b.\textsl{count}()$ is given by induction on $b$.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{count}() = 0$.
 \item $\textsl{Node}(p,v,l,r).\textsl{count}() = 1 + l.\textsl{count}() + r.\textsl{count}()$.
 \end{enumerate}
-Mit diesen Vorbereitungen k\"onnen wir nun die Menge \textsl{Heap} induktiv definieren:
+Now we are ready to define the set \textsl{Heap} by induction:
 \begin{enumerate}
 \item $\textsl{Nil} \in \textsl{Heap}$.
-\item $\textsl{Node}(p,v,l,r) \in \textsl{Heap}$ g.d.w. folgendes gilt:
+\item $\textsl{Node}(p,v,l,r) \in \textsl{Heap}$ if and only if the following is true:
       \begin{enumerate}
-      \item $p \leq l \;\wedge\; p \leq r$,
+      \item $p \leq l \;\wedge\; p \leq r$
 
-            Die Priorit\"at an der Wurzel ist also kleiner-gleich als alle anderen Priorit\"aten.
-            Diese Bedingung bezeichnen wir auch als die \emph{Heap-Bedingung}.
-      \item $\mid l.\textsl{count}() - r.\textsl{count}() \mid \;\leq\, 1$,
+            The priority stored at the root is less than or equal to every other priority stored in
+            the heap. This condition is known as the \emph{heap condition}.
+      \item $\mid l.\textsl{count}() - r.\textsl{count}() \mid \;\leq\, 1$
 
-            Die Zahl der Elemente im linken Teilbaum ist also h\"ochstens 1 gr\"o{\ss}er oder
-            kleiner als die Zahl der Elemente im rechten Teilbaum.
-            Diese Bedingung bezeichen wir als die \emph{Balancierungs-Bedingung}.  Sie ist
-            ganz \"ahnlich zu der Balancierungs-Bedingung bei AVL-B\"aumen, nur dass es dort
-            die H\"ohe der B\"aume ist, die verglichen wird, w\"ahrend wir hier die Zahl der
-            im Baum gespeicherten Elemente vergleichen.
-      \item $l \in \textsl{Heap} \;\wedge\; r \in \textsl{Heap}$.
+            The number of elements in the left subtree differs from the number of elements stored in
+            the right subtree by at most one.
+            This condition is known as the  \emph{balancing condition}.  It is similar to the
+            balancing condition of AVL trees, but instead of comparing the heights, this condition
+            compares the number of elements.
+      \item $l \in \textsl{Heap} \;\wedge\; r \in \textsl{Heap}$
+
+            This condition ensures that all subtrees are heaps, too.
       \end{enumerate}
 \end{enumerate}
-Aus der \emph{Heap-Bedingung} folgt, dass ein nicht-leerer Heap die Eigenschaft hat, dass
-das Element, welches an der Wurzel steht, immer die h\"ochste Priorit\"at hat.  Abbildung
-\ref{fig:heap-list} auf Seite \pageref{fig:heap-list} zeigt einen einfachen Heap.
-In den Knoten steht im oberen Teil die Priorit\"aten (in der Abbildung sind das nat\"urliche Zahlen) und
-darunter stehen die Elemente (in der Abbildung sind dies Buchstaben).
+The  \emph{heap condition} implies that in a non-empty heap the element with a highest priority is
+stored at the root.  Figure \ref{fig:heap-list} on page \pageref{fig:heap-list} shows a simple heap.
+In the upper part of the nodes we find the priorities.  Below these priorities we have the values
+that are stored in the heap.  In the example given, the priorities are natural numbers, while the
+values are characters.
+
 
 \begin{figure}[!t]
   \centering
   \framebox{\epsfig{file=Abbildungen/heap-with-holes,scale=0.7}} 
-  \caption{Ein Heap}
+  \caption{A heap.}
   \label{fig:heap-list}
 \end{figure}
 
-
-Da Heaps bin\"are
-B\"aume sind, k\"onnen wir Sie ganz \"ahnlich wie geordnete bin\"are B\"aume  implementieren. 
-Wir stellen zun\"achst Gleichungen auf, die die Implementierung der verschiedenen Methoden
-beschreiben.  Wir beginnen mit der  Methode \textsl{top}.  Es gilt:
+As heaps are binary trees, we can implement them in a fashion that is similar to our implementation
+of AVL trees.  In order to do so, we first present equations that specify the methods of the data
+structure heap.  We start with the method \textsl{top}.  
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{top}() = \Omega$.
 \item $\textsl{Node}(p,v,l,r).\textsl{top}() = \pair(p,v)$,
 
-      denn aufgrund der Heap-Bedingung wird das Element mit der h\"ochsten Priorit\"at 
-      an der Wurzel gespeichert.
+      because the heap condition ensures that the value with the highest priority is stored at the
+      top. 
 \end{enumerate}
-Die Methoden \textsl{insert} m\"ussen wir nun so implementieren, dass
-sowohl die Balancierungs-Bedingung als auch die Heap-Bedingung erhalten bleiben.
+When  implementing the method \textsl{insert} we have to make sure that both the balancing condition
+and the heap condition are maintained.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{insert}(p,v) = \textsl{Node}(p,v,\textsl{Nil}, \textsl{Nil})$.
 \item $p_{\mathrm{top}} \leq p \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $   \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\textsl{insert}(p,v), r\bigr)$.
-
-      Falls das einzuf\"ugende Paar eine geringere oder dieselbe Priorit\"at hat wie das
-      Paar, welches sich an der Wurzel befindet, und falls zus\"atzlich die Zahl der Paare im linken Teilbaum
-      kleiner-gleich der Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
-      Paar im linken Teilbaum ein.
+                 
+      If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
+      the value at the root of the heap, we have to insert the value $v$ either in the left or right
+      subtree.  In order to maintain the balancing condition, we insert the value $v$ in the left
+      subtree if that subtree stores at most as many values as the right subtree.
 \item $p_{\mathrm{top}} \leq p \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $   \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\textsl{insert}(p,v)\bigr)$.
 
-      Falls das einzuf\"ugende Paar eine geringere oder dieselbe Priorit\"at hat als das
-      Paar an der Wurzel und falls zus\"atzlich die Zahl der Paare im linken Teilbaum
-      gr\"o{\ss}er als die Zahl der Paare im rechten Teilbaum ist, dann f\"ugen wir das
-      Paar im rechten Teilbaum ein.
+      If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
+      the value at the root of the heap, we have to insert the value $v$ in the right
+      subtree if the right subtree  stores fewer values than the left subtree.
 \item $p_{\mathrm{top}} > p \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $ \\[0.1cm]
       \hspace*{1.3cm} 
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p,v,l.\textsl{insert}(p_\mathrm{top},v_\mathrm{top}), r\bigr)$.
 
-      Falls das einzuf\"ugende Paar eine h\"ohere Priorit\"at hat als das Paar an
-      der Wurzel, dann m\"ussen wir das neu einzuf\"ugende Paar an der Wurzel
-      positionieren.  Das Paar, das dort vorher steht, f\"ugen wir in den linken
-      Teilbaum ein, falls  die Zahl der Paare im linken Teilbaum
-      kleiner-gleich der Zahl der Paare im rechten Teilbaum ist.
+      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
+      the value stored at the root of the heap, then we have to store the value $v$ at the root.
+      The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to either
+      the left or right subtree.  If the number of nodes in the left subtree is as most as big as
+      the number of nodes in the right subtree, $v_\mathrm{top}$ is inserted into the left subtree.
 \item $p_{\mathrm{top}} > p \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $ \\[0.1cm] 
       \hspace*{1.3cm} 
       $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
                  \textsl{Node}\bigl(p,v,l,r.\textsl{insert}(p_\mathrm{top},v_\mathrm{top})\bigr)$.
 
-      Falls wir das einzuf\"ugende Paar an der Wurzel
-      positionieren m\"ussen und die Zahl der Paare im linken Teilbaum
-      gr\"o{\ss}er als die Zahl der Paare im rechten Teilbaum ist,
-      dann m\"ussen wir das Paar, das vorher an der Wurzel stand, im rechten Teilbaum
-      einf\"ugen.
+      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
+      the value stored at the root of the heap, then we have to store the value $v$ at the root.
+      The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to 
+      the right subtree provided the number of nodes in the left subtree bigger than
+      the number of nodes in the right subtree.
 \end{enumerate}
-Als n\"achstes beschreiben wir die Implementierung der Methode \textsl{remove}.
+Finally, we specify our implementation of the method \textsl{remove}.
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{remove}() = \textsl{Nil}$,
 
-      denn aus dem leeren Heap ist nichts mehr zu entfernen.
+      since we cannot remove anything from the empty heap.
 \item $\textsl{Node}(p,v,\textsl{Nil},r).\textsl{remove}() = r$,
   
 \item $\textsl{Node}(p,v,l,\textsl{Nil}).\textsl{remove}() = l$,
 
-      denn wir entfernen immer das Paar mit der h\"ochsten Priorit\"at und das ist an der
-      Wurzel.  Wenn einer der beiden Teilb\"aume leer ist, k\"onnen wir einfach den anderen
-      zur\"uck geben.
+      because we always remove the value with the highest priority and this value is stored at the
+      root.  Now if either of the two subtrees is empty, we can just return the other subtree.
 
-      Jetzt betrachten wir die F\"alle, wo keiner der beiden Teilb\"aume leer ist.
-      Dann muss entweder das Paar an der Wurzel des linken Teilbaums
-      oder das Paar an der Wurzel des rechten Teilbaums an die Wurzel aufr\"ucken.
-      Welches dieser beiden Paare wir nehmen, h\"angt davon ab, welches der Paare die h\"ohere
-      Priorit\"at hat.
+      Next, we discuss those cases where none of the subtrees is empty.
+      In that case, either the value that is stored at the root of the left subtree or the value
+      stored at the root of the right subtree has to be promoted to the root of the tree.
+      In order to maintain the heap condition, we have to take the value that is associated with the
+      higher priority.
 \item $p_1 \leq p_2 \;\wedge\; l = \textsl{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r =
       \textsl{Node}(p_2,v_2,l_2,r_2) \;\rightarrow$ \\[0.1cm] 
       \hspace*{1.3cm} 
       $\textsl{Node}(p,v,l,r).\textsl{remove}() =      \textsl{Node}(p_1,v_1,l.\textsl{remove}(),r)$,
 
-      denn wenn das Paar an der Wurzel des linken Teilbaums eine h\"ohere Priorit\"at hat
-      als das Paar an der Wurzel des rechten Teilbaums, dann r\"uckt dieses Paar an
-      die Wurzel auf und muss folglich aus dem linken Teilbaum gel\"oscht werden.
+      because if the value at the root of the left subtree has a higher priority than the value
+      stored at the right subtree, then the value at the left subtree is moved to the root of the tree.
+      Of course, after moving this value to the root, we have to recursively delete this value from
+      the left subtree.
 \item $p_1 > p_2 \;\wedge\; l = \textsl{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r = \textsl{Node}(p_2,v_2,l_2,r_2) \rightarrow$ \\[0.1cm]
       \hspace*{1.3cm} 
-      $\textsl{Node}(p,v,l,r).\textsl{remove}() = \textsl{Node}(p_2,v_2,l,r.\textsl{remove}())$,
+      $\textsl{Node}(p,v,l,r).\textsl{remove}() = \textsl{Node}(p_2,v_2,l,r.\textsl{remove}())$
 
-      denn wenn das Paar an der Wurzel des rechten Teilbaums eine h\"ohere Priorit\"at hat
-      als das Paar an der Wurzel des linken Teilbaums, dann r\"uckt dieses Paar an
-      die Wurzel auf und muss folglich aus dem rechten Teilbaum gel\"oscht werden.  
+      This case is similar to the previous case, but now the value from the right subtree moves to
+      the root.
 \end{enumerate}
-An dieser Stelle wird der aufmerksame Leser bemerken, dass die obige
-Implementierung der Methode $\textsl{remove}()$ die Balancierungs-Bedingung verletzt.
-Es ist nicht schwierig, die Implementierung so abzu\"andern, dass die
-Balancierungs-Bedingung erhalten bleibt. Es zeigt sich jedoch, dass die
-Balancierungs-Bedingung  nur beim Aufbau eines Heaps mittels \textsl{insert}() wichtig ist,
-denn dort garantiert sie, dass die H\"ohe des Baums in logarithmischer Weise von der Zahl
-seiner Knoten abh\"angt.  Beim L\"oschen wird die H\"ohe des Baums sowieso nur kleiner, also
-brauchen wir uns da keine Sorgen machen.
+The hawk-eyed reader will have noticed that the specification of the method delete that is given
+above violates the balancing condition.  It is not difficult to change the implementation so that
+the balancing condition is maintained.  However, it is not really necessary to maintain the
+balancing condition when deleting values.  The reason is that the balancing condition is needed as
+long as the heap grows in order to guarantee logarithmic  performance.  However, when we remove
+values from a priority queue, the height of the queue only shrinks.  Therefore, even if the heap
+would degenerate into a list during removal of values, this would not be a problem because the
+height of the tree would still be bounded by $\log_2(n)$, where $n$ is the maximal number of
+values that a stored in the heap at any moment in time.
 
 \exercise
 Change the equations for the method \texttt{remove} so that the resulting heap satisfies the
@@ -392,7 +394,7 @@ Basically, there are two cases.
         than
         \texttt{mPriority}, which is the priority of the value at the current node, then we have to 
         put \texttt{value} at the current node, overwriting \texttt{mValue}.  However, as we do not want
-        to loose the value \texttt{mValue} that is currently stored at this node, we have to insert 
+        to lose the value \texttt{mValue} that is currently stored at this node, we have to insert 
         \texttt{mValue} into either the left or the right subtree.  In order to keep the heap
         balanced we insert \texttt{mValue} into the smaller subtree and choose the left subtree if
         both subtrees have the same size.
@@ -496,6 +498,193 @@ can be stored as a list $l$.  In that case, for every index $i \in \{1, \cdots, 
 the expression $l[i]$ stores a node of the tree.  The crucial idea is that the left subtree of the
 subtree stored at the index $i$ is stored at the index $2 \cdot i$, while the right subtree is
 stored at the index $2 \cdot i + 1$.  Develop an implementation of heaps that is based on this idea.
+
+\section{Heap-Sort}
+Heaps can be used to implement a sorting algorithm that is efficient in terms of both time and
+memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the job done, the
+algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
+consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort} has
+a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and that does not require an auxiliary
+array.  Heapsort was invented by J.~W.~J.~Williams and
+\href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} in 1964.
+
+Given an array $a$ of keys to be sorted, the basic version of Heapsort proceeds as follows:
+\begin{enumerate}
+\item The elements of $a$ are inserted in a heap $h$.
+\item Now the smallest element of $a$ is at the top of $h$.  Therefore, if we remove the elements
+      from $h$ one by one, we retrieve these elements in increasing order.
+\end{enumerate}
+A basic implementation of heapsort that is based on this idea is given in Figure
+\ref{fig:basic-heapsort.stlx} on page \pageref{fig:basic-heapsort.stlx}.  This implementation makes
+use of the class \texttt{heap} that had been presented in the previous section.
+\begin{enumerate}
+\item In order to sort the list \texttt{a} that is given as argument to \texttt{heapSort}, we first
+      create the empty heap 
+      \texttt{h} in line 2 and then proceed to insert all elements of \texttt{a} into \texttt{h} 
+      in line 4.
+\item Next we create an empty list \texttt{s} in line 5. When the procedure \texttt{heapSort}
+      finishes, this list will be a sorted version of the list \texttt{a}.
+\item As long as the heap \texttt{h} is not empty, we take its top element and append it to
+      \texttt{s}.  Since the method \texttt{top} returns a pair of the form $\langle p, v\rangle$ and
+      we are only interested in the priority $p$, we just add the first element of this pair to the
+      end of the list \texttt{s}.  After we have appended $p$ to the list \texttt{s}, it is removed
+      from the heap \texttt{h}.
+\item When the heap \texttt{h} is empty, \texttt{s} contains all of the elements of the list \texttt{a}
+      sorted ascendingly.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    heapSort := procedure(a) {
+        h := heap();    
+        for (x in a) {
+            h.insert(x, x);
+        }
+        s := [];
+        while (!h.isEmpty()) {
+            s += [ h.top()[1] ];
+            h.remove();
+        }
+        return s;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{A basic version of heapsort.}
+\label{fig:basic-heapsort.stlx}
+\end{figure}
+
+The basic version of heapsort that is shown in Figure \ref{fig:basic-heapsort.stlx} can be improved
+by noting that a heap can be stored efficiently in an array \texttt{a}.  If a node of the form
+$\texttt{Node}(p, v, l, r)$ is stored at index \texttt{i}, then the left subtree $l$ is stored at
+index $2 \cdot i$ while the right subtree $r$ is stored at index $2 \cdot i + 1$:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{a}[i] = \texttt{Node}(p, v, l, r) \;\rightarrow\; \mathtt{a}[2\cdot i] = l \;\wedge\; \mathtt{a}[2\cdot i+1]$.
+\\[0.2cm]
+If we store a heap in this manner, then instead of using pointers that point to the left and right
+subtree of a node we can just use index arithmetic to retrieve the subtrees.  
+
+
+ 
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    swap := procedure(x, y, rw a) {
+        [a[x], a[y]] := [a[y], a[x]];
+    };
+    sink := procedure(k, rw a, n) {
+        while (2 * k <= n) {
+            j := 2 * k;
+            if (j < n && a[j] > a[j+1]) {
+                j += 1;
+            }
+            if (a[k] < a[j]) {
+                break;
+            }
+            swap(k, j, a);
+            k := j;
+        }
+    };
+    heapSort := procedure(rw a) {
+        n := #a;
+        for (k in [n\2, n\2-1 .. 1]) {
+            sink(k, a, n);
+        }
+        while (n > 1) {
+            swap(1, n, a);
+            n -= 1;
+            sink(1, a, n);
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{An implementation of Heapsort in \textsc{SetlX}.}
+\label{fig:heap-sort.stlx}
+\end{figure}
+
+Figure \ref{fig:heap-sort.stlx} on page \pageref{fig:basic-heapsort.stlx} makes use of this idea.
+We discuss this implementation line by line.
+\begin{enumerate}
+\item The function \texttt{swap} exchanges the elements in the array \texttt{a} that are at the
+      positions \texttt{x} and \texttt{y}.
+\item The procedure \texttt{sink} takes three arguments.
+      \begin{enumerate}
+      \item \texttt{k} is an index into the array \texttt{a}.
+      \item \texttt{a} is an array.
+      \item \texttt{n} is the size of the array.  
+
+            The array \texttt{a} might actually have more than \texttt{n} elements, but for the
+            purpose of the method \texttt{sink} we pretend that \texttt{a} has exactly \texttt{n}
+            elements. 
+      \end{enumerate}
+      When calling \texttt{sink}, the assumption is that \texttt{a[k:n]} should represent a heap 
+      that possibly has its heap condition violated at its root, i.e.~at index \texttt{k}.  The
+      purpose of the procedure \texttt{sink} is to restore the heap condition at index \texttt{k}.
+      To this end, we first compute the index \texttt{j} of the left subtree below index \texttt{k}.
+      Then we check whether there also is a right subtree at position \texttt{j+1}, which is the
+      case if \texttt{j} is less than \texttt{n}.  Now if the heap condition is violated at index
+      \texttt{k}, we have to exchange the element at  position \texttt{k} with the child that has
+      the higher priority, i.e.~the child that is smaller. Therefore, in line 8 we arrange for index
+      \texttt{j} to point to the smaller child.  Next, we check in line 10 whether the heap
+      condition is violated at index \texttt{k}.  If the heap condition is satisfied, there is
+      nothing to do and we return.  Otherwise, the element at position \texttt{k} is swapped with
+      the element at position \texttt{j}.  Of course, now it could happen that the heap condition is
+      violated at position \texttt{j}.  Therefore, we set \texttt{k} to \texttt{j}.
+      As long as the node at position \texttt{k} has a child, i.e.~as long as 
+      $2 \cdot \mathtt{k}\leq \mathtt{n}$ the \texttt{while}-loop continues.
+\item The procedure \texttt{heapSort} has the task to sort the array \texttt{a} and proceeds in two phases.
+      \begin{enumerate}
+      \item In phase 1 our goal is to transform the array \texttt{a} into a heap that is stored in \texttt{a}.
+
+            In order to do so, we traverse the array \texttt{a} in reverse using the
+            \texttt{for}-loop starting in line 19.  The invariant of this loop is that before
+            \texttt{sink} is called, all trees rooted at an index greater than
+            \texttt{k} satisfy the heap condition.  Initially this is true because the trees that
+            are rooted at indices greater than \texttt{n$\backslash$2} are trivial, i.e.~they only
+            consist of their root node.  Then, since there are no children below these nodes, the heap
+            condition is satisfied vacuously. 
+            
+            In order to satisfy the invariant for index \texttt{k}, \texttt{sink} is called with
+            argument \texttt{k},  since at this point, the tree rooted at index \texttt{k} satisfies
+            the heap condition except possibly at the root.  It is then the job of \texttt{sink} to
+            establish the heap condition for index \texttt{k}.  If the element at the root has a
+            priority that is to low, \texttt{sink} ensures that this element sinks down in the tree
+            as far as necessary.
+      \item In phase 2 we remove the elements from the heap one-by-one and insert them at the end of
+            the array.
+
+            When the \texttt{while}-loop starts, the array \texttt{a} contains a heap.  Therefore,
+            the smallest element is found at the bottom of the heap.  Since we want to sort the
+            array \texttt{a} descendingly, we move this element to the end of the array \texttt{a} and in
+            return move the element from the end of the array \texttt{a} to the front.
+            After this exchange, the sublist \texttt{a[1..n-1]} represents a heap, except that the
+            heap condition might now be violated at the root.  Next, we decrement \texttt{n} in line 24, since the
+            last element of the array \texttt{a} is already in its correct position.  
+            In order to reestablish the heap condition at the root, we call \texttt{sink} with index
+            \texttt{1} in line 25.
+
+            The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
+            a length bigger than 1.  If there is only one element left, this element is trivially
+            sorted and the function returns.
+      \end{enumerate}
+\end{enumerate}
 
 %%% Local Variables: 
 %%% mode: latex
