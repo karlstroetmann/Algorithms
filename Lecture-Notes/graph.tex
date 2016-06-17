@@ -167,7 +167,7 @@ $\mathcal{P}_2$, $\cdots$, $\mathcal{P}_n$ such that $\mathcal{P}_n$ achieves ou
                 ]
     unionFind := procedure(m, r) {
         p := { { x } : x in m };  // start with the trivial partition
-        // refine this partition to accomodate all pair [x,y] in r
+        // refine this partition to accommodate all pair [x,y] in r
         for ([x, y] in r) {
             sx := find(x, p);
             sy := find(y, p);
@@ -243,7 +243,7 @@ the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the
         return find(parent[x], parent);
     };
     unionFind := procedure(m, r) {
-        parent := { [n, n] : n in m };  
+        parent := { [x, x] : x in m };  
         for ([x, y] in r) {
             parentX := find(x, parent);
             parentY := find(y, parent);
@@ -339,9 +339,9 @@ implementation is $\Oh\bigl(n \cdot \log(n)\bigr)$.
             parentX := find(x, parent);
             parentY := find(y, parent);
             if (parentX != parentY) {
-                if (height[x] < height[y]) {
+                if (height[parentX] < height[parentY]) {
                     parent[parentX] := parentY;  
-                } else if (height[x] > height[y]) {
+                } else if (height[parentX] > height[parentY]) {
                     parent[parentY] := parentX;  
                 } else {
                     parent[parentY] := parentX;  

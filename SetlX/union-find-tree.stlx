@@ -1,6 +1,6 @@
 // This class implements the union find algorithm.
 unionFind := procedure(m, r) {
-    parent := { [n, n] : n in m };  
+    parent := { [x, x] : x in m };  
     for ([x, y] in r) {
         parentX := find(x, parent);
         parentY := find(y, parent);
