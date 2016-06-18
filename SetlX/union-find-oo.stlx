@@ -1,0 +1,50 @@
+// This class implements the union find algorithm.
+class unionFind(m) {
+    mParent := { [x, x] : x in m };
+    mHeight := { [x, 1] : x in m };
+    
+    static {
+        union := procedure(x, y) {
+            parentX := find(x);
+            parentY := find(y);
+            if (parentX != parentY) {
+                if (mHeight[parentX] < mHeight[parentY]) {
+                    this.mParent[parentX] := parentY;  
+                } else if (mHeight[parentX] > mHeight[parentY]) {
+                    this.mParent[parentY] := parentX;  
+                } else {
+                    this.mParent[parentY] := parentX;  
+                    this.mHeight[parentX] += 1;
+                }
+            }
+        };
+        find := procedure(x) {
+            p := mParent[x]; 
+            if (p == x) {
+                return x;
+            }
+            return find(p);
+        };
+    }
+}
+
+partition := procedure(m, r) {
+    uf := unionFind(m);
+    for ([x, y] in r) {
+        uf.union(x, y);
+    }
+    roots := { x : x in m | uf.find(x) == x };
+    return { { y : y in m | uf.find(y) == r } : r in roots };
+};
+
+
+demo := procedure() {
+    m := { 1 .. 9 };
+    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("r = $r$");
+    p := partition(m, r);
+    print("p = $p$");
+};
+
+demo();
+
