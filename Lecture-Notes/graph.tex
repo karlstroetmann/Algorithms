@@ -295,7 +295,7 @@ binary relation \texttt{parent}.
 \end{enumerate}
 
 \subsection{Controlling the Growth of the Trees}
-As it stands, the algorithm show in the previous section has a complexity that is $\Oh(n^2)$ in the
+As it stands, the algorithm shown in the previous section has a complexity that is $\Oh(n^2)$ in the
 worst case where $n$ is the number of elements in the set \texttt{m}.  The worst case happens if there
 is just one equivalence class and the tree representing this class degenerates into a list.
 Fortunately, it is easy to fix this problem.  We just have to keep track of the height of the
@@ -389,29 +389,29 @@ algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
         mParent := { [x, x] : x in m };
         mHeight := { [x, 1] : x in m };
         
-        static {
-            union := procedure(x, y) {
-                parentX := find(x);
-                parentY := find(y);
-                if (parentX != parentY) {
-                    if (mHeight[parentX] < mHeight[parentY]) {
-                        this.mParent[parentX] := parentY;  
-                    } else if (mHeight[parentX] > mHeight[parentY]) {
-                        this.mParent[parentY] := parentX;  
-                    } else {
-                        this.mParent[parentY] := parentX;  
-                        this.mHeight[parentX] += 1;
-                    }
+      static {
+        union := procedure(x, y) {
+            parentX := find(x);
+            parentY := find(y);
+            if (parentX != parentY) {
+                if (mHeight[parentX] < mHeight[parentY]) {
+                    this.mParent[parentX] := parentY;  
+                } else if (mHeight[parentX] > mHeight[parentY]) {
+                    this.mParent[parentY] := parentX;  
+                } else {
+                    this.mParent[parentY] := parentX;  
+                    this.mHeight[parentX] += 1;
                 }
-            };
-            find := procedure(x) {
-                p := mParent[x]; 
-                if (p == x) {
-                    return x;
-                }
-                return find(p);
-            };
-        }
+            }
+        };
+        find := procedure(x) {
+            p := mParent[x]; 
+            if (p == x) {
+                return x;
+            }
+            return find(p);
+        };
+      }
     }
     partition := procedure(m, r) {
         uf := unionFind(m);
@@ -450,16 +450,16 @@ algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
       \end{enumerate}
 \item The method \texttt{union} takes two nodes \texttt{x} and \texttt{y} and joins the trees that
       contain these nodes.  This is achieved by finding their parents \texttt{parentX} and
-      \texttt{parentY}.  Then, the root of the smaller of the two trees is redirected to pint to
+      \texttt{parentY}.  Then, the root of the smaller of the two trees is redirected to point to
       the root of the bigger tree.
-\item The method \texttt{find} takes a node \texttt{x} and computes the root of the tree containing
-      \texttt{x}. 
+\item The method \texttt{find} takes a node \texttt{x} as its argument and computes the root of the
+      tree containing \texttt{x}. 
 \item The method \texttt{partition} is a client of the class \texttt{unionFind}.  It takes a set
       \texttt{m} and a relation \texttt{r} on \texttt{m} and computes a partition that corresponds
       to the equivalence relation induced by \texttt{r} on \texttt{m}. 
       \begin{enumerate}
       \item First, the method iterates over all pairs \texttt{[x,y]} in the relation \texttt{r} and
-            joining the equivalence classes corresponding to \texttt{x} and \texttt{y}.
+            joins the equivalence classes corresponding to \texttt{x} and \texttt{y}.
       \item Next, the method collects all nodes \texttt{x} that are at the root of a tree.
       \item Finally, for every root \texttt{r} the method collects those nodes \texttt{x} that are
             part of the tree rooted at \texttt{r}.
@@ -470,12 +470,12 @@ algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
 
 \section{Minimum Spanning Trees}
 Imagine an telecommunication company that intends to supply internet access to a developing country.
-The capital lies at the sea shore and is already connected to the internet via a submarine cable. It
-is the company's task to connect all of the towns and villages to the capital.  Since most parts of
-the country are covered by jungle, it is cheapest to build the power lines alongside existing roads.  
-Mathematically, this kind of problem can be formulated as the problem of constructing a 
-\href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for a given 
-\href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weigthed}
+The capital of the country is located at the coast line and is already connected to the internet via
+a submarine cable. It is the company's task to connect all of the towns and villages to the capital.
+Since most parts of the country are covered by jungle, it is cheapest to build the power lines
+alongside existing roads.  Mathematically, this kind of problem can be formulated as the problem of
+constructing a \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for
+a given \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weigthed}
 \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Undirected_graph}{undirected graph}.
 Next, we provide the definitions of those notions that are needed to formulate the minimum spanning
 tree problem precisely.  Then, we present
@@ -492,12 +492,13 @@ minimum spanning tree problem.
         \hspace*{1.3cm}
         $\{x, y\}$
         \\[0.2cm]
-        and is set to connect $x$ and $y$.  Since $\{x,y\}$ is a set, we have
+        and connects $x$ and $y$.  Since $\{x,y\}$ is a set, we have
         \\[0.2cm]
         \hspace*{1.3cm}
-        $\{x,y\} \in \edges \leftrightarrow \{y,x\} \in \edges$.
-  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a 
-        weight to every edge.
+        $\{x,y\} \in \edges$ \quad if and only if $\{y,x\} \in \edges$.
+        \\[0.2cm]
+        Hence, if $x$ is connected to $y$ then $y$ is also connected to $x$.
+  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \emph{weight} to every edge.
         \conclude
   \end{enumerate}
 \end{Definition}
@@ -513,41 +514,52 @@ such that we have : \\[0.2cm]
  $\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 1, \cdots, n-1$.
 \\[0.2cm]
 The path $P$ \emph{connects} the nodes $x_1$ and $x_n$.  The \emph{weight} of a path is defined as
-the sum of the weight of all of its edges.  
+the sum of the weights of all of its edges.  
 \\[0.2cm]
 \hspace*{1.3cm}
- $\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
+ $\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
 \\[0.2cm]
-A graph is \emph{connected} if for every $x,z \in \nodes$ there is a path connecting $x$ and $y$.
-A set of edges can be viewed as graph since the set of nodes can be computed from the edges.
+A graph is \emph{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$.
+A set of edges can be interpreted as graph since the set of nodes can be computed from the edges as
+follows: 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
+\\[0.2cm]
 Then, a set of edges $\edges$ is called a \emph{tree} if and only if
 \begin{enumerate}
 \item all of its nodes are connected \quad and
 \item removing an edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
-The weight of a tree is the sum of the weight of its edges.
+The \emph{weight} of a tree is the sum of the weights of its edges.
 
 \exercise
-Assume $\langle \nodes, \edges, \weight{\cdot}$ is a tree.  Prove that 
+Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that then
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{card}(\edges) = \textsl{card}(\nodes) - 1$
 \\[0.2cm]
-holds.  The easiest way to prove this is by induction on $n = \textsl{card}(V)$. \eox
+must hold.  
+
+\hint
+The easiest way to prove this is by induction on $n = \textsl{card}(V)$.  You will need to prove the
+following auxiliary claim first: In a tree there is at least one node in $\nodes$ that has
+only one neighboring node. 
+\eox
 
 \subsection{Kruskal's Algorithm}
 In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Joseph Bernard Kruskal} (1928 -- 2010) 
 found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
-of the union-find algorithm that we have developed in the previous section.  The basic idea is as
+of the union-find algorithm that we have developed previously.  The basic idea is as
 follows.
 \begin{enumerate}
-\item In the first step, we create a union-find data structure that contains singleton trees for all
-      node.
+\item In the first step, we create a union-find data structure that contains \emph{singleton trees}
+      for all nodes in the graph.  Here, a singleton tree is a tree containing just a single node.
 \item Next, we iterate over all edges $\pair(x, y)$ in the graph in increasing order of their
-      weight.  If the node $x$ and $y$ are not yet connected, we join their respective equivalence
+      weight.  If the nodes $x$ and $y$ are not yet connected, we join their respective equivalence
       classes. 
-\item We stop when the number of edges is 1 less than the number of nodes since then the tree must
-      connect all nodes. 
+\item We stop when the number of edges is 1 less than the number of nodes since, according to the
+      previous exercise, the tree must then connect all the nodes of the graph. 
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
 resulting tree has a minimal weight.
@@ -595,7 +607,7 @@ discuss this program next.
       \texttt{[w, [x, y]]}.
       \\[0.2cm] 
       Here, \texttt{x} and \texttt{y} are the nodes connected by the edge and \texttt{w} is the
-      weight of the edge.  The function \texttt{mst} computes the minimum spanning tree of  the
+      weight of the edge.  The function \texttt{mst} computes a minimum spanning tree of  the
       graph that is specified via the sets \texttt{v} and \texttt{e}.  It is assumed that the graph
       defined by \texttt{v} and \texttt{e} is connected.
 \item The function \texttt{mst} first creates the union-find data structure \texttt{uf} in line 2.
@@ -605,7 +617,7 @@ discuss this program next.
       The spanning tree is represented by a set of edges.  
 \item Next, we iterate over the edges in \texttt{e}.  Since the first part of each edge is its
       weight, the fact that in \textsc{SetlX} sets are stored as ordered binary trees ensures that
-      we begin with the edge that has the smallest weight.
+      we start with the edge that has the smallest weight.
 \item For every edge \texttt{[x,y]} we check whether \texttt{x} and \texttt{y} are already
       connected.  This is the case if both \texttt{x} and \texttt{y} are in the same tree.
 \item If \texttt{x} and \texttt{y} are not connected, the corresponding edge is added to the
@@ -625,10 +637,10 @@ of a weighted \href{https://en.wikipedia.org/wiki/Directed_graph}{\emph{directed
 
 
 \begin{Definition}[Weighted Digraph] \
-  A \emph{weighted directed graph} (a.k.a. a \emph{weighted digraph}) is a triple 
+  A \emph{weighted directed graph} (a.k.a.~a \emph{weighted digraph}) is a triple 
   $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
-  \item $\nodes$ is the set of \emph{nodes} (sometimes the nodes are known as \emph{vertices}.
+  \item $\nodes$ is the set of \emph{nodes} (sometimes the nodes are known as \emph{vertices}).
   \item $\edges \subseteq \nodes \times \nodes$ is the set of \emph{edges}.
   \item $\weight{\cdot}: \edges \rightarrow \N$ is a function that assigns a positive \emph{length} 
         to every edge.  This length is also known as the \emph{weight} of the edge.
@@ -637,13 +649,14 @@ of a weighted \href{https://en.wikipedia.org/wiki/Directed_graph}{\emph{directed
 \end{Definition}
 
 \remark
-The main difference between a graph and a digraph is that in a digraph the edges are p\underline{airs} of two
+The main difference between a graph and a digraph is that in a digraph the edges are 
+\mbox{p\hspace{-0.15cm}\underline{\hspace{0.15cm}airs}} of two
 nodes while in a graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
 digraph model one-way streets, while in a graph they model streets that work both ways.
 \eox
 
 \begin{Definition}[Path, Path Length]
- A \emph{path} $P$ is a list of the form 
+ A \emph{path} $P$ in a digraph is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $P = [ x_1, x_2, x_3, \cdots, x_n ]$ 
@@ -656,15 +669,16 @@ The set of all paths is denoted as $\paths$.
 The length of a path is the sum of the length of all edges:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
+$\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
 \\[0.2cm]
 If  $p = [x_1, x_2, \cdots, x_n]$ is a path then  $p$ \emph{connects} the node $x_1$ with the node
 $x_n$.  We denote the set of all paths that connect the node $v$ with the node $w$ as
 \\[0.2cm]
 \hspace*{1.3cm} 
- $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \mid x_1 = v \,\wedge\, x_n = w \}$.
+ $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \bigm| x_1 = v \,\wedge\, x_n = w \bigr\}$.
 \end{Definition}
 
+\noindent
 Now we are ready to state the shortest path problem.
 
 \begin{Definition}[Shortest Path Problem] \lb
@@ -676,19 +690,22 @@ Now we are ready to state the shortest path problem.
   \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
   \hspace*{1.3cm} $\spath(v) \df \mathtt{min}\bigl\{ \weight{p} \bigm| p \in \paths(\source,v) \bigr\}$.
   \\[0.2cm]
-  Furthermore, given that $\spath(v) = n$, we want to be able to compute a path 
+  Furthermore, given that $\spath(v) = n$, we would like to be able to compute a path 
   $p \in \paths(\source,v)$ such that $\weight{p} = n$.
   \eox
 \end{Definition}
 
 \subsection{The Bellman-Ford Algorithm}
-The first algorithm we discuss is the \emph{Bellman-Ford algorithm}.  It is named after the mathematicians
+The first algorithm we discuss is the
+\href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{\emph{Bellman-Ford algorithm}}.
+It is named after the mathematicians 
 \href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
 \href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who found this algorithm
-independently and published their results in 1958 and 1956, respectively.  The algorithm was also
-found by \href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
-Figure \ref{fig:moore.stlx} on page \pageref{fig:moore.stlx} shows an implementation of this
-algorithm in \textsc{SetlX}.
+independently and published their results in 1958 and 1956, respectively.  Figure
+\ref{fig:moore.stlx} on page \pageref{fig:moore.stlx} shows the implementation of a variant of this 
+algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by 
+\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
+\pagebreak
 
 \begin{figure}[!ht]
   \centering
@@ -724,14 +741,14 @@ algorithm in \textsc{SetlX}.
       \begin{enumerate}
       \item \texttt{source} is the start node.  Our intention is to compute the distance of all
             vertices from \texttt{source}.
-      \item \texttt{}{edges} is a binary relation that encodes the set of edges of the graph.  For
+      \item \texttt{edges} is a binary relation that encodes the set of edges of the graph.  For
             every node $x$ we have that \texttt{edges[$x$]} is a set of the form
             \\[0.2cm]
             \hspace*{1.3cm}
             $\{ [y_1, l_1], \cdots, [y_n, l_n] \}$.
             \\[0.2cm]
             This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
-            $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has length $l_i$.
+            $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
       \end{enumerate}
 \item The variable \texttt{dist} is a functional binary relation.  When the computation is
       successful, for every node $x$ the relation will contain a pair of the form
@@ -749,17 +766,18 @@ algorithm in \textsc{SetlX}.
       $\{ \mathtt{source} \}$.
 \item As long as there are nodes left in the set \texttt{fringe} we pick an arbitrary node
       \texttt{u} from \texttt{fringe} and remove it from \texttt{fringe}. 
-\item Next, we compute the set of all nodes $v$ that can be reached from $u$ and check, whether we
-      have found a better path leading to these nodes $v$.
+\item Next, we compute the set of all nodes\texttt{v} that can be reached from\texttt{u} and check, whether we
+      have found a better path leading to these nodes\texttt{v}.
       There are two cases.
       \begin{enumerate}
-      \item If there is an edge from $u$ to a node $v$ and the function $\texttt{dist}(v)$ is still
-            undefined, then we hadn't yet found a path leading to $v$.
-      \item Furthermoore, there are those nodes $v$ where we have already found a path leading from
-            \texttt{source} to $v$ but the length of this path is longer than the length of the path
-            that we get when we first visit $u$ and then proceed to $v$ via the edge $\pair(u,v)$.
+      \item If there is an edge from \texttt{u} to a node \texttt{v} and  \texttt{dist[v]} is still
+            undefined, then we hadn't yet found a path leading to \texttt{v}.
+      \item Furthermoore, there are those nodes \texttt{v} where we had already found a path leading from
+            \texttt{source} to \texttt{v} but the length of this path is longer than the length of the path
+            that we get when we first visit \texttt{u} and then proceed to \texttt{v} via the edge $\pair(\mathtt{u},\mathtt{v})$.
       \end{enumerate}
-      We compute the distance in both of these cases and add \texttt{u} to the fringe.
+      We compute the distance of the path leading from \texttt{source} to \texttt{u} and then to
+      \texttt{v} in both of these cases and add \texttt{v} to the fringe.
 \item The algorithm terminates when the set \texttt{fringe} is empty because in that case we don't
       have any means left to improve our estimation of the distance function.
 \end{enumerate}
@@ -809,7 +827,7 @@ distance of this node to the node \texttt{source}.  Figure \ref{fig:dijkstra.stl
 
 The program shown in Figure \ref{fig:dijkstra.stlx} has an additional variable called \texttt{visited}.
 This variable contains the set of those nodes that have been  \emph{visited} by the algorithm.
-To be more precise, \texttt{visited} contains those nodes $u$ that have been removed from the
+To be more precise, \texttt{visited} contains those nodes \texttt{u} that have been removed from the
 priority queue \texttt{fringe} and for which all neighboring nodes, i.e.~those nodes $y$ such that
 there is an edge $\pair(u,y)$, have been examined.
 The set \texttt{visited} isn't used in the implementation of the algorithm since the variable is
@@ -818,21 +836,21 @@ I have introduced the variable \texttt{visited} in order to be able to formulate
 is needed to prove the correctness of the algorithm.  This invariant is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall u\in\mathtt{visited}: \texttt{dist}[u] = \texttt{sp}(u)$,
+$\forall \mathtt{u}\in\mathtt{visited}: \texttt{dist[u]} = \texttt{sp(u)}$,
 \\[0.2cm]
-i.e.~for all nodes $u \in \texttt{visited}$, the functional relation \texttt{dist}
+i.e.~for all nodes $\mathtt{u} \in \texttt{visited}$, the functional relation \texttt{dist}
 already contains the length of the shortest path leading from \texttt{source} to $x$.  
 \vspace*{0.1cm}
 
 \proof 
-We prove by induction that every time that a node  $u$ is added to the set
+We prove by induction that every time that a node \texttt{u} is added to the set
 \texttt{visited} we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{dist}[u] = \texttt{sp}(u)$ 
+$\texttt{dist[u]} = \texttt{sp(u)}$ 
 \\[0.2cm]
-holds.
-In dem Programm gibt es genau zwei Stellen, an denen die Menge \texttt{visited} ver\"andert wird.
+holds.  To begin, observe that the program has only two lines where the set \texttt{visited} is changed.
+We only need to inspect these lines.
 \begin{enumerate}
 \item \textbf{Base Case:}  
       Initially, the set $\texttt{visited}$ contains only the node \texttt{source} and we have
@@ -842,29 +860,29 @@ In dem Programm gibt es genau zwei Stellen, an denen die Menge \texttt{visited} 
       \\[0.2cm]
       Hence the claim is true initially.
 \item \textbf{Induction Step:}
-      In line 13 we add the node $u$ to the set \texttt{visited}.  Immediately before $u$ is
-      inserted there are two cases: If $u$ is already a member of the set \texttt{visited}, the
+      In line 13 we add the node \texttt{u} to the set \texttt{visited}.  Immediately before \texttt{u} is
+      inserted there are two cases: If \texttt{u} is already a member of the set \texttt{visited}, the
       claim is true by induction hypothesis.  Hence we only need to consider the case where
-      $u$ is not a member of the set \texttt{visited} before it is inserted.
+     \texttt{u} is not a member of the set \texttt{visited} before it is inserted.
 
       The proof now proceeds indirect and we assume that we have
       \\[0.2cm]
-      \hspace*{1.3cm} $\texttt{dist[u]} > \texttt{sp}(u)$
+      \hspace*{1.3cm} $\texttt{dist[u]} > \texttt{sp(u)}$
       \\[0.2cm]
       Then there must exist a shortest path 
       \\[0.2cm]
-      \hspace*{1.3cm} $p = [ x_0 = \texttt{source}, x_1, \cdots, x_n = u ]$
+      \hspace*{1.3cm} $p = [ x_0 = \texttt{source}, x_1, \cdots, x_n = \texttt{u} ]$
       \\[0.2cm]
-      leading from \texttt{source} to $u$ that has length $\texttt{sp}(u)$ and this length is less
-      than \texttt{dist[$u$]}.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
+      leading from \texttt{source} to \texttt{u} that has length $\texttt{sp(u)}$ and this length is less
+      than \texttt{dist[u]}.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
       \\[0.2cm]
       \hspace*{1.3cm}
       $x_0\in \texttt{visited}$, $\cdots$, $x_i\in \texttt{visited}$ \quad but \quad $x_{i+1} \not\in \mathtt{Visited}$
       \\[0.2cm]
       holds.  Hence $x_i$ is the first node in the path  $p$ such that $x_{i+1}$ is not a member of
-      \texttt{visited}.  Such an index $i$ has to exist because $u \not\in \mathtt{visited}$.
+      \texttt{visited}.  Such an index $i$ has to exist because $\texttt{u} \not\in \mathtt{visited}$.
       Before the node $x_i$ is added to the set \texttt{visited}, all nodes $y$ that are connected
-      to $x_i$ via and edge $\pair(x_i, y)$ are examined and for these nodes the function
+      to $x_i$ via an edge $\pair(x_i, y)$ are examined and for these nodes the function
       \texttt{dist} is updated if this edge leads to a shorter path.  In particular, $x_{i+1}$ has
       been examined and $\texttt{dist}[x_{i+1}]$ has been recomputed.  At the latest, the node
       $x_{i+1}$ has been added to the set  \texttt{fringe} at this time, although, of course, it
@@ -879,45 +897,45 @@ In dem Programm gibt es genau zwei Stellen, an denen die Menge \texttt{visited} 
       As we have assumed that $x_{i+1} \not\in \texttt{visited}$, the node $x_{i+1}$ still has to be an
       element of the priority queue \texttt{fringe} at this point.  Therefore we must have
       $\texttt{dist}[x_{i+1}] \geq \texttt{dist}[u]$, since otherwise  $x_{i+1}$ would have been
-      chosen from the priority queue \texttt{fringe} before $u$ has been chosen, but then $x_{i+1}$
+      chosen from the priority queue \texttt{fringe} before \texttt{u} has been chosen, but then $x_{i+1}$
       would be a member of \texttt{visited}.
 
-      Since $\texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}]$ we then have the contradiction
+      Since $\texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}]$ we now have the contradiction
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\texttt{sp}(u) \geq \texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}] \geq \texttt{dist}[u] > \texttt{sp}(u)$.
+      $\texttt{sp(u)} \geq \texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}] \geq \texttt{dist[u]} > \texttt{sp(u)}$.
       \\[0.2cm]
-      This shows that the assumption $\texttt{dist}[u] > \texttt{sp}(u)$ has to be wrong.  On the
-      other hand, we always have $\texttt{dist}[u] \geq \texttt{sp}(u)$ we can only conclude that
+      This shows that the assumption $\texttt{dist[u]} > \texttt{sp(u)}$ has to be wrong.  On the
+      other hand, we always have $\texttt{dist[u]} \geq \texttt{sp(u)}$ we can only conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{dist}[u] = \texttt{sp}(u)$
+      $\texttt{dist[u]} = \texttt{sp(u)}$
       \\[0.2cm]
-      holds. \qed
+      holds for all nodes $\texttt{u} \in \texttt{visited}$. \qed
 \end{enumerate}
 
 \exercise
 Improve the implementation of Dijkstra's algorithm given above so that the algorithm also computes
 the shortest path for every node that is reachable from \texttt{source}.
 \eox
-
+\pagebreak
 
 \subsection{Complexity}
-If a node $u$ is removed from the priority queue \texttt{fringe}, the node is added to the set
+If a node \texttt{u} is removed from the priority queue \texttt{fringe}, the node is added to the set
 \texttt{visited}.  The invariant that was just proven implies that in that case
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{sp}(u) = \texttt{dist}[u]$
+$\texttt{sp(u)} = \texttt{dist[u]}$
 \\[0.2cm]
-holds.  This implies that the node $u$ can never be reinserted into the priority queue
-\texttt{fringe}, because a node $v$ is only inserted in \texttt{fringe} if either 
- $\texttt{dist}[v]$ is still undefined or if  the  value $\texttt{dist}[v]$ decreases.  
+holds.  This implies that the node \texttt{u} can never be reinserted into the priority queue
+\texttt{fringe}, because a node \texttt{v} is only inserted in \texttt{fringe} if either 
+ \texttt{dist[v]} is still undefined or if  the  value \texttt{dist[v]} decreases.  
 Inserting a node into a priority queue containing  $n$ elements can be bounded by
 $\Oh\bigl(\log_2(n)\bigr)$.  As the priority queue never contains more than $\#\nodes$ nodes and we
 can insert every node at most once, insertion into the priority queue can be bounded by
 \\[0.2cm]
 \hspace*{1.3cm}
-$\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$ .
+$\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$.
 \\[0.2cm]
 We also have to analyze the complexity of removing a node from the fringe. 
 The number of times the assignment
