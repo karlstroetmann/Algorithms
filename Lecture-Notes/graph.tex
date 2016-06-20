@@ -233,8 +233,8 @@ the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
                 ]
     find := procedure(x, parent) {
         if (parent[x] == x) {
@@ -245,14 +245,14 @@ the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the
     unionFind := procedure(m, r) {
         parent := { [x, x] : x in m };  
         for ([x, y] in r) {
-            parentX := find(x, parent);
-            parentY := find(y, parent);
-            if (parentX != parentY) {
-                parent[parentY] := parentX;  // create union
+            rootX := find(x, parent);
+            rootY := find(y, parent);
+            if (rootX != rootY) {
+                parent[rootY] := rootX;  // create union
             }
         }
         roots := { x : x in m | parent[x] == x };
-        return { { y : y in m | parent[y] == r } : r in roots };
+        return { { y : y in m | find(y, parent) == r } : r in roots };
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -329,28 +329,28 @@ implementation is $\Oh\bigl(n \cdot \log(n)\bigr)$.
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
                 ]
     unionFind := procedure(m, r) {
-        parent := { [n, n] : n in m };
-        height := { [n, 1] : n in m };
+        parent := { [x, x] : x in m };
+        height := { [x, 1] : x in m };
         for ([x, y] in r) {
-            parentX := find(x, parent);
-            parentY := find(y, parent);
-            if (parentX != parentY) {
-                if (height[parentX] < height[parentY]) {
-                    parent[parentX] := parentY;  
-                } else if (height[parentX] > height[parentY]) {
-                    parent[parentY] := parentX;  
+            rootX := find(x, parent);
+            rootY := find(y, parent);
+            if (rootX != rootY) {
+                if (height[rootX] < height[rootY]) {
+                    parent[rootX] := rootY;  
+                } else if (height[rootX] > height[rootY]) {
+                    parent[rootY] := rootX;  
                 } else {
-                    parent[parentY] := parentX;  
-                    height[parentX] += 1;
+                    parent[rootY] := rootX;  
+                    height[rootX] += 1;
                 }
             }
         }
         roots := { x : x in m | parent[x] == x };
-        return { { y : y in m | parent[y] == r } : r in roots };
+        return { { y : y in m | find(y, parent) == r } : r in roots };
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -391,16 +391,16 @@ algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
         
       static {
         union := procedure(x, y) {
-            parentX := find(x);
-            parentY := find(y);
-            if (parentX != parentY) {
-                if (mHeight[parentX] < mHeight[parentY]) {
-                    this.mParent[parentX] := parentY;  
-                } else if (mHeight[parentX] > mHeight[parentY]) {
-                    this.mParent[parentY] := parentX;  
+            rootX := find(x);
+            rootY := find(y);
+            if (rootX != rootY) {
+                if (mHeight[rootX] < mHeight[rootY]) {
+                    this.mParent[rootX] := rootY;  
+                } else if (mHeight[rootX] > mHeight[rootY]) {
+                    this.mParent[rootY] := rootX;  
                 } else {
-                    this.mParent[parentY] := parentX;  
-                    this.mHeight[parentX] += 1;
+                    this.mParent[rootY] := rootX;  
+                    this.mHeight[rootX] += 1;
                 }
             }
         };
@@ -413,14 +413,6 @@ algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
         };
       }
     }
-    partition := procedure(m, r) {
-        uf := unionFind(m);
-        for ([x, y] in r) {
-            uf.union(x, y);
-        }
-        roots := { x : x in m | uf.find(x) == x };
-        return { { y : y in m | uf.find(y) == r } : r in roots };
-    };
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{The class \texttt{unionFind}.}

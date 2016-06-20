@@ -2,14 +2,14 @@
 unionFind := procedure(m, r) {
     parent := { [x, x] : x in m };  
     for ([x, y] in r) {
-        parentX := find(x, parent);
-        parentY := find(y, parent);
-        if (parentX != parentY) {
-            parent[parentY] := parentX;  // create union
+        rootX := find(x, parent);
+        rootY := find(y, parent);
+        if (rootX != rootY) {
+            parent[rootY] := rootX;  // create union
         }
     }
     roots := { x : x in m | parent[x] == x };
-    return { { y : y in m | parent[y] == r } : r in roots };
+    return { { y : y in m | find(y, parent) == r } : r in roots };
 };
 find := procedure(x, parent) {
     if (parent[x] == x) {

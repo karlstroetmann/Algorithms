@@ -3,29 +3,29 @@ class unionFind(m) {
     mParent := { [x, x] : x in m };
     mHeight := { [x, 1] : x in m };
     
-    static {
-        union := procedure(x, y) {
-            parentX := find(x);
-            parentY := find(y);
-            if (parentX != parentY) {
-                if (mHeight[parentX] < mHeight[parentY]) {
-                    this.mParent[parentX] := parentY;  
-                } else if (mHeight[parentX] > mHeight[parentY]) {
-                    this.mParent[parentY] := parentX;  
-                } else {
-                    this.mParent[parentY] := parentX;  
-                    this.mHeight[parentX] += 1;
-                }
+  static {
+    union := procedure(x, y) {
+        rootX := find(x);
+        rootY := find(y);
+        if (rootX != rootY) {
+            if (mHeight[rootX] < mHeight[rootY]) {
+                this.mParent[rootX] := rootY;  
+            } else if (mHeight[rootX] > mHeight[rootY]) {
+                this.mParent[rootY] := rootX;  
+            } else {
+                this.mParent[rootY] := rootX;  
+                this.mHeight[rootX] += 1;
             }
-        };
-        find := procedure(x) {
-            p := mParent[x]; 
-            if (p == x) {
-                return x;
-            }
-            return find(p);
-        };
-    }
+        }
+    };
+    find := procedure(x) {
+        p := mParent[x]; 
+        if (p == x) {
+            return x;
+        }
+        return find(p);
+    };
+  }
 }
 
 partition := procedure(m, r) {
