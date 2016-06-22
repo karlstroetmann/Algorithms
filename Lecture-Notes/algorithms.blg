@@ -13,51 +13,44 @@ A level-1 auxiliary file: graph.aux
 A level-1 auxiliary file: monte-carlo.aux
 The style file: alpha.bst
 Database file #1: cs.bib
-I was expecting a `,' or a `}'---line 1075 of file cs.bib
- :   
- :   publisher = {IEEE},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-Warning--empty journal in guibas:78
-You've used 27 entries,
+You've used 29 entries,
             2543 wiz_defined-function locations,
-            720 strings with 7604 characters,
-and the built_in function-call counts, 9787 in all, are:
-= -- 957
-> -- 434
-< -- 14
-+ -- 148
-- -- 139
-* -- 646
-:= -- 1640
-add.period$ -- 83
-call.type$ -- 27
-change.case$ -- 154
-chr.to.int$ -- 26
-cite$ -- 28
-duplicate$ -- 425
-empty$ -- 746
-format.name$ -- 175
-if$ -- 2000
+            734 strings with 7783 characters,
+and the built_in function-call counts, 10411 in all, are:
+= -- 1024
+> -- 450
+< -- 16
++ -- 152
+- -- 143
+* -- 682
+:= -- 1745
+add.period$ -- 90
+call.type$ -- 29
+change.case$ -- 165
+chr.to.int$ -- 28
+cite$ -- 29
+duplicate$ -- 455
+empty$ -- 800
+format.name$ -- 183
+if$ -- 2133
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 38
-newline$ -- 139
-num.names$ -- 81
-pop$ -- 170
+missing$ -- 39
+newline$ -- 149
+num.names$ -- 87
+pop$ -- 176
 preamble$ -- 1
-purify$ -- 185
+purify$ -- 197
 quote$ -- 0
-skip$ -- 335
+skip$ -- 355
 stack$ -- 0
-substring$ -- 482
-swap$ -- 49
-text.length$ -- 14
-text.prefix$ -- 9
+substring$ -- 511
+swap$ -- 52
+text.length$ -- 16
+text.prefix$ -- 11
 top$ -- 0
-type$ -- 164
-warning$ -- 1
-while$ -- 92
-width$ -- 33
-write$ -- 350
-(There was 1 error message)
+type$ -- 180
+warning$ -- 0
+while$ -- 97
+width$ -- 35
+write$ -- 379

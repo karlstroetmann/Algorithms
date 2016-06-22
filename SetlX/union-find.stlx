@@ -1,23 +1,23 @@
 // This class implements the union find algorithm.
 unionFind := procedure(m, r) {
-    parent := { [n, n] : n in m };
-    height := { [n, 0] : n in m };
+    parent := { [x, x] : x in m };
+    height := { [x, 1] : x in m };
     for ([x, y] in r) {
-        parentX := find(x, parent);
-        parentY := find(y, parent);
-        if (parentX != parentY) {
-            if (height[x] < height[y]) {
-                parent[parentX] := parentY;  
-            } else if (height[x] > height[y]) {
-                parent[parentY] := parentX;  
+        rootX := find(x, parent);
+        rootY := find(y, parent);
+        if (rootX != rootY) {
+            if (height[rootX] < height[rootY]) {
+                parent[rootX] := rootY;  
+            } else if (height[rootX] > height[rootY]) {
+                parent[rootY] := rootX;  
             } else {
-                parent[parentY] := parentX;  
-                height[parentX] += 1;
+                parent[rootY] := rootX;  
+                height[rootX] += 1;
             }
         }
     }
     roots := { x : x in m | parent[x] == x };
-    return { { y : y in m | parent[y] == r } : r in roots };
+    return { { y : y in m | find(y, parent) == r } : r in roots };
 };
 find := procedure(x, parent) {
     if (parent[x] == x) {

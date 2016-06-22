@@ -15,6 +15,11 @@ Georgii~M. Adel'son-Vel'ski\u{\i} and Evgenii~M. Landis.
 \newblock An algorithm for the organization of information.
 \newblock {\em Soviet Mathematics Doklady}, 3:1259--1263, 1962.
 
+\bibitem[Bel58]{bellman:58}
+Richard~E. Bellman.
+\newblock On a routing problem.
+\newblock {\em Quarterly of Applied Mathematics}, 16:87--90, 1958.
+
 \bibitem[BM93]{bentley:93}
 Jon~Louis Bentley and M.~Douglas McIlroy.
 \newblock Engineering a sort function.
@@ -46,10 +51,16 @@ Sanjoy Dasgupta, Christos~H. Papadimitriou, and Umesh~V. Vazirani.
 \newblock {\em Algorithms}.
 \newblock McGraw-Hill, 2008.
 
+\bibitem[For56]{ford:56}
+Lester~R. Ford.
+\newblock Network flow theory.
+\newblock Technical report, RAND Corporation, Santa Monica, California, 1956.
+
 \bibitem[GS78]{guibas:78}
 Leonidas~L. Guibas and Robert Sedgewick.
 \newblock A dichromatic framework for balanced trees.
-\newblock pages 8--21, 1978.
+\newblock In {\em 19th Annual Symposium on the Foundations of Computer
+  Science}, pages 8--21. IEEE, 1978.
 
 \bibitem[GS08]{gumm:2008}
 Hans-Peter Gumm and Manfred Sommer.

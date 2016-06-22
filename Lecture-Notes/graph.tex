@@ -167,7 +167,7 @@ $\mathcal{P}_2$, $\cdots$, $\mathcal{P}_n$ such that $\mathcal{P}_n$ achieves ou
                 ]
     unionFind := procedure(m, r) {
         p := { { x } : x in m };  // start with the trivial partition
-        // refine this partition to acccomodate all pair [x,y] in r
+        // refine this partition to accommodate all pair [x,y] in r
         for ([x, y] in r) {
             sx := find(x, p);
             sy := find(y, p);
@@ -179,7 +179,7 @@ $\mathcal{P}_2$, $\cdots$, $\mathcal{P}_n$ such that $\mathcal{P}_n$ achieves ou
         return p;
     };
     find := procedure(x, p) {
-        return arb({ s : s in p | x in s });  // there can be only one such s
+        return arb({ s : s in p | x in s });  
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -190,7 +190,7 @@ $\mathcal{P}_2$, $\cdots$, $\mathcal{P}_n$ such that $\mathcal{P}_n$ achieves ou
 What we have sketched in the previous example is known as the \emph{union-find algorithm}.
 Figure \ref{fig:union-find-naive.stlx} shows a naive implementation of this algorithm.  The
 procedure \texttt{unionFind} takes two arguments: \texttt{m} is a set and \texttt{r} is a relation
-on \texttt{m}.  The purpose of \texttt{unionFind} is to compute the smallest equivalence relation
+on \texttt{m}.  The purpose of \texttt{unionFind} is to compute the equivalence relation
 induced by \texttt{r}.  This equivalence relation is represented as a partition of \texttt{m}.
 \begin{enumerate}
 \item In line 2 we initialize \texttt{p} as the trivial partition that contains only singleton
@@ -200,8 +200,8 @@ induced by \texttt{r}.  This equivalence relation is represented as a partition 
       First, we compute the set \texttt{sx} that contains \texttt{x} and the set \texttt{sy} that
       contains \texttt{y}.  If these sets are not the same, then \texttt{x} and \texttt{y} are not
       yet equivalent with respect to the partition \texttt{p}.  Therefore, the equivalence classes
-      \texttt{sx} and \texttt{sy} are joined and this union is added to the partition in line 9, while
-      \texttt{sx} and \texttt{sy} are removed from the partition \texttt{p} in line 8.
+      \texttt{sx} and \texttt{sy} are joined and their union is added to the partition in line 9, while
+      the equivalence classes \texttt{sx} and \texttt{sy} are removed in line 8.
 \item The function \texttt{find} takes an element \texttt{x} of a set \texttt{m} and a partition
       \texttt{p} of \texttt{m}.  Since \texttt{p} is a partition of \texttt{m} there must be exactly
       one set \texttt{s} in \texttt{p} such that \texttt{x} is an element of \texttt{s}.  This set
@@ -216,10 +216,10 @@ problem is the computation of
 \texttt{sx + sy}.
 \\[0.2cm]
 If the sets \texttt{sx} and \texttt{sy} are represented as binary trees, then this computation takes
-time proportional to $\min(\mathtt{\#sx},\mathtt{\#sy})$.  Here $\mathtt{\#sx}$ denotes the size of
+time proportional to $\mathtt{min}(\mathtt{\#sx},\mathtt{\#sy})$.  Here $\mathtt{\#sx}$ denotes the size of
 \texttt{sx} and similarly $\mathtt{\#sy}$ denotes the size of \texttt{sy}.  A more efficient way to
 represent these sets is via \emph{parent pointers}:  The idea is that every set is represented as a
-tree.  However, this tree is not a binary tree but is rather represented by only by pointers that
+tree.  However, this tree is not a binary tree but is rather represented by pointers that
 point from the a node to its parent.  The node at the root of the tree points to itself.  Then, taking the
 union of two sets \texttt{sx} and \texttt{sy} is simple:  If \texttt{rx} is the node at the root of
 the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the tree representing
@@ -233,8 +233,8 @@ the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
                 ]
     find := procedure(x, parent) {
         if (parent[x] == x) {
@@ -243,16 +243,16 @@ the tree representing \texttt{sx} and \texttt{ry} is the node at the root of the
         return find(parent[x], parent);
     };
     unionFind := procedure(m, r) {
-        parent := { [n, n] : n in m };  
+        parent := { [x, x] : x in m };  
         for ([x, y] in r) {
-            parentX := find(x, parent);
-            parentY := find(y, parent);
-            if (parentX != parentY) {
-                parent[parentY] := parentX;  // create union
+            rootX := find(x, parent);
+            rootY := find(y, parent);
+            if (rootX != rootY) {
+                parent[rootY] := rootX;  // create union
             }
         }
         roots := { x : x in m | parent[x] == x };
-        return { { y : y in m | parent[y] == r } : r in roots };
+        return { { y : y in m | find(y, parent) == r } : r in roots };
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -268,10 +268,11 @@ binary relation \texttt{parent}.
       representing the parent pointers.  The purpose of the call \texttt{find(x, parent)} is to
       return the root of the tree containing \texttt{x}.
 
-      If \texttt{x} is its own parent, then \texttt{x} is already at the root of a tree and there 
+      If \texttt{x} is its own parent, then \texttt{x} is already at the root of a tree and therefore 
       we can return \texttt{x} itself in line 3.
 
-      Otherwise, we compute the parent of \texttt{x} and recursively compute the root of this parent.
+      Otherwise, we compute the parent of \texttt{x} and recursively compute the root of the tree
+      containing this parent.  
 \item The function \texttt{unionFind} takes a set \texttt{m} and a relation \texttt{r}.  It returns
       a partition of \texttt{m} that represents the equivalence relation generated by \texttt{r} on
       \texttt{m}.
@@ -289,11 +290,90 @@ binary relation \texttt{parent}.
       now points to the root of the tree containing \texttt{x}.  Therefore, instead of iterating over all
       elements of the set containing \texttt{y} we just change a single pointer.
 
-      Line 16 computes the set of all nodes that are at the root of a tree.  Then line 17 computes
-      those sets that correspond to these roots.
+      Line 16 computes the set of all nodes that are at the root of some tree.  Then, for every root
+      \texttt{r} of a tree, line 17 computes the set of nodes corresponding to this tree.
 \end{enumerate}
 
 \subsection{Controlling the Growth of the Trees}
+As it stands, the algorithm shown in the previous section has a complexity that is $\Oh(n^2)$ in the
+worst case where $n$ is the number of elements in the set \texttt{m}.  The worst case happens if there
+is just one equivalence class and the tree representing this class degenerates into a list.
+Fortunately, it is easy to fix this problem.  We just have to keep track of the height of the
+different trees.  Then, if we want to join the trees rooted at \texttt{parentX} and
+\texttt{parentY}, we have a choice: We can either set the parent of the node \texttt{parentX} to
+be \texttt{parentY} or we can set the parent of the node \texttt{parentY} to be \texttt{parentX}.
+If the tree rooted at \texttt{parentX} is smaller than the tree rooted at \texttt{parentY} we should
+use the assignment
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{parent[parentX] := parentY;}
+\\[0.2cm]
+otherwise we should use
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{parent[parentY] := parentX;}
+\\[0.2cm]
+In order to be able to distinguish these case, we store the height of the tree rooted at node
+\texttt{n} in the relation \texttt{height}, i.e.~if \texttt{n} is a node, then \texttt{height[n]} is
+the height of the tree rooted at node \texttt{n}.  This yields the implementation shown in Figure
+\ref{fig:union-find.stlx} on page \pageref{fig:union-find.stlx}.  Provided the size  of the relation
+\texttt{r} is bounded by the size $n$ of the set \texttt{m}, the complexity of this
+implementation is $\Oh\bigl(n \cdot \log(n)\bigr)$.
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm,
+                ]
+    unionFind := procedure(m, r) {
+        parent := { [x, x] : x in m };
+        height := { [x, 1] : x in m };
+        for ([x, y] in r) {
+            rootX := find(x, parent);
+            rootY := find(y, parent);
+            if (rootX != rootY) {
+                if (height[rootX] < height[rootY]) {
+                    parent[rootX] := rootY;  
+                } else if (height[rootX] > height[rootY]) {
+                    parent[rootY] := rootX;  
+                } else {
+                    parent[rootY] := rootX;  
+                    height[rootX] += 1;
+                }
+            }
+        }
+        roots := { x : x in m | parent[x] == x };
+        return { { y : y in m | find(y, parent) == r } : r in roots };
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{A more efficient version of the union-find algorithm.}
+\label{fig:union-find.stlx}
+\end{figure}
+
+\exercise
+We can speed up the implementation previously shown if the the set \texttt{m} has the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{m} = \{ 1, 2, 3, \cdots, n \}$ \quad where $n \in \mathbb{N}$.
+\\[0.2cm]
+In this case, the relations \texttt{parent} and \texttt{height} can be implemented as arrays.
+Develop an implementation that is based on this idea.
+\eox
+
+\subsection{Packing Union-Find as a Data Structure}
+When discussing  the minimum spanning tree problem,  we will need the union-find algorithm as an
+auxiliary data structure.  To this end we present a class that encapsulates the union-find
+algorithm.  This class is shown in Figure \ref{fig:union-find-oo.stlx} on page
+\pageref{fig:union-find-oo.stlx}.
+
 \begin{figure}[!ht]
 \centering
 \begin{Verbatim}[ frame         = lines, 
@@ -305,80 +385,319 @@ binary relation \texttt{parent}.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    unionFind := procedure(m, r) {
-        parent := { [n, n] : n in m };
-        height := { [n, 0] : n in m };
-        for ([x, y] in r) {
-            parentX := find(x, parent);
-            parentY := find(y, parent);
-            if (parentX != parentY) {
-                if (height[x] < height[y]) {
-                    parent[parentX] := parentY;  
-                } else if (height[x] > height[y]) {
-                    parent[parentY] := parentX;  
+    class unionFind(m) {
+        mParent := { [x, x] : x in m };
+        mHeight := { [x, 1] : x in m };
+        
+      static {
+        union := procedure(x, y) {
+            rootX := find(x);
+            rootY := find(y);
+            if (rootX != rootY) {
+                if (mHeight[rootX] < mHeight[rootY]) {
+                    this.mParent[rootX] := rootY;  
+                } else if (mHeight[rootX] > mHeight[rootY]) {
+                    this.mParent[rootY] := rootX;  
                 } else {
-                    parent[parentY] := parentX;  
-                    height[parentX] += 1;
+                    this.mParent[rootY] := rootX;  
+                    this.mHeight[rootX] += 1;
                 }
             }
-        }
-        roots := { x : x in m | parent[x] == x };
-        return { { y : y in m | parent[y] == r } : r in roots };
-    };
+        };
+        find := procedure(x) {
+            p := mParent[x]; 
+            if (p == x) {
+                return x;
+            }
+            return find(p);
+        };
+      }
+    }
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{A more efficient version of the union-find algorithm.}
-\label{fig:union-find.stlx}
+\caption{The class \texttt{unionFind}.}
+\label{fig:union-find-oo.stlx}
 \end{figure}
 
+\begin{enumerate}
+\item The constructor \texttt{unionFind} receives a set \texttt{m} as arguments.  The class
+      \texttt{unionFind} maintains two variables:
+      \begin{enumerate}
+      \item \texttt{mParent} is the dictionary implementing the pointers that point to the parents
+             of each node.  If a node \texttt{n} has no parent, then we have
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             \texttt{mParent[n] = n},
+             \\[0.2cm]
+             i.e.~the roots of the trees point to themselves.  Initially, all nodes are roots, so
+             all parent pointers point to themselves.
+      \item \texttt{mHeight} is a dictionary containing the heights of the trees.  If \texttt{n} is
+            a node, then
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            \texttt{mHeight[n]}
+            \\[0.2cm]
+            gives the height of the subtree rooted at \texttt{n}. As initially all trees contain but
+            a single node, these trees all have height $1$.
+      \end{enumerate}
+\item The method \texttt{union} takes two nodes \texttt{x} and \texttt{y} and joins the trees that
+      contain these nodes.  This is achieved by finding their parents \texttt{parentX} and
+      \texttt{parentY}.  Then, the root of the smaller of the two trees is redirected to point to
+      the root of the bigger tree.
+\item The method \texttt{find} takes a node \texttt{x} as its argument and computes the root of the
+      tree containing \texttt{x}. 
+\item The method \texttt{partition} is a client of the class \texttt{unionFind}.  It takes a set
+      \texttt{m} and a relation \texttt{r} on \texttt{m} and computes a partition that corresponds
+      to the equivalence relation induced by \texttt{r} on \texttt{m}. 
+      \begin{enumerate}
+      \item First, the method iterates over all pairs \texttt{[x,y]} in the relation \texttt{r} and
+            joins the equivalence classes corresponding to \texttt{x} and \texttt{y}.
+      \item Next, the method collects all nodes \texttt{x} that are at the root of a tree.
+      \item Finally, for every root \texttt{r} the method collects those nodes \texttt{x} that are
+            part of the tree rooted at \texttt{r}.
+      \end{enumerate}
+\end{enumerate}
 
+\pagebreak
 
-\section[Shortest Paths]{Die Berechnung k\"urzester Wege}
-Um das Problem der Berechnung k\"urzester Wege formulieren zu k\"onnen, f\"uhren wir zun\"achst 
-den Begriff des \emph{gewichteten Graphen} ein.  
+\section{Minimum Spanning Trees}
+Imagine an telecommunication company that intends to supply internet access to a developing country.
+The capital of the country is located at the coast line and is already connected to the internet via
+a submarine cable. It is the company's task to connect all of the towns and villages to the capital.
+Since most parts of the country are covered by jungle, it is cheapest to build the power lines
+alongside existing roads.  Mathematically, this kind of problem can be formulated as the problem of
+constructing a \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for
+a given \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weigthed}
+\href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Undirected_graph}{undirected graph}.
+Next, we provide the definitions of those notions that are needed to formulate the minimum spanning
+tree problem precisely.  Then, we present
+\href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for solving the
+minimum spanning tree problem. 
 
-\begin{Definition}[Gewichteter Graph] \lb
-  Ein  {\em gewichteter Graph} ist ein Tripel 
-   $\langle \nodes, \edges, \weight{\cdot} \rangle$ so dass gilt:
+\subsection{Basic Definitions}
+\begin{Definition}[Weighted Graph] An \emph{weighted graph} is a triple 
+   $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
-  \item $\nodes$ ist eine Menge von \emph{Knoten}.
-  \item $\edges \subseteq \nodes \times \nodes$ ist eine Menge von \emph{Kanten}.
-  \item $\weight{\cdot}: \edges \rightarrow \N \backslash\{0\}$ ist eine Funktion,
-        die jeder Kante eine positive \emph{L\"ange} zuordnet.
+  \item $\nodes$ is the set is a set of  \emph{nodes}.
+  \item $\edges$ is the set of  \emph{edges}.  An edge $e$ has the form
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\{x, y\}$
+        \\[0.2cm]
+        and connects $x$ and $y$.  Since $\{x,y\}$ is a set, we have
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\{x,y\} \in \edges$ \quad if and only if $\{y,x\} \in \edges$.
+        \\[0.2cm]
+        Hence, if $x$ is connected to $y$ then $y$ is also connected to $x$.
+  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \emph{weight} to every edge.
         \conclude
   \end{enumerate}
 \end{Definition}
 
 \noindent
-Ein \emph{Pfad} $P$ ist eine Liste der Form \\[0.2cm]
-\hspace*{1.3cm} $P = [ x_1, x_2, x_3, \cdots, x_n ]$ \\[0.2cm]
-so dass f\"ur alle $i = 1, \cdots, n-1$ gilt: \\[0.2cm]
-\hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$. \\[0.2cm]
-Die Menge aller Pfade bezeichnen wir mit $\paths$.
-Die L\"ange eines Pfads definieren wir als die Summe der L\"ange aller Kanten:
+A \emph{path} $P$ is a list of the form 
 \\[0.2cm]
-\hspace*{1.3cm} $\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. \\[0.2cm]
-Ist $p = [x_1, x_2, \cdots, x_n]$ ein Pfad, so sagen wir, dass $p$ den Knoten $x_1$ mit dem
-Knoten $x_n$ verbindet.   Die Menge alle Pfade, die den Knoten $v$ mit dem Knoten $w$
-verbinden, bezeichnen wir als \\[0.2cm]
 \hspace*{1.3cm} 
- $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \mid x_1 = v \,\wedge\, x_n = w \}$.
+$P = [ x_1, x_2, x_3, \cdots, x_n ]$ 
 \\[0.2cm]
-Damit k\"onnen wir nun das Problem der Berechnung k\"urzester Wege formulieren.
+such that we have : \\[0.2cm]
+\hspace*{1.3cm}
+ $\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 1, \cdots, n-1$.
+\\[0.2cm]
+The path $P$ \emph{connects} the nodes $x_1$ and $x_n$.  The \emph{weight} of a path is defined as
+the sum of the weights of all of its edges.  
+\\[0.2cm]
+\hspace*{1.3cm}
+ $\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
+\\[0.2cm]
+A graph is \emph{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$.
+A set of edges can be interpreted as graph since the set of nodes can be computed from the edges as
+follows: 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
+\\[0.2cm]
+Then, a set of edges $\edges$ is called a \emph{tree} if and only if
+\begin{enumerate}
+\item all of its nodes are connected \quad and
+\item removing an edge from $\edges$ would result in a graph that is no longer connected.
+\end{enumerate}
+The \emph{weight} of a tree is the sum of the weights of its edges.
 
-\begin{Definition}[K\"urzeste-Wege-Problem] \lb
-  Gegeben sei ein gewichteter Graph 
-  $G = \langle \nodes, \edges, \weight{\cdot} \rangle$ 
-  und ein  Knoten $\source \in \nodes$.  Dann besteht das 
-  {\em k\"urzeste-Wege-Problem}  darin, die folgende Funktion zu berechnen: \\[0.2cm]
-  \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
-  \hspace*{1.3cm} $\spath(v) \df \mathtt{min}\bigl\{ \weight{p} \mid p \in \paths(\source,v) \bigr\}$.
-  \conclude  
+\exercise
+Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that then
+\\[0.2cm]
+\hspace*{1.3cm}
+$\textsl{card}(\edges) = \textsl{card}(\nodes) - 1$
+\\[0.2cm]
+must hold.  
+
+\hint
+The easiest way to prove this is by induction on $n = \textsl{card}(V)$.  You will need to prove the
+following auxiliary claim first: In a tree there is at least one node in $\nodes$ that has
+only one neighboring node. 
+\eox
+
+\subsection{Kruskal's Algorithm}
+In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Joseph Bernard Kruskal} (1928 -- 2010) 
+found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
+of the union-find algorithm that we have developed previously.  The basic idea is as
+follows.
+\begin{enumerate}
+\item In the first step, we create a union-find data structure that contains \emph{singleton trees}
+      for all nodes in the graph.  Here, a singleton tree is a tree containing just a single node.
+\item Next, we iterate over all edges $\pair(x, y)$ in the graph in increasing order of their
+      weight.  If the nodes $x$ and $y$ are not yet connected, we join their respective equivalence
+      classes. 
+\item We stop when the number of edges is 1 less than the number of nodes since, according to the
+      previous exercise, the tree must then connect all the nodes of the graph. 
+\end{enumerate}
+The fact that we iterate over the edges in increasing order of their weight guarantees that the
+resulting tree has a minimal weight.
+The algorithm is shown in Figure \ref{fig:kruskal.stlx} on page \pageref{fig:kruskal.stlx}.  We
+discuss this program next. 
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    mst := procedure(v, e) {
+        uf     := unionFind(v);
+        result := {};
+        for([w, [x, y]] in e) {
+            px := uf.find(x);
+            py := uf.find(y);
+            if (px != py) {
+                result += { [w, [x, y]] };
+                uf.union(px, py);
+                if (#result == #v - 1) {
+                    return result;
+                }
+            }
+        }        
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Kruskal's algorithm.}
+\label{fig:kruskal.stlx}
+\end{figure}
+
+\begin{enumerate}
+\item The main function is the function \texttt{mst}.  This function is provided with two arguments:
+      \texttt{v} is a set of nodes and \texttt{e} is a set of edges.  The edges are represented as
+      triples of the form
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{[w, [x, y]]}.
+      \\[0.2cm] 
+      Here, \texttt{x} and \texttt{y} are the nodes connected by the edge and \texttt{w} is the
+      weight of the edge.  The function \texttt{mst} computes a minimum spanning tree of  the
+      graph that is specified via the sets \texttt{v} and \texttt{e}.  It is assumed that the graph
+      defined by \texttt{v} and \texttt{e} is connected.
+\item The function \texttt{mst} first creates the union-find data structure \texttt{uf} in line 2.
+      Initially, in \texttt{uf} every node is in an equivalence class all by itself, i.e.~nothing is
+      yet connected.
+\item The spanning tree constructed by the algorithm is stored in the variable \texttt{result}.
+      The spanning tree is represented by a set of edges.  
+\item Next, we iterate over the edges in \texttt{e}.  Since the first part of each edge is its
+      weight, the fact that in \textsc{SetlX} sets are stored as ordered binary trees ensures that
+      we start with the edge that has the smallest weight.
+\item For every edge \texttt{[x,y]} we check whether \texttt{x} and \texttt{y} are already
+      connected.  This is the case if both \texttt{x} and \texttt{y} are in the same tree.
+\item If \texttt{x} and \texttt{y} are not connected, the corresponding edge is added to the
+      spanning tree and the trees containing \texttt{x} and \texttt{y} are connected.
+\item The algorithm returns if the tree has $\texttt{\#v}-1$ edges, since we know that then all nodes
+      are connected.
+\end{enumerate}
+\pagebreak
+
+\section{Shortest Paths Algorithms}
+In this section we will show two algorithms that solve the
+\href{https://en.wikipedia.org/wiki/Shortest_path_problem}{\emph{shortest path problem}}, the 
+\href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{Bellman-Ford algorithm} and
+\href{https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}.  
+In order to explain the shortest path problem and the algorithm solving it, we introduce the notion
+of a weighted \href{https://en.wikipedia.org/wiki/Directed_graph}{\emph{directed graph}}.
+
+
+\begin{Definition}[Weighted Digraph] \
+  A \emph{weighted directed graph} (a.k.a.~a \emph{weighted digraph}) is a triple 
+  $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
+  \begin{enumerate}
+  \item $\nodes$ is the set of \emph{nodes} (sometimes the nodes are known as \emph{vertices}).
+  \item $\edges \subseteq \nodes \times \nodes$ is the set of \emph{edges}.
+  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function that assigns a positive \emph{length} 
+        to every edge.  This length is also known as the \emph{weight} of the edge.
+        \eox
+  \end{enumerate}
 \end{Definition}
 
-\subsection[Moore's Algorithm]{Der Algorithmus von Moore}
-Wir betrachten zun\"achst den Algorithmus von Moore \cite{moore:59} zur Berechnung des k\"urzeste-Wege-Problems.
-Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in \textsc{SetlX}.
+\remark
+The main difference between a graph and a digraph is that in a digraph the edges are 
+\mbox{p\hspace{-0.15cm}\underline{\hspace{0.15cm}airs}} of two
+nodes while in a graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
+digraph model one-way streets, while in a graph they model streets that work both ways.
+\eox
+
+\begin{Definition}[Path, Path Length]
+ A \emph{path} $P$ in a digraph is a list of the form 
+\\[0.2cm]
+\hspace*{1.3cm} 
+$P = [ x_1, x_2, x_3, \cdots, x_n ]$ 
+\\[0.2cm]
+such that
+\\[0.2cm]
+\hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$ \quad holds for all $i = 1, \cdots, n-1$. 
+\\[0.2cm]
+The set of all paths is denoted as $\paths$.
+The length of a path is the sum of the length of all edges:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
+\\[0.2cm]
+If  $p = [x_1, x_2, \cdots, x_n]$ is a path then  $p$ \emph{connects} the node $x_1$ with the node
+$x_n$.  We denote the set of all paths that connect the node $v$ with the node $w$ as
+\\[0.2cm]
+\hspace*{1.3cm} 
+ $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \bigm| x_1 = v \,\wedge\, x_n = w \bigr\}$.
+\end{Definition}
+
+\noindent
+Now we are ready to state the shortest path problem.
+
+\begin{Definition}[Shortest Path Problem] \lb
+  Assume a weighted digraph  
+  $G = \langle \nodes, \edges, \weight{\cdot} \rangle$ 
+  and a node $\source \in \nodes$ is given.  Then the \emph{shortest path problem} asks to compute
+  the following function:
+  \\[0.2cm]
+  \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
+  \hspace*{1.3cm} $\spath(v) \df \mathtt{min}\bigl\{ \weight{p} \bigm| p \in \paths(\source,v) \bigr\}$.
+  \\[0.2cm]
+  Furthermore, given that $\spath(v) = n$, we would like to be able to compute a path 
+  $p \in \paths(\source,v)$ such that $\weight{p} = n$.
+  \eox
+\end{Definition}
+
+\subsection{The Bellman-Ford Algorithm}
+The first algorithm we discuss is the
+\href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{\emph{Bellman-Ford algorithm}}.
+It is named after the mathematicians 
+\href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
+\href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who found this algorithm
+independently and published their results in 1958 and 1956, respectively.  Figure
+\ref{fig:moore.stlx} on page \pageref{fig:moore.stlx} shows the implementation of a variant of this 
+algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by 
+\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
+\pagebreak
 
 \begin{figure}[!ht]
   \centering
@@ -404,57 +723,58 @@ Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Algorithmus von Moore zur L\"osung des k\"urzeste-Wege-Problems.}
+  \caption{The Bellman-Ford algorithm to solve the shortest path problem.}
   \label{fig:moore.stlx}
 \end{figure} 
 
 \noindent
 \begin{enumerate}
-\item Die Funktion $\mathtt{shortestPath}(\textsl{source}, \textsl{edges})$ wird mit zwei Parametern
-      aufgerufen:
+\item The function $\mathtt{shortestPath}(\textsl{source}, \textsl{edges})$ is called with two arguments:
       \begin{enumerate}
-      \item \textsl{source} ist der Start-Knoten, von dem aus wir die Entfernungen zu den anderen Knoten
-            berechnen.
-      \item \textsl{edges} ist eine bin\"are Relation, die f\"ur jeden Knoten $x$ eine Menge von Paaren der
-            Form
+      \item \texttt{source} is the start node.  Our intention is to compute the distance of all
+            vertices from \texttt{source}.
+      \item \texttt{edges} is a binary relation that encodes the set of edges of the graph.  For
+            every node $x$ we have that \texttt{edges[$x$]} is a set of the form
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\{ [y_1, l_1], \cdots, [y_n, l_n] \}$
+            $\{ [y_1, l_1], \cdots, [y_n, l_n] \}$.
             \\[0.2cm]
-            speichert.  Die Idee dabei ist, dass f\"ur jeden in dieser Menge gespeicherten Knoten $y_i$
-            eine Kante $\langle x, y_i \rangle$ der L\"ange $l_i$ existiert.
+            This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
+            $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
       \end{enumerate}
-\item Die Variable \textsl{dist} speichert die Abstands-Funktions als bin\"are Relation, also
-      als Menge von Paaren der Form $[x, \mathtt{sp}(x)]$.  Hierbei ist $x \in \nodes$ und
-      $\mathtt{sp}(x)$ ist der Abstand, den der Knoten $x$ von dem Start-Knoten \textsl{source} hat.
+\item The variable \texttt{dist} is a functional binary relation.  When the computation is
+      successful, for every node $x$ the relation will contain a pair of the form
+      $[x, \mathtt{sp}(x)]$ showing that the node $x$ has distance $\mathtt{sp}(x)$ from the node \texttt{source}.
 
-      Der Knoten \textsl{source} hat von dem Knoten \textsl{source} offenbar den Abstand $0$
-      und zu Beginn unserer Rechnung ist das auch alles, was wir wissen.  Daher wird die Relation
-      \textsl{dist} in Zeile 2 mit dem Paar \texttt{[\textsl{source}, 0]} initialisiert.
-\item Die Variable \textsl{fringe} enth\"alt alle die Knoten, von denen ausgehend wir als n\"achstes die
-      Abst\"ande benachbarter Knoten berechnen sollten.  Am Anfang wissen wir nur von \textsl{source}
-      den Abstand und daher ist dies der einzige Knoten, mit dem wir die Menge \textsl{fringe} 
-      in Zeile 3 initialisieren.
-\item Solange es nun Knoten gibt, von denen ausgehend wir neue Wege berechnen k\"onnen,
-      w\"ahlen wir in Zeile 5 einen beliebigen Knoten aus der Menge \textsl{fringe} aus
-      und entfernen ihn aus dieser Menge.  
-\item Anschlie{\ss}end berechnen wir die Menge aller Knoten $v$, f\"ur die wir jetzt einen neuen
-      Abstand gefunden haben:
+      The node \texttt{source} has distance $0$ from the node \texttt{source} and initially this is
+      all we know.  Hence, the relation \texttt{dist} is initialized as the set \texttt{\{[source,0]\}}.
+\item The variable \texttt{fringe} is a set of those nodes where we already have an estimate of
+      their distance.  Our goal is to compute the distances of all those nodes $y$ that are
+      connected to a node in \texttt{fringe} by a singe edge $\pair(x,y)$.
+      Since, initially we only know the distance of the node \texttt{source}, we initialize the set
+      fringe as the set
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\{ \mathtt{source} \}$.
+\item As long as there are nodes left in the set \texttt{fringe} we pick an arbitrary node
+      \texttt{u} from \texttt{fringe} and remove it from \texttt{fringe}. 
+\item Next, we compute the set of all nodes\texttt{v} that can be reached from\texttt{u} and check, whether we
+      have found a better path leading to these nodes\texttt{v}.
+      There are two cases.
       \begin{enumerate}
-      \item Das sind einerseits die Knoten $v$, f\"ur welche die Funktion $\textsl{dist}(v)$ bisher noch
-            undefiniert war, weil wir diese Knoten in unserer bisherigen Reechnung noch gar nicht gesehen
-            haben.
-      \item Andererseits sind dies aber auch Knoten, f\"ur die wir schon einen Abstand haben, der aber
-            gr\"o{\ss}er ist als der Abstand des Weges, den wir erhalten, wenn wir die Knoten von $u$ aus
-            besuchen. 
+      \item If there is an edge from \texttt{u} to a node \texttt{v} and  \texttt{dist[v]} is still
+            undefined, then we hadn't yet found a path leading to \texttt{v}.
+      \item Furthermoore, there are those nodes \texttt{v} where we had already found a path leading from
+            \texttt{source} to \texttt{v} but the length of this path is longer than the length of the path
+            that we get when we first visit \texttt{u} and then proceed to \texttt{v} via the edge $\pair(\mathtt{u},\mathtt{v})$.
       \end{enumerate}
-      F\"ur alle diese Knoten berechnen wir den Abstand und f\"ugen diese Knoten dann in die Menge 
-      \textsl{fringe} ein.
-\item Der Algorithmus terminiert, wenn die Menge \textsl{fringe} leer ist, denn dann haben wir alle
-      Knoten abgeklappert.
+      We compute the distance of the path leading from \texttt{source} to \texttt{u} and then to
+      \texttt{v} in both of these cases and add \texttt{v} to the fringe.
+\item The algorithm terminates when the set \texttt{fringe} is empty because in that case we don't
+      have any means left to improve our estimation of the distance function.
 \end{enumerate}
 
-\subsection{Der Algorithmus von Dijkstra}
+\subsection{Dijkstra's Algorithm}
 \begin{figure}[!ht]
 \centering
 \begin{Verbatim}[ frame         = lines, 
@@ -484,160 +804,155 @@ Abbildung \ref{fig:moore.stlx} zeigt eine Implementierung dieses Algorithmus' in
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{Der Algorithmus von Dijkstra zur L\"osung des k\"urzeste-Wege-Problems.}
+\caption{Dijkstra's algorithm to solve the shortest path problem.}
 \label{fig:dijkstra.stlx}
 \end{figure}
 
 \noindent
-Im Algorithmus von Moore ist die Frage, in welcher Weise die Knoten aus der Menge
-\textsl{fringe} ausgew\"ahlt werden, nicht weiter spezifiziert.  
-Die Idee bei dem von Edsger W.~Dijkstra (1930 -- 2002) im Jahre 1959 ver\"offentlichten
-Algorithmus \cite{dijkstra:59}
-besteht darin, immer den Knoten auszuw\"ahlen, der den geringsten Abstand zu
-dem Knoten \textsl{source} hat.
-Dazu wird die Menge \textsl{fringe} nun als  eine Priorit\"ats-Warteschlange
-implementiert.  Als Priorit\"aten w\"ahlen wir die Entfernungen zu dem Knoten \texttt{source}.
-Abbildung \ref{fig:dijkstra.stlx} auf Seite \pageref{fig:dijkstra.stlx} zeigt die 
-Implementierung des Algorithmus von Dijkstra zur Berechnung der k\"urzesten Wege in der Sprache
-\textsc{SetlX}.
+The Bellman-Ford algorithm doesn't specify how the nodes are picked from the set \texttt{fringe}.
+In 1959 \href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra} (1930 -- 2002) \cite{dijkstra:59}
+published an algorithm that removed this non-determinism.  Dijkstra had the idea to always choose
+the node that has the smallest distance to the node \texttt{source}.  To do this, we just have to
+implement the set  \texttt{fringe} as a priority queue where the priority of a node is given by the
+distance of this node to the node \texttt{source}.  Figure \ref{fig:dijkstra.stlx} on page
+\pageref{fig:dijkstra.stlx} shows an implementation of Dijkstra's algorithm in \textsc{SetlX}.
 
-In dem Problem in Abbildung \ref{fig:dijkstra.stlx} taucht noch eine Variable mit dem Namen \textsl{visited} auf.
-Diese Variable bezeichnet die Menge der Knoten, die der Algorithmus schon \textsl{besucht}
-hat.  Genauer sind das die Knoten $u$, die aus der Priorit\"ats-Warteschlange \texttt{fringe}
-entfernt wurden und f\"ur die dann anschlie{\ss}end in der \texttt{for}-Schleife, die in Zeile 8
-beginnt, alle zu $u$ benachbarten Knoten untersucht wurden.  
-Die Menge \textsl{visited} hat f\"ur
-die eigentliche Implementierung des Algorithmus keine Bedeutung, denn die Variable \textsl{visited}
-wird nur in Zeile 4 und Zeile 13 geschrieben, aber sie wird an keiner Stelle gelesen.
-Ich habe die Variable \textsl{visited} nur deshalb eingef\"uhrt, damit ich eine Invariante formulieren
-kann, die f\"ur den Beweis der Korrektheit des Algorithmus zentral ist.  Diese Invariante lautet
+The program shown in Figure \ref{fig:dijkstra.stlx} has an additional variable called \texttt{visited}.
+This variable contains the set of those nodes that have been  \emph{visited} by the algorithm.
+To be more precise, \texttt{visited} contains those nodes \texttt{u} that have been removed from the
+priority queue \texttt{fringe} and for which all neighboring nodes, i.e.~those nodes $y$ such that
+there is an edge $\pair(u,y)$, have been examined.
+The set \texttt{visited} isn't used in the implementation of the algorithm since the variable is
+only written but is never read.
+I have introduced the variable \texttt{visited} in order to be able to formulate the invariant that
+is needed to prove the correctness of the algorithm.  This invariant is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall u\in\mathtt{visited}: \textsl{dist}[u] = \textsl{sp}(u)$.
+$\forall \mathtt{u}\in\mathtt{visited}: \texttt{dist[u]} = \texttt{sp(u)}$,
 \\[0.2cm]
-F\"ur alle Knoten aus \textsl{visited} liefert die Funktion \textsl{dist}() also bereits den
-k\"urzesten Abstand zum Knoten \textsl{source}.  
+i.e.~for all nodes $\mathtt{u} \in \texttt{visited}$, the functional relation \texttt{dist}
+already contains the length of the shortest path leading from \texttt{source} to $x$.  
 \vspace*{0.1cm}
 
-\noindent
-\textbf{Beweis}: Wir zeigen durch Induktion, dass jedesmal wenn wir einen Knoten $u$ in die Menge
-\textsl{visited} einf\"ugen, die Gleichung
+\proof 
+We prove by induction that every time that a node \texttt{u} is added to the set
+\texttt{visited} we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{dist}[u] = \textsl{sp}(u)$ 
+$\texttt{dist[u]} = \texttt{sp(u)}$ 
 \\[0.2cm]
-gilt.
-In dem Programm gibt es genau zwei Stellen, an denen die Menge \textsl{visited} ver\"andert wird.
+holds.  To begin, observe that the program has only two lines where the set \texttt{visited} is changed.
+We only need to inspect these lines.
 \begin{enumerate}
-\item[I.A.:]  
-      Zu Beginn enth\"alt die Menge $\textsl{visited}$ nur den Knoten \textsl{source} und offenbar gilt
+\item \textbf{Base Case:}  
+      Initially, the set $\texttt{visited}$ contains only the node \texttt{source} and we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{sp}(\textsl{source}) = 0 = \textsl{dist}(\textsl{source})$.
+      $\texttt{sp}(\texttt{source}) = 0 = \texttt{dist[source]}$.
       \\[0.2cm]
-      Daher stimmt die Behauptung f\"ur alle Elemente, die zu Beginn Elemente der Menge \textsl{visited} sind.
-\item[I.S.:]
-      In Zeile 13 f\"ugen wir den Knoten $u$ in die Menge \textsl{visited} ein.
-      Wir betrachten nun die Situation unmittelbar vor dem Einf\"ugen von $u$.
-      Falls  $u$ bereits ein Elemente der Menge \textsl{visited} sein sollte, gilt die Behauptung
-      nach Induktions-Voraussetzung.  
-      Wir brauchen also nur den Fall betrachten, dass  $u$ vor dem Einf\"ugen noch kein Element der 
-      Menge \textsl{visited} ist.
+      Hence the claim is true initially.
+\item \textbf{Induction Step:}
+      In line 13 we add the node \texttt{u} to the set \texttt{visited}.  Immediately before \texttt{u} is
+      inserted there are two cases: If \texttt{u} is already a member of the set \texttt{visited}, the
+      claim is true by induction hypothesis.  Hence we only need to consider the case where
+     \texttt{u} is not a member of the set \texttt{visited} before it is inserted.
 
-      Wir f\"uhren den weiteren Beweis nun indirekt und nehmen an, dass 
+      The proof now proceeds indirect and we assume that we have
       \\[0.2cm]
-      \hspace*{1.3cm} $\textsl{dist}(u) > \textsl{sp}(u)$
+      \hspace*{1.3cm} $\texttt{dist[u]} > \texttt{sp(u)}$
       \\[0.2cm]
-      gilt.  Dann gibt es einen k\"urzesten Pfad 
+      Then there must exist a shortest path 
       \\[0.2cm]
-      \hspace*{1.3cm} $p = [ x_0 = \textsl{source}, x_1, \cdots, x_n = u ]$
+      \hspace*{1.3cm} $p = [ x_0 = \texttt{source}, x_1, \cdots, x_n = \texttt{u} ]$
       \\[0.2cm]
-      von \textsl{source} nach $u$, der insgesamt die L\"ange $\textsl{sp}(u)$ hat.
-      Es sei  $i\in\{0,\cdots,n-1\}$ der Index f\"ur den 
+      leading from \texttt{source} to \texttt{u} that has length $\texttt{sp(u)}$ and this length is less
+      than \texttt{dist[u]}.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $x_0\in \textsl{visited}$, $\cdots$, $x_i\in \textsl{visited}$ \quad aber \quad $x_{i+1} \not\in \mathtt{Visited}$,
+      $x_0\in \texttt{visited}$, $\cdots$, $x_i\in \texttt{visited}$ \quad but \quad $x_{i+1} \not\in \mathtt{Visited}$
       \\[0.2cm]
-      gilt, $x_i$ ist also der erste Knoten aus dem Pfad $p$, f\"ur den $x_{i+1}$ nicht mehr
-      in der Menge
-      \textsl{visited} liegt.  Nachdem $x_i$ in die Menge Visited eingef\"ugt wurde,
-      wurde f\"ur alle Knoten, die mit $x_i$ \"uber eine Kante verbunden sind,
-      die Funktion \textsl{dist} neu ausgerechnet.  Insbesondere
-      wurde auch $\textsl{dist}[x_{i+1}]$ neu berechnet und der Knoten $x_{i+1}$ wurde 
-      sp\"atestens zu diesem Zeitpunkt in die Menge \textsl{fringe} eingef\"ugt.
-      Au{\ss}erdem wissen wir, dass $\textsl{dist}[x_{i+1}] = \textsl{sp}(x_{i+1})$ gilt,
-      denn nach Induktions-Voraussetzung gilt $\textsl{dist}[x_i] = \textsl{sp}(x_i)$
-      und die Kante $\pair(x_i,x_{i+1})$ ist Teil eines k\"urzesten Pfades von $x_i$ nach $x_{i+1}$.
+      holds.  Hence $x_i$ is the first node in the path  $p$ such that $x_{i+1}$ is not a member of
+      \texttt{visited}.  Such an index $i$ has to exist because $\texttt{u} \not\in \mathtt{visited}$.
+      Before the node $x_i$ is added to the set \texttt{visited}, all nodes $y$ that are connected
+      to $x_i$ via an edge $\pair(x_i, y)$ are examined and for these nodes the function
+      \texttt{dist} is updated if this edge leads to a shorter path.  In particular, $x_{i+1}$ has
+      been examined and $\texttt{dist}[x_{i+1}]$ has been recomputed.  At the latest, the node
+      $x_{i+1}$ has been added to the set  \texttt{fringe} at this time, although, of course, it
+      could have been added already earlier.  Furthermore, we must have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{dist}[x_{i+1}] = \texttt{sp}(x_{i+1})$,
+      \\[0.2cm]
+      because by induction hypothesis we have that $\texttt{dist}[x_i] = \texttt{sp}(x_i)$ and 
+      the edge $\pair(x_i,x_{i+1})$ is part of a shortest path from  $x_i$ to $x_{i+1}$.
       
-      Da wir nun angenommen haben, dass $x_{i+1} \not\in \textsl{visited}$ ist,
-      muss $x_{i+1}$ immer noch in der Pri\-ori\-t\"ats-Warteschlange \textsl{fringe} liegen.
-      Also muss $\textsl{dist}[x_{i+1}] \geq \textsl{dist}[u]$ gelten,
-      denn sonst w\"are $x_{i+1}$ vor $u$ aus der Priorit\"ats-Warteschlange entfernt worden.
-      Wegen $\textsl{sp}(x_{i+1}) = \textsl{dist}[x_{i+1}]$ haben wir dann aber
-      den Widerspruch 
+      As we have assumed that $x_{i+1} \not\in \texttt{visited}$, the node $x_{i+1}$ still has to be an
+      element of the priority queue \texttt{fringe} at this point.  Therefore we must have
+      $\texttt{dist}[x_{i+1}] \geq \texttt{dist}[u]$, since otherwise  $x_{i+1}$ would have been
+      chosen from the priority queue \texttt{fringe} before \texttt{u} has been chosen, but then $x_{i+1}$
+      would be a member of \texttt{visited}.
+
+      Since $\texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}]$ we now have the contradiction
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\textsl{sp}(u) \geq \textsl{sp}(x_{i+1}) = \textsl{dist}[x_{i+1}] \geq \textsl{dist}[u] > \textsl{sp}(u)$.
+      $\texttt{sp(u)} \geq \texttt{sp}(x_{i+1}) = \texttt{dist}[x_{i+1}] \geq \texttt{dist[u]} > \texttt{sp(u)}$.
       \\[0.2cm]
-      Dieser Widerspruch zeigt, dass die Annahme $\textsl{dist}[u] > \textsl{sp}(u)$ falsch sein muss.  Da andererseits aber immer
-      $\textsl{dist}[u] \geq \textsl{sp}(u)$ gilt, denn kein Pfad kann k\"urzer als der k\"urzeste Pfad sein, gilt insgesamt
+      This shows that the assumption $\texttt{dist[u]} > \texttt{sp(u)}$ has to be wrong.  On the
+      other hand, we always have $\texttt{dist[u]} \geq \texttt{sp(u)}$ we can only conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{dist}[u] = \textsl{sp}(u)$. \qed
+      $\texttt{dist[u]} = \texttt{sp(u)}$
+      \\[0.2cm]
+      holds for all nodes $\texttt{u} \in \texttt{visited}$. \qed
 \end{enumerate}
 
-\subsection{Komplexit\"at}
-Wenn ein Knoten $u$ aus der Warteschlange \textsl{fringe} entfernt wird, ist er anschlie{\ss}end ein Element der
-Menge \textsl{visited} und aus der oben gezeigten Invariante folgt, dass dann 
+\exercise
+Improve the implementation of Dijkstra's algorithm given above so that the algorithm also computes
+the shortest path for every node that is reachable from \texttt{source}.
+\eox
+\pagebreak
+
+\subsection{Complexity}
+If a node \texttt{u} is removed from the priority queue \texttt{fringe}, the node is added to the set
+\texttt{visited}.  The invariant that was just proven implies that in that case
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{sp}(u) = \textsl{dist}[u]$
+$\texttt{sp(u)} = \texttt{dist[u]}$
 \\[0.2cm]
-gilt.  Daraus folgt aber notwendigerweise, dass der Knoten $u$ nie wieder in die Priorit\"ats-Warteschlange
-\textsl{fringe}
-eingef\"ugt werden kann, denn ein Knoten $v$ wird nur dann in \textsl{fringe} neu eingef\"ugt, wenn
-entweder die Funktion $\textsl{dist}[v]$ noch undefiniert ist, oder sich der Wert von
-$\texttt{dist}[v]$ verkleinert.  
-Das Einf\"ugen eines Knoten in eine Priorit\"ats-Warteschlange mit $n$
-Elementen kostet eine Rechenzeit, die durch $\Oh\bigl(\log_2(n)\bigr)$ abgesch\"atzt werden kann.  Da die
-Warteschlange sicher nie mehr als $\#\nodes$ Knoten enthalten kann und da jeder Knoten h\"ochstens einmal eingef\"ugt
-werden kann, liefert das einen Term der Form 
+holds.  This implies that the node \texttt{u} can never be reinserted into the priority queue
+\texttt{fringe}, because a node \texttt{v} is only inserted in \texttt{fringe} if either 
+ \texttt{dist[v]} is still undefined or if  the  value \texttt{dist[v]} decreases.  
+Inserting a node into a priority queue containing  $n$ elements can be bounded by
+$\Oh\bigl(\log_2(n)\bigr)$.  As the priority queue never contains more than $\#\nodes$ nodes and we
+can insert every node at most once, insertion into the priority queue can be bounded by
 \\[0.2cm]
 \hspace*{1.3cm}
-$\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$ 
+$\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$.
 \\[0.2cm]
-f\"ur das Einf\"ugen der Knoten.  Neben dem Einf\"ugen eines Knotens durch den Befehl
-\\[0.2cm]
-\hspace*{1.3cm}
-\texttt{fringe += \{ [dvNew, v] \};}
-\\[0.2cm]
-m\"ussen wir auch die Komplexit\"at des Aufrufs
+We also have to analyze the complexity of removing a node from the fringe. 
+The number of times the assignment
 \\[0.2cm]
 \hspace*{1.3cm}
 \texttt{fringe -= \{ [dvOld, v] \};} 
 \\[0.2cm]
-analysieren.
-Die Anzahl dieser Aufrufe ist durch die Anzahl der Kanten begrenzt, die zu dem Knoten $v$ hinf\"uhren.
-Da das Entfernen eines Elements aus einer Menge mit $n$ Elementen eine Rechenzeit
-der Gr\"o{\ss}e $\Oh\bigl(\log_2(n)\bigr)$ erfordert, haben wir die Absch\"atzung
+is executed is bounded by the number of edges leading to the node \texttt{v}.
+Removing an element from a set containing $n$ elements can be bounded by
+ $\Oh\bigl(\log_2(n)\bigr)$.  Hence, removal of all nodes from the fringe can be bounded by
 \\[0.2cm]
 \hspace*{1.3cm}
-$\Oh\bigl(\#\edges \cdot \log_2(\#\nodes)\bigr)$
+$\Oh\bigl(\#\edges \cdot \log_2(\#\nodes)\bigr)$.
 \\[0.2cm]
-f\"ur diese Rechenzeit.
-Dabei bezeichnet $\#\edges$ die Anzahl der Kanten. Damit erhalten wir f\"ur die
-Komplexit\"at von Dijkstra's Algorithmus insgesamt den Ausdruck \\[0.2cm]
+Here,  $\#\edges$ is the number of edges.  Hence the complexity of Dijkstra's algorithm can be
+bounded by the expression \\[0.2cm]
 \hspace*{1.3cm} $\Oh\bigl((\#\edges + \#\nodes) * \ln(\#\nodes)\bigr)$. \\[0.2cm]
-Ist die Zahl der Kanten, die von den Knoten ausgehen k\"onnen, durch eine feste Zahl begrenzt
-(z.B. wenn von jedem Knoten nur maximal 4 Kanten ausgehen), so
-kann  die Gesamt-Zahl der Kanten durch ein festes Vielfaches der Knoten-Zahl abgesch\"atzt
-werden.  Dann ist  die Komplexit\"at f\"ur Dijkstra's Algorithmus zur  Bestimmung der k\"urzesten Wege
-durch den Ausdruck  
+If the number of edges leading  to a given node is bounded by a fixed number, e.g.~if there
+are at most 4 edges leading to a given node, then the number of edges is a fixed multiple of the
+number of nodes.  In this case, the complexity of 
+ Dijkstra's algorithm is given by the expression  
 \\[0.2cm]
 \hspace*{1.3cm}
-$\Oh\bigl(\#\nodes * \log_2(\#\nodes)\bigr)$ 
-\\[0.2cm]
-gegeben.
+$\Oh\bigl(\#\nodes * \log_2(\#\nodes)\bigr)$ .
+
 
 
 

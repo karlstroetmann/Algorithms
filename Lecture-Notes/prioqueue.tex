@@ -12,14 +12,14 @@ waiting to buy a ticket.  The person at the front of the queue is served and the
 the queue.  New persons entering the cinema have to line up at the end of the queue.  In contrast, a
 priority queue is more like a dentist's waiting room.  If you have an appointment at 10:00 and you
 have already waited for an hour, suddenly a patient with no appointment but a private insurance
-shows up.  Since this has a higher priority, this patient will then be attended next while you have
+shows up.  Since this patient has a higher priority, he will then be attended next while you have
 to wait for another hour. 
 
 Priority queues have many applications in computer science.  We will make use of priority queues,
 first, when implementing Huffman's algorithm for data compression and, second, when we implement
 Dijkstra's algorithm for finding the shortest path in a weighted graph.  Furthermore, priority
 queues are used in simulation systems and in operating systems when scheduling processes.
-
+Finally, the sorting algorithm \emph{heapsort} is based on priority queues.
 
 \section[Formal Definition]{Formal Definition of the ADT \textsl{PrioQueue}}
 Next, we give a formal definition of the ADT \textsl{PrioQueue}.  Since the data type
@@ -34,7 +34,7 @@ These functions will also be sufficient for Huffman's algorithm.
   \item The set of type parameters is \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Priority}, \textsl{Value} \}$.
 
-        Furtheremore, there must exist a linear ordering $<$ on the set $\textsl{Priority}$.
+        Furtheremore, there must exist a linear ordering $\leq$ on the set $\textsl{Priority}$.
         This is needed since we want to compare the priority of different elements.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
@@ -43,11 +43,12 @@ These functions will also be sufficient for Huffman's algorithm.
         \begin{enumerate}
         \item $\textsl{prioQueue}: \textsl{PrioQueue}$
 
-              The function invocation  ``$\textsl{prioQueue}()$'' creates a new, empty priority queue.
+              This function is the constructor. It creates a new, empty priority queue.
         \item $\textsl{top}: \textsl{PrioQueue}  \rightarrow (\textsl{Priority} \times \textsl{Value}) \cup \{\Omega\}$
 
               The expression $Q.\textsl{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
-              element of $Q$ that is of maximal priority in $Q$, while $p$ is its priority.
+              element of $Q$ that has a  maximal priority among all elements in $Q$, while $p$ is
+              the priority associated with $v$. 
         \item $\textsl{insert}: \textsl{PrioQueue} \times \textsl{Priority} \times \textsl{Value} \rightarrow \textsl{PrioQueue}$
 
               The expression $Q.\textsl{insert}(p,v)$ inserts the  element $v$ into the priority queue $Q$.
