@@ -1,7 +1,6 @@
 swap := procedure(x, y, rw a) {
     [a[x], a[y]] := [a[y], a[x]];
 };
-
 sink := procedure(k, rw a, n) {
     while (2 * k <= n) {
         j := 2 * k;
@@ -15,7 +14,6 @@ sink := procedure(k, rw a, n) {
         k := j;
     }
 };
-
 heapSort := procedure(rw a) {
     n := #a;
     for (k in [n\2, n\2-1 .. 1]) {

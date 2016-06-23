@@ -4,11 +4,11 @@ mst := procedure(v, e) {
     uf     := unionFind(v);
     result := {};
     for([w, [x, y]] in e) {
-        px := uf.find(x);
-        py := uf.find(y);
-        if (px != py) {
+        rx := uf.find(x);
+        ry := uf.find(y);
+        if (rx != ry) {
             result += { [w, [x, y]] };
-            uf.union(px, py);
+            uf.union(rx, ry);
             if (#result == #v - 1) {
                 return result;
             }
