@@ -4,10 +4,14 @@ calculateChances := procedure(n) {
     successStupid := 0; // number of cars for stupid strategy
     successSmart  := 0; // number of cars for smart strategy
     for (i in [1..n]) {
-        car    := rnd({1..3});                       // The car is put here.
-        choice := rnd({1..3});                       // The door that is chosen.
-        opened := rnd({1..3} - { choice, car });     // The door opened by Monty Hall.
-        last   := arb({1..3} - { choice, opened });  // The remaining door.
+        // The car is put here
+        car    := rnd({1..3});                       
+        // The door that is chosen
+        choice := rnd({1..3});                       
+        // The door opened by Monty Hall.
+        opened := rnd({1..3} - { choice, car });
+        // The remaining door.
+        last   := arb({1..3} - { choice, opened });
         if (car == choice) {
             successStupid += 1;
         }

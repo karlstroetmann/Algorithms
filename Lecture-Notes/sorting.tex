@@ -505,7 +505,7 @@ $\mathtt{split}(l)$
 returns a pair of lists of the form
 \\[0.2cm]
 \hspace*{1.3cm}
-$[l_1, l_2]$.
+$\langle l_1, l_2 \rangle$ \quad where $l_1 = \mathtt{split}_1(l)$ and $l_2 = \mathtt{split}_2(l)$.
 \\[0.2cm]
 The idea is to distribute the elements of $l$ to the lists $l_1$ and $l_2$ in a way that both lists
 have approximately the same size.   Let us proceed to discuss the details of the program shown in
@@ -565,18 +565,17 @@ Next, we specify the function $\texttt{split}$ via equations.
 \begin{enumerate}
 \item If $l$ is empty, $\mathtt{split}(l)$ returns two empty lists:\\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(\texttt{[]}) = \mathtt{[} \texttt{[]}, \texttt{[]} \mathtt{]}$.
+      $\mathtt{split}(\texttt{[]}) = \langle \texttt{[]}, \texttt{[]} \rangle$.
 \item If $l$ contains exactly one element, this element is put into the first of the two lists
       returned from \texttt{split}: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
+      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \langle \texttt{[}x\texttt{]}, \texttt{[]} \rangle$.
 \item Otherwise, $l$ must have the form $[x, y | r]$.
       Then we split $r$ recursively into two lists $r_1$ and $r_2$.  The element $x$ is put in front
       of $r_1$, while $y$ is put in front of $r_2$:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(r) = \mathtt{[}r_1, r_2\mathtt{]} \rightarrow
-      \mathtt{split}\bigl([x, y|r]\bigr) = \bigl[ [x|r_1], [y|r_2] \bigr]$.
+      $\mathtt{split}(r) = \langle r_1, r_2 \rangle \rightarrow \mathtt{split}\bigl([x, y|r]\bigr) = \bigl\langle [x|r_1], [y|r_2] \bigr\rangle$.
 \end{enumerate}
 Finally, we specify how two sorted lists $l_1$ and $l_2$ are merged in a way that the resulting list
 is also sorted.
