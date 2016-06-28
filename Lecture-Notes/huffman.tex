@@ -172,7 +172,7 @@ zu kodierende String aus  $n$ verschiedenen Buchstaben, so haben
 wir dann eine Menge von Kodierungs-B\"aumen der Form
 \begin{equation}
   \label{eq:huffmann1}
- M = \bigl\{  \textsl{Leaf}(c_1, f_1), \cdots, \textsl{Leaf}(c_k, f_k) \bigr\}.   
+ M = \bigl\{  \textsl{Leaf}(c_1, f_1), \cdots, \textsl{Leaf}(c_n, f_n) \bigr\}   
 \end{equation}
 Es werden nun solange Knoten $a$ und $b$ aus $M$ zu einem neuen Knoten
 $\textsl{Node}(a,b)$ zusammengefasst, bis die Menge $M$ nur noch einen Knoten enth\"alt.
@@ -241,7 +241,7 @@ implementiert diesen Algorithmus.
       \\[0.2cm]
       \hspace*{1.3cm}
       $m = \bigl\{ \langle f_1, \textsl{Leaf}(c_1) \rangle, \cdots, 
-                  \langle f_k, \textsl{Leaf}(c_k) \rangle \bigr\}   
+                  \langle f_n, \textsl{Leaf}(c_n) \rangle \bigr\}   
       $
       \\[0.2cm]
       hat.  Hier bezeichnen die Variablen $c_i$ die verschiedenen Buchstaben, w\"ahrend die
