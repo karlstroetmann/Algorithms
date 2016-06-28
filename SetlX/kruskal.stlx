@@ -1,0 +1,35 @@
+load("union-find-oo.stlx");
+// v is the set of nodes, e is a set of weighted edges
+mst := procedure(v, e) {
+    uf     := unionFind(v);
+    result := {};
+    for([w, [x, y]] in e) {
+        rx := uf.find(x);
+        ry := uf.find(y);
+        if (rx != ry) {
+            result += { [w, [x, y]] };
+            uf.union(rx, ry);
+            if (#result == #v - 1) {
+                return result;
+            }
+        }
+    }        
+};
+
+
+demoFile := procedure(fn) {
+    data  := readFile(fn);
+    edges := {};
+    nodes := {};
+    for (line in data) {
+        [x, y, weight] := split(line, " ");
+        edges += { [double(weight), [int(x), int(y)]] };
+        nodes += { int(x), int(y) };
+    }
+    tree := mst(nodes, edges);
+    print(tree);
+};
+
+demoFile("tinyEWG.txt");
+
+

@@ -32,10 +32,7 @@ class calculator(s) {
             stackOp := mOperators.top();
             if (stackOp == "(" && nextOp == ")") {
                 mOperators.pop();
-            } else if (nextOp == ")") {
-                popAndEvaluate();
-                mTokenStack.push(nextOp);
-            } else if (evalBefore(stackOp, nextOp)) {
+            } else if (nextOp == ")" || evalBefore(stackOp, nextOp)) {
                 popAndEvaluate();
                 mTokenStack.push(nextOp);
             } else {

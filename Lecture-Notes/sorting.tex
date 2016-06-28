@@ -303,7 +303,7 @@ $
 \end{array}
 $
 \\[0.2cm]
-because $b_1 = 0$ and the sum of all natural numbers from 1 upto  $n - 1$ is given as
+because $b_1 = 0$ and the sum of all natural numbers from 1 up to  $n - 1$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
 $\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.
@@ -505,7 +505,7 @@ $\mathtt{split}(l)$
 returns a pair of lists of the form
 \\[0.2cm]
 \hspace*{1.3cm}
-$[l_1, l_2]$.
+$\langle l_1, l_2 \rangle$ \quad where $l_1 = \mathtt{split}_1(l)$ and $l_2 = \mathtt{split}_2(l)$.
 \\[0.2cm]
 The idea is to distribute the elements of $l$ to the lists $l_1$ and $l_2$ in a way that both lists
 have approximately the same size.   Let us proceed to discuss the details of the program shown in
@@ -565,18 +565,17 @@ Next, we specify the function $\texttt{split}$ via equations.
 \begin{enumerate}
 \item If $l$ is empty, $\mathtt{split}(l)$ returns two empty lists:\\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(\texttt{[]}) = \mathtt{[} \texttt{[]}, \texttt{[]} \mathtt{]}$.
+      $\mathtt{split}(\texttt{[]}) = \langle \texttt{[]}, \texttt{[]} \rangle$.
 \item If $l$ contains exactly one element, this element is put into the first of the two lists
       returned from \texttt{split}: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \mathtt{[} \texttt{[}x\texttt{]}, \texttt{[]} \mathtt{]}$.
+      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \langle \texttt{[}x\texttt{]}, \texttt{[]} \rangle$.
 \item Otherwise, $l$ must have the form $[x, y | r]$.
       Then we split $r$ recursively into two lists $r_1$ and $r_2$.  The element $x$ is put in front
       of $r_1$, while $y$ is put in front of $r_2$:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(r) = \mathtt{[}r_1, r_2\mathtt{]} \rightarrow
-      \mathtt{split}\bigl([x, y|r]\bigr) = \bigl[ [x|r_1], [y|r_2] \bigr]$.
+      $\mathtt{split}(r) = \langle r_1, r_2 \rangle \rightarrow \mathtt{split}\bigl([x, y|r]\bigr) = \bigl\langle [x|r_1], [y|r_2] \bigr\rangle$.
 \end{enumerate}
 Finally, we specify how two sorted lists $l_1$ and $l_2$ are merged in a way that the resulting list
 is also sorted.
@@ -917,7 +916,7 @@ implementation has lots of function calls, it is considerably less efficient tha
 implementation.  Therefore, we present an iterative implementation of \emph{merge sort} in Figure
 \ref{fig:merge-sort-nr.stlx} on page \pageref{fig:merge-sort-nr.stlx}.
 
-Instad of recursive calls of the function \texttt{mergeSort}, this implementation has two nested 
+Instead of recursive calls of the function \texttt{mergeSort}, this implementation has two nested 
 \texttt{while}-loops.  The idea is to first split the list \texttt{l} into sublists of length 1.
 Obviously, these sublists are already sorted.  Next, we merge pairs of these lists into lists of
 length 2.  After that, we take pairs of lists of length 2 and merge them into sorted lists of length
@@ -979,7 +978,8 @@ descendingly.   For this reason, \emph{Timsort} uses the following tricks:
       Therefore, there is no need to compare these elements with $x$ one by one.  
 \end{enumerate}
 Timsort uses some more tricks, but unfortunately we don't have the time to discuss all of them.
-\emph{Timsort} is part of the \textsl{Java} library, the source code is available online at
+Originally, Tim Peters developed Timsort for the programming language \textsl{Python}.  Today,
+\emph{Timsort} is also part of the \textsl{Java} library, the source code is available online at
 \\[0.2cm]
 \hspace*{1.3cm}
 \href{http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/jdk7-b76/src/share/classes/java/util/TimSort.java}{\texttt{http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/jdk7-b76/\\
@@ -1086,7 +1086,7 @@ This happens if all elements of $l[2..]$ are bigger than $l[1]$.  Then, we have
 \hspace*{1.3cm}
 $a_n = a_{n-1} + n - 1$. 
 \\[0.2cm]
-The term $n-1$ is due to the $n-1$ comparisons needed for execution
+The term $n-1$ is due to the $n-1$ comparisons needed for the execution of
 $\texttt{partition}(x,r)$ in line 4 of \ref{fig:quick-sort.stlx} and the term $a_{n-1}$ is the
 number of comparisons needed for the recursive evaluation of $\textsl{sort}(b)$.
 
@@ -1135,7 +1135,7 @@ Here, the term $n$ accounts for the number of comparisons needed to compute
 \hspace*{1.3cm}
 \texttt{partition(x, r)}
 \\[0.2cm]
-since we need to compare every element of $l$ but the pivot element $x$ itself  with the pivot $x$.
+since we need to compare every element of $l$ except the pivot $x$ With the pivot $x$.
 In order to simplify the recurrence relation (1) we note that
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1265,9 +1265,10 @@ that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{n}\Bigr)$. 
-\\[0.2cm]  
-Here, $\gamma$ is the
-\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the
+\\[0.2cm] 
+We discuss this approximation in the lecture on calculus after we have covered integration.  In the
+formula approximating the harmonic number $H_n$, $\gamma$ is the
+\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the 
 value
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1297,7 +1298,7 @@ comparisons and hence on average \emph{quick sort} needs  $2 \cdot \ln(2) \appro
 
 
 \subsection{Implementing \emph{Quick Sort} for Arrays}
-Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
+Next, we show how \emph{quick sort}  is implemented using arrays instead of lists.  Figure
 \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows this implementation. 
 
 \begin{figure}[!ht]
@@ -1310,31 +1311,31 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm
                 ]
-    sort := procedure(rw l) {
-        quickSort(1, #l, l);
+    sort := procedure(rw lst) {
+        quickSort(1, #lst, lst);
     };
-    quickSort := procedure(a, b, rw l) {
+    quickSort := procedure(a, b, rw lst) {
         if (b <= a) {
             return; // at most one element, nothing to do
         }
-        m := partition(a, b, l);  // split index
-        quickSort(a, m - 1, l);
-        quickSort(m + 1, b, l);
+        m := partition(a, b, lst);  // m is the split index
+        quickSort(a, m - 1, lst);
+        quickSort(m + 1, b, lst);
     };
-    partition := procedure(start, end, rw l) {
-        pivot := l[end];
+    partition := procedure(start, end, rw lst) {
+        pivot := lst[end];
         left  := start - 1;
         for (idx in [start..end-1]) {
-            if (l[idx] <= pivot) {
+            if (lst[idx] <= pivot) {
                 left += 1;
-                swap(left, idx, l);
+                swap(left, idx, lst);
             }
         }
-        swap(left + 1, end, l);
+        swap(left + 1, end, lst);
         return left + 1;
     };    
-    swap := procedure(x, y, rw l) {
-        [ l[x], l[y] ] := [ l[y], l[x] ];
+    swap := procedure(x, y, rw lst) {
+        [ lst[x], lst[y] ] := [ lst[y], lst[x] ];
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -1346,40 +1347,40 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
 \item Contrary to the array based implementation of \emph{merge sort}, we do not need an auxiliary
       array.  This is one of the main advantages of \emph{quick sort} over \emph{merge sort}.
 \item The function \texttt{sort} is reduced to a call of \texttt{quickSort}.  This function
-      takes the parameters \texttt{a}, \texttt{b}, and \texttt{l}.  
+      takes the parameters \texttt{a}, \texttt{b}, and \texttt{lst}.  
       \begin{enumerate}
       \item \texttt{a} specifies the index of the first element of the subarray that needs to be
             sorted.
       \item \texttt{b} specifies the index of the last element of the subarray that needs to be
             sorted. 
-      \item \texttt{l} is the array that needs to be sorted.
+      \item \texttt{lst} is the array that needs to be sorted.
       \end{enumerate}
-      Calling \texttt{quickSort(a, b, l)} sorts the subarray \\[0.2cm]
+      Calling \texttt{quickSort(a, b, lst)} sorts the subarray \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{l[a], l[a+1], $\cdots$, l[b]}
+      \texttt{lst[a], lst[a+1], $\cdots$, lst[b]}
       \\[0.2cm]
-      of the array \texttt{l}, i.~e.~after that call we expect to have\\[0.2cm]
+      of the array \texttt{lst}, i.~e.~after that call we expect to have\\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{l[a] $\preceq$ l[a+1] $\preceq$ $\cdots$ $\preceq$ l[b]}.
+      \texttt{lst[a] $\preceq$ lst[a+1] $\preceq$ $\cdots$ $\preceq$ lst[b]}.
       \\[0.2cm]
       The implementation of the function \texttt{quickSort}
       is quite similar to the list implementation.  The main difference is that the function
-      \texttt{partition}, that is called in line 8, redistributes the elements of \texttt{l}:
-      All elements that are less or equal than the \emph{pivot element} \texttt{l[m]}
+      \texttt{partition}, that is called in line 8, redistributes the elements of \texttt{lst}:
+      All elements that are less or equal than the \emph{pivot element} \texttt{lst[m]}
       have an index that is lower than the index \texttt{m}, while the remaining elements will have
       an index that is bigger than \texttt{m}.  The pivot element itself will have the index \texttt{m}.
 \item The difficult part of the implementation of \emph{quick sort} is the implementation of the
       function \texttt{partition} that is shown beginning in line 12.
       The \texttt{for} loop in line 15 satisfies the following invariants.
       \begin{enumerate}
-      \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{l}[i] \leq \mathtt{pivot}$.
+      \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{lst}[i] \leq \mathtt{pivot}$.
 
-            All elements in the subarray \texttt{l[start..left]} are less or equal than the pivot element.
-      \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < l[i]$.
+            All elements in the subarray \texttt{lst[start..left]} are less or equal than the pivot element.
+      \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < \mathtt{lst}[i]$.
 
-            All elements in the subarray \texttt{l[left+1..idx-1]} are greater than the pivot
+            All elements in the subarray \texttt{lst[left+1..idx-1]} are greater than the pivot
             element.
-      \item $\texttt{pivot} = \mathtt{l[end]}$
+      \item $\texttt{pivot} = \mathtt{lst[end]}$
 
             The pivot element itself is at the end of the array.
       \end{enumerate}
@@ -1395,13 +1396,13 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
             \\
             \hspace*{1.3cm}
             $\{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\} =  \{ \mathtt{start},\cdots,\mathtt{start}-1\}=\{\}$.
-      \item If the element \texttt{l[idx]} is less than the
-            pivot element, it need to become part of the subarray \texttt{l[start..left]}.  In order to
-            achieve this, it is placed at the position \texttt{l[left+1]}.  The element that has been at
-            that position is part of the subarray \texttt{l[left+1..idx-1]} and therefore, most of the times,\footnote{It is not always greater than the pivot element
-      because the subarray \texttt{l[left+1..idx-1]} might well be empty.}
+      \item If the element \texttt{lst[idx]} is less than the
+            pivot element, it need to become part of the subarray \texttt{lst[start..left]}.  In order to
+            achieve this, it is placed at the position \texttt{lst[left+1]}.  The element that has been at
+            that position is part of the subarray \texttt{lst[left+1..idx-1]} and therefore, most of the times,\footnote{It is not always greater than the pivot element
+      because the subarray \texttt{lst[left+1..idx-1]} might well be empty.}
             it is greater than the pivot element.  
-            Hence we move this element to the end of the subarray \texttt{l[left+1..idx-1]}.
+            Hence we move this element to the end of the subarray \texttt{lst[left+1..idx-1]}.
       \end{enumerate}
       Once the \texttt{for} loop in line 15 terminates, the call to \texttt{swap} in line 21 moves
       the pivot element into its correct position.  
@@ -1412,7 +1413,7 @@ Finally, we show how \emph{quick sort}  is implemented for arrays.  Figure
 There are a number of tricks that can be used to increase the efficiency of \emph{quick sort}.
 \begin{enumerate}
 \item Instead of taking the first element as the pivot element, use three elements from the list
-      $l$ that is to be sorted.  For example, take the first element, the last element, and an
+      $\mathtt{lst}$ that is to be sorted.  For example, take the first element, the last element, and an
       element from the middle of the list.  Now compare these three elements and take that element as
       a pivot that is between the other two elements.
 
@@ -1440,16 +1441,17 @@ There are a number of tricks that can be used to increase the efficiency of \emp
       downloaded at the following address:
       \\[0.2cm]
       \hspace*{0.3cm}
-      \href{http://iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf}{\texttt{http://iaroslavski.narod.ru/quicksort/DualPivotQuicksort.pdf}}
+      \href{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}{\texttt{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}}
       \\[0.2cm]
       The main idea of Yaroslavskiy is to use two pivot elements $x$ and $y$.  For example, we can
       define
       \\[0.2cm]
       \hspace*{1.3cm}
-      $x := l[1]$ \quad and \quad $y := l[\#l]$,
+      $x := \mathtt{lst}[1]$ \quad and \quad $y := \mathtt{lst}[\#\mathtt{lst}]$,
       \\[0.2cm]
-      i.~e.~we take $x$ as the first element of $l$, while $y$ is the last element of $l$.  Then, the list
-      $l$ is split into three parts:
+      i.~e.~we take $x$ as the first element of $\mathtt{lst}$, while $y$ is the last element of
+      $\mathtt{lst}$.  Then, the list 
+      $\mathtt{lst}$ is split into three parts:
       \begin{enumerate}
       \item The first part contains those elements that are less than $x$.
       \item The second part contains those elements that are bigger or equal than $x$ but less or
@@ -1479,17 +1481,18 @@ There are a number of tricks that can be used to increase the efficiency of \emp
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
                 ]
-    sort := procedure(l) {
-        match (l) {
+    sort := procedure(lst) {
+        match (lst) {
         case []     : return [];
         case [x]    : return [x];
-        case [x,y|r]: [p1, p2] := [min({x,y}), max({x,y})];
-                      [l1,l2,l3] := partition(p1, p2, r);
-                      return sort(l1) + [p1] + sort(l2) + [p2] + sort(l3);
+        case [x,y|r]: 
+             [p1, p2] := [min({x,y}), max({x,y})];
+             [lst1,lst2,lst3] := partition(p1, p2, r);
+             return sort(lst1) + [p1] + sort(lst2) + [p2] + sort(lst3);
         }
     };
-    partition := procedure(p1, p2, l) {
-        match (l) {
+    partition := procedure(p1, p2, lst) {
+        match (lst) {
         case []   : return [ [], [], [] ];
         case [x|r]: [ r1, r2, r3 ] := partition(p1, p2, r);
                     if (x < p1) {
@@ -1516,7 +1519,7 @@ In this section we will show that any sorting algorithm, that sorts elements by 
 use at least 
 \\[0.2cm]
 \hspace*{1.3cm}
- $\Oh\bigl(n \cdot \log_2(n)\bigr)$ 
+ $\Omega\bigl(n \cdot \log_2(n)\bigr)$ 
 \\[0.2cm]
 comparisons.  The important caveat here is that the sorting algorithm is restricted to not make any assumptions
 on the elements of the list $l$ that is to be sorted.  The only operation that is allowed on these
@@ -1603,12 +1606,12 @@ In order to proceed, we need an approximation for the expression $\log_2(n!)$.
 A \href{http://en.wikipedia.org/wiki/Stirling's_approximation}{simple approximation} of this term is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\log_2(n!) = n \cdot \log_2(n) + \Oh(n)$.
+$\log_2(n!) = n \cdot \log_2(n) + \Theta(n)$.
 \\[0.2cm]
 Using this approximation we get
 \\[0.2cm]
 \hspace*{1.3cm}
-$k \geq n \cdot \log_2(n) + \Oh(n)$.
+$k \geq n \cdot \log_2(n) + \Theta(n)$.
 \\[0.2cm]
 As \emph{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
 we have shown that this algorithm is optimal with respect to the number of comparisons.

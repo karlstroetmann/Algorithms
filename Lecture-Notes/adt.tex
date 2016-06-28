@@ -31,7 +31,7 @@ where the meaning of the components is as follows:
       Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
       these data types: 
       \begin{enumerate}
-      \item We can have concrete data types like, e.~g.~``\texttt{int}'' or ``\texttt{String}''.
+      \item We can have concrete data types like, e.g.~``\texttt{int}'' or ``\texttt{String}''.
       \item Furthermore, these can be the names of abstract data types.
       \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
       \end{enumerate}
@@ -162,7 +162,7 @@ any further.
         };
         pop := procedure() {
             assert(#mStackElements > 0, "popping empty stack");
-            this.mStackElements := mStackElements[1 .. #mStackElements - 1];
+            this.mStackElements := mStackElements[1 .. -2];
         };
         top := procedure() {
             assert(#mStackElements > 0, "top of empty stack");
@@ -172,13 +172,9 @@ any further.
             return mStackElements == [];
         };
         f_str := procedure() {
-             copy   := this;
-             result := convert(copy);
-             dashes := "\n";
-             for (i in {1 .. #result}) {
-                  dashes += "-";
-             }
-             return dashes + "\n" + result + dashes + "\n";
+            result := convert(this);
+            dashes := "-" * #result;
+            return join([dashes, result, dashes], "\n");
         };
         convert := procedure(s) {
             if (s.isEmpty()) {
@@ -213,7 +209,7 @@ discussed next.
       After the keyword \texttt{class}, the name of the class has to be given.  In Figure
       \ref{fig:stack-array.stlx} this name is \texttt{stack}.
 
-      In \textsc{SetlX}, every class also defines a constructor wich has the same name as the class.
+      In \textsc{SetlX}, every class also defines a constructor which has the same name as the class.
       Since in line 1 the name \texttt{class} is followed by ``\texttt{()}'', the constructor
       \texttt{stack} does not take any arguments.  In order to use it, we can write
       \\[0.2cm]
@@ -321,12 +317,7 @@ discussed next.
 
       The implementation of the method \texttt{f\_str} works as follows.
       \begin{enumerate}
-      \item First, line 20 creates a copy of the stack.  The reason for working with a copy is
-            that all the methods that are available on a stack only permit us to look at the 
-            topmost element of the stack.  In order to inspect the second element we first have to
-            remove the first element.  However, the method \texttt{f\_str} is not supposed to change
-            the stack.  Therefore, we have to create a copy of the stack first.
-      \item Next, we use the auxiliary method \texttt{convert}.  This method computes a string of
+      \item First, we use the auxiliary method \texttt{convert}.  This method computes a string of
             the form \\[0.2cm]
             \hspace*{1.3cm} \texttt{| 1 | 2 | 3 |}. 
             \\[0.2cm]
@@ -334,11 +325,12 @@ discussed next.
             If the given stack s is empty, the result of \texttt{convert} will be the string ``\texttt{|}''.  
             Otherwise we get the top element of the stack using the method \texttt{top()} and remove
             it using \texttt{pop()}.  Next, the remaining stack is converted to a string in
-            line 34 and finally the element \texttt{top} is appended to this string.
-      \item The method \texttt{f\_str} uses a \texttt{for} loop to create a line of dashes.
+            line 30 and finally the element \texttt{top} is appended to this string.
+      \item The method \texttt{f\_str} creates a line of dashes in line 21.
+            This line has the same length as the string produced by \texttt{convert}
             The result of \texttt{convert} is then decorated with these dashes.
       \end{enumerate}
-\item Note that there is no ``\texttt{;}'' at the end of the class definition in line 37.
+\item Note that there is no ``\texttt{;}'' at the end of the class definition in line 33.
       In contrast to a procedure definition, a class definition must \underline{not} be terminated 
       by the character ``\texttt{;}''.
 \end{enumerate}
@@ -352,15 +344,16 @@ that are administered by the abstract data type are actually represented.
 
 \section{Evaluation of Arithmetic Expressions}
 Next, in order to demonstrate the usefulness of stacks, we show how \emph{arithmetic expressions} can be
-evaluated using stacks.  An \emph{arithmetic expression} is a string that is made up of numbers and
+evaluated using stacks.  To this end, we present the
+\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard algorithm}} for
+parsing arithmetic expressions.  
+An \emph{arithmetic expression} is a string that is made up of numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
-``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the remainder when doing
-integer division and
-$x\;\texttt{**}\;y$ denotes the power $x^y$.    Furthermore, arithmetic expressions can use
+``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the
+modulus operator and $x\;\texttt{**}\;y$ denotes the power $x^y$.    Furthermore, arithmetic expressions can use
 the parentheses ``\texttt{(}'' and ``\texttt{)}''.
   
-The set of arithmetic expressions can be defined inductively as
-follows:
+Formally, the set of arithmetic expressions is defined by induction.
 \begin{enumerate}
 \item Every number $n \in \mathbb{N}$ is an arithmetic expression.
 \item If $s$ and $t$ are arithmetic expressions, then
@@ -393,25 +386,35 @@ The arithmetic expression \\[0.2cm]
 Our goal is to implement a program that evaluates an arithmetic expression.
 
 
-\subsection{A First Example}
-In order to explain the algorithm that is used to evaluate an arithmetic expression, we present a
-simple example first.  Consider the arithmetic expression 
+\subsection{A Simple Example}
+Before we dive into to the details of the shunting-yard algorithm, we present a
+simple example.  Consider the arithmetic expression 
 \\[0.2cm]
 \hspace*{1.3cm} 
-\texttt{1 + 2 * 3 - 4}. 
+``\texttt{1 + 2 * 3 - 4}''. 
 \\[0.2cm]
-This string is processed from left to right, one \emph{token}\footnote{A \emph{token} is either a
-  number, an operator symbol, or a parenthesis.}
- at a time.  In order to process the string we use three stacks.
+First, this string is transformed into the list of \emph{tokens}
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34} 4]}.
+\\[0.2cm]
+A \emph{token} is either a number, an operator symbol, or a parenthesis.
+Notice that the space symbols that have been present in the original arithmetic expression string
+have been discarded.  This list is processed from left to right, one token
+ at a time.  In order to process this list, we use three stacks.
 \begin{enumerate}
-\item The  \emph{token stack} contains all tokens of the arithmetic expression. 
+\item The  \emph{token list} contains all the tokens of the arithmetic expression.  It is
+      initialized with the list of tokens resulting from the input string.
+      Although the token list is really just a list we will represent this list as a stack and call
+      this list the \emph{token stack}.
       The first token of the arithmetic expression is on top of this stack.
-\item The  \emph{argument stack} contains numbers.
-\item The \emph{operator stack} contains operator symbols and the left parenthesis ``\texttt{(}''.
+\item The  \emph{argument stack} contains only numbers and is initially empty.
+\item The \emph{operator stack} contains only operator symbols and parentheses and is also initially
+      empty.
 \end{enumerate}
 The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 \begin{enumerate}
-\item In the beginning, the token stack contains the arithmetic expression and the other two stacks
+\item In the beginning, the token stack contains the tokens of the arithmetic expression and the other two stacks
       are empty: \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
@@ -500,7 +503,7 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
 The algorithm introduced in the last example is known as the 
-\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard-algorithm}}.
+\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard algorithm}}.
 It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} in 1961.
 We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
 that are needed for this algorithm.
@@ -508,7 +511,8 @@ that are needed for this algorithm.
 \item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
       represented as strings, while the numbers are represented as rational numbers.
 \item \texttt{mArguments} is a stack of rational numbers.  
-\item \texttt{mOperators} is the operator stack.
+\item \texttt{mOperators} is the operator stack containing arithmetic operators.  These operators
+      are represented as strings.
 \end{enumerate}
 Considering the previous example we realize that the numbers are always put onto the argument stack,
 while there are two cases for operator symbols that are removed from the token stack:
@@ -525,7 +529,8 @@ while there are two cases for operator symbols that are removed from the token s
 \item In all other cases, the operator that has been taken from the token stack is put back onto the
       token stack.  In this case, the operator on top of the operator stack is removed from the
       operator stack and, furthermore, the arguments of this operator are removed from the argument
-      stack.  Next, this operator is evaluated and the resulting number is put onto the argument stack.
+      stack.  Next, this operator is evaluated using the arguments that have been previously removed
+      from the argument stack.   The resulting number is then pushed onto the argument stack.
 \end{enumerate}
 
 
@@ -560,10 +565,7 @@ while there are two cases for operator symbols that are removed from the token s
                 stackOp := mOperators.top();
                 if (stackOp == "(" && nextOp == ")") {
                     mOperators.pop();
-                } else if (nextOp == ")") {
-                    popAndEvaluate();
-                    mTokenStack.push(nextOp);
-                } else if (evalBefore(stackOp, nextOp)) {
+                } else if (nextOp == ")" || evalBefore(stackOp, nextOp))
                     popAndEvaluate();
                     mTokenStack.push(nextOp);
                 } else {
@@ -633,7 +635,7 @@ while there are two cases for operator symbols that are removed from the token s
 An implementation of this algorithm in \textsc{SetlX} is shown in the Figures
 \ref{fig:calculator.setlx-1} and \ref{fig:calculator.setlx-2} on the following pages.
 We start our discussion of the class \texttt{calculator} by inspecting the method
-\texttt{evalBefore} that is defined in line 35.
+\texttt{evalBefore} that is defined in line 32.
 This method takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
 whether \texttt{stackOp} should be evaluated before \texttt{nextOp}.  Of course, \texttt{stackOp} is
 intended to be the operator on top of the operator stack, while \texttt{nextOp} is an operator that
@@ -642,7 +644,7 @@ In order to decide whether the operator \texttt{stackOp} should be evaluated bef
 \texttt{nextOp},  we first have to know the \emph{precedences} of these operators.  Here, a
 \emph{precedence} is a natural number that specifies how strong the operator binds to its
 arguments. Table \ref{tab:predence} on page \pageref{tab:predence} lists the precedences of our
-operators.  This table is coded as the binary relation \texttt{prec} in line 36.
+operators.  This table is coded as the binary relation \texttt{prec} in line 33.
 
 \begin{table}[!h]
   \centering
@@ -700,15 +702,15 @@ Now we can understand the implementation of $\texttt{evalBefore}(\mathtt{stackOp
 \begin{enumerate}
 \item If \texttt{stackOp} is the opening parenthesis \texttt{\symbol{34}(\symbol{34}}, we have to put
       \texttt{nextOp} onto the operator stack.  The reason is that \texttt{\symbol{34}(\symbol{34}}
-      is no operator that can be evaluated.  Hence, we return \texttt{false} in line 37.
+      is no operator that can be evaluated.  Hence, we return \texttt{false} in line 34.
 \item If the precedence of \texttt{stackOp} is higher than the precedence of \texttt{nextOp}, we
-      return \texttt{true} in line 39.
+      return \texttt{true} in line 36.
 \item If the precedences of \texttt{stackOp} and \texttt{nextOp} are identical, there are two cases:
       \begin{enumerate}
       \item If both operators are equal, then the result of
             \texttt{evalBefore(stackOp,nextOp)} is \texttt{true} if and only if
             this operator associates to the left.  The operators that associate to the left are
-            listed in the set in line 42.
+            listed in the set in line 39.
       \item Otherwise, if \texttt{stackOp} is different from \texttt{nextOp}, then \\
             \texttt{evalBefore(stackOp,nextOp)} returns \texttt{true}. 
       \end{enumerate}
@@ -719,8 +721,8 @@ Figure  \ref{fig:calculator.setlx-2} on page \pageref{fig:calculator.setlx-2} sh
 implementation of the method \texttt{popAndEvaluate}.
 This method works as follows: 
 \begin{enumerate}
-\item It takes an operator from the operator stack (line 51), 
-\item it fetches the arguments of this operator from the argument stack (line 49 and line 50),
+\item It takes an operator from the operator stack (line 48), 
+\item it fetches the arguments of this operator from the argument stack (line 46 and line 47),
 \item it evaluates the operator,  and
 \item finally puts the result back on top of the argument stack.
 \end{enumerate}
@@ -769,7 +771,7 @@ Figure \ref{fig:calculator.setlx-1}.
 
 
 \exercise
-In the following exercise, your task is to extend the program for evaluation arithmetic expressions in three steps.
+In the following exercise, your task is to extend the program for evaluating arithmetic expressions in three steps.
 \begin{enumerate}[(a)]
 \item Extend the program discussed in these lecture notes so that it can also be used to evaluate
       arithmetic expressions containing the function symbols
@@ -783,7 +785,7 @@ In the following exercise, your task is to extend the program for evaluation ari
       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
       circle to its diameter. 
 
-      Note that these constants can be accessed in \textsc{setlX} via the function \texttt{mathConst}.
+      Note that these constants can be accessed in \textsc{SetlX} via the function \texttt{mathConst}.
       For example, the function calls
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -798,7 +800,7 @@ In the following exercise, your task is to extend the program for evaluation ari
 
 
 
-\section[Benefits]{Benefits of Using Abstract Data Types}
+\section[Benefits of Abstract Data Types]{Benefits of Using Abstract Data Types}
 We finish this chapter with a short discussion of the benefits of abstract data types.
  \begin{enumerate}
  \item The use of abstract data types separates an algorithm from the data structures that

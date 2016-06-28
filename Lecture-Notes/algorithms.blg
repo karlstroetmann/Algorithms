@@ -1,10 +1,8 @@
-This is BibTeX, Version 0.99d (TeX Live 2012)
+This is BibTeX, Version 0.99d (TeX Live 2015)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: algorithms.aux
 A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: limits.aux
 A level-1 auxiliary file: big-o-notation.aux
-A level-1 auxiliary file: hoare.aux
 A level-1 auxiliary file: sorting.aux
 A level-1 auxiliary file: adt.aux
 A level-1 auxiliary file: map.aux
@@ -15,44 +13,44 @@ A level-1 auxiliary file: graph.aux
 A level-1 auxiliary file: monte-carlo.aux
 The style file: alpha.bst
 Database file #1: cs.bib
-You've used 31 entries,
+You've used 29 entries,
             2543 wiz_defined-function locations,
-            747 strings with 8268 characters,
-and the built_in function-call counts, 11410 in all, are:
-= -- 1111
-> -- 514
-< -- 17
-+ -- 174
-- -- 166
-* -- 771
-:= -- 1909
-add.period$ -- 96
-call.type$ -- 31
-change.case$ -- 178
-chr.to.int$ -- 30
-cite$ -- 31
-duplicate$ -- 493
-empty$ -- 870
-format.name$ -- 208
-if$ -- 2335
+            734 strings with 7783 characters,
+and the built_in function-call counts, 10411 in all, are:
+= -- 1024
+> -- 450
+< -- 16
++ -- 152
+- -- 143
+* -- 682
+:= -- 1745
+add.period$ -- 90
+call.type$ -- 29
+change.case$ -- 165
+chr.to.int$ -- 28
+cite$ -- 29
+duplicate$ -- 455
+empty$ -- 800
+format.name$ -- 183
+if$ -- 2133
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 44
-newline$ -- 159
-num.names$ -- 95
-pop$ -- 195
+missing$ -- 39
+newline$ -- 149
+num.names$ -- 87
+pop$ -- 176
 preamble$ -- 1
-purify$ -- 214
+purify$ -- 197
 quote$ -- 0
-skip$ -- 384
+skip$ -- 355
 stack$ -- 0
-substring$ -- 558
-swap$ -- 61
-text.length$ -- 17
+substring$ -- 511
+swap$ -- 52
+text.length$ -- 16
 text.prefix$ -- 11
 top$ -- 0
-type$ -- 188
+type$ -- 180
 warning$ -- 0
-while$ -- 105
-width$ -- 38
-write$ -- 404
+while$ -- 97
+width$ -- 35
+write$ -- 379

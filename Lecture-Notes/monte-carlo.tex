@@ -39,13 +39,12 @@ Einheits-Kreis f\"allt, wird nun proportional zur Fl\"ache des Einheits-Kreises 
 \[ p = \frac{\textsl{Fl\"ache}(E)}{\textsl{Fl\"ache}(Q)}. \]
 Da das Quadrat die Seitenl\"ange 2 hat, gilt f\"ur die Fl\"ache des Quadrats $Q$ die Formel
 \[ \textsl{Fl\"ache}(Q) = 2^2 = 4. \]
-Auf der anderen Seite wird bei einer hohen Anzahl von Sandk\"ornern das Verh\"altnis $\frac{k}{n}$ gegen diese
+Auf der anderen Seite wird bei einer hohen Anzahl von Sandk\"ornern das Verh\"altnis $\ds\frac{k}{n}$ gegen diese
 Wahrscheinlichkeit $p$ streben, so dass wir insgesamt
 \[ \frac{k}{n} \approx \frac{\pi}{4} \]
 haben, woraus sich f\"ur $\pi$ die N\"aherungsformel
 \[ \pi \approx 4 \cdot \frac{k}{n} \]
-ergibt.  W\"ahrend die alten \"Agypter bei dieser historischen Methode zur Berechung von $\pi$ noch Tonnen von
-Sand ben\"otigten,  k\"onnen wir dieses Experiment heute einfacher mit Hilfe eines Computers durchf\"uhren.
+ergibt.  Anstatt mit Sand  k\"onnen wir dieses Experiment einfacher mit Hilfe eines Computers durchf\"uhren.
 
 \begin{figure}[!ht]
 \centering
@@ -82,7 +81,7 @@ beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
 \begin{enumerate}
 \item Der Parameter $n$ gibt die Anzahl der Sandk\"orner an, die wir in das Quadrat $Q$ werfen.
 \item Um ein Sandkorn zuf\"allig zu werfen, werden mit Hilfe der Funktion $\textsl{random}()$ 
-      zun\"achst Zufallszahlen erzeugt, die in dem
+      zun\"achst Zufalls\-zahlen erzeugt, die in dem
       Intervall $[0,1]$ liegen.  Mit Hilfe der Transformation 
       \[ t \mapsto 2 \cdot t - 1  \]
       wird das Intervall $[0,1]$ in das Intervall $[-1, 1]$ transformiert, so dass die in den Zeilen 5 und 6
@@ -123,24 +122,24 @@ beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
 \end{table}
 
 Lassen wir das Progamm laufen, so erhalten wir die in Tabelle \ref{tab:pi} gezeigten Ergebnisse.
-Wir sehen, dass wir zur Berechnung von $\pi$ auf eine Genauigkeit von zwei Stellen hinter dem Komma etwa $100\,000$
+Wir sehen, dass wir zur Berechnung von $\pi$ mit einer Genauigkeit von $10^-{3}$ etwa $10\,000\,000$
 Versuche brauchen, was angesichts der Rechenleistung heutiger Computer kein Problem darstellt.  Die Berechnung
-weiterer Stellen gestaltet sich jedoch sehr aufwendig:  Die Berechnung der dritten Stelle hinter dem Komma
-erfordert  $100\,000\,000$ Versuche. Grob gesch\"atzt k\"onnen wir
+weiterer Stellen gestaltet sich jedoch sehr aufwendig:  Eine Genauigkeit von $10^{-4}$
+erfordert schon $1\,000\,000\,000$ Versuche. Grob gesch\"atzt k\"onnen wir
 sagen, dass sich der Aufwand bei der Berechnung jeder weiteren Stelle verhundertfacht!  
 Wir halten folgende Beobachtung fest:
 
 \begin{center}
-\colorbox{orange}{\framebox{
+\colorbox{red}{\colorbox{orange}{\framebox{
   \framebox{
   \begin{minipage}[t]{12cm}
   Die Monte-Carlo-Methode ist gut geeignet, um grobe Absch\"atzungen zu berechnen, wird aber sehr aufwendig,
   wenn eine hohe Genauigkeit gefordert ist.
   \end{minipage}
-  }}}
+  }}}}
 \end{center}
 
-\section[Theory]{Theoretischer Hintergrund}
+\section[Theory]{Theoretischer Hintergrund$^*$}
 Wir diskutieren nun den theoretischen Hintergrund der Monte-Carlo-Methode.  Da im zweiten Semester noch
 keine detailierteren Kenntnisse aus der Wahrscheinlichkeits\-rechnung vorhanden sind, beschr\"anken wir
 uns darauf, die wesentlichen Ergebnisse anzugeben.  Eine Begr\"undung dieser Ergebnisse erfolgt dann
@@ -242,7 +241,7 @@ korrekt sein soll?
 \textbf{Hinweis}: 
 Um eine Genauigkeit von 6 Stellen hinter dem Komma zu erreichen, sollte der Fehler durch $10^{-7}$
 abgesch\"atzt werden.  \eox
-
+\pagebreak
 
 \solution
 Nach dem Hinweis soll 
@@ -276,7 +275,7 @@ Das sind also mehr als fast 169 Billionen Versuche. \qed
 Berechnen Sie mit Hilfe der Monte-Carlo-Methode eine N\"aherung f\"ur den Ausdruck $\mathrm{ln}(2)$.
 Ihre N\"aherung soll mit einer Wahrscheinlichkeit von $99.73\%$ eine Genauigkeit von 
 $\varepsilon = 10^{-3}$ haben. \eox
-\pagebreak
+
 
 \section{The Monty Hall Problem}
 The \href{http://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem} is famous probability
@@ -299,8 +298,9 @@ is better to switch doors.  Mathematically, the reasoning is quite simple: The p
 door chosen first leads to the car is $\frac{1}{3}$.  Therefore, the probability that the car is behind
 the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  
 
-Although the reasoning given above is straightforward, many people don't believe it.  In order to convince these
-guys, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:monty-hall.stlx} on page
+Although the reasoning given above is straightforward, many people don't believe it.  In order to
+convince them, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:monty-hall.stlx}
+on page 
 \pageref{fig:monty-hall.stlx} shows a function that simulates \texttt{n} games and compares the
 different strategies.  
 \begin{enumerate}

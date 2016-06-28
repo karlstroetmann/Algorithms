@@ -1,0 +1,31 @@
+// Compute the equivalence relation on the set m that is induced by the
+// relation r.  It is assumed that r is a relation on m.  The equivalence
+// relation is represented as a partition.
+unionFind := procedure(m, r) {
+    p := { { x } : x in m };  // start with the trivial partition
+    // refine this partition to acccomodate all pair [x,y] in r
+    for ([x, y] in r) {
+        sx := find(x, p);
+        sy := find(y, p);
+        if (sx != sy) {
+            p  -= { sx, sy };  // remove old sets
+            p  += { sx + sy }; // add their union
+        }
+    }
+    return p;
+};
+// Given a partition p of a set m and an element x of m, find the set s
+// from p that conntains x.
+find := procedure(x, p) {
+    return arb({ s : s in p | x in s });  // there can be only one such s
+};
+
+demo := procedure() {
+    m := { 1 .. 9 };
+    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("r = $r$");
+    p := unionFind(m, r);
+    print("p = $p$");
+};
+
+demo();
