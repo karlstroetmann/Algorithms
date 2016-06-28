@@ -2,11 +2,11 @@
 In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ m\"oglichst platzsparend
 abspeichern k\"onnen.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
 Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
-Wenn das Alphabet aus $n$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben L\"ange
+Wenn das Alphabet aus $k$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben L\"ange
 von $b$ Bits kodieren wollen, dann muss f\"ur diese Zahl von Bits offenbar
-\[ n \leq 2^b \] 
+\[ k \leq 2^b \] 
 gelten, woraus
-\[ b = \textsl{ceil}\bigl(\log_2(n)\bigr) \]
+\[ b = \textsl{ceil}\bigl(\log_2(k)\bigr) \]
 folgt.  Hier bezeichnet $\textsl{ceil}(x)$ die \emph{Ceiling-Funktion}.  Diese Funktion
 rundet eine gegebene reelle Zahl immer auf, es gilt also
 \[ \textsl{ceil}(x) = \min \{ k \in \mathbb{Z} \mid x \leq k \}. \]
