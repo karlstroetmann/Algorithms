@@ -1536,7 +1536,7 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
       Although this variable is initialized as $n$, it can later be increased.  This happens
       if the hash table becomes overcrowded.
 \item \texttt{mEntries} is the number key-value pairs that are stored in this hash map.
-      Since, initially, this map is entry, \texttt{mEntries} is  initialized as $0$.
+      Since, initially, this map is empty, \texttt{mEntries} is  initialized as $0$.
 \item \texttt{mArray} is the array containing the list of key value pairs.
 
       In our implementation, the key-value pairs are not stored in a list but, instead, they are
@@ -1792,7 +1792,7 @@ proceed as follows:
         };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{Die Funktion $\mathtt{delete}(\textsl{map}, \textsl{key})$.}
+\caption{Implementation of the function $\mathtt{delete}(\textsl{map}, \textsl{key})$.}
 \label{fig:hashTable.stlx-delete}
 \end{figure}
 
