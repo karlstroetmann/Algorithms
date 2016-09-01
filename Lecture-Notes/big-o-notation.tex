@@ -4,7 +4,7 @@ This chapter introduces both the
 \emph{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
 These two notions are needed to analyze the running time of algorithms.  In order to illustrate
 the application of these notions, we show how to implement the computation of powers efficiently,
-i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}_0$ in a way that
+i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
 is significantly faster than the naive approach. 
 
 \section{Motivation}
@@ -79,20 +79,20 @@ Let us denote the set of all positive real numbers as $\R_+$, i.e.~let us define
 \hspace*{1.3cm}
 $\R_+ := \{ x \in \R \mid x > 0 \}$. 
 \\[0.2cm]
-Furthermore, the set of all functions defined on  $\N_0$ yielding a positive real number is defined
+Furthermore, the set of all functions defined on  $\N$ yielding a positive real number is defined
 as: 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\R_+^{\;\N_0} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N_0 \rightarrow \R_+$} \}$.
+$\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \}$.
 
 \begin{Definition}[$\Oh(g)$] 
-Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that \emph{grow at most as fast}
+Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that \emph{grow at most as fast}
   as the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
   \colorbox{orange}{
-  $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \exists c \in \R_+\colon \forall n \in \N_0 \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}
+  $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N} \mid \exists k \in \N \colon 
+    \exists c \in \R_+\colon \forall n \in \N \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}
   \eox
 \end{Definition}
 
@@ -153,7 +153,7 @@ We claim that the following holds:
 $3 \cdot n^3 + 2 \cdot n^2 + 7 \in \Oh(n^3)$. 
 \\[0.2cm]
 \textbf{Proof}:  We have to  provide a constant $c$ and another constant $k$ such that for all $n\in
-\N_0$ satisfying
+\N$ satisfying
 $n \geq k$ the inequality
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -204,7 +204,7 @@ such that
 $ n \leq c \cdot 2^n$ 
 \\[0.2cm]
 holds for all $n \geq k$.  Let us define $k := 0$ and $c := 1$.  We will then have to show that \\[0.2cm]
-\hspace*{1.3cm} $n \leq 2^n$ \quad holds for all $n \in \N_0$.
+\hspace*{1.3cm} $n \leq 2^n$ \quad holds for all $n \in \N$.
 \\[0.2cm]
 We prove this claim by induction on $n$.
 \begin{enumerate}
@@ -242,11 +242,11 @@ We prove this claim by induction on $n$.
       
       \hint
       \begin{enumerate}[1.]
-      \item Try to prove the following claim by induction on $\alpha$:  For every $\alpha \in \mathbb{N}_0$
+      \item Try to prove the following claim by induction on $\alpha$:  For every $\alpha \in \mathbb{N}$
             there exists a number $c(\alpha)$ such that
             \\[0.2cm]
             \hspace*{1.3cm}
-            $n^\alpha \leq c(\alpha) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}_0$.
+            $n^\alpha \leq c(\alpha) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}$.
             \\[0.2cm]
             In the induction step you will have to prove that there is a number $c(\alpha+1)$ such that
             \\[0.2cm]
@@ -257,7 +257,7 @@ We prove this claim by induction on $n$.
             $k \leq \alpha+1$ we have numbers $c(k)$ such that
             \\[0.2cm]
             \hspace*{1.3cm}
-            $n^{k} \leq c(k) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}_0$.
+            $n^{k} \leq c(k) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}$.
             \\[0.2cm]
             You can prove the claim $(*)$ via a side induction on $n$.
       \item The \href{https://en.wikipedia.org/wiki/Binomial_theorem}{\emph{binomial theorem}} tells
@@ -267,7 +267,7 @@ We prove this claim by induction on $n$.
             $\ds (a+b)^n = \sum\limits_{k=0}^n {n \choose k} \cdot a^k \cdot b^{n-k}$
             \\[0.2cm]
             holds.  Here, the expression ${n \choose k}$ is read as \emph{$n$ choose $k$} and is
-            defined for all $n \in \mathbb{N}_0$ and all $k \in \{0, 1, 2, \cdots, n\}$ via
+            defined for all $n \in \mathbb{N}$ and all $k \in \{0, 1, 2, \cdots, n\}$ via
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds {n \choose k} = \frac{n!}{k! \cdot (n-k)!}$.
@@ -287,7 +287,7 @@ $f \in \Oh(g)$ much quicker than by induction.
 
 
 \begin{Proposition}[Reflexivity]
-  For all functions $f\colon \N_0 \rightarrow {\R_+}$ we have that
+  For all functions $f\colon \N \rightarrow {\R_+}$ we have that
   \\[0.2cm]
   \hspace*{1.3cm} $f \in \Oh(f)$ \quad holds. 
 \end{Proposition}
@@ -296,10 +296,10 @@ $f \in \Oh(g)$ much quicker than by induction.
 Let us define $k:=0$ and $c:=1$.  Then our claim  follows immediately from the inequality 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall n \in \N_0\colon f(n) \leq f(n)$. \qed
+$\forall n \in \N\colon f(n) \leq f(n)$. \qed
 
 \begin{Proposition}[Multiplication with Constants] \hspace*{\fill} \linebreak
-Assume that we have functions  $f,g\colon \N_0 \rightarrow {\R_+}$ and a number $d \in \R_+$.  Then we
+Assume that we have functions  $f,g\colon \N \rightarrow {\R_+}$ and a number $d \in \R_+$.  Then we
 have 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -307,18 +307,18 @@ have
 \end{Proposition}
 
 \proof
-The premiss $g \in \Oh(f)$ implies that there are constants $c'\in \R_+$ and $k'\in \N_0$ 
+The premiss $g \in \Oh(f)$ implies that there are constants $c'\in \R_+$ and $k'\in \N$ 
 such that \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon \bigl(n \geq k'  \rightarrow g(n) \leq c' \cdot f(n)\bigr)$ 
+$\forall n \in \N \colon \bigl(n \geq k'  \rightarrow g(n) \leq c' \cdot f(n)\bigr)$ 
 \\[0.2cm]
 holds.  If we multiply the inequality involving $g(n)$ with $d$, we get \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon\bigl( n \geq k'  \rightarrow d \cdot g(n) \leq d \cdot c' \cdot f(n)\bigr)$ 
+$\forall n \in \N \colon\bigl( n \geq k'  \rightarrow d \cdot g(n) \leq d \cdot c' \cdot f(n)\bigr)$ 
 \\[0.2cm]
 Let us therefore define $k:=k'$ and $c := d \cdot c'$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
-$\forall n \in \N_0 \colon \bigl(n \geq k  \rightarrow d \cdot g(n) \leq c \cdot f(n)\bigr)$ 
+$\forall n \in \N \colon \bigl(n \geq k  \rightarrow d \cdot g(n) \leq c \cdot f(n)\bigr)$ 
 \\[0.2cm]
 and by definition this implies $d \cdot g \in \Oh(f)$. \qed
 \vspace*{0.3cm}
@@ -328,21 +328,21 @@ The previous proposition shows that the big $\Oh$ notation does indeed abstract
 from constant factors.
 
 \begin{Proposition}[Addition]
-Assume that $f,g,h \colon \N_0 \rightarrow {\R_+}$. Then we have 
+Assume that $f,g,h \colon \N \rightarrow {\R_+}$. Then we have 
 \\[0.2cm]
 \hspace*{1.3cm}
 $f \in \Oh(h) \wedge g \in \Oh(h) \,\rightarrow\, f + g \in \Oh(h)$.
 \end{Proposition}
 
 \proof
-The preconditions $f \in \Oh(h)$ and $g \in \Oh(h)$ imply that there are constants $k_1,k_2\in \N_0$
+The preconditions $f \in \Oh(h)$ and $g \in \Oh(h)$ imply that there are constants $k_1,k_2\in \N$
 and $c_1,c_2\in \R$ such that both \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon \bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot h(n)\bigr)$ 
+$\forall n \in \N \colon \bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot h(n)\bigr)$ 
 \quad and
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$
+$\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$
 \\[0.2cm]
 holds.  Let us define $k := \max(k_1,k_2)$ and $c:= c_1 + c_2$.  For all $n \in \mathbb{N}$ such
 that $n \geq k$ it then follows that both
@@ -358,7 +358,7 @@ holds for all $n \geq k$.
 \qed
 
 \exercise
-Assume that $f_1,f_2,h_1,h_2 \colon \N_0 \rightarrow {\R_+}$.  Prove that 
+Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 \cdot f_2 \in \Oh(h_1 \cdot h_2)$
@@ -366,30 +366,30 @@ $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 \cdot f_2 \in \Oh(
 
 
 \exercise
-Assume that $f_1,f_2,h_1,h_2 \colon \N_0 \rightarrow {\R_+}$.  Prove or refute the claim that 
+Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the claim that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 / f_2 \in \Oh(h_1 / h_2)$
 \quad holds.  \eox
 
 \begin{Proposition}[Transitivity]
-Assume $f,g,h \colon \N_0 \rightarrow {\R_+}$. Then we have \\[0.2cm]
+Assume $f,g,h \colon \N \rightarrow {\R_+}$. Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $f \in \Oh(g) \wedge g \in \Oh(h) \,\rightarrow\, f \in \Oh(h)$.
 
 \end{Proposition}
 
 \proof
-The precondition $f \in \Oh(g)$ implies that there exists a $k_1 \in \N_0$ and a number $c_1 \in \R$
+The precondition $f \in \Oh(g)$ implies that there exists a $k_1 \in \N$ and a number $c_1 \in \R$
 such that 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon\bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot g(n)\bigr)$ 
+$\forall n \in \N \colon\bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot g(n)\bigr)$ 
 \\[0.2cm]
-holds, while the precondition $g \in \Oh(h)$ implies the existence of $k_2 \in \N_0$ and $c_2 \in \R$
+holds, while the precondition $g \in \Oh(h)$ implies the existence of $k_2 \in \N$ and $c_2 \in \R$
 such that \\[0.2cm]
 \hspace*{1.3cm} 
-$\forall n \in \N_0 \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$ 
+$\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$ 
 \\[0.2cm]
 holds.  Let us define $k:= \max(k_1,k_2)$ and $c := c_1 \cdot c_2$.  Then for all $n \in \mathbb{N}$
 such that $n \geq k$ we have the following:
@@ -406,7 +406,7 @@ However, this immediately implies $f(n) \leq c \cdot h(n)$ and our claim has bee
 \qed
 
 \begin{Proposition}[Limit Proposition] \label{limit}
-  Assume that $f,g \colon \N_0 \rightarrow {\R_+}$.   Furthermore, assume that the limit 
+  Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the limit 
   \\[0.2cm]
   \hspace*{3.3cm}
  $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$
@@ -422,13 +422,13 @@ $\lambda := \lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}$.
 Since the limit exists by our assumption, we know that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\forall \varepsilon \in \mathbb{R}_+:\exists k \in \mathbb{R}: \forall n \in \mathbb{N}_0: 
+$\ds\forall \varepsilon \in \mathbb{R}_+:\exists k \in \mathbb{R}: \forall n \in \mathbb{N}: 
  \biggl(n \geq k \rightarrow \Bigl| \frac{f(n)}{g(n)} - \lambda \Bigr| < \varepsilon \biggr)
 $
 \\[0.2cm]
 Since this is valid for all positive values of $\varepsilon$, let us define $\varepsilon := 1$. 
-Then there exists a number $k \in \N_0$ such that
-for all $n\in \N_0$ satisfying $n \geq k$ the inequality 
+Then there exists a number $k \in \N$ such that
+for all $n\in \N$ satisfying $n \geq k$ the inequality 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\left| \bruch{f(n)}{g(n)} - \lambda \right| \leq 1$ 
@@ -459,7 +459,7 @@ and have shown that $f(n) \leq c \cdot g(n)$ holds for all $n \geq k$. \qed
 The following examples show how to put the previous propositions to good use.
 
 \example
-Assume $k \in \N_0$.  Then we have
+Assume $k \in \N$.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
  $n^k \in \Oh(n^{k+1})$.
@@ -474,7 +474,7 @@ Therefore, the claim follows from the limit proposition.
 
 
 \example
-Assume $k \in \N_0$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0.2cm]
+Assume $k \in \N$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0.2cm]
 \hspace*{1.3cm} $n^k \in \Oh(\lambda^n)$.
 
 
@@ -774,7 +774,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Naive computation of $m^n$ for  $m,n \in \N_0$.}
+  \caption{Naive computation of $m^n$ for  $m,n \in \N$.}
   \label{fig:power-naive.stlx}
 \end{figure} 
 
@@ -833,7 +833,7 @@ $
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Computation of $m^n$ for $m,n \in \N_0$.}
+  \caption{Computation of $m^n$ for $m,n \in \N$.}
   \label{fig:power.stlx}
 \end{figure} 
 
@@ -880,7 +880,7 @@ by computational induction.
       \begin{enumerate}
       \item $n \;\texttt{\%}\; 2 = 0$, therefore $n$ is even.
 
-            Then there exists a number $k \in \N_0$ such that $n = 2 \cdot k$ and therefore
+            Then there exists a number $k \in \N$ such that $n = 2 \cdot k$ and therefore
             $n / 2 = k$.
             Then, we have the following:
             \\[0.2cm]
@@ -896,7 +896,7 @@ by computational induction.
             \\[0.2cm]
       \item $n \;\texttt{\%}\; 2 = 1$, therefore $n$ is odd.
 
-            Then there exists a number $k \in \N_0$ such that $n = 2 \cdot k + 1$ and we have
+            Then there exists a number $k \in \N$ such that $n = 2 \cdot k + 1$ and we have
             $n \backslash 2 = k$, where $n \backslash 2$ denotes integer division of $n$ by $2$.
             In this case we have:
             \[ 
@@ -915,7 +915,7 @@ Next, we want to investigate the computational complexity of this implementation
 To this end, let us compute the number of multiplications that are done when
 $\mathtt{power}(m,n)$ is called.  If the number $n$ is odd there will be more multiplications than
 in the case when $n$ is even.  Let us first investigate the \emph{worst case}.  
-The worst case happens if there is an $l\in \N_0$ such that 
+The worst case happens if there is an $l\in \N$ such that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $n = 2^l - 1$ 
@@ -939,19 +939,19 @@ that are performed in the recursive call in line 5.  Therefore, we get the follo
 \href{http://en.wikipedia.org/wiki/Recurrence_relation}{\emph{recurrence relation}}:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n = a_{n \backslash 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N_0\right\}$\quad and $a_0 = 0$. 
+$a_n = a_{n \backslash 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
 \\[0.2cm]
 In order to solve this recurrence relation, let us define $b_l := a_{2^l-1}$.  Then, the sequence
 $(b_l)_l$ 
 satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l-1} = a_{(2^l-1) \backslash 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N_0$
+$b_l = a_{2^l-1} = a_{(2^l-1) \backslash 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
 solution of this recurrence relation is given by
 \\[0.2cm]
-\hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad for all $l \in \N_0$. 
+\hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad for all $l \in \N$. 
 \\[0.2cm] 
 This claim is readily established via a trivial induction.  Plugging in the definition $b_l = a_{2^l-1}$ we
 see that the sequence $a_n$ satisfies \\[0.2cm]
@@ -966,7 +966,7 @@ Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
 Next, we consider the best case.  The computation of
 $\mathtt{power}(m,n)$ needs the least number of multiplications if the test 
 \texttt{n \% 2 == 0} always evaluates as true.  In this case, $n$ must be a power of $2$.  
-Hence there must exist an $l\in \N_0$ such that we have
+Hence there must exist an $l\in \N$ such that we have
  \\[0.2cm]
 \hspace*{1.3cm} $n = 2^l$.
  \\[0.2cm]
@@ -982,20 +982,20 @@ Now, if $n = 2^l$ and $n > 1$ then line 7 yields one multiplication that
 has to be added to those multiplications that are done during the recursive invocation of
 \texttt{power} in line 5.  Therefore, we have the following recurrence relation:
  \\[0.2cm]
-\hspace*{1.3cm} $a_n = a_{n \backslash 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N_0\right\}$\quad and
+\hspace*{1.3cm} $a_n = a_{n \backslash 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N\right\}$\quad and
 $a_1 = 2$. 
 \\[0.2cm]
 Let us define $b_l := a_{2^l}$.  Then the sequence $(b_l)_l$ satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l} = a_{(2^l) \backslash 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N_0$, \\[0.2cm]
+$b_l = a_{2^l} = a_{(2^l) \backslash 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N$, \\[0.2cm]
 and the initial value is given as $b_0 = a_{2^0} = a_1 = 2$.
 Therefore, we have to solve the recurrence relation 
 \\[0.2cm]
 \hspace*{1.3cm}
- $b_{l+1} = b_l + 1$ \qquad for all $l \in \N_0$ \quad with $b_0 = 2$.\\[0.2cm]
+ $b_{l+1} = b_l + 1$ \qquad for all $l \in \N$ \quad with $b_0 = 2$.\\[0.2cm]
 Obviously, the solution is \\[0.2cm]
-\hspace*{1.3cm} $b_l = 2 + l$ \qquad for all $l\in\N_0$.
+\hspace*{1.3cm} $b_l = 2 + l$ \qquad for all $l\in\N$.
 \\[0.2cm]
 If we substitute this into the definition of $b_l$ in terms of $a_l$ we have: \\[0.2cm]
 \hspace*{1.3cm}
@@ -1053,7 +1053,7 @@ We present a simplified version of the master theorem next.
   \begin{enumerate}
   \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$,
   \item $\delta \in \mathbb{R}$ and $\delta \geq 0$,
-  \item the function $f:\N_0 \rightarrow \R_+$ satisfies the recurrence relation
+  \item the function $f:\N \rightarrow \R_+$ satisfies the recurrence relation
         \\[0.2cm]
         \hspace*{1.3cm}
         $f(n) = \alpha \cdot f\left(n \backslash \beta\right) + \Oh(n^\delta)$,
@@ -1447,13 +1447,13 @@ $n \cdot \log_2(n)$ comparisons to sort a list of length $n$.  In order to be ab
 bounds concisely, we introduce the big $\Omega$ notation next.
 
 \begin{Definition}[$\Omega(g)$] 
-  Assume $g \in \R_+^{\N_0}$ is given.   Let us define the set of all functions that grow 
+  Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that grow 
   \underline{at least as fast as} the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
   \colorbox{orange}{
-  $ \Omega(g) \;:=\; \Bigl\{ f \in \R_+^{\;\N_0} \mid \exists k \in \N_0 \colon 
-    \exists c \in \R_+\colon \forall n \in \N_0 \colon\bigl(n \geq k \rightarrow c \cdot g(n) \leq f(n)\bigr)\Bigr\}$.}
+  $ \Omega(g) \;:=\; \Bigl\{ f \in \R_+^{\;\N} \mid \exists k \in \N \colon 
+    \exists c \in \R_+\colon \forall n \in \N \colon\bigl(n \geq k \rightarrow c \cdot g(n) \leq f(n)\bigr)\Bigr\}$.}
   \eox
 \end{Definition}
 
@@ -1466,7 +1466,7 @@ Finally, we introduce big $\Theta$ notation.  The idea is that $f \in \Theta(g)$
 $f$ and $g$ have the same asymptotic growth rate. 
 
 \begin{Definition}[$\Theta(g)$]
-  Assume $g \in \R_+^{\N_0}$ is given.   The set of functions that have the same asymptotic growth rate
+  Assume $g \in \R_+^{\N}$ is given.   The set of functions that have the same asymptotic growth rate
   as the function $g$ is defined as
   \\[0.2cm]
   \hspace*{0.5cm} 

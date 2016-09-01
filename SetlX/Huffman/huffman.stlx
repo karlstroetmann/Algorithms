@@ -5,11 +5,10 @@ codingTree := procedure(m) {
         m -= { a };
         b := first(m);
         m -= { b };
-        m += { [ count(a) + count(b), Node(a, b) ] };
+        m += { [ a[1] + b[1], Node(a, b) ] };
     }
     return arb(m);
 };
-count := p |-> p[1];
 
 // h is the coding tree to print, while p is the coding prefix, n is the indent
 toString := procedure(h, p, n) {
