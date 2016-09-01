@@ -127,7 +127,7 @@ $\mathcal{K}$ der \emph{Kodierungs-B\"aume} induktiv.
       Kodierungs-Baums.  
 \end{enumerate}
 Als n\"achstes  definieren wir eine Funktion 
-\[  \textsl{count} : \mathcal{K} \rightarrow \N_0, \]
+\[  \textsl{count} : \mathcal{K} \rightarrow \N, \]
 welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufsummiert.
 \begin{enumerate}
 \item Die Definition der Funktion \textsl{count} ist f\"ur Bl\"atter trivial:
@@ -137,7 +137,7 @@ welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufs
       \[ \textsl{Node}(l,r).\textsl{count}() = l.\textsl{count}() + r.\textsl{count}(). \]
 \end{enumerate}
 Weiter definieren wir auf Kodierungs-B\"aumen die Funktion
-\[ \textsl{cost}: \mathcal{K} \rightarrow \N_0. \]
+\[ \textsl{cost}: \mathcal{K} \rightarrow \N. \]
 Die Funktion \textsl{cost} gibt an, wie viele Bits ben\"otigt werden, um mit dem gegebenen
 Kodierungs-Baum einen String zu kodieren, wenn die H\"aufigkeiten, mit denen ein Buchstabe
 verwendet wird, mit den H\"aufigkeiten \"ubereinstimmen, die an den Bl\"attern des Baums notiert
