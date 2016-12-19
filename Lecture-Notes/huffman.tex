@@ -33,7 +33,7 @@ h\"aufig auftreten, mit m\"oglichst wenig Bits kodiert werden, w\"ahrend Buchsta
 auftreten, mit einer gr\"o{\ss}eren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
 wir folgendes Beispiel:  Unser Alphabet  $\Sigma$ bestehe nur aus vier Buchstaben,
 \[ \Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}. \]
-In dem zu speichernden String $s$ trete der Buchstabe \texttt{a} insgesamt $990$ mal auf, der
+In dem zu speichernden String $s$ trete der Buchstabe \texttt{a} insgesamt $990$-mal auf, der
 Buchstabe \texttt{b} trete $8$ mal auf und die Buchstaben \texttt{c} und \texttt{d} treten
 jeweils $1$ mal auf.  Dann besteht der String $s$ aus insgesamt $1\,000$ 
 Buchstaben.  Wenn wir jeden Buchstaben mit $2 = \log_2(4)$ Bits kodieren, dann werden also
@@ -184,7 +184,7 @@ sich die Kosten der Menge durch das Zusammenfassen zweier Knoten \"andert.
 Dazu betrachten wir zwei Mengen von Knoten $M_1$ und $M_2$, so dass 
 \[ M_1 = N \cup \{ a, b\} \quad \mathtt{und} \quad M_2 = N \cup \{ \textsl{Node}(a,b) \} \]
 gilt, die Menge $M_2$ geht also aus der Menge $M_1$ dadurch hervor, dass wir
-die Knoten $a$ und $b$ zu einem neuen Knoten zusammen fassen und durch diesen ersetzen.
+die Knoten $a$ und $b$ zu einem neuen Knoten zusammenfassen und durch diesen ersetzen.
 Untersuchen wir, wie
 sich die Kosten der Menge dabei ver\"andern, wir untersuchen also die folgende Differenz:
 \begin{eqnarray*}
@@ -301,7 +301,7 @@ implementiert diesen Algorithmus.
             7 der Menge $m$ hinzugef\"ugt.
       \end{enumerate}
 \item Die \texttt{while}-Schleife wird beendet, wenn die Menge $m$ nur noch ein Element enth\"alt.
-      Dieses wird mit der Funktion \texttt{arb} extrahiert und als Ergebnis zur\"uck gegeben.
+      Dieses wird mit der Funktion \texttt{arb} extrahiert und als Ergebnis zur\"uckgegeben.
 \end{enumerate}
 Die Laufzeit des Huffman-Algorithmus h\"angt stark von der Effizienz der Funktion $\textsl{first}()$ ab.
 Eine naive Implementierung w\"urde die Knoten aus der Menge $m$ in einer geordneten Liste vorhalten.
@@ -504,9 +504,9 @@ variables:
   
       The encoding of a string $s$ by the LZW algorithm works by encoding substrings of $s$ as
       numbers and $\alpha$ denotes the last of theses substrings.
-\item $c$ is the next character of the string that is inspected.  This is also know as the
+\item $c$ is the next character of the string that is inspected.  This is also known as the
       \emph{look-ahead character}.
-\item \textsl{d} ist the dictionary mapping strings to numbers.  Initially, \textsl{d} maps all
+\item \textsl{d} is the dictionary mapping strings to numbers.  Initially, \textsl{d} maps all
       \textsc{Ascii} characters to their respective \textsc{Ascii} codes.
 \item \texttt{nextCode} is the number assigned as code to the next string that is entered into
       the dictionary $d$.  Since the \textsc{Ascii} codes are the numbers from 0 up to 127,
