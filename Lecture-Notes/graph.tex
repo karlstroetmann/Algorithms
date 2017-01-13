@@ -467,7 +467,7 @@ a submarine cable. It is the company's task to connect all of the towns and vill
 Since most parts of the country are covered by jungle, it is cheapest to build the power lines
 alongside existing roads.  Mathematically, this kind of problem can be formulated as the problem of
 constructing a \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for
-a given \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weigthed}
+a given \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weighted}
 \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Undirected_graph}{undirected graph}.
 Next, we provide the definitions of those notions that are needed to formulate the minimum spanning
 tree problem precisely.  Then, we present
@@ -536,7 +536,7 @@ must hold.
 \hint
 The easiest way to prove this is by induction on $n = \textsl{card}(V)$.  You will need to prove the
 following auxiliary claim first: In a tree there is at least one node in $\nodes$ that has
-only one neighboring node. 
+only one neighbouring node. 
 \eox
 
 \subsection{Kruskal's Algorithm}
@@ -764,7 +764,7 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
       \begin{enumerate}
       \item If there is an edge from \texttt{u} to a node \texttt{v} and  \texttt{dist[v]} is still
             undefined, then we hadn't yet found a path leading to \texttt{v}.
-      \item Furthermoore, there are those nodes \texttt{v} where we had already found a path leading from
+      \item Furthermore, there are those nodes \texttt{v} where we had already found a path leading from
             \texttt{source} to \texttt{v} but the length of this path is longer than the length of the path
             that we get when we first visit \texttt{u} and then proceed to \texttt{v} via the edge $\pair(\mathtt{u},\mathtt{v})$.
       \end{enumerate}
@@ -820,7 +820,7 @@ distance of this node to the node \texttt{source}.  Figure \ref{fig:dijkstra.stl
 The program shown in Figure \ref{fig:dijkstra.stlx} has an additional variable called \texttt{visited}.
 This variable contains the set of those nodes that have been  \emph{visited} by the algorithm.
 To be more precise, \texttt{visited} contains those nodes \texttt{u} that have been removed from the
-priority queue \texttt{fringe} and for which all neighboring nodes, i.e.~those nodes $y$ such that
+priority queue \texttt{fringe} and for which all neighbouring nodes, i.e.~those nodes $y$ such that
 there is an edge $\pair(u,y)$, have been examined.
 The set \texttt{visited} isn't used in the implementation of the algorithm since the variable is
 only written but is never read.
@@ -929,7 +929,7 @@ can insert every node at most once, insertion into the priority queue can be bou
 \hspace*{1.3cm}
 $\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$.
 \\[0.2cm]
-We also have to analyze the complexity of removing a node from the fringe. 
+We also have to analyse the complexity of removing a node from the fringe. 
 The number of times the assignment
 \\[0.2cm]
 \hspace*{1.3cm}

@@ -2,7 +2,7 @@
 This chapter introduces both the
 \href{http://en.wikipedia.org/wiki/O_notation}{\emph{big $O$ notation}} and the
 \emph{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
-These two notions are needed to analyze the running time of algorithms.  In order to illustrate
+These two notions are needed to analyse the running time of algorithms.  In order to illustrate
 the application of these notions, we show how to implement the computation of powers efficiently,
 i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
 is significantly faster than the naive approach. 
@@ -97,7 +97,7 @@ Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that
 \end{Definition}
 
 The definition of $\Oh(g)$ contains three nested quantifiers and may be difficult to understand
-when first encountered.  Therefore, let us analyze this definition carefully.  Consider a given
+when first encountered.  Therefore, let us analyse this definition carefully.  Consider a given
 function $g$ and try to understand what $f \in \Oh(g)$ means.  Informally, this means that the
 function $f$ does not grow faster than the function $g$. 
 \begin{enumerate}
@@ -253,7 +253,7 @@ We prove this claim by induction on $n$.
             \hspace*{1.3cm}
             $n^{\alpha+1} \leq c(\alpha+1) \cdot 2^n$ \hspace*{\fill} $(*)$
             \\[0.2cm]
-            holds.  When proving this claim you my assume by induction hypothesis that for all 
+            holds.  When proving this claim you may assume by induction hypothesis that for all 
             $k \leq \alpha+1$ we have numbers $c(k)$ such that
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -1038,7 +1038,7 @@ notation.
 
 
 \section{The Master Theorem}
-In order to analyze the complexity of  the procedure $\textsl{power}()$,
+In order to analyse the complexity of  the procedure $\textsl{power}()$,
 we have first computed a  recurrence relation, then we have solved this recurrence and, finally,  
 we have approximated the result using the big $\Oh$ notation.  In many cases we are only interested in this
 last approximation and then it is not necessary to actually solve the recurrence relation.  
@@ -1322,7 +1322,7 @@ Assume that the function $f(n)$ satisfies the recurrence relation
 \hspace*{1.3cm}
 $f(n) = f(n \backslash 2) + 2$.
 \\[0.2cm]
-We want to analyze the asymptotic growth of $f$ with the help of the master theorem.
+We want to analyse the asymptotic growth of $f$ with the help of the master theorem.
 Defining $\alpha := 1$, $\beta := 2$,  $\delta = 0$ and noting that $2 \in \Oh(n^0)$ we see that
 the recurrence relation for $f$ can be written as
 \\[0.2cm]
