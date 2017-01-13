@@ -335,7 +335,7 @@ amount of work to do.
 \section{Selection Sort}
 Next, we discuss 
 \href{http://en.wikipedia.org/wiki/Selection_sort}{\emph{selection sort}}.  In order to sort a given
-list $l$ this algorithms works as
+list $l$ this algorithm works as
 follows:
 \begin{enumerate}
 \item If $l$ is empty, the result is the empty list: \\[0.2cm]
@@ -419,7 +419,7 @@ function will provide us with an error message in this case.
 %$
 
 \subsection{Complexity of Selection Sort}
-In order to be able to analyze the complexity of \emph{selection sort} we have to count the number
+In order to be able to analyse the complexity of \emph{selection sort} we have to count the number
 of comparisons that are performed when $\mathtt{min}(l)$ is computed.  We have 
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -462,7 +462,7 @@ insertion sort is only
 and this is half as much as the number of comparisons used by \emph{selection sort}.  Therefore, on
 average we expect \emph{selection sort} to need about twice as many comparisons as \emph{insertion sort}.
 Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
-partially sorted nad have only a few elements that are out of place.  In these cases,
+partially sorted and have only a few elements that are out of place.  In these cases,
 \emph{insertion sort} can, in fact, be even more efficient than any other sorting algorithm.
 
 
@@ -606,7 +606,7 @@ is also sorted.
 
 \subsection{Complexity of Merge Sort}
 Next, we compute the number of comparisons that are needed to sort a list of $n$
-elements via merge sort.  To this end, we first analyze the number of comparisons that 
+elements via merge sort.  To this end, we first analyse the number of comparisons that 
 are done in a call of $\mathtt{merge}(l_1, l_2)$.   In order to do this we define the function \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{cmpCount}: \textsl{List}(m) \times \textsl{List}(m) \rightarrow \mathbb{N}$ 
@@ -1569,7 +1569,7 @@ We prove this claim by induction.
   
       If we have $n+1$ different elements and want to arrange these elements in a list, then there
       are $n+1$ possibilities for the first element.  In each of these cases the induction
-      hypotheses tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
+      hypothesis tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
       Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different arrangements of $n+1$
       elements in a list.
 \end{enumerate}

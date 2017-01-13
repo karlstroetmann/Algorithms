@@ -195,7 +195,7 @@ sich die Kosten der Menge dabei ver\"andern, wir untersuchen also die folgende D
     - a.\textsl{cost}() - b.\textsl{cost}()                                                              \\
 &=& a.\textsl{count}() + b.\textsl{count}() 
 \end{eqnarray*}
-Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so verg\"o{\ss}ern sich
+Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so vergr\"o{\ss}ern sich
 die Kosten der Menge um die Summe
 \[ a.\textsl{count}() + b.\textsl{count}(). \]
 Wenn wir die Kosten der Menge $M$ insgesamt m\"oglichst klein halten wollen, dann ist es daher naheliegend,
@@ -285,7 +285,7 @@ implementiert diesen Algorithmus.
       Implementierung als auch bei unserer Implementierung eine logarithmische
       Komplexit\"at, die dann auch im Falle der optimalen Implementierung  die gesamte
       Komplexit\"at dominiert. 
-\item Die \texttt{while}-Schleife in Zeile 2 veringert die Anzahl der Knoten in der Menge $m$
+\item Die \texttt{while}-Schleife in Zeile 2 verringert die Anzahl der Knoten in der Menge $m$
       in jedem Schritt um Eins.  
       \begin{enumerate}
       \item Dazu werden mit Hilfe der Funktion $\textsl{first}()$ die
@@ -345,8 +345,7 @@ Tabelle \ref{tab:frequency} zusammen mit ihren H\"aufigkeiten angegeben sind, an
              \langle 4, \textsl{Leaf}(\mathtt{d}) \rangle,\,
              \langle 5, \textsl{Leaf}(\mathtt{e}) \rangle\bigr\}. $
 \item Die H\"aufigkeit ist hier f\"ur die Bl\"atter mit den Buchstaben \texttt{a} und
-      \texttt{b} minimal.  Also entfernen wir diese Bl\"atter aus der Menge und f\"ugen statt
-      dessen den Knoten 
+      \texttt{b} minimal.  Also entfernen wir diese Bl\"atter aus der Menge und f\"ugen stattdessen den Knoten 
       \\[0.2cm]
       \hspace*{0.3cm}
       $\textsl{Node}(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b}))$
@@ -583,7 +582,7 @@ encode the numbers.  However, we have only used 5 numbers to encode the string `
 Hence we have only used $5 \cdot 8 = 40$ bits.   Of course, in this tiny example the compression
 factor is quite low.  However, for texts that are longer and have more repetitions, the compression
 factor is usually higher: On average, the experience shows that text corresponding to natural
-language is compressed by a factor that is sightly bigger than $2$.
+language is compressed by a factor that is slightly bigger than $2$.
 
 If we use the LZW algorithm there is no need to add the dictionary to the encoded string.  The
 reason is that the recipient of an encoded string can construct the dictionary using exactly the
@@ -624,7 +623,7 @@ the encoder is one step ahead of the decoder: The encoder encodes a substring an
 corresponding to the previous substring into the dictionary.  Now if the next substring is identical
 to the substring just entered, the encoder will produce a code that is not yet in the dictionary of
 the decoder when he tries to decode it.   The question then is: How do we decode a number that has
-not yet been entered into the dictionary.  To answer this question, we can reason an follows:
+not yet been entered into the dictionary.  To answer this question, we can reason as follows:
 If the encoder outputs a code that it has just entered into the dictionary, then the string that is
 encoded starts with the string that has been output previously, followed by some character.  However,
 this character must be the first character of the string encoded now.  The string encoded now

@@ -34,7 +34,7 @@ These functions will also be sufficient for Huffman's algorithm.
   \item The set of type parameters is \\[0.1cm]
         \hspace*{1.3cm} $\{ \textsl{Priority}, \textsl{Value} \}$.
 
-        Furtheremore, there must exist a linear ordering $\leq$ on the set $\textsl{Priority}$.
+        Furthermore, there must exist a linear ordering $\leq$ on the set $\textsl{Priority}$.
         This is needed since we want to compare the priority of different elements.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
@@ -58,7 +58,7 @@ These functions will also be sufficient for Huffman's algorithm.
               The expression $Q.\textsl{remove}()$ removes from $Q$ the element that is returned by
               $Q.\texttt{top}()$.
         \end{enumerate}
-\item Before we are able to specify the behavior of the functions implementing the function symbols
+\item Before we are able to specify the behaviour of the functions implementing the function symbols
       given above, we have to discuss the notion of \emph{priority}.  We assume that there exists
       a set $\textsl{Priority}$ and there is a linear order $<$ defined on this set.
       If  $p_1 < p_2$, then the priority $p_1$ is \emph{higher} than the priority $p_2$.  This
@@ -67,9 +67,9 @@ These functions will also be sufficient for Huffman's algorithm.
       distances in a graph and the priority of a node is higher if the node is nearer to the source
       node.
 
-      Next, the behavior of the functions is specified via a reference implementation.  We demand
-      that the behavior of the functions making up the ADT \textsl{PrioQueue} is the same
-      as the behavior of the reference implementation.
+      Next, the behaviour of the functions is specified via a reference implementation.  We demand
+      that the behaviour of the functions making up the ADT \textsl{PrioQueue} is the same
+      as the behaviour of the reference implementation.
       
       In our reference implementation a priority queue is implemented as a set of pairs of the form 
       $\pair(p,v)$ where $p$ is a priority, while $v$ is a value.  The reference implementation
@@ -666,7 +666,7 @@ We discuss this implementation line by line.
             argument \texttt{k},  since at this point, the tree rooted at index \texttt{k} satisfies
             the heap condition except possibly at the root.  It is then the job of \texttt{sink} to
             establish the heap condition for index \texttt{k}.  If the element at the root has a
-            priority that is to low, \texttt{sink} ensures that this element sinks down in the tree
+            priority that is too low, \texttt{sink} ensures that this element sinks down in the tree
             as far as necessary.
       \item In phase 2 we remove the elements from the heap one-by-one and insert them at the end of
             the array.
