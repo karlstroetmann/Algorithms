@@ -383,8 +383,8 @@ implementation of the auxiliary method \texttt{update}.  Compared with Figure
 \ref{fig:binary-tree.stlx-2} there are only three differences:
 \begin{enumerate}
 \item If we delete the key at the root of the tree, we replace this key with the smallest key in the
-      right subtree.  Since this key is deleted in the right subtree, the height of the right
-      subtree might shrunk and hence the balancing condition at the root might be violated.
+      right subtree. Since this key is deleted in the right subtree, the height of the right
+      subtree might shrink and hence the balancing condition at the root might be violated.
       Therefore, we have to restore the balancing condition.  This is done in line 12.
 \item If we delete a key in the left subtree, the height of the left subtree might shrink.
       Hence we have to rebalance the tree at the root in line 16.
@@ -571,7 +571,7 @@ constructor for the class \texttt{map}.  The implementation should be obvious.
 
 
 \subsection{Analysis of the Complexity of AVL Trees}
-Next, we analyze the complexity of AVL trees in the worst case.  In order to do this we have to know
+Next, we analyse the complexity of AVL trees in the worst case.  In order to do this we have to know
 what the worst case actually looks like.  Back when we only had ordered binary trees the worst case was the case where
 the tree had degenerated into a list.  Now, the worst case is the case where the tree is as slim as
 it can possibly be while still satisfying the definition of an AVL tree.  Hence the worst case
@@ -982,7 +982,7 @@ If the value  $v$ that is stored in this node is different from $\Omega$, then t
 written in the lower part of the circle.  The label that we put in the upper half of the circle
 depends on the parent of the node.  We will explain how this label is computed in a moment.
 The node itself has $n$ different children.  These $n$ children are the tries
-$t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labeled with the character $c_i$,
+$t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labelled with the character $c_i$,
 i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
 
 In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
@@ -1001,11 +1001,11 @@ empty string.  This root node corresponds to the term
 \hspace*{1.3cm}
  $\texttt{Node}(\Omega,[\textrm{`S'}], [t])$. 
 \\[0.2cm]
-Here,  $t$ denotes the trie that is labeled with the character  ``S'' at its root.
+Here,  $t$ denotes the trie that is labelled with the character  ``S'' at its root.
 This trie can then be represented by the term  \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$. \\[0.2cm]
-This trie has three children that are labeled with the characters  ``t'', ``a'', and ``c''.
+This trie has three children that are labelled with the characters  ``t'', ``a'', and ``c''.
 
 \subsection{Insertion in Tries}
 Next, we present formul\ae\ that describe how new values can be inserted into an existing tries,
