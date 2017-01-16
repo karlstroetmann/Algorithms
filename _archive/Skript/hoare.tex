@@ -346,7 +346,7 @@ Als letztes analysieren wir die Wirkung einer Schleife der Form
 Der entscheidende Punkt ist hier, dass die Nachbedingung f\"ur den $n$-ten
 Schleifen-Durchlauf gleichzeitig die Vorbedingung f\"ur den $(n\!+\!1)$-ten Schleifen-Durchlauf
 sein muss.  Das f\"uhrt zu der Forderung, dass Vor- und Nachbedingung f\"ur den
-Schleifen-Rumpf im wesentlichen identisch sein m\"ussen.  Diese Bedingung tr\"agt daher den
+Schleifen-Rumpf im Wesentlichen identisch sein m\"ussen.  Diese Bedingung tr\"agt daher den
 Namen \emph{Schleifen-Invariante}.  Im Detail hat die Verifikations-Regel die folgende Form:
 \[ 
   \bruch{\hoare{I \wedge B}{P}{I}}{\quad \hoare{I}{while ($B$) \{ P \}}{I \wedge \neg B}\quad}
@@ -822,7 +822,7 @@ so werden die folgenden Verifi\-kations-Bedingungen erzeugt:
 Der in \textsc{Jpv} integrierte automatische Beweiser ist in der Lage, die 1., die 2., die
 5. und die 6. dieser Verifikations-Bedingungen unmittelbar nachzuweisen.  Der Nachweis der
 Korrektheit der restlichen Bedingungen ist dann vom Benutzer mit Papier und Bleistift zu erbringen.
-Da wir die entsprechenden Beweise im wesentlichen schon beim Nachweis der Korrektheit des in
+Da wir die entsprechenden Beweise im Wesentlichen schon beim Nachweis der Korrektheit des in
 Abbildung \ref{fig:power.c} gezeigten Programms gef\"uhrt haben, wiederholen wir sie hier
 nicht noch einmal.
 
