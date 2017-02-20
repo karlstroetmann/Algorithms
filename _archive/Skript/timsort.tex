@@ -58,7 +58,7 @@ Aus diesem Grunde verwendet \emph{Timsort} die folgenden Tricks um ein Feld zu s
       sichergestellt werden, wenn die zu mischenden Teilfelder im Wesentlichen dieselbe L\"ange
       haben.  Dies wird dadurch erreicht, dass die vorsortierten Teilfelder auf einem Stack
       verwaltet werden.  Dabei wird darauf geachtet, dass die zu mischenden Teilfelder im
-      wesentlichen dieselbe Gr\"o{\ss}e haben.
+      Wesentlichen dieselbe Gr\"o{\ss}e haben.
 \item Verbesserungen des Algorithmus zum Mischen.
 
       Werden zwei Teilfelder gemischt bei denen alle Elemente des ersten Teilfeldes kleiner als alle
@@ -469,7 +469,7 @@ wie folgt:
       \hspace*{1.3cm}
       $\bigl[\mathtt{mArray}[\textsl{low}], \mathtt{mArray}[\textsl{low} + 1]\bigr]$
       \\[0.2cm]
-      aufsteigend sortiert und wenn statt dessen \\[0.2cm]
+      aufsteigend sortiert und wenn stattdessen \\[0.2cm]
       \hspace*{1.3cm}
       $\mathtt{mArray}[\textsl{low}] > \mathtt{mArray}[\textsl{low} + 1]$
       \\[0.2cm]
@@ -838,7 +838,7 @@ Wir diskutieren nun die Details der in Abbildung \ref{fig:TimSort.java:gallop} g
       \hspace*{1.3cm}
       $k := 2 * k + 1$.
       \\[0.2cm]
-      Dabei merken wir uns jedesmal den alten Wert von $k$ in der Variablen \textsl{lastK}.
+      Dabei merken wir uns jedes Mal den alten Wert von $k$ in der Variablen \textsl{lastK}.
 \item Bei sehr gro{\ss}en Feldern kann es bei der Berechnung von $2 * k + 1$ zu einem
       Überlauf kommen.  Einen Überlauf k\"onnen wir daran erkennen, dass $2 * k + 1$ negativ wird.
       In diesem Fall setzen wir $k$ auf den maximal zul\"assigen Wert $l$.

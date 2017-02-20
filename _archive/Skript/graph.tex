@@ -229,7 +229,7 @@ nicht weiter spezifiert.   Edward F. Moore \cite{moore:59} hat den Algorithmus i
 verbessert,  indem er \"uber die Auswahl der Knoten Buch f\"uhrte.  
 Dazu benutzen wir die Variable \textsl{Fringe}, die die Menge aller Knoten enth\"alt, von denen aus
 noch k\"urzere Pfade gefunden werden k\"onnen.  Am Anfang enth\"alt diese Menge nur den Knoten
-\texttt{source}.  Jedesmal, wenn f\"ur einem Knoten $v$ die Funktion
+\texttt{source}.  Jedes Mal, wenn f\"ur einen Knoten $v$ die Funktion
 $\mathtt{dist}(v)$ ge\"andert wird, wird $v$ der Menge \textsl{Fringe} hinzugef\"ugt.
 Umgekehrt wird $v$ aus der Menge \textsl{Fringe} entfernt, wenn alle Kanten, die von $v$
 ausgehen, betrachtet worden sind.  Um leichter \"uber diese Kanten iterieren zu k\"onnen,
@@ -343,7 +343,7 @@ k\"urzesten Abstand zum Knoten \textsl{source}.
 \vspace*{0.1cm}
 
 \noindent
-\textbf{Beweis}: Wir zeigen durch Induktion, dass jedesmal wenn wir einen Knoten $u$ in die Menge
+\textbf{Beweis}: Wir zeigen durch Induktion, dass jedes Mal wenn wir einen Knoten $u$ in die Menge
 \textsl{Visited} einf\"ugen, die Gleichung $\textsl{dist}(u) = \textsl{sp}(u)$ gilt.
 In den ASM-Regeln gibt es zwei Stellen, bei denen wir der Menge \textsl{Visited} neue
 Elemente hinzuf\"ugen.
