@@ -17,36 +17,31 @@ class tic_tac_toe(size) {
     square := procedure(row, col) {
         return mBoard[row][col];
     };
-
     // return a list of all empty squares
     empty_squares := procedure() {
         rng := [1 .. mSize];
         return [ [row, col] : row in rng, col in rng | mBoard[row][col] == " " ];
     };
-
     // place given mark on the board at position [row, col]
     move := procedure(row, col, mark) {
         mBoard[row][col] := mark;
     };
-
     // create a human readable representation of the board
     f_str := procedure() {
          rng := [1 .. mSize];
          ls  := "\n" + "-" * (4 * mSize + 1) + "\n";  // line separator
          return   ls 
                 + join([ "| " + join([ mBoard[row][col] : col in rng ], " | ") + " |"
-                         : row in rng 
+                       : row in rng 
                        ], ls)
                 + ls;
     };
-
     // create a copy of the given tic-tac-toe board
     clone := procedure() {
         result        := tic_tac_toe(mSize);
         result.mBoard := mBoard;
         return result;
     };
-
     // If the game has been decided, return the winner. 
     // If "X" has won, return "X", if "O" has won, return "O".
     // If the game is drawn, return " ".
@@ -62,7 +57,7 @@ class tic_tac_toe(size) {
         lines += [ [ mBoard[idx][idx] : idx in rng ] ];
         // finally, the rising diagonal
         lines += [ [ mBoard[idx][mSize - (idx - 1)] : idx in rng ] ];
-        // now all lines are checked whether the contain 3 identical nonempty marks 
+        // all lines are checked whether the contain 3 identical nonempty marks 
         for (line in lines) {
             if (#{ p : p in line } == 1 && line[1] != " ") {
                 return line[1];
@@ -120,8 +115,7 @@ ttt_quality := procedure(board, move, player) {
     [row, col] := move;
     copy := board.clone();
     copy.move(row, col, player);
-    value := -ttt_utility(copy, switch_player(player));
-    return value;
+    return -ttt_utility(copy, switch_player(player));
 };
 
 // the utility of a given state for the specified player
