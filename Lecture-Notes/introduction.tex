@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \section{Motivation}
-The previous lecture in the winter term has shown us how interesting problems can be solved with the
-help of sets and relations.  However, we did not discuss how sets and relations can be represented
+The previous lecture during the past winter term has shown us how interesting problems can be solved with the
+help of sets and relations.  However, we did not discuss how \blue{sets} and \blue{relations} can be represented
 and how the operations on sets can be implemented in an efficient way.  This course will answer
 these questions:  We will see data structure that can be used to represent sets in an efficient way.
 Furthermore, we will discuss a number of other data structures and algorithms that should be in the
@@ -9,12 +9,12 @@ toolbox of every computer scientist.
 
 While the class in the last term has introduced the students to the theoretical foundations of
 computer science, this class is more application oriented.  Indeed, it may be one of the most 
-important classes for your future career: Stanford University regularly asks their former students 
-to rank those classes that were the most useful for their professional career.  Together with
-programming and databases, the class on algorithms consistently ranks highest.  The practical
-importance of the topic of this class can also be seen by the availability of book titles like 
- ``Algorithms for Interviews'' \cite{aziz:10} or the
-\href{http://www.youtube.com/watch?v=k4RRi_ntQc8}{Google job interview questions}.
+important classes for your future career: Five years after their students have graduated, Stanford University
+regularly asks their former students to rank those classes that were the most useful for their professional
+career.  Together with programming and databases, the class on algorithms consistently ranks highest.  The
+practical importance of the topic of this class can also be seen by the availability of book titles like 
+ ``\href{https://www.amazon.com/Algorithms-Interviews-Adnan-Aziz/dp/1453792996}{Algorithms for Interviews}'' 
+\cite{aziz:10} or the \href{http://www.youtube.com/watch?v=k4RRi_ntQc8}{Google job interview questions}.
  
  
 \section{Overview}
@@ -43,8 +43,10 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       \item \href{http://en.wikipedia.org/wiki/Big_Oh}{\emph{Big O notation}} offers a convenient way to
             discuss the growth rate of functions.  This notation is useful to abstract from
             unimportant details when discussing the runtime of algorithms.  
-      \item \href{http://en.wikipedia.org/wiki/Recurrence_relation}{\emph{Recurrence relations}}
-            are discrete analogues of differential equations.  Recurrence relations occur naturally
+      \item The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{\emph{recurrence relation}}
+            is the discrete analogue of the notion of a 
+            \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.  
+            Recurrence relations occur naturally
             when analysing the runtime of algorithms.  We present the 
             \href{https://en.wikipedia.org/wiki/Master_theorem}{\emph{Master Theorem}} that can be
             used to describe the growth of functions that are specified via recurrence relations.
@@ -172,14 +174,14 @@ goal.
 These lecture notes are intended to be the main source for my lecture.  Additionally, I want
 to mention those books that have inspired me most.
 \begin{enumerate}
-\item \textsl{Robert Sedgewick}: \emph{Algorithms in \textsl{Java}}, 
+\item \textsl{Robert Sedgewick}: \href{https://www.amazon.com/Algorithms-4th-Robert-Sedgewick/dp/032157351X}{Algorithms}, 
       fourth edition, Pearson, 2011, \cite{sedgewick:11}.
     
       This book has a nice \href{http://algs4.cs.princeton.edu/home/}{booksite} containing a wealth
       of additional material.  This book seems to be the best choice for the working practitioner.
       Furthermore, \href{http://www.cs.princeton.edu/~rs/}{Professor Sedgewick} teaches an excellent 
       \href{https://www.coursera.org/course/algs4partI}{course} on algorithms that is available at
-      \href{https://www.coursera.org/}{coursera.org} that is based on this book.  Furthermore, all
+      \href{https://www.coursera.org/}{coursera.org}.  This course is based on this book.  Furthermore, all
       the algorithms discussed in this book are implemented in \textsl{Java}, so reading this book
       also strengthens your knowledge of \textsl{Java}.
 \item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
@@ -189,14 +191,14 @@ to mention those books that have inspired me most.
       advanced level.
 \item \textsl{Thomas H.~Cormen}, \textsl{Charles E.~Leiserson}, 
       \textsl{Ronald L.~Rivest}, and \textsl{Clifford Stein}:
-      \emph{Introduction to Algorithms}, 
+      \href{https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844}{Introduction to Algorithms}, 
       third edition, MIT Press, 2009, \cite{cormen:09}
 
       Due to the level of detail and the number of algorithms given, this book can be viewed as a reference work.
       This book requires more mathematical sophistication on the side of its readers than any of the
       other books referenced here.  
-\item \emph{Einf\"uhrung in die Informatik},
-      written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2008}.
+\item \href{https://www.amazon.com/Einführung-Informatik-German-Heinz-Peter/dp/3486706411}{Einf\"uhrung in die Informatik},
+      written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2013}.
       
       This German book is a very readable introduction to computer science and it has a chapter
       on algorithms that is fairly comprehensive.  Furthermore, this book is
@@ -219,14 +221,14 @@ to mention those books that have inspired me most.
 There is one final remark I would like to make at this point:  Frequently, I get questions from
 students concerning the exams.  While I will most gladly answer these questions, I should warn you
 that, 50\%  
-of the time, my answers will be mostly lies.  The other 50\%,
+of the time, my answers will be flat out lies.  The other 50\%,
 my answers will be some random rubbish.  Please bear that in mind when evaluating my answers.
 
 \section{A Request}
 Computer science is a very active field of research.  Furthermore, my comprehension of the English
 language is improving steadily.  Therefore, these lecture notes are constantly
 evolving and hence might contain typos or even bugs.  If you find a problem, typo or otherwise,
-please take the time and send me an email.  My email address is
+please take the time and either send me an email or a message on discord.  My email address is
 \\[0.2cm]
 \hspace*{1.3cm}
 \href{mailto:karl.stroetmann@dhbw-mannheim.de}{karl.stroetmann@dhbw-mannheim.de}.
@@ -235,12 +237,12 @@ If you are familiar with \href{http://github.com}{\texttt{github}}, you might ev
 sending me a \href{https://help.github.com/articles/using-pull-requests}{pull request}.
 
 Finally, if you have any questions regarding the material presented in this course, you are
-welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or 
+welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email},
+\href{https://discordapp.com}{discord} or 
 \textsl{Skype}.  My \textsl{Skype} name is \texttt{karlstroetmann}.  If you think that others might
 have the same question, it is best if you ask your question via
-\href{https://discordapp.com}{\texttt{discord}}.  If you need an invitation for my discord server,
-do not hesitate to send me an email.  
-All your questions are welcome since they give me valuable feedback how to improve my lecture. 
+discord.  All your questions are welcome since they give me valuable feedback how 
+\st{stupid you really are} to improve my lecture. 
 
 
 %%% local Variables: 

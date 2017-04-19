@@ -13,6 +13,8 @@
 \usepackage{color}
 \usepackage{wasysym}
 \usepackage{hyperref}
+\usepackage{soul}
+
 \usepackage[all]{hypcap}
 \hypersetup{
 	colorlinks = true, % comment this to make xdvi work
@@ -59,7 +61,7 @@
 {\theorembodyfont{\sf} \newtheorem{Theorem}[Definition]{Theorem}}
 \title{\epsfig{file=Abbildungen/dhbw-logo.eps, scale=1.5}\\[0.3cm]  
        Algorithms  \\[0.5cm]
-      --- Lecture Notes for the Summer Term 2016 ---}
+      --- Lecture Notes for the Summer Term 2017 ---}
 \author{Prof.~Dr.~Karl Stroetmann}
 
 
@@ -70,7 +72,7 @@
 \renewcommand{\ttdefault}{inconsolatag}
 
 
-\date{\today\\[2.5cm]
+\date{\today\\[1.5cm]
 \begin{minipage}[t]{1.0\linewidth} 
 These lecture notes, their \LaTeX\ sources, and the programs discussed in these lecture notes are all available at
 \\[0.2cm]
@@ -85,7 +87,7 @@ The lecture notes itself can be found in the file
 The lecture notes are subject to continuous change.  Provided the program \href{http://git-scm.com/download}{\texttt{git}}
 is installed on your computer, the repository containing the lecture notes can be cloned using the command
 \\[0.2cm]
-\hspace*{1.3cm}
+\hspace*{0.3cm}
 \textcolor{amethyst}{\texttt{git clone https://github.com/karlstroetmann/Algorithms.git}}.
 \\[0.2cm]
 Once you have cloned the repository, the command
@@ -93,8 +95,8 @@ Once you have cloned the repository, the command
 \hspace*{1.3cm}
 \textcolor{amethyst}{\texttt{git pull}}
 \\[0.2cm]
-can be used to load the current version of these lecture notes from 
-\href{https://github.com}{\texttt{github}}.
+can be used to load the current version of these lecture notes from \href{https://github.com}{\texttt{github}}.
+Using this command will be necessary as their will be frequent changes of these lecture notes.
 \end{minipage}
 }
 
@@ -129,6 +131,8 @@ can be used to load the current version of these lecture notes from
 
 \noindent
 \textbf{Hint}: \ }
+
+\newcommand{\blue}[1]{\emph{\color{blue}#1}}
 
 \newcommand{\mod}{\;\texttt{\%}\;}
 \newcommand{\hoare}[3]{\bigl\{#1\bigr\}\quad\texttt{#2}\quad\bigl\{#3\bigr\}}
