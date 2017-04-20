@@ -1,5 +1,7 @@
 *.o
 *~
+*.bbl
+*.blg
 *.aux
 *.dvi
 *.log
