@@ -838,21 +838,21 @@ $
 \end{figure} 
 
 It is by no means obvious that the program shown in \ref{fig:power.stlx} does compute
-$m^n$.  We prove this claim by  \emph{computational induction}.
+$m^n$.  We prove this claim by  \blue{computational induction}.
 Computational induction is an induction on the number of recursive invocations.
 This method is the method of choice to prove the correctness of a recursive procedure.
 The method of computational induction consists of two steps:
 \begin{enumerate}
-\item The \emph{base case}.
+\item The \blue{base case}.
 
       In the base case we have to show that the procedure is correct in all those cases were it
       does not invoke itself recursively.
-\item The \emph{induction step}.
+\item The \blue{induction step}.
 
       In the induction step we have to prove that the method works in all those cases were
       it does invoke itself recursively.  In order to prove the correctness of these cases we may
       assume that the recursive invocations work correctly.  This assumption is called the
-      \emph{induction hypotheses}.
+      \blue{induction hypotheses}.
 \end{enumerate}
 Let us prove the claim 
 \\[0.2cm]
@@ -888,7 +888,7 @@ by computational induction.
            $ 
             \begin{array}{lcl}
             \mathtt{power}(m,n) & \leadsto & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \\[0.2cm]
-                                & \stackrel{I.V.}{\leadsto} & m^k \cdot m^k  \\[0.2cm]
+                                & \stackrel{IV}{\leadsto} & m^k \cdot m^k  \\[0.2cm]
                                 & = & m^{2\cdot k} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
@@ -899,14 +899,17 @@ by computational induction.
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k + 1$ and we have
             $n \backslash 2 = k$, where $n \backslash 2$ denotes integer division of $n$ by $2$.
             In this case we have:
-            \[ 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $ 
             \begin{array}{lcl}
             \mathtt{power}(m,n) & \leadsto & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \cdot m  \\[0.2cm]
-                                & \stackrel{I.V.}{\leadsto} & m^k \cdot m^k \cdot m  \\[0.2cm]
+                                & \stackrel{IV}{\leadsto} & m^k \cdot m^k \cdot m  \\[0.2cm]
                                 & = & m^{2\cdot k+1} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
-            \]
+            $
+            \\[0.2cm]
       \end{enumerate}
       As we have $\mathtt{power}(m,n) = m^n$ in both cases, the proof is finished.
       \qed
@@ -914,7 +917,7 @@ by computational induction.
 Next, we want to investigate the computational complexity of this implementation of \texttt{power}.
 To this end, let us compute the number of multiplications that are done when
 $\mathtt{power}(m,n)$ is called.  If the number $n$ is odd there will be more multiplications than
-in the case when $n$ is even.  Let us first investigate the \emph{worst case}.  
+in the case when $n$ is even.  Let us first investigate the \blue{worst case}.  
 The worst case happens if there is an $l\in \N$ such that 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -936,7 +939,7 @@ First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluat
 $\mathtt{power}(m, n)$ does not require a single multiplication.
 Otherwise, we have in line 9 two multiplications that have to be added to those multiplications
 that are performed in the recursive call in line 5.  Therefore, we get the following
-\href{http://en.wikipedia.org/wiki/Recurrence_relation}{\emph{recurrence relation}}:
+\href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}:
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n = a_{n \backslash 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
@@ -1043,7 +1046,7 @@ we have first computed a  recurrence relation, then we have solved this recurren
 we have approximated the result using the big $\Oh$ notation.  In many cases we are only interested in this
 last approximation and then it is not necessary to actually solve the recurrence relation.  
 Instead, we can use the 
-\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{\emph{master theorem}} to short
+\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem} to short
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
 \pagebreak
@@ -1058,8 +1061,8 @@ We present a simplified version of the master theorem next.
         \hspace*{1.3cm}
         $f(n) = \alpha \cdot f\left(n \backslash \beta\right) + \Oh(n^\delta)$,
         \\[0.2cm]
-        where $n \backslash \beta$ denotes \emph{integer division}\footnote{
-          For given integers $a, b \in \mathbb{N}$, the \emph{integer division} $a \backslash b$
+        where $n \backslash \beta$ denotes \blue{integer division}\footnote{
+          For given integers $a, b \in \mathbb{N}$, the \blue{integer division} $a \backslash b$
           is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  It can
           be implemented via the formula $a \backslash b = \textsl{floor}(a/b)$, where
           $\textsl{floor}(x)$ rounds $x$ down to the nearest integer.  In \textsc{SetlX}, integer
@@ -1515,9 +1518,9 @@ factor of $\frac{3}{2}$.
 
 
 \section{Further Reading}
-Chapter 3 of the book ``\emph{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
-contains a detailed description of several variants of the big $\Oh$ notation, while chapter 4 gives a more
-general version of the master theorem together with a detailed proof.
+Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
+contains a detailed description of several variants of the big $\Oh$ notation, while
+chapter 4 gives a more general version of the master theorem together with a detailed proof.
 
 %%% Local Variables: 
 %%% mode: latex
