@@ -3,13 +3,13 @@ sort := procedure(L) {
         return [];
     }
     x := min(L);
-    return [x | sort(delete(x, L))];
+    return [x] + sort(delete(x, L));
 };
 delete := procedure(x, L) {
     match (L) {
         case []              : assert(false, "element $x$ not in list $L$");
         case [y | R] | y == x: return R;
-        case [y | R] | y != x: return [y | delete(x, R)];
+        case [y | R] | y != x: return [y] + delete(x, R);
     }
 };
 

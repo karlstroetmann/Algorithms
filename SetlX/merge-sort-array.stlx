@@ -1,32 +1,32 @@
-sort := procedure(rw l) {
-    a := l;
-    mergeSort(l, 1, #l + 1, a); 
+sort := procedure(rw L) {
+    A := L;
+    mergeSort(L, 1, #L + 1, A); 
 };
-mergeSort := procedure(rw l, start, end, rw a) {
+mergeSort := procedure(rw L, start, end, rw A) {
     if (end - start < 2) { return; }
     middle := (start + end) \ 2;
-    mergeSort(l, start,  middle, a);  
-    mergeSort(l, middle, end   , a);   
-    merge(l, start, middle, end, a); 
+    mergeSort(L, start,  middle, A);  
+    mergeSort(L, middle, end   , A);   
+    merge(L, start, middle, end, A); 
 };
-merge := procedure(rw l, start, middle, end, rw a) {    
-    for (i in [start .. end-1]) { a[i] := l[i]; }
+merge := procedure(rw L, start, middle, end, rw A) {    
+    for (i in [start .. end-1]) { A[i] := L[i]; }
     idx1 := start;
     idx2 := middle;
     i    := start;
     while (idx1 < middle && idx2 < end) {
-        if (a[idx1] <= a[idx2]) {
-            l[i] := a[idx1]; idx1 += 1;
+        if (A[idx1] <= A[idx2]) {
+            L[i] := A[idx1]; idx1 += 1;
         } else {
-            l[i] := a[idx2]; idx2 += 1;
+            L[i] := A[idx2]; idx2 += 1;
         }
         i += 1; 
     }
     while (idx1 < middle) { 
-        l[i] := a[idx1]; idx1 += 1; i += 1; 
+        L[i] := A[idx1]; idx1 += 1; i += 1; 
     }
     while (idx2 < end   ) { 
-        l[i] := a[idx2]; idx2 += 1; i += 1; 
+        L[i] := A[idx2]; idx2 += 1; i += 1; 
     }
     assert(idx1 == middle && idx2 == end, "idx1 == middle && idx2 == end failed");
 };
@@ -36,33 +36,33 @@ sort([5,3,8,9,1,7,0,2,6,4]);
 // code for testing
 
 demo := procedure() {
-    l := [ rnd({1 .. 200}) : n in [1 .. 20] ];
-    print("l = $l$");
+    L := [ rnd({1 .. 200}) : n in [1 .. 20] ];
+    print("L = $L$");
     sort(l);
-    print("l = $l$");
+    print("L = $L$");
 };
 
 // n iterations for lists of length k
 testSort := procedure(n, k) {
     for (i in [1 .. n]) {
-        l := [ rnd({1 .. 200}) : x in [1 .. k] ];
-        c := l;  // copy
-        sort(l);
-        isOrdered(l);
-        sameElements(c, l);
+        L := [ rnd({1 .. 200}) : x in [1 .. k] ];
+        C := L;  // copy
+        sort(L);
+        isOrdered(L);
+        sameElements(C, L);
         print(".");
     }
     print("All tests successful!");
 };
 
-isOrdered := procedure(l) {
-    for (i in [1 .. #l-1]) {
-        assert(l[i] <= l[i+1], "test l[i] <= l[i+1] failed for i = $i$, l = $l$");
+isOrdered := procedure(L) {
+    for (i in [1 .. #L-1]) {
+        assert(L[i] <= L[i+1], "test L[i] <= L[i+1] failed for i = $i$, L = $L$");
     }
 };
 
-sameElements := procedure(l, s) {
-    assert(collect(l) == collect(s), "wrong elements");
+sameElements := procedure(L, S) {
+    assert(collect(L) == collect(S), "wrong elements");
 };
 
 // demo();
