@@ -607,62 +607,62 @@ is also sorted.
 \subsection{Complexity of Merge Sort}
 Next, we compute the number of comparisons that are needed to sort a list of $n$
 elements via merge sort.  To this end, we first analyse the number of comparisons that 
-are done in a call of $\mathtt{merge}(l_1, l_2)$.   In order to do this we define the function \\[0.2cm]
+are done in a call of $\mathtt{merge}(L_1, L_2)$.   In order to do this we define the function \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{cmpCount}: \textsl{List}(m) \times \textsl{List}(m) \rightarrow \mathbb{N}$ 
+$\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ 
 \\[0.2cm]
-such that, given two lists $l_1$ and $l_2$ of elements of some set $m$ the expression $\mathtt{cmpCount}(l_1, l_2)$ returns the
-number of comparisons needed to compute $\texttt{merge}(l_1,l_2)$. 
-Our claim is that, for any lists $l_1$ and $l_2$ we have  
+such that, given two lists $L_1$ and $L_2$ of elements of some set $M$ the expression $\mathtt{cmpCount}(L_1, L_2)$ returns the
+number of comparisons needed to compute $\texttt{merge}(L_1,L_2)$. 
+Our claim is that, for any lists $L_1$ and $L_2$ we have  
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(l_1, l_2) \leq \# l_1 + \# l_2$. 
+$\mathtt{cmpCount}(L_1, L_2) \leq \# L_1 + \# L_2$. 
 \\[0.2cm]
-The proof is done by induction on $\#l_1 + \#l_2$.
+The proof is done by induction on $\#L_1 + \#L_2$.
 \begin{enumerate}
-\item[I.A.:] $\#l_1 + \#l_2=0$.
+\item[I.A.:] $\#L_1 + \#L_2=0$.
 
-             Then both $l_1$ and $l_2$ are empty and therefore the evaluation of
-             $\mathtt{merge}(l_1, l_2)$ does not need any comparisons.  Therefore, we have 
+             Then both $L_1$ and $L_2$ are empty and therefore the evaluation of
+             $\mathtt{merge}(L_1, L_2)$ does not need any comparisons.  Therefore, we have 
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(l_1, l_2) = 0 \leq 0 = \#l_1 + \#l_2$.
-\item[I.S.:] $\#l_1 + \#l_2 = n+1$.
+             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \#L_1 + \#L_2$.
+\item[I.S.:] $\#L_1 + \#L_2 = n+1$.
 
-             If either $l_1$ or $l_2$ is empty, then we do not need any comparisons in order to
-             compute $\mathtt{merge}(l_1, l_2)$ and, therefore, we have
+             If either $L_1$ or $L_2$ is empty, then we do not need any comparisons in order to
+             compute $\mathtt{merge}(L_1, L_2)$ and, therefore, we have
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(l_1,l_2) = 0 \leq \#l_1 + \#l_2$.
+             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \#L_1 + \#L_2$.
              \\[0.2cm]
              Next, let us assume that \\[0.2cm]
-             \hspace*{1.3cm} $l_1 = [x] + r_1$ \quad and \quad $l_2 = [y] + r_2$.
+             \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad and \quad $L_2 = [y] + R_2$.
              \\[0.2cm]
              We have to do a case distinction with respect to the relative size of $x$ and $y$.
              \begin{enumerate}
              \item $x \preceq y$.  Then we have \\[0.2cm]
                    \hspace*{1.3cm} 
-                   $\mathtt{merge}\bigl([x] + r_1, [y] + r_2\bigr) = [x] + \mathtt{merge}\bigl(r_1, [y] + r_2\bigr)$. 
+                   $\mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = [x] + \mathtt{merge}\bigl(R_1, [y] + R_2\bigr)$. 
                    \\[0.2cm]
                    Therefore, we have \\
-                   $\mathtt{cmpCount}(l_1, l_2) = 1 + \mathtt{cmpCount}(r_1, l_2) \stackrel{ih}{\leq} 1 + \#r_1 + \#l_2 = \#l_1 + \#l_2$.
+                   $\mathtt{cmpCount}(L_1, L_2) = 1 + \mathtt{cmpCount}(R_1, L_2) \stackrel{ih}{\leq} 1 + \#R_1 + \#L_2 = \#L_1 + \#L_2$.
              \item $\neg x \preceq y$.  This case is similar to the previous case. 
                    \qed
              \end{enumerate}
 \end{enumerate}
 \exercise
-What is the form of the lists $l_1$ and $l_2$ that maximizes the value of 
+What is the form of the lists $L_1$ and $L_2$ that maximizes the value of 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(l_1, l_2)$?
+$\mathtt{cmpCount}(L_1, L_2)$?
 \\[0.2cm]
-What is the value of $\mathtt{cmpCount}(l_1, l_2)$ in this case? \eox
+What is the value of $\mathtt{cmpCount}(L_1, L_2)$ in this case? \eox
 \vspace*{0.3cm}
 
 \noindent
 Now we are ready to compute the complexity of \blue{merge sort} in the worst case.  Let us denote
-the number of comparisons needed to sort a list $l$ of length $n$ as $f(n)$.  The algorithm \blue{merge sort} 
-splits the list $l$ into two lists of length $l\symbol{92}2$, then sorts these lists recursively,
+the number of comparisons needed to sort a list $L$ of length $n$ as $f(n)$.  The algorithm \blue{merge sort} 
+splits the list $L$ into two lists of length $n\symbol{92}2$, then sorts these lists recursively,
 and finally merges the sorted lists.  Merging two lists of length $n \symbol{92}2$ can be done with
 at most $n$ comparisons.  Therefore, the function $f$ satisfies the recurrence relation
 \\[0.2cm]
