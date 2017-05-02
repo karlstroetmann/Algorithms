@@ -897,16 +897,16 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm
                 ]
-    sort := procedure(rw l) {
-        a := l;
-        mergeSort(l, a);
-    };    
-    mergeSort := procedure(rw l, rw a) {
+    sort := procedure(rw L) {
+        A := L;
+        mergeSort(L, A);
+    };
+    mergeSort := procedure(rw L, rw A) {
         n := 1;
-        while (n < #l) {
+        while (n < #L) {
             k := 0;
-            while (n * (k + 1) + 1 <= #l) {
-                merge(l, n*k+1, n*(k+1)+1, min([n*(k+2),#l])+1, a);
+            while (n * (k + 1) + 1 <= #L) {
+                merge(L, n*k+1, n*(k+1)+1, min([n*(k+2), #L])+1, A);
                 k += 2;    
             }
             n *= 2;
@@ -939,26 +939,26 @@ The precise working of this implementation gets obvious if we formulate the inva
 that have the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[n*k+1..n*(k+1)]}
+\texttt{L[n*k+1..n*(k+1)]}
 \\[0.2cm]
 are already sorted.  It is the task of the outer while loop to build pairs of sublists of this kind
 and to merge them into a sublist of length $2 \cdot n$.
 
-In the expression $l[n \cdot k + 1, \cdots, n \cdot (k+1)]$ the variable $k$ denotes a natural
+In the expression $L[n \cdot k + 1, \cdots, n \cdot (k+1)]$ the variable $k$ denotes a natural
 number that is used to numerate the sublists.  The index $k$ of the first sublists is $0$ and
 therefore this sublists has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[1..n]},
+\texttt{L[1..n]},
 \\[0.2cm]
 while the second sublist is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{l[n+1..2*n]}.
+\texttt{L[n+1..2*n]}.
 \\[0.2cm]
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
 of $\mathtt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
-in line 10 is the minimum of $n\cdot(k+2)$ and $\mathtt{\#}l$.
+in line 10 is the minimum of $n\cdot(k+2)$ and $\mathtt{\#L}$.
 
 \subsection{Further Improvements of Merge Sort}
 The implementation given above can still be improved in a number of ways.  
@@ -983,9 +983,9 @@ descendingly.   For this reason, \blue{Timsort} uses the following tricks:
       want to merge the arrays
       \\[0.2cm]
       \hspace*{1.3cm}
-      $[x] + r$ \quad and \quad $l_1 + [y] + l_2$
+      $[x] + \mathtt{R}$ \quad and \quad $\mathtt{L}_1 + [y] + \mathtt{L}_2$
       \\[0.2cm]
-      and if $y$ is less than $x$, then all elements of the list $l_1$ are also less than $x$.
+      and if $y$ is less than $x$, then all elements of the list $\mathtt{L}_1$ are also less than $x$.
       Therefore, there is no need to compare these elements with $x$ one by one.  
 \end{enumerate}
 Timsort uses some more tricks, but unfortunately we don't have the time to discuss all of them.
