@@ -1,19 +1,19 @@
 // insertion sort
-sort := procedure(l) {
-    match (l) {
-        case []   : return [];
-        case [x|r]: return insert(x, sort(r));
+sort := procedure(L) {
+    match (L) {
+        case []     : return [];
+        case [x | R]: return insert(x, sort(R));
     }
 };
-insert := procedure(x, l) {
-    match (l) {
-        case []                : return [x];
-        case [y|r] |   x <= y  : return [x | l];
-        case [y|r] | !(x <= y) : return [y | insert(x, r)];
+insert := procedure(x, L) {
+    match (L) {
+        case []                  : return [x];
+        case [y | R] |   x <= y  : return [x | L];
+        case [y | R] | !(x <= y) : return [y | insert(x, R)];
     }
 };
   
-l := [ rnd({1 .. 200}) : n in [1 .. 15] ];
-print("l = $l$");
-s := sort(l);
-print("s = $s$");
+L := [ rnd({1 .. 200}) : n in [1 .. 15] ];
+print("L = $L$");
+S := sort(L);
+print("S = $S$");

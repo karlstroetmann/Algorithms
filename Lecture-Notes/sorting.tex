@@ -133,31 +133,31 @@ Let us start our investigation of sorting algorithms with
 \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}.  We will describe the
 algorithm via a set of equations.
 \begin{enumerate}
-\item If the list $l$ that has to be sorted is empty, then the result is the empty list: 
+\item If the list $L$ that has to be sorted is empty, then the result is the empty list: 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\mathtt{sort}([]) = []$.
-\item Otherwise, the list $l$ must have the form $[x] + r$. Here, $x$ is the first element of $l$
-      and $r$ is the rest of $l$, i.~e.~everything of $l$ but the first element.  In order to sort
-      $l$ we first sort the rest $r$ and then we insert the element $x$ into the resulting list in a
+\item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
+      and $R$ is the rest of $L$, i.~e.~everything of $L$ but the first element.  In order to sort
+      $L$ we first sort the rest $R$ and then we insert the element $x$ into the resulting list in a
       way that the resulting list remains sorted:
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + r\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(r)\bigr)$.
+      \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$.
 \end{enumerate}
-Inserting $x$ into an already sorted list $s$ is done according to the following specification:
+Inserting $x$ into an already sorted list $S$ is done according to the following specification:
 \begin{enumerate}
-\item If $s$ is empty, the result is the list $[x]$: \\[0.2cm]
+\item If $S$ is empty, the result is the list $[x]$: \\[0.2cm]
       \hspace*{1.3cm}
       $\mathtt{insert}(x,[]) = [x]$.
-\item Otherwise, $s$ must have the form $[y] + r$.  In order to know where to insert $x$ we have to
+\item Otherwise, $S$ must have the form $[y] + R$.  In order to know where to insert $x$ we have to
       compare $x$ and $y$.
       \begin{enumerate}
-      \item If $x \preceq y$, then we have to insert $x$ at the front of the list $s$: \\[0.2cm]
+      \item If $x \preceq y$, then we have to insert $x$ at the front of the list $S$: \\[0.2cm]
             \hspace*{1.3cm}
-            $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y|r]\bigr) = [x,y|r]$. 
-      \item Otherwise, $x$ has to be inserted recursively into the list $r$: \\[0.2cm]
+            $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
+      \item Otherwise, $x$ has to be inserted recursively into the list $R$: \\[0.2cm]
             \hspace*{1.3cm}
-            $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y|r]\bigr) = [y | \mathtt{insert}(x,r)]$. 
+            $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)]$. 
       \end{enumerate}
 \end{enumerate}
 
@@ -171,17 +171,17 @@ Inserting $x$ into an already sorted list $s$ is done according to the following
                   xleftmargin   = 0.3cm,
                   xrightmargin  = 0.3cm
                 ]
-    sort := procedure(l) {
-        match (l) {
-            case []   : return [];
-            case [x|r]: return insert(x, sort(r));
+    sort := procedure(L) {
+        match (L) {
+            case []     : return [];
+            case [x | R]: return insert(x, sort(R));
         }
     };
-    insert := procedure(x, l) {
-        match (l) {
-            case []                : return [x];
-            case [y|r] |   x <= y  : return [x, y | r];
-            case [y|r] | !(x <= y) : return [y | insert(x, r)];
+    insert := procedure(x, L) {
+        match (L) {
+            case []                  : return [x];
+            case [y | R] |   x <= y  : return [x | L];
+            case [y | R] | !(x <= y) : return [y | insert(x, R)];
         }
     };
 \end{Verbatim}
@@ -196,14 +196,14 @@ in \textsc{SetlX}.
 \begin{enumerate}
 \item The definition of the function \texttt{sort} makes use of the \texttt{match} statement
       that is available in \texttt{SetlX}.  Essentially, the \texttt{match} statement is an upgraded
-      \texttt{switch} statement.  Therefore, line 3 is executed if the list $l$ is empty.
+      \texttt{switch} statement.  Therefore, line 3 is executed if the list $L$ is empty.
 
-      Line 4 tests whether $l$ can be written as  
+      Line 4 tests whether $L$ can be written as  
       \\[0.2cm]
       \hspace*{1.3cm}
-      $l = [x | r]$.
+      $L = [x | R]$.
       \\[0.2cm]
-      Here, $x$ is the first element of $l$ while $r$ contains all but the first element of $l$.  
+      Here, $x$ is the first element of $L$ while $R$ contains all elements but the first element of $L$.  
 \item The definition of the function $\mathtt{insert}$ also uses a 
       \texttt{match} statement.  However, in the last two cases the match statement
       also has a logical condition attached via the operator ``\texttt{|}'':
@@ -233,11 +233,11 @@ have skipped line 4 before and for a non-empty list that can only happen if the 
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm
                 ]
-    insert := procedure(x, l) {
-        match (l) {
-            case []             : return [x];
-            case [y|r] | x <= y : return [x, y | r];
-            case [y|r]          : return [y | insert(x, r)];
+    insert := procedure(x, L) {
+        match (L) {
+            case []               : return [x];
+            case [y | R] | x <= y : return [x, y | R];
+            case [y | R]          : return [y | insert(x, R)];
         }
     };
 \end{Verbatim}
@@ -247,10 +247,10 @@ have skipped line 4 before and for a non-empty list that can only happen if the 
 \end{figure} 
 
 Let us compute the number of evaluations of the comparison operator ``\texttt{<=}'' in line 4 in the
-worst case if we call $\texttt{sort}(l)$ with a list of length $n$. In order to do that, we have to
+worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that, we have to
 compute the number of evaluations of the operator ``\texttt{<=}'' when 
- $\texttt{insert}(x,l)$ is evaluated for a list $l$ of length $n$.  Let us denote this number as 
-$a_n$.  The worst case happens if $x$ is bigger than every element of $l$ because in that case the
+ $\texttt{insert}(x,L)$ is evaluated for a list $L$ of length $n$.  Let us denote this number as 
+$a_n$.  The worst case happens if $x$ is bigger than every element of $L$ because in that case the
 test ``\texttt{x <= y}'' in line 4 of Figure \ref{fig:insert.stlx} will always evaluate to
 \texttt{false} and therefore \texttt{insert} will keep calling itself recursively.
 Then we have
@@ -263,23 +263,23 @@ A trivial induction shows that this recurrence relation has the solution
 \hspace*{1.3cm} 
 $a_n = n$.
 \\[0.2cm]
-In the worst case the evaluation of $\mathtt{insert}(x,l)$ will lead to $n$ comparisons for a list
-$l$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $l$, then we have to
-compare $x$ with every element of $l$ in order to insert $x$ into $l$.
+In the worst case the evaluation of $\mathtt{insert}(x,L)$ will lead to $n$ comparisons for a list
+$L$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $L$, then we have to
+compare $x$ with every element of $L$ in order to insert $x$ into $L$.
 
 Next, let us compute the number of comparisons that have to be done when calling
-$\texttt{sort}(l)$ in the worst case for a list  $l$ of length $n$.  Let us denote this number as
-$b_n$. The worst case happens if $l$ is sorted in reverse order, i.~e.~if $l$ is sorted
+$\texttt{sort}(L)$ in the worst case for a list  $L$ of length $n$.  Let us denote this number as
+$b_n$. The worst case happens if $L$ is sorted in reverse order, i.~e.~if $L$ is sorted
 descendingly.   
 Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
-because for a list of the form $l = [x] + r$ of length $n+1$ we first have to sort the list $r$
-recursively.  As $r$ has length $n$ this takes $b_n$ comparisons.  After that, the call
-$\mathtt{insert}(x, \mathtt{sort(r)})$ 
-inserts the element $x$ into $\mathtt{sort}(r)$.  We have previously seen that this takes $n$
-comparisons if $x$ is bigger than all elements of $\mathtt{sort}(l)$ and if the list $l$ is sorted
+because for a list of the form $L = [x] + R$ of length $n+1$ we first have to sort the list $R$
+recursively.  As $R$ has length $n$ this takes $b_n$ comparisons.  After that, the call
+$\mathtt{insert}(x, \mathtt{sort(R)})$ 
+inserts the element $x$ into $\mathtt{sort}(R)$.  We have previously seen that this takes $n$
+comparisons if $x$ is bigger than all elements of $\mathtt{sort}(R)$ and if the list $L$ is sorted
 descendingly this will indeed be the case.
 
 If we substitute $n$ by $n-1$ in equation $(1)$ we find
@@ -318,56 +318,56 @@ Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ an
 \blue{insertion sort} is quadratic.
 
 
-Next, let us consider the best case.  The best case happens if the list $l$ is already sorted
+Next, let us consider the best case.  The best case happens if the list $L$ is already sorted
 ascendingly.  Then, the call of 
-$\mathtt{insert}(x,\mathtt{sort}(r))$ only needs a single comparison.  This time, the recurrence
-equation for the number $b_l$ of comparisons when sorting $l$ satisfies
+$\mathtt{insert}(x,\mathtt{sort}(R))$ only needs a single comparison.  This time, the recurrence
+equation for the number $b_l$ of comparisons when sorting $L$ satisfies
  \\[0.2cm]
 \hspace*{1.3cm}
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
 Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
-\blue{insertion sort} is linear.  This is as good as it can possibly get because when sorting a list $l$ we
-must at least inspect all of the elements of $l$ and therefore we will always have at least a linear
+\blue{insertion sort} is linear.  This is as good as it can possibly get because when sorting a list $L$ we
+must at least inspect all of the elements of $L$ and therefore we will always have at least a linear
 amount of work to do.
 
 
 \section{Selection Sort}
 Next, we discuss 
 \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}.  In order to sort a given
-list $l$ this algorithm works as
+list $L$ this algorithm works as
 follows:
 \begin{enumerate}
-\item If $l$ is empty, the result is the empty list: \\[0.2cm]
+\item If $L$ is empty, the result is the empty list: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
-\item Otherwise, we compute the smallest element of the list $l$ and we remove this element from
-      $l$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
+\item Otherwise, we compute the smallest element of the list $L$ and we remove this element from
+      $L$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
       to the front of the sorted list:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $l \not= [] \rightarrow \mathtt{sort}\bigl(l\bigr) = \bigl[\texttt{min}(l)\bigr| \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(l), l)\bigr)\bigr]$.
+      $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr] +  \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(L), L)\bigr)$.
 \end{enumerate}
-The algorithm to delete an element $x$ from a list $l$ is formulated recursively.  There are three cases:
+The algorithm to delete an element $x$ from a list $L$ is formulated recursively.  There are three cases:
 \begin{enumerate}
-\item If $l$ is empty, we have \\[0.2cm]
+\item If $L$ is empty, we have \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{delete}(x, []) = []$.
-\item If $x$ is equal to the first element of $l$, then the function \texttt{delete} returns the
-      rest of $l$: \\[0.2cm]
+\item If $x$ is equal to the first element of $L$, then the function \texttt{delete} returns the
+      rest of $L$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{delete}(x, [x|r]) = r$.
+      $\mathtt{delete}(x, [x] + R) = R$.
 \item Otherwise, the element $x$ is removed recursively from the rest of the list: \\[0.2cm]
       \hspace*{1.3cm}   
-      $x \not = y \rightarrow \mathtt{delete}(x, [y|r]) = [y|\mathtt{delete}(x,r)]$.
+      $x \not = y \rightarrow \mathtt{delete}(x, [y] + R) = [y] + \mathtt{delete}(x,R)$.
 \end{enumerate}
-Finally, we have to specify the computation of the minimum of a list $l$:
+Finally, we have to specify the computation of the minimum of a list $L$:
 \begin{enumerate}
 \item The minimum of the empty list is bigger than any element.  Therefore we have 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{min}([]) = \infty$.
-\item In order to compute the minimum of the list $[x] + r$ we compute the minimum of $r$ and
+\item In order to compute the minimum of the list $[x] + R$ we compute the minimum of $R$ and
       then use the binary function \texttt{min}: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}([x | r]) = \mathtt{min}\bigl(x, \mathtt{min}(r) \bigr)$. 
+      $\mathtt{min}([x] + R) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
 
       Here, the binary function \texttt{min} is defined as follows: \\[0.2cm]
       \hspace*{1.3cm} 
@@ -381,8 +381,8 @@ Finally, we have to specify the computation of the minimum of a list $l$:
 Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
 implementation of selection sort in \textsc{SetlX}.  There is no need to implement the function
 \texttt{min} as this function is already predefined in \textsc{SetlX}. 
-The implementation of $\mathtt{delete}(x,l)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, l)$
-should only be called if $x$ is indeed an element of the list $l$.   Therefore, there must be
+The implementation of $\mathtt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, L)$
+should only be called if $x$ is indeed an element of the list $L$.   Therefore, there must be
 a mistake if we try to delete an element from the empty list.  The predefined \texttt{assert}
 function will provide us with an error message in this case.
 
@@ -394,21 +394,21 @@ function will provide us with an error message in this case.
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.3cm,
-                  xrightmargin  = 0.3cm
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
                 ]
-    sort := procedure(l) {
-        if (l == []) {
+    sort := procedure(L) {
+        if (L == []) {
             return [];
         }
-        x := min(l);
-        return [x | sort(delete(x,l))];
+        x := min(L);
+        return [x | sort(delete(x, L))];
     };
-    delete := procedure(x, l) {
-        match (l) {
-            case []    : assert(false, "element $x$ not in list $l$");
-            case [x|r] : return r;
-            case [y|r] : return [y | delete(x,r)];
+    delete := procedure(x, L) {
+        match (L) {
+            case []              : assert(false, "$x$ not in $L$");
+            case [y | R] | y == x: return R;
+            case [y | R] | y != x: return [y | delete(x, R)];
         }
     };
 \end{Verbatim}
@@ -420,15 +420,15 @@ function will provide us with an error message in this case.
 
 \subsection{Complexity of Selection Sort}
 In order to be able to analyse the complexity of \blue{selection sort} we have to count the number
-of comparisons that are performed when $\mathtt{min}(l)$ is computed.  We have 
+of comparisons that are performed when $\mathtt{min}(L)$ is computed.  We have 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
 \\[0.2cm]
-Therefore, in order to compute $\texttt{min}(l)$ for a list $l$ of length $n$ the binary function \texttt{min}
+Therefore, in order to compute $\texttt{min}(L)$ for a list $L$ of length $n$ the binary function \texttt{min}
 is called $(n-1)$ times.  Each of these calls of \texttt{min} causes an evaluation of the comparison
 operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
-$l$ of length $n$ is written as $b_n$, we have \\[0.2cm]
+$L$ of length $n$ is written as $b_n$, we have \\[0.2cm]
 \hspace*{1.3cm}
 $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$. 
 \\[0.2cm]
@@ -479,19 +479,19 @@ was one of the most prominent mathematicians of the last century.
 % \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
 % $200\,000$ innocent civilian at the end of the second world war.
 
-In order to sort a list $l$ the algorithm proceeds as follows:
+In order to sort a list $L$ the algorithm proceeds as follows:
 \begin{enumerate}
-\item If $l$ has less than two elements, then $l$ is already sorted.  Therefore we have: 
+\item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\#l < 2 \rightarrow \mathtt{sort}(l) = l$.
-\item Otherwise, the list $l$ is split into two lists that have approximately the same size.
+      $\#L < 2 \rightarrow \mathtt{sort}(L) = L$.
+\item Otherwise, the list $L$ is split into two lists that have approximately the same size.
       These lists are then sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\#l \geq 2 \rightarrow \mathtt{sort}(l) = \mathtt{merge}\bigl(\mathtt{sort}\bigl(\mathtt{split}_1(l)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(l)\bigr)\bigr)$
+      $\#L \geq 2 \rightarrow \mathtt{sort}(L) = \mathtt{merge}\bigl(\mathtt{sort}\bigl(\mathtt{split}_1(L)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(L)\bigr)\bigr)$
      \\[0.2cm]
-     Here, $\texttt{split}_1$ and $\mathtt{split}_2$ are functions that split up the list $l$ into
+     Here, $\texttt{split}_1$ and $\mathtt{split}_2$ are functions that split up the list $L$ into
      two parts, while the function \texttt{merge} takes two sorted lists and combines their element
      in a way that the resulting list is sorted.
 \end{enumerate}
@@ -500,14 +500,14 @@ program.  The two functions $\mathtt{split}_1$ and $\mathtt{split}_2$ have been 
 function \texttt{split} that returns a pair of lists, i.~e.~the expression
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{split}(l)$
+$\mathtt{split}(L)$
 \\[0.2cm]
 returns a pair of lists of the form
 \\[0.2cm]
 \hspace*{1.3cm}
-$\langle l_1, l_2 \rangle$ \quad where $l_1 = \mathtt{split}_1(l)$ and $l_2 = \mathtt{split}_2(l)$.
+$\langle L_1, L_2 \rangle$ \quad where $L_1 = \mathtt{split}_1(L)$ and $L_2 = \mathtt{split}_2(L)$.
 \\[0.2cm]
-The idea is to distribute the elements of $l$ to the lists $l_1$ and $l_2$ in a way that both lists
+The idea is to distribute the elements of $L$ to the lists $L_1$ and $L_2$ in a way that both lists
 have approximately the same size.   Let us proceed to discuss the details of the program shown in
 Figure \ref{fig:merge-sort.stlx}:
 
@@ -522,29 +522,29 @@ Figure \ref{fig:merge-sort.stlx}:
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm
                 ]
-    sort := procedure(l) {
-        if (#l < 2) {
-            return l;
+    sort := procedure(L) {
+        if (#L < 2) {
+            return L;
         }
-        [l1, l2] := split(l);
-        return merge(sort(l1), sort(l2));
+        [L1, L2] := split(L);
+        return merge(sort(L1), sort(L2));
     };
-    split := procedure(l) {
-        match (l) {
-            case []      : return [ [], [] ];
-            case [x]     : return [ [x], [] ];
-            case [x,y|r] : [r1,r2] := split(r);
-                           return [ [x|r1], [y|r2] ];
+    split := procedure(L) {
+        match (L) {
+            case []         : return [ [], [] ];
+            case [x]        : return [ [x], [] ];
+            case [x, y | R] : [R1, R2] := split(R);
+                              return [ [x] + R1, [y] + R2];
         }
     };
-    merge := procedure(l1, l2) {
-        match ([l1, l2]) {
-            case [     [],     l2 ] : return l2;
-            case [     l1,     [] ] : return l1;
-            case [ [x|r1], [y|r2] ] : if (x <= y) {
-                                          return [x | merge(r1, l2)];
+    merge := procedure(L1, L2) {
+        match ([L1, L2]) {
+            case [      [],       L2] : return L2;
+            case [      L1,       []] : return L1;
+            case [[x | R1], [y | R2]] : if (x <= y) {
+                                          return [x] + merge(R1, L2);
                                       } else {
-                                          return [y | merge(l1, r2)];
+                                          return [y] + merge(L1, R2);
                                       }
         }
     };
@@ -554,53 +554,53 @@ Figure \ref{fig:merge-sort.stlx}:
   \label{fig:merge-sort.stlx}
 \end{figure}
 \begin{enumerate}
-\item If the list $l$ has less than two elements, it is already sorted and, therefore, it
+\item If the list $L$ has less than two elements, it is already sorted and, therefore, it
       can be returned as it is.
-\item The call to \texttt{split} distributes the elements of $l$ to the lists \texttt{l1} and \texttt{l2}.
+\item The call to \texttt{split} distributes the elements of $L$ to the lists $\mathtt{L1}$ and $\mathtt{L2}$.
 \item These lists are sorted recursively and the resulting sorted lists are then merged.
 \end{enumerate}
 
 \noindent
 Next, we specify the function $\texttt{split}$ via equations.
 \begin{enumerate}
-\item If $l$ is empty, $\mathtt{split}(l)$ returns two empty lists:\\[0.2cm]
+\item If $L$ is empty, $\mathtt{split}(L)$ returns two empty lists:\\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{split}(\texttt{[]}) = \langle \texttt{[]}, \texttt{[]} \rangle$.
-\item If $l$ contains exactly one element, this element is put into the first of the two lists
+\item If $L$ contains exactly one element, this element is put into the first of the two lists
       returned from \texttt{split}: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \langle \texttt{[}x\texttt{]}, \texttt{[]} \rangle$.
-\item Otherwise, $l$ must have the form $[x, y | r]$.
-      Then we split $r$ recursively into two lists $r_1$ and $r_2$.  The element $x$ is put in front
-      of $r_1$, while $y$ is put in front of $r_2$:
+\item Otherwise, $L$ must have the form $[x, y | R]$.
+      Then we split $R$ recursively into two lists $R_1$ and $R_2$.  The element $x$ is put in front
+      of $R_1$, while $y$ is put in front of $R_2$:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{split}(r) = \langle r_1, r_2 \rangle \rightarrow \mathtt{split}\bigl([x, y|r]\bigr) = \bigl\langle [x|r_1], [y|r_2] \bigr\rangle$.
+      $\mathtt{split}(R) = \langle R_1, R_2 \rangle \rightarrow \mathtt{split}\bigl([x, y|R]\bigr) = \bigl\langle [x|R_1], [y|R_2] \bigr\rangle$.
 \end{enumerate}
-Finally, we specify how two sorted lists $l_1$ and $l_2$ are merged in a way that the resulting list
+Finally, we specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
 is also sorted.
 \begin{enumerate}
-\item If the list $l_1$ is empty, the result is $l_2$: \\[0.2cm]
+\item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}([], l_2) = l_2$.
-\item If the list $l_2$  is empty, the result is $l_1$: \\[0.2cm]
+      $\mathtt{merge}([], L_2) = L_2$.
+\item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}(l_1, []) = l_1$.
-\item Otherwise, $l_1$ must have the form $[x|r_1]$ and $l_2$ has the form $[y|r_2]$.
+      $\mathtt{merge}(L_1, []) = L_1$.
+\item Otherwise, $L_1$ must have the form $[x|R_1]$ and $L_2$ has the form $[y|R_2]$.
       Then there is a case distinction with respect to the comparison of $x$ and $y$:
       \begin{enumerate}
       \item $x \preceq y$.
 
-            In this case, we merge $r_1$ and $l_2$ and put $x$ at the beginning of this list:
+            In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|r_1], [y|r_2]\bigr) = \bigl[x \bigm| \mathtt{merge}\bigl(r_1,[y|r_2]\bigr)\bigr]$.
+            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[x\bigr] + \mathtt{merge}\bigl(R_1,[y|R_2]\bigr)$.
       \item $\neg x \preceq y$.
 
-            Now we merge $l_1$ and $r_2$ and put $y$ at the beginning of this list:
+            Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|r_1], [y|r_2]\bigr) = \bigl[y \bigm| \mathtt{merge}\bigl([x|r_1],r_2\bigr)\bigr]$.
+            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[y \bigr] + \mathtt{merge}\bigl([x|R_1],R_2\bigr)$.
       \end{enumerate}
 \end{enumerate}
 

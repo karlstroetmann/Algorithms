@@ -1,31 +1,29 @@
-sort := procedure(l) {
-    if (#l < 2) {
-        return l;
+sort := procedure(L) {
+    if (#L < 2) {
+        return L;
     }
-    [l1, l2] := split(l);
-    return merge(sort(l1), sort(l2));
+    [L1, L2] := split(L);
+    return merge(sort(L1), sort(L2));
 };
-split := procedure(l) {
-    match (l) {
-        case []      : return [ [], [] ];
-        case [x]     : return [ [x], [] ];
-        case [x,y|r] : [r1,r2] := split(r);
-                       return [ [x|r1], [y|r2] ];
+split := procedure(L) {
+    match (L) {
+        case []         : return [ [], [] ];
+        case [x]        : return [ [x], [] ];
+        case [x, y | R] : [R1, R2] := split(R);
+                          return [ [x] + R1, [y] + R2];
     }
 };
-merge := procedure(l1, l2) {
-    match ([l1, l2]) {
-        case [     [],     l2 ] : return l2;
-        case [     l1,     [] ] : return l1;
-        case [ [x|r1], [y|r2] ] : if (x <= y) {
-                                      return [x | merge(r1, l2)];
+merge := procedure(L1, L2) {
+    match ([L1, L2]) {
+        case [      [],       L2] : return L2;
+        case [      L1,       []] : return L1;
+        case [[x | R1], [y | R2]] : if (x <= y) {
+                                      return [x] + merge(R1, L2);
                                   } else {
-                                      return [y | merge(l1, r2)];
+                                      return [y] + merge(L1, R2);
                                   }
     }
 };
-
-
 
 
 
