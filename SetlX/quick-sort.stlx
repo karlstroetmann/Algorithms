@@ -1,20 +1,20 @@
 // A list based implementation of quick sort.
-sort := procedure(l) {
-    match (l) {
+sort := procedure(L) {
+    match (L) {
         case []   : return [];
-        case [x|r]: 
-             [s,b] := partition(x, r);
-             return sort(s) + [x] + sort(b);
+        case [x|R]: [S, B] := partition(x, R);
+                    return sort(S) + [x] + sort(B);
     }
 };
-partition := procedure(p, l) {
-    match (l) {
+partition := procedure(p, L) {
+    match (L) {
         case []   : return [ [], [] ];
-        case [x|r]: [ r1, r2 ] := partition(p, r);
+        case [x|R]: [R1, R2] := partition(p, R);
                     if (x <= p) {
-                        return [ [x|r1], r2 ];
-                    } 
-                    return [ r1, [x|r2] ];
+                        return [[x|R1], R2];
+                    } else {
+                        return [R1, [x|R2]];
+                    }
     }
 };
 
