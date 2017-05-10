@@ -1,29 +1,29 @@
 \chapter{Abstract Data Types}
-In the same way as the notion of an algorithm abstracts from the details of a concrete
-implementation of this algorithm, the notion of an \emph{abstract data type} abstracts from concrete data
+In the same way as the notion of an \emph{algorithm} abstracts from the details of a concrete
+implementation of this algorithm, the notion of an \blue{abstract data type} abstracts from concrete data
 structures.  The notion enables us to separate algorithms from the data
 structures used in these algorithms.  The next section gives a formal definition of
-``\emph{abstract data types}''.  As an example, we introduce the abstract data type of \emph{stacks}.
+``\emph{abstract data types}''.  As an example, we introduce the abstract data type of \blue{stacks}.
 The second section shows how abstract data types are supported in \textsc{SetlX}.  Finally, we show how stacks can be used
-to evaluate arithmetic expressions.
+to evaluate \blue{arithmetic expressions}.
 
 \section[Formal Definition]{A Formal Definition of Abstract Data Types}
-Formally, an \emph{abstract data type} $\mathcal{D}$ is defined as a 5-tupel of the form
+Formally, an \blue{abstract data type} $\mathcal{D}$ is defined as a 5-tupel of the form
 \\[0.2cm]
 \hspace*{1.3cm}
  $\mathcal{D} = \langle N, P, Fs, Ts, Ax \rangle$.
 \\[0.2cm] 
 where the meaning of the components is as follows:
 \begin{enumerate}
-\item $N$ is the \emph{name} of the abstract data type.
-\item $P$ is the set of \emph{type parameters}.   Here, a type parameter is just a string.
+\item $N$ is the \blue{name} of the abstract data type.
+\item $P$ is the set of \blue{type parameters}.   Here, a type parameter is just a string.
       This string is interpreted as a type variable.  The idea is that we can later substitute 
       a concrete data type for this string.
-\item $\textsl{Fs}$ is the set of \emph{function symbols}.  These function symbols denote the 
+\item $\textsl{Fs}$ is the set of \blue{function symbols}.  These function symbols denote the 
       operations that are supported by this abstract data type.
-\item $\textsl{Ts}$ is a set of \emph{type specifications}.  For every function symbol
+\item $\textsl{Ts}$ is a set of \blue{type specifications}.  For every function symbol
       $f \in \textsl{Fs}$
-      the set $Ts$ contains a \emph{type specifications} of the form 
+      the set $Ts$ contains a \blue{type specifications} of the form 
       \\[0.2cm]
       \hspace*{1.3cm} 
       $f: T_1 \times \cdots \times T_n \rightarrow S$. 
@@ -46,15 +46,15 @@ where the meaning of the components is as follows:
       Additionally, we must have either $T_1 = T$ or $S = T$.  Therefore, either
       the first argument of $f$ has to be of type $T$ or the result of $f$ has to be of type 
       $T$.  If we have  $T_1 \not= T$ and, therefore, $S = T$,
-      then $f$ is called a \emph{constructor} of the data type $T$.  Otherwise,
-      $f$ is called a  \emph{method}.
+      then $f$ is called a \blue{constructor} of the data type $T$.  Otherwise,
+      $f$ is called a  \blue{method}.
 \item $Ax$ is a set of mathematical formul\ae.   These formul\ae\ 
       specify the behaviour of the abstract data type and are therefore called
-      the \emph{axioms} of $\mathcal{D}$.
+      the \blue{axioms} of $\mathcal{D}$.
 \end{enumerate}
 The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{Adt}.
 
-Next, we provide a simple example of an abstract data type, the \emph{stack}.
+Next, we provide a simple example of an abstract data type, the \blue{stack}.
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a canteen.  Usually, the clean plates are placed on top of each other
@@ -121,7 +121,7 @@ The intuition that we have of a stack is captured by the following axioms.
       If we push an element $x$ on top of a stack $S$, then the resulting stack cannot be empty.
 \end{enumerate}
 When contemplating the axioms given above we can recognize some structure.  If we denote the
-functions \texttt{stack} and \texttt{push} as \emph{generators},  then the axioms specify the
+functions \texttt{stack} and \texttt{push} as \blue{generators},  then the axioms specify the
 behaviour of the remaining functions on the stacks created by the generators.
 
 The data type of a stack has many applications in computer science.  To give just one example, the
@@ -218,7 +218,7 @@ discussed next.
       \\[0.2cm]
       This assignment creates an empty stack and assigns this stack to the variable \texttt{s}.
 \item Line 2 defines the first (and in this case only) member variable of the class \texttt{stack}.
-      Therefore, every object $o$ of class stack will have a \emph{member variable} called
+      Therefore, every object $o$ of class stack will have a \blue{member variable} called
       \texttt{mStackElements}. 
       We will use this list to store the elements of the stack.  To retrieve this member variable from
       the object $o$ we can use the following expression:
@@ -232,7 +232,8 @@ discussed next.
       this is not the only way to implement a stack: A stack can also be implemented as a linked list.
 
       One word on naming convention.  It is my convention to start all member variables of a class
-      with the lower case letter ``\texttt{m}'' followed by a descriptive name.
+      with the lower case letter ``\texttt{m}'' followed by a descriptive name that starts with a 
+      capital letter.
 \item The rest of the definition of the class \texttt{stack} is enclosed in one big static
       block that starts with the keyword \texttt{static} in line 4 and ends with the closing brace 
       ``\texttt{\}}'' in line 36.  The static block is not part of the constructor.
@@ -240,7 +241,7 @@ discussed next.
       \texttt{stack()} does, is to initialize the member variable \texttt{mStackElements}.
 
       The static block itself contains a number of procedure definitions.  These procedures are
-      called \emph{methods}.  As these methods are
+      called \blue{methods}.  As these methods are
       defined inside the static block, they are not considered to be defined in the constructor
       and, therefore, are not member variables but are, instead, class variables.  Hence, 
       they are available in the class \texttt{stack}.  For example,
@@ -327,7 +328,7 @@ discussed next.
             it using \texttt{pop()}.  Next, the remaining stack is converted to a string in
             line 30 and finally the element \texttt{top} is appended to this string.
       \item The method \texttt{f\_str} creates a line of dashes in line 21.
-            This line has the same length as the string produced by \texttt{convert}
+            This line has the same length as the string produced by \texttt{convert}.
             The result of \texttt{convert} is then decorated with these dashes.
       \end{enumerate}
 \item Note that there is no ``\texttt{;}'' at the end of the class definition in line 33.
@@ -343,11 +344,11 @@ that are administered by the abstract data type are actually represented.
 
 
 \section{Evaluation of Arithmetic Expressions}
-Next, in order to demonstrate the usefulness of stacks, we show how \emph{arithmetic expressions} can be
+Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
 evaluated using stacks.  To this end, we present the
-\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard algorithm}} for
+\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm} for
 parsing arithmetic expressions.  
-An \emph{arithmetic expression} is a string that is made up of numbers and
+An \blue{arithmetic expression} is a string that is made up of numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
 ``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the
 modulus operator and $x\;\texttt{**}\;y$ denotes the power $x^y$.    Furthermore, arithmetic expressions can use
@@ -393,23 +394,23 @@ simple example.  Consider the arithmetic expression
 \hspace*{1.3cm} 
 ``\texttt{1 + 2 * 3 - 4}''. 
 \\[0.2cm]
-First, this string is transformed into the list of \emph{tokens}
+First, this string is transformed into the list of \blue{tokens}
 \\[0.2cm]
 \hspace*{1.3cm}
 \texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34} 4]}.
 \\[0.2cm]
-A \emph{token} is either a number, an operator symbol, or a parenthesis.
+A \blue{token} is either a number, an operator symbol, or a parenthesis.
 Notice that the space symbols that have been present in the original arithmetic expression string
 have been discarded.  This list is processed from left to right, one token
  at a time.  In order to process this list, we use three stacks.
 \begin{enumerate}
-\item The  \emph{token list} contains all the tokens of the arithmetic expression.  It is
+\item The  \blue{token list} contains all the tokens of the arithmetic expression.  It is
       initialized with the list of tokens resulting from the input string.
       Although the token list is really just a list we will represent this list as a stack and call
-      this list the \emph{token stack}.
+      this list the \blue{token stack}.
       The first token of the arithmetic expression is on top of this stack.
-\item The  \emph{argument stack} contains only numbers and is initially empty.
-\item The \emph{operator stack} contains only operator symbols and parentheses and is also initially
+\item The  \blue{argument stack} contains only numbers and is initially empty.
+\item The \blue{operator stack} contains only operator symbols and parentheses and is also initially
       empty.
 \end{enumerate}
 The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
@@ -503,7 +504,7 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
 The algorithm introduced in the last example is known as the 
-\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{\emph{shunting-yard algorithm}}.
+\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.
 It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} in 1961.
 We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
 that are needed for this algorithm.
@@ -641,8 +642,8 @@ whether \texttt{stackOp} should be evaluated before \texttt{nextOp}.  Of course,
 intended to be the operator on top of the operator stack, while \texttt{nextOp} is an operator that
 is on top of the token stack.
 In order to decide whether the operator \texttt{stackOp} should be evaluated before the operator
-\texttt{nextOp},  we first have to know the \emph{precedences} of these operators.  Here, a
-\emph{precedence} is a natural number that specifies how strong the operator binds to its
+\texttt{nextOp},  we first have to know the \blue{precedences} of these operators.  Here, a
+\blue{precedence} is a natural number that specifies how strong the operator binds to its
 arguments. Table \ref{tab:predence} on page \pageref{tab:predence} lists the precedences of our
 operators.  This table is coded as the binary relation \texttt{prec} in line 33.
 
@@ -681,15 +682,15 @@ If \texttt{stackOp} and \texttt{nextOp} have the same precedence, there are two 
       Therefore, in this case we have to evaluate \texttt{stackOp} first.
 \item $\mathtt{op1} = \mathtt{op2}$.
 
-      In this case we have to consider the \emph{associativity} of the operator.
+      In this case we have to consider the \blue{associativity} of the operator.
       Let us consider two examples: \\[0.2cm]
       \hspace*{1.3cm} \texttt{2 + 3 + 4} \quad is interpreted as \quad \texttt{(2 + 3) + 4}. \\[0.2cm]
-      The reason is that the operator ``\texttt{+}'' \emph{associates to the left}.
+      The reason is that the operator ``\texttt{+}'' \blue{associates to the left}.
       On the other hand, \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{2 \texttt{**} 3 \texttt{**} 4}  \quad is interpreted as \quad \texttt{2 \texttt{**} (3 \texttt{**} 4)}
       \\[0.2cm]
-      because the operator ``\texttt{**}'' \emph{associates to the right}.
+      because the operator ``\texttt{**}'' \blue{associates to the right}.
 
       The operators ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'' and 
       ``\texttt{\symbol{37}}'' are all left associative.  Hence, in this case \texttt{stackOp} is
@@ -807,7 +808,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        are used to implement this algorithm.
 
        When we implemented the algorithm to evaluate arithmetic expressions we did not need to know
-       how the data type \emph{stack} that we have used was implemented.  It was sufficient for us to know 
+       how the data type \blue{stack} that we have used was implemented.  It was sufficient for us to know 
        \begin{enumerate}
        \item the signatures of its functions and
        \item the axioms describing the behaviour of these functions.
@@ -821,7 +822,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        person is able to understand every single aspect of these systems.  It is therefore important
        that these systems are structured in a way such that different groups of developers can work
        simultaneously on these systems without interfering with the work done by other groups.
- \item Abstract data types are \emph{reusable}.
+ \item Abstract data types are \blue{reusable}.
 
        Our definition of stacks was very general.  Therefore, stacks can be used in many different
        places:  For example, we will see later how stacks can be used to traverse a directed graph.
@@ -829,7 +830,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        Modern industrial strength programming languages like \texttt{C++} or \textsl{Java} contain
        huge libraries containing the implementation of many abstract data types.  This fact reduces
        the cost of software development substantially.     
- \item Abstract data types are \emph{exchangeable}.
+ \item Abstract data types are \blue{exchangeable}.
 
        In our program for evaluating  arithmetic expressions it is trivial to substitute the given
        implementation with an array based implementation of stacks that is more efficient.  In general,
@@ -838,7 +839,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        \item First, an algorithm is implemented using abstract data types.
        \item The initial implementation of these abstract data may be quite crude and inefficient.
        \item Next, detailed performance tests (known as 
-             \href{http://en.wikipedia.org/wiki/Profiling_(computer_programming)}{\emph{profiling})}
+             \href{http://en.wikipedia.org/wiki/Profiling_(computer_programming)}{profiling)}
              spot those data types that are performance bottlenecks.
        \item Finally, the implementations of those data types that have been identified as bottlenecks are optimized.
        \end{enumerate}

@@ -18,10 +18,10 @@ merge := procedure(L1, L2) {
         case [      [],       L2] : return L2;
         case [      L1,       []] : return L1;
         case [[x | R1], [y | R2]] : if (x <= y) {
-                                      return [x] + merge(R1, L2);
-                                  } else {
-                                      return [y] + merge(L1, R2);
-                                  }
+                                        return [x] + merge(R1, L2);
+                                    } else {
+                                        return [y] + merge(L1, R2);
+                                    }
     }
 };
 
