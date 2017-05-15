@@ -2,38 +2,11 @@
 sort := procedure(L) {
     match (L) {
         case []   : return [];
-        case [x|R]: [S, B] := partition(x, R);
+        case [x|R]: S := [y: y in R | y <= x];
+                    B := [y: y in R | y >  x];
                     return sort(S) + [x] + sort(B);
     }
 };
-partition := procedure(p, L) {
-    match (L) {
-        case []   : return [ [], [] ];
-        case [x|R]: [R1, R2] := partition(p, R);
-                    if (x <= p) {
-                        return [[x|R1], R2];
-                    } else {
-                        return [R1, [x|R2]];
-                    }
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // code for testing
 

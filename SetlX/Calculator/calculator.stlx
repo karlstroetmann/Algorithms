@@ -74,5 +74,5 @@ class calculator(s) {
 }
 
 // c := calculator("1+2*3**4-5/2");
-c := calculator("1+2*3-4");
+c := calculator("(1+2)*(3-4)");
 print(c.evaluate());

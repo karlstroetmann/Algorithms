@@ -36,7 +36,7 @@ createStack := procedure(l) {
     result := stack();
     n := #l;
     for (i in [1 .. #l]) {
-        result.push(l[n + 1 - i]);
+        result.push(l[-i]);
     }
     return result;
 };

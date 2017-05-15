@@ -1004,33 +1004,23 @@ In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published 
 \href{http://en.wikipedia.org/wiki/Quicksort}{quick sort}  
 algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
-\item If the list $L$ that is to be sorted is empty, we return $L$: 
+\item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
-\item Otherwise, we have $L = [x|R]$.  In this case, we split $R$ into two lists $S$ and $B$.
-      The list $S$ ($S$ stands for \underline{s}mall) contains all the elements of $R$ that are less
-      or equal than $x$,     while $B$ ($B$ stands for \underline{b}ig) contains
-      those elements of $R$ that are bigger than $x$.  The computation of $S$ and $B$ is done by a
-      function called $\mathtt{partition}$: 
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{partition}(x, R) = \langle S, B \rangle$.
-      \\[0.2cm]
-      Formally, the function $\texttt{partition}$ can be defined as follows:
+\item Otherwise, we have $\mathtt{L} = [\mathtt{x}|\mathtt{R}]$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
+      The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
+      or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
+      those elements of $\mathtt{R}$ that are bigger than $\mathtt{x}$.  These lists are computed as follows:
       \begin{enumerate}
-      \item $\textsl{partition}(x, []) = \bigl\langle[], []\bigr\rangle$,
-      \item \quad 
-            $\; y \preceq x\; \wedge \textsl{partition}(x, R) = \bigl\langle S, B \bigr\rangle \rightarrow 
-             \textsl{partition}(x, [y|R]) = \bigl\langle [y| S],\, B \bigr\rangle$,
-      \item $\neg\, (y \preceq x) \wedge \textsl{partition}(x, R) = \bigl\langle S, B \bigr\rangle \rightarrow 
-             \textsl{partition}(x, [y|R]) = \bigl\langle S,\, [y|B] \bigr\rangle$.
+      \item $\mathtt{S} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} \leq \mathtt{x}]$,
+      \item $\mathtt{B} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} > \mathtt{x}]$.
       \end{enumerate}
-      After partitioning the list $L$ into $S$ and $B$, the lists $S$ and $R$ are sorted
-      recursively.  Then, the result is computed by putting $x$ between  $\mathtt{sort}(S)$ and $\mathtt{sort}(B)$:
+      The process of splitting the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$
+      is called \blue{partitioning}.  After partitioning the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$, these lists are sorted
+      recursively.  Then, the result is computed by putting $\mathtt{x}$ between the lists $\mathtt{sort}(\mathtt{S})$ and $\mathtt{sort}(\mathtt{B})$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{partition}(x,R) = \langle S, B \rangle \rightarrow 
-       \textsl{sort}([x|R]) = \textsl{sort}(S) + [x] + \textsl{sort}(B)$.
+      $\mathtt{sort}([\mathtt{x}|\mathtt{R}]) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
 be implemented in \textsc{SetlX}.
@@ -1048,19 +1038,9 @@ be implemented in \textsc{SetlX}.
     sort := procedure(L) {
         match (L) {
             case []   : return [];
-            case [x|R]: [S, B] := partition(x, R);
+            case [x|R]: S := [y: y in R | y <= x];
+                        B := [y: y in R | y >  x];
                         return sort(S) + [x] + sort(B);
-        }
-    };
-    partition := procedure(p, L) {
-        match (L) {
-            case []   : return [ [], [] ];
-            case [x|R]: [R1, R2] := partition(p, R);
-                        if (x <= p) {
-                            return [[x|R1], R2];
-                        } else {
-                            return [R1, [x|R2]];
-                        }
         }
     };
 \end{Verbatim}
@@ -1072,33 +1052,36 @@ be implemented in \textsc{SetlX}.
 \subsection{Complexity}
 Next, we investigate the computational complexity of \blue{quick sort}.
 Our goal is to compute the number of comparisons that are needed when
-$\texttt{sort}(L)$ is computed for a list $L$ of length $n$.  In order to compute this number we
-first investigate how many comparisons are needed for evaluating
+$\mathtt{sort}(\mathtt{L})$ is computed for a list $\mathtt{L}$ of length $n$.  In order to compute this number we
+first investigate how many comparisons are needed in order to partition the list $\mathtt{R}$
+into the lists $\mathtt{S}$ and $\mathtt{B}$.  As these lists are defined as 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{partition}(p,L)$ 
+ $\mathtt{S} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} \leq \mathtt{x}]$ \quad and \quad
+ $\mathtt{B} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} > \mathtt{x}]$,
 \\[0.2cm]
-for a list $L$ of $n$ elements: Each of the $n$ elements of $L$ has to be compared with $x$.
-Therefore,  we need $n$ comparisons to compute $\mathtt{partition}(p,L)$.  The number of comparisons
-for evaluating $\mathtt{sort}(L)$ depends on the result of $\texttt{partition}(p,L)$.  There is a
-best case, a worst case, and an average case.  We investigate the worst case first.
+it is obvious that each element of $\mathtt{R}$ has to be compared with $\mathtt{x}$.
+Therefore, we need $n$ comparisons to compute $\mathtt{S}$ and $\mathtt{B}$.  Since $\mathtt{S}$ and
+$\mathtt{B}$ are computed independently, the implementation given above 
+would really need $2 \cdot n$ comparisons.  However, a moments thought reveals that we can compute $\mathtt{S}$ and $\mathtt{B}$
+with just $n$ comparisons if the two lists are computed simultaneously.
+Next, we investigate the worst case complexity of quick sort.
 
 \subsubsection{Worst Case Complexity}
-Let us denote the number of comparisons needed to evaluate $\mathtt{sort}(l)$ for a list $L$ of
-length $n$ in the worst case as $a_n$.  The worst case occurs if the call to \texttt{partition}
-returns a pair of the form
+Let us denote the number of comparisons needed to evaluate $\mathtt{sort}(\mathtt{L})$ for a list $\mathtt{L}$ of
+length $n$ in the worst case as $a_n$.  The worst case occurs if the partitioning
+returns a pair of lists $\mathtt{S}$ and $\mathtt{B}$ such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bigl[ [], B \bigr]$,
+$\mathtt{S} = []$,
 \\[0.2cm]
-i.e.~all elements of $R$ are bigger than $x$.  Then, we have
+i.e.~all elements of $\mathtt{R}$ are bigger than $x$.  Then, we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n = a_{n-1} + n - 1$. 
 \\[0.2cm]
-The term $n-1$ is due to the $n-1$ comparisons needed for the execution of
-$\texttt{partition}(x,R)$ in line 4 of \ref{fig:quick-sort.stlx} and the term $a_{n-1}$ is the
-number of comparisons needed for the recursive evaluation of $\textsl{sort}(b)$.
+The term $n-1$ is due to the $n-1$ comparisons needed for the partitioning of $\mathtt{R}$
+and the term $a_{n-1}$ is the number of comparisons needed for the recursive evaluation of $\mathtt{sort}(\mathtt{B})$.
 
 The initial condition is $a_1 = 0$, since we do not need any comparisons to sort a list
 containing only one element.
@@ -1107,20 +1090,20 @@ Hence the recurrence relation can be solved as follows:
 \hspace*{1.3cm}
 $
 \begin{array}{lcl}
-  a_n & = & a_{n-1} + (n-1) \\
-      & = & a_{n-2} + (n-2) + (n-1) \\
+  a_n & = & a_{n-1} + (n-1) \\[0.2cm]
+      & = & a_{n-2} + (n-2) + (n-1) \\[0.2cm]
       & = & a_{n-3} + (n-3) + (n-2) + (n-1) \\
       & = & \vdots \\
-      & = & a_{1} + 1 + 2 + \cdots  + (n-2) + (n-1) \\
+      & = & a_{1} + 1 + 2 + \cdots  + (n-2) + (n-1) \\[0.2cm]
       & = & 0 + 1 + 2 + \cdots  + (n-2) + (n-1) \\[0.2cm]
-      & = & \sum\limits_{i=0}^{n-1} i  =  \frac{1}{2} \cdot n \cdot(n - 1) =
-            \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n \\[0.4cm]
+      & = & \ds \sum\limits_{i=0}^{n-1} i  =  \frac{1}{2} \cdot n \cdot(n - 1) =
+            \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n \\[0.5cm]
       & \in & \Oh(n^2)
 \end{array}
 $
 \\[0.2cm]
 This shows that in the worst case, the number of comparisons is as big as it is in the worst case of 
-\blue{insertion sort}.  However, with quick sort the worst case occurs if we try to sort a list $L$ that is
+\blue{insertion sort}.  However, with quick sort the worst case occurs if we try to sort a list $\mathtt{L}$ that is
 already sorted. 
 
 
@@ -1128,25 +1111,20 @@ already sorted.
 By this time you probably wonder why the algorithm has been called \blue{quick sort} since, in the worst case,
 it is much slower as \blue{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
 comparisons needed to sort a list of $n$ elements is $\Oh\bigl(n \cdot \log_2(n)\bigr)$. We prove
-this claim next.  Let us first note the following: If $L$ is a list of $n+1$ elements, then the number of elements of the 
-list $S$ that are smaller than or equal to the pivot element $x$ is a member of the set 
-$\{0,1,2,\cdots,n\}$.  If the length of $S$ is $i$ and the length of $L$ is $n+1$, then the length
-of the list $B$ of those elements, that are bigger than $x$ is $n-i$.  Therefore, if $\#S = i$, then on average we need
+this claim next.  Let us first note the following: If $\mathtt{L}$ is a list of $n+1$ elements, then the number of elements of the 
+list $\mathtt{S}$ that are smaller than or equal to the pivot element $\mathtt{x}$ is a member of the set 
+$\{0,1,2,\cdots,n\}$.  If the length of $\mathtt{S}$ is $i$ and the length of $\mathtt{L}$ is $n+1$, then the length
+of the list $\mathtt{B}$ of those elements, that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\#\mathtt{S} = i$, then on average we need
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
-comparisons to sort the lists $S$ and $B$ recursively.  If we take the average over all possible values of
+comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we take the average over all possible values of
  $i = \#S$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
-Here, the term $n$ accounts for the number of comparisons needed to compute 
-\\[0.2cm]
-\hspace*{1.3cm}
-\texttt{partition(x, r)}
-\\[0.2cm]
-since we need to compare every element of $L$ except the pivot $x$ with the pivot $x$.
+Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mathtt{R}$.
 In order to simplify the recurrence relation (1) we note that
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1357,41 +1335,42 @@ Next, we show how \blue{quick sort}  is implemented using arrays instead of list
 \begin{enumerate}
 \item Contrary to the array based implementation of \blue{merge sort}, we do not need an auxiliary
       array.  This is one of the main advantages of \blue{quick sort} over \blue{merge sort}.
-\item The function \texttt{sort} is reduced to a call of \texttt{quickSort}.  This function
-      takes the parameters \texttt{a}, \texttt{b}, and \texttt{L}.  
+\item The function $\mathtt{sort}$ is reduced to a call of $\mathtt{quickSort}$.  This function
+      takes the parameters $\mathtt{a}$, $\mathtt{b}$, and $\mathtt{L}$.  
       \begin{enumerate}
-      \item \texttt{a} specifies the index of the first element of the subarray that needs to be
+      \item $\mathtt{a}$ specifies the index of the first element of the subarray that needs to be
             sorted.
-      \item \texttt{b} specifies the index of the last element of the subarray that needs to be
+      \item $\mathtt{b}$ specifies the index of the last element of the subarray that needs to be
             sorted. 
-      \item \texttt{L} is the array that needs to be sorted.
+      \item $\mathtt{L}$ is the array that needs to be sorted.
       \end{enumerate}
-      Calling \texttt{quickSort(a, b, L)} sorts the subarray \\[0.2cm]
+      Calling $\mathtt{quickSort}(\mathtt{a}, \mathtt{b}, \mathtt{L})$ sorts the subarray \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{L[a], L[a+1], $\cdots$, L[b]}
+      $\bigl[\mathtt{L}[\mathtt{a}], L[\mathtt{a}+1], \cdots, L[\mathtt{b}]\bigr]$
       \\[0.2cm]
-      of the array \texttt{L}, i.~e.~after that call we expect to have\\[0.2cm]
-      \hspace*{1.3cm}
-      \texttt{L[a] $\preceq$ L[a+1] $\preceq$ $\cdots$ $\preceq$ L[b]}.
+      of the array $\mathtt{L}$, i.~e.~after that call we expect to have\\[0.2cm]
+      \hspace*{1.3cm} 
+      $\mathtt{L}[\mathtt{a}] \preceq \mathtt{L}[\mathtt{a}+1] \preceq \cdots \preceq \mathtt{L}[\mathtt{b}]$.
       \\[0.2cm]
-      The implementation of the function \texttt{quickSort}
+      The implementation of the function $\mathtt{quickSort}$
       is quite similar to the list implementation.  The main difference is that the function
-      \texttt{partition}, that is called in line 8, redistributes the elements of \texttt{L}:
-      All elements that are less or equal than the \blue{pivot element} \texttt{L[m]}
-      have an index that is lower than the index \texttt{m}, while the remaining elements will have
-      an index that is bigger than \texttt{m}.  The pivot element itself will have the index \texttt{m}.
+      $\mathtt{partition}$, that is called in line 8, redistributes the elements of $\mathtt{L}$:
+      All elements that are less or equal than the \blue{pivot element} $\mathtt{L[m]}$
+      are stored at indexes that are smaller than the index $\mathtt{m}$, while the remaining elements will 
+      be stored at indexes that are bigger than $\mathtt{m}$.  The pivot element itself will be stored at the
+      index $\mathtt{m}$. 
 \item The difficult part of the implementation of \blue{quick sort} is the implementation of the
-      function \texttt{partition} that is shown beginning in line 12.
+      function $\mathtt{partition}$ that is shown beginning in line 12.
       The \texttt{for} loop in line 15 satisfies the following invariants.
       \begin{enumerate}
       \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{L}[i] \leq \mathtt{pivot}$.
 
-            All elements in the subarray \texttt{L[start..left]} are less or equal than the pivot element.
+            All elements in the subarray $\mathtt{L[start..left]}$ are less or equal than the pivot element.
       \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < \mathtt{L}[i]$.
 
-            All elements in the subarray \texttt{L[left+1..idx-1]} are greater than the pivot
+            All elements in the subarray $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$ are greater than the pivot
             element.
-      \item $\texttt{pivot} = \mathtt{L[end]}$
+      \item $\mathtt{pivot} = \mathtt{L[end]}$
 
             The pivot element itself is at the end of the array.
       \end{enumerate}
@@ -1407,15 +1386,15 @@ Next, we show how \blue{quick sort}  is implemented using arrays instead of list
             \\
             \hspace*{1.3cm}
             $\{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\} =  \{ \mathtt{start},\cdots,\mathtt{start}-1\}=\{\}$.
-      \item If the element \texttt{L[idx]} is less than the
-            pivot element, it need to become part of the subarray \texttt{L[start..left]}.  In order to
-            achieve this, it is placed at the position \texttt{L[left+1]}.  The element that has been at
-            that position is part of the subarray \texttt{L[left+1..idx-1]} and therefore, most of the times,\footnote{It is not always greater than the pivot element
-      because the subarray \texttt{L[left+1..idx-1]} might well be empty.}
+      \item If the element $\mathtt{L[idx]}$ is less than the
+            pivot element, it need to become part of the subarray $\mathtt{L}[\mathtt{start}\;..\;\mathtt{left}]$.  In order to
+            achieve this, it is placed at the position $\mathtt{L}[\mathtt{left}+1]$.  The element that has been at
+            that position is part of the subarray $\mathtt{L}[\mathtt{left}+1\; ..\; \mathtt{idx}-1]$ and therefore, most of the times,\footnote{It is not always greater than the pivot element
+      because the subarray $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$ might well be empty.}
             it is greater than the pivot element.  
-            Hence we move this element to the end of the subarray \texttt{L[left+1..idx-1]}.
+            Hence we move this element to the end of the subarray $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$.
       \end{enumerate}
-      Once the \texttt{for} loop in line 15 terminates, the call to \texttt{swap} in line 21 moves
+      Once the \texttt{for} loop in line 15 terminates, the call to $\mathtt{swap}$ in line 21 moves
       the pivot element into its correct position.  
 \end{enumerate}
 
