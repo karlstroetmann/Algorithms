@@ -1,12 +1,12 @@
 \section{AVL Trees}
-If a binary tree is approximately \emph{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
+If a binary tree is approximately \blue{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
 roughly the same height, then the complexity of $b.\textsl{find}(k)$ will always be of the order
 $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
-called an \href{https://en.wikipedia.org/wiki/AVL_tree}{\emph{AVL tree}} \cite{adelson:62}.  AVL trees are 
+called an \href{https://en.wikipedia.org/wiki/AVL_tree}{AVL tree} \cite{adelson:62}.  AVL trees are 
 named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
 and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis}.  In order to define these 
-trees we need to define the \emph{height} of a binary tree formally:
+trees we need to define the \blue{height} of a binary tree formally:
 \begin{enumerate}
 \item $\textsl{Nil}.\textsl{height}() = 0$.
 \item $\textsl{Node}(k,v,l,r).\textsl{height}() = 
@@ -15,7 +15,7 @@ trees we need to define the \emph{height} of a binary tree formally:
 
 \begin{Definition}[AVL-Tree] \hspace*{\fill} \\
 {\em 
-  The set $\AVL$ of \emph{AVL trees} is defined inductively:
+  The set $\AVL$ of \blue{AVL trees} is defined inductively:
   \begin{enumerate}
   \item $\textsl{Nil} \in \AVL$.
   \item $\textsl{Node}(k,v,l,r) \in \AVL$ \quad iff 
@@ -24,7 +24,7 @@ trees we need to define the \emph{height} of a binary tree formally:
         \item $l, r \in \AVL$ \quad and
         \item $|l.\textsl{height}() - r.\textsl{height}()| \leq 1$.
 
-              This condition is called the \colorbox{orange}{\emph{balancing condition}}.
+              This condition is called the \blue{balancing condition}.
         \end{enumerate}
         According to this definition, an AVL tree is an ordered binary tree such that for every node
         $\textsl{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
@@ -647,7 +647,7 @@ Hence we have found the recurrence equation
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
 This also validates our claim that $c_h$ does not depend on $k$.  In order to solve the recurrence
-equation derived above we first solve the corresponding \emph{homogeneous recurrence equation} 
+equation derived above we first solve the corresponding \blue{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{h+2} = a_{h+1} + a_h$
@@ -688,7 +688,7 @@ Let us therefore define
 $\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
 $\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
-In order to solve the \emph{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
+In order to solve the \blue{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h = d$ \quad for some constant $d$.
@@ -785,12 +785,12 @@ Figure
 
 \subsection{Improvements}
 In practice, 
-\href{https://en.wikipedia.org/wiki/Red-black_trees}{\emph{red-black trees}} 
+\href{https://en.wikipedia.org/wiki/Red-black_trees}{red-black trees} 
 are slightly faster than \textsc{AVL} trees.  Similar to
 \textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red node have to be black.  In order to keep red-black trees approximately
-balanced, a \emph{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
+balanced, a \blue{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
 \cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and 
@@ -798,7 +798,7 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 
 \exercise
 Instead of using AVL trees, another alternative to implement a map is to use 
-\href{https://en.wikipedia.org/wiki/2-3_tree}{\emph{2-3 trees}}.  
+\href{https://en.wikipedia.org/wiki/2-3_tree}{2-3 trees}.  
 Below we describe a simplified version of these trees.  These trees do not store any values.  Hence, instead
 of implementing maps, these trees implement sets. They are built using the following constructors:
 \begin{enumerate}
@@ -815,7 +815,7 @@ of implementing maps, these trees implement sets. They are built using the follo
             $l < k < r$.
       \item $l$ and $r$ have the same height.
       \end{enumerate}
-      A node of the form  $\mathtt{Two}(l, k, r)$ is called a \emph{2-node}.  Except for the fact
+      A node of the form  $\mathtt{Two}(l, k, r)$ is called a \blue{2-node}.  Except for the fact
       that there is no value, a 2-node is
       interpreted in the same way as we have interpreted the term $\mathtt{Node}(k, v, l, r)$.
 \item $\mathtt{Three}(l, k_1, m, k_2, r)$ is a 2-3 tree provided
@@ -825,22 +825,22 @@ of implementing maps, these trees implement sets. They are built using the follo
       \item $l < k_1 < m < k_2 < r$,
       \item $l$, $m$, and $r$ have the same height.
       \end{enumerate}
-      A node of the form  $\mathtt{Three}(l, k_1, m, k_2, r)$ is called a \emph{3-node}.
+      A node of the form  $\mathtt{Three}(l, k_1, m, k_2, r)$ is called a \blue{3-node}.
 \end{enumerate}
 In order to keep 2-3 trees balanced when inserting new keys, we use a fourth constructor of the form
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mathtt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$.
 \\[0.2cm]
-A term of the form $\mathtt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$ is a \emph{2-3-4} tree iff
+A term of the form $\mathtt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$ is a \blue{2-3-4} tree iff
 \begin{enumerate}
 \item $l$, $m_l$, $m_r$, and $r$ are 2-3 trees,
 \item $k_1$, $k_2$, and $k_3$ are keys,
 \item $l < k_1 < m_l < k_2 < m_r < k_3 < r$,
 \item $l$, $m_l$, $m_r$, and $r$ all have the same height.
 \end{enumerate}
-Nodes of this form are called 4-nodes and the key $k_2$ is called the \emph{middle key}.
-Trees containing 4-nodes are called \emph{2-3-4} trees.
+Nodes of this form are called 4-nodes and the key $k_2$ is called the \blue{middle key}.
+Trees containing 4-nodes are called \blue{2-3-4} trees.
 When a new key is inserted into a 2-3 tree, the challenge is to keep the tree balanced.  The easiest
 case is the case where the tree has the form
 \\[0.2cm]
@@ -893,19 +893,19 @@ string as a key to lookup information that is stored in a gigantic map provided 
 \raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}.
 As another example, in an electronic phone book the keys are names and therefore are strings.  
 There is a species of search trees that is particularly well adapted to the case that the keys are
-strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{\emph{tries}}.  
+strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{tries}.  
 The name is derived from the word
-\emph{re\underline{trie}val}.  In order to be able to distinguish between \emph{tries} and
-\emph{trees} we have to pronounce  \emph{trie}  so that it rhymes with \emph{pie}.   The data
+\blue{re\underline{trie}val}.  In order to be able to distinguish between \blue{tries} and
+\blue{trees} we have to pronounce  \blue{trie}  so that it rhymes with \blue{pie}.   The data
 structure of tries has been proposed 1959 by Ren\'e de la Briandais \cite{briandais:59}.
 
 Tries are also trees, but in contrast to a binary tree where every node has two children, in a trie a
 node can have as many children as there are characters in the alphabet that is used to represent the
 strings.  In order to define tries formally we assume that the following is given:
 \begin{itemize}
-\item $\Sigma$ is finite set of \emph{characters}. $\Sigma$ is called the
-      \colorbox{orange}{\emph{alphabet}}. 
-\item $\Sigma^*$ is the set of all \emph{strings} that are built from the characters of $\Sigma$.
+\item $\Sigma$ is finite set of \blue{characters}. $\Sigma$ is called the
+      \blue{alphabet}. 
+\item $\Sigma^*$ is the set of all \blue{strings} that are built from the characters of $\Sigma$.
       Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
       if $c$ is the first letter of $w$ and if $r$ the string that remains if we remove the first
       character from $w$.
@@ -1405,7 +1405,7 @@ Finally, the implementation of \texttt{removeIthElement}, which is shown in Figu
 \textbf{Binary Tries}:  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
 only contains the two digits $0$ and $1$.  Therefore we have $\Sigma = \{0,1\}$.  Every natural
 number can be regarded as a string from the alphabet $\Sigma$, so that numbers are effectively
-elements of $\Sigma^*$.  The set $\BT$ of \colorbox{orange}{\emph{binary tries}} is defined by induction:
+elements of $\Sigma^*$.  The set $\BT$ of \blue{binary tries} is defined by induction:
 \begin{enumerate}
 \item $\textsl{Nil} \in \BT$.
 \item $\textsl{Bin}(v,l,r) \in \BT$ provided that
@@ -1454,7 +1454,7 @@ Solve the following exercises:
       tries that are empty.
 \item Implement binary tries in \textsc{SetlX}.
 \end{enumerate}
-\textbf{Remark}: Binary tries are known as \emph{digital search trees}.  \eox
+\textbf{Remark}: Binary tries are known as \blue{digital search trees}.  \eox
 
 \section{Hash Tables}
 It is very simple to implement a function of the form \\[0.2cm]
@@ -1585,7 +1585,7 @@ These problems can be solved as follows:
 \end{enumerate}
 Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an array that contains
 linked lists.  An array of this kind is called a
-\href{https://en.wikipedia.org/wiki/Hash_table}{\emph{hash table}}.
+\href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
 We proceed to discuss the implementation of hash tables in \textsc{Setlx}.
 
 
@@ -1644,15 +1644,15 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class \texttt{h
       stored in a set.  Since every key is associated with at most one value, this set can be interpreted as a
       functional relation.  Therefore, looking up a key is more efficient than it would be if we had
       used a list.  Although we actually use a relation instead of a list, we will still call
-      this relation the \emph{list of key-value pairs}.
+      this relation the \blue{list of key-value pairs}.
 
       As the hash map is initially empty, all entries of \texttt{mArray} are initialized as empty sets.
-\item \texttt{mAlpha} is the \emph{load factor} of our hash table.  If at any point in time, we have
+\item \texttt{mAlpha} is the \blue{load factor} of our hash table.  If at any point in time, we have
       \\[0.2cm]
       \hspace*{1.3cm}
       $\texttt{mEntries} > \texttt{mAlpha} \cdot \texttt{mSize}$,
       \\[0.2cm]
-      then we consider our hash table to be \emph{overcrowded}.  In that case, we increase the size
+      then we consider our hash table to be \blue{overcrowded}.  In that case, we increase the size
       of the array \texttt{mArray}.  To determine the best value for \texttt{mAlpha}, we have to
       make a tradeoff:  If \texttt{mAlpha} were too big, many entries in the array \texttt{mArray}
       would be empty and thus we would waste space.  On the other hand, if \texttt{mAlpha} were too
@@ -1802,7 +1802,7 @@ Figure \ref{fig:hashTable.stlx-insert} shows the implementation of the method \t
 The implementation works as follows.
 \begin{enumerate}
 \item First, we check whether our hash table is already overcrowded.
-      In this case, we \emph{rehash}, which means we roughly double the size of \texttt{mArray}.
+      In this case, we \blue{rehash}, which means we roughly double the size of \texttt{mArray}.
       How the method \texttt{rehash} works in detail is explained later.
       After rehashing, the \texttt{key} is inserted via a recursive call to \texttt{insert}.
 \item If we don't have to rehash, we compute the index of the key-value list that has to store
@@ -1921,7 +1921,7 @@ most of the linked lists will have roughly the same length.  The average length 
 \hspace*{1.3cm}
  $\alpha = \ds \frac{\mathtt{mEntries}}{\mathtt{mSize}}$. 
 \\[0.2cm]
-Here, the number $\alpha$ is the \emph{load factor} of the hash table.  In practice, in order to
+Here, the number $\alpha$ is the \blue{load factor} of the hash table.  In practice, in order to
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
 language \textsl{Java} provides the class  \textsl{HashMap} that implements maps via hash tables.
 The default load factor used in this class is only \texttt{0.75}.
@@ -1932,7 +1932,7 @@ In this section, we have discussed hash tables only briefly.  The reason is that
 important in practice, a thorough treatment requires quite a lot of mathematics, see for example the
 third volume of Donald Knuth's ``The Art of Computer Programming'' \cite{knuth:1998b}.  For this
 reason, the design of a hash function is best left for experts.  In practice, hash tables are
-quite a bit faster than \textsl{AVL}-trees or \emph{red-black} trees.  However, this is only true if
+quite a bit faster than \textsl{AVL}-trees or \blue{red-black} trees.  However, this is only true if
 the hash function that is used is able to spread the keys uniformly.  If this assumption is
 violated, the use of a hash table can lead to serious performance 
 bugs.  If, instead, a good
@@ -1946,9 +1946,9 @@ hash function is distributing the keys nicely.
 Both \texttt{C++} and \textsl{Java} provide maps.  In \texttt{C++}, maps are part of the standard
 template library, while \textsl{Java} offers the interface \texttt{Map} that is implemented both by
 the class \texttt{TreeMap} and the class \texttt{HashMap}. Furthermore, all modern script languages provide maps.
-For example, in \textsl{Perl} \cite{Wall92}, maps are known as \emph{associative arrays}, in \textsl{Lua} 
-\cite{ierusalimschy:2006,Ieru96a} maps are called \emph{tables}, and in \textsl{Python} 
-\cite{vanRossum:95,lutz:09} maps are called \emph{dictionaries}.  
+For example, in \textsl{Perl} \cite{Wall92}, maps are known as \blue{associative arrays}, in \textsl{Lua} 
+\cite{ierusalimschy:2006,Ieru96a} maps are called \blue{tables}, and in \textsl{Python} 
+\cite{vanRossum:95,lutz:09} maps are called \blue{dictionaries}.  
 
 Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see an
 application of maps.
