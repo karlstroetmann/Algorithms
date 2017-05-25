@@ -391,8 +391,9 @@ implementation of the auxiliary method \texttt{update}.  Compared with Figure
 \item Similarly, if we delete a key in the right subtree, we have to restore the balancing
       condition.  This is done in line 19.
 \end{enumerate}
-Of course, since the method \texttt{update} only sets the member variables of the tree, it does not
-change the structure of the tree.  Hence there is no need for a call to \texttt{restore} in this method.
+Since the method \texttt{update} replaces the current tree with either its left or right subtree and this
+subtree is assumed to satisfy the balancing condition, there is no need for a call to \texttt{restore} in this
+method. 
 
 \begin{figure}[!ht]
 \centering
@@ -515,9 +516,9 @@ us discuss this method line by line.
       If the test in line 6 succeeds, then the left subtree must have a height that is bigger by
       two than the height of the right subtree.  In order to be able to use the same variable names 
       as the variable names given in the equations discussed in the previous subsection, we define
-      the variables \texttt{k1}, \texttt{v1}, $\cdots$, \texttt{l2}, and \texttt{r2} in line 7 and 8
-      so that these variable names correspond exactly to the variable names used in the Figures
-      \ref{fig:casell} and \ref{fig:caselr}.
+      the variables \texttt{k1}, \texttt{v1}, \texttt{l1}, \texttt{r1}, \texttt{k2}, \texttt{v2}, \texttt{l2},
+      and \texttt{r2} in line 7 and 8 so that these variable names correspond exactly to the variable names
+      used in the Figures \ref{fig:casell} and \ref{fig:caselr}.
 \item Next, the test in line 9 checks whether we have the case that is depicted in Figure
       \ref{fig:casell}.  In this case, Figure \ref{fig:casell} tells us that the key \texttt{k2}
       has to move to the root.  The left subtree is now \texttt{l2}, while the right subtree is a
@@ -646,13 +647,15 @@ Hence we have found the recurrence equation
 \hspace*{1.3cm}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
-This also validates our claim that $c_h$ does not depend on $k$.  In order to solve the recurrence
-equation derived above we first solve the corresponding \blue{homogeneous recurrence equation} 
+This also validates our claim that $c_h$ does not depend on $k$.  Due to the presence of the number $1$ on the
+right hand side of this recurrence equation, this recurrence equation is a so called 
+\blue{inhomogeneous recurrence equation}.  In order to solve this recurrence
+equation we first solve the corresponding \blue{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{h+2} = a_{h+1} + a_h$
 \\[0.2cm]
-using the  ansatz
+using the \href{https://en.wikipedia.org/wiki/Ansatz}{ansatz}
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_h = \lambda^h$.
@@ -698,7 +701,8 @@ Substituting this ansatz into the recurrence equation for $c_h$ yields
 \hspace*{1.3cm}
 $d = d + d + 1$
 \\[0.2cm]
-from which we conclude that $d = -1$.  Hence the solution for $c_h$ has the form
+from which we conclude that $d = -1$.  The solution for $c_h$ is now a linear combination of the solutions for
+the corresponding homogeneous recurrence equation to which we have to add the solution for the inhomogeneous equation:
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h = \alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h + d =\alpha \cdot \lambda_1^h + \beta \cdot \lambda_2^h - 1$.
@@ -1008,7 +1012,7 @@ $\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])
 This trie has three children that are labelled with the characters  ``t'', ``a'', and ``c''.
 
 \subsection{Insertion in Tries}
-Next, we present formul\ae\ that describe how new values can be inserted into an existing tries,
+Next, we present formul\ae\ that describe how new values can be inserted into existing tries,
 i.e.~we specify the method \texttt{insert}.  The signature of \texttt{insert} is given as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
