@@ -1,0 +1,118 @@
+// This is a purely functional implementation of ordered binary trees that is
+// based on SetlX terms.  Binary trees are represented as terms of the form
+//   (a) Nil()
+//   (b) Node(key, value, left, right)
+
+// Given a binary tree and a key, this function returns the value associated
+// with the given key, if such a value exists.  Otherwise, om is returned.
+find := procedure(tree, key) {
+    match (tree) {
+        case @Nil():
+             return @Node(k, v, @Nil(), @Nil());
+        case @Node(k, v, l, r):
+             if (key < k) {
+                 return find(l, key);
+             }
+             if (key == k) {
+                 return v;
+             }
+             if (key > k) {
+                 return find(r, key);
+             }
+    }
+};
+// Given a binary tree, a key, and a value, this function creates a new tree
+// that results form the given tree by storing the key together with its value.
+insert := procedure(tree, key, value) {
+    match (tree) {
+        case @Nil():
+             return @Node(key, value, @Nil(), @Nil());
+        case @Node(k, v, l, r):
+             if (key < k) {
+                 return @Node(k, v, insert(l, key, value), r);
+             }
+             if (key == k) {
+                 return @Node(k, value, l, r);
+             }
+             if (key > k) {
+                 return @Node(k, v, l, insert(r, key, value));
+             }
+        default: abort("Error: insert($tree$, $key$, $value$)");
+    }
+};
+delMin := procedure(tree) {
+    match (tree) {
+        case @Node(k, v, l, r):
+             if (l == @Nil()) {
+                 return [r, k, v];
+             }
+             [lRest, kMin, vMin] := delMin(l);
+             return [@Node(k, v, lRest, r), kMin, vMin];
+        default: abort("Error: delMin($tree$)");
+    }   
+};
+delete := procedure(tree, key) {
+    match (tree) {
+        case @Nil():
+             return @Nil();
+        case @Node(k, v, l, r):
+             if (key < k) {
+                 return @Node(k, v, delete(l, key), r);
+             }
+             if (key == k) {
+                 if (l == @Nil()) {
+                     return r;
+                 }
+                 if (r == @Nil()) {
+                     return l;
+                 }
+                 [rRest, kMin, vMin] := delMin(r);
+                 return @Node(kMin, vMin, l, rRest);
+             }
+             if (key > k) {
+                 return @Node(k, v, l, delete(r, key));
+             }
+        default: abort("Error: delete($tree$, $key$)");
+    }
+};
+toString := procedure(tree, n) {
+    match (tree) {
+        case @Nil(): return " " * n + "Nil";
+        case @Node(k, v, l, r):
+             return toString(l, n + 4) + "\n" + " " * n +
+                    "<" + k + " |-> " + v + ">\n" + toString(r, n + 4);
+        default: abort("Error: toString($tree$, $n$)");
+    }
+};
+keyList := procedure(tree) {
+    match (tree) {
+        case @Nil(): return [];
+        case @Node(k, v, l, r):
+             return keyList(l) + [k] + keyList(r);
+        default: abort("Error: keyList($tree$, $key$)");
+    }
+};
+
+demo := procedure(n) {
+    Products := @Nil();
+    for (k in [1 .. n]) {
+        Products := insert(Products, k, false);
+    }
+    for (k in [2 .. n], l in [2 .. n]) {
+        Products := insert(Products, k * l, true);
+    }
+    Primes := @Nil();
+    for (k in [2 .. n]) {
+        Primes := insert(Primes, k, true);
+    }
+    for (k in [2 .. n]) {
+        if (find(Products, k)) {
+            Primes := delete(Primes, k);
+        }
+    }
+    // print(toString(Primes, 0));
+    print(keyList(Primes));
+};
+demo(100);
+
+

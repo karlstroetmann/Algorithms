@@ -1525,7 +1525,7 @@ $\mathtt{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots
 \\[0.2cm]
 Then, the value of the string  $w = c_0c_1\cdots c_7$ can be computed by the function \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
+$\mathtt{code}: \Sigma^* \rightarrow \mathbb{N} \symbol{92} \{ 0 \}$ \\[0.2cm]
 as follows: \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \mathtt{ord}(c_i) \cdot 27^i$.
@@ -1546,7 +1546,9 @@ Unfortunately, this naive implementation has several problems:
 \begin{enumerate}
 \item The array needed to store the telephone dictionary has a size of 
       \\[0.2cm]
-      \hspace*{1.3cm} $27^8 = 282\,429\,536\,481$ \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds 1 + 26 \cdot \sum\limits_{i=0}^7 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 27^8 = 282\,429\,536\,481$ 
+      \\[0.2cm]
       entries.  Even if every entry only needs 8 bytes, we still would need more than one terabyte
       of memory.
 \item If two names happen to differ only after their eighth character, then we would not be able to
@@ -1564,19 +1566,19 @@ These problems can be solved as follows:
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot
-        27^i\right) \;\%\; \mathtt{size} + 1$,
+        27^i\right) \;\texttt{\%}\; \mathtt{size} + 1$,
       \\[0.2cm]
-      then we will always have $\mathtt{code}(c_0c_1\cdots c_n) \leq \mathtt{size}$.  In order to
+      then we will always have $1 \leq \mathtt{code}(c_0c_1\cdots c_n) \leq \mathtt{size}$.  In order to
       prevent overflows we can define the partial sum $s_k$ for  $k=n,n-1,\cdots,1,0$ by induction:
       \begin{enumerate}
       \item $s_n = \mathtt{ord}(c_n)$,
-      \item $s_{k} = \bigl(\mathtt{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\%\; \mathtt{size}$.
+      \item $s_{k} = \bigl(\mathtt{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\texttt{\%}\; \mathtt{size}$.
       \end{enumerate}
       Then we have
       \hspace*{1.3cm} 
-      $s_0 + 1 = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot 27^i\right) \;\%\; \mathtt{size} + 1$.
+      $s_0 + 1 = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot 27^i\right) \;\texttt{\%}\; \mathtt{size} + 1$.
 \item Rather than storing the values associated with the keys in an array, the values are now stored
-      in linked lists that contain key-value pairs.  The array only stores pointers to these linked list.
+      in linked lists that contain key-value pairs.  The array itself only stores pointers to these linked list.
       
       The reason we have to use linked lists is the fact that different keys may be mapped to the
       same index.  Hence, we can no longer store the values directly in the array.  Instead,
@@ -1592,10 +1594,9 @@ These problems can be solved as follows:
       In order to find the value associated with the key $k$ we have to search this list for the key
       $k$.
 \end{enumerate}
-Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an array that contains
-linked lists.  An array of this kind is called a
-\href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
-We proceed to discuss the implementation of hash tables in \textsc{Setlx}.
+Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an implementation of a map along these
+lines.  This is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
+We proceed to discuss this implementation.
 
 
 
@@ -1610,7 +1611,7 @@ We proceed to discuss the implementation of hash tables in \textsc{Setlx}.
                   xrightmargin  = 0.0cm
                 ]
     class hashTable(n) {
-        mSize    := n;
+        mSize    := n;  // size of the array 
         mEntries := 0;  // number of entries
         mArray   := [ {} : i in [1 .. mSize] ];
         mAlpha   := 2;  // load factor
@@ -1679,7 +1680,7 @@ Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class $\mathtt{
         returns the character that has \textsc{Ascii} code $i$.  The relation $\mathtt{sOrd}$ is the inverse
         of the function $\mathtt{char}$.
   \item $\mathtt{sPrimes}$ is a list of prime numbers.  Roughly, these prime numbers double in size.
-        The reason is that performance of a hash table is best if the size of $\mathtt{mArray}$ is a
+        The reason is that the performance of a hash table is best if the size of $\mathtt{mArray}$ is a
         prime number.  When $\mathtt{mArray}$ gets overcrowded, the idea is to, more or less, double
         the size of $\mathtt{mArray}$.  To achieve this, the variable $\mathtt{sPrimes}$ is needed.
   \end{enumerate}
@@ -1735,7 +1736,7 @@ Figure \ref{fig:hashTable.stlx-hashCode} gives the implementation of the method 
       If the string $s$ has length $m$ we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{hashCodeAux}(s,n) := \left(\sum\limits_{i=1}^m \mathtt{ord}(s[i]) \cdot 128^{i-1}\right) \;\mathtt{\%}\; \mathtt{mSize}$.
+      $\mathtt{hashCodeAux}(s,n) := \left(\sum\limits_{i=1}^m \mathtt{ord}(s[i]) \cdot 128^{i-1}\right) \;\texttt{\%}\; \mathtt{mSize}$.
       \\[0.2cm]
       Here, given an \textsc{Ascii} character $c$, the expression  $\mathtt{ord}(c)$ computes the
       \textsc{Ascii} code of  $c$.
