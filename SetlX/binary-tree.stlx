@@ -7,39 +7,28 @@
 // with the given key, if such a value exists.  Otherwise, om is returned.
 find := procedure(tree, key) {
     match (tree) {
-        case @Nil():
-             return @Node(k, v, @Nil(), @Nil());
-        case @Node(k, v, l, r):
-             if (key < k) {
-                 return find(l, key);
-             }
-             if (key == k) {
-                 return v;
-             }
-             if (key > k) {
-                 return find(r, key);
-             }
+        case @Nil():                       return @Node(k, v, @Nil(), @Nil());
+        case @Node(k, v, l, r) | key <  k: return find(l, key);
+        case @Node(k, v, l, r) | key == k: return v;
+        case @Node(k, v, l, r) | key >  k: return find(r, key);
+        default: abort("Error: find($tree$, $key$)");
     }
 };
 // Given a binary tree, a key, and a value, this function creates a new tree
 // that results form the given tree by storing the key together with its value.
 insert := procedure(tree, key, value) {
     match (tree) {
-        case @Nil():
-             return @Node(key, value, @Nil(), @Nil());
-        case @Node(k, v, l, r):
-             if (key < k) {
-                 return @Node(k, v, insert(l, key, value), r);
-             }
-             if (key == k) {
-                 return @Node(k, value, l, r);
-             }
-             if (key > k) {
-                 return @Node(k, v, l, insert(r, key, value));
-             }
+        case @Nil():                       return @Node(key, value, @Nil(), @Nil());
+        case @Node(k, v, l, r) | key <  k: return @Node(k, v, insert(l, key, value), r);
+        case @Node(k, v, l, r) | key == k: return @Node(k, value, l, r);
+        case @Node(k, v, l, r) | key >  k: return @Node(k, v, l, insert(r, key, value));
         default: abort("Error: insert($tree$, $key$, $value$)");
     }
 };
+// This function returns a triple [treeLess, kMin, vMin] where
+// (a) kMin is the smallest key in tree
+// (b) vMin is the value associated with kMin
+// (c) treeLess is what is left of tree if the node containing kMin is deleted.
 delMin := procedure(tree) {
     match (tree) {
         case @Node(k, v, l, r):
@@ -51,30 +40,20 @@ delMin := procedure(tree) {
         default: abort("Error: delMin($tree$)");
     }   
 };
+// THis function deletes key from tree.
 delete := procedure(tree, key) {
     match (tree) {
-        case @Nil():
-             return @Nil();
-        case @Node(k, v, l, r):
-             if (key < k) {
-                 return @Node(k, v, delete(l, key), r);
-             }
-             if (key == k) {
-                 if (l == @Nil()) {
-                     return r;
-                 }
-                 if (r == @Nil()) {
-                     return l;
-                 }
-                 [rRest, kMin, vMin] := delMin(r);
-                 return @Node(kMin, vMin, l, rRest);
-             }
-             if (key > k) {
-                 return @Node(k, v, l, delete(r, key));
-             }
+        case @Nil():                       return @Nil();
+        case @Node(k, v, l, r) | key <  k: return @Node(k, v, delete(l, key), r);
+        case @Node(k, v, l, r) | key == k: if (l == @Nil()) { return r; }
+                                           if (r == @Nil()) { return l; }
+                                           [rRest, kMin, vMin] := delMin(r);
+                                           return @Node(kMin, vMin, l, rRest);
+        case @Node(k, v, l, r) | key >  k: return @Node(k, v, l, delete(r, key));
         default: abort("Error: delete($tree$, $key$)");
     }
 };
+// Transform tree into a string. The number n is the indentation.
 toString := procedure(tree, n) {
     match (tree) {
         case @Nil(): return " " * n + "Nil";
@@ -84,11 +63,11 @@ toString := procedure(tree, n) {
         default: abort("Error: toString($tree$, $n$)");
     }
 };
+// Return a list of all keys in tree.
 keyList := procedure(tree) {
     match (tree) {
-        case @Nil(): return [];
-        case @Node(k, v, l, r):
-             return keyList(l) + [k] + keyList(r);
+        case @Nil():            return [];
+        case @Node(k, v, l, r): return keyList(l) + [k] + keyList(r);
         default: abort("Error: keyList($tree$, $key$)");
     }
 };
@@ -98,7 +77,7 @@ demo := procedure(n) {
     for (k in [1 .. n]) {
         Products := insert(Products, k, false);
     }
-    for (k in [2 .. n], l in [2 .. n]) {
+    for (k in [2 .. n], l in [2 .. n] | k * l <= 100) {
         Products := insert(Products, k * l, true);
     }
     Primes := @Nil();
