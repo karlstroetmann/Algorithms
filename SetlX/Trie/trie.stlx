@@ -8,10 +8,8 @@ class trieMap() {
     find := procedure(s) {
         match (s) {
             case ""   : return mValue;
-            case [c|r]: for (i in [1 .. #mChars]) {
-                            if (mChars[i] == c) {
-                                return mTries[i].find(r);
-                            }
+            case [c|r]: for (i in [1 .. #mChars] | mChars[i] == c) {
+                            return mTries[i].find(r);
                         }
                         return;  // not found
         }
@@ -19,13 +17,11 @@ class trieMap() {
     insert := procedure(s, v) {
         match (s) {
             case ""   : this.mValue := v;
-            case [c|r]: for (i in [1 .. #mChars]) {
-                            if (mChars[i] == c) {
-                                t := mTries[i];
-                                t.insert(r,v);
-                                this.mTries[i] := t;
-                                return;
-                            }
+            case [c|r]: for (i in [1 .. #mChars] | mChars[i] == c) {
+                            t := mTries[i];
+                            t.insert(r,v);
+                            this.mTries[i] := t;
+                            return;
                         }
                         newTrie := trieMap();
                         newTrie.insert(r, v);
@@ -37,17 +33,15 @@ class trieMap() {
         match (s) {
             case "": this.mValue := om;
             case [c|r]: 
-                for (i in [1 .. #mChars]) {
-                     if (mChars[i] == c) {
-                         t := mTries[i]; 
-                         t.delete(r);
-                         this.mTries[i] := t;
-                         if (mTries[i].isEmpty()) {
-                             this.mChars := removeIthElement(mChars, i);
-                             this.mTries := removeIthElement(mTries, i);
-                         }
-                         return;
-                     }
+                for (i in [1 .. #mChars] | mChars[i] == c) {
+                    t := mTries[i]; 
+                    t.delete(r);
+                    this.mTries[i] := t;
+                    if (mTries[i].isEmpty()) {
+                        this.mChars := removeIthElement(mChars, i);
+                        this.mTries := removeIthElement(mTries, i);
+                    }
+                    return;
                 }
         }
     };

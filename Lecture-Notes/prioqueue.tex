@@ -1,7 +1,7 @@
 \chapter{Priority Queues \label{chap:prioqueue}}
-In order to introduce \href{https://en.wikipedia.org/wiki/Priority_queue}{\emph{priority queues}},
+In order to introduce \href{https://en.wikipedia.org/wiki/Priority_queue}{priority queues},
 we first take a look at ordinary
-\href{https://en.wikipedia.org/wiki/Queue_(abstract_data_type)}{\emph{queues}}.
+\href{https://en.wikipedia.org/wiki/Queue_(abstract_data_type)}{queues}.
 Basically, a queue can be viewed as a list with the following restrictions:
 \begin{enumerate}
 \item A new element can only be appended at the end of the list.
@@ -19,155 +19,191 @@ Priority queues have many applications in computer science.  We will make use of
 first, when implementing Huffman's algorithm for data compression and, second, when we implement
 Dijkstra's algorithm for finding the shortest path in a weighted graph.  Furthermore, priority
 queues are used in simulation systems and in operating systems when scheduling processes.
-Finally, the sorting algorithm \emph{heapsort} is based on priority queues.
+Finally, the sorting algorithm \blue{heapsort} is based on priority queues.
 
 \section[Formal Definition]{Formal Definition of the ADT \textsl{PrioQueue}}
-Next, we give a formal definition of the ADT \textsl{PrioQueue}.  Since the data type
-\textsl{PrioQueue} is really just an auxiliary data type, the definition we give is somewhat
+Next, we give a formal definition of the ADT $\mathtt{PrioQueue}$.  Since the data type
+$\mathtt{PrioQueue}$ is really just an auxiliary data type, the definition we give is somewhat
 restricted: We will only specify those functions that are needed for Dijkstra's algorithm.
 These functions will also be sufficient for Huffman's algorithm.
 
 \begin{Definition}[Priority Queue] \hspace*{\fill} \\
   The abstract data type of priority queues is defined as follows:
   \begin{enumerate}
-  \item The name is \textsl{PrioQueue}.
+  \item The name is $\mathtt{PrioQueue}$.
   \item The set of type parameters is \\[0.1cm]
-        \hspace*{1.3cm} $\{ \textsl{Priority}, \textsl{Value} \}$.
+        \hspace*{1.3cm} $\{ \mathtt{Priority}, \mathtt{Value} \}$.
 
-        Furthermore, there must exist a linear ordering $\leq$ on the set $\textsl{Priority}$.
+        Furthermore, there must exist a linear ordering $\leq$ on the set $\mathtt{Priority}$.
         This is needed since we want to compare the priority of different elements.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
-       $\{ \textsl{prioQueue}, \textsl{insert}, \textsl{remove}, \textsl{top} \}$.
+       $\{ \mathtt{prioQueue}, \mathtt{insert}, \mathtt{remove}, \mathtt{top}, \mathtt{isEmpty} \}$.
   \item The type specifications of these function symbols is given as follows:
         \begin{enumerate}
-        \item $\textsl{prioQueue}: \textsl{PrioQueue}$
+        \item $\mathtt{prioQueue}: \mathtt{PrioQueue}$
 
               This function is the constructor. It creates a new, empty priority queue.
-        \item $\textsl{top}: \textsl{PrioQueue}  \rightarrow (\textsl{Priority} \times \textsl{Value}) \cup \{\Omega\}$
+        \item $\mathtt{top}: \mathtt{PrioQueue}  \rightarrow (\mathtt{Priority} \times \mathtt{Value}) \cup \{\Omega\}$
 
-              The expression $Q.\textsl{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
+              The expression $Q.\mathtt{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
               element of $Q$ that has a  maximal priority among all elements in $Q$, while $p$ is
               the priority associated with $v$. 
-        \item $\textsl{insert}: \textsl{PrioQueue} \times \textsl{Priority} \times \textsl{Value} \rightarrow \textsl{PrioQueue}$
+        \item $\mathtt{insert}: \mathtt{PrioQueue} \times \mathtt{Priority} \times \mathtt{Value} \rightarrow \mathtt{PrioQueue}$
 
-              The expression $Q.\textsl{insert}(p,v)$ inserts the  element $v$ into the priority queue $Q$.
+              The expression $Q.\mathtt{insert}(p,v)$ inserts the  element $v$ into the priority queue $Q$.
               Furthermore, the priority of $v$ is set to be $p$.
-        \item $\textsl{remove}: \textsl{PrioQueue} \rightarrow \textsl{PrioQueue}$
+        \item $\mathtt{remove}: \mathtt{PrioQueue} \rightarrow \mathtt{PrioQueue}$
 
-              The expression $Q.\textsl{remove}()$ removes from $Q$ the element that is returned by
+              The expression $Q.\mathtt{remove}()$ removes from $Q$ the element that is returned by
               $Q.\texttt{top}()$.
+        \item $\mathtt{isEmpty}: \mathtt{PrioQueue} \rightarrow \mathbb{B}$
+
+              The expression $Q.\mathtt{isEmpty}$ checks whether the priority queue $Q$ is empty.
         \end{enumerate}
 \item Before we are able to specify the behaviour of the functions implementing the function symbols
-      given above, we have to discuss the notion of \emph{priority}.  We assume that there exists
-      a set $\textsl{Priority}$ and there is a linear order $<$ defined on this set.
-      If  $p_1 < p_2$, then the priority $p_1$ is \emph{higher} than the priority $p_2$.  This
+      given above, we have to discuss the notion of \blue{priority}.  We assume that there exists
+      a set $\mathtt{Priority}$ and there is a linear order $<$ defined on this set.
+      If  $p_1 < p_2$, then the priority $p_1$ is \blue{higher} than the priority $p_2$.  This
       nomenclature might seem counter intuitive.  It is motivated by 
       Dijkstra's algorithm which is discussed later.  In Dijkstra's algorithm, the priorities are
       distances in a graph and the priority of a node is higher if the node is nearer to the source
-      node.
+      node and in that case the distance to the source is smaller.
 
-      Next, the behaviour of the functions is specified via a reference implementation.  We demand
-      that the behaviour of the functions making up the ADT \textsl{PrioQueue} is the same
-      as the behaviour of the reference implementation.
-      
-      In our reference implementation a priority queue is implemented as a set of pairs of the form 
-      $\pair(p,v)$ where $p$ is a priority, while $v$ is a value.  The reference implementation
-      proceeds as follows:
+      In order to specify the behaviour of the functions $\mathtt{top}$, $\mathtt{insert}$, $\mathtt{remove}$,
+      and $\mathtt{isEmpty}$ we need to introduce two auxiliary functions:  
       \begin{enumerate}
-      \item $\textsl{prioQueue}() = \{\}$
+      \item The function $\mathtt{toList}$ turns a queue into a sorted list.  It has the signature
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\mathtt{toList}: \mathtt{PrioQueue} \rightarrow \mathtt{List}(\mathtt{Priority} \times \mathtt{Value})$.
+            \\[0.2cm]
+            This function takes a priority queue and turns this priority queue into a list of pairs that is
+            sorted ascendingly according to the priorities. This function is defined by the following
+            conditional equations: 
+            \begin{enumerate}
+            \item $Q.\mathtt{isEmpty}() \rightarrow Q.\mathtt{toList}() = []$,
+            \item $\neg Q.\mathtt{isEmpty}() \rightarrow Q.\mathtt{toList} = [Q.\mathtt{top}()] + Q.\mathtt{remove}().\mathtt{toList}()$.
+            \end{enumerate}
+      \item The function $\mathtt{insertList}$ takes a pair consisting of a priority and a value and inserts it
+            into a sorted list of priority-values-pairs such that the resulting list is still sorted.
+            This function has the signature
+            \\[0.2cm]
+            \hspace*{-0.8cm}
+            $\mathtt{insertList}: \mathtt{Priority} \times \mathtt{Value} \times \mathtt{List}(\mathtt{Priority} \times \mathtt{Value}) 
+            \rightarrow \mathtt{List}(\mathtt{Priority} \times \mathtt{Value})$.
+            \\[0.2cm]
+            This function can be specified as follows:
+            \begin{enumerate}
+            \item $\mathtt{insert}(p,v,[]) = [\langle p,v\rangle ]$,
+            \item $p_1 <    p_2 \rightarrow \mathtt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_1,v_1), \pair(p_2,v_2)] + R$,
+            \item $p_1 \geq p_2 \rightarrow \mathtt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_2,v_2)] + \mathtt{insertList}\bigl(\pair(p_1,v_1), R\bigr)$.
+            \end{enumerate}
+      \end{enumerate}
+      Now we can specify the behaviour of the abstract data type $\mathtt{PrioQueue}$.
+      \begin{enumerate}
+      \item $\mathtt{prioQueue}().\mathtt{isEmpty}() = \mathtt{true}$
 
-            The constructor returns an empty priority queue.
-      \item $Q.\textsl{insert}(p, v) = Q \cup \{ \pair(p,v) \}$,
-        
-            In order to insert an  element $v$ with priority $p$ into the priority queue 
-            $Q$ it is sufficient to add the pair $\pair(p,v)$ to the set $Q$.
-      \item If  $Q$ is empty, then $Q.\textsl{top}()$ is undefined: \\[0.1cm]
-            \hspace*{1.3cm} $Q = \{\} \;\rightarrow\; Q.\textsl{top}() = \Omega$.
-     \item If $Q$ is not empty, then the expression $Q.\textsl{top}()$ returns a pair $\pair(p_2,v)$
-           from the set such that $p_2$ has the highest priority.  Hence we must have:
-              \\[0.1cm]
-              \hspace*{1.3cm} 
-              $\pair(p_1,v_1) \in Q \;\wedge\; Q.\textsl{top}() = \pair(p_2,v_2)
-              \;\rightarrow\; p_2 \leq p_1 \;\wedge\; \pair(p_2,v_2) \in Q$.
-      \item If  $Q$ is empty, then calling $\textsl{remove}()$ does not change this fact: \\[0.1cm]
-            \hspace*{1.3cm} $Q = \{\} \rightarrow Q.\textsl{remove}() = Q$.
-      \item Otherwise,  $Q.\textsl{remove}()$ removes the pair form $Q$ that is returned by $Q.\textsl{top}()$: \\[0.1cm]
-            \hspace*{1.3cm} 
-            $Q \not= \{\} \rightarrow Q.\textsl{remove}() = Q \backslash \bigl\{ Q.\textsl{top}() \bigr\}$.
+            The constructor $\mathtt{prioQueue}$ creates an empty queue.
+      \item $Q.\mathtt{insert}(p, v).\mathtt{isEmpty}() = \mathtt{false}$
+
+            If something is inserted into a priority queue, the resulting queue is not empty.
+      \item $\mathtt{prioQueue}().\mathtt{top}() = \Omega$
+
+            If we try to retrieve the pair with the highest priority from an empty priority queue, the
+            undefined value $\Omega$ is returned instead.
+      \item $\neg Q.\mathtt{isEmpty}() \rightarrow Q.\mathtt{top}() = Q.\mathtt{toList}()[1]$
+
+            If we retrieve the  pair with the highest priority from an non-empty priority queue $Q$,
+            we get the same pair that is the first element of the list $Q.\mathtt{toList}()$.
+
+      \item $Q.\mathtt{isEmpty}() \rightarrow Q.\mathtt{remove}() = Q$
+
+            Trying to remove the top element from an empty queue $Q$ returns $Q$.
+      \item $\neg Q.\mathtt{isEmpty}() \rightarrow Q.\mathtt{remove}().\mathtt{toList}() =
+        Q.\mathtt{toList}()[2..]$
+
+            If we remove the top element from a non-empty queue $Q$ and then transform the resulting queue into
+            a sorted list, we get the same list that we get when we chop of the first element from the list
+            $Q.\mathtt{toList}()$.
+      \item $Q.\mathtt{insert}(p,v).\mathtt{toList}() = \mathtt{insertList}(p,v,Q.\mathtt{toList}())$
+
+            If a pair $\pair(p,v)$ is inserted into a priority queue $Q$ and the resulting priority queue is
+            converted into a list, then the resulting list is the same as if this pair is inserted
+            into $Q.\mathtt{toList}()$.
       \end{enumerate}
 \end{enumerate}
 \end{Definition}
-We could implement the ADT \textsl{PrioQueue} as a list of pairs that is sorted ascendingly.
-Then, the different methods of \textsl{PrioQueue} would be implemented as follows:
+We could implement the ADT $\mathtt{PrioQueue}$ as a list of pairs that is sorted ascendingly.
+Then, the different methods of $\mathtt{PrioQueue}$ would be implemented as follows:
 \begin{enumerate}
-\item $\textsl{prioQueue}()$ returns an empty list.
-\item $Q.\textsl{insert}(d)$ can be implemented via the function  \texttt{insert} that we have
-      used when implementing the algorithm ``\emph{insertion sort}''.
-\item $Q.\textsl{top}()$ return the first element from the list $Q$.
-\item $Q.\textsl{remove}()$ removes the first element from $Q$.
+\item $\mathtt{prioQueue}()$ returns an empty list.
+\item $Q.\mathtt{insert}(p,v)$ is implemented by the function $\mathtt{insertList}$.  Note that we have
+      implemented this function already when we had implemented the sorting algorithm ``\blue{insertion sort}''.
+\item $Q.\mathtt{top}()$ return the first element from the list $Q$.
+\item $Q.\mathtt{remove}()$ removes the first element from the list $Q$.
 \end{enumerate}
-The worst case complexity of this approach would be linear for the method $\textsl{insert}()$,
+The worst case complexity of this approach would be linear for the method $\mathtt{insert}()$,
 i.e.~it would have complexity $\Oh(n)$ where $n$ is the number of elements in $Q$. 
 All other operations would have the complexity $\Oh(1)$.  
-Next, we introduce a more efficient implementation such that the complexity of $\textsl{insert}()$ 
+Next, we introduce a more efficient implementation such that the complexity of $\mathtt{insert}()$ 
 is only $\Oh\bigl(\log(n)\bigr)$.  To this end, we introduce
-\href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{\emph{Heaps}} next. 
+\href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heaps} next. 
 
-\section[Heaps]{The \emph{Heap} Data Structure}
-We define the set \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{\textsl{Heap}}\footnote{
-In computer science, the notion of a \textsl{Heap} is used for two different concepts:
-First, a \emph{heap} is a data structure that is organized as a tree.  This kind of data structure
+\section[Heaps]{The $\mathtt{Heap}$ Data Structure}
+We define the set \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heap}\footnote{
+In computer science, the notion of a \blue{Heap} is used for two different concepts:
+First, a \blue{heap} is a data structure that is organized as a tree.  This kind of data structure
 is described in more detail in this section. Second, the part of main memory that contains dynamically
-allocated objects is known as \emph{the heap}.}
+allocated objects is known as \blue{the heap}.}
 inductively as a subset of the set $\Bin$ of binary trees.  To this end, we first define a relation
 \\[0.2cm]
 \hspace*{1.3cm}
-$\leq \;\subseteq \textsl{Priority}  \times \mathcal{B}$
+$\leq \;\subseteq \mathtt{Priority}  \times \mathcal{B}$
 \\[0.2cm]
-For a priority $p \in \textsl{Priority}$ and a binary tree $b \in \Bin$ we have  $p \leq b$ 
+For a priority $p \in \mathtt{Priority}$ and a binary tree $b \in \Bin$ we have  $p \leq b$ 
 if and only if $p \leq q$ for every priority $q$ occurring in $b$.  The formal definition of 
 $p \leq b$ is as follows:
 \begin{enumerate}
-\item $p \leq \textsl{Nil}$,
+\item $p \leq \mathtt{Nil}$,
 
-      because there are no priorities in the empty tree \textsl{Nil}.
-\item $p \leq \textsl{Node}(q,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\longleftrightarrow}\; p \leq q \;\wedge\; p \leq l \;\wedge\; p \leq r$,
+      because there are no priorities in the empty tree $\mathtt{Nil}$.
+\item $p \leq \mathtt{Node}(q,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\longleftrightarrow}\; p \leq q \;\wedge\; p \leq l \;\wedge\; p \leq r$,
          
       because $p$ is less than or equal to every priority in the binary tree 
-      $\textsl{Node}(q,v,l,r)$ iff  $p \leq q$ and if, furthermore, 
+      $\mathtt{Node}(q,v,l,r)$ iff  $p \leq q$ and if, furthermore, 
       $p$ is less than or equal to every priority occurring in either  $l$ or $r$.
 \end{enumerate}
 Next, we define a function \\[0.1cm]
-\hspace*{1.3cm} $\textsl{count}: \Bin \rightarrow \mathbb{N}_0$, \\[0.1cm]
+\hspace*{1.3cm} $\mathtt{count}: \Bin \rightarrow \mathbb{N}_0$, \\[0.1cm]
 that counts the number of nodes occurring in a binary tree $b$.  The definition of
-$b.\textsl{count}()$ is given by induction on $b$.
+$b.\mathtt{count}()$ is given by induction on $b$.
 \begin{enumerate}
-\item $\textsl{Nil}.\textsl{count}() = 0$.
-\item $\textsl{Node}(p,v,l,r).\textsl{count}() = 1 + l.\textsl{count}() + r.\textsl{count}()$.
+\item $\mathtt{Nil}.\mathtt{count}() = 0$.
+\item $\mathtt{Node}(p,v,l,r).\mathtt{count}() = 1 + l.\mathtt{count}() + r.\mathtt{count}()$.
 \end{enumerate}
-Now we are ready to define the set \textsl{Heap} by induction:
+Now we are ready to define the set $\mathtt{Heap}$ by induction:
 \begin{enumerate}
-\item $\textsl{Nil} \in \textsl{Heap}$.
-\item $\textsl{Node}(p,v,l,r) \in \textsl{Heap}$ if and only if the following is true:
+\item $\mathtt{Nil} \in \mathtt{Heap}$.
+\item $\mathtt{Node}(p,v,l,r) \in \mathtt{Heap}$ if and only if the following is true:
       \begin{enumerate}
       \item $p \leq l \;\wedge\; p \leq r$
 
             The priority stored at the root is less than or equal to every other priority stored in
-            the heap. This condition is known as the \emph{heap condition}.
-      \item $\mid l.\textsl{count}() - r.\textsl{count}() \mid \;\leq\, 1$
+            the heap. This condition is known as the \blue{heap condition}.
+      \item $\mid l.\mathtt{count}() - r.\mathtt{count}() \mid \;\leq\, 1$
 
             The number of elements in the left subtree differs from the number of elements stored in
             the right subtree by at most one.
-            This condition is known as the  \emph{balancing condition}.  It is similar to the
+            This condition is known as the  \blue{balancing condition}.  It is similar to the
             balancing condition of AVL trees, but instead of comparing the heights, this condition
             compares the number of elements.
-      \item $l \in \textsl{Heap} \;\wedge\; r \in \textsl{Heap}$
+      \item $l \in \mathtt{Heap} \;\wedge\; r \in \mathtt{Heap}$
 
             This condition ensures that all subtrees are heaps, too.
       \end{enumerate}
 \end{enumerate}
-The  \emph{heap condition} implies that in a non-empty heap the element with a highest priority is
+The  \blue{heap condition} implies that in a non-empty heap the element with a highest priority is
 stored at the root.  Figure \ref{fig:heap-list} on page \pageref{fig:heap-list} shows a simple heap.
 In the upper part of the nodes we find the priorities.  Below these priorities we have the values
 that are stored in the heap.  In the example given, the priorities are natural numbers, while the
@@ -183,49 +219,49 @@ values are characters.
 
 As heaps are binary trees, we can implement them in a fashion that is similar to our implementation
 of AVL trees.  In order to do so, we first present equations that specify the methods of the data
-structure heap.  We start with the method \textsl{top}.  
+structure heap.  We start with the method $\mathtt{top}$.  
 \begin{enumerate}
-\item $\textsl{Nil}.\textsl{top}() = \Omega$.
-\item $\textsl{Node}(p,v,l,r).\textsl{top}() = \pair(p,v)$,
+\item $\mathtt{Nil}.\mathtt{top}() = \Omega$.
+\item $\mathtt{Node}(p,v,l,r).\mathtt{top}() = \pair(p,v)$,
 
       because the heap condition ensures that the value with the highest priority is stored at the
       top. 
 \end{enumerate}
-When  implementing the method \textsl{insert} we have to make sure that both the balancing condition
+When  implementing the method $\mathtt{insert}$ we have to make sure that both the balancing condition
 and the heap condition are maintained.
 \begin{enumerate}
-\item $\textsl{Nil}.\textsl{insert}(p,v) = \textsl{Node}(p,v,\textsl{Nil}, \textsl{Nil})$.
-\item $p_{\mathrm{top}} \leq p \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $   \\[0.1cm]
+\item $\mathtt{Nil}.\mathtt{insert}(p,v) = \mathtt{Node}(p,v,\mathtt{Nil}, \mathtt{Nil})$.
+\item $p_{\mathrm{top}} \leq p \;\wedge\; l.\mathtt{count}() \leq r.\mathtt{count}() \;\rightarrow $   \\[0.1cm]
       \hspace*{1.3cm} 
-      $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
-                 \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\textsl{insert}(p,v), r\bigr)$.
+      $\mathtt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mathtt{insert}(p,v) =
+                 \mathtt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\mathtt{insert}(p,v), r\bigr)$.
                  
       If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
       the value at the root of the heap, we have to insert the value $v$ either in the left or right
       subtree.  In order to maintain the balancing condition, we insert the value $v$ in the left
       subtree if that subtree stores at most as many values as the right subtree.
-\item $p_{\mathrm{top}} \leq p \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $   \\[0.1cm]
+\item $p_{\mathrm{top}} \leq p \;\wedge\; l.\mathtt{count}() > r.\mathtt{count}() \;\rightarrow $   \\[0.1cm]
       \hspace*{1.3cm} 
-      $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
-                 \textsl{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\textsl{insert}(p,v)\bigr)$.
+      $\mathtt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mathtt{insert}(p,v) =
+                 \mathtt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\mathtt{insert}(p,v)\bigr)$.
 
       If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
       the value at the root of the heap, we have to insert the value $v$ in the right
       subtree if the right subtree  stores fewer values than the left subtree.
-\item $p_{\mathrm{top}} > p \;\wedge\; l.\textsl{count}() \leq r.\textsl{count}() \;\rightarrow $ \\[0.1cm]
+\item $p_{\mathrm{top}} > p \;\wedge\; l.\mathtt{count}() \leq r.\mathtt{count}() \;\rightarrow $ \\[0.1cm]
       \hspace*{1.3cm} 
-      $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
-                 \textsl{Node}\bigl(p,v,l.\textsl{insert}(p_\mathrm{top},v_\mathrm{top}), r\bigr)$.
+      $\mathtt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mathtt{insert}(p,v) =
+                 \mathtt{Node}\bigl(p,v,l.\mathtt{insert}(p_\mathrm{top},v_\mathrm{top}), r\bigr)$.
 
       If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
       the value stored at the root of the heap, then we have to store the value $v$ at the root.
       The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to either
       the left or right subtree.  If the number of nodes in the left subtree is as most as big as
       the number of nodes in the right subtree, $v_\mathrm{top}$ is inserted into the left subtree.
-\item $p_{\mathrm{top}} > p \;\wedge\; l.\textsl{count}() > r.\textsl{count}() \;\rightarrow $ \\[0.1cm] 
+\item $p_{\mathrm{top}} > p \;\wedge\; l.\mathtt{count}() > r.\mathtt{count}() \;\rightarrow $ \\[0.1cm] 
       \hspace*{1.3cm} 
-      $\textsl{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\textsl{insert}(p,v) =
-                 \textsl{Node}\bigl(p,v,l,r.\textsl{insert}(p_\mathrm{top},v_\mathrm{top})\bigr)$.
+      $\mathtt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mathtt{insert}(p,v) =
+                 \mathtt{Node}\bigl(p,v,l,r.\mathtt{insert}(p_\mathrm{top},v_\mathrm{top})\bigr)$.
 
       If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
       the value stored at the root of the heap, then we have to store the value $v$ at the root.
@@ -233,14 +269,14 @@ and the heap condition are maintained.
       the right subtree provided the number of nodes in the left subtree bigger than
       the number of nodes in the right subtree.
 \end{enumerate}
-Finally, we specify our implementation of the method \textsl{remove}.
+Finally, we specify our implementation of the method $\mathtt{remove}$.
 \begin{enumerate}
-\item $\textsl{Nil}.\textsl{remove}() = \textsl{Nil}$,
+\item $\mathtt{Nil}.\mathtt{remove}() = \mathtt{Nil}$,
 
       since we cannot remove anything from the empty heap.
-\item $\textsl{Node}(p,v,\textsl{Nil},r).\textsl{remove}() = r$,
+\item $\mathtt{Node}(p,v,\mathtt{Nil},r).\mathtt{remove}() = r$,
   
-\item $\textsl{Node}(p,v,l,\textsl{Nil}).\textsl{remove}() = l$,
+\item $\mathtt{Node}(p,v,l,\mathtt{Nil}).\mathtt{remove}() = l$,
 
       because we always remove the value with the highest priority and this value is stored at the
       root.  Now if either of the two subtrees is empty, we can just return the other subtree.
@@ -250,18 +286,18 @@ Finally, we specify our implementation of the method \textsl{remove}.
       stored at the root of the right subtree has to be promoted to the root of the tree.
       In order to maintain the heap condition, we have to take the value that is associated with the
       higher priority.
-\item $p_1 \leq p_2 \;\wedge\; l = \textsl{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r =
-      \textsl{Node}(p_2,v_2,l_2,r_2) \;\rightarrow$ \\[0.1cm] 
+\item $p_1 \leq p_2 \;\wedge\; l = \mathtt{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r =
+      \mathtt{Node}(p_2,v_2,l_2,r_2) \;\rightarrow$ \\[0.1cm] 
       \hspace*{1.3cm} 
-      $\textsl{Node}(p,v,l,r).\textsl{remove}() =      \textsl{Node}(p_1,v_1,l.\textsl{remove}(),r)$,
+      $\mathtt{Node}(p,v,l,r).\mathtt{remove}() =      \mathtt{Node}(p_1,v_1,l.\mathtt{remove}(),r)$,
 
       because if the value at the root of the left subtree has a higher priority than the value
       stored at the right subtree, then the value at the left subtree is moved to the root of the tree.
       Of course, after moving this value to the root, we have to recursively delete this value from
       the left subtree.
-\item $p_1 > p_2 \;\wedge\; l = \textsl{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r = \textsl{Node}(p_2,v_2,l_2,r_2) \rightarrow$ \\[0.1cm]
+\item $p_1 > p_2 \;\wedge\; l = \mathtt{Node}(p_1,v_1,l_1,r_1) \;\wedge\; r = \mathtt{Node}(p_2,v_2,l_2,r_2) \rightarrow$ \\[0.1cm]
       \hspace*{1.3cm} 
-      $\textsl{Node}(p,v,l,r).\textsl{remove}() = \textsl{Node}(p_2,v_2,l,r.\textsl{remove}())$
+      $\mathtt{Node}(p,v,l,r).\mathtt{remove}() = \mathtt{Node}(p_2,v_2,l,r.\mathtt{remove}())$
 
       This case is similar to the previous case, but now the value from the right subtree moves to
       the root.
@@ -388,10 +424,10 @@ Basically, there are two cases.
 \item If the given heap is non-empty, we need another case distinction.
   \begin{enumerate}
   \item If the \texttt{priority} of the \texttt{value} to be inserted is higher\footnote{
-        Remember that we have defined a priority $p_1$ to be \emph{higher} than a priority $p_2$
+        Remember that we have defined a priority $p_1$ to be \blue{higher} than a priority $p_2$
         iff $p_1 < p_2$.  I know that this sounds counter intuitive but unfortunately that is the
         way priorities are interpreted.  You will understand the reason for this convention later on
-        when we discuss Dijkstra's \emph{shortest path algorithm}.}
+        when we discuss Dijkstra's \blue{shortest path algorithm}.}
         than
         \texttt{mPriority}, which is the priority of the value at the current node, then we have to 
         put \texttt{value} at the current node, overwriting \texttt{mValue}.  However, as we do not want
