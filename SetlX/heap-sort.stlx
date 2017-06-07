@@ -1,37 +1,37 @@
-swap := procedure(x, y, rw a) {
-    [a[x], a[y]] := [a[y], a[x]];
+swap := procedure(x, y, rw A) {
+    [A[x], A[y]] := [A[y], A[x]];
 };
-sink := procedure(k, rw a, n) {
+sink := procedure(k, rw A, n) {
     while (2 * k <= n) {
         j := 2 * k;
-        if (j < n && a[j] > a[j+1]) {
+        if (j < n && A[j] > A[j+1]) {
             j += 1;
         }
-        if (a[k] < a[j]) {
-            break;
+        if (A[k] < A[j]) {
+            return;
         }
-        swap(k, j, a);
+        swap(k, j, A);
         k := j;
     }
 };
-heapSort := procedure(rw a) {
-    n := #a;
+heapSort := procedure(rw A) {
+    n := #A;
     for (k in [n\2, n\2-1 .. 1]) {
-        sink(k, a, n);
+        sink(k, A, n);
     }
     while (n > 1) {
-        swap(1, n, a);
+        swap(1, n, A);
         n -= 1;
-        sink(1, a, n);
+        sink(1, A, n);
     }
 };
 
 main := procedure() {
-    s := {10 .. 99};
-    a := [rnd(s) : i in [1..31]];
-    print(a);
-    heapSort(a);
-    print(a);
+    S := {10 .. 99};
+    A := [rnd(S) : i in [1..31]];
+    print(A);
+    heapSort(A);
+    print(A);
 };
 
 main();

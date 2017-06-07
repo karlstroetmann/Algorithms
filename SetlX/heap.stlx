@@ -78,25 +78,25 @@ class heap() {
     }
 }
 
-heapSort := procedure(a) {
-    h := heap();    
-    for (x in a) {
-        h.insert(x, x);
+heapSort := procedure(A) {
+    H := heap();    
+    for (x in A) {
+        H.insert(x, x);
     }
-    print(h);
-    s := [];
-    while (!h.isEmpty()) {
-        s += [ h.top()[1] ];
-        h.remove();
+    print(H);
+    S := [];
+    while (!H.isEmpty()) {
+        S += [ H.top()[1] ];
+        H.remove();
     }
-    return s;
+    return S;
 };
 
 demoHeapSort := procedure() {
-    l := [ rnd({1 .. 99}) : n in [1 .. 10] ];
-    print(l);
-    s := heapSort(l);
-    print(s);
+    L := [ rnd({1 .. 99}) : n in [1 .. 10] ];
+    print(L);
+    S := heapSort(L);
+    print(S);
 };
 
 demoHeapSort();
