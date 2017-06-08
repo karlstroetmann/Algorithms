@@ -7,7 +7,7 @@
 // with the given key, if such a value exists.  Otherwise, om is returned.
 find := procedure(tree, key) {
     match (tree) {
-        case @Nil():                       return @Node(k, v, @Nil(), @Nil());
+        case @Nil():                       return;
         case @Node(k, v, l, r) | key <  k: return find(l, key);
         case @Node(k, v, l, r) | key == k: return v;
         case @Node(k, v, l, r) | key >  k: return find(r, key);
