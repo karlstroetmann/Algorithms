@@ -28,7 +28,7 @@ heapSort := procedure(rw A) {
 
 main := procedure() {
     S := {10 .. 99};
-    A := [rnd(S) : i in [1..31]];
+    A := [rnd(S) : i in [1..20]];
     print(A);
     heapSort(A);
     print(A);
