@@ -1,209 +1,233 @@
 \chapter{Data Compression}
-In diesem Kapitel untersuchen wir die Frage, wie wir einen gegebenen String $s$ m\"oglichst platzsparend
-abspeichern k\"onnen.  Wir gehen davon aus, dass der String $s$ aus Buchstaben besteht, die 
-Elemente einer Menge $\Sigma$ sind.  Die Menge $\Sigma$ bezeichnen wir als unser \emph{Alphabet}. 
-Wenn das Alphabet aus $k$ verschiedenen Zeichen besteht und wir alle Buchstaben mit derselben L\"ange
-von $b$ Bits kodieren wollen, dann muss f\"ur diese Zahl von Bits offenbar
-\[ k \leq 2^b \] 
-gelten, woraus
-\[ b = \textsl{ceil}\bigl(\log_2(k)\bigr) \]
-folgt.  Hier bezeichnet $\textsl{ceil}(x)$ die \emph{Ceiling-Funktion}.  Diese Funktion
-rundet eine gegebene reelle Zahl immer auf, es gilt also
-\[ \textsl{ceil}(x) = \min \{ k \in \mathbb{Z} \mid x \leq k \}. \]
-Besteht der String $s$ aus $m$ Buchstaben, so werden zur Kodierung des Strings insgesamt
-$m \cdot b$ Bits gebraucht.  Nun gibt es zwei M\"oglichkeiten, weiterzumachen:
+In this chapter we investigate how a given string can be stored so that the amount of memory used to store the
+string is minimized.   We assume that an a set of characters $\Sigma$ is given and that the string $s$ is a finite
+sequence of characters from $\Sigma$, i.e.~$s \in \Sigma^*$.  The set of characters $\Sigma$ is called the
+\blue{alphabet}.  If the alphabet $\Sigma$ contains $k$ different characters and if every character is coded
+with the same number of bits, then the number of bits $b$ must satisfy the inequality
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds k \leq 2^b$ 
+\\[0.2cm]
+which entails that 
+\\[0.2cm]
+\hspace*{1.3cm}
+$b = \mathtt{ceil}\bigl(\log_2(k)\bigr)$
+\\[0.2cm]
+holds.  Here, $\mathtt{ceil}(x)$ denotes the
+\href{https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}{ceiling function}.  Given a real number $x$,
+the expression $\mathtt{ceil}(x)$ returns the samllest integer $k$ that is as least as big as $x$, i.e.~we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{ceil}(x) = \min \{ k \in \mathbb{Z} \mid x \leq k \}$. 
+\\[0.2cm]
+If the string $s$ has a length of $m$ characters, then we have to use $m \cdot b$ bits in order to code $s$. 
+There are two options to improve on this number.
 \begin{enumerate}
-\item Lassen wir die Forderung, dass alle Buchstaben mit derselben Anzahl von Bits kodiert werden,
-      fallen, dann ist es unter Umst\"anden m\"oglich, den String $s$ mit weniger Bits zu kodieren.  
-      Dies f\"uhrt zu dem 1952 von \href{https://en.wikipedia.org/wiki/David_A._Huffman}{David A.~Huffman} 
-      angegebenen \href{https://en.wikipedia.org/wiki/Huffman_coding}{Algorithmus}, den wir in den n\"achsten 
-      beiden Abschnitten vorstellen und analysieren.
-\item Alternativ k\"onnen wir versuchen, Buchstabenkombinationen, die h\"aufig auftreten, als neue
-      Buchstaben aufzufassen.  Beispielsweise kommen W\"orter wie ``\emph{der}'', ``\emph{die}'' und
-      ``\emph{das}'' in deutschsprachigen Texten relativ h\"aufig vor.  Es ist daher sinnvoll, f\"ur
-      solche Buchstaben-Kombinationen neue Codes einzuf\"uhren.  Ein Algorithmus, der auf dieser Idee
-      basiert, ist der Lempel-Ziv-Welch Algorithmus, den wir im letzten Abschnitt dieses Kapitels 
-      diskutieren werden.
+\item If we drop the requirement to store all characters with the same amount of bits, then we can save some space.
+      The idea is to code characters occurring very frequently with fewer that $b$ bits while those characters
+      that are very rare maybe coded with more than $b$ bits.  This approach leads to 
+      \href{https://en.wikipedia.org/wiki/Huffman_coding}{Huffman's algorithm} that was discovered 1952 by 
+      \href{https://en.wikipedia.org/wiki/David_A._Huffman}{David A.~Huffman (1925 -- 1999)} \cite{huffman:52}.
+\item Alternatively we can try to extend the alphabet by interpreting substrings that occur very frequently as
+      new letters.  For example, given an English text $s$, it is quite likely that the substring 
+      ``\emph{the}'' occurs several times in $s$.  If this substring is then coded as a single new character,
+      we might save some space.  The 
+      \href{https://en.wikipedia.org/wiki/Lempel-Ziv-Welch}{Lempel-Ziv-Welch algorithm} 
+      \cite{ziv:77,ziv:78,welch:84} was published in 1984 and is based on this idea.
+
 \end{enumerate}
+This chapter discusses both Huffman's algorithm and the Lempel-Ziv-Welch algorithm.
 
-
-\section[Motivation]{Motivation des Algorithmus von Huffman}
-Die zentrale Idee des von Huffman entwickelten Algorithmus ist die, dass Buchstaben, die sehr
-h\"aufig auftreten, mit m\"oglichst wenig Bits kodiert werden, w\"ahrend Buchstaben, die seltener
-auftreten, mit einer gr\"o{\ss}eren Anzahl Bits kodiert werden.  Zur Verdeutlichung betrachten
-wir folgendes Beispiel:  Unser Alphabet  $\Sigma$ bestehe nur aus vier Buchstaben,
-\[ \Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}. \]
-In dem zu speichernden String $s$ trete der Buchstabe \texttt{a} insgesamt $990$-mal auf, der
-Buchstabe \texttt{b} trete $8$ mal auf und die Buchstaben \texttt{c} und \texttt{d} treten
-jeweils $1$ mal auf.  Dann besteht der String $s$ aus insgesamt $1\,000$ 
-Buchstaben.  Wenn wir jeden Buchstaben mit $2 = \log_2(4)$ Bits kodieren, dann werden also
-insgesamt $2\,000$ Bits ben\"otigt um den String $s$ abzuspeichern.  Wir k\"onnen den String
-aber auch mit weniger Bits abspeichern, wenn wir die einzelnen Buchstaben mit Bitfolgen
-unterschiedlicher L\"ange kodieren.   In unserem konkreten
-Beispiel wollen wir versuchen den Buchstaben \texttt{a}, der mit Abstand am h\"aufigsten
-vorkommt, mit einem einzigen Bit zu kodieren.  Bei den  Buchstaben
-\texttt{c} und \texttt{d}, die nur sehr selten auftreten, ist es kein Problem auch mehr
-Bits zu verwenden.  Tabelle \ref{tab:coding} zeigt eine Kodierung, die von dieser Idee
-ausgeht. 
+\section[Motivation]{Motivation of  Huffman's Algorithm}
+The main idea of the
+algorithm developed by Huffman is that letters that occur very frequently are encoded with
+as few bits as possible, while letters that occur only rarely can be encoded with more bits. 
+To clarify this idea we use the following example:  Our alphabet $\Sigma$ contains just four characters, we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}$. 
+\\[0.2cm]
+The string $s \in \Sigma^*$ that is to be encoded is assumed to contain the letter
+``\texttt{a}'' $990$ times, the letter ``\texttt{b}'' occurs $8$ times and the letters ``\texttt{c}'' and
+``\texttt{d}'' each occur once.  Therefore, the string $s$ has a length of $1\,000$ characters.
+If we encode each letter with $2 = \log_2(4)$ bits, then we need a total of $2\,000$ bits to store the string $s$.
+We will now see that it is possible the store the string $s$ with less than $2\,000$ bits.
+In our example, the character \texttt{a} occurs much more frequently that the other characters.  Therefore, we
+encode ``\texttt{a}'' with a single bit.  On the other hand, the characters ``\texttt{c}'' and ``\texttt{d}''
+each occur only once.  Therefore, it does no harm if we need more than two bits to encode these characters.
+Table \ref{tab:coding} shows an encoding of the characters in $\Sigma$ that is based on these considerations.
 
 \begin{table}[htbp]
   \centering
 \begin{tabular}[t]{|l|r|r|r|r|}
 \hline
-Buchstabe  & \texttt{a} & \texttt{b}  & \texttt{c}   & \texttt{d}   \\
+Character  & \texttt{a} & \texttt{b}  & \texttt{c}   & \texttt{d}   \\
 \hline
 \hline
-H\"aufigkeit &     990    &         8   &           1  &         1    \\
+Frequency &     990    &         8   &           1  &         1    \\
 \hline
-Kodierung  & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
+Encoding  & \texttt{0} & \texttt{10} & \texttt{110} & \texttt{111} \\
 \hline
 \end{tabular}
-  \caption{Kodierung der Buchstaben mit variabler L\"ange.}
+  \caption{Variable-length encoding of the characters.}
   \label{tab:coding}
 \end{table}
+In order to understand how this encoding works we depict this encoding in Figure
+ \ref{fig:coding-tree} as a  \blue{coding tree}:  The inner nodes of this tree do not contain any attributes
+ and are therefore depicted as empty circles.  The leaves of this tree are labelled with characters.
+The encoding of a character is given by the labelling of the edges that lead from the root of the tree to the
+leaf containing that character.  For example, there is an edge from the root of this tree to the leaf labelled
+with the digit ``\texttt{0}''.  Hence, the character ``\texttt{a}'' is encoded by the bit string ``\texttt{0}''.
+To give another example we take the character ``\texttt{c}''.   The path that starts at the root and leads to
+the leaf labelled with ``\texttt{c}'' consists of three edges.  The first two of these edges are labelled with
+the bit ``\texttt{1}'', while the last edge is labelled with the bit ``\texttt{0}''.  Therefore, the character
+ ``\texttt{c}'' is encoded by the bit string ``\texttt{110}''.
 
-Um zu verstehen, wie diese Kodierung funktioniert, stellen wir sie in
-Abbildung \ref{fig:coding-tree} als \emph{Kodierungs-Baum} dar.  Die inneren 
-Knoten dieses Baums enthalten keine Attribute und werden als leere Kreise dargestellt.
-Die Bl\"atter des Baums sind mit den Buchstaben markiert.
-Die Kodierung eines Buchstabens ergibt sich \"uber die Beschriftung der Kanten, die von dem
-Wurzel-Knoten zu dem Buchstaben f\"uhren.  Beispielsweise f\"uhrt von der Wurzel eine
-Kante direkt zu dem Blatt, das mit dem Buchstaben ``\texttt{a}'' markiert ist.  Diese
-Kante ist mit dem Label ``\texttt{0}'' beschriftet.  Also wird der Buchstabe
-``\texttt{a}'' durch den String ``\texttt{0}'' kodiert.  Um ein weiteres Beispiel zu
-geben, betrachten wir den Buchstaben ``\texttt{c}''.   Der Pfad, der von der Wurzel zu dem
-Blatt f\"uhrt, das mit ``\texttt{c}'' markiert ist, enth\"alt drei Kanten.  Die ersten beiden
-Kanten sind jeweils mit ``\texttt{1}'' markiert, die letzte Kante ist mit ``\texttt{0}''
-markiert.  Also wird der Buchstabe ``\texttt{c}'' durch den String ``\texttt{110}''
-kodiert.  Kodieren wir nun unseren urspr\"unglichen String $s$, der aus $990$
-\texttt{a}'s, $8$ \texttt{b}'s, einem \texttt{c} und einem \texttt{d} besteht, so
-ben\"otigen wir insgesamt
-\[ 990 \cdot 1 + 8 \cdot 2 + 1 \cdot 3 + 1 \cdot 3 = 1\,012 \]
-Bits.  Gegen\"uber der urspr\"unglichen Kodierung, die $2\,000$ Bits verwendet, haben wir $49,4\%$
-gespart!
+If we now encode the string $s$ that is made up from  $990$ occurrences of the character
+``\texttt{a}'', $8$ occurrences of the character ``\texttt{b}'' and a single occurrence of both ``\texttt{c}''
+and ``\texttt{d}'', then we need
+\\[0.2cm]
+\hspace*{1.3cm}
+$990 \cdot 1 + 8 \cdot 2 + 1 \cdot 3 + 1 \cdot 3 = 1\,012$
+\\[0.2cm]
+bits if we use the variable length encoding shown in Figure \ref{fig:coding-tree}.  Comparing this to the fixed
+width encoding that uses 2 bits per character and therefore uses $2\,000$ bits to store $s$, we see that we can
+save $49,4\%$ of the bits with the variable length encoding shown in Table \ref{tab:coding}.
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/coding-tree.eps, scale=0.5}} 
-  \caption{Baum-Darstellung der Kodierung.}
+  \caption{Tree representation of the encoding shown in Figure \ref{tab:coding}.}
   \label{fig:coding-tree}
 \end{figure}
-
-Um zu sehen, wie mit Hilfe des Kodierungs-Baums ein String dekodiert werden kann,
-betrachten wir als Beispiel den String ``\texttt{100111}''.  Wir beginnen mit der
-``\texttt{1}'', die uns sagt, vom Wurzel-Knoten dem rechten Pfeil zu folgen.  Die
-anschlie{\ss}ende ``\texttt{0}'' spezifiziert dann den linken Pfeil.  Jetzt sind wir bei dem
-mit ``\texttt{b}'' markierten Blatt angekommen und haben damit den ersten Buchstaben
-gefunden.  Wir gehen wieder zur Wurzel des Baums zur\"uck. Die folgende ``\texttt{0}'' f\"uhrt
-uns zu dem Blatt, das mit ``\texttt{a}'' markiert ist, also haben wir den zweiten
-Buchstaben gefunden. Wir gehen wieder zur Wurzel zur\"uck.  Die Ziffern ``\texttt{111}''
-f\"uhren uns nun zu dem Buchstaben ``\texttt{d}''.  Damit haben wir insgesamt
+In order to see how a bit string can be decoded using the encoding shown in Figure \ref{fig:coding-tree}
+we consider the bit string ``\texttt{100111}''.  We start with the bit ``\texttt{1}'' which commands us to take
+the right edge from the root of the coding tree.  Next, the bit ``\texttt{0}'' specifies the left edge.  
+After following this edge we arrive at the leaf labelled with the character ``\texttt{b}''.  Hence we have
+found the first character.  To decode the next character, we return to the root of the tree.  The edge labelled
+``\texttt{0}'' takes us to the leaf labelled with the character ``\texttt{a}''.  Hence, we have found the
+second character.  Again, we return to the root of the tree.  Now the bits ``\texttt{111}'' lead us to the
+character ``\texttt{d}''.  This ends the decoding of the given bit string and we have therefore found that this
+bit string encodes the string ``\texttt{bad}'', i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
 ``\texttt{100111}'' $\simeq$ ``\texttt{bad}''.
 
 
-\section[Huffman's Algorithm]{Der Algorithmus von Huffman}
-Angenommen, wir haben einen String $s$, der aus Buchstaben eines Alphabets $\Sigma$
-aufgebaut ist.  Wie finden wir dann eine Kodierung f\"ur die einzelnen Buchstaben, die
-mit m\"oglichst wenig Bits auskommt?  Der Algorithmus von Huffman gibt eine Antwort auf diese
-Frage. Um diesen Algorithmus pr\"asentieren zu k\"onnen, definieren wir die Menge
-$\mathcal{K}$ der \emph{Kodierungs-B\"aume} induktiv.  
+\section{Huffman's Algorithm}
+Suppose we have a string $s \in \Sigma^*$ where $\Sigma$ is some alphabet.  How do we find an encoding of the letters such 
+that the encoding of $s$ is as short as possible?  Huffman's algorithm answers this question.  In order 
+to present this algorithm, we first define the set $\mathcal{K}$ of \blue{coding trees} by induction.
 \begin{enumerate}
-\item $\textsl{Leaf}(c,f) \in \mathcal{K} \quad \mbox{falls $c \in \Sigma$ und $f \in \N$}$.
+\item $\mathtt{Leaf}(c,f) \in \mathcal{K} \quad \mbox{if $c \in \Sigma$ and $f \in \N$}$.
 
-      Ausdr\"ucke der Form $\textsl{Leaf}(c,f)$ sind die Bl\"atter eines Kodierungs-Baums.
-      Dabei ist $c$ ein Buchstabe aus unserem Alphabet $\Sigma$ und $f$ gibt die
-      H\"aufigkeit an, mit der dieser Buchstabe in dem zu kodierenden String auftritt.
+      An expression of the form $\mathtt{Leaf}(c,f)$ represent a leaf in a coding tree.  Here  $c$ is a letter
+      from the alphabet $\Sigma$ and $f$ is the number of times that the letter $c$ occurs in the string $s$
+      that is to be encoded.
 
-      Gegen\"uber Abbildung \ref{fig:coding-tree} kommen hier bei den Bl\"attern noch die
-      H\"aufigkeiten hinzu.  Diese ben\"otigen wir, denn wir wollen ja sp\"ater Buchstaben,
-      die sehr h\"aufig auftreten, mit m\"oglichst wenig Bits kodieren.  
+      Compared to Figure \ref{fig:coding-tree} this representation adds the frequency $f$ of the letters.
+      This frequency information is needed since we intend to code frequent letters with fewer bits.
+\item $\mathtt{Node}(l,r) \in \mathcal{K} \quad \mbox{if $l \in\mathcal{K}$ and $r \in \mathcal{K}$.}$ 
 
-\item $\textsl{Node}(l,r) \in \mathcal{K} \quad 
-       \mbox{falls $l \in\mathcal{K}$ und $r \in \mathcal{K}$.}$ 
-
-      Ausdr\"ucke der Form $\textsl{Node}(l,r)$ sind die inneren Knoten eines
-      Kodierungs-Baums.  
+      The expressions $\mathtt{Node}(l,r)$ represent the inner nodes of the coding-tree.
 \end{enumerate}
-Als n\"achstes  definieren wir eine Funktion 
-\[  \textsl{count} : \mathcal{K} \rightarrow \N, \]
-welche die  Gesamt-H\"aufigkeiten aller in dem Baum auftretenden Buchstaben aufsummiert.
+Next, we define the function
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{count} : \mathcal{K} \rightarrow \N$.
+\\[0.2cm] 
+This function computes the sum of all frequencies of all letters occurring in a given coding tree.
 \begin{enumerate}
-\item Die Definition der Funktion \textsl{count} ist f\"ur Bl\"atter trivial:
-      \[ \textsl{Leaf}(c,f).\textsl{count}() = f. \]
-\item Die Gesamt-H\"aufigkeit des Knotens $\textsl{Node}(l,r)$
-      ergibt sich als Summe der Gesamt-H\"aufigkeiten von $l$ und $r$. Also gilt
-      \[ \textsl{Node}(l,r).\textsl{count}() = l.\textsl{count}() + r.\textsl{count}(). \]
+\item For a leaf, the definition of $\mathtt{count}$ is obvious:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{Leaf}(c,f).\mathtt{count}() = f$.
+\item The sum of all frequencies of a coding tree of the form $\mathtt{Node}(l,r)$ is the sum of all frequencies
+      in $l$ plus the frequencies in $r$.  Therefore we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{Node}(l,r).\mathtt{count}() = l.\mathtt{count}() + r.\mathtt{count}()$. 
 \end{enumerate}
-Weiter definieren wir auf Kodierungs-B\"aumen die Funktion
-\[ \textsl{cost}: \mathcal{K} \rightarrow \N. \]
-Die Funktion \textsl{cost} gibt an, wie viele Bits ben\"otigt werden, um mit dem gegebenen
-Kodierungs-Baum einen String zu kodieren, wenn die H\"aufigkeiten, mit denen ein Buchstabe
-verwendet wird, mit den H\"aufigkeiten \"ubereinstimmen, die an den Bl\"attern des Baums notiert
-sind.  Die Definition dieser Funktion ist induktiv:
+Next we define the function
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{cost}: \mathcal{K} \rightarrow \N$.
+\\[0.2cm]
+The function $\mathtt{cost}$ computes the number of bits that are necessary to encode a string $s$ if 
+all letters occurring in $s$ occur in the the coding tree and if, furthermore, the frequencies of the letters
+in $s$ are given by the frequencies stored in the coding tree.
+The definition of $\mathtt{cost}(t)$ is given by induction on the coding tree $t$.
 \begin{enumerate}
-\item $\textsl{Leaf}(c,f).\textsl{cost}() = 0$,
+\item $\mathtt{Leaf}(c,f).\mathtt{cost}() = 0$.
 
-      denn solange nur ein einziger Buchstabe vorhanden ist, ist noch nichts zu kodieren.
-\item $\textsl{Node}(l,r).\textsl{cost}() = 
-       l.\textsl{cost}() + r.\textsl{cost}() + l.\textsl{count}() + r.\textsl{count}()$.
+      As long as the coding tree has no edges, the resulting encoding has zero bits.
+\item $\mathtt{Node}(l,r).\mathtt{cost}() = 
+       l.\mathtt{cost}() + r.\mathtt{cost}() + l.\mathtt{count}() + r.\mathtt{count}()$.
 
-      Wenn wir zwei Kodierungs-B\"aume $l$ und $r$ zu einem neuen Kodierungs-Baum
-      zusammenf\"ugen, verl\"angern sich die Kodierungen f\"ur alle Buchstaben, die in $l$ oder
-      $r$ auftreten, um ein Bit.
-      Die Summe 
-      \[ l.\textsl{count}() + r.\textsl{count}() \]
-      gibt die Gesamt-H\"aufigkeiten aller Buchstaben an, die in dem linken und
-      rechten Teilbaum auftreten.  Da sich die Kodierung aller dieser Buchstaben
-      durch die Bildung des Knotens $\textsl{Node}(l,r)$ gegen\"uber der Kodierung in $l$
-      und $r$ jeweils um 1 verl\"angert, m\"ussen wir zu den Kosten der Teilb\"aume $l$ und $r$
-      den Term $l.\textsl{count}() + r.\textsl{count}()$ hinzuaddieren.
+      If two coding trees $l$ and $r$ are combined into a new coding tree, the encoding of all letters
+      occurring in either $l$ or $r$ grows by one bit:  The encoding of a letter in $l$ is prefixed with the
+      bit ``$0$'', while the encoding of a letter from $r$ is prefixed with the bit ``$1$''.  The sum
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $l.\mathtt{count}() + r.\mathtt{count}()$
+      \\[0.2cm] 
+      counts the frequencies of all letters occurring in the coding tree.
+      As the encoding of all these letters is lengthened by one bit,
+      we have to add the term $l.\mathtt{count}() + r.\mathtt{count}()$ to the costs of $l$ and $r$.
 \end{enumerate}
-Wir erweitern die Funktion $\textsl{cost}()$ auf Mengen von Knoten, indem wir die Kosten
-einer Menge $M$ als die Summe der Kosten der Knoten von $M$ definieren:
-\[ \textsl{cost}(M) = \sum\limits_{n\in M} n.\textsl{cost}(). \]
-Ausgangs-Punkt des von David A.~Huffman (1925 -- 1999) im Jahre 1952 angegebenen
-Algorithmus \cite{huffman:52} ist eine Menge von Paaren der Form $\langle c, f\rangle$.  Dabei ist
-$c$ ein 
-Buchstabe und $f$ gibt die H\"aufigkeit an, mit der dieser Buchstabe auftritt.  Im ersten
-Schritt werden diese Paare in die Bl\"atter eines Kodierungs-Baums \"uberf\"uhrt.  Besteht der
-zu kodierende String aus  $k$ verschiedenen Buchstaben, so haben
-wir dann eine Menge von Kodierungs-B\"aumen der Form
+The function  $\mathtt{cost}()$ is extended to sets of coding trees.  If $M$ is a set of coding trees, then we
+define
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{cost}(M) := \sum\limits_{n\in M} n.\mathtt{cost}()$. 
+\\[0.2cm]
+The algorithm that was published by David A.~Huffman in 1952 \cite{huffman:52} starts with a set of pairs of
+the form $\langle c, f\rangle$ where $c$ is a letter and $f$ is the frequency of this letter on a given string
+$s$ that is to be encoded.  In the first step of this algorithm, these pairs are turned into leaves of a coding tree.
+Assume that the string $s$ is built from the  letters
+\\[0.2cm]
+\hspace*{1.3cm}
+$c_1$, $c_2$, $\cdots$, $c_k$
+\\[0.2cm]
+and that the frequencies of theses letters are givens as
+\\[0.2cm]
+\hspace*{1.3cm}
+$f_1$, $f_2$, $\cdots$, $f_k$.
+\\[0.2cm]
+Then the set of coding trees is given as
 \begin{equation}
   \label{eq:huffmann1}
- M = \bigl\{  \textsl{Leaf}(c_1, f_1), \cdots, \textsl{Leaf}(c_k, f_k) \bigr\}.   
+ M = \bigl\{  \mathtt{Leaf}(c_1, f_1), \cdots, \mathtt{Leaf}(c_k, f_k) \bigr\}.   
 \end{equation}
-Es werden nun solange Knoten $a$ und $b$ aus $M$ zu einem neuen Knoten
-$\textsl{Node}(a,b)$ zusammengefasst, bis die Menge $M$ nur noch einen Knoten enth\"alt.
-Offenbar gibt es im Allgemeinen sehr viele M\"oglichkeiten, die Knoten aus der Menge zu
-neuen Knoten zusammen zu fassen.  Das Ziel ist es die Knoten so zusammen zu fassen, dass
-die Kosten der Menge $M$ am Ende  minimal sind.
-Um zu verstehen, welche Knoten wir am geschicktesten zusammenfassen k\"onnen, betrachten wir, wie
-sich die Kosten der Menge durch das Zusammenfassen zweier Knoten \"andert.
-Dazu betrachten wir zwei Mengen von Knoten $M_1$ und $M_2$, so dass 
-\[ M_1 = N \cup \{ a, b\} \quad \mathtt{und} \quad M_2 = N \cup \{ \textsl{Node}(a,b) \} \]
-gilt, die Menge $M_2$ geht also aus der Menge $M_1$ dadurch hervor, dass wir
-die Knoten $a$ und $b$ zu einem neuen Knoten zusammenfassen und durch diesen ersetzen.
-Untersuchen wir, wie
-sich die Kosten der Menge dabei ver\"andern, wir untersuchen also die folgende Differenz:
+Huffmann's algorithm combines two nodes $a$ and $b$ from $M$ into a new node
+$\mathtt{Node}(a,b)$ until the set $M$ contains just a single node.  When combining the nodes of $M$ into a single
+tree we have to take care that the cost of the resulting tree should be minimal.
+Huffman's algorithm takes a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy} approach: 
+The idea is to combine those nodes $a$ and $b$ such that the cost of the set
+\\[0.2cm]
+\hspace*{1.3cm}
+$M \symbol{92} \{a,b\} + \{ \mathtt{Node}(a,b) \}$
+\\[0.2cm]
+is as small as possible.
+In order to choose $a$ and $b$ let us investigate how much the cost increases if we combine the two nodes
+into the new node $\mathtt{Node}(a,b)$:
 \begin{eqnarray*}
-& & \textsl{cost}\bigl(N \cup \{ \textsl{Node}(a,b) \}\bigr) - \textsl{cost}\bigl(N \cup \{ a,b \}\bigr) \\
-&=& \textsl{cost}\bigl( \{ \textsl{Node}(a,b) \}\bigr) - \textsl{cost}\bigl(\{ a,b \}\bigr)              \\
-&=& \textsl{Node}(a,b).\textsl{cost}() - a.\textsl{cost}() - b.\textsl{cost}()                           \\
-&=&   a.\textsl{cost}() + b.\textsl{cost}() + a.\textsl{count}() + b.\textsl{count}() 
-    - a.\textsl{cost}() - b.\textsl{cost}()                                                              \\
-&=& a.\textsl{count}() + b.\textsl{count}() 
+& & \mathtt{cost}\bigl(N \cup \{ \mathtt{Node}(a,b) \}\bigr) - \mathtt{cost}\bigl(N \cup \{ a,b \}\bigr) \\
+&=& \mathtt{cost}\bigl( \{ \mathtt{Node}(a,b) \}\bigr) - \mathtt{cost}\bigl(\{ a,b \}\bigr)              \\
+&=& \mathtt{Node}(a,b).\mathtt{cost}() - a.\mathtt{cost}() - b.\mathtt{cost}()                           \\
+&=&   a.\mathtt{cost}() + b.\mathtt{cost}() + a.\mathtt{count}() + b.\mathtt{count}() 
+    - a.\mathtt{cost}() - b.\mathtt{cost}()                                                              \\
+&=& a.\mathtt{count}() + b.\mathtt{count}() 
 \end{eqnarray*}
-Fassen wir die Knoten $a$ und $b$ aus der Menge $M$ zu einem neuen Knoten zusammen, so vergr\"o{\ss}ern sich
-die Kosten der Menge um die Summe
-\[ a.\textsl{count}() + b.\textsl{count}(). \]
-Wenn wir die Kosten der Menge $M$ insgesamt m\"oglichst klein halten wollen, dann ist es daher naheliegend,
-dass wir in der Menge $M$ die beiden Knoten $a$ und $b$ suchen, f\"ur die die Funktion
-$\textsl{count}()$ den kleinsten Wert liefert.  Diese Knoten werden wir aus der Menge $M$
-entfernen und durch den neuen Knoten $\textsl{Node}(a,b)$ ersetzen.
-Dieser Prozess wird solange iteriert, bis die Menge $M$ nur noch aus einem Knoten besteht.  Dieser
-Knoten ist dann die Wurzel des gesuchten Kodierungs-Baums. 
+We see that if we combine $a$ and $b$ into the new node $\mathtt{Node}(a,b)$, the cost is increased by the sum 
+\\[0.2cm]
+\hspace*{1.3cm}
+$a.\mathtt{count}() + b.\mathtt{count}()$. 
+\\[0.2cm]
+If our intention is to keep the cost small then it suggests itself to pick those nodes
+$a$ and $b$ from $M$ that have the smallest count and replace them with the new node
+$\mathtt{Node}(a,b)$.  This process is then iterated until the set $M$ contains but a single node.
+It can be shown that procedure produces a coding tree that codes the given string with the smallest number of bits.
 
 \begin{figure}[!ht]
 \centering
@@ -215,221 +239,196 @@ Knoten ist dann die Wurzel des gesuchten Kodierungs-Baums.
                   xleftmargin   = 1.3cm,
                   xrightmargin  = 1.3cm,
                 ]
-    codingTree := procedure(m) {
-        while (#m > 1) {
-            a := first(m);
-            m -= { a };
-            b := first(m);
-            m -= { b };
-            m += { [ count(a) + count(b), Node(a, b) ] };
+    codingTree := procedure(M) {
+        while (#M > 1) {
+            a := first(M);
+            M -= { a };
+            b := first(M);
+            M -= { b };
+            M += { [ a[1] + b[1], @Node(a, b) ] };
         }
-        return arb(m);
-    };    
-    count := p |-> p[1];
+        return arb(M);
+    };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{Der Algorithmus von Huffman in \textsc{SetlX}.}
+\caption{Huffman's algorithm implemented in \textsc{SetlX}.}
 \label{fig:huffman.stlx}
-\end{figure} % $
+\end{figure} 
 
 \noindent
-Die in Abbildung \ref{fig:huffman.stlx} gezeigte Funktion $\mathtt{codingTree}(m)$
-implementiert diesen Algorithmus. 
+The function $\mathtt{codingTree}$ program shown in Figure \ref{fig:huffman.stlx} implements this algorithm.
 \begin{enumerate}
-\item Die Funktion \textsl{codingTree} wird mit einer Menge $m$ von Knoten aufgerufen,
-      welche die Form
+\item The function $\mathtt{codingTree}$ is called with a set  $M$ of nodes.  This set has the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $m = \bigl\{ \langle f_1, \textsl{Leaf}(c_1) \rangle, \cdots, 
-                  \langle f_k, \textsl{Leaf}(c_k) \rangle \bigr\}   
-      $
+      $M = \bigl\{ [ f_1, \mathtt{Leaf}(c_1) ], \cdots, [f_k, \mathtt{Leaf}(c_k)] \bigr\}$.
       \\[0.2cm]
-      hat.  Hier bezeichnen die Variablen $c_i$ die verschiedenen Buchstaben, w\"ahrend die
-      Zahl $f_i$ die H\"aufigkeit angibt, mit der der Buchstabe $c_i$ auftritt.
+      Here, $c_1$, $\cdots$, $c_k$ are the different character that occur in the string $s$ that is to be encoded. 
+      For every character $c_i$, the number $f_i$ counts the number of times that $c_i$ occurs in the string $s$.
 
-      Wir haben hier die Information \"uber die H\"aufigkeit an erster Stelle eines Paares gespeichert.
-      Da \textsc{SetlX} diese Menge intern durch einen geordneten bin\"aren Baum
-      abspeichert, erm\"oglicht uns diese Form der Darstellung einfach auf den Knoten mit
-      der kleinsten H\"aufigkeit zuzugreifen, denn die Paare werden so verglichen, dass
-      immer zun\"achst die erste Komponente zweier Paare zum Vergleich herangezogen werden.
-      Nur wenn sich in der ersten Komponente kein Unterschied ergibt, wird auch die zweite
-      Komponente verglichen.  Daher finden wir das Paar mit der kleinsten ersten
-      Komponente immer am Anfang der Menge $m$.
-
-      Durch diesen Trick haben wir uns de facto die Implementierung einer
-      Priorit\"ats-Warteschlange gespart:  
+      In the pairs $[f_i, \mathtt{Leaf(c_i)}]$ the frequency $f_i$ is stored first.
+      As \textsc{SetlX} stores this set internally as an ordered binary tree that is sorted ascendingly, this
+      fact enables us to extract the node with the lowest frequency by calling the function $\mathtt{first}$.
+      The reason is that in \textsc{SetlX} pairs of the form $[f, \mathtt{Leaf}(c)$ are compared
+      lexicographically:  In order to compare two pairs
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $[f_1, \mathtt{Leaf}(c_1)]$ \quad and \quad $[f_2, \mathtt{Leaf}(c_2)]$
+      \\[0.2cm]
+      \textsc{SetlX} first compares the frequencies $f_1$ and $f_2$.  If $f_1$ is less than $f_2$, the pair
+      $[f_1, \mathtt{Leaf}(c_1)]$ is considered to be smaller than $[f_2, \mathtt{Leaf}(c_2)]$, if $f_2$ is bigger
+      than $f_2$, then the pair $[f_1, \mathtt{Leaf}(c_2)]$ is considered to be bigger than
+      $[f_2,
+      \mathtt{Leaf}(c_2)]$.  Finally, if the frequencies $f_1$ and $f_2$ are the same, the characters $c_1$ and
+      $c_2$ are compared to determine the order.  Hence, the first element of the set $M$ is the pair that has
+      the smallest frequency.  Effectively, this trick turns the set $M$ into a priority queue:
       \begin{enumerate}
-      \item Die in \textsc{SetlX} vordefinierte Funktion
-            $\mathtt{first}(m)$ liefert das erste Element der Menge $m$ und entspricht
-            damit der Funktion $\textsl{top}(m)$ des abstrakten Daten-Typs \textsl{PrioQueue}.
-      \item Anstelle von $\textsl{insert}(m, p, v)$ k\"onnen wir einfach
+      \item The function $\mathtt{first}$ that is predefined in \textsc{SetlX} returns the first element of the
+            set $M$ and thus the call $\mathtt{first}(M)$ achieves the same as the call $M.\mathtt{top}()$
+            would achieve if $M$ had been implemented as a priority queue.
+      \item In order to insert an element $v$ with priority $v$ into $M$ we can use the expression
             \\[0.2cm]
             \hspace*{1.3cm}
-            \texttt{$m$ += \{ [$p$, $v$] \};}
+            \texttt{$M$ += \{ [$p$, $v$] \};}
             \\[0.2cm]
-            schreiben um das Element $v$ mit der Priorit\"at $p$ in die
-            Priorit\"ats-Warteschlange $m$ einzuf\"ugen.
-      \item Die Funktion $\textsl{remove}(m)$ realisieren wir durch den Aufruf
+            instead of writing $M.\mathtt{insert}(p, v)$ which  would have been done if $M$ had been a priority queue.
+      \item In order to remove the top element from the priority queue $M$ we can use the expression
             \\[0.2cm]
             \hspace*{1.3cm}
-            \texttt{$m$ -= \{ first($m$) \};}
+            \texttt{$M$ -= \{ \texttt{first}($M$) \};}
             \\[0.2cm]
-            denn $\textsl{remove}(m)$ soll ja das Element mit der h\"ochsten Priorit\"at aus
-            $m$ entfernen.
+            This achieves the same effect as the call $M.\mathtt{remove}()$ would have achieved if $M$ had been
+            a priority queue.
       \end{enumerate}
-      Das Elegante an diesem Vorgehen ist, dass damit s\"amtliche Operationen des abstrakten
-      Daten-Typs \textsl{PrioQueue} eine logarithmische Komplexit\"at haben.  Das ist zwar
-      im Falle der Operation $\textsl{top}(m)$ nicht optimal, aber f\"ur die Praxis v\"ollig
-      ausreichend, denn in der Praxis kommt auf jeden Aufruf der Form $\textsl{top}(m)$
-      auch ein Aufruf der Form $\textsl{remove}(m)$ und der hat sowohl bei einer optimalen
-      Implementierung als auch bei unserer Implementierung eine logarithmische
-      Komplexit\"at, die dann auch im Falle der optimalen Implementierung  die gesamte
-      Komplexit\"at dominiert. 
-\item Die \texttt{while}-Schleife in Zeile 2 verringert die Anzahl der Knoten in der Menge $m$
-      in jedem Schritt um Eins.  
+      What makes this approach elegant is the fact that with this implementation all operations of the abstract
+      data type \textsl{PrioQueue} have logarithmic complexity.  In the case of the operation
+      $M.\mathtt{top}()$ this is not optimal as the data structure heap achieves a constant complexity in this case.
+      However, for every call of the form  $M.\mathtt{top}()$ there is a call of the form
+      $M.\mathtt{remove}()$ and this call has a logarithmic complexity even if we implement the priority queue
+      as a heap.   This complexity would dominate the overall complexity so that in the end the heap based
+      implementation of the abstract data type \textsl{PrioQueue} has the same complexity as the set based
+      implementation. 
+\item The \texttt{while} loop in line 2 reduces the number of nodes of the set $M$ in every step by one.
       \begin{enumerate}
-      \item Dazu werden mit Hilfe der Funktion $\textsl{first}()$ die
-            beiden Knoten $a$ und $b$ berechnet, f\"ur die der Wert von $\textsl{count}()$ minimal
-            ist.  Die Funktion $\mathtt{count}(p)$ ist in Zeile 11 definiert und liefert einfach die
-            erste Komponente des Paares $p$, denn dort speichern wir die H\"aufigkeit der Buchstaben 
-            ab.
-      \item Die beiden Knoten $a$ und $b$ mit der geringsten H\"aufigkeit werden in Zeile 4 und 6
-            aus der Menge $m$ entfernt.
-      \item Anschlie{\ss}end wird aus den beiden Knoten $a$ und $b$ ein neuer Knoten 
-            $\textsl{Node}(a,b)$ gebildet.
-            Dieser neue Knoten wird zusammen mit der Gesamth\"aufigkeit der Knoten $a$ und $b$ in Zeile
-            7 der Menge $m$ hinzugef\"ugt.
+      \item Using the function $\mathtt{first}()$, we compute those nodes $a$ and $b$ that have the lowest count.
+      \item These two nodes are removed from $M$ .
+      \item Next $a$ and $b$ are combined into the new Node $\mathtt{Node}(a,b)$ that is added to $M$.
       \end{enumerate}
-\item Die \texttt{while}-Schleife wird beendet, wenn die Menge $m$ nur noch ein Element enth\"alt.
-      Dieses wird mit der Funktion \texttt{arb} extrahiert und als Ergebnis zur\"uckgegeben.
+\item The \texttt{while} loop terminates when $M$ contains but a single element.  This element
+      is then extracted using the function $\mathtt{arb}$ and is returned as the result.
 \end{enumerate}
-Die Laufzeit des Huffman-Algorithmus h\"angt stark von der Effizienz der Funktion $\textsl{first}()$ ab.
-Eine naive Implementierung w\"urde die Knoten aus der Menge $m$ in einer geordneten Liste vorhalten.
-Die Knoten $n$ w\"aren in dieser Liste nach der Gr\"o{\ss}e $n.\textsl{cost}()$ aufsteigend sortiert.
-Dann ist die Funktion $\textsl{first}()$ zwar sehr effizient, aber das Einf\"ugen des neuen Knotens,
-dass wir oben \"uber den Befehl 
-\\[0.2cm]
-\hspace*{1.3cm}
-\texttt{m += \{ [ count(a) + count(b), Node(a, b) ] \};}
-\\[0.2cm]
-realisieren,  w\"urde einen Aufwand erfordern, der linear in der Anzahl der Elemente der Menge $m$ ist.
-Dadurch, dass wir mit einer Menge  $m$ arbeiten, die in \textsc{SetlX} intern durch einen
-Rot-Schwarz-Baum dargestellt ist, erreichen wir, dass alle in der \texttt{while}-Schleife durchgef\"uhrten
-Operationen nur logarithmisch von der Anzahl der Buchstaben abh\"angen.  Damit hat der Huffman-Algorithmus
-insgesamt die Komplexit\"at $\Oh\bigl(n \cdot \ln(n)\bigr)$.
+The running time of Huffman's algorithm is given as  $\Oh\bigl(n \cdot \ln(n)\bigr)$ where $n$ denotes the
+number of different characters occurring in the string $s$.  The reason is that all
+the operations inside the \texttt{while} loop have at most a logarithmic complexity in $n$ and the loop is
+executed $n-1$ times.
  
 
 \begin{table}[htbp]
   \centering
 \begin{tabular}[t]{|l|r|r|r|r|r|}
 \hline
-Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} \\
+Character  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} \\
 \hline
 \hline
-H\"aufigkeit &          1 &          2 &          3 &          4 &          5 \\
+Frequency &          1 &          2 &          3 &          4 &          5 \\
 \hline
 \end{tabular}
-  \caption{Buchstaben mit H\"aufigkeiten.}
+  \caption{Letters with their frequencies.}
   \label{tab:frequency}
 \end{table}
 
-Wir illustrieren den  Huffman-Algorithmus, indem wir ihn auf die Buchstaben, die in
-Tabelle \ref{tab:frequency} zusammen mit ihren H\"aufigkeiten angegeben sind, anwenden.
+We demonstrate Huffman's algorithm by computing  the coding tree that results from a string $s$ containing the
+letters ``\texttt{a}'', ``\texttt{b}'', ``\texttt{c}'', ``\texttt{d}'', and ``\texttt{e}'' where the number of
+occurrence of these letters are given in table \ref{tab:frequency} on page \pageref{tab:frequency}.
 \begin{enumerate}
-\item Zu Beginn hat die Menge $m$ die Form
+\item Initially, the set $M$ has the form
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ m = \bigl\{ \langle 1, \textsl{Leaf}(\mathtt{a}) \rangle,\,
-             \langle 2, \textsl{Leaf}(\mathtt{b}) \rangle,\, 
-             \langle 3, \textsl{Leaf}(\mathtt{c}) \rangle,\,
-             \langle 4, \textsl{Leaf}(\mathtt{d}) \rangle,\,
-             \langle 5, \textsl{Leaf}(\mathtt{e}) \rangle\bigr\}. $
-\item Die H\"aufigkeit ist hier f\"ur die Bl\"atter mit den Buchstaben \texttt{a} und
-      \texttt{b} minimal.  Also entfernen wir diese Bl\"atter aus der Menge und f\"ugen stattdessen den Knoten 
+      $ M = \bigl\{ \langle 1, \mathtt{Leaf}(\mathtt{a}) \rangle,\,
+             \langle 2, \mathtt{Leaf}(\mathtt{b}) \rangle,\, 
+             \langle 3, \mathtt{Leaf}(\mathtt{c}) \rangle,\,
+             \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\,
+             \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle\bigr\}. $
+\item Apparently, the characters ``\texttt{a}'' and ``\texttt{b}'' occur with the lowest frequency.  Hence,
+  these characters are removed from $M$ and instead the node 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\textsl{Node}(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b}))$
+      $\mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b}))$
       \\[0.2cm]
-      in die Menge $m$ ein.  Die H\"aufigkeit dieses Knotens ergibt sich als Summe der H\"aufigkeiten
-      der Buchstaben \texttt{a} und \texttt{b}. Daher f\"ugen wir insgesamt das Paar
-      \\[0.2cm]
-      \hspace*{0.3cm}
-      $\langle 3, \textsl{Node}\bigl(\textsl{Leaf}(\mathtt{a}) \rangle, \textsl{Leaf}(\mathtt{b}) \bigr) \rangle$
-      \\[0.2cm]
-      in die Menge $m$ ein.        Dann hat $m$ die Form
+      is added to the set $M$.  The frequency of this new node is given as the sum of the frequencies of the
+      characters ``\texttt{a}'' and ``\texttt{b}''.   Hence, the pair 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \bigl\{\langle 3, \textsl{Leaf}(\mathtt{c}) \rangle,\,
-			\langle 3, \textsl{Node}(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b}))\rangle,\,
-              \langle 4, \textsl{Leaf}(\mathtt{d}) \rangle,\,
-             \langle 5, \textsl{Leaf}(\mathtt{e}) \rangle\bigr\}. $
-\item Die beiden Paare mit den kleinsten Werten der H\"aufigkeiten in $m$ sind nun
+      $\langle 3, \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{a}) \rangle, \mathtt{Leaf}(\mathtt{b}) \bigr) \rangle$
+      \\[0.2cm]
+      is inserted into the set  $M$.  The resulting form of $M$ is
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \langle 3, \textsl{Node}(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b})) \rangle
-         \quad \mathrm{und} \quad \langle 3, \textsl{Leaf}(\mathtt{c})\rangle$.
-      \\[0.2cm]
-      Wir entfernen diese beiden Knoten und bilden aus diesen beiden Knoten den neuen Knoten
-      \\[0.2cm]
-      \hspace*{0.3cm}
-      $ \langle 6, \textsl{Node}(
-           \textsl{Node}((\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b})),\; 
-           \textsl{Leaf}(\mathtt{c}))\rangle, $
-      \\[0.2cm]
-      den wir der Menge $m$ hinzuf\"ugen.  Dann hat $m$ die Form
+      $ \bigl\{\langle 3, \mathtt{Leaf}(\mathtt{c}) \rangle,\,
+			\langle 3, \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b}))\rangle,\,
+              \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\,
+             \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle\bigr\}. $
+\item The two pairs with the smallest frequencies are now
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \Bigl\{ 
-        \langle 4, \textsl{Leaf}(\mathtt{d}) \rangle,\;\langle 5, \textsl{Leaf}(\mathtt{e}) \rangle,\;
-        \langle 6, \textsl{Node}(
-           \textsl{Node}(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b})),\; 
-           \textsl{Leaf}(\mathtt{c}))\Bigr\}. $
-\item Jetzt sind 
+      $ \langle 3, \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})) \rangle \quad \mathrm{and} \quad \langle 3, \mathtt{Leaf}(\mathtt{c})\rangle$.
+      \\[0.2cm]
+      These pairs are removed form $M$ and replaced by 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \langle 4, \textsl{Leaf}(\mathtt{d}) \rangle \quad \mathrm{und} \quad \langle 5, \textsl{Leaf}(\mathtt{e}) \rangle$
+      $ \langle 6, \mathtt{Node}(
+           \mathtt{Node}((\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})),\; 
+           \mathtt{Leaf}(\mathtt{c}))\rangle$. 
       \\[0.2cm]
-      die beiden Knoten mit dem kleinsten Werten der H\"aufigkeit.
-      Wir entfernen diese Knoten und bilden den neuen Knoten \\[0.2cm]
-      \hspace*{0.3cm}
-      $\langle 9, \textsl{Node}(\textsl{Leaf}(\mathtt{d}), \textsl{Leaf}(\mathtt{e})) \rangle$.
-      \\[0.2cm]
-      Diesen f\"ugen wir der Menge $m$ hinzu und erhalten
+      Then $M$ is given as
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \Bigl\{ 
-        \langle 6, \textsl{Node}(
-           \textsl{Node}(\textsl{Leaf}(\mathtt{a}),
-           \textsl{Leaf}(\mathtt{b})),\,\textsl{Leaf}(\mathtt{c},3))
+        \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\;\langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle,\;
+        \langle 6, \mathtt{Node}(
+           \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})),\; 
+           \mathtt{Leaf}(\mathtt{c}))\Bigr\}. $
+\item Now the pairs
+      \\[0.2cm]
+      \hspace*{0.3cm}
+      $ \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle \quad \mathrm{and} \quad \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle$
+      \\[0.2cm]
+      are the pairs with the smallest frequency.
+      We remove them and construct the new node \\[0.2cm]
+      \hspace*{0.3cm}
+      $\langle 9, \mathtt{Node}(\mathtt{Leaf}(\mathtt{d}), \mathtt{Leaf}(\mathtt{e})) \rangle$.
+      \\[0.2cm]
+      This node is added to the set  $M$ and then $M$ is
+      \\[0.2cm]
+      \hspace*{0.3cm}
+      $ \Bigl\{ 
+        \langle 6, \mathtt{Node}(
+           \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}),
+           \mathtt{Leaf}(\mathtt{b})),\,\mathtt{Leaf}(\mathtt{c},3))
         \rangle,\;
-        \langle 9,\textsl{Node}(\textsl{Leaf}(\mathtt{d},4), \textsl{Leaf}(\mathtt{e},5)) \rangle
+        \langle 9,\mathtt{Node}(\mathtt{Leaf}(\mathtt{d},4), \mathtt{Leaf}(\mathtt{e},5)) \rangle
         \Bigr\}
            $.      
-\item Jetzt enth\"alt die Menge $m$ nur noch zwei Knoten.  Wir entfernen diese beiden Knoten und
-      bilden daraus den neuen Knoten
+\item Now the set $M$ has just two elements.  These are combined into the single node 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\textsl{Node}\biggl(
-              \textsl{Node}\Bigl(
-                 \textsl{Node}\bigl(\textsl{Leaf}(\mathtt{a}), \textsl{Leaf}(\mathtt{b})\bigr),\; 
-                 \textsl{Leaf}(\mathtt{c})\Bigr),\;
-              \textsl{Node}\bigl(\textsl{Leaf}(\mathtt{d}), \textsl{Leaf}(\mathtt{e})\bigr)
+      $\mathtt{Node}\biggl(
+              \mathtt{Node}\Bigl(
+                 \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})\bigr),\; 
+                 \mathtt{Leaf}(\mathtt{c})\Bigr),\;
+              \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{d}), \mathtt{Leaf}(\mathtt{e})\bigr)
          \biggr)
-      $
+      $.
       \\[0.2cm]
-      Dieser Knoten ist jetzt der einzige Knoten in $m$ und damit unser Ergebnis.
-      Stellen wir diesen Knoten als Baum dar, so erhalten wir das in Abbildung
-      \ref{fig:coding-tree2} gezeigte Ergebnis.  Wir haben hier jeden Knoten $n$
-      mit dem Funktionswert  $n.\textsl{count}()$ beschriftet.  
-
-      Die Kodierung, die sich daraus ergibt,
-      wird in Tabelle \ref{tab:coding2} gezeigt.
+      This node is our result.  Figure 
+      \ref{fig:coding-tree2} shows the corresponding coding tree.  Here every node $n$ is labelled with its
+      count.  The resulting encoding is shown in table  \ref{tab:coding2}.
 \end{enumerate}
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/coding-tree2.eps, scale=0.7}} 
-  \caption{Baum-Darstellung der Kodierung.}
+  \caption{Tree representation of the coding tree.}
   \label{fig:coding-tree2}
 \end{figure}
 
@@ -439,53 +438,50 @@ Tabelle \ref{tab:frequency} zusammen mit ihren H\"aufigkeiten angegeben sind, an
   \centering
 \begin{tabular}[t]{|l|r|r|r|r|r|}
 \hline
-Buchstabe &   \texttt{a} &   \texttt{b} & \texttt{c}  & \texttt{d}  & \texttt{e}   \\
+Character &   \texttt{a} &   \texttt{b} & \texttt{c}  & \texttt{d}  & \texttt{e}   \\
 \hline
 \hline
-Kodierung & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11} \\
+Encoding & \texttt{000} & \texttt{001} & \texttt{01} & \texttt{10} & \texttt{11} \\
 \hline
 \end{tabular}
-  \caption{Kodierung der Buchstaben mit variabler L\"ange.}
+  \caption{Variable length encoding of the letters ``\texttt{a}'' to ``\texttt{e}''.}
   \label{tab:coding2}
 \end{table}
-
+\pagebreak
 
 \exercise
 \begin{enumerate}[(a)]
-\item Berechnen Sie den Huffman-Code f\"ur einen Text, der nur die Buchstaben
-      ``\texttt{a}'' bis ``\texttt{g}'' enth\"alt und f\"ur den die H\"aufigkeiten,
-      mit denen diese Buchstaben auftreten, durch die folgende Tabelle gegeben sind.
+\item Compute the Huffman code for a string $s$ that contains the letters 
+      ``\texttt{a}'' through ``\texttt{g}'' where the frequencies are given by the following table:
 
 \begin{table}[htbp]
   \centering
 \begin{tabular}[t]{|l|r|r|r|r|r|r|r|}
 \hline
-Buchstabe  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} & \texttt{g} \\
+Character  & \texttt{a} & \texttt{b} & \texttt{c} & \texttt{d} & \texttt{e} & \texttt{f} & \texttt{g} \\
 \hline
 \hline
-H\"aufigkeit &          1 &          1 &          2 &          3 &          5 &         8 &         13 \\
+Frequency &          1 &          1 &          2 &          3 &          5 &         8 &         13 \\
 \hline
 \end{tabular}
-  \caption{Buchstaben mit H\"aufigkeiten.}
+  \caption{Letters with frequencies.}
   \label{tab:aufgabe-huffman}
 \end{table}
 
-\item Wie gro{\ss} ist die Einsparung, wenn man die Buchstaben mit einem Huffman-Code
-      kodiert gegen\"uber einer Kodierung mit drei Bits?
-\item Versuchen Sie das Gesetz zu erkennen, nach dem die H\"aufigkeiten in der obigen Tabelle 
-      gebildet wurden und versuchen Sie, den Huffman-Code f\"ur den allgemeinen Fall,
-      in dem $n$ Buchstaben gegeben sind, anzugeben.
-\item Wie gro{\ss} ist die Einsparung im allgemeinen Fall?
+\item How many bits do we save when we use the Huffman encoding compared to a fixed with encoding?
+\item Try to guess the law that has been used to specify the frequencies in the table given above
+      and try to compute the Huffman code in the general case where the string $s$ has $n$ different
+      characters. \eox
 \end{enumerate}
 
 
 \section[LZW Algorithm$^*$]{The Algorithm  of Lempel, Ziv, and Welch$^*$}
 The algorithm developed by Abraham Lempel, Jacob Ziv \cite{ziv:77,ziv:78} and Terry A.~Welch
-\cite{welch:84}, which is also known as the \emph{LZW algorithm}, is based on the idea that in most
+\cite{welch:84}, which is also known as the \blue{LZW algorithm}, is based on the idea that in most
 texts certain combinations of letters are quite frequent.  Therefore, it should pay of to view
 these combinations of letters as new letters and insert them into the alphabet.  This is the main
 idea of the LZW algorithm.  However, since counting the occurrences of all words would be too time
-consuming, the LZW algorithm works with a \emph{dynamic} coding dictionary.  Initially, this dictionary
+consuming, the LZW algorithm works with a \blue{dynamic} coding dictionary.  Initially, this dictionary
 contains only the \textsc{Ascii} characters.  Then, the idea is to extend this dictionary
 dynamically: Every time a new string is encountered, it is entered into the dictionary and a code is
 assigned to the corresponding string.  However, since it would not make sense to add arbitrary
@@ -504,7 +500,7 @@ variables:
       The encoding of a string $s$ by the LZW algorithm works by encoding substrings of $s$ as
       numbers and $\alpha$ denotes the last of theses substrings.
 \item $c$ is the next character of the string that is inspected.  This is also known as the
-      \emph{look-ahead character}.
+      \blue{look-ahead character}.
 \item \textsl{d} is the dictionary mapping strings to numbers.  Initially, \textsl{d} maps all
       \textsc{Ascii} characters to their respective \textsc{Ascii} codes.
 \item \texttt{nextCode} is the number assigned as code to the next string that is entered into
