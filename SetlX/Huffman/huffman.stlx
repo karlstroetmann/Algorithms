@@ -9,7 +9,6 @@ codingTree := procedure(M) {
     }
     return arb(M);
 };
-
 // h is the coding tree to print, while p is the coding prefix, n is the indent
 toString := procedure(h, p, n) {
     [ count, tree ] := h;
@@ -23,36 +22,46 @@ toString := procedure(h, p, n) {
         default: abort("toString($h$, $p$, $n$)");
     }
 };
-
-decoding := procedure(h, p) {
+// This function takes two arguments.
+//   * h is a pair of the form [cnt, ct] where ct is a coding tree and
+//     cnt is the sum of the frequencies of all characters in ct.
+//   * p is prefix string prefixed to all codes computed.  This prefix is
+//     needed because this function is implemented recursively.
+// The function computes a set M of triples of the form
+//     [chr, coding, count]
+// Here chr is a character, coding is the encoding of this character, and
+// count is the number of occurrences of this character in the string to encode.
+extractCodes := procedure(h, p) {
     [ count, tree ] := h;
     match (tree) {
         case @Leaf(chr): 
             return { [ chr, p, count] };
         case @Node(a, b):
-             return decoding(a, p + "0") + decoding(b, p + "1");
-        default: abort("decoding($h$, $p$)");
+             return extractCodes(a, p + "0") + extractCodes(b, p + "1");
+        default: abort("extractCodes($h$, $p$)");
     }    
 };
 
-doit := procedure(m) {
-    h := codingTree(m);
-    print("\n", m, "\n");
-    dcng := decoding(h, "");
+demo := procedure(M) {
+    print("-" * 80);
+    h := codingTree(M);
+    dcng := extractCodes(h, "");
     for ([char, code, _] in dcng) {
         print("\"$char$\": $code$");
     }
     costHuffman := +/ [ #p * cnt : [ _, p, cnt ] in dcng ];
-    cost7Bit    := +/ [ f * 7 : [f, _] in m ];
-    print("\ncost with Huffman encoding: $costHuffman$");
-    print("cost with 7-Bit   encoding: $cost7Bit$");
-    saving := 100.0 * (cost7Bit - costHuffman) / cost7Bit + "";
+    log2        := x |-> log(x) / log(2);
+    n           := ceil(log2(#M));
+    costNBit    := +/ [ f * n : [f, _] in M ];
+    print("\ncost with Huffman encoding: $costHuffman$ bits");
+    print("cost with $n$-Bit   encoding: $costNBit$ bits");
+    saving := 100.0 * (costNBit - costHuffman) / costNBit + "";
     print("saving $saving[1..4]$% space when using Huffman code\n");
     print("Huffman tree\n");
     print(toString(h, "", 0), "\n");
 };
 
-doit({ [ 1, @Leaf("a")],
+demo({ [ 1, @Leaf("a")],
        [ 1, @Leaf("b")],
        [ 2, @Leaf("c")],
        [ 3, @Leaf("d")],
@@ -74,8 +83,8 @@ demoFile := procedure(fn) {
             }
         }
     }
-    m := { [ f, @Leaf(c) ] : [c, f] in frequency };
-    doit(m);
+    M := { [ f, @Leaf(c) ] : [c, f] in frequency };
+    demo(M);
 };
 
 demoFile("alice.txt");
