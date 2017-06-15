@@ -1,37 +1,37 @@
 // This class implements the union find algorithm.
-unionFind := procedure(m, r) {
-    parent := { [x, x] : x in m };
-    height := { [x, 1] : x in m };
-    for ([x, y] in r) {
-        rootX := find(x, parent);
-        rootY := find(y, parent);
+unionFind := procedure(M, R) {
+    Parent := { [x, x] : x in M };
+    Height := { [x, 1] : x in M };
+    for ([x, y] in R) {
+        rootX := find(x, Parent);
+        rootY := find(y, Parent);
         if (rootX != rootY) {
-            if (height[rootX] < height[rootY]) {
-                parent[rootX] := rootY;  
-            } else if (height[rootX] > height[rootY]) {
-                parent[rootY] := rootX;  
+            if (Height[rootX] < Height[rootY]) {
+                Parent[rootX] := rootY;  
+            } else if (Height[rootX] > Height[rootY]) {
+                Parent[rootY] := rootX;  
             } else {
-                parent[rootY] := rootX;  
-                height[rootX] += 1;
+                Parent[rootY] := rootX;  
+                Height[rootX] += 1;
             }
         }
     }
-    roots := { x : x in m | parent[x] == x };
-    return { { y : y in m | find(y, parent) == r } : r in roots };
+    Roots := { x : x in M | Parent[x] == x };
+    return { { y : y in M | find(y, Parent) == root } : root in Roots };
 };
-find := procedure(x, parent) {
-    if (parent[x] == x) {
+find := procedure(x, Parent) {
+    if (Parent[x] == x) {
         return x;
     }
-    return find(parent[x], parent);
+    return find(Parent[x], Parent);
 };
 
 demo := procedure() {
-    m := { 1 .. 9 };
-    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
-    print("r = $r$");
-    p := unionFind(m, r);
-    print("p = $p$");
+    M := { 1 .. 9 };
+    R := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("R = $R$");
+    P := unionFind(M, R);
+    print("P = $P$");
 };
 
 demo();

@@ -1,30 +1,30 @@
 // Dijkstra's algorithm for computing the shortest path function.
-shortestPath := procedure(source, edges) {
-    dist    := { [source, 0] };
-    fringe  := { [0, source] };
-    visited := { source };
-    while (fringe != {}) {
-        [d, u]  := first(fringe);
-        fringe  -= { [d, u] };
-        for ([v,l] in edges[u] | dist[v]==om || d+l<dist[v]) {
-            fringe  -= { [dist[v], v] };
-            dist[v] := d + l;
-            fringe  += { [d + l, v] };
+shortestPath := procedure(source, Edges) {
+    Dist    := { [source, 0] };
+    Fringe  := { [0, source] };
+    Visited := { source };
+    while (Fringe != {}) {
+        [d, u]  := first(Fringe);
+        Fringe  -= { [d, u] };
+        for ([v,l] in Edges[u] | Dist[v]==om || d+l<Dist[v]) {
+            Fringe  -= { [Dist[v], v] };
+            Dist[v] := d + l;
+            Fringe  += { [d + l, v] };
         }
-        visited += { u };
+        Visited += { u };
     }
-    return dist;
+    return Dist;
 };
-edges := { ["a", {["b", 2], ["c", 3]}], 
+Edges := { ["a", {["b", 2], ["c", 3]}], 
            ["b", {["d", 1]} ],
            ["c", {["e", 3]} ],  
            ["d", {["e", 2], ["f", 4]} ],  
            ["e", {["f", 1]} ],
            ["f", {} ]
          };
-m  := { x : [x, _ ] in edges };
+m  := { x : [x, _ ] in Edges };
 s  := "a";
-sp := shortestPath(s, edges);
+sp := shortestPath(s, Edges);
 for (x in m) {
     print("distance($s$, $x$) = $sp[x]$");
 }

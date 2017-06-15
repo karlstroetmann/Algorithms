@@ -132,7 +132,8 @@ Using this command will be necessary as there will be frequent changes of these 
 \noindent
 \textbf{Hint}: \ }
 
-\newcommand{\blue}[1]{\emph{\color{blue}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\magenta}[1]{{\bf\color{magenta}#1}}
 
 \newcommand{\mod}{\;\texttt{\%}\;}
 \newcommand{\hoare}[3]{\bigl\{#1\bigr\}\quad\texttt{#2}\quad\bigl\{#3\bigr\}}
@@ -157,7 +158,7 @@ Using this command will be necessary as there will be frequent changes of these 
 \newcommand{\ds}{\displaystyle}
 \newcommand{\source}{\mbox{\tt source}}
 \newcommand{\target}{\mbox{\tt target}}
-\newcommand{\spath}{\mbox{\tt sp}}
+\newcommand{\spath}{\mathtt{sp}}
 \newcommand{\el}{\!\in\!}
 \newcommand{\BT}{\mathrm{BT}}
 \def\pair(#1,#2){\langle #1, #2 \rangle}

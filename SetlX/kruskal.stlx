@@ -1,15 +1,15 @@
 load("union-find-oo.stlx");
-// v is the set of nodes, e is a set of weighted edges
-mst := procedure(v, e) {
-    uf     := unionFind(v);
+// V is the set of nodes, E is a set of weighted edges
+mst := procedure(V, E) {
+    uf     := unionFind(V);
     result := {};
-    for([w, [x, y]] in e) {
+    for([w, [x, y]] in E) {
         rx := uf.find(x);
         ry := uf.find(y);
         if (rx != ry) {
             result += { [w, [x, y]] };
             uf.union(rx, ry);
-            if (#result == #v - 1) {
+            if (#result == #V - 1) {
                 return result;
             }
         }
@@ -19,14 +19,14 @@ mst := procedure(v, e) {
 
 demoFile := procedure(fn) {
     data  := readFile(fn);
-    edges := {};
-    nodes := {};
+    Edges := {};
+    Nodes := {};
     for (line in data) {
         [x, y, weight] := split(line, " ");
-        edges += { [double(weight), [int(x), int(y)]] };
-        nodes += { int(x), int(y) };
+        Edges += { [double(weight), [int(x), int(y)]] };
+        Nodes += { int(x), int(y) };
     }
-    tree := mst(nodes, edges);
+    tree := mst(Nodes, Edges);
     print(tree);
 };
 

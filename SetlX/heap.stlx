@@ -93,9 +93,9 @@ heapSort := procedure(A) {
 };
 
 demoHeapSort := procedure() {
-    L := [ rnd({1 .. 99}) : n in [1 .. 10] ];
-    print(L);
+    L := [ rnd({1 .. 99}) : n in [1 .. 20] ];
     S := heapSort(L);
+    print(L);
     print(S);
 };
 

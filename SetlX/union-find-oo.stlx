@@ -1,7 +1,7 @@
 // This class implements the union find algorithm.
-class unionFind(m) {
-    mParent := { [x, x] : x in m };
-    mHeight := { [x, 1] : x in m };
+class unionFind(M) {
+    mParent := { [x, x] : x in M };
+    mHeight := { [x, 1] : x in M };
     
   static {
     union := procedure(x, y) {
@@ -28,22 +28,22 @@ class unionFind(m) {
   }
 }
 
-partition := procedure(m, r) {
-    uf := unionFind(m);
-    for ([x, y] in r) {
+partition := procedure(M, R) {
+    uf := unionFind(M);
+    for ([x, y] in R) {
         uf.union(x, y);
     }
-    roots := { x : x in m | uf.find(x) == x };
-    return { { y : y in m | uf.find(y) == r } : r in roots };
+    Roots := { x : x in M | uf.find(x) == x };
+    return { { y : y in M | uf.find(y) == r } : r in Roots };
 };
 
 
 demo := procedure() {
-    m := { 1 .. 9 };
-    r := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
-    print("r = $r$");
-    p := partition(m, r);
-    print("p = $p$");
+    M := { 1 .. 9 };
+    R := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    print("R = $R$");
+    P := partition(M, R);
+    print("P = $P$");
 };
 
 demo();
