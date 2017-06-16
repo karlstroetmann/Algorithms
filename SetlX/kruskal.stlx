@@ -2,15 +2,15 @@ load("union-find-oo.stlx");
 // V is the set of nodes, E is a set of weighted edges
 mst := procedure(V, E) {
     uf     := unionFind(V);
-    result := {};
+    Result := {};
     for([w, [x, y]] in E) {
         rx := uf.find(x);
         ry := uf.find(y);
         if (rx != ry) {
-            result += { [w, [x, y]] };
+            Result += { [w, [x, y]] };
             uf.union(rx, ry);
-            if (#result == #V - 1) {
-                return result;
+            if (#Result == #V - 1) {
+                return Result;
             }
         }
     }        

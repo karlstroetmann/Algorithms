@@ -4,11 +4,13 @@
 unionFind := procedure(M, R) {
     P := { { x } : x in M };  // start with the trivial partition
     for ([x, y] in R) {
+        print("[$x$, $y$]");
         Sx := find(x, P);
         Sy := find(y, P);
         if (Sx != Sy) {
             P  -= { Sx, Sy };  // remove old sets
             P  += { Sx + Sy }; // add their union
+            print(P);
         }
     }
     return P;

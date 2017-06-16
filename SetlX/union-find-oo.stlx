@@ -37,7 +37,6 @@ partition := procedure(M, R) {
     return { { y : y in M | uf.find(y) == r } : r in Roots };
 };
 
-
 demo := procedure() {
     M := { 1 .. 9 };
     R := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
@@ -45,6 +44,5 @@ demo := procedure() {
     P := partition(M, R);
     print("P = $P$");
 };
-
 demo();
 
