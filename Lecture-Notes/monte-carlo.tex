@@ -122,7 +122,7 @@ beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
 \end{table}
 
 Lassen wir das Programm laufen, so erhalten wir die in Tabelle \ref{tab:pi} gezeigten Ergebnisse.
-Wir sehen, dass wir zur Berechnung von $\pi$ mit einer Genauigkeit von $10^-{3}$ etwa $10\,000\,000$
+Wir sehen, dass wir zur Berechnung von $\pi$ mit einer Genauigkeit von $10^{-3}$ etwa $10\,000\,000$
 Versuche brauchen, was angesichts der Rechenleistung heutiger Computer kein Problem darstellt.  Die Berechnung
 weiterer Stellen gestaltet sich jedoch sehr aufwendig:  Eine Genauigkeit von $10^{-4}$
 erfordert schon $1\,000\,000\,000$ Versuche. Grob gesch\"atzt k\"onnen wir
@@ -278,7 +278,7 @@ $\varepsilon = 10^{-3}$ haben. \eox
 
 
 \section{The Monty Hall Problem}
-The \href{http://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem} is famous probability
+The \href{http://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem} is a famous probability
 puzzle that is based on the TV show 
 \href{http://en.wikipedia.org/wiki/Let%27s_Make_a_Deal}{Let's Make a Deal}, which was aired in the
 US from the sixties through the seventies.  The host of this show was 
@@ -407,7 +407,7 @@ unterscheiden wir zwei F\"alle:
       so dass der Aufruf $\textsl{random}(n)$ zuf\"allig eine Zahl aus der Menge $\{1,\cdots,n\}$
       liefert, so k\"onnen wir diese \"Uberlegung wie folgt formalisieren:
       \\[0.2cm]
-      \hspace*{-0.8cm}
+      \hspace*{0.8cm}
       $\#L = n \wedge n > 1 \wedge k :=\textsl{random}(n)  \rightarrow 
          \textsl{permute}(L) = \textsl{permute}\bigl(\textsl{delete}(L,k)\bigr) + \bigl[ L(k)
          \bigr]
@@ -417,7 +417,7 @@ unterscheiden wir zwei F\"alle:
       wir k\"onnten also schreiben
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{delete}(L,k) = L(1\,..\,k-1) + L(k+1\,..\,\#L)$.
+      $\textsl{delete}(L,k) = L[1\,..\,k-1] + L[k+1\,..\,\#L]$.
 \end{enumerate}
 
 \begin{figure}[!ht]
