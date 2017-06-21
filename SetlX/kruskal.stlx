@@ -15,8 +15,6 @@ mst := procedure(V, E) {
         }
     }        
 };
-
-
 demoFile := procedure(fn) {
     data  := readFile(fn);
     Edges := {};

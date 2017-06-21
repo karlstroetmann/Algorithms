@@ -674,7 +674,10 @@ of a weighted \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{directed
 The main difference between a graph and a digraph is that in a digraph the edges are 
 \mbox{p\hspace{-0.15cm}\underline{\hspace{0.15cm}airs}} of two
 nodes while in a graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
-digraph model one-way streets, while in a graph they model streets that work both ways.
+digraph can be viewed as one-way streets, while in a graph they represent streets that can be used in both
+directions.  Hence, if a digraph has an edge $\pair(a,b)$, then this edge enables us to get from $a$ to $b$ but
+this edge does not enable us to go from $b$ to $a$.  On the other hand, if a graph has an edge $\{a,b\}$, then
+this edge enables us to go from $a$ to $b$ as well as from $b$ to $a$.
 \eox
 
 \begin{Definition}[Path, Path Length]
@@ -736,21 +739,22 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = -0.5cm,
-                  xrightmargin  = -0.5cm
+                  xleftmargin   = 0.0cm,
+                  xrightmargin  = 0.0cm
                 ]
     shortestPath := procedure(source, Edges) {
-        Dist := {};
-        Dist[source] := 0;
-        Fringe := { source };
+        Distance := { [source, 0] };
+        Fringe   := { source };
         while (Fringe != {}) {
             u := from(Fringe);
-            for ([v,l] in Edges[u] | Dist[v] == om || Dist[u]+l < Dist[v]) {
-                Dist[v] := Dist[u] + l;
-                Fringe  += { v };
+            for ([v,l] in Edges[u]) {
+                if (Distance[v] == om || Distance[u]+l < Distance[v]) {
+                    Distance[v] := Distance[u] + l;
+                    Fringe      += { v };
+                }
             }
         }
-        return Dist;
+        return Distance;
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -760,11 +764,11 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
 
 \noindent
 \begin{enumerate}
-\item The function $\mathtt{shortestPath}(\textsl{source}, \textsl{Edges})$ is called with two arguments:
+\item The function $\mathtt{shortestPath}(\mathtt{source}, \mathtt{Edges})$ is called with two arguments:
       \begin{enumerate}
       \item $\mathtt{source}$ is the start node.  Our intention is to compute the distance of all
-            vertices from $\mathtt{source}$.
-      \item $\mathtt{Edges}$ is a binary relation that encodes the set of edges of the graph.  For
+            vertices from the node $\mathtt{source}$.
+      \item $\mathtt{Edges}$ is a functional binary relation that encodes the set of edges of the graph.  For
             every node $x$ we have that $\mathtt{Edges}[\mathtt{x}]$ is a set of the form
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -772,16 +776,30 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
             \\[0.2cm]
             This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
             $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
+
+            For example, the relation $\mathtt{Edges}$ defined below defines a simple digraph.
+            In that digraph, there is an edge from node $\texttt{"a"}$ to node $\texttt{"b"}$ which has a
+            length of $2$ and there is another edge from node $\texttt{"a"}$ to the node $\texttt{"c"}$ that has a length of $3$.
+            \begin{verbatim}
+        Edges := { ["a", {["b", 2], ["c", 3]}], 
+                   ["b", {["d", 1]} ],
+                   ["c", {["e", 3]} ],  
+                   ["d", {["e", 2], ["f", 4]} ],  
+                   ["e", {["f", 1]} ],
+                   ["f", {} ]
+                 };
+           \end{verbatim}
       \end{enumerate}
-\item The variable $\mathtt{Dist}$ is a functional binary relation.  When the computation is
+\item The variable $\mathtt{Distance}$ is a functional binary relation.  When the computation is
       successful, for every node $x$ the relation will contain a pair of the form
       $[x, \mathtt{sp}(x)]$ showing that the node $x$ has distance $\mathtt{sp}(x)$ from the node $\mathtt{source}$.
 
       The node $\mathtt{source}$ has distance $0$ from the node $\mathtt{source}$ and initially this is
-      all we know.  Hence, the relation $\mathtt{Dist}$ is initialized as the set $\{[\mathtt{source},0]\}$.
+      all we know.  Hence, the relation $\mathtt{Distance}$ is initialized as the set $\{[\mathtt{source},0]\}$.
 \item The variable $\mathtt{Fringe}$ is a set of those nodes where we already have an estimate of
-      their distance.  Our goal is to compute the distances of all those nodes $y$ that are
-      connected to a node in $\mathtt{Fringe}$ by a singe edge $\pair(x,y)$.
+      their distance but where we haven't computed the distances of the neighbours.
+      Every iteration of the \texttt{while} loop computes the distances of all those nodes $y$ that are
+      connected to a node in $\mathtt{Fringe}$ by an edge $\pair(x,y)$.
       Since, initially we only know the distance of the node $\mathtt{source}$, we initialize the set
       Fringe as the set
       \\[0.2cm]
@@ -789,11 +807,10 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
       $\{ \mathtt{source} \}$.
 \item As long as there are nodes left in the set $\mathtt{Fringe}$ we pick an arbitrary node
       $\mathtt{u}$ from $\mathtt{Fringe}$ and remove it from $\mathtt{Fringe}$. 
-\item Next, we compute the set of all $\mathtt{v}$ that can be reached $\mathtt{u}$ and check, whether we
-      have found a better path leading to these $\mathtt{v}$.
-      There are two cases.
+\item Next, we compute the set of all nodes $\mathtt{v}$ that can be reached from $\mathtt{u}$ and check whether we
+      have found a shorter path leading to any of these nodes.  There are two cases.
       \begin{enumerate}
-      \item If there is an edge from $\mathtt{u}$ to a node $\mathtt{v}$ and  $\mathtt{Dist}[\mathtt{v}]$ is still
+      \item If there is an edge from $\mathtt{u}$ to a node $\mathtt{v}$ and  $\mathtt{Distance}[\mathtt{v}]$ is still
             undefined, then we hadn't yet found a path leading to $\mathtt{v}$.
       \item Furthermore, there are those nodes $\mathtt{v}$ where we had already found a path leading from
             $\mathtt{source}$ to $\mathtt{v}$ but the length of this path is longer than the length of the path
@@ -814,24 +831,26 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
                 ]
     shortestPath := procedure(source, Edges) {
-        Dist    := { [source, 0] };
-        Fringe  := { [0, source] };
-        Visited := { source };
+        Distance := { [source, 0] };
+        Fringe   := { [0, source] };
+        Visited  := { source };
         while (Fringe != {}) {
             [d, u]  := first(Fringe);
             Fringe  -= { [d, u] };
-            for ([v,l] in Edges[u] | Dist[v]==om || d+l<Dist[v]) {
-                Fringe  -= { [Dist[v], v] };
-                Dist[v] := d + l;
-                Fringe  += { [d + l, v] };
+            for ([v,l] in Edges[u]) {
+                if (Distance[v] == om || d + l < Distance[v]) {
+                    Fringe      -= { [Distance[v], v] };
+                    Distance[v] := d + l;
+                    Fringe      += { [d + l, v] };
+                }
             }
             Visited += { u };
         }
-        return Dist;
+        return Distance;
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -841,8 +860,11 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
 
 \noindent
 The Bellman-Ford algorithm doesn't specify how the nodes are picked from the set $\mathtt{Fringe}$.
+The result of this non-determinism is that a node can be picked from $\mathtt{Fringe}$ and removed from
+$\mathtt{Fringe}$ only to be reinserted into $\mathtt{Fringe}$ later.  This is inefficient.
 In 1959 \href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra} (1930 -- 2002) \cite{dijkstra:59}
-published an algorithm that removed this non-determinism.  Dijkstra had the idea to always choose
+published an algorithm that removed this non-determinism.  Furthermore, Dijkstra's algorithm guarantees that it
+is never necessary to reinsert a node back into the set $\mathtt{Fringe}$.  Dijkstra had the idea to always choose
 the node that has the smallest distance to the node $\mathtt{source}$.  To do this, we just have to
 implement the set  $\mathtt{Fringe}$ as a priority queue where the priority of a node is given by the
 distance of this node to the node $\mathtt{source}$.  Figure \ref{fig:dijkstra.stlx} on page
@@ -859,9 +881,9 @@ I have introduced the variable $\mathtt{Visited}$ in order to be able to formula
 is needed to prove the correctness of the algorithm.  This invariant is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall \mathtt{u}\in\mathtt{Visited}: \mathtt{Dist}[\mathtt{u}] = \mathtt{sp}(\mathtt{u})$,
+$\forall \mathtt{u}\in\mathtt{Visited}: \mathtt{Distance}[\mathtt{u}] = \mathtt{sp}(\mathtt{u})$,
 \\[0.2cm]
-i.e.~for all nodes $\mathtt{u} \in \mathtt{Visited}$, the functional relation $\mathtt{Dist}$
+i.e.~for all nodes $\mathtt{u} \in \mathtt{Visited}$, the functional relation $\mathtt{Distance}$
 already contains the length of the shortest path leading from $\mathtt{source}$ to $x$.  
 \vspace*{0.1cm}
 
@@ -870,36 +892,35 @@ We prove by induction that every time that a node $\mathtt{u}$ is added to the s
 $\mathtt{Visited}$ we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{Dist}[\mathtt{u}] = \mathtt{sp}(\mathtt{u})$ 
+$\mathtt{Distance}[\mathtt{u}] = \mathtt{sp}(\mathtt{u})$ 
 \\[0.2cm]
 holds.  To begin, observe that the program has only two lines where the set $\mathtt{Visited}$ is changed.
 We only need to inspect these lines.
-\pagebreak
 
 \begin{enumerate}
 \item \textbf{Base Case:}  
       Initially, the set $\mathtt{Visited}$ contains only the node $\mathtt{source}$ and we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{sp}(\mathtt{source}) = 0 = \mathtt{Dist}[\mathtt{source}]$.
+      $\mathtt{sp}(\mathtt{source}) = 0 = \mathtt{Distance}[\mathtt{source}]$.
       \\[0.2cm]
-      Hence the claim is true initially.
+      Surely, the distance from $\mathtt{source}$ to $\mathtt{source}$ is $0$.  Hence the claim is true initially.
 \item \textbf{Induction Step:}
-      In line 13 we add the node $\mathtt{u}$ to the set $\mathtt{Visited}$.  Immediately before $\mathtt{u}$ is
+      In line 15 we add the node $\mathtt{u}$ to the set $\mathtt{Visited}$.  Immediately before $\mathtt{u}$ is
       inserted there are two cases: If $\mathtt{u}$ is already a member of the set $\mathtt{Visited}$, the
       claim is true by induction hypothesis.  Hence we only need to consider the case where
      $\mathtt{u}$ is not a member of the set $\mathtt{Visited}$ before it is inserted.
 
       The proof now proceeds indirect and we assume that we have
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{Dist}[\mathtt{u}] > \mathtt{sp}(\mathtt{u})$
+      \hspace*{1.3cm} $\mathtt{Distance}[\mathtt{u}] > \mathtt{sp}(\mathtt{u})$
       \\[0.2cm]
       Then there must exist a shortest path 
       \\[0.2cm]
       \hspace*{1.3cm} $p = [ x_0 = \mathtt{source}, x_1, \cdots, x_n = \mathtt{u} ]$
       \\[0.2cm]
       leading from $\mathtt{source}$ to $\mathtt{u}$ that has length $\mathtt{sp}(u)$ and this length is less
-      than $\mathtt{Dist}[\mathtt{u}]$.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
+      than $\mathtt{Distance}[\mathtt{u}]$.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
       \\[0.2cm]
       \hspace*{1.3cm}
       $x_0\in \mathtt{Visited}$, $\cdots$, $x_i\in \mathtt{Visited}$ \quad but \quad $x_{i+1} \not\in \mathtt{Visited}$
@@ -908,33 +929,33 @@ We only need to inspect these lines.
       $\mathtt{Visited}$.  Such an index $i$ has to exist because $\mathtt{u} \not\in \mathtt{Visited}$.
       Before the node $x_i$ is added to the set $\mathtt{Visited}$, all nodes $y$ that are connected
       to $x_i$ via an edge $\pair(x_i, y)$ are examined and for these nodes the function
-      $\mathtt{Dist}$ is updated if this edge leads to a shorter path.  In particular, $x_{i+1}$ has
-      been examined and $\mathtt{Dist}[x_{i+1}]$ has been recomputed.  At the latest, the node
+      $\mathtt{Distance}$ is updated if this edge leads to a shorter path.  In particular, $x_{i+1}$ has
+      been examined and $\mathtt{Distance}[x_{i+1}]$ has been recomputed.  At the latest, the node
       $x_{i+1}$ has been added to the set  $\mathtt{Fringe}$ at this time, although, of course, it
       could have been added already earlier.  Furthermore, we must have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{Dist}[x_{i+1}] = \mathtt{sp}(x_{i+1})$,
+      $\mathtt{Distance}[x_{i+1}] = \mathtt{sp}(x_{i+1})$,
       \\[0.2cm]
-      because by induction hypothesis we have that $\mathtt{Dist}[x_i] = \mathtt{sp}(x_i)$ and 
+      because by induction hypothesis we have that $\mathtt{Distance}[x_i] = \mathtt{sp}(x_i)$ and 
       the edge $\pair(x_i,x_{i+1})$ is part of a shortest path from  $x_i$ to $x_{i+1}$.
       
       As we have assumed that $x_{i+1} \not\in \mathtt{Visited}$, the node $x_{i+1}$ still has to be an
       element of the priority queue $\mathtt{Fringe}$ at this point.  Therefore we must have
-      $\mathtt{Dist}[x_{i+1}] \geq \mathtt{Dist}[u]$, since otherwise  $x_{i+1}$ would have been
+      $\mathtt{Distance}[x_{i+1}] \geq \mathtt{Distance}[u]$, since otherwise  $x_{i+1}$ would have been
       chosen from the priority queue $\mathtt{Fringe}$ before $\mathtt{u}$ has been chosen, but then $x_{i+1}$
       would be a member of $\mathtt{Visited}$.
 
-      Since $\mathtt{sp}(x_{i+1}) = \mathtt{Dist}[x_{i+1}]$ we now have the contradiction
+      Since $\mathtt{sp}(x_{i+1}) = \mathtt{Distance}[x_{i+1}]$ we now have the contradiction
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{sp(u)} \geq \mathtt{sp}(x_{i+1}) = \mathtt{Dist}[x_{i+1}] \geq \mathtt{Dist[u]} > \mathtt{sp(u)}$.
+      $\mathtt{sp(u)} \geq \mathtt{sp}(x_{i+1}) = \mathtt{Distance}[x_{i+1}] \geq \mathtt{Distance[u]} > \mathtt{sp(u)}$.
       \\[0.2cm]
-      This shows that the assumption $\mathtt{Dist[u]} > \mathtt{sp(u)}$ has to be wrong.  On the
-      other hand, since we always have $\mathtt{Dist[u]} \geq \mathtt{sp(u)}$ we can only conclude that
+      This shows that the assumption $\mathtt{Distance[u]} > \mathtt{sp(u)}$ has to be wrong.  On the
+      other hand, since we always have $\mathtt{Distance[u]} \geq \mathtt{sp(u)}$ we can only conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{Dist[u]} = \mathtt{sp(u)}$
+      $\mathtt{Distance[u]} = \mathtt{sp(u)}$
       \\[0.2cm]
       holds for all nodes $\mathtt{u} \in \mathtt{Visited}$. \qed
 \end{enumerate}
@@ -950,11 +971,11 @@ If a node $\mathtt{u}$ is removed from the priority queue $\mathtt{Fringe}$, the
 $\mathtt{Visited}$.  The invariant that was just proven implies that in that case
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{sp(u)} = \mathtt{Dist[u]}$
+$\mathtt{sp(u)} = \mathtt{Distance[u]}$
 \\[0.2cm]
 holds.  This implies that the node $\mathtt{u}$ can never be reinserted into the priority queue
 $\mathtt{Fringe}$, because a node $\mathtt{v}$ is only inserted in $\mathtt{Fringe}$ if either 
- $\mathtt{Dist}[\mathtt{v}]$ is still undefined or if  the  value $\mathtt{Dist}[\mathtt{v}]$ decreases.  
+ $\mathtt{Distance}[\mathtt{v}]$ is still undefined or if  the  value $\mathtt{Distance}[\mathtt{v}]$ decreases.  
 Inserting a node into a priority queue containing  $n$ elements can be bounded by
 $\Oh\bigl(\log_2(n)\bigr)$.  As the priority queue never contains more than $\#\nodes$ nodes and we
 can insert every node at most once, insertion into the priority queue can be bounded by
