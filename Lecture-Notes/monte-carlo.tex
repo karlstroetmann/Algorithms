@@ -1,25 +1,26 @@
-\chapter[Monte-Carlo Method]{Die Monte-Carlo-Methode}
-Bestimmte Probleme sind so komplex, dass es mit vertretbarem Aufwand nicht m\"oglich ist, eine exakte L\"osung zu
-berechnen.  Oft l\"asst sich jedoch mit Hilfe einer Simulation das Problem zumindest n\"aherungsweise l\"osen.  
+\chapter{The Monte-Carlo Method}
+Some problems are just too complex to be solved exactly.  Often, these problem can be solved approximately via simulation.
 \begin{enumerate}
-\item Das Problem der Berechnung der Volumina von K\"orpern, die eine gro{\ss}e Zahl von Begrenzungsfl\"achen haben,
-      l\"asst sich auf die Berechnung mehrdimensionaler Integrale zur\"uckf\"uhren.  In der Regel k\"onnen diese
-      Integrationen aber nicht analytisch ausgef\"uhrt werden.   Mit der Monte-Carlo-Methode l\"asst sich hier
-      zumindest ein N\"aherungswert bestimmen.
-\item Die Gesetzm\"a{\ss}igkeiten des Verhaltens komplexer Systeme, die zuf\"alligen Ein\-fl\"ussen einer Umgebung
-      ausgesetzt sind, k\"onnen oft nur durch Simulationen bestimmt werden.  Wird beispielsweise ein neues
-      U-Bahn-System geplant, so wird die Kapazit\"at eines projektierten Systems durch Simulationen ermittelt.
-\item Bei Gl\"uckspielen ist die exakte Berechnung bestimmter Wahrscheinlichkeiten oft nicht m\"oglich.
-      Mit Hilfe von Simulationen lassen sich aber gute N\"aherungs\-werte bestimmen.  
+\item The computation of the volumes of a three-dimensional object can be reduced to multiple integrals.
+      However, if the object has a complicated surface, then computing these integrals exactly might be impossible.
+      In this case, the \href{https://en.wikipedia.org/wiki/Monte_Carlo_integration}{Monte-Carlo} method is
+      often able to compute a rough approximation of the volume.  Although the precision attained using the Monte-Carlo
+      method is limited, the method is often very easy to implement.
+\item Complex systems that are influenced by random events are often difficult to predict.  Their behaviour can
+      often only be understood via random simulations.  For example, if a new underground transportation system
+      is planned, the capacity of the system is estimated via simulation.
+\item In games of chance it is often not possible to compute all probabilities exactly.  However, Monte-Carlo
+      simulations can be used to compute reasonable estimates of these probabilities.
 \end{enumerate}
-Die obige Liste k\"onnte leicht fortgesetzt werden.  In diesem Kapitel werden wir zwei Beispiele betrachten.
+This list can easily be extended.  In this chapter, we investigate three applications of the Monte-Carlo method.
 \begin{enumerate}
-\item Als einf\"uhrendes Beispiel zeigen wir, wie sich mit Hilfe der Monte-Carlo-Methode Fl\"acheninhalte bestimmen
-      lassen.  Konkret berechnen wir den Fl\"a\-cheninhalt eines Kreises und bestimmen auf diese Weise
-      die Zahl $\pi$.
-\item Als zweites Beispiel zeigen wir, wie sich Karten zuf\"allig mischen lassen.
-      Damit kann beispielsweise die Wahrscheinlichkeit daf\"ur berechnet werden, dass im Texas Hold'em Poker eine
-      gegebene Hand gegen eine zuf\"allige Hand gewinnt.
+\item As an introductory example we show how the Monte-Carlo method can be used to compute the area of a
+      circle.  This way, the number \href{https://en.wikipedia.org/wiki/Pi}{$\pi$} can be approximated via a simulation.
+\item The \href{https://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem} is a brain teaser that
+      has puzzled a lot of people.  In my personal experience I have found it easiest to convince people via
+      a simulation.
+\item The final example shows how cards can be randomly shuffled.  This can be used to compute the probability
+      that a given \href{https://en.wikipedia.org/wiki/Poker}{Poker} hand wins against a random hand.
 \end{enumerate}
 
 \section[Computing $\pi$]{Berechnung der Kreiszahl $\pi$}
