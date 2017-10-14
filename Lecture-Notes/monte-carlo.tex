@@ -23,29 +23,34 @@ This list can easily be extended.  In this chapter, we investigate three applica
       that a given \href{https://en.wikipedia.org/wiki/Poker}{Poker} hand wins against a random hand.
 \end{enumerate}
 
-\section[Computing $\pi$]{Berechnung der Kreiszahl $\pi$}
-Eine sehr einfache Methode zur Berechnung einer Approximation der Zahl $\pi$ funktioniert wie folgt.
-Wir betrachten in der reellen Ebene den Einheits-Kreis $E$, der als die Menge
-\[ E = \{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \} \]
-definiert ist.  Der Ausdruck $\sqrt{x^2 + y^2}$ gibt nach dem Satz des Pythagoras gerade den Abstand an,
-den der Punkt $\pair(x,y)$ vom Koordinatenursprung $\pair(0,0)$ hat.  Der Einheits-Kreis hat offenbar den
-Radius $r = 1$.  Damit gilt f\"ur die Fl\"ache dieses Kreises
-\[ \textsl{Fl\"ache}(E) = \pi \cdot r^2 = \pi. \]
-Wenn es uns gelingt, diese Fl\"ache zu berechnen, dann haben wir also $\pi$ bestimmt.  Eine experimentelle
-Methode zur Bestimmung dieser Fl\"ache besteht darin, dass wir in das Quadrat $Q$, dass durch
-\[ Q = \{ \pair(x,y) \in \mathbb{R} \mid -1 \leq x \leq 1 \;\wedge\; -1 \leq y \leq 1 \} \]
-definiert ist, zuf\"allig eine gro{\ss}e Zahl $n$ von Sandk\"ornern werfen.  Wir notieren uns dabei die Zahl $k$ 
-der Sandk\"orner, die in den Einheits-Kreis fallen.  Die Wahrscheinlichkeit $p$ daf\"ur, dass ein Sandkorn in den
-Einheits-Kreis f\"allt, wird nun proportional zur Fl\"ache des Einheits-Kreises sein:
-\[ p = \frac{\textsl{Fl\"ache}(E)}{\textsl{Fl\"ache}(Q)}. \]
-Da das Quadrat die Seitenl\"ange 2 hat, gilt f\"ur die Fl\"ache des Quadrats $Q$ die Formel
-\[ \textsl{Fl\"ache}(Q) = 2^2 = 4. \]
-Auf der anderen Seite wird bei einer hohen Anzahl von Sandk\"ornern das Verh\"altnis $\ds\frac{k}{n}$ gegen diese
-Wahrscheinlichkeit $p$ streben, so dass wir insgesamt
-\[ \frac{k}{n} \approx \frac{\pi}{4} \]
-haben, woraus sich f\"ur $\pi$ die N\"aherungsformel
-\[ \pi \approx 4 \cdot \frac{k}{n} \]
-ergibt.  Anstatt mit Sand  k\"onnen wir dieses Experiment einfacher mit Hilfe eines Computers durchf\"uhren.
+\section{How to Compute $\pi$ via Simulation}
+The \href{https://en.wikipedia.org/wiki/Unit_circle}{unit circle} $U$ is defined as the set 
+\\[0.2cm]
+\hspace*{1.3cm}
+$U = \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \bigr\}$.
+\\[0.2cm]
+The set $U$ contains those points $\pair(x,y)$ that have distance of $1$ or less from the origin
+$\pair(0,0)$.  The unit circle is a subset of the square $Q$ that is defined as 
+\\[0.2cm]
+\hspace*{1.3cm}
+$Q := \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid -1 \leq x \leq +1 \wedge -1 \leq y \leq +1 \bigr\}$
+\\[0.2cm]
+A simple algorithm to compute $\pi$ works as follows:  We randomly throw $n$ grains of sand into the square $Q$.
+Then we count the number of grains that end up in the unit circle $U$.  Call this number $k$.
+It is reasonable to assume that approximately $k$ is to $n$ as the area of $U$ is to the area of $Q$.  As the area of $Q$ is
+$2 \cdot 2$ and the area of $U$ equals $\pi \cdot 1^2$, we should have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds\frac{k}{n} \approx \frac{\pi}{4}$.
+\\[0.2cm]
+Multiplying by $4$ we get
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \pi \approx 4 \cdot \frac{k}{n}$.
+\\[0.2cm]
+Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:monte-carlo.stlx} on page
+\pageref{fig:monte-carlo.stlx} shows the resulting program.
+
 
 \begin{figure}[!ht]
 \centering
@@ -77,19 +82,20 @@ ergibt.  Anstatt mit Sand  k\"onnen wir dieses Experiment einfacher mit Hilfe ei
 \label{fig:monte-carlo.stlx}
 \end{figure}
 
-Abbildung \ref{fig:monte-carlo.stlx} zeigt die Funktion \texttt{approximatePi}, die mit dem oben
-beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
 \begin{enumerate}
-\item Der Parameter $n$ gibt die Anzahl der Sandk\"orner an, die wir in das Quadrat $Q$ werfen.
-\item Um ein Sandkorn zuf\"allig zu werfen, werden mit Hilfe der Funktion $\textsl{random}()$ 
-      zun\"achst Zufalls\-zahlen erzeugt, die in dem
-      Intervall $[0,1]$ liegen.  Mit Hilfe der Transformation 
-      \[ t \mapsto 2 \cdot t - 1  \]
-      wird das Intervall $[0,1]$ in das Intervall $[-1, 1]$ transformiert, so dass die in den Zeilen 5 und 6
-      berechneten Koordinaten \texttt{x} und \texttt{y} ein zuf\"allig in das Quadrat $Q$ 
-      geworfenes Sandkorn beschreiben.
-\item Wir berechnen in Zeile 7 das Quadrat des  Abstandes dieses Sandkorns vom
-      Koordinatenursprung und \"uberpr\"ufen in Zeile 8, ob das Sandkorn innerhalb des Kreises liegt.
+\item The parameter $n$ specifies the number of grains of sand that are thrown into the square $Q$.
+\item In order to throw a grain of sand randomly into $Q$ we first compute random numbers using the function
+      $\mathtt{random}()$.  These random numbers are distributed uniformly in the interval  $[0,1]$.   The
+      transformation  
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t \mapsto 2 \cdot t - 1$
+      \\[0.2cm]
+      maps the interval $[0,1]$ into the interval $[-1, 1]$.  Hence, the coordinates $\mathtt{x}$ und
+      $\mathtt{y}$ that are computed in the lines 5 and 6 represent a random point $\pair(\mathtt{x}, \mathtt{y})$ 
+      in the square $Q$.
+\item Line  7 computes the square of the distance between $\pair(x,y)$ and $\pair(0,0)$.  If this distance is
+      less or equal than 1, then the point $\pair(x,y)$ is inside the unit circle $U$.  In this case, the counter $k$ is incremented.
 \end{enumerate}
 
 \begin{table}[htbp]
@@ -97,7 +103,7 @@ beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
   \centering
   \begin{tabular}[t]{|r|r|r|}
   \hline
-  n & N\"aherung f\"ur $\pi$ & Fehler der N\"aherung \\
+  n & approximation of $\pi$ & absolute error \\
   \hline
   \hline
                $10$ & 2.40000 & -0.741593 \\
@@ -119,25 +125,24 @@ beschriebenen Verfahren einen N\"aherungswert f\"ur $\pi$ berechnet.
  $1\,000\,000\,000$ & 3.14160 & +0.000011 \\
 \hline
   \end{tabular}
-  \caption{Ergebnisse bei der Bestimmung von $\pi$ mit der Monte-Carlo-Methode}
+  \caption{Results for the approximate computation of $\pi$ using a Monte-Carlo simulation.}
 \end{table}
 
-Lassen wir das Programm laufen, so erhalten wir die in Tabelle \ref{tab:pi} gezeigten Ergebnisse.
-Wir sehen, dass wir zur Berechnung von $\pi$ mit einer Genauigkeit von $10^{-3}$ etwa $10\,000\,000$
-Versuche brauchen, was angesichts der Rechenleistung heutiger Computer kein Problem darstellt.  Die Berechnung
-weiterer Stellen gestaltet sich jedoch sehr aufwendig:  Eine Genauigkeit von $10^{-4}$
-erfordert schon $1\,000\,000\,000$ Versuche. Grob gesch\"atzt k\"onnen wir
-sagen, dass sich der Aufwand bei der Berechnung jeder weiteren Stelle verhundertfacht!  
-Wir halten folgende Beobachtung fest:
+If we run this program, we get the results shown in table \ref{tab:pi} on page \pageref{tab:pi}.
+In order to compute $\pi$ with a precision of $10^{-3}$ we need about $10\,000\,000$ trials.  Given the
+computational power of modern computers this number can be achieved within seconds.  However,  if we need more
+precision, things get harder:  In order to achieve an error less than  $10^{-4}$ we already need
+$1\,000\,000\,000$ trials.  Every time that we want to increase the precision by a factor of ten, we need to
+increase the number of trial by a hundred times!
+
 
 \begin{center}
-\colorbox{red}{\colorbox{orange}{\framebox{
-  \framebox{
+\colorbox{red}{\framebox{\colorbox{orange}{
   \begin{minipage}[t]{12cm}
-  Die Monte-Carlo-Methode ist gut geeignet, um grobe Absch\"atzungen zu berechnen, wird aber sehr aufwendig,
-  wenn eine hohe Genauigkeit gefordert ist.
+  Monte-Carlo simulations are efficient as long as only rough estimates are needed.  However, if we need high
+  precision results, the Monte-Carlo method gets inefficient.
   \end{minipage}
-  }}}}
+  }}}
 \end{center}
 
 \section[Theory]{Theoretischer Hintergrund$^*$}

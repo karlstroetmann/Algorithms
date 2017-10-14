@@ -2,7 +2,7 @@
 shortestPath := procedure(source, Edges) {
     Distance := { [source, 0] };
     Fringe   := { [0, source] };
-    Visited  := { source };
+    Visited  := { };
     while (Fringe != {}) {
         [d, u]  := first(Fringe);
         Fringe  -= { [d, u] };
