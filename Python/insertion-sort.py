@@ -1,5 +1,4 @@
 import random as rnd
-import copy
 
 def insertionSort(L):
     "sort the list L"
@@ -16,5 +15,4 @@ L = [ rnd.randrange(1, 21) for n in range(1, 16)]
 print("L = ", L)
 S = insertionSort(L);
 print("S = ", S)
-print("L = ", L)
 

@@ -1054,7 +1054,7 @@ circuit the procedure for computing the complexity of an algorithm.
 We present a simplified version of the master theorem next.
 \pagebreak
 
-\begin{Theorem}[Master Theorem] 
+\begin{Theorem}[\blue{Master Theorem}] 
   Assume that 
   \begin{enumerate}
   \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$,
@@ -1069,7 +1069,8 @@ We present a simplified version of the master theorem next.
           is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  It can
           be implemented via the formula $a \backslash b = \textsl{floor}(a/b)$, where
           $\textsl{floor}(x)$ rounds $x$ down to the nearest integer.  In \textsc{SetlX}, integer
-          division is available via the backslash operator ``\texttt{\symbol{92}}''.
+          division is available via the backslash operator ``\texttt{\symbol{92}}''.  In \textsl{Python},
+          the operator ``\texttt{//}'' performs integer division.
         }  
         of $n$ by $\beta$.
   \end{enumerate}
@@ -1163,12 +1164,12 @@ Proceeding in this way we arrive at the general formula
 \hspace*{1.3cm}
 $
 \begin{array}[b]{lcl}
-a_k & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \alpha^{i} \cdot \gamma^{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \cdots + \alpha^0 \cdot \gamma^k \\[0.2cm]
-    & = & \alpha^{i+1} \cdot a_{k-(i+1)} + \sum\limits_{j=0}^i \alpha^{j} \cdot \gamma^{k-j}. \\[0.2cm]
+a_k & = & \alpha^{i} \cdot a_{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \alpha^{i-2} \cdot \gamma^{k-(i-2)} + \cdots + \alpha^0 \cdot \gamma^k \\[0.2cm]
+    & = & \alpha^{i} \cdot a_{k-i} + \sum\limits_{j=0}^{i-1} \alpha^{j} \cdot \gamma^{k-j}. \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
-If we take this formula and substitute $i + 1 := k$, i.e.~$i := k - 1$, then we conclude
+If we take this formula and substitute $i := k$, then we conclude
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle 
@@ -1222,7 +1223,7 @@ In order to proceed, we have to perform a case distinction:
       Therefore we have 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $f(n) \in \Oh\Bigl(\bigl(\beta^\delta\bigr)^{\log_{\beta}(n)}\Bigr) = \Oh\Bigl(\bigl(\beta^{\log_{\beta}(n)}\bigr)^\delta\Bigr) = \Oh\bigl(n^\delta\bigr)$.
+      $\ds f(n) \in \Oh\Bigl(\bigl(\beta^\delta\bigr)^{\log_{\beta}(n)}\Bigr) = \Oh\Bigl(\bigl(\beta^{\log_{\beta}(n)}\bigr)^\delta\Bigr) = \Oh\bigl(n^\delta\bigr)$.
       \\[0.2cm] 
       Thus we have shown the following:
       \\[0.2cm]
@@ -1234,7 +1235,7 @@ In order to proceed, we have to perform a case distinction:
       have the value $1$ and therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j = \sum\limits_{j=0}^{k-1} 1 = k$.
+      $\ds \sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \sum\limits_{j=0}^{k-1} 1 = k$.
       \\[0.2cm]
       Therefore, we have
       \\[0.2cm]
@@ -1271,7 +1272,7 @@ In order to proceed, we have to perform a case distinction:
       Therefore, we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \bigl(\frac{\alpha}{\gamma}\bigr)^k = \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)$.
+      $\ds a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \Bigl(\frac{\alpha}{\gamma}\Bigr)^k = \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)$.
       \\[0.2cm] 
       Since $\alpha^k \cdot a_0 \in \Oh\bigl(\alpha^k\bigr)$, we have shown that
       \\[0.2cm]
@@ -1286,7 +1287,7 @@ In order to proceed, we have to perform a case distinction:
       Next, we observe that 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha^{\log_{\beta}(n)} = n^{\log_{\beta}(\alpha)}$
+      $\ds\alpha^{\log_{\beta}(n)} = n^{\log_{\beta}(\alpha)}$
       \\[0.2cm]
       holds.   This equation is easily proven by taking the logarithm with base $\beta$ on both sides
       of the equation.  Using this equation we conclude that
@@ -1374,9 +1375,8 @@ This next example is a slight variation of the previous example.  Assume $f$ sat
 $f(n) = 3 \cdot f(n \backslash 4) + n \cdot \log_2(n)$.
 \\[0.2cm]
 Again, define $\alpha := 3$ and $\beta := 4$.  This time we define $\delta := 1 + \varepsilon$ where
-$\varepsilon$ is some small positive number that will be defined later.  You can think of $\varepsilon$ being $\frac{1}{2}$ or
-$\frac{1}{5}$ or even $\frac{1}{42}$.  Since the logarithm of $n$
-grows slower than any positive power of $n$ we have
+$\varepsilon$ is some small positive number that will be defined later.  You can think of $\varepsilon$ being 
+ $\frac{1}{42}$ or $10^{-6}$.  Since the logarithm of $n$ grows slower than any positive power of $n$ we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\log_2(n) \in \Oh\bigl(n^\varepsilon\bigr)$.
@@ -1404,9 +1404,7 @@ $f(n) \in \Oh\bigl(n^{1+\varepsilon}\bigr)$ \quad holds for all $\varepsilon > 0
 Hence, we have shown that
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) \in \Oh\bigl(n^{1+\frac{1}{2}}\bigr)$, \quad
-$f(n) \in \Oh\bigl(n^{1+\frac{1}{5}}\bigr)$, \quad and even \quad
-$f(n) \in \Oh\bigl(n^{1+\frac{1}{42}}\bigr)$
+$f(n) \in \Oh\bigl(n^{1+\frac{1}{42}}\bigr)$ \quad or even \quad $f(n) \in \Oh\bigl(n^{1.000001}\bigr)$
 \\[0.2cm]
 holds.  Using a stronger form of the master theorem it can be shown that
 \\[0.2cm]
@@ -1417,8 +1415,6 @@ holds.  This example shows that the master theorem, as given in these lecture no
 produce the most precise estimate for the asymptotic growth of a function.
 \qed
 
-
-
 \exercise
 For each of the following recurrence relations, use the master theorem to give estimates of the
 growth of the function $f$. 
@@ -1427,8 +1423,6 @@ growth of the function $f$.
 \item $f(n) = 4 \cdot f(n \backslash 2) + n^2$.
 \item $f(n) = 3 \cdot f(n \backslash 2) + n^3$.  \eox
 \end{enumerate}
-
-
 
 \exercise
 Consider the recurrence relation
@@ -1457,27 +1451,26 @@ bounds concisely, we introduce the big $\Omega$ notation next.
   \underline{at least as fast as} the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
-  \colorbox{orange}{
+  \colorbox{red}{\framebox{\colorbox{orange}{
   $ \Omega(g) \;:=\; \Bigl\{ f \in \R_+^{\;\N} \mid \exists k \in \N \colon 
-    \exists c \in \R_+\colon \forall n \in \N \colon\bigl(n \geq k \rightarrow c \cdot g(n) \leq f(n)\bigr)\Bigr\}$.}
+    \exists c \in \R_+\colon \forall n \in \N \colon\bigl(n \geq k \rightarrow c \cdot g(n) \leq f(n)\bigr)\Bigr\}$.}}}
   \eox
 \end{Definition}
-
 It is not difficult to show that
 \\[0.2cm]
 \hspace*{1.3cm}
  $f \in \Omega(g)$ \quad if and only if \quad $g \in \Oh(f)$.
 \\[0.2cm]
 Finally, we introduce big $\Theta$ notation.  The idea is that $f \in \Theta(g)$ if 
-$f$ and $g$ have the same asymptotic growth rate. 
+$f$ and $g$ have the \blue{same} asymptotic growth rate. 
 
 \begin{Definition}[$\Theta(g)$]
   Assume $g \in \R_+^{\N}$ is given.   The set of functions that have the same asymptotic growth rate
   as the function $g$ is defined as
   \\[0.2cm]
   \hspace*{0.5cm} 
-  \colorbox{orange}{
-  $ \Theta(g) \;:=\; \Oh(g) \cap \Omega(g)$.}
+  \colorbox{red}{\framebox{\colorbox{orange}{
+  $\Theta(g) \;:=\; \Oh(g) \cap \Omega(g)$.}}}
   \qed 
 \end{Definition}
 
@@ -1491,7 +1484,7 @@ exists and is greater than $0$.
 \vspace*{0.3cm}
 
 Sedgewick \cite{sedgewick:11} claims that the $\Theta$ notation is too imprecise and advocates the
-tilde notation instead.  For two functions $f,g : \mathbb{N} \rightarrow \mathbb{R}_+$ he defines
+\blue{tilde} notation instead.  For two functions $f,g : \mathbb{N} \rightarrow \mathbb{R}_+$ he defines
 \\[0.3cm]
 \hspace*{1.3cm}
 $f \sim g$ \quad iff \quad $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)} = 1$.
@@ -1513,7 +1506,7 @@ section, the big $\Oh$ notation is not able to distinguish between the complexit
 algorithm $B$.  However we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\frac{3}{2} \cdot \textsl{count}_A(n) \sim \textsl{count}_B(n)$
+$\ds \frac{3}{2} \cdot \textsl{count}_A(n) \sim \textsl{count}_B(n)$
 \\[0.2cm]
 and this clearly shows that for big values of $n$, algorithm $A$ is faster than algorithm $B$ by a
 factor of $\frac{3}{2}$.
