@@ -526,16 +526,9 @@ Figure \ref{fig:merge-sort.stlx}:
         if (#L < 2) {
             return L;
         }
-        [L1, L2] := split(L);
+        n := #L;
+        [L1, L2] := [L[.. n\2], L[n\2+1 ..]];
         return merge(sort(L1), sort(L2));
-    };
-    split := procedure(L) {
-        match (L) {
-            case []         : return [ [], [] ];
-            case [x]        : return [ [x], [] ];
-            case [x, y | R] : [R1, R2] := split(R);
-                              return [ [x] + R1, [y] + R2];
-        }
     };
     merge := procedure(L1, L2) {
         match ([L1, L2]) {
@@ -556,28 +549,11 @@ Figure \ref{fig:merge-sort.stlx}:
 \begin{enumerate}
 \item If the list $L$ has less than two elements, it is already sorted and, therefore, it
       can be returned as it is.
-\item The call to \texttt{split} distributes the elements of $L$ to the lists $\mathtt{L1}$ and $\mathtt{L2}$.
-\item These lists are sorted recursively and the resulting sorted lists are then merged.
+\item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\symbol{92}2$
+      elements into the list $L_1$ and the remaining elements into the list $L_2$.
+\item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
 \end{enumerate}
-
-\noindent
-Next, we specify the function $\texttt{split}$ via equations.
-\begin{enumerate}
-\item If $L$ is empty, $\mathtt{split}(L)$ returns two empty lists:\\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mathtt{split}(\texttt{[]}) = \langle \texttt{[]}, \texttt{[]} \rangle$.
-\item If $L$ contains exactly one element, this element is put into the first of the two lists
-      returned from \texttt{split}: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mathtt{split}(\mathtt{[}x\mathtt{]}) = \langle \texttt{[}x\texttt{]}, \texttt{[]} \rangle$.
-\item Otherwise, $L$ must have the form $[x, y | R]$.
-      Then we split $R$ recursively into two lists $R_1$ and $R_2$.  The element $x$ is put in front
-      of $R_1$, while $y$ is put in front of $R_2$:
-      \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mathtt{split}(R) = \langle R_1, R_2 \rangle \rightarrow \mathtt{split}\bigl([x, y|R]\bigr) = \bigl\langle [x|R_1], [y|R_2] \bigr\rangle$.
-\end{enumerate}
-Finally, we specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
+Finally, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
 is also sorted.
 \begin{enumerate}
 \item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
@@ -825,9 +801,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \end{enumerate} 
 \item Line 6 deals with the case that the sublist of $\mathtt{L}$ that needs to be sorted has at most one element.  
       In this case, there is nothing to do as any such list is already sorted.
-\item One advantage of interpreting the list $\mathtt{L}$ as an array is that we do no longer
-      need to implement a function \texttt{split} that splits the list $\mathtt{L}$ into two parts. 
-      Instead, in line 7 we compute the index pointing to the middle element of the list $\mathtt{L}$ using the
+\item In line 7 we compute the index pointing to the middle element of the list $\mathtt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{middle = (start + end) \symbol{92} 2;} 

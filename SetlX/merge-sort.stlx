@@ -2,16 +2,9 @@ sort := procedure(L) {
     if (#L < 2) {
         return L;
     }
-    [L1, L2] := split(L);
+    n := #L;
+    [L1, L2] := [L[.. n\2], L[n\2+1 ..]];
     return merge(sort(L1), sort(L2));
-};
-split := procedure(L) {
-    match (L) {
-        case []         : return [ [], [] ];
-        case [x]        : return [ [x], [] ];
-        case [x, y | R] : [R1, R2] := split(R);
-                          return [ [x] + R1, [y] + R2];
-    }
 };
 merge := procedure(L1, L2) {
     match ([L1, L2]) {
