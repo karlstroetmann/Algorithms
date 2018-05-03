@@ -955,7 +955,8 @@ $(b_l)_l$
 satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l-1} = a_{(2^l-1) \backslash 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$
+$b_l = a_{2^l-1} = a_{(2^l-1) \backslash 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$ with
+$l > 0$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
 solution of this recurrence relation is given by
@@ -974,7 +975,8 @@ Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
 
 Next, we consider the best case.  The computation of
 $\mathtt{power}(m,n)$ needs the least number of multiplications if the test 
-\texttt{n \% 2 == 0} always evaluates as true.  In this case, $n$ must be a power of $2$.  
+\texttt{n \% 2 == 0}
+always evaluates as true.  In this case, $n$ must be a power of $2$.  
 Hence there must exist an $l\in \N$ such that we have
  \\[0.2cm]
 \hspace*{1.3cm} $n = 2^l$.
