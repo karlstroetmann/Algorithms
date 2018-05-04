@@ -298,7 +298,7 @@ $
         & = & b_{n-k} + (n - k) + \cdots + (n - 1)  \\ 
         & \vdots &                                  \\
         & = & b_{1} + 1 + \cdots + (n - 1)      \\[0.2cm] 
-        & = & b_{1} + \sum\limits_{i = 1}^{n - 1} i \\[0.4cm]
+        & = & \ds b_{1} + \sum\limits_{i = 1}^{n - 1} i \\[0.4cm]
         & = & \frac{1}{2} \cdot n \cdot (n - 1),
 \end{array}
 $
@@ -306,13 +306,13 @@ $
 because $b_1 = 0$ and the sum of all natural numbers from 1 up to  $n - 1$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.
+$\ds\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.
 \\[0.2cm]
 This can be shown by a straightforward induction.  Therefore, in the worst case the number $b_n$ of
 comparisons needed for sorting a list of length $n$  satisfies 
 \\[0.2cm]
 \hspace*{1.3cm}
-$b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$.
+$\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$.
 \\[0.2cm]
 Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ and hence
 \blue{insertion sort} is quadratic.
@@ -441,7 +441,7 @@ recursively.  We need $b_n$ evaluations of the comparison operator for this recu
 When investigating the complexity of \blue{insertion sort} we had arrived at the same recurrence
 relation. We had found the solution of this recurrence relation to be
 \\[0.2cm]
-\hspace*{1.3cm} $b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2}\cdot n = \frac{1}{2} \cdot n^2 +
+\hspace*{1.3cm} $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2}\cdot n = \frac{1}{2} \cdot n^2 +
 \Oh(n)$. 
 \\[0.2cm]
 It seems that the number of comparisons done by \blue{insertion sort} is the same as the number of
@@ -457,7 +457,7 @@ with half of the remaining elements.  Therefore, the average number of compariso
 insertion sort is only
 \\[0.2cm]
 \hspace*{1.3cm}
- $\frac{1}{4} \cdot n^2 + \Oh(n)$
+ $\ds \frac{1}{4} \cdot n^2 + \Oh(n)$
 \\[0.2cm]
 and this is half as much as the number of comparisons used by \blue{selection sort}.  Therefore, on
 average we expect \blue{selection sort} to need about twice as many comparisons as \blue{insertion sort}.
