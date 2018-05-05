@@ -11,7 +11,7 @@ def delete(x, L):
     if x == L[0]: return L[1:]
     else        : return [L[0]] + delete(x, L[1:])
 
-L = [ rnd.randrange(1, 21) for n in range(1, 16)]
+L = [ rnd.randrange(1, 21) for n in range(1, 16) ]
 print("L = ", L)
-S = selectionSort(L);
+S = selectionSort(L)
 print("S = ", S)
