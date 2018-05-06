@@ -463,13 +463,14 @@ and this is half as much as the number of comparisons used by \blue{selection so
 average we expect \blue{selection sort} to need about twice as many comparisons as \blue{insertion sort}.
 Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
 partially sorted and have only a few elements that are out of place.  In these cases,
-\blue{insertion sort} can, in fact, be more efficient than any other sorting algorithm.
+\blue{insertion sort} is, in fact,  more efficient than any other sorting algorithm.
 
 
-\section{Merge Sort}
-Next, we discuss \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}.  This algorithm
-is the first \underline{efficient} sorting algorithm that we encounter: We will see that \blue{merge sort} 
-only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  
+\section{\href{http://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}}
+Next, we discuss \blue{merge sort}.  This algorithm
+is the first \blue{optimally efficient} sorting algorithm that we encounter: We will see that merge sort 
+only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  Later, we will prove
+that every algorithm that needs to compare its elements in order to sort them has at least this complexity.  
 The \blue{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945.  John von Neumann 
 was one of the most prominent mathematicians of the last century.  
@@ -489,28 +490,18 @@ In order to sort a list $L$ the algorithm proceeds as follows:
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\#L \geq 2 \rightarrow \mathtt{sort}(L) = \mathtt{merge}\bigl(\mathtt{sort}\bigl(\mathtt{split}_1(L)\bigr), \mathtt{sort}\bigl(\mathtt{split}_2(L)\bigr)\bigr)$
+      $\#L \geq 2 \rightarrow \mathtt{sort}(L) =
+         \mathtt{merge}\bigl(\mathtt{sort}\bigl(\texttt{L[..n\symbol{92}2]}\bigr),
+         \mathtt{sort}\bigl(\texttt{L[n\symbol{92}2+1..]}\bigr)\bigr)
+     $
      \\[0.2cm]
-     Here, $\texttt{split}_1$ and $\mathtt{split}_2$ are functions that split up the list $L$ into
-     two parts, while the function \texttt{merge} takes two sorted lists and combines their element
-     in a way that the resulting list is sorted.
+     Here, $\texttt{L[..\#L\symbol{92}2]}$ is the first part of the list, while
+     $\texttt{L[\#L\symbol{92}2+1..]}$ is the second part.  If the length of $L$ is even, both part have the same number of
+     elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
+     takes two sorted lists and combines their element in a way that the resulting list is sorted.
 \end{enumerate}
 Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsc{SetlX}
-program.  The two functions $\mathtt{split}_1$ and $\mathtt{split}_2$ have been combined into one
-function \texttt{split} that returns a pair of lists, i.~e.~the expression
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mathtt{split}(L)$
-\\[0.2cm]
-returns a pair of lists of the form
-\\[0.2cm]
-\hspace*{1.3cm}
-$\langle L_1, L_2 \rangle$ \quad where $L_1 = \mathtt{split}_1(L)$ and $L_2 = \mathtt{split}_2(L)$.
-\\[0.2cm]
-The idea is to distribute the elements of $L$ to the lists $L_1$ and $L_2$ in a way that both lists
-have approximately the same size.   Let us proceed to discuss the details of the program shown in
-Figure \ref{fig:merge-sort.stlx}:
-
+program.  
 
 \begin{figure}[!ht]
   \centering
@@ -636,18 +627,26 @@ What is the value of $\mathtt{cmpCount}(L_1, L_2)$ in this case? \eox
 \vspace*{0.3cm}
 
 \noindent
-Now we are ready to compute the complexity of \blue{merge sort} in the worst case.  Let us denote
-the number of comparisons needed to sort a list $L$ of length $n$ as $f(n)$.  The algorithm \blue{merge sort} 
-splits the list $L$ into two lists of length $n\symbol{92}2$, then sorts these lists recursively,
-and finally merges the sorted lists.  Merging two lists of length $n \symbol{92}2$ can be done with
+Now we are ready to compute the complexity of \blue{merge sort} in the worst case.  Define
+\\[0.2cm]
+\hspace*{1.3cm}
+$f(n)$  \texttt{:=} number of comparisons needed to sort a list $L$ of length $n$.
+\\[0.2cm]
+The algorithm \blue{merge sort} 
+splits the list $L$ into two lists that have the length of $n\symbol{92}2$ or $n\symbol{92}2+1$, then sorts
+these lists recursively, and finally merges the sorted lists.  Merging the two lists can be done with
 at most $n$ comparisons.  Therefore, the function $f$ satisfies the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
 $f(n) = 2 \cdot f(n \symbol{92} 2) + \Oh(n)$,
 \\[0.2cm]
 We can use the master theorem to get an upper bound for $f(n)$.  In the master theorem, we have
-$\alpha = 2$, $\beta = 2$, and $\delta = 1$. Therefore, $\alpha = \beta^\delta$ and the master
-theorem shows that we have
+$\alpha = 2$, $\beta = 2$, and $\delta = 1$. Therefore,
+\\[0.2cm]
+\hspace*{1.3cm}
+$\beta^\delta = 2^1 = 2 = \alpha$
+\\[0.2cm]
+and hence the master theorem shows that we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$.
@@ -656,28 +655,37 @@ This result already shows that, for large inputs, \blue{merge sort} is considera
 than both \blue{insertion sort} and \blue{selection sort}.  However, if we want to compare
 \blue{merge sort} with \blue{quick sort}, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
 not precise enough.  In order to arrive at a bound for the number of comparisons that is more precise,
-we need to solve the recurrence equation given above.  In order to simplify things,  define $a_n := f(n)$ 
+we need to solve the recurrence equation given above.  To simplify things,  define
+\\[0.2cm]
+\hspace*{1.3cm}
+$a_n := f(n)$ 
+\\[0.2cm]
 and assume that $n$ is a power of $2$, i.e.~we assume that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle n = 2^k$ \qquad for some $k \el \mathbb{N}$.
+$\ds n = 2^k$ \qquad for some $k \el \mathbb{N}$.
 \\[0.2cm]
-Let us define $b_k := a_n = a_{2^k}$.  First, we compute the initial value $b_0$ as follows:
+Let us define
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle b_0 = a_{2^0} = a_1 = 0$,
+$b_k := a_n = a_{2^k}$.
+\\[0.2cm]
+First, we compute the initial value $b_0$ as follows:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds b_0 = a_{2^0} = a_1 = 0$,
 \\[0.2cm]
 since we do not need any comparisons when sorting a list of length one.  Since merging two lists of
 length $2^k$ needs at most  $2^k + 2^k = 2^{k+1}$ comparisons, $b_{k+1}$ can be upper bounded as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$b_{k+1} = 2 \cdot b_k + 2^{k+1}$ 
+$b_{k+1} = 2 \cdot b_k + 2^{k+1}$. 
 \\[0.2cm]
 In order to solve this recurrence equation, we divide the equation by $2^{k+1}$.
 This yields
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bruch{b_{k+1}}{2^{k+1}} = \bruch{b_k}{2^k} + 1$ 
+$\bruch{b_{k+1}}{2^{k+1}} = \bruch{b_k}{2^k} + 1$.
 \\[0.2cm]
 Next, we define
 \\[0.2cm]
@@ -721,7 +729,7 @@ the following happens:
 \item The elements of the list \texttt{R} are copied to the positions following \texttt{x}.
 \end{enumerate}
 Therefore, evaluating \texttt{[x] + R} for a list \texttt{R} of length $n$ requires $\Oh(n)$ data
-movements.  Hence the \textsc{SetlX} programs given up to now are quite inefficient.  In order to arrive at an
+movements.  This is very wasteful.  In order to arrive at an
 implementation that is more efficient we need to make use of the fact that lists are represented as arrays.
 Figure \ref{fig:merge-sort-array.stlx} on page \pageref{fig:merge-sort-array.stlx} presents
 an implementation of \blue{merge sort} that treats the list $L$ that is to be sorted as an array.
@@ -767,8 +775,6 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
         while (idx2 < end   ) { 
             L[i] := A[idx2]; idx2 += 1; i += 1; 
         }
-        assert( idx1 == middle && idx2 == end, 
-               "idx1 == middle && idx2 == end failed");
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -783,41 +789,41 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \texttt{sort} does not return a result.  Instead, the evaluation of the expression
       $\mathtt{sort}(\mathtt{L})$ has the side effect of sorting the list $\mathtt{L}$.
 \item The purpose of the assignment ``\texttt{A := L;}'' in line 2 is to create an auxiliary array
-      $\mathtt{a}$.  This auxiliary array is needed in the procedure
+      $\texttt{A}$.  This auxiliary array is needed in the procedure
       \texttt{mergeSort} called in line 3.
 \item The procedure \texttt{mergeSort} defined in line 5 is called with 4 arguments.
       \begin{enumerate}
-      \item The first parameter $\mathtt{L}$ is the list that is to be sorted.
-      \item However, the task of \texttt{mergeSort} is not to sort the entire list $\mathtt{L}$ but only
-            the part of $\mathtt{L}$ that is given as
+      \item The first parameter $\texttt{L}$ is the list that is to be sorted.
+      \item However, the task of \texttt{mergeSort} is not to sort the entire list $\texttt{L}$ but only
+            the part of $\texttt{L}$ that is given as
             \\[0.2cm]
             \hspace*{1.3cm} 
             \texttt{L[start..end-1]}. 
             \\[0.2cm]
             Hence, the parameters \texttt{start} and \texttt{end} are indices specifying the 
             subarray that needs to be sorted.
-      \item The final parameter $\mathtt{A}$ is used as an auxiliary array.  This array is needed
-            as temporary storage and it needs to have the same size as the list $\mathtt{L}$.
+      \item The final parameter $\texttt{A}$ is used as an auxiliary array.  This array is needed
+            as temporary storage and it needs to have the same size as the list $\texttt{L}$.
       \end{enumerate} 
-\item Line 6 deals with the case that the sublist of $\mathtt{L}$ that needs to be sorted has at most one element.  
+\item Line 6 deals with the case that the sublist of $\texttt{L}$ that needs to be sorted has at most one element.  
       In this case, there is nothing to do as any such list is already sorted.
-\item In line 7 we compute the index pointing to the middle element of the list $\mathtt{L}$ using the
+\item In line 7 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{middle = (start + end) \symbol{92} 2;} 
       \\[0.2cm]
-      This way, the list $\mathtt{L}$ is split into the lists 
+      This way, the list $\texttt{L}$ is split into the lists 
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{L[start..middle-1]} \quad and \quad \texttt{L[middle..end-1]}.
       \\[0.2cm]
-      These two lists have approximately the same size which is about half the size of the list $\mathtt{L}$.
+      These two lists have approximately the same size which is about half the size of the list $\texttt{L}$.
 \item Next, the lists \texttt{L[start..middle-1]} and \texttt{L[middle..end-1]} are sorted
       recursively in line 8 and 9, respectively.
 \item The call to \texttt{merge} in line 10 merges these lists.
 \item The procedure \texttt{merge} defined in line 12 has 5 parameters: 
       \begin{enumerate}
-      \item The first parameter $\mathtt{L}$ is the list that contains the two sublists that have to be merged.
+      \item The first parameter $\texttt{L}$ is the list that contains the two sublists that have to be merged.
       \item The parameters \texttt{start}, \texttt{middle}, and \texttt{end} specify the sublists
             that have to be merged.  The first sublist is 
             \\[0.2cm]
@@ -827,8 +833,8 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             while the second sublist is \\[0.2cm]
             \hspace*{1.3cm} 
             \texttt{L[middle..end-1]}. 
-      \item The final parameter $\mathtt{A}$ is used as an auxiliary array.  It needs to be a list of the
-            same size as the list $\mathtt{L}$.
+      \item The final parameter $\texttt{A}$ is used as an auxiliary array.  It needs to be a list of the
+            same size as the list $\texttt{L}$.
       \end{enumerate}
 \item The function \texttt{merge} assumes that the sublists 
       \\[0.2cm]
@@ -837,22 +843,22 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 13 copies the sublists into the auxiliary array $\mathtt{A}$.
-      \item In order to merge the two sublists stored in $\mathtt{A}$ into the list $\mathtt{L}$ we define
+      \item First, line 13 copies the sublists into the auxiliary array $\texttt{A}$.
+      \item In order to merge the two sublists stored in $\texttt{A}$ into the list $\texttt{L}$ we define
             three indices: 
             \begin{itemize}
-            \item \texttt{idx1} points to the next element of the first sublist stored in $\mathtt{A}$.
-            \item \texttt{idx2} points to the next element of the second sublist stored in $\mathtt{A}$.
-            \item \texttt{i} points to the position in the list $\mathtt{L}$ where we have to put the next
+            \item \texttt{idx1} points to the next element of the first sublist stored in $\texttt{A}$.
+            \item \texttt{idx2} points to the next element of the second sublist stored in $\texttt{A}$.
+            \item \texttt{i} points to the position in the list $\texttt{L}$ where we have to put the next
                        element.
             \end{itemize}
-      \item As long as neither the first nor the second sublist stored in $\mathtt{A}$ have been exhausted
+      \item As long as neither the first nor the second sublist stored in $\texttt{A}$ have been exhausted
             we compare in line 17 the elements from these sublists and then copy the smaller of these
-            two elements into the list $\mathtt{L}$ at position \texttt{i}.
-            In order to remove this element from the corresponding sublist in $\mathtt{A}$ we just need to
+            two elements into the list $\texttt{L}$ at position \texttt{i}.
+            In order to remove this element from the corresponding sublist in $\texttt{A}$ we just need to
             increment the corresponding index pointing to the beginning of this sublist.
       \item If one of the two sublists gets empty while the other sublist still has elements, then we have
-            to copy the remaining elements of the non-empty sublist into the list $\mathtt{L}$.
+            to copy the remaining elements of the non-empty sublist into the list $\texttt{L}$.
             The \texttt{while}-loop in line 24 covers the case that the second sublist is exhausted before 
             the first sublist, while the \texttt{while}-loop in line 25 covers the case that the first
             sublist is exhausted before the second sublist.
@@ -902,14 +908,14 @@ implementation.  Therefore, we present an iterative implementation of \blue{merg
 \ref{fig:merge-sort-nr.stlx} on page \pageref{fig:merge-sort-nr.stlx}.
 
 Instead of recursive calls of the function \texttt{mergeSort}, this implementation has two nested 
-\texttt{while}-loops.  The idea is to first split the list $\mathtt{L}$ into sublists of length 1.
+\texttt{while}-loops.  The idea is to first split the list $\texttt{L}$ into sublists of length 1.
 Obviously, these sublists are already sorted.  Next, we merge pairs of these lists into lists of
 length 2.  After that, we take pairs of lists of length 2 and merge them into sorted lists of length
 4. Proceeding in this way we generate sorted lists of length
-$8$, $16$, $\cdots$.  This algorithm only stops when the list $\mathtt{L}$ itself is sorted.
+$8$, $16$, $\cdots$.  This algorithm only stops when the list $\texttt{L}$ itself is sorted.
 
 The precise working of this implementation gets obvious if we formulate the invariants of the
-\texttt{while}-loops.  The invariant of the outer loop states that all sublists of $\mathtt{L}$ 
+\texttt{while}-loops.  The invariant of the outer loop states that all sublists of $\texttt{L}$ 
 that have the form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -931,8 +937,8 @@ while the second sublist is given as
 \texttt{L[n+1..2*n]}.
 \\[0.2cm]
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
-of $\mathtt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
-in line 10 is the minimum of $n\cdot(k+2)$ and $\mathtt{\#L}$.
+of $\texttt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
+in line 10 is the minimum of $n\cdot(k+2)$ and $\texttt{\#L}$.
 
 \subsection{Further Improvements of Merge Sort}
 The implementation given above can still be improved in a number of ways.  
@@ -1096,7 +1102,7 @@ comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we 
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
+$\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
 Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mathtt{R}$.
 In order to simplify the recurrence relation (1) we note that
@@ -1104,10 +1110,10 @@ In order to simplify the recurrence relation (1) we note that
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
- \displaystyle
+ \ds
  \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0 \\[0.2cm]
                     & = & a_0 + a_1 + \cdots + a_{n-1} + a_n \\[0.2cm]
-                    & = & \displaystyle \sum\limits_{i=0}^n a_i 
+                    & = & \ds \sum\limits_{i=0}^n a_i 
 \end{array}
 $
 \\[0.2cm]
@@ -1115,12 +1121,12 @@ holds for any sequence $(a_n)_{n\in\mathbb{N}}$.
 This observation can be used to simplify the recurrence relation (1) as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n+1} = n + \frac{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
+$\ds d_{n+1} = n + \frac{2}{n+1} \cdot \sum\limits_{i=0}^n d_i$. \hspace*{\fill} (2)
 \\[0.2cm] 
 In order to solve this recurrence relation we substitute $n \mapsto n-1$ and arrive at
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle d_{n} = n-1 + \frac{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
+$\ds d_{n} = n-1 + \frac{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
 \\[0.2cm]
 Next, we multiply equation (3) with $n$ and equation (2) with $n+1$.  This yields the equations
 \\[0.2cm]
@@ -1135,12 +1141,12 @@ We take the difference of  equation (5) and (4) and note that the summations can
 the term $2\cdot d_{n}$.  This leads to
 \\[0.2cm]
 \hspace*{1.3cm}
-$(n+1)\cdot d_{n+1} - n \cdot \displaystyle d_{n} = (n+1)\cdot n - n \cdot (n-1) + 2 \cdot d_{n}$.
+$(n+1)\cdot d_{n+1} - n \cdot \ds d_{n} = (n+1)\cdot n - n \cdot (n-1) + 2 \cdot d_{n}$.
 \\[0.2cm] 
 This equation can be simplified as
 \\[0.2cm]
 \hspace*{1.3cm}
-$(n+1)\cdot d_{n+1} = (n+2) \cdot \displaystyle d_{n} + 2 \cdot n$.
+$(n+1)\cdot d_{n+1} = (n+2) \cdot \ds d_{n} + 2 \cdot n$.
 \\[0.2cm] 
 In order to exhibit the true structure of this equation we divide by $(n+1) \cdot(n+2)$ and
 get 
@@ -1185,7 +1191,7 @@ $\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} - \frac{2}{n+1} + \fr
 In order to simplify this equation, let us define
 \\[0.2cm]
 \hspace*{1.3cm}
- $\displaystyle a_n = \frac{d_n}{n+1}$. 
+ $\ds a_n = \frac{d_n}{n+1}$. 
 \\[0.2cm] 
 Then the last equation is simplified to
 \\[0.2cm]
@@ -1201,25 +1207,25 @@ This equation can be rewritten as a sum.  Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{i}$.  
+$\ds a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{i}$.  
 \\[0.2cm]
 Let us simplify this sum:
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}{lcl}
- a_{n} & = & \displaystyle 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \displaystyle 4 \cdot \sum_{i=2}^{n+1} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \displaystyle 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 4 \cdot \sum_{i=1}^{n} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \displaystyle 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  \\[0.5cm]
-       & = & \displaystyle - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
+ a_{n} & = & \ds 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \ds 4 \cdot \sum_{i=2}^{n+1} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 4 \cdot \sum_{i=1}^{n} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
+       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  \\[0.5cm]
+       & = & \ds - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
 \end{array}
 $
 \\[0.2cm]
 In order to finalize our computation we have to compute an approximation for the sum
 \\[0.2cm]
 \hspace*{1.3cm}
-$H_n = \displaystyle\sum\limits_{i=1}^{n}\frac{1}{i}$.
+$H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{i}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
 \href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}.
@@ -1227,7 +1233,7 @@ The number $H_n$ is known in mathematics as the $n$-th
 that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\displaystyle H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{n}\Bigr)$. 
+$\ds H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{n}\Bigr)$. 
 \\[0.2cm] 
 We discuss this approximation in the lecture on calculus after we have covered integration.  In the
 formula approximating the harmonic number $H_n$, $\gamma$ is the

@@ -34,14 +34,12 @@ merge := procedure(rw L, start, middle, end, rw A) {
 sort([5,3,8,9,1,7,0,2,6,4]);
 
 // code for testing
-
 demo := procedure() {
     L := [ rnd({1 .. 200}) : n in [1 .. 20] ];
     print("L = $L$");
     sort(l);
     print("L = $L$");
 };
-
 // n iterations for lists of length k
 testSort := procedure(n, k) {
     for (i in [1 .. n]) {
@@ -54,17 +52,13 @@ testSort := procedure(n, k) {
     }
     print("All tests successful!");
 };
-
 isOrdered := procedure(L) {
     for (i in [1 .. #L-1]) {
         assert(L[i] <= L[i+1], "test L[i] <= L[i+1] failed for i = $i$, L = $L$");
     }
 };
-
 sameElements := procedure(L, S) {
     assert(collect(L) == collect(S), "wrong elements");
 };
-
-// demo();
-
+demo();
 testSort(100, 20);
