@@ -921,10 +921,10 @@ that have the form
 \hspace*{1.3cm}
 \texttt{L[n*k+1..n*(k+1)]}
 \\[0.2cm]
-are already sorted.  It is the task of the outer while loop to build pairs of sublists of this kind
-and to merge them into a sublist of length $2 \cdot n$.
+are already sorted.  These sublists have a length of $n$.  It is the task of the outer while loop to build
+pairs of sublists of this kind and to merge them into a sublist of length $2 \cdot n$.
 
-In the expression $L[n \cdot k + 1, \cdots, n \cdot (k+1)]$ the variable $k$ denotes a natural
+In the expression $\texttt{L[n*k+1 .. n*(k+1)]}$ the variable $k$ denotes a natural
 number that is used to numerate the sublists.  The index $k$ of the first sublists is $0$ and
 therefore this sublists has the form
 \\[0.2cm]
@@ -972,10 +972,10 @@ Timsort uses some more tricks, but unfortunately we don't have the time to discu
 Originally, Tim Peters developed Timsort for the programming language \textsl{Python}.  Today,
 \blue{Timsort} is also part of the \textsl{Java} library, the source code is available online at
 \\[0.2cm]
-\hspace*{1.3cm}
-\href{http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/jdk7-b76/src/share/classes/java/util/TimSort.java}{\texttt{http://hg.openjdk.java.net/jdk7/jdk7/jdk/file/jdk7-b76/\\
-\hspace*{2.5cm}
-    src/share/classes/java/util/TimSort.java}}
+\hspace*{0.3cm}
+\href{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/ComparableTimSort.java}{\texttt{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/\\
+\hspace*{1.5cm}
+    src/java.base/share/classes/java/util/ComparableTimSort.java}}
 \\[0.2cm]
 Timsort is also used on the Android platform.
 
