@@ -1089,9 +1089,13 @@ already sorted.
 
 \subsubsection{Average Complexity}
 By this time you probably wonder why the algorithm has been called \blue{quicksort} since, in the worst case,
-it is much slower as \blue{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
-comparisons needed to sort a list of $n$ elements is $\Oh\bigl(n \cdot \log_2(n)\bigr)$. We prove
-this claim next.  Let us first note the following: If $\mathtt{L}$ is a list of $n+1$ elements, then the number of elements of the 
+it is much slower as \blue{merge sort}.  To understand what is really going on, we define
+\\[0.2cm]
+\hspace*{1.3cm}
+$d_n$ \texttt{:=} \underline{avera}g\underline{e} number of comparisons to sort a list $L$ of $n$ elements via quicksort.
+\\[0.2cm]
+We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note the following: If $\mathtt{L}$
+is a list of $n+1$ elements, then the number of elements of the  
 list $\mathtt{S}$ that are smaller than or equal to the pivot element $\mathtt{x}$ is a member of the set 
 $\{0,1,2,\cdots,n\}$.  If the length of $\mathtt{S}$ is $i$ and the length of $\mathtt{L}$ is $n+1$, then the length
 of the list $\mathtt{B}$ of those elements, that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\#\mathtt{S} = i$, then on average we need
@@ -1154,6 +1158,16 @@ get
 \hspace*{1.3cm}
 $\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$. \hspace*{\fill} (6) 
 \\[0.2cm]
+In order to simplify this equation, let us define
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds a_n = \frac{d_n}{n+1}$. 
+\\[0.2cm] 
+Substituting this into equation $(6)$ yields
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds a_{n+1} = a_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$.  \hspace*{\fill} (7)
+\\[0.2cm]
 We proceed by computing the 
 \href{http://en.wikipedia.org/wiki/Partial_fraction}{partial fraction decomposition}
 of the fraction
@@ -1178,8 +1192,8 @@ $2\cdot n = (\alpha + \beta) \cdot n + 2 \cdot \alpha  + \beta$.
 \\[0.2cm]
 Since this has to hold for every $n \in \mathbb{N}$ we must have:
 \begin{eqnarray*}
-  2 & = & \alpha + \beta \\
-  0 & = & 2 \cdot \alpha + \beta 
+  2 & = & \alpha + \beta, \\
+  0 & = & 2 \cdot \alpha + \beta.
 \end{eqnarray*}
 If we subtract the first equation from the second equation we arrive at
  $\alpha = -2$.  Substituting this into the first equation gives $\beta = 4$.
@@ -1188,12 +1202,7 @@ Hence, the equation (6) can be written as
 \hspace*{1.3cm}
 $\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} - \frac{2}{n+1} + \frac{4}{n+2}$.  
 \\[0.2cm]  
-In order to simplify this equation, let us define
-\\[0.2cm]
-\hspace*{1.3cm}
- $\ds a_n = \frac{d_n}{n+1}$. 
-\\[0.2cm] 
-Then the last equation is simplified to
+Then equation (7) is simplified to
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds a_{n+1} = a_{n} - \frac{2}{n+1} + \frac{4}{n+2}$.
@@ -1207,25 +1216,25 @@ This equation can be rewritten as a sum.  Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{i}$.  
+$\ds a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{\,i\,}$.  
 \\[0.2cm]
 Let us simplify this sum:
 \\[0.2cm]
 \hspace*{1.3cm}
 $
 \begin{array}{lcl}
- a_{n} & = & \ds 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \ds 4 \cdot \sum_{i=2}^{n+1} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 4 \cdot \sum_{i=1}^{n} \frac{1}{i} - 2 \cdot \sum_{i=1}^n \frac{1}{i} \\[0.5cm]
-       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  \\[0.5cm]
-       & = & \ds - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{i}  
+ a_{n} & = & \ds 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{\,i\,} \\[0.5cm]
+       & = & \ds 4 \cdot \sum_{i=2}^{n+1} \frac{1}{\,i\,} - 2 \cdot \sum_{i=1}^n \frac{1}{\,i\,} \\[0.5cm]
+       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 4 \cdot \sum_{i=1}^{n} \frac{1}{\,i\,} - 2 \cdot \sum_{i=1}^n \frac{1}{\,i\,} \\[0.5cm]
+       & = & \ds 4 \cdot \frac{1}{n+1} - 4 \cdot \frac{1}{1} + 2 \cdot \sum_{i=1}^{n} \frac{1}{\,i\,}  \\[0.5cm]
+       & = & \ds - \frac{4 \cdot n}{n+1}  + 2 \cdot \sum_{i=1}^{n} \frac{1}{\,i\,}  
 \end{array}
 $
 \\[0.2cm]
 In order to finalize our computation we have to compute an approximation for the sum
 \\[0.2cm]
 \hspace*{1.3cm}
-$H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{i}$.
+$H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{\,i\,}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
 \href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}.
@@ -1233,10 +1242,9 @@ The number $H_n$ is known in mathematics as the $n$-th
 that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{n}\Bigr)$. 
+$\ds H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{\,n\,}\Bigr)$. 
 \\[0.2cm] 
-We discuss this approximation in the lecture on calculus after we have covered integration.  In the
-formula approximating the harmonic number $H_n$, $\gamma$ is the
+In the formula approximating the harmonic number $H_n$, $\gamma$ is the
 \href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the 
 value
 \\[0.2cm]
