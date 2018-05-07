@@ -979,9 +979,9 @@ Originally, Tim Peters developed Timsort for the programming language \textsl{Py
 \\[0.2cm]
 Timsort is also used on the Android platform.
 
-\section{Quick Sort}
+\section{\href{http://en.wikipedia.org/wiki/Quicksort}{Quicksort}}
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
-\href{http://en.wikipedia.org/wiki/Quicksort}{quick sort}  
+\blue{quicksort}  
 algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
@@ -1025,12 +1025,12 @@ be implemented in \textsc{SetlX}.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{The \blue{quick sort} algorithm.}
+  \caption{The \blue{quicksort} algorithm.}
   \label{fig:quick-sort.stlx}
 \end{figure}
 
 \subsection{Complexity}
-Next, we investigate the computational complexity of \blue{quick sort}.
+Next, we investigate the computational complexity of \blue{quicksort}.
 Our goal is to compute the number of comparisons that are needed when
 $\mathtt{sort}(\mathtt{L})$ is computed for a list $\mathtt{L}$ of length $n$.  In order to compute this number we
 first investigate how many comparisons are needed in order to partition the list $\mathtt{R}$
@@ -1045,7 +1045,7 @@ Therefore, we need $n$ comparisons to compute $\mathtt{S}$ and $\mathtt{B}$.  Si
 $\mathtt{B}$ are computed independently, the implementation given above 
 would really need $2 \cdot n$ comparisons.  However, a moments thought reveals that we can compute $\mathtt{S}$ and $\mathtt{B}$
 with just $n$ comparisons if the two lists are computed simultaneously.
-Next, we investigate the worst case complexity of quick sort.
+Next, we investigate the worst case complexity of quicksort.
 
 \subsubsection{Worst Case Complexity}
 Let us denote the number of comparisons needed to evaluate $\mathtt{sort}(\mathtt{L})$ for a list $\mathtt{L}$ of
@@ -1083,12 +1083,12 @@ $
 $
 \\[0.2cm]
 This shows that in the worst case, the number of comparisons is as big as it is in the worst case of 
-\blue{insertion sort}.  However, with quick sort the worst case occurs if we try to sort a list $\mathtt{L}$ that is
+\blue{insertion sort}.  However, with quicksort the worst case occurs if we try to sort a list $\mathtt{L}$ that is
 already sorted. 
 
 
 \subsubsection{Average Complexity}
-By this time you probably wonder why the algorithm has been called \blue{quick sort} since, in the worst case,
+By this time you probably wonder why the algorithm has been called \blue{quicksort} since, in the worst case,
 it is much slower as \blue{merge sort}.  The reason is that the \underline{avera}g\underline{e} number $d_n$ of 
 comparisons needed to sort a list of $n$ elements is $\Oh\bigl(n \cdot \log_2(n)\bigr)$. We prove
 this claim next.  Let us first note the following: If $\mathtt{L}$ is a list of $n+1$ elements, then the number of elements of the 
@@ -1259,15 +1259,15 @@ We have seen previously that \blue{merge sort} needs
 \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
 comparisons in order to sort a list of $n$ elements.  Since we have $\ln(n) = \ln(2) \cdot \log_2(n)$
-we conclude that the average case of \blue{quick sort} needs
+we conclude that the average case of \blue{quicksort} needs
  \\[0.2cm]
 \hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
-comparisons and hence on average \blue{quick sort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
+comparisons and hence on average \blue{quicksort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
 \blue{merge sort}.  
 
 
-\subsection{Implementing \blue{Quick Sort} for Arrays}
-Next, we show how \blue{quick sort}  is implemented using arrays instead of lists.  Figure
+\subsection{Implementing \blue{Quicksort} for Arrays}
+Next, we show how \blue{quicksort}  is implemented using arrays instead of lists.  Figure
 \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows this implementation. 
 
 \begin{figure}[!ht]
@@ -1308,13 +1308,13 @@ Next, we show how \blue{quick sort}  is implemented using arrays instead of list
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{An implementation of \blue{quick sort} based on arrays.}
+  \caption{An implementation of \blue{quicksort} based on arrays.}
   \label{fig:quick-sort-array.stlx}
 \end{figure}
 
 \begin{enumerate}
 \item Contrary to the array based implementation of \blue{merge sort}, we do not need an auxiliary
-      array.  This is one of the main advantages of \blue{quick sort} over \blue{merge sort}.
+      array.  This is one of the main advantages of \blue{quicksort} over \blue{merge sort}.
 \item The function $\mathtt{sort}$ is reduced to a call of $\mathtt{quickSort}$.  This function
       takes the parameters $\mathtt{a}$, $\mathtt{b}$, and $\mathtt{L}$.  
       \begin{enumerate}
@@ -1339,7 +1339,7 @@ Next, we show how \blue{quick sort}  is implemented using arrays instead of list
       are stored at indexes that are smaller than the index $\mathtt{m}$, while the remaining elements will 
       be stored at indexes that are bigger than $\mathtt{m}$.  The pivot element itself will be stored at the
       index $\mathtt{m}$. 
-\item The difficult part of the implementation of \blue{quick sort} is the implementation of the
+\item The difficult part of the implementation of \blue{quicksort} is the implementation of the
       function $\mathtt{partition}$ that is shown beginning in line 12.
       The \texttt{for} loop in line 15 satisfies the following invariants.
       \begin{enumerate}
@@ -1379,8 +1379,8 @@ Next, we show how \blue{quick sort}  is implemented using arrays instead of list
 \end{enumerate}
 
 
-\subsection{Improvements for \blue{Quick Sort}}
-There are a number of tricks that can be used to increase the efficiency of \blue{quick sort}.
+\subsection{Improvements for \blue{Quicksort}}
+There are a number of tricks that can be used to increase the efficiency of \blue{quicksort}.
 \begin{enumerate}
 \item Instead of taking the first element as the pivot element, use three elements from the list
       $\mathtt{L}$ that is to be sorted.  For example, take the first element, the last element, and an
@@ -1394,7 +1394,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 
       The paper ``\blue{Engineering a Sort Function}'' by Jon L.~Bentley and M.~Douglas McIlroy
       \cite{bentley:93} describes the previous two improvements.
-\item In order to be sure that the average case analysis of \blue{quick sort} holds we can randomly
+\item In order to be sure that the average case analysis of \blue{quicksort} holds we can randomly
       \blue{shuffle} the list $L$ that is to be sorted.  This approach is advocated by Sedgewick
       \cite{sedgewick:2011}.  In \textsc{SetlX} this is quite easy as
       there is a predefined function \texttt{shuffle} that takes a list and shuffles it randomly.
@@ -1407,7 +1407,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{[1, 9, 8, 5, 2, 10, 6, 3, 4, 7]}.
-\item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quick sort} \cite{yaroslavskiy:2009}.  His paper can be
+\item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quicksort} \cite{yaroslavskiy:2009}.  His paper can be
       downloaded at the following address:
       \\[0.2cm]
       \hspace*{-0.3cm}
@@ -1429,12 +1429,12 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \item The third part contains those elements that are bigger than $y$.
       \end{enumerate}
       Figure \ref{fig:dual-pivot-quick-sort.stlx} on page \pageref{fig:dual-pivot-quick-sort.stlx}
-      shows a simple list based implementation of \blue{dual pivot quick sort}.
+      shows a simple list based implementation of \blue{dual pivot quicksort}.
 
 
 
-      Various studies have shown that, on average, \blue{dual pivot quick sort} is faster than any other sorting
-      algorithm.  For this reason, the version 1.7 of \textsl{Java} uses \blue{dual pivot quick sort}:
+      Various studies have shown that, on average, \blue{dual pivot quicksort} is faster than any other sorting
+      algorithm.  For this reason, the version 1.7 of \textsl{Java} uses \blue{dual pivot quicksort}:
       \\[0.2cm]
       \hspace*{0.3cm}
       \href{http://www.docjar.com/html/api/java/util/DualPivotQuicksort.java.html}{http://www.docjar.com/html/api/java/util/DualPivotQuicksort.java.html} 
@@ -1476,12 +1476,12 @@ There are a number of tricks that can be used to increase the efficiency of \blu
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-\caption{A list based implementation of \blue{dual pivot quick sort}.}
+\caption{A list based implementation of \blue{dual pivot quicksort}.}
 \label{fig:dual-pivot-quick-sort.stlx}
 \end{figure}
 
 \exercise
-Implement a version of \blue{dual pivot quick sort} that uses arrays instead of lists.
+Implement a version of \blue{dual pivot quicksort} that uses arrays instead of lists.
 
 
 \section[A Lower Bound]{A Lower Bound for the Number of Comparisons Needed to Sort a List}
