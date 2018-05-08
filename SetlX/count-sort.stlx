@@ -1,0 +1,43 @@
+countSort := procedure(Names, Marks, maxMark) {
+    assert(#Names == #Marks, "$#Names$ != $#Marks$");
+    Counts      := [0] * (maxMark + 1);
+    SortedNames := [0] * #Names;
+    SortedMarks := [0] * #Marks;
+    for (i in [1 .. #Marks]) {
+        Counts[Marks[i]+1] += 1;
+    }
+    for (mark in [2 .. maxMark]) {
+        Counts[mark] += Counts[mark-1];
+    }
+    for (i in [1 .. #Marks]) {
+        index := Counts[Marks[i]] + 1;
+        SortedNames[index] := Names[i];
+        SortedMarks[index] := Marks[i];
+        Counts[Marks[i]]   += 1;
+    }
+    return [SortedNames, SortedMarks];
+};
+main := procedure() {
+    Lines := readFile("data.txt");
+    Names := [];
+    Marks := [];
+    for (i in [1 .. #Lines]) {
+        [Names[i], Marks[i]] := split(Lines[i], ",");
+        Marks[i] := int(Marks[i]);
+    }
+    Names := fillNames(Names);
+    for (i in [1 .. #Lines]) {
+        print("$Names[i]$: $Marks[i]$");
+    }
+    print("\nSorted List:");
+    [SortedNames, SortedMarks] := countSort(Names, Marks, 4);
+    for (i in [1 .. #Lines]) {
+        print("$SortedNames[i]$: $SortedMarks[i]$");
+    }
+};
+fillNames := procedure(Names) {
+    maxLength := max([#s : s in Names]);
+    return [s + " " * (maxLength + 1 - #s) : s in Names];
+};
+
+main();
