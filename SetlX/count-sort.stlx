@@ -1,19 +1,28 @@
-countSort := procedure(Names, Marks, maxMark) {
+// Names is a list of strings of the same length as Marks, while marks is a list of numbers.
+// These numbers are associated with the names.  Initially, Names is sorted alphabetically.
+// This procedure returns a pair of lists of the form
+//         [SortedNames, SortedMarks]
+// sucht that the pairs are sorted with respect to the numbers in marks.  The sublists of
+// Names with the same mark are still sorted alphabetically.
+countSort := procedure(Names, Marks) {
     assert(#Names == #Marks, "$#Names$ != $#Marks$");
-    Counts      := [0] * (maxMark + 1);
+    maxMark     := max(Marks);
+    Counts      := [0] * maxMark;
+    Indices     := [0] * maxMark;
     SortedNames := [0] * #Names;
     SortedMarks := [0] * #Marks;
     for (i in [1 .. #Marks]) {
-        Counts[Marks[i]+1] += 1;
+        Counts[Marks[i]] += 1;
     }
+    Indices[1] := 1;
     for (mark in [2 .. maxMark]) {
-        Counts[mark] += Counts[mark-1];
+        Indices[mark] := Indices[mark-1] + Counts[mark-1];
     }
     for (i in [1 .. #Marks]) {
-        index := Counts[Marks[i]] + 1;
+        index := Indices[Marks[i]];
         SortedNames[index] := Names[i];
         SortedMarks[index] := Marks[i];
-        Counts[Marks[i]]   += 1;
+        Indices[Marks[i]]  += 1;
     }
     return [SortedNames, SortedMarks];
 };
@@ -30,7 +39,7 @@ main := procedure() {
         print("$Names[i]$: $Marks[i]$");
     }
     print("\nSorted List:");
-    [SortedNames, SortedMarks] := countSort(Names, Marks, 4);
+    [SortedNames, SortedMarks] := countSort(Names, Marks);
     for (i in [1 .. #Lines]) {
         print("$SortedNames[i]$: $SortedMarks[i]$");
     }
