@@ -15,6 +15,7 @@ quickSort := procedure(a, b, rw l) {
 };
 
 // partition the sublist l[start, end] using l[start] as a pivot element
+// This is the algorithm suggested by C.A.R. Hoare.
 partition := procedure(start, end, rw l) {
     pivot := l[start];
     left  := start + 1;

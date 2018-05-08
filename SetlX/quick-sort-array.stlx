@@ -16,6 +16,7 @@ quickSort := procedure(a, b, rw L) {
 // The for-loop maintains the following invariants:
 // (a) forall i in {start  .. left } : L[i] <= pivot
 // (b) forall i in {left+1 .. idx-1} : pivot < L[i]
+// This is the algorithm of Nico Lomuto.
 partition := procedure(start, end, rw L) {
     pivot := L[end];
     left  := start - 1;
