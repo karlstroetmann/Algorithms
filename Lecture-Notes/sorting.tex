@@ -1603,6 +1603,259 @@ $k \geq n \cdot \log_2(n) + \Theta(n)$.
 As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
 we have shown that this algorithm is optimal with respect to the number of comparisons.
 
+\section{\href{https://en.wikipedia.org/wiki/Counting_sort}{Counting Sort}}
+In the last section of this chapter we introduce a sorting algorithm that has only a linear complexity.  According
+to the result of the previous section this algorithm does not work by comparing the elements of the list that
+is to be sorted.  Rather, this algorithm exploits the fact that the keys used for sorting are natural
+numbers.  We explain counting sort with the help of an example.  Table \ref{tab:marks} on page
+\pageref{tab:marks} shows a table showing students and their grades. 
+As it stands, the names of the students are ordered alphabetically.  However, the teacher would like to sort
+the list of students according to their grades.  Within a group of students that have achieved the same grade,
+the students should still be ordered alphabetically.  Table \ref{tab:marks-sorted} on page \pageref{tab:marks-sorted}
+shows the table that has been sorted accordingly.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    Student   & Grade \\
+    \hline
+    \hline
+    Alexander & 4 \\
+    \hline
+    Benjamin  & 2 \\
+    \hline
+    Daniel    & 3 \\
+    \hline
+    David     & 3 \\
+    \hline
+    Elijah    & 2 \\
+    \hline
+    Gabriel   & 1 \\
+    \hline
+    Henry     & 2 \\
+    \hline
+    Jacob     & 5 \\
+    \hline
+    James     & 3 \\
+    \hline
+    Joseph    & 2 \\
+    \hline
+    Liam      & 2 \\
+    \hline
+    Logan     & 3 \\
+    \hline
+    Lucas     & 1 \\
+    \hline
+    Mason     & 2 \\
+    \hline
+    Matthew   & 5 \\
+    \hline
+    Michael   & 3 \\
+    \hline
+    Noah      & 4 \\
+    \hline
+    Oliver    & 2 \\
+    \hline
+    Owen      & 4 \\
+    \hline
+    Samuel    & 3 \\
+    \hline
+    Sebastian & 2 \\
+    \hline
+    William   & 1 \\
+    \hline
+  \end{tabular}
+  \caption{Students and their grades, sorted alphabetically.}
+  \label{tab:marks}
+\end{table}
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    Student   & Grade \\
+    \hline
+    \hline
+    Gabriel   & 1 \\
+    \hline
+    Lucas     & 1 \\
+    \hline
+    William   & 1 \\
+    \hline
+    Benjamin  & 2 \\
+    \hline
+    Elijah    & 2 \\
+    \hline
+    Henry     & 2 \\
+    \hline
+    Joseph    & 2 \\
+    \hline
+    Liam      & 2 \\
+    \hline
+    Mason     & 2 \\
+    \hline
+    Oliver    & 2 \\
+    \hline
+    Sebastian & 2 \\
+    \hline
+    Daniel    & 3 \\
+    \hline
+    David     & 3 \\
+    \hline
+    James     & 3 \\
+    \hline
+    Logan     & 3 \\
+    \hline
+    Michael   & 3 \\
+    \hline
+    Samuel    & 3 \\
+    \hline
+    Alexander & 4 \\
+    \hline
+    Noah      & 4 \\
+    \hline
+    Owen      & 4 \\
+    \hline
+    Jacob     & 5 \\
+    \hline
+    Matthew   & 5 \\
+    \hline
+  \end{tabular}
+  \caption{Students and their grades, sorted with respect to the grade.}
+  \label{tab:marks-sorted}
+\end{table}
+We proceed to describe an algorithm that is capable of sorting the Table \ref{tab:marks} into the table
+\ref{tab:marks-sorted}.  The algorithm works in three stages.
+\begin{enumerate}
+\item The first stage is the \blue{counting stage}.  In this stage we count the number of students
+      that have a specific grades.  In the example from Table \ref{tab:marks} we find the following:
+      \begin{enumerate}[(a)]
+      \item 3 students have grade 1.
+      \item 8 students have grade 2.
+      \item 6 students have grade 3.
+      \item 3 students have grade 4.
+      \item 2 students have grade 5.
+      \end{enumerate}
+\item The second stage is the \blue{indexing stage}.   From the previous stage we know that the sorted
+      list $\texttt{L}$ that is returned must have the following outline.
+      \begin{enumerate}[(a)]
+      \item The sublist $\texttt{L[1..3]}$ contains the students with grade 1.
+      \item The sublist $\texttt{L[4..11]}$ contains the students with grade 2.
+      \item The sublist $\texttt{L[12..17]}$ contains the students with grade 3.
+      \item The sublist $\texttt{L[18..20]}$ contains the students with grade 4.
+      \item The sublist $\texttt{L[21..22]}$ contains the students with grade 5.
+      \end{enumerate}
+      The indexing stage computes the \blue{starting indices} of these sublists.
+      Of course,  the first sublist has to start at the index $1$.  Since there are 3 students with a grade of 1,
+      the second sublist starts at the index $1 + 3 = 4$.  Since there are 8 students with a grade of 2, the third
+      sublist starts at the index $1 + 3 + 8 = 12$.  In general, if the sublist for the students with grade $g$
+      starts at index $i_g$ and there are $n_g$ students that have achieved the grade $g$, then the sublist for the
+      students with grade $g+1$ starts at index $i_{g+1}$ where
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds i_{g+1} = i_g + n_g$.
+\item The \blue{distribution stage} iterates over the list of students and inserts them into the sublists
+      corresponding to the grades of the students.
+\end{enumerate}
+Figure \ref{fig:counting-sort.stlx} on page \pageref{fig:counting-sort.stlx} shows an implementation of
+counting sort.  We proceed to discuss this algorithm line by line.
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    countingSort := procedure(Names, Grades) {
+        assert(#Names == #Grades, "$#Names$ != $#Grades$");
+        maxGrade     := max(Grades);
+        Counts       := [0] * maxGrade;
+        Indices      := [];
+        SortedNames  := [];
+        SortedGrades := [];
+        for (g in Grades) {
+            Counts[g] += 1;
+        }
+        Indices[1] := 1;
+        for (g in [2 .. maxGrade]) {
+            Indices[g] := Indices[g-1] + Counts[g-1];
+        }
+        for (i in [1 .. #Names]) {
+            g     := Grades[i];
+            index := Indices[g];
+            SortedNames [index] := Names[i];
+            SortedGrades[index] := Grades[i];
+            Indices[g]          += 1;
+        }
+        return [SortedNames, SortedGrades];
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{An Implementation of \blue{counting sort}.}
+\label{fig:counting-sort.stlx}
+\end{figure}
+
+\begin{enumerate}
+\item The procedure \texttt{countingSort} receives two parameters:
+      \begin{enumerate}
+      \item \texttt{Names} is a list of the student names that is sorted alphabetically.
+      \item \texttt{Grades} is a list of the grades attached to the students.
+      \end{enumerate}
+      Of course, these lists are required to have the same number of elements.  This is checked in the
+      \texttt{assert} statement in line 2.
+\item In order for our routine to generalize to arbitrary grades, we need to compute the maximum of all grades
+      and store it the variable \texttt{maxGrade}.  Of course, in the example discussed so far we know that the biggest
+      grade is $5$.  However, in general the grades can be any numbers and the procedure \texttt{countingSort}
+      is able to sort the \texttt{Names} according to these grades.  
+\item Next, we initialize the auxiliary array \texttt{Count} to be an array of length \texttt{maxGrade}.
+      Later, for a grade $g$ the number $\texttt{Counts}[g]$ will contain the number of students that have
+      attained the grade $g$.  Initially, all entries of the array \texttt{Count} are set to $0$.
+\item After the indexing stage, the array \texttt{Indices} will contain the start indices of the different sublists.
+      For a grade $g$, $\texttt{Indices}[g]$ is the first index of the sublist containing those students that
+      have achieved the grade $g$.
+\item The array \texttt{SortedNames} and \texttt{SortedGrades} are the two lists that will be returned as the
+      result.  \texttt{SortedNames} will contain the names of the students sorted by their grades, while
+      \texttt{SortedGrades} will contain the corresponding grades. 
+\item The \texttt{for}-loop in line 8 performs the \blue{counting stage}.  We iterate over all grades $g$ in
+      \texttt{Grades} and increment the counter $\texttt{Counts}[g]$ associated with the grade $g$.
+\item Next, the index for the start of the sublist containing those students that have achieved the grade $1$
+      is initialized as $1$ in line 11. 
+\item Then, the \texttt{for}-loop in line 12 performs the \blue{indexing stage}. As the number $\texttt{Indices}[g-1]$
+      is the index of the start of the sublist for those students that have grade $g-1$ and the number of these
+      students is $\texttt{Counts}[g-1]$, the sublist of the students with grade $g$ has to start at 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{Indices}[g-1] + \texttt{Counts}[g-1]$.
+\item Finally, the \texttt{for}-loop in line 15 performs the \blue{distribution stage}.
+      \begin{enumerate}
+      \item Conceptually, the \texttt{for}-loop iterates over all students. The index $i$ refers to the $i$-th
+            student in the original list.
+      \item Next, we need to find where to put the $i$-th student.  To this end we first look up the
+            grade $g = \texttt{Grades}[i]$ of this student.  Then, $\texttt{Indices}[g]$ gives us
+            the \texttt{index} of the next free entry in the result list \texttt{SortedNames} corresponding to grade $g$.
+      \item In line 17 and 18 the student and his grade are stored in the result lists \texttt{SortedNames}
+            and \texttt{SortedGrades} at the computed \texttt{index}.
+      \item Finally, we need to increment the index stored at $\texttt{Indices}[g]$ since we have just used
+            this index and therefore the next student with the grade $g$ needs to stored at the subsequent location.
+            This is done in line 20.
+      \end{enumerate}
+\item The procedure \texttt{countingSort} returns a pair of lists.
+      \begin{enumerate}
+      \item The first list is the list of students sorted with respect to their grades.
+      \item The second list is the list of the corresponding grades.
+      \end{enumerate}
+\end{enumerate}
+If the list \texttt{Names} has a length of $n$ and the biggest grade is some fixed constant $c$, then it is easy to
+see that counting sort has the complexity $\Oh(n)$.  The reason is that the first \texttt{for}-loop is iterated
+$n$ times, the second \texttt{for}-loop is iterated just $c$ times and the lust \texttt{for}-loop is again
+iterated $n$ times.  Hence, counting sort is a linear sorting algorithm.  Note that we do not use any
+comparisons in this algorithm.
 
 %%% Local Variables: 
 %%% mode: latex
