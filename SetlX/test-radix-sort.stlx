@@ -1,0 +1,48 @@
+load("radix-sort.stlx");
+
+demo := procedure() {
+    l := [ rnd(2**32-1) : n in [1 .. 18] ];
+    print("l = $l$");
+    s := sort(l);
+    print("s = $s$");
+};
+
+// n iterations for lists of length k
+testSort := procedure(n, k) {
+    for (i in [1 .. n]) {
+        L := [ rnd(2**32-1) : x in [1 .. k] ];
+        S := sort(L);
+        isOrdered(S);
+        sameElements(S, L);
+        print(".");
+    }
+    print("All tests successful!");
+};
+
+isOrdered := procedure(L) {
+    for (i in [1 .. #L-1]) {
+        assert(L[i] <= L[i+1], "test L[i] <= L[i+1] failed for i = $i$, L = $L$");
+    }
+};
+
+sameElements := procedure(L, S) {
+    for (x in L) {
+        assert(count(x, L) == count(x, S), "wrong count");
+    }
+    assert(#L == #S, "wrong size");
+};
+
+count := procedure(x, L) {
+    match (L) {
+        case []   : return 0;
+        case [y|R]: if (x == y) {
+                        return 1 + count(x, R);
+                    }
+                    return count(x, R);
+    }
+};
+
+demo();
+
+testSort(100, 20);
+

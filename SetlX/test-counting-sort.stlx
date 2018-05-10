@@ -1,0 +1,26 @@
+load("counting-sort.stlx");
+
+main := procedure() {
+    Lines := readFile("counting-sort-data.txt");
+    Names := [];
+    Grades := [];
+    for (i in [1 .. #Lines]) {
+        [Names[i], Grades[i]] := split(Lines[i], ",");
+        Grades[i] := int(Grades[i]);
+    }
+    Names := fillNames(Names);
+    for (i in [1 .. #Lines]) {
+        print("$Names[i]$: $Grades[i]$");
+    }
+    print("\nSorted List:");
+    [SortedNames, SortedGrades] := countingSort(Names, Grades);
+    for (i in [1 .. #Lines]) {
+        print("$SortedNames[i]$: $SortedGrades[i]$");
+    }
+};
+fillNames := procedure(Names) {
+    maxLength := max([#s : s in Names]);
+    return [s + " " * (maxLength + 1 - #s) : s in Names];
+};
+
+main();
