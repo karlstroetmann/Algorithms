@@ -28,7 +28,7 @@ countingSort := procedure(Names, Grades) {
     return [SortedNames, SortedGrades];
 };
 main := procedure() {
-    Lines := readFile("data.txt");
+    Lines := readFile("counting-sort-data.txt");
     Names := [];
     Grades := [];
     for (i in [1 .. #Lines]) {
