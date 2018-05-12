@@ -6,7 +6,7 @@ extractByte := [x, k] |-> (x \ 256 ** (k-1)) % 256;
 // Sort a list L of 32 bit integers.
 radixSort := procedure(L) {
     for (k in [1..4]) {
-        Grades := [extractByte(x, k) : x in L];
+        Grades := [extractByte(x, k) + 1 : x in L];
         L := countingSort(L, Grades);
     }
     return L;

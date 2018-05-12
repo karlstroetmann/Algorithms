@@ -1857,6 +1857,106 @@ $n$ times, the second \texttt{for}-loop is iterated just $c$ times and the lust 
 iterated $n$ times.  Hence, counting sort is a linear sorting algorithm.  Note that we do not use any
 comparisons in this algorithm.
 
+Another important fact is that counting sort is \blue{stable}: In the resulting list, the sublists
+corresponding to the different grades are still sorted alphabetically.  This is so because these sublists are
+filled by iterating over the original list that is sorted alphabetically.  If two students $x$ and $y$ have the
+same grade $g$ but the name of $x$ is alphabetically before the name of $y$, then $x$ will be inserted into the
+sublist corresponding grade $g$ before $y$ and hence these sublists are ordered alphabetically.  This property
+is crucial for the development of our next sorting algorithm \blue{radix sort}.
+
+\section{\href{https://en.wikipedia.org/wiki/Radix_sort}{Radix Sort}}
+The importance of the previous sorting algorithm, counting sort, stems from the fact that it is part of the
+implementation of \blue{radix sort}.  Radix sort was used as early as 1887 in
+\href{https://en.wikipedia.org/wiki/Tabulating_machine}{tabulating machines} constructed by
+\href{https://en.wikipedia.org/wiki/Herman_Hollerith}{Hermann Hollerith}.  He was the founder of
+the \blue{Tabulating Machine Company} that later became \href{https://en.wikipedia.org/wiki/IBM}{\textsc{Ibm}}.
+To understand radix sort, suppose we want to implement an algorithm that sorts a large number of 32 bit
+unsigned integers.  The easiest way to do this would be to use counting sort:  In that case the names of the
+students would be unimportant and could be filled with an arbitrary string.  However, since the grades could then
+have a maximum value of 
+\\[0.2cm]
+\hspace*{1.3cm}
+$2^{32} - 1 = 4,294,967,295$,
+\\[0.2cm]
+the lists \texttt{Counts} and \texttt{Indices} that we have used in the function \texttt{countingSort} would
+become huge and would use 16 gigabyte.   This size is prohibitive.  The main idea of radix sort is to split the
+32 bit numbers into four chunks of 8 bits each and to use each of these four chunks as a grade.  To formulate this
+mathematically, a 32 bit unsigned integer $x$ is decomposed into its four bytes as follows:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds x = b_4 \cdot 256^{3} + b_3 \cdot 256^{2} + b_2 \cdot 256^{1} + b_1$.
+\\[0.2cm]
+Note that have  numbered the bytes starting from the the least significant byte.
+Then, radix sort works as follows:
+\begin{enumerate}
+\item Sort the numbers by interpreting the byte $b_1$ as a grade.
+\item Take the numbers that have been sorted by the byte $b_1$ and sort them by the byte $b_2$ next.
+      Since counting sort is \blue{stable}, numbers which happen to have the same byte $b_2$ will still be
+      sorted with respect to by the byte $b_1$.  Hence, after the sorting with respect to the byte $b_2$ is
+      complete, in effect the numbers will then be sorted according to both $b_2$ and $b_1$.
+\item Next, use counting sort to sort the numbers with respect to the byte $b_3$.
+\item Finally, use counting sort to sort the numbers with respect to the byte $b_4$.  By the stability of
+      counting sort, the numbers are now sorted with respect to all of their byte, where $b_4$ is the most
+      significant byte and $b_1$ is the least significant byte. Hence, the numbers are sorted. 
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                  ]
+    load("counting-sort.stlx");
+    
+    extractByte := [x, k] |-> (x \ 256 ** (k-1)) % 256; 
+    
+    radixSort := procedure(L) {
+        for (k in [1..4]) {
+            Grades := [extractByte(x, k) + 1: x in L];
+            L := countingSort(L, Grades);
+        }
+        return L;
+    };                  
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{An implementation of \blue{radix sort} for sorting unsigned 32 integers.}
+\label{fig:radix-sort.stlx}
+\end{figure}
+Figure \ref{fig:radix-sort.stlx} on page \pageref{fig:radix-sort.stlx} shows an implementation of radix
+sort that implements these ideas.
+\begin{enumerate}
+\item The function \texttt{extractByte} is called with two arguments:
+      \begin{enumerate}[(a)]
+      \item $x$ is supposed to be an unsigned 32 bit number.  With respect to the programming language
+            \textsc{SetlX} this just means that $x$ is a integer satisfying $0 \leq x < 2^{32}$.
+      \item $k$ is the index of the byte that is to be extracted.  It is supposed that the least significant
+            byte has the index $1$.
+      \end{enumerate}
+      Hence, $\texttt{extractByte}(x, k)$ extracts the $k$-th byte of the number $x$.
+
+      \texttt{extractByte} works by shifting the number $x$ by $(k-1) \cdot 8$ bits to the left using an
+      integer division.  Then, the least significant byte of the resulting number is extracted using the modulus
+      operator. 
+\item \texttt{radixSort} takes a list of unsigned 32 bit integers $L$ as its arguments.
+\item It iterates over the four bytes of these numbers starting with the least significant byte.
+\item In order to be able to interpret a byte as a grade we have to add 1 to it, since counting sort
+      assumes that the lowest grade is $1$.  The reason is that grades are used as array indices and in
+      \textsc{SetlX} list indices start at index $1$.
+\item With respect to counting sort,  the elements of the list given to counting sort as its first argument are
+      just arbitrary objects.  Therefore, it does not matter whether the first argument to the function
+      \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.  This list
+      is sorted with respect to the second argument, the nature of the elements of this list is
+      irrelevant.  Therefore, in line 8 the list $L$ is sorted with respect to the $k$-th byte. 
+\item When $L$ is returned, this list is sorted with respect to all of the four bytes making up its numbers and
+      hence, it is sorted.
+\end{enumerate}
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"
