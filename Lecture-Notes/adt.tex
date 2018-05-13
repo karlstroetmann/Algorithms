@@ -1,17 +1,19 @@
-\chapter{Abstract Data Types}
-In the same way as the notion of an \emph{algorithm} abstracts from the details of a concrete
-implementation of this algorithm, the notion of an \blue{abstract data type} abstracts from concrete data
-structures.  The notion enables us to separate algorithms from the data
+\chapter{\href{https://en.wikipedia.org/wiki/Abstract_data_type}{Abstract Data Types}}
+In the same way as the notion of an \blue{algorithm} abstracts from the details of a concrete
+implementation of this algorithm, the notion of an \blue{abstract data type} abstracts from the implementiation
+details of concrete data structures.  Therefore, this notion enables us to separate algorithms from the data
 structures used in these algorithms.  The next section gives a formal definition of
-``\emph{abstract data types}''.  As an example, we introduce the abstract data type of \blue{stacks}.
+abstract data types.  As an example, we introduce the abstract data type of \blue{stacks}.
 The second section shows how abstract data types are supported in \textsc{SetlX}.  Finally, we show how stacks can be used
-to evaluate \blue{arithmetic expressions}.
+to evaluate \blue{arithmetic expressions}.  Abstract data types were proposed by Barbara Liskov and Stephen
+Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main ingredients of
+\blue{object oriented programming}.  The other ingredient is \blue{inheritance}.
 
 \section[Formal Definition]{A Formal Definition of Abstract Data Types}
-Formally, an \blue{abstract data type} $\mathcal{D}$ is defined as a 5-tupel of the form
+We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of the form
 \\[0.2cm]
 \hspace*{1.3cm}
- $\mathcal{D} = \langle N, P, Fs, Ts, Ax \rangle$.
+ $\mathcal{D} = \langle N, P, Fs, Ts, Ax \rangle$,
 \\[0.2cm] 
 where the meaning of the components is as follows:
 \begin{enumerate}
@@ -52,75 +54,76 @@ where the meaning of the components is as follows:
       specify the behaviour of the abstract data type and are therefore called
       the \blue{axioms} of $\mathcal{D}$.
 \end{enumerate}
-The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{Adt}.
+The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{\blue{Adt}}.
 
 Next, we provide a simple example of an abstract data type, the \blue{stack}.
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a canteen.  Usually, the clean plates are placed on top of each other
-and only the plate on top is accessible.  Formally, we define the data type \textsl{Stack} as follows:
+and only the plate on top is accessible.  Formally, we define the data type \texttt{Stack} as follows:
 \begin{enumerate}
-\item The name of the data type is \textsl{Stack}.
-\item The set of type parameters is $\{ \textsl{Element} \}$.
+\item The name of the data type is \texttt{Stack}.
+\item The set of type parameters is $\{ \texttt{Element} \}$.
 \item The set of function symbols is \\[0.2cm]
       \hspace*{1.3cm} 
-      $\bigl\{ \textsl{Stack}, \textsl{push}, \textsl{pop}, \textsl{top}, \textsl{isEmpty} \bigr\}$.
+      $\bigl\{ \texttt{stack}, \texttt{push}, \texttt{pop}, \texttt{top}, \texttt{isEmpty} \bigr\}$.
 \item The type specifications of these function symbols are given as follows:
       \begin{enumerate}
-      \item $\textsl{stack}: \textsl{Stack}$
+      \item $\texttt{stack}: \texttt{Stack}$
 
-            The function $\textsl{stack}$ takes no arguments and produces an empty stack.
-            Therefore, this function is a constructor.  Intuitively, the function call $\textsl{stack}()$ 
+            The function $\texttt{stack}$ takes no arguments and produces an empty stack.
+            Therefore, this function is a constructor.  Intuitively, the function call $\texttt{stack}()$ 
             creates an empty stack.
-      \item $\textsl{push}: \textsl{Stack} \times \textsl{Element} \rightarrow \textsl{Stack}$
+      \item $\texttt{push}: \texttt{Stack} \times \texttt{Element} \rightarrow \texttt{Stack}$
 
-            The function call $\textsl{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
-            the following, we will use an object oriented notation and write 
-            $S.\textsl{push}(x)$, instead of $\textsl{push}(S,x)$.
-      \item $\textsl{pop}: \textsl{Stack}  \rightarrow \textsl{Stack}$
+            The function call $\texttt{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
+            the following, we will use \blue{object oriented notation} and write 
+            $S.\texttt{push}(x)$ instead of $\texttt{push}(S,x)$.
+      \item $\texttt{pop}: \texttt{Stack}  \rightarrow \texttt{Stack}$
 
-            The function call $S.\textsl{pop}()$ removes the first element from the stack $S$.
-      \item $\textsl{top}: \textsl{Stack} \rightarrow \textsl{Element}$
+            The function call $S.\texttt{pop}()$ removes the topmost element from the stack $S$.
+      \item $\texttt{top}: \texttt{Stack} \rightarrow \texttt{Element}$
 
-            The function call $S.\textsl{top}()$ returns the element that is on top of the stack $S$. 
-      \item $\textsl{isEmpty}: \textsl{Stack} \rightarrow \mathbb{B}$
+            The function call $S.\texttt{top}()$ returns the element that is on top of the stack $S$. 
+            The stack $S$ is left unchanged.
+     \item $\texttt{isEmpty}: \texttt{Stack} \rightarrow \mathbb{B}$
 
-            The function call $S.\textsl{isEmpty}()$ checks whether the stack $S$ is empty.
+            The function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty.
       \end{enumerate}
 \end{enumerate}
 The intuition that we have of a stack is captured by the following axioms.
 \begin{enumerate}
-\item $\textsl{stack}().\textsl{top}() = \Omega$
+\item $\texttt{stack}().\texttt{top}() = \Omega$
 
       Here, $\Omega$ denotes the undefined value\footnote{
        Some philosophers are concerned that it is not possible to define an undefined value.
        They argue that if an undefined value could be defined, it would be no longer undefined
        and hence it can not be defined.  However, that is precisely the point of the undefined 
        value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.  
-      The expression $\textsl{stack}()$
+      The expression $\texttt{stack}()$
       creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
       element on top of the empty stack.
-\item $S.\textsl{push}(x).\textsl{top}() = x$
+\item $S.\texttt{push}(x).\texttt{top}() = x$
 
       If we have a stack $S$ and then push an element $x$ on top of $S$, then the element on top
       of the resulting stack is, obviously, $x$.
-\item $\textsl{stack}().\textsl{pop}() = \Omega$
+\item $\texttt{stack}().\texttt{pop}() = \Omega$
 
       Trying to remove an element from the empty stack yields an undefined result.
-\item $S.\textsl{push}(x).\textsl{pop}() = S$
+\item $S.\texttt{push}(x).\texttt{pop}() = S$
 
       If we have a stack $S$, then push an element $x$ of top of $S$, and finally remove the element
-      on top of the resulting stack, then we are back at our stack $S$.
+      on top of the resulting stack, then we are back at the original stack $S$.
     
-\item $\textsl{stack}().\textsl{isEmpty}() = \mathtt{true}$
+\item $\texttt{stack}().\texttt{isEmpty}() = \mathtt{true}$
 
-      This axiom expresses the fact that the stack created by the function call $\textsl{stack}()$
+      This axiom expresses the fact that the stack created by the function call $\texttt{stack}()$
       is empty.
-\item $S.\textsl{push}(x).\textsl{isEmpty}() = \mathtt{false}$
+\item $S.\texttt{push}(x).\texttt{isEmpty}() = \mathtt{false}$
 
       If we push an element $x$ on top of a stack $S$, then the resulting stack cannot be empty.
 \end{enumerate}
-When contemplating the axioms given above we can recognize some structure.  If we denote the
+When contemplating the axioms given above, we can recognize some structure.  If we denote the
 functions \texttt{stack} and \texttt{push} as \blue{generators},  then the axioms specify the
 behaviour of the remaining functions on the stacks created by the generators.
 
@@ -132,14 +135,14 @@ later see how,  using three stacks, arithmetic expressions can be evaluated.
 
 \section[Implementation]{Implementing Abstract Data Types in \textsc{SetlX}}
 In an object oriented programming language, abstract data types are conveniently implemented via a
-class.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
+\blue{class}.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
 is to create an interface describing the signatures of the abstract data type and then to implement
 the abstract data type as a class.  Instead of an interface, we can also use an abstract class
 to describe the signatures.  In an untyped language like \textsc{SetlX} there is no way to
 neatly capture the signatures.  Therefore, the implementation of an abstract data type in
 \textsc{SetlX} merely consists of a class.
-At this point we note that classes are discussed in depth in chapter 7 of the \textsc{SetlX} 
-\href{http://wwwlehre.dhbw-stuttgart.de/~stroetma/SetlX/tutorial.pdf}{tutorial}.  If the reader
+At this point we note that classes are discussed in depth in Chapter 10 of the \textsc{SetlX} 
+\href{http://download.randoom.org/setlX/tutorial.pdf}{tutorial}.  If the reader
 hasn't encountered classes in \textsc{SetlX}, she is advised to consult this chapter before reading
 any further. 
 
@@ -327,6 +330,12 @@ discussed next.
             Otherwise we get the top element of the stack using the method \texttt{top()} and remove
             it using \texttt{pop()}.  Next, the remaining stack is converted to a string in
             line 30 and finally the element \texttt{top} is appended to this string.
+
+            At this point it is \textbf{important} to notes that in functions and methods, objects are passed
+            by \blue{value} not by \blue{reference}!  If the argument $s$ had been passed to the function
+            by reference, then the original stack $s$ would effectively by emptied since we pop it until it
+            is empty.  However, this is not what happens when convert is executed because \texttt{convert} is
+            actually called with a \blue{copy} of the stack $s$.
       \item The method \texttt{f\_str} creates a line of dashes in line 21.
             This line has the same length as the string produced by \texttt{convert}.
             The result of \texttt{convert} is then decorated with these dashes.
@@ -351,7 +360,8 @@ parsing arithmetic expressions.
 An \blue{arithmetic expression} is a string that is made up of numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
 ``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the
-modulus operator and $x\;\texttt{**}\;y$ denotes the power $x^y$.    Furthermore, arithmetic expressions can use
+remainder of the integer division of $x$ by $y$.  The expression $x\;\texttt{**}\;y$ denotes the power of $x$
+to the $y$, i.e. it is the same as $x^y$.    Furthermore, arithmetic expressions can use
 the parentheses ``\texttt{(}'' and ``\texttt{)}''.
   
 Formally, the set of arithmetic expressions is defined by induction.
@@ -366,7 +376,7 @@ Formally, the set of arithmetic expressions is defined by induction.
       are arithmetic expressions.
 \item If $s$ is an arithmetic expression, then $(s)$ is an arithmetic expression.
 \end{enumerate}
-If we have been given a string that is an arithmetic expression, then in order to evaluate this
+If we have been given a string that is an arithmetic expression, then in order to \blue{evaluate} this
 arithmetic expression we need to know the precedence and the associativity of the operators.
 In mathematics the operators ``\texttt{*}'', ``\texttt{/}'' and ``\texttt{\symbol{37}}'' have a
 higher precedence than the operators ``\texttt{+}'' and ``\texttt{-}''.  Furthermore, the operator
