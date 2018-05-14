@@ -515,27 +515,29 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
 The algorithm introduced in the last example is known as the 
 \href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.
-It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} in 1961.
-We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
+It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
+1961.  We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
 that are needed for this algorithm.
 \begin{enumerate}
 \item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
-      represented as strings, while the numbers are represented as rational numbers.
-\item \texttt{mArguments} is a stack of rational numbers.  
-\item \texttt{mOperators} is the operator stack containing arithmetic operators.  These operators
+      represented as strings, while the numbers are represented as rational numbers.  Hence, \texttt{mTokens}
+      represents the \blue{token stack}.
+\item \texttt{mArguments} is a stack of rational numbers.  Therefore, \texttt{mArguments} represents the
+      \blue{argument stack}.
+\item \texttt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
       are represented as strings.
 \end{enumerate}
-Considering the previous example we realize that the numbers are always put onto the argument stack,
-while there are two cases for operator symbols that are removed from the token stack:
+Considering the previous example we realize that the numbers appearing in the input tokens are always put onto the argument stack,
+while there are two cases for the operator symbols that are part of the input tokens:
 \begin{enumerate}
-\item We have to put the operator onto the operator stack in all of the following cases:
+\item We have to put an operator retrieved from the token stack onto the operator stack in all of the following cases:
       \begin{enumerate}
       \item The operator stack is empty.
       \item The operator on top of the operator stack is an opening parenthesis \texttt{\symbol{34}(\symbol{34}}. 
-      \item The operator has a higher precedence than the operator that is currently on top of the
+      \item The operator from the token stack has a higher precedence than the operator that is currently on top of the
             operator stack.
-      \item The operator is the same as the operator that is on top of the operator stack and, furthermore,
-            the operator associates to the right.
+      \item The operator from the token stack is the same operator as the operator that is on top of the operator stack and, furthermore,
+            this operator associates to the right.
       \end{enumerate}
 \item In all other cases, the operator that has been taken from the token stack is put back onto the
       token stack.  In this case, the operator on top of the operator stack is removed from the
