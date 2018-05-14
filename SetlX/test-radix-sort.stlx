@@ -3,7 +3,7 @@ load("radix-sort.stlx");
 demo := procedure() {
     l := [ rnd(2**32-1) : n in [1 .. 18] ];
     print("l = $l$");
-    s := sort(l);
+    s := radixSort(l);
     print("s = $s$");
 };
 
@@ -11,7 +11,7 @@ demo := procedure() {
 testSort := procedure(n, k) {
     for (i in [1 .. n]) {
         L := [ rnd(2**32-1) : x in [1 .. k] ];
-        S := sort(L);
+        S := radixSort(L);
         isOrdered(S);
         sameElements(S, L);
         print(".");

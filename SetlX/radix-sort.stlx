@@ -7,7 +7,7 @@ extractByte := [x, k] |-> (x \ 256 ** (k-1)) % 256;
 radixSort := procedure(L) {
     for (k in [1..4]) {
         Grades := [extractByte(x, k) + 1 : x in L];
-        L := countingSort(L, Grades);
+        L := countingSort(L, Grades)[1];
     }
     return L;
 };

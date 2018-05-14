@@ -578,7 +578,7 @@ while there are two cases for the operator symbols that are part of the input to
                 stackOp := mOperators.top();
                 if (stackOp == "(" && nextOp == ")") {
                     mOperators.pop();
-                } else if (nextOp == ")" || evalBefore(stackOp, nextOp))
+                } else if (nextOp == ")" || evalBefore(stackOp, nextOp)) {
                     popAndEvaluate();
                     mTokenStack.push(nextOp);
                 } else {
