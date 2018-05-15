@@ -1,11 +1,11 @@
 \chapter{Sets and Maps}
-During the first term we have seen how important sets and functional relations are.  In the
-following, \emph{functional relations} will be called \emph{maps}.  In computer science, maps are also
-known as \href{https://en.wikipedia.org/wiki/Associative_array}{\emph{associative arrays}}, 
-\emph{dictionaries}, or \emph{symbol tables}.
+During the first term we have seen how important \blue{sets} and \blue{functional relations} are.  In the
+following, functional relations will be called \blue{maps}.  In computer science, maps are also
+known as \href{https://en.wikipedia.org/wiki/Associative_array}{\blue{associative arrays}}, 
+\blue{dictionaries}, or \blue{symbol tables}.
 In this chapter we show how sets and
 maps can be implemented efficiently.  We confine our attention to the implementation of maps.  The
-reason is that a set $M$ can always be represented by its \emph{characteristic function}:  If $M$ is
+reason is that a set $M$ can always be represented by its \blue{characteristic function}:  If $M$ is
 a set, then the characteristic function $\chi_M$ is defined such that
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -14,41 +14,41 @@ $x \in M \Leftrightarrow \chi_M(x) = \mathtt{true}$
 holds true.  In order to implement a set $M$ we can therefore implement its characteristic function
 as a map.  The rest of this chapter is organized as follows:
 \begin{enumerate}
-\item We begin with the definition of the abstract data type of a \emph{map}.
+\item We begin with the definition of the abstract data type of a \blue{map}.
     
       Following this definition we present several different implementations of maps. 
-\item We start our discussion with \emph{ordered binary trees}.  These trees can be used to implement maps,
+\item We start our discussion with \blue{ordered binary trees}.  These trees can be used to implement maps,
       provided the keys are ordered.        The average complexity of inserting
       an element into an ordered binary tree is logarithmic.  Unfortunately, the worst case complexity
-      is linear in the size of the ordered binary tree.
-\item Next, we discuss \emph{balanced ordered trees}.  In the case of balanced ordered trees the
-      complexity of insertion is always logarithmic.
-\item After that, we discuss so called \emph{tries}.  These can be used as maps if the keys to be
+      is linear in the number of the entries.
+\item Next, we discuss \blue{balanced ordered trees}.  In the case of balanced ordered trees the
+      complexity of insertion is guaranteed to be logarithmic.
+\item After that, we discuss so called \blue{tries}.  These can be used as maps if the keys to be
       stored in the map are strings.
-\item Finally, we discuss \textsl{hash tables}.  Hash tables provide another way to implement a map.
+\item Finally, we discuss \blue{hash tables}.  Hash tables provide another way to implement a map.
       Although I personally think that hash tables are a bit overrated, they are in wide spread use
       and therefore every computer scientist should have a good understanding of their inner workings.
 \end{enumerate}
 
-\section[ADT Map]{The Abstract Data Type \emph{Map}} 
-Many applications require the efficient maintenance of some mapping of \emph{keys} to
-\emph{values}.  For example, in order to implement a software analogue of a telephone book we have to
-be able to associate numbers with names.  In this case, the name of a person is regarded as a
-\emph{key} and the telephone number is the value that gets associated with the key.
+\section[ADT Map]{The Abstract Data Type \blue{Map}} 
+Many applications require the efficient maintenance of some mapping of \blue{keys} to
+\blue{values}.  For example, in order to implement a software analogue of a telephone book we have to
+be able to associate the numbers with the names.  In this case, the name of a person is regarded as a
+\blue{key} and the telephone number is the \blue{value} that gets associated with the key.
 The most important functions provided by a telephone directory are the following:
 \begin{enumerate}
-\item \textsl{Lookup}: We have to be able to look up a given name and return the telephone number
+\item \blue{Lookup}: We have to be able to look up a given name and return the telephone number
       associated with this name.
-\item \textsl{Insertion}: We need to be able to insert a new name and the corresponding telephone
+\item \blue{Insertion}: We need to be able to insert a new name and the corresponding telephone
       number into our directory.
-\item \textsl{Deletion}: The final requirement is that it has to be possible to delete names from
+\item \blue{Deletion}: The final requirement is that it has to be possible to delete names from
       the directory.
 \end{enumerate}
 
 
 \begin{Definition}[Map] \hspace*{\fill} \\
 {\em
-  The abstract data type of a \emph{map} is defined as follows:
+  The abstract data type of a \blue{map} is defined as follows:
   \begin{enumerate}
   \item The name is \textsl{Map}.
   \item The set of type parameters is $\{ \textsl{Key}, \textsl{Value} \}$.
@@ -125,8 +125,8 @@ The most important functions provided by a telephone directory are the following
 \end{Definition}
 
 In \textsc{SetlX} it is very easy to implement the abstract data type  \textsl{map}.  We just have
-to realize that a map is the same thing as a function and we have already seen that functions can
-be interpreted as binary relations.
+to realize that a map is the same thing as a function and we have already seen in the first term that functions
+can be interpreted as binary relations.
 Now if $r$ is a binary relation that, for a given key $k$,  contains exactly one pair of the form
 $[k,v]$, then the expression
 \\[0.1cm]
@@ -173,16 +173,16 @@ Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along thes
 If the set \textsl{Key} is linearly ordered, i.e.~if there exists a binary relation
 $\leq \,\subseteq\,\textsl{Key}\times\textsl{Key}$ such that the pair $\langle \textsl{Key}, \leq \rangle$ is a linear
 order, then the abstract data type \textsl{Map} can be implemented via  
-\href{https://en.wikipedia.org/wiki/Binary_search_tree}{\emph{ordered binary trees}} also known as
-\colorbox{orange}{\emph{binary search trees}}. 
+\href{https://en.wikipedia.org/wiki/Binary_search_tree}{\blue{ordered binary trees}} also known as
+\colorbox{orange}{\blue{binary search trees}}. 
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
 \begin{enumerate}
-\item The average case complexity of the lookup operation is logarithmic.
-\item The worst case complexity of the lookup operation is linear.  
+\item The average case complexity of the lookup operation is \blue{logarithmic}.
+\item The worst case complexity of the lookup operation is \blue{linear}.  
 \end{enumerate}
-In order to define \emph{ordered binary trees} we introduce
-\colorbox{orange}{\emph{binary trees}} first.
+In order to define \blue{ordered binary trees} we introduce
+\colorbox{orange}{\blue{binary trees}} first.
 
 \begin{Definition}[Binary Trees] \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
@@ -194,26 +194,26 @@ In order to define \emph{ordered binary trees} we introduce
   \begin{enumerate}
   \item $\textsl{Nil}$ is a binary tree.
 
-        This tree is called the \emph{empty tree} since it does not store any information.
+        This tree is called the \blue{empty tree} since it does not store any information.
   \item $\textsl{Node}(k, v, l, r)$ is a binary tree if the following holds true: 
         \begin{enumerate}
         \item $k$ is a key from the set $\textsl{Key}$.
         \item $v$ is a value from the set $\textsl{Value}$.
         \item $l$ is a binary tree.
 
-              $l$ is the  \colorbox{orange}{\emph{left subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
+              $l$ is the  \colorbox{orange}{\blue{left subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
         \item $r$ is a binary tree.
 
-              $r$ is the \colorbox{orange}{\emph{right subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
+              $r$ is the \colorbox{orange}{\blue{right subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
               \eox
         \end{enumerate}
   \end{enumerate}
 \end{Definition}
 
 \noindent
-Next, we define the notion of an  \colorbox{orange}{\emph{ordered binary tree}}.
+Next, we define the notion of an  \colorbox{orange}{\blue{ordered binary tree}}.
 \begin{Definition}[Ordered Binary Tree] \hspace*{\fill} \\
-  The set $\Bin_<$ of all \emph{ordered binary trees} is defined inductively.
+  The set $\Bin_<$ of all \blue{ordered binary trees} is defined inductively.
   \begin{enumerate}
   \item $\textsl{Nil} \in \Bin_<$
   \item $\textsl{Node}(k, v, l, r) \in \Bin_<$ \quad iff the following conditions hold:
@@ -224,7 +224,7 @@ Next, we define the notion of an  \colorbox{orange}{\emph{ordered binary tree}}.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
-        The last two conditions are known as the \colorbox{orange}{\emph{ordering conditions}}.
+        The last two conditions are known as the \colorbox{orange}{\blue{ordering conditions}}.
         \eox
   \end{enumerate}
 \end{Definition}
@@ -234,15 +234,15 @@ Graphically, ordered binary trees are depicted as follows:
 \item A binary tree of the form $\textsl{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
       both are separated by a horizontal line.  This oval is then called a
-      \colorbox{orange}{\emph{node}} of the binary tree. 
+      \colorbox{orange}{\blue{node}} of the binary tree. 
       The left subtree $l$ of the node is depicted both to the left and  below the node,
       while the right subtree $r$ is depicted both to the right and below the node.  Both the left
       and the right subtree are connected to the node with an arrow that points from the node to the
       subtree.
 \end{enumerate}
 Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
-node that has the key $8$ and the value $22$ is called the \colorbox{orange}{\emph{root}} of the binary tree.
-A \colorbox{orange}{\emph{path of length}} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
+node that has the key $8$ and the value $22$ is called the \colorbox{orange}{\blue{root}} of the binary tree.
+A \colorbox{orange}{\blue{path of length}} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
 \\[0.1cm]
 \hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.1cm]

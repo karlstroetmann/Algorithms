@@ -1508,7 +1508,7 @@ use at least
 \hspace*{1.3cm}
  $\Omega\bigl(n \cdot \log_2(n)\bigr)$ 
 \\[0.2cm]
-comparisons.  The important caveat here is that the sorting algorithm is restricted to not make any assumptions
+comparisons.  The important caveat here is that the sorting algorithm is not permitted to make any assumptions
 on the elements of the list $L$ that is to be sorted.  The only operation that is allowed on these
 elements is the use of the comparison operator ``\texttt{<}''.  Furthermore, to simplify matters let
 us assume that all elements of the list $L$ are distinct.
@@ -1526,7 +1526,7 @@ In order to sort this list, one comparison is sufficient:
 If the list $L$ that is to be sorted has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-$L = [a_1,a_2,a_3]$ 
+$L = [a_1,a_2,a_3]$,
 \\[0.2cm]
 then there are 6 possibilities to arrange these elements:
 \\[0.2cm]
@@ -1538,9 +1538,8 @@ $[a_2,a_3,a_1]$, \quad
 $[a_3,a_1,a_2]$, \quad
 $[a_3,a_2,a_1]$. 
 \\[0.2cm]
-Now we need at least three comparisons, since with two comparisons we could at most choose between
-four different possibilities.
-In general, there are 
+Therefore, we need at least three comparisons, since with two comparisons we could at most choose between
+four different possibilities.  In general, there are 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds n! = 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=1}^n i$ 
@@ -1548,11 +1547,11 @@ $\ds n! = 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=
 different permutations of a list of $n$ different elements. 
 We prove this claim by induction. 
 \begin{enumerate}
-\item $n=1$:  
+\item[B.C.:] $n=1$:  
 
       There is only $1$ way to arrange one element in a list.  As $1 = 1!$ the claim ist proven
       in this case.
-\item $n \mapsto n+1$:
+\item[I.S.:] $n \mapsto n+1$:
   
       If we have $n+1$ different elements and want to arrange these elements in a list, then there
       are $n+1$ possibilities for the first element.  In each of these cases the induction
@@ -1919,7 +1918,7 @@ Then, radix sort works as follows:
     radixSort := procedure(L) {
         for (k in [1..4]) {
             Grades := [extractByte(x, k) + 1: x in L];
-            L := countingSort(L, Grades);
+            L := countingSort(L, Grades)[1];
         }
         return L;
     };                  
