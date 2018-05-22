@@ -1,5 +1,5 @@
 // return the ascii code of the char c
-ord := procedure(c) {
+ord := cachedProcedure(c) {
     return arb({ n : n in [ 1 .. 127 ] | c == char(n) });
 };
 

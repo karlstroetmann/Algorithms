@@ -5,8 +5,8 @@ $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
 called an \href{https://en.wikipedia.org/wiki/AVL_tree}{AVL tree} \cite{adelson:62}.  AVL trees are 
 named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
-and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis}.  In order to define these 
-trees we need to define the \blue{height} of a binary tree formally:
+(1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).  
+In order to define these trees we need to define the \blue{height} of a binary tree formally:
 \begin{enumerate}
 \item $\mathtt{Nil}.\mathtt{height}() = 0$.
 \item $\mathtt{Node}(k,v,l,r).\mathtt{height}() = 
@@ -56,9 +56,9 @@ The method $\mathtt{restore}$ is specified via conditional equations.
 
       because the empty tree already is an  AVL tree.
 \item $|l.\mathtt{height}() - r.\mathtt{height}()| \leq 1 \rightarrow 
-       \mathtt{Node}(k,v,l,r).\mathtt{restore}() = \mathtt{Node}(k,v,l,r)$,
+       \mathtt{Node}(k,v,l,r).\mathtt{restore}() = \mathtt{Node}(k,v,l,r)$.
 
-      because if the balancing condition is already satisfied, then nothing needs to be done. 
+      If the balancing condition is satisfied, then nothing needs to be done. 
 \item $\begin{array}[t]{cl}
               & l_1.\mathtt{height}() = r_1.\mathtt{height}() + 2    \\ 
        \wedge & l_1 = \mathtt{Node}(k_2,v_2,l_2,r_2)                 \\
@@ -101,7 +101,8 @@ The method $\mathtt{restore}$ is specified via conditional equations.
       We have to make sure that the tree shown in the right part of Figure
       \ref{fig:casell} is indeed an  AVL tree. With respect to the balancing condition this is
       easily verified.  The fact that the node containing the key $k_1$ has either the height
-      $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ and that  $h' \in \{h, h-1\}$.
+      $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ while the height of $r_2$ is
+      $h'$ and we know that $h' \in \{h, h-1\}$.
 
       In order to verify that the tree is ordered we can use the following inequation: 
       \\[0.2cm]
@@ -208,7 +209,7 @@ The equations for  $\mathtt{delMin}()$ change as follows:
        $\mathtt{Node}(k, v, l, r).\mathtt{delMin}() = 
         \langle \mathtt{Node}(k, v, l', r).\mathtt{restore}(), k_{min}, v_{min} \rangle$.
 \end{enumerate}
-Then, the equations for $\mathtt{delete}$ are as follows:
+Finally, the equations for $\mathtt{delete}$ are as follows:
 \begin{enumerate}
 \item $\mathtt{Nil}.\mathtt{delete}(k) = \mathtt{Nil}$.
 \item $\mathtt{Node}(k,v,\mathtt{Nil},r).\mathtt{delete}(k) = r$.
@@ -577,9 +578,14 @@ what the worst case actually looks like.  Back when we only had ordered binary t
 the tree had degenerated into a list.  Now, the worst case is the case where the tree is as slim as
 it can possibly be while still satisfying the definition of an AVL tree.  Hence the worst case
 happens if the tree has a given height $h$ but the number of keys stored in the tree is as small as
-possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL tree that has height
-$h$ and whose number of keys is minimal among all other AVL trees of given  height $h$.  Furthermore,
-we demand that all keys stored in  $b_h(k)$ are bigger than  $k$.  For our investigation of the
+possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL tree that has the following three
+properties:
+\begin{enumerate}
+\item The height of $b_h(k)$ is $h$.
+\item The number of keys in $b_h(k)$ is minimal among all other AVL trees of height $h$.  
+\item All keys stored in  $b_h(k)$ are bigger than  $k$.  
+\end{enumerate}
+For our investigation of the
 complexity, both the keys and the values do not really matter.  The only problem is that we have to
 make sure that the tree $b_h(k)$ that we are going to construct in a moment is actually an ordered
 tree and for this reason we insist that all keys in $b_h(k)$ are bigger than $k$.  We will use

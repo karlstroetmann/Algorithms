@@ -48,7 +48,7 @@ The most important functions provided by a telephone directory are the following
 
 \begin{Definition}[Map] \hspace*{\fill} \\
 {\em
-  The abstract data type of a \blue{map} is defined as follows:
+  The abstract data type of a \blue{Map} is defined as follows:
   \begin{enumerate}
   \item The name is \textsl{Map}.
   \item The set of type parameters is $\{ \textsl{Key}, \textsl{Value} \}$.
@@ -174,7 +174,7 @@ If the set \textsl{Key} is linearly ordered, i.e.~if there exists a binary relat
 $\leq \,\subseteq\,\textsl{Key}\times\textsl{Key}$ such that the pair $\langle \textsl{Key}, \leq \rangle$ is a linear
 order, then the abstract data type \textsl{Map} can be implemented via  
 \href{https://en.wikipedia.org/wiki/Binary_search_tree}{\blue{ordered binary trees}} also known as
-\colorbox{orange}{\blue{binary search trees}}. 
+\blue{binary search trees}. 
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
 \begin{enumerate}
@@ -182,7 +182,7 @@ characteristics:
 \item The worst case complexity of the lookup operation is \blue{linear}.  
 \end{enumerate}
 In order to define \blue{ordered binary trees} we introduce
-\colorbox{orange}{\blue{binary trees}} first.
+\blue{binary trees} first.
 
 \begin{Definition}[Binary Trees] \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
@@ -657,7 +657,7 @@ ordering looks something like the following:
 \hspace*{1.3cm}
 $k_0 < k_1 < \cdots < k_{i-1} < k_{i} < k_{i+1} < \cdots < k_{n-1} < k_n$.
 \\[0.2cm]
-Here are $n+1$ positions for the key $k'$.
+Here, there are $n+1$ positions for the key $k'$.
 If we have $k' = k_i$, then the left subtree of $b$ contains  $i$ keys while the right subtree
 contains the remaining  $n-i$ keys:
 \\[0.2cm]

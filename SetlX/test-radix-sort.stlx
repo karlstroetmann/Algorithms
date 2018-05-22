@@ -44,5 +44,5 @@ count := procedure(x, L) {
 
 demo();
 
-testSort(100, 20);
+testSort(10, 200);
 
