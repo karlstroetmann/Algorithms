@@ -201,17 +201,17 @@ In order to define \blue{ordered binary trees} we introduce
         \item $v$ is a value from the set $\textsl{Value}$.
         \item $l$ is a binary tree.
 
-              $l$ is the  \colorbox{orange}{\blue{left subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
+              $l$ is the  \blue{left subtree} of the tree $\textsl{Node}(k, v, l, r)$.
         \item $r$ is a binary tree.
 
-              $r$ is the \colorbox{orange}{\blue{right subtree}} of the tree $\textsl{Node}(k, v, l, r)$.
+              $r$ is the \blue{right subtree} of the tree $\textsl{Node}(k, v, l, r)$.
               \eox
         \end{enumerate}
   \end{enumerate}
 \end{Definition}
 
 \noindent
-Next, we define the notion of an  \colorbox{orange}{\blue{ordered binary tree}}.
+Next, we define the notion of an  \blue{ordered binary tree}.
 \begin{Definition}[Ordered Binary Tree] \hspace*{\fill} \\
   The set $\Bin_<$ of all \blue{ordered binary trees} is defined inductively.
   \begin{enumerate}
@@ -224,7 +224,7 @@ Next, we define the notion of an  \colorbox{orange}{\blue{ordered binary tree}}.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
-        The last two conditions are known as the \colorbox{orange}{\blue{ordering conditions}}.
+        The last two conditions are known as the \blue{ordering conditions}.
         \eox
   \end{enumerate}
 \end{Definition}
@@ -234,15 +234,15 @@ Graphically, ordered binary trees are depicted as follows:
 \item A binary tree of the form $\textsl{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
       both are separated by a horizontal line.  This oval is then called a
-      \colorbox{orange}{\blue{node}} of the binary tree. 
+      \blue{node} of the binary tree. 
       The left subtree $l$ of the node is depicted both to the left and  below the node,
       while the right subtree $r$ is depicted both to the right and below the node.  Both the left
       and the right subtree are connected to the node with an arrow that points from the node to the
       subtree.
 \end{enumerate}
 Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
-node that has the key $8$ and the value $22$ is called the \colorbox{orange}{\blue{root}} of the binary tree.
-A \colorbox{orange}{\blue{path of length}} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
+node that has the key $8$ and the value $22$ is called the \blue{root} of the binary tree.
+A \blue{path of length} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
 \\[0.1cm]
 \hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.1cm]

@@ -899,8 +899,7 @@ According to \cite{cormen:09}, 2-3 trees have been invented by
 \section{Tries}
 Often, the keys of a map are strings.  For example, when you search with 
 \href{https://www.google.com}{\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}}, you are using
-a string as a key to lookup information that is stored in a gigantic map provided by 
-\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}.
+a string as a key to lookup information that is stored in a gigantic map provided by \blue{Google}.
 As another example, in an electronic phone book the keys are names and therefore strings.  
 There is a species of search trees that is particularly well adapted to the case that the keys are
 strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{tries}.  
@@ -994,7 +993,6 @@ depends on the parent of the node.  We will explain how this label is computed i
 The node itself has $n$ different children.  These $n$ children are the tries
 $t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labelled with the character $c_i$,
 i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
-\pagebreak
 
 In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
 mapping some strings to numbers.  The mapping depicted in this tree can be written as a functional
@@ -1414,7 +1412,6 @@ The implementation is shown in Figure \ref{fig:trie.stlx-isEmpty}.
 
 Finally, the implementation of $\mathtt{removeIthElement}$, which is shown in Figure
 \ref{fig:trie.stlx-removeIthElement}, is straightforward. 
-\pagebreak
 
 \exercise
 (\textbf{Binary Tries})  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
@@ -1948,13 +1945,13 @@ In this section, we have discussed hash tables only briefly.  The reason is that
 important in practice, a thorough treatment requires quite a lot of mathematics, see for example the
 third volume of Donald Knuth's ``The Art of Computer Programming'' \cite{knuth:1998b}.  For this
 reason, the design of a hash function is best left for experts.  In practice, hash tables are
-quite a bit faster than \textsl{AVL}-trees or \blue{red-black} trees.  However, this is only true if
+quite a bit faster than \blue{AVL}-trees or \blue{red-black} trees.  However, this is only true if
 the hash function that is used is able to spread the keys uniformly.  If this assumption is
 violated, the use of a hash table can lead to serious performance 
 bugs.  If, instead, a good
 implementation of red-black-trees is used, the program might be slower in general but is certain to
 be protected from the ugly surprises that can result from a poor hash function.  My advice for the reader
-therefore is to use hashing only if you are sure that your hash function is distributing the keys nicely.
+therefore is to use hashing only if you are sure that your hash function distributes the keys evenly.
 
 
 \section{Applications}
