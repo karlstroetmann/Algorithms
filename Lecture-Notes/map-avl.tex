@@ -922,7 +922,7 @@ strings.  In order to define tries formally we assume that the following is give
       \blue{alphabet}. 
 \item $\Sigma^*$ is the set of all \blue{strings} that are built from the characters of $\Sigma$.
       Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
-      if $c$ is the first letter of $w$ and if $r$ the string that remains if we remove the first
+      if $c$ is the first character of $w$ and if $r$ the string that remains if we remove the first
       character from $w$.
 \item $\varepsilon$ denotes the empty string.
 \item $\mathtt{Value}$ is the set of all the values that can be associated with the keys.  
@@ -946,6 +946,7 @@ then we have
 As there is only one clause in this definition, you might ask how this inductive definition gets started.
 The answer is that the base case of this inductive definition is the case where
 $n=0$ since in that case the lists  $C$ and $T$ are both empty.
+
 Next, we specify the function that is represented by a trie of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -956,8 +957,8 @@ In order to do so, we specify a function
 \hspace*{1.3cm} 
 $\mathtt{find}: \mathbb{T} \times \Sigma^* \rightarrow \mathtt{Value} \cup \{ \Omega\}$
 \\[0.2cm]
-that takes a trie and a string.  For a trie $t$, the expression $t.\mathtt{find}(s)$ returns the
-value that is associated with the string $s$ in the trie $t$.  The expression
+that takes a trie and a string.  For a trie $t$ and a string $s$, the expression $t.\mathtt{find}(s)$ returns the
+value that is associated with  $s$ in $t$.  The expression
 $\mathtt{Node}(v,C,T).\mathtt{find}(s)$ is defined by induction on the length of the  string $s$:
 \begin{enumerate}
 \item $\mathtt{Node}(v, C, T).\mathtt{find}(\varepsilon) = v$.
@@ -992,13 +993,13 @@ trees with the lists of characters corresponding to these nodes, we use a trick:
 visualize a node of the form \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
-we draw a circle.  This circle is split into two parts by a horizontal line.
+we draw a oval.  This oval is split into two parts by a horizontal line.
 If the value  $v$ that is stored in this node is different from $\Omega$, then the value $v$ is
-written in the lower part of the circle.  The label that we put in the upper half of the circle
+written in the lower part of the oval.  The label that we put in the upper half of the oval
 depends on the parent of the node.  We will explain how this label is computed in a moment.
 The node itself has $n$ different children.  These $n$ children are the tries
 $t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labelled with the character $c_i$,
-i.e.~the circle that represents this node carries the label $c_i$ in its upper half.
+i.e.~the oval that represents this node carries the label $c_i$ in its upper half.
 
 In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
 mapping some strings to numbers.  The mapping depicted in this tree can be written as a functional
@@ -1009,8 +1010,8 @@ relation:
 \hspace*{1.5cm} $\langle \textrm{``Schulze''},   6  \rangle, \langle \textrm{``Schnaut''},   7  \rangle, 
   \langle \textrm{``Schnupp''},   8  \rangle, 
   \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
-Since the node at the root has no parent, the upper half of  the circle representing the root is
-always empty.  In the example shown in Figure \ref{fig:trie}, the lower half of this circle is also empty
+Since the node at the root has no parent, the upper half of  the oval representing the root is
+always empty.  In the example shown in Figure \ref{fig:trie}, the lower half of this oval is also empty
 because the trie doesn't associate a value with the empty string.  In this example, the root node corresponds
 to the term  
 \\[0.2cm]
@@ -1040,7 +1041,7 @@ length of $w$.
 \item $\mathtt{Node}(v_1,L,T).\mathtt{insert}(\varepsilon, v_2) = \mathtt{Node}(v_2,L,T)$,
   
       If a new value $v_2$ is associated with the empty string $\varepsilon$, then the old value
-      $v_1$, that had been stored at the root before, is overwritten.
+      $v_1$, which had been stored at the root before, is overwritten.
 \item $\mathtt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\mathtt{insert}(c_ir,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\mathtt{Node}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\mathtt{insert}(r,v_2),\cdots,t_n]\bigr)$.
@@ -1350,7 +1351,7 @@ implementation of $\mathtt{find}$.
 \end{figure}
 
 The method $\mathtt{delete}$ takes a string and, provided there is a value associated with $s$, this
-value is deleted,
+value is deleted.
 \begin{enumerate}
 \item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
       In order to remove this value, the variable $\mathtt{mValue}$ is set to $\mathtt{om}$, which represents

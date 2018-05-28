@@ -11,7 +11,7 @@ class trieMap() {
             case [c|r]: for (i in [1 .. #mChars] | mChars[i] == c) {
                             return mTries[i].find(r);
                         }
-                        return;  // not found
+                        return;  // Omega, key not found
         }
     };
     insert := procedure(s, v) {
