@@ -66,8 +66,8 @@ class trieMap() {
   }
 }
 
-removeIthElement := procedure(l, i) {
-    return l[1 .. i-1] + l[i+1 .. #l];
+removeIthElement := procedure(L, i) {
+    return L[.. i-1] + L[i+1 ..];
 };
   
 demo := procedure() {

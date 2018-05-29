@@ -1454,7 +1454,7 @@ with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the
 \item $\mathtt{Bin}(v,l,r).\mathtt{find}(0) = v$,
 
       because $0$ is interpreted as the empty string $\varepsilon$.
-\item $\mathtt{Bin}(v,l,r).\mathtt{find}(2\cdot n + 2) = l.\mathtt{find}(n)$,
+\item $n \not= 0 \rightarrow \mathtt{Bin}(v,l,r).\mathtt{find}(2\cdot n) = l.\mathtt{find}(n)$,
 
       because if a number is represented in binary, then the last bit of every even number is zero
       and zero chooses the left subtree.
@@ -1469,13 +1469,14 @@ Solve the following exercises:
       When specifying delete you should take care that empty binary trees are reduced to
       $\mathtt{Nil}$.
 
-      \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplify those binary
-      tries that are empty.
+      \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplifies those binary tries
+      that are empty. 
 \item Implement binary tries in \textsc{SetlX}.
+\item Test your implementation with a meaningful example.
 \end{enumerate}
 \textbf{Remark}: Binary tries are known as \blue{digital search trees}.  \eox
 
-\section{Hash Tables}
+\section{Hash Tables$^*$}
 It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \mathtt{Key} \rightarrow \mathtt{Value}$ \\[0.2cm]
 provided the set $\mathtt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
@@ -1531,16 +1532,23 @@ $\Sigma = \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \te
 \\[0.2cm]
 and assigns a number from the set $\{0,\cdots,26\}$ to this character, i.e.~we have \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'}, \texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$.
+$\mathtt{ord}: \{ \texttt{' '}, \texttt{'a'}, \texttt{'b'}, \texttt{'c'}, \cdots, \texttt{'x'}, \texttt{'y'},
+\texttt{'z'} \} \rightarrow \{0,\cdots, 26\}$, \quad where
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{ord}(\texttt{' '}) := 0$, \quad
+$\mathtt{ord}(\texttt{'a'}) := 1$, \quad
+$\mathtt{ord}(\texttt{'b'}) := 2$, \quad $\cdots$, \quad
+$\mathtt{ord}(\texttt{'z'}) := 26$.
 \\[0.2cm]
 Then, the value of the string  $w = c_0c_1\cdots c_7$ can be computed by the function \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{code}: \Sigma^* \rightarrow \mathbb{N} \symbol{92} \{ 0 \}$ \\[0.2cm]
 as follows: \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \mathtt{ord}(c_i) \cdot 27^i$.
+$\ds \mathtt{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \mathtt{ord}(c_i) \cdot 27^i$.
 \\[0.2cm]
-Then, the function $\mathtt{code}$ maps the set of all non-empty strings with at most eight characters in a
+The function $\mathtt{code}$ maps the set of all non-empty strings with at most eight characters in a
 one-to-one way to the set of numbers $\{1,\cdots,27^8\}$.
 
 
@@ -1575,20 +1583,23 @@ These problems can be solved as follows:
       than a given number $\mathtt{size}$: If we define $\mathtt{code}$ as
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot
+      $\ds\mathtt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot
         27^i\right) \;\texttt{\%}\; \mathtt{size} + 1$,
       \\[0.2cm]
       then we will always have $1 \leq \mathtt{code}(c_0c_1\cdots c_n) \leq \mathtt{size}$.  In order to
-      prevent overflows we can define the partial sum $s_k$ for  $k=n,n-1,\cdots,1,0$ by induction:
+      prevent overflows when computing the numbers $27^i$ we can define the partial sum $s_k$ for
+      $k=n,n-1,\cdots,1,0$ by induction: 
       \begin{enumerate}
       \item $s_n = \mathtt{ord}(c_n)$,
       \item $s_{k} = \bigl(\mathtt{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\texttt{\%}\; \mathtt{size}$.
       \end{enumerate}
       Then we have
+      \\[0.2cm]
       \hspace*{1.3cm} 
       $s_0 + 1 = \left(\sum\limits_{i=0}^n \mathtt{ord}(c_i) \cdot 27^i\right) \;\texttt{\%}\; \mathtt{size} + 1$.
 \item Rather than storing the values associated with the keys in an array, the values are now stored
-      in linked lists that contain key-value pairs.  The array itself only stores pointers to these linked list.
+      in \blue{linked lists} that contain key-value pairs.  The array itself only stores pointers to these
+      linked list. 
       
       The reason we have to use linked lists is the fact that different keys may be mapped to the
       same index.  Hence, we can no longer store the values directly in the array.  Instead,
@@ -1604,9 +1615,9 @@ These problems can be solved as follows:
       In order to find the value associated with the key $k$ we have to search this list for the key
       $k$.
 \end{enumerate}
-Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an implementation of a map along these
-lines.  This is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
-We proceed to discuss this implementation.
+Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an example of a map that is implemented
+along these lines.  This data structure is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
+We proceed to discuss the implementation of hash tables.
 
 
 
@@ -1648,15 +1659,16 @@ We proceed to discuss this implementation.
   \label{fig:hashTable.stlx-outline}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-outline} shows the outline of the class $\mathtt{hashTable}$.  
+Figure \ref{fig:hashTable.stlx-outline} on page \pageref{fig:hashTable.stlx-outline} shows the outline of the
+class $\mathtt{hashTable}$.
 \begin{enumerate}
 \item The constructor is called with one argument.  This argument $n$ is the initial size
       of the array storing the different key-value lists.  The constructor constructs an empty hash
       table with the given capacity.
 \item $\mathtt{mSize}$ is the actual size of the array that stores the different key-value lists.
       Although this variable is initialized as $n$, it can later be increased.  This happens
-      if the hash table becomes overcrowded.
-\item $\mathtt{mEntries}$ is the number key-value pairs that are stored in this hash map.
+      if the hash table becomes \blue{overcrowded}.
+\item $\mathtt{mEntries}$ is the number of key-value pairs that are stored in this hash map.
       Since, initially, this map is empty, $\mathtt{mEntries}$ is  initialized as $0$.
 \item $\mathtt{mArray}$ is the array containing the list of key value pairs.
 
@@ -1945,7 +1957,7 @@ Here, the number $\alpha$ is the \blue{load factor} of the hash table.  In pract
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
 language \textsl{Java} provides the class  $\mathtt{HashMap}$ that implements maps via hash tables.
 The default load factor used in this class is only $\mathtt{0.75}$.
-
+\pagebreak
 
 \subsection{Further Reading}
 In this section, we have discussed hash tables only briefly.  The reason is that, although hash tables are very
