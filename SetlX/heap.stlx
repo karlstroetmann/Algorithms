@@ -1,10 +1,10 @@
-class heap() {
-    mPriority := om;
-    mValue    := om;
-    mLeft     := om;
-    mRight    := om;
-    mCount    := 0;
-
+class Heap() {
+    mPriority    := om;
+    mValue       := om;
+    mLeft        := om;
+    mRight       := om;
+    mCount       := 0;
+    
     static {
         top := procedure() {
             return [mPriority, mValue];
@@ -13,8 +13,8 @@ class heap() {
             if (isEmpty()) {
                 this.mPriority := priority;
                 this.mValue    := value;
-                this.mLeft     := heap();
-                this.mRight    := heap();
+                this.mLeft     := Heap();
+                this.mRight    := Heap();
                 this.mCount    := 1;
                 return;
             }
@@ -79,11 +79,11 @@ class heap() {
 }
 
 heapSort := procedure(A) {
-    H := heap();    
+    H := Heap();    
     for (x in A) {
         H.insert(x, x);
     }
-    print(H);
+    graph2Dot(H, "heap-example");
     S := [];
     while (!H.isEmpty()) {
         S += [ H.top()[1] ];
@@ -93,10 +93,64 @@ heapSort := procedure(A) {
 };
 
 demoHeapSort := procedure() {
-    L := [ rnd({1 .. 99}) : n in [1 .. 20] ];
+    L := [ rnd({1 .. 99}) : n in [1 .. 50] ];
     S := heapSort(L);
     print(L);
     print(S);
+};
+
+// This function takes a heap together with a file name and converts
+// this heap into a representation that is suitable for tool the dot.  Then
+// dot is called to compute a graphical representation of the tree.  The
+// tool dot is part of the graphviz tool set for graph visualization.
+// This tool set is freely available for download at http://www.graphviz.org/.
+graph2Dot := procedure(tree, file) {
+    // Define and initialize static variable of class Heap
+    Heap.sNodeId := 0;
+    graph    := "digraph G {\n";
+    graph    += "    ordering = out;";
+    graph    += "    node [shape = record];\n";
+    count    := 0;
+    Children := {};
+    NodeDict := {};
+    assignIds(tree, count, NodeDict, Children);
+    for (k in [1 .. Heap.sNodeId]) {
+        L := Children[k];
+        if (L != om && L != []) {
+            graph += "    n$k$ -> " + join(["n$c$" : c in L], ",");
+            graph += ";\n";
+        }
+    }
+    for (k in [1 .. Heap.sNodeId]) {
+        node := NodeDict[k];
+        graph += "    n$k$ [label = \"$node.mPriority$\"];\n";
+    }
+    graph += "}\n";
+    writeFile("$file$.dot", [ graph ]);
+    run("dot -Tpdf $file$.dot -o $file$.pdf");
+    run("open $file$.pdf");
+};
+// This function assigns numbers to all nodes in the tree represented
+// by node.  The parameter count is the initial value of the counter.
+assignIds := procedure(rw H, rw count, rw NodeDict, rw Children) {
+    // do not assign node ids to empty nodes
+    if (H.mCount == 0) {
+        return;
+    }
+    Heap.sNodeId += 1;
+    H.mNodeId := Heap.sNodeId;  // dynamically add new member variable
+                                // (YES, we can do that!)
+    NodeDict[H.mNodeId] := H;
+    assignIds(H.mLeft , count, NodeDict, Children);
+    assignIds(H.mRight, count, NodeDict, Children);
+    L := [];
+    if (H.mLeft.mCount > 0) {
+        L += [ H.mLeft.mNodeId ];
+    }
+    if (H.mRight.mCount > 0) {
+        L += [ H.mRight.mNodeId ];
+    }
+    Children[H.mNodeId] := L;
 };
 
 demoHeapSort();
