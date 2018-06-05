@@ -392,9 +392,24 @@ member variables:
 \end{enumerate}
 The constructor initializes these member variables in a way that the resulting object represents an
 empty heap.  Since a heap stores the value with the highest priority at the root, implementing the
-method $\texttt{top}$ is trivial: We just have to return the value stored at the root.
-The implementation of $\texttt{isEmpty}$ is easy, too: We just have to check whether the number of
-values stored into this heap is zero.
+method $\texttt{top}$ is simple: We just have to return the value stored at the root.  In case that the heap is
+empty, both the member variables \texttt{mPriority} and \texttt{mValue} would be undefined.  In \textsc{SetlX},
+a list of the form
+\\[0.2cm]
+\hspace*{1.3cm}
+$[\Omega, \Omega]$ 
+\\[0.2cm]
+is still the empty list.  For example, if \texttt{x} and \texttt{y} are undefined variables, the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{[x,y]}$
+\\[0.2cm]
+returns the empty list \texttt{[]}.  Therefore, in case of an empty heap $Q$, the expression $Q.\texttt{top}()$
+returns the empty list.  This is useful for our implementation of heapsort later.
+
+The implementation of $\texttt{isEmpty}$ is again easy: We just have to check whether the number of
+values stored into this heap, which is stored in the member variable \texttt{mCount}, is zero.
+
 \begin{figure}[!ht]
 \centering
 \begin{Verbatim}[ frame         = lines, 
@@ -438,7 +453,7 @@ values stored into this heap is zero.
 \label{fig:heap.stlx-insert}
 \end{figure}
 
-\noindent
+
 Figure \ref{fig:heap.stlx-insert} show the implementation of the method $\texttt{insert}$.
 Basically, there are two cases.
 \begin{enumerate}
@@ -567,20 +582,37 @@ a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not requir
 array.  Heapsort was invented in 1964 by \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} and
 improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} in the same year.
 
-Given an array $\texttt{A}$ of keys to be sorted, the basic version of heapsort proceeds as follows:
+The basic version of heapsort that was given by Williams takes an array $\texttt{A}$ of keys to be sorted and
+then proceeds as follows:
 \begin{enumerate}
 \item The elements of $\texttt{A}$ are inserted in a heap $\texttt{H}$.
 \item Now the smallest element of $\texttt{A}$ is at the top of $\texttt{H}$.  Therefore, if we remove the elements
       from $\texttt{H}$ one by one, we retrieve these elements in increasing order.
 \end{enumerate}
-A basic implementation of heapsort that is based on this idea is given in Figure
+This algorithm can be described using an auxiliary function \texttt{toHeap} that takes a list of numbers and
+transforms this list into a heap.  The signature of this function is as follows:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{toHeap}: \texttt{List}(\mathbb{N}) \rightarrow \texttt{Heap}$
+\\[0.2cm]
+This function can be specified via the following equations:
+\begin{enumerate}
+\item $\texttt{toHeap}(\texttt{[]}) := \texttt{Nil}$
+\item $\texttt{toHeap}(\texttt{[}x\texttt{|}R\texttt{]}) := \texttt{toHeap}(R).\texttt{insert}(x, x)$
+\end{enumerate}
+Then, the function \texttt{heapSort} that takes a list of natural numbers and sorts them can be defined as follows:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{heapSort}(L) := \texttt{toHeap}(L).\texttt{toList}()$.
+\\[0.2cm]
+A basic implementation of heapsort along those lines is given in Figure
 \ref{fig:basic-heapsort.stlx} on page \pageref{fig:basic-heapsort.stlx}.  This implementation makes
 use of the class $\texttt{Heap}$ that had been presented in the previous section.
 \begin{enumerate}
 \item In order to sort the list $\texttt{A}$ that is given as argument to $\texttt{heapSort}$, we first
-      create the empty heap 
-      $\texttt{H}$ in line 2 and then proceed to insert all elements of the list $\texttt{A}$ into $\texttt{H}$ 
-      in line 4.  We use the elements of the list \texttt{A} both as priorities and as values.
+      create the empty heap $\texttt{H}$ in line 2 and then proceed to insert all elements of the list
+      $\texttt{A}$ into $\texttt{H}$ in line 4.  We use the elements of the list \texttt{A} both as priorities
+      and as values. 
 \item Next we create an empty list $\texttt{S}$ in line 6. When the procedure $\texttt{heapSort}$
       finishes, this list will be a sorted version of the list $\texttt{A}$.
 \item As long as the heap $\texttt{H}$ is not empty, we take its top element and append it to
@@ -736,7 +768,7 @@ We discuss this implementation line by line.
 
             When the \texttt{while}-loop starts, the array $\texttt{A}$ contains a heap.  Therefore,
             the smallest element is found at the root of the heap.  Since we want to sort the
-            array $\texttt{A}$ descendingly, we move this element to the end of the array $\texttt{A}$ and in
+            array $\texttt{A}$ \blue{descendingly}, we move this element to the end of the array $\texttt{A}$ and in
             return move the element from the end of the array $\texttt{A}$ to the front.
             After this exchange, the sublist \texttt{a[1..n-1]} represents a heap, except that the
             heap condition might now be violated at the root.  Next, we decrement $\texttt{n}$ in line 24, since the
@@ -745,16 +777,23 @@ We discuss this implementation line by line.
             \texttt{1} in line 25.
 
             The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
-            a length greater than 1.  If there is only one element left in this part of the array, this part is
-            trivially sorted and the \texttt{while}-loop terminates.
+            a length greater than 1.  If there is only one element left in this part of the array, the array is
+            sorted and the \texttt{while}-loop terminates.
       \end{enumerate}
 \end{enumerate}
-Prof.~David Galles from the University of San Francisco has implemented a nice animation of heapsort that is
-available at the following address:
-\\[0.2cm]
-\hspace*{1.3cm}
-\href{https://www.cs.usfca.edu/~galles/visualization/HeapSort.html}{https://www.cs.usfca.edu/\symbol{126}galles/visualization/HeapSort.html}.
-\\[0.2cm] 
+
+\subsection{Complexity}
+Heapsort uses fewer than $2 \cdot n \cdot \log_2(n)$ comparisons to sort a list of $n$ elements.  Since it does
+not need an auxiliary array, it is the algorithm that is to be chosen if there is not enough memory available
+to run merge sort \cite{sedgewick:2011}.  
+
+% Prof.~David Galles from the University of San Francisco has implemented a nice animation of heapsort that is
+% available at the following address:
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% \href{https://www.cs.usfca.edu/~galles/visualization/HeapSort.html}{https://www.cs.usfca.edu/\symbol{126}galles/visualization/HeapSort.html}.
+% \\[0.2cm] 
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"
