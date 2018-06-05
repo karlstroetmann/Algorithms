@@ -1,17 +1,17 @@
 \chapter{Data Compression}
 In this chapter we investigate how a given string can be stored so that the amount of memory used to store the
-string is minimized.   We assume that an a set of characters $\Sigma$ is given and that the string $s$ is a finite
+string is minimized.   We assume that a set of characters $\Sigma$ is given and that the string $s$ is a finite
 sequence of characters from $\Sigma$, i.e.~$s \in \Sigma^*$.  The set of characters $\Sigma$ is called the
-\blue{alphabet}.  If the alphabet $\Sigma$ contains $k$ different characters and if every character is coded
-with the same number of bits, then the number of bits $b$ must satisfy the inequality
+\blue{alphabet}.  If the alphabet $\Sigma$ contains $k$ different characters and if we use the same number of
+bits $b$ for every character in $\Sigma$, then the number $b$ of bits must satisfy the inequality
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds k \leq 2^b$ 
+$\ds k \leq 2^b$,
 \\[0.2cm]
 which entails that 
 \\[0.2cm]
 \hspace*{1.3cm}
-$b = \mathtt{ceil}\bigl(\log_2(k)\bigr)$
+$b \geq \mathtt{ceil}\bigl(\log_2(k)\bigr)$
 \\[0.2cm]
 holds.  Here, $\mathtt{ceil}(x)$ denotes the
 \href{https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}{ceiling function}.  Given a real number $x$,
@@ -24,8 +24,8 @@ If the string $s$ has a length of $m$ characters, then we have to use $m \cdot b
 There are two options to improve on this number.
 \begin{enumerate}
 \item If we drop the requirement to store all characters with the same amount of bits, then we can save some space.
-      The idea is to code characters occurring very frequently with fewer that $b$ bits while those characters
-      that are very rare maybe coded with more than $b$ bits.  This approach leads to 
+      The idea is to code characters occurring very frequently with fewer than $b$ bits while those characters
+      that are very rare are encoded using more than $b$ bits.  This approach leads to 
       \href{https://en.wikipedia.org/wiki/Huffman_coding}{Huffman's algorithm} that was discovered 1952 by 
       \href{https://en.wikipedia.org/wiki/David_A._Huffman}{David A.~Huffman (1925 -- 1999)} \cite{huffman:52}.
 \item Alternatively we can try to extend the alphabet by interpreting substrings that occur very frequently as
@@ -42,7 +42,7 @@ This chapter discusses both Huffman's algorithm and the Lempel-Ziv-Welch algorit
 The main idea of the
 algorithm developed by Huffman is that letters that occur very frequently are encoded with
 as few bits as possible, while letters that occur only rarely can be encoded with more bits. 
-To clarify this idea we use the following example:  Our alphabet $\Sigma$ contains just four characters, we have
+To clarify this idea we use the following example:  Assume our alphabet $\Sigma$ contains just four characters, we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\Sigma = \{ \mathtt{a}, \mathtt{b}, \mathtt{c}, \texttt{d} \}$. 
@@ -115,71 +115,71 @@ bit string encodes the string ``\texttt{bad}'', i.e.~we have
 
 
 \section{Huffman's Algorithm}
-Suppose we have a string $s \in \Sigma^*$ where $\Sigma$ is some alphabet.  How do we find an encoding of the letters such 
+Suppose we have been given a string $s \in \Sigma^*$ where $\Sigma$ is some alphabet.  How do we find an encoding of the letters such 
 that the encoding of $s$ is as short as possible?  Huffman's algorithm answers this question.  In order 
 to present this algorithm, we first define the set $\mathcal{K}$ of \blue{coding trees} by induction.
 \begin{enumerate}
-\item $\mathtt{Leaf}(c,f) \in \mathcal{K} \quad \mbox{if $c \in \Sigma$ and $f \in \N$}$.
+\item $\texttt{Leaf}(c,f) \in \mathcal{K} \quad \mbox{if $c \in \Sigma$ and $f \in \N$}$.
 
-      An expression of the form $\mathtt{Leaf}(c,f)$ represent a leaf in a coding tree.  Here  $c$ is a letter
+      An expression of the form $\texttt{Leaf}(c,f)$ represent a leaf in a coding tree.  Here  $c$ is a letter
       from the alphabet $\Sigma$ and $f$ is the number of times that the letter $c$ occurs in the string $s$
       that is to be encoded.
 
       Compared to Figure \ref{fig:coding-tree} this representation adds the frequency $f$ of the letters.
       This frequency information is needed since we intend to code frequent letters with fewer bits.
-\item $\mathtt{Node}(l,r) \in \mathcal{K} \quad \mbox{if $l \in\mathcal{K}$ and $r \in \mathcal{K}$.}$ 
+\item $\texttt{Node}(l,r) \in \mathcal{K} \quad \mbox{if $l \in\mathcal{K}$ and $r \in \mathcal{K}$.}$ 
 
-      The expressions $\mathtt{Node}(l,r)$ represent the inner nodes of the coding-tree.
+      The expressions $\texttt{Node}(l,r)$ represent the inner nodes of the coding-tree.
 \end{enumerate}
 Next, we define the function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{count} : \mathcal{K} \rightarrow \N$.
+$\texttt{count} : \mathcal{K} \rightarrow \N$.
 \\[0.2cm] 
 This function computes the sum of all frequencies of all letters occurring in a given coding tree.
 \begin{enumerate}
-\item For a leaf, the definition of $\mathtt{count}$ is obvious:
+\item For a leaf, the definition of $\texttt{count}$ is obvious:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{Leaf}(c,f).\mathtt{count}() = f$.
-\item The sum of all frequencies of a coding tree of the form $\mathtt{Node}(l,r)$ is the sum of all frequencies
+      $\texttt{Leaf}(c,f).\texttt{count}() = f$.
+\item The sum of all frequencies of a coding tree of the form $\texttt{Node}(l,r)$ is the sum of all frequencies
       in $l$ plus the frequencies in $r$.  Therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{Node}(l,r).\mathtt{count}() = l.\mathtt{count}() + r.\mathtt{count}()$. 
+      $\texttt{Node}(l,r).\texttt{count}() = l.\texttt{count}() + r.\texttt{count}()$. 
 \end{enumerate}
 Next we define the function
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cost}: \mathcal{K} \rightarrow \N$.
+$\texttt{cost}: \mathcal{K} \rightarrow \N$.
 \\[0.2cm]
-The function $\mathtt{cost}$ computes the number of bits that are necessary to encode a string $s$ if 
+The function $\texttt{cost}$ computes the number of bits that are necessary to encode a string $s$ if 
 all letters occurring in $s$ occur in the the coding tree and if, furthermore, the frequencies of the letters
 in $s$ are given by the frequencies stored in the coding tree.
-The definition of $\mathtt{cost}(t)$ is given by induction on the coding tree $t$.
+The definition of $\texttt{cost}(t)$ is given by induction on the coding tree $t$.
 \begin{enumerate}
-\item $\mathtt{Leaf}(c,f).\mathtt{cost}() = 0$.
+\item $\texttt{Leaf}(c,f).\texttt{cost}() = 0$.
 
       As long as the coding tree has no edges, the resulting encoding has zero bits.
-\item $\mathtt{Node}(l,r).\mathtt{cost}() = 
-       l.\mathtt{cost}() + r.\mathtt{cost}() + l.\mathtt{count}() + r.\mathtt{count}()$.
+\item $\texttt{Node}(l,r).\texttt{cost}() = 
+       l.\texttt{cost}() + r.\texttt{cost}() + l.\texttt{count}() + r.\texttt{count}()$.
 
       If two coding trees $l$ and $r$ are combined into a new coding tree, the encoding of all letters
       occurring in either $l$ or $r$ grows by one bit:  The encoding of a letter in $l$ is prefixed with the
       bit ``$0$'', while the encoding of a letter from $r$ is prefixed with the bit ``$1$''.  The sum
       \\[0.2cm]
       \hspace*{1.3cm}
-      $l.\mathtt{count}() + r.\mathtt{count}()$
+      $l.\texttt{count}() + r.\texttt{count}()$
       \\[0.2cm] 
       counts the frequencies of all letters occurring in the coding tree.
       As the encoding of all these letters is lengthened by one bit,
-      we have to add the term $l.\mathtt{count}() + r.\mathtt{count}()$ to the costs of $l$ and $r$.
+      we have to add the term $l.\texttt{count}() + r.\texttt{count}()$ to the costs of $l$ and $r$.
 \end{enumerate}
-The function  $\mathtt{cost}()$ is extended to sets of coding trees.  If $M$ is a set of coding trees, then we
+The function  $\texttt{cost}()$ is extended to sets of coding trees.  If $M$ is a set of coding trees, then we
 define
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cost}(M) := \sum\limits_{n\in M} n.\mathtt{cost}()$. 
+$\texttt{cost}(M) := \sum\limits_{n\in M} n.\texttt{cost}()$. 
 \\[0.2cm]
 The algorithm that was published by David A.~Huffman in 1952 \cite{huffman:52} starts with a set of pairs of
 the form $\langle c, f\rangle$ where $c$ is a letter and $f$ is the frequency of this letter on a given string
@@ -197,37 +197,38 @@ $f_1$, $f_2$, $\cdots$, $f_k$.
 Then the set of coding trees is given as
 \begin{equation}
   \label{eq:huffmann1}
- M = \bigl\{  \mathtt{Leaf}(c_1, f_1), \cdots, \mathtt{Leaf}(c_k, f_k) \bigr\}.   
+ M = \bigl\{  \texttt{Leaf}(c_1, f_1), \cdots, \texttt{Leaf}(c_k, f_k) \bigr\}.   
 \end{equation}
 Huffmann's algorithm combines two nodes $a$ and $b$ from $M$ into a new node
-$\mathtt{Node}(a,b)$ until the set $M$ contains just a single node.  When combining the nodes of $M$ into a single
+$\texttt{Node}(a,b)$ until the set $M$ contains just a single node.  When combining the nodes of $M$ into a single
 tree we have to take care that the cost of the resulting tree should be minimal.
 Huffman's algorithm takes a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy} approach: 
 The idea is to combine those nodes $a$ and $b$ such that the cost of the set
 \\[0.2cm]
 \hspace*{1.3cm}
-$M \symbol{92} \{a,b\} + \{ \mathtt{Node}(a,b) \}$
+$M \symbol{92} \{a,b\} + \{ \texttt{Node}(a,b) \}$
 \\[0.2cm]
 is as small as possible.
 In order to choose $a$ and $b$ let us investigate how much the cost increases if we combine the two nodes
-into the new node $\mathtt{Node}(a,b)$:
+into the new node $\texttt{Node}(a,b)$:
 \begin{eqnarray*}
-& & \mathtt{cost}\bigl(N \cup \{ \mathtt{Node}(a,b) \}\bigr) - \mathtt{cost}\bigl(N \cup \{ a,b \}\bigr) \\
-&=& \mathtt{cost}\bigl( \{ \mathtt{Node}(a,b) \}\bigr) - \mathtt{cost}\bigl(\{ a,b \}\bigr)              \\
-&=& \mathtt{Node}(a,b).\mathtt{cost}() - a.\mathtt{cost}() - b.\mathtt{cost}()                           \\
-&=&   a.\mathtt{cost}() + b.\mathtt{cost}() + a.\mathtt{count}() + b.\mathtt{count}() 
-    - a.\mathtt{cost}() - b.\mathtt{cost}()                                                              \\
-&=& a.\mathtt{count}() + b.\mathtt{count}() 
+& & \texttt{cost}\bigl(N \cup \{ \texttt{Node}(a,b) \}\bigr) - \texttt{cost}\bigl(N \cup \{ a,b \}\bigr) \\
+&=& \texttt{cost}\bigl( \{ \texttt{Node}(a,b) \}\bigr) - \texttt{cost}\bigl(\{ a,b \}\bigr)              \\
+&=& \texttt{Node}(a,b).\texttt{cost}() - a.\texttt{cost}() - b.\texttt{cost}()                           \\
+&=&   a.\texttt{cost}() + b.\texttt{cost}() + a.\texttt{count}() + b.\texttt{count}() 
+    - a.\texttt{cost}() - b.\texttt{cost}()                                                              \\
+&=& a.\texttt{count}() + b.\texttt{count}() 
 \end{eqnarray*}
-We see that if we combine $a$ and $b$ into the new node $\mathtt{Node}(a,b)$, the cost is increased by the sum 
+We see that if we combine $a$ and $b$ into the new node $\texttt{Node}(a,b)$, the cost is increased by the sum 
 \\[0.2cm]
 \hspace*{1.3cm}
-$a.\mathtt{count}() + b.\mathtt{count}()$. 
+$a.\texttt{count}() + b.\texttt{count}()$. 
 \\[0.2cm]
 If our intention is to keep the cost small then it suggests itself to pick those nodes
 $a$ and $b$ from $M$ that have the smallest count and replace them with the new node
-$\mathtt{Node}(a,b)$.  This process is then iterated until the set $M$ contains but a single node.
-It can be shown that procedure produces a coding tree that codes the given string with the smallest number of bits.
+$\texttt{Node}(a,b)$.  This process is then iterated until the set $M$ contains but a single node.
+It can be shown that this procedure yields a coding tree that codes the given string using the smallest number
+of bits. 
 
 \begin{figure}[!ht]
 \centering
@@ -256,66 +257,67 @@ It can be shown that procedure produces a coding tree that codes the given strin
 \end{figure} 
 
 \noindent
-The function $\mathtt{codingTree}$ program shown in Figure \ref{fig:huffman.stlx} implements this algorithm.
+The function $\texttt{codingTree}$ program shown in Figure \ref{fig:huffman.stlx} implements this algorithm.
 \begin{enumerate}
-\item The function $\mathtt{codingTree}$ is called with a set  $M$ of nodes.  This set has the form
+\item The function $\texttt{codingTree}$ is called with a set  $M$ of nodes.  This set has the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $M = \bigl\{ [ f_1, \mathtt{Leaf}(c_1) ], \cdots, [f_k, \mathtt{Leaf}(c_k)] \bigr\}$.
+      $M = \bigl\{ [ f_1, \texttt{Leaf}(c_1) ], \cdots, [f_k, \texttt{Leaf}(c_k)] \bigr\}$.
       \\[0.2cm]
       Here, $c_1$, $\cdots$, $c_k$ are the different character that occur in the string $s$ that is to be encoded. 
       For every character $c_i$, the number $f_i$ counts the number of times that $c_i$ occurs in the string $s$.
 
-      In the pairs $[f_i, \mathtt{Leaf(c_i)}]$ the frequency $f_i$ is stored first.
+      In the pairs $[f_i, \texttt{Leaf}(c_i)]$ the frequency $f_i$ is stored first.
       As \textsc{SetlX} stores this set internally as an ordered binary tree that is sorted ascendingly, this
-      fact enables us to extract the node with the lowest frequency by calling the function $\mathtt{first}$.
-      The reason is that in \textsc{SetlX} pairs of the form $[f, \mathtt{Leaf}(c)$ are compared
+      fact enables us to extract the node with the lowest frequency by calling the function $\texttt{first}$.
+      The reason is that in \textsc{SetlX} pairs of the form $[f, \texttt{Leaf}(c)$ are compared
       lexicographically:  In order to compare two pairs
       \\[0.2cm]
       \hspace*{1.3cm}
-      $[f_1, \mathtt{Leaf}(c_1)]$ \quad and \quad $[f_2, \mathtt{Leaf}(c_2)]$
+      $[f_1, \texttt{Leaf}(c_1)]$ \quad and \quad $[f_2, \texttt{Leaf}(c_2)]$
       \\[0.2cm]
       \textsc{SetlX} first compares the frequencies $f_1$ and $f_2$.  If $f_1$ is less than $f_2$, the pair
-      $[f_1, \mathtt{Leaf}(c_1)]$ is considered to be smaller than $[f_2, \mathtt{Leaf}(c_2)]$, if $f_2$ is bigger
-      than $f_2$, then the pair $[f_1, \mathtt{Leaf}(c_2)]$ is considered to be bigger than
+      $[f_1, \texttt{Leaf}(c_1)]$ is considered to be smaller than $[f_2, \texttt{Leaf}(c_2)]$, if $f_2$ is bigger
+      than $f_2$, then the pair $[f_1, \texttt{Leaf}(c_2)]$ is considered to be bigger than
       $[f_2,
-      \mathtt{Leaf}(c_2)]$.  Finally, if the frequencies $f_1$ and $f_2$ are the same, the characters $c_1$ and
+      \texttt{Leaf}(c_2)]$.  Finally, if the frequencies $f_1$ and $f_2$ are the same, the characters $c_1$ and
       $c_2$ are compared to determine the order.  Hence, the first element of the set $M$ is the pair that has
       the smallest frequency.  Effectively, this trick turns the set $M$ into a priority queue:
       \begin{enumerate}
-      \item The function $\mathtt{first}$ that is predefined in \textsc{SetlX} returns the first element of the
-            set $M$ and thus the call $\mathtt{first}(M)$ achieves the same as the call $M.\mathtt{top}()$
+      \item The function $\texttt{first}$ that is predefined in \textsc{SetlX} returns the first element of the
+            set $M$ and thus the call $\texttt{first}(M)$ achieves the same as the call $M.\texttt{top}()$
             would achieve if $M$ had been implemented as a priority queue.
       \item In order to insert an element $v$ with priority $v$ into $M$ we can use the expression
             \\[0.2cm]
             \hspace*{1.3cm}
             \texttt{$M$ += \{ [$p$, $v$] \};}
             \\[0.2cm]
-            instead of writing $M.\mathtt{insert}(p, v)$ which  would have been done if $M$ had been a priority queue.
+            instead of writing $M.\texttt{insert}(p, v)$, which would have been necessary if $M$ had been
+            implemented as a priority queue.
       \item In order to remove the top element from the priority queue $M$ we can use the expression
             \\[0.2cm]
             \hspace*{1.3cm}
             \texttt{$M$ -= \{ \texttt{first}($M$) \};}
             \\[0.2cm]
-            This achieves the same effect as the call $M.\mathtt{remove}()$ would have achieved if $M$ had been
-            a priority queue.
+            This achieves the same effect as the call $M.\texttt{remove}()$ would have achieved if $M$ had been
+            implemented as a priority queue.
       \end{enumerate}
       What makes this approach elegant is the fact that with this implementation all operations of the abstract
       data type \textsl{PrioQueue} have logarithmic complexity.  In the case of the operation
-      $M.\mathtt{top}()$ this is not optimal as the data structure heap achieves a constant complexity in this case.
-      However, for every call of the form  $M.\mathtt{top}()$ there is a call of the form
-      $M.\mathtt{remove}()$ and this call has a logarithmic complexity even if we implement the priority queue
+      $M.\texttt{top}()$ this is not optimal as the data structure heap achieves a constant complexity in this case.
+      However, for every call of the form  $M.\texttt{top}()$ there is a call of the form
+      $M.\texttt{remove}()$ and this call has a logarithmic complexity even if we implement the priority queue
       as a heap.   This complexity would dominate the overall complexity so that in the end the heap based
       implementation of the abstract data type \textsl{PrioQueue} has the same complexity as the set based
       implementation. 
 \item The \texttt{while} loop in line 2 reduces the number of nodes of the set $M$ in every step by one.
       \begin{enumerate}
-      \item Using the function $\mathtt{first}()$, we compute those nodes $a$ and $b$ that have the lowest count.
+      \item Using the function $\texttt{first}()$, we compute those nodes $a$ and $b$ that have the lowest count.
       \item These two nodes are removed from $M$ .
-      \item Next $a$ and $b$ are combined into the new Node $\mathtt{Node}(a,b)$ that is added to $M$.
+      \item Next $a$ and $b$ are combined into the new node $\texttt{Node}(a,b)$ that is added to $M$.
       \end{enumerate}
 \item The \texttt{while} loop terminates when $M$ contains but a single element.  This element
-      is then extracted using the function $\mathtt{arb}$ and is returned as the result.
+      is then extracted using the function $\texttt{arb}$ and is returned as the result.
 \end{enumerate}
 The running time of Huffman's algorithm is given as  $\Oh\bigl(n \cdot \ln(n)\bigr)$ where $n$ denotes the
 number of different characters occurring in the string $s$.  The reason is that all
@@ -344,79 +346,79 @@ occurrence of these letters are given in table \ref{tab:frequency} on page \page
 \item Initially, the set $M$ has the form
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ M = \bigl\{ \langle 1, \mathtt{Leaf}(\mathtt{a}) \rangle,\,
-             \langle 2, \mathtt{Leaf}(\mathtt{b}) \rangle,\, 
-             \langle 3, \mathtt{Leaf}(\mathtt{c}) \rangle,\,
-             \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\,
-             \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle\bigr\}. $
+      $ M = \bigl\{ \langle 1, \texttt{Leaf}(\texttt{a}) \rangle,\,
+             \langle 2, \texttt{Leaf}(\texttt{b}) \rangle,\, 
+             \langle 3, \texttt{Leaf}(\texttt{c}) \rangle,\,
+             \langle 4, \texttt{Leaf}(\texttt{d}) \rangle,\,
+             \langle 5, \texttt{Leaf}(\texttt{e}) \rangle\bigr\}. $
 \item Apparently, the characters ``\texttt{a}'' and ``\texttt{b}'' occur with the lowest frequency.  Hence,
   these characters are removed from $M$ and instead the node 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b}))$
+      $\texttt{Node}(\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b}))$
       \\[0.2cm]
       is added to the set $M$.  The frequency of this new node is given as the sum of the frequencies of the
       characters ``\texttt{a}'' and ``\texttt{b}''.   Hence, the pair 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\langle 3, \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{a}) \rangle, \mathtt{Leaf}(\mathtt{b}) \bigr) \rangle$
+      $\langle 3, \texttt{Node}\bigl(\texttt{Leaf}(\texttt{a}) \rangle, \texttt{Leaf}(\texttt{b}) \bigr) \rangle$
       \\[0.2cm]
       is inserted into the set  $M$.  The resulting form of $M$ is
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \bigl\{\langle 3, \mathtt{Leaf}(\mathtt{c}) \rangle,\,
-			\langle 3, \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b}))\rangle,\,
-              \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\,
-             \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle\bigr\}. $
+      $ \bigl\{\langle 3, \texttt{Leaf}(\texttt{c}) \rangle,\,
+			\langle 3, \texttt{Node}(\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b}))\rangle,\,
+              \langle 4, \texttt{Leaf}(\texttt{d}) \rangle,\,
+             \langle 5, \texttt{Leaf}(\texttt{e}) \rangle\bigr\}. $
 \item The two pairs with the smallest frequencies are now
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \langle 3, \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})) \rangle \quad \mathrm{and} \quad \langle 3, \mathtt{Leaf}(\mathtt{c})\rangle$.
+      $ \langle 3, \texttt{Node}(\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b})) \rangle \quad \mathrm{and} \quad \langle 3, \texttt{Leaf}(\texttt{c})\rangle$.
       \\[0.2cm]
       These pairs are removed form $M$ and replaced by 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \langle 6, \mathtt{Node}(
-           \mathtt{Node}((\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})),\; 
-           \mathtt{Leaf}(\mathtt{c}))\rangle$. 
+      $ \langle 6, \texttt{Node}(
+           \texttt{Node}((\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b})),\; 
+           \texttt{Leaf}(\texttt{c}))\rangle$. 
       \\[0.2cm]
       Then $M$ is given as
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \Bigl\{ 
-        \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle,\;\langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle,\;
-        \langle 6, \mathtt{Node}(
-           \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})),\; 
-           \mathtt{Leaf}(\mathtt{c}))\Bigr\}. $
+        \langle 4, \texttt{Leaf}(\texttt{d}) \rangle,\;\langle 5, \texttt{Leaf}(\texttt{e}) \rangle,\;
+        \langle 6, \texttt{Node}(
+           \texttt{Node}(\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b})),\; 
+           \texttt{Leaf}(\texttt{c}))\Bigr\}. $
 \item Now the pairs
       \\[0.2cm]
       \hspace*{0.3cm}
-      $ \langle 4, \mathtt{Leaf}(\mathtt{d}) \rangle \quad \mathrm{and} \quad \langle 5, \mathtt{Leaf}(\mathtt{e}) \rangle$
+      $ \langle 4, \texttt{Leaf}(\texttt{d}) \rangle \quad \mathrm{and} \quad \langle 5, \texttt{Leaf}(\texttt{e}) \rangle$
       \\[0.2cm]
       are the pairs with the smallest frequency.
       We remove them and construct the new node \\[0.2cm]
       \hspace*{0.3cm}
-      $\langle 9, \mathtt{Node}(\mathtt{Leaf}(\mathtt{d}), \mathtt{Leaf}(\mathtt{e})) \rangle$.
+      $\langle 9, \texttt{Node}(\texttt{Leaf}(\texttt{d}), \texttt{Leaf}(\texttt{e})) \rangle$.
       \\[0.2cm]
       This node is added to the set  $M$ and then $M$ is
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \Bigl\{ 
-        \langle 6, \mathtt{Node}(
-           \mathtt{Node}(\mathtt{Leaf}(\mathtt{a}),
-           \mathtt{Leaf}(\mathtt{b})),\,\mathtt{Leaf}(\mathtt{c},3))
+        \langle 6, \texttt{Node}(
+           \texttt{Node}(\texttt{Leaf}(\texttt{a}),
+           \texttt{Leaf}(\texttt{b})),\,\texttt{Leaf}(\texttt{c},3))
         \rangle,\;
-        \langle 9,\mathtt{Node}(\mathtt{Leaf}(\mathtt{d},4), \mathtt{Leaf}(\mathtt{e},5)) \rangle
+        \langle 9,\texttt{Node}(\texttt{Leaf}(\texttt{d},4), \texttt{Leaf}(\texttt{e},5)) \rangle
         \Bigr\}
            $.      
 \item Now the set $M$ has just two elements.  These are combined into the single node 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\mathtt{Node}\biggl(
-              \mathtt{Node}\Bigl(
-                 \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{a}), \mathtt{Leaf}(\mathtt{b})\bigr),\; 
-                 \mathtt{Leaf}(\mathtt{c})\Bigr),\;
-              \mathtt{Node}\bigl(\mathtt{Leaf}(\mathtt{d}), \mathtt{Leaf}(\mathtt{e})\bigr)
+      $\texttt{Node}\biggl(
+              \texttt{Node}\Bigl(
+                 \texttt{Node}\bigl(\texttt{Leaf}(\texttt{a}), \texttt{Leaf}(\texttt{b})\bigr),\; 
+                 \texttt{Leaf}(\texttt{c})\Bigr),\;
+              \texttt{Node}\bigl(\texttt{Leaf}(\texttt{d}), \texttt{Leaf}(\texttt{e})\bigr)
          \biggr)
       $.
       \\[0.2cm]
@@ -512,43 +514,43 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
 \item Initially, we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha = \varepsilon$ \quad and \quad $c = \mathtt{m}$.
+      $\alpha = \varepsilon$ \quad and \quad $c = \texttt{m}$.
       \\[0.2cm]
       Since the \textsc{Ascii} code of the character ``\texttt{m}'' is $109$, we output this number.
 \item After reading the next character ``\texttt{a}'' we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha = \mathtt{m}$ \quad and \quad $c = \mathtt{a}$.
+      $\alpha = \texttt{m}$ \quad and \quad $c = \texttt{a}$.
       \\[0.2cm]
       Now, the substring $\alpha c$, which is ``\texttt{ma}'', is entered into the dictionary and
       assigned to the code $128$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d = d \cup \{\langle \mathtt{ma}, 128 \rangle\}$.
+      $d = d \cup \{\langle \texttt{ma}, 128 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{a}'', which is $97$.
 \item After reading the next character ``\texttt{u}'' we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha = \mathtt{a}$ \quad and \quad $c = \mathtt{u}$.
+      $\alpha = \texttt{a}$ \quad and \quad $c = \texttt{u}$.
       \\[0.2cm]
       Now, the substring $\alpha c$, which is ``\texttt{au}'', is entered into the dictionary and
       assigned to the next available code, which is $129$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d = d \cup \{\langle \mathtt{au}, 129 \rangle\}$.
+      $d = d \cup \{\langle \texttt{au}, 129 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
 \item After reading the next character, which is the character ``\texttt{m}'', we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha = \mathtt{u}$ \quad and \quad $c = \mathtt{m}$.
+      $\alpha = \texttt{u}$ \quad and \quad $c = \texttt{m}$.
       \\[0.2cm]
       Next, the substring $\alpha c$, which is ``\texttt{um}'', is entered into the dictionary and
       assigned to the next available code, which is $130$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d = d \cup \{\langle \mathtt{um}, 130 \rangle\}$.
+      $d = d \cup \{\langle \texttt{um}, 130 \rangle\}$.
       \\[0.2cm]
       Since our dictionary already contains the substring ``\texttt{ma}'' and the character
       ``\texttt{a}'' is indeed the character following the character ``\texttt{m}'', we output
@@ -557,13 +559,13 @@ To describe the working of the algorithm, let us encode the string ``\texttt{mau
 \item The next character to be read is now the final character ``\texttt{u}''.  We have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\alpha = \mathtt{ma}$ \quad and \quad $c = \mathtt{u}$.
+      $\alpha = \texttt{ma}$ \quad and \quad $c = \texttt{u}$.
       \\[0.2cm]
       Next, the substring $\alpha c$, which is ``\texttt{mau}'', is entered into the dictionary and
       assigned to the next available code, which is $131$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $d = d \cup \{\langle \mathtt{mau}, 131 \rangle\}$.
+      $d = d \cup \{\langle \texttt{mau}, 131 \rangle\}$.
       \\[0.2cm]
       Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
 \end{enumerate} 
@@ -672,14 +674,14 @@ and the method \texttt{uncompress} that takes a list of numbers $l$ and decodes 
 a string $s$.  These methods are designed to satisfy the following specification:
 \\[0.2cm]
 \hspace*{1.3cm}
-$l = \mathtt{lzw().compress}(s_1) \wedge s_2 = \mathtt{lzw().uncompress}(l) \rightarrow s_1 = s_2$.
+$l = \texttt{lzw().compress}(s_1) \wedge s_2 = \texttt{lzw().uncompress}(l) \rightarrow s_1 = s_2$.
 \\[0.2cm]
 Furthermore, the class \texttt{lzw} contains the auxiliary method \texttt{longestPrefix}, which will
 be discussed later.  The class \texttt{lzw} contains 3 member variables:
 \begin{enumerate}
 \item \texttt{mDictionary} is the dictionary used when encoding a string.  It is initialized to map
       the \textsc{Ascii} characters to their codes.  Remember that for a given number $i$, the
-      expression $\mathtt{char}(i)$ returns the \textsc{Ascii} character with code $i$.
+      expression $\texttt{char}(i)$ returns the \textsc{Ascii} character with code $i$.
 \item \texttt{mInverse} is a binary relation that associates the codes with the corresponding
       strings.  It is initialized to map every number in the set $\{ 0, 1, 2, \cdots, 127 \}$
       with the corresponding \textsc{Ascii} character.  The binary relation \texttt{mInverse} is the
@@ -726,25 +728,25 @@ implementation line by line.
       Initially, this list is empty.  Every time a substring of $s$ is encoded, the corresponding code
       is appended to this list.
 \item The variable \texttt{idx} is an index into the string $s$.  The idea is that the substring
-      $s[1..\mathtt{idx}-1]$ has been encoded and the corresponding codes have already been written
-      to the list \texttt{result}, while the substring $s[\mathtt{idx}..]$ is
+      $s[1..\texttt{idx}-1]$ has been encoded and the corresponding codes have already been written
+      to the list \texttt{result}, while the substring $s[\texttt{idx}..]$ is
       the part of $s$ that still needs to be encoded.
 \item Hence, the \texttt{while}-loop runs as long as the index \texttt{idx} is less or equal than
       the length $\texttt{\#}s$ of the string $s$.
 \item Next, the method \texttt{longestPrefix}  computes the index of longest prefix of the substring
-      $s[\mathtt{idx}..]$ that can be found in the dictionary \texttt{mDictionary}, i.e.~$p$ is the
+      $s[\texttt{idx}..]$ that can be found in the dictionary \texttt{mDictionary}, i.e.~$p$ is the
       maximal number such that the expression \texttt{mDictionary[s[idx..p]]} is defined.
 \item The code corresponding to this substring is looked up in \texttt{mDictionary}
       and is then appended to the list \texttt{result}.
 \item Next, we take care to maintain the dictionary \texttt{mDictionary} and add the substring
-      $s[\mathtt{idx}..p+1]$ to the dictionary.  Of course, we can only do this if the upper index
+      $s[\texttt{idx}..p+1]$ to the dictionary.  Of course, we can only do this if the upper index
       of this expression, which is $p+1$, is an index into the string $s$. 
-      Therefore we have to check that $p < \mathtt{\#}s$.
+      Therefore we have to check that $p < \texttt{\#}s$.
       Once we have entered the
       new string with its corresponding code into the dictionary, we have to make sure that the
       variable \texttt{mNextCode} is incremented so that every string is associated with a unique
       code.  
-\item Since the code corresponding to the substring $s[\mathtt{idx}..p]$ has been written to the
+\item Since the code corresponding to the substring $s[\texttt{idx}..p]$ has been written to the
       list \texttt{result}, the index \texttt{idx} is set to $p+1$.
 \item Once the while loop has terminated, the string $s$ has been completely encoded and the list
       containing the codes can be returned.
@@ -786,7 +788,7 @@ Figure \ref{fig:lzw.stlx-longestPrefix} show the implementation of the auxiliary
 The function $\texttt{longestPrefix}(s, i)$ computes the maximum value of $k$ such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$i \leq k \wedge k \leq \texttt{\#}s \wedge \mathtt{mDictionary}[s[i..k]] \not= \Omega$.
+$i \leq k \wedge k \leq \texttt{\#}s \wedge \texttt{mDictionary}[s[i..k]] \not= \Omega$.
 \\[0.2cm]
 This value is well defined since the dictionary is initialized to contain all strings of
 length 1.  Therefore, $\texttt{mDictionary}[s[i..i]]$ is known to be defined: It is the
@@ -848,12 +850,12 @@ takes a list of numbers and decodes it into a string $s$.
       always have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $l[\mathtt{idx}] = \mathtt{code}$
+      $l[\texttt{idx}] = \texttt{code}$
 \item The variable \texttt{old} contains the substring associated with \texttt{code}.  Therefore,
       the invariant
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{mInverse}[\mathtt{code}] = \mathtt{old}$
+      $\texttt{mInverse}[\texttt{code}] = \texttt{old}$
       \\[0.2cm]
       is maintained.
 \item As long as the index \texttt{idx} still points inside the list, the substring 
@@ -873,23 +875,23 @@ takes a list of numbers and decodes it into a string $s$.
       On the other hand, we know that the substring $\beta$ has the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\beta = \mathtt{old} + c$,
+      $\beta = \texttt{old} + c$,
       \\[0.2cm]
       where the operator ``$+$'' denotes string concatenation.  But then the first character of this string
       must be the first character of \texttt{old}, i.e.~we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\beta[1] = \mathtt{old}[1]$
+      $\beta[1] = \texttt{old}[1]$
       \\[0.2cm]
       and hence we have shown that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $c = \mathtt{old}[1]$.
+      $c = \texttt{old}[1]$.
       \\[0.2cm]
       Therefore, we conclude
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\beta = \mathtt{old} + \mathtt{old}[1]$
+      $\beta = \texttt{old} + \texttt{old}[1]$
       \\[0.2cm]
       and hence this is the string encoded by a code that is not yet defined in the dictionary
       \texttt{mInverse}.
@@ -899,7 +901,7 @@ takes a list of numbers and decodes it into a string $s$.
       string decoded in the current step.  Of course, this string is
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{old} + \mathtt{next}[1]$
+      $\texttt{old} + \texttt{next}[1]$
       \\[0.2cm]
       and this string is then associated with the next available code value.
 \item At the end of the loop, we need to set \texttt{old} to \texttt{next} so that \texttt{old}
@@ -919,9 +921,9 @@ these examples here would be as beneficial for the student as performing the alg
 \item For all $n \in \mathbb{N}$ with $n \geq 1$ the string $\alpha_n$ is defined inductively as
       follows:
       \\[0.2cm]
-      \hspace*{1.3cm} $\alpha_1 := \mathtt{a}$ \quad and \quad $\alpha_{n+1} = \alpha_n + \mathtt{a}$.
+      \hspace*{1.3cm} $\alpha_1 := \texttt{a}$ \quad and \quad $\alpha_{n+1} = \alpha_n + \texttt{a}$.
       \\[0.2cm]
-      Hence, the string $\alpha_n$ has the form $\underbrace{\mathtt{a} \cdots \mathtt{a}}_n$,
+      Hence, the string $\alpha_n$ has the form $\underbrace{\texttt{a} \cdots \texttt{a}}_n$,
       i.e. it is the character \texttt{a} repeated $n$ times.
       Encode the string $\alpha_n$ using the LZW algorithm.  What is the compression rate?
 \item Decode the list 
