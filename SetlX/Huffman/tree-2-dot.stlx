@@ -18,7 +18,7 @@ graph2Dot := procedure(tree, file) {
         }
     }
     for ([node, count] in NodeIds) {
-        graph += "    n$count$ [label = \"$label(node, NodeIds)$\"];\n";
+        graph += "    n$count$ [shape=Mrecord, label = \"$label(node, NodeIds)$\"];\n";
     }
     graph += "}\n";
     writeFile("$file$.dot", [ graph ]);
@@ -56,17 +56,17 @@ label := procedure(node, NodeIds) {
     match (node) {
         case [f, @Leaf(c)]:
         if (c == "'") {
-             return "\\\"\\\'\\\":$f$";
+             return "\\\"\\\'\\\"|$f$";
         } else if (c == '"') {
-            return "\\\'\\\"\\\':$f$";
+            return "\\\'\\\"\\\'|$f$";
         } else if (c == ' ') {
-            return "\\\" \\\":$f$";
+            return "\\\" \\\"|$f$";
         } else if (c == "\t") {
-            return "\\\"tab\\\":$f$";
+            return "\\\"tab\\\"|$f$";
         } else if (c == "\n") {
-            return "\\\"nl\\\":$f$";
+            return "\\\"nl\\\"|$f$";
         } else {
-            return "\\\"$c$\\\":$f$";
+            return "\\\"$c$\\\"|$f$";
         }
         case [f, @Node(L, R)]:
              return f;
