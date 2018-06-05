@@ -84,8 +84,8 @@ of \blue{Dijkstra} and \blue{Huffman}.
             $\texttt{toList}: \texttt{PrioQueue} \rightarrow \texttt{List}(\texttt{Priority} \times \texttt{Value})$.
             \\[0.2cm]
             This function takes a priority queue and turns this priority queue into a list of pairs that is
-            sorted ascendingly according to the priorities. This function is defined by the following
-            conditional equations: 
+            sorted ascendingly according to the priorities. Once we have a working priority queue, we can
+            implement the function \texttt{toList} via the following conditional equations: 
             \begin{enumerate}
             \item $Q.\texttt{isEmpty}() \rightarrow Q.\texttt{toList}() = []$,
             \item $\neg Q.\texttt{isEmpty}() \rightarrow Q.\texttt{toList} = [Q.\texttt{top}()] + Q.\texttt{remove}().\texttt{toList}()$.
@@ -110,35 +110,50 @@ of \blue{Dijkstra} and \blue{Huffman}.
       \end{enumerate}
       Now we can specify the behaviour of the abstract data type $\texttt{PrioQueue}$.
       \begin{enumerate}
-      \item $\texttt{prioQueue}().\texttt{isEmpty}() = \texttt{true}$
+      \item $\texttt{prioQueue}().\texttt{toList}() = \texttt{[]}$
 
-            The constructor $\texttt{prioQueue}$ creates an empty queue.
-      \item $Q.\texttt{insert}(p, v).\texttt{isEmpty}() = \texttt{false}$
-
-            If something is inserted into a priority queue, the resulting queue is not empty.
-      \item $Q.\texttt{isEmpty} \rightarrow Q.\texttt{top}() = \Omega$
-
-            If we try to retrieve the pair with the highest priority from an empty priority queue, the
-            undefined value $\Omega$ is returned instead.
-      \item $\neg Q.\texttt{isEmpty}() \rightarrow Q.\texttt{top}() = Q.\texttt{toList}()[1]$
-
-            If we retrieve the  pair with the highest priority from an non-empty priority queue $Q$,
-            we get the same pair that is the first element of the list $Q.\texttt{toList}()$.
-
-      \item $Q.\texttt{isEmpty}() \rightarrow Q.\texttt{remove}() = Q$
-
-            Trying to remove the top element from an empty queue $Q$ returns $Q$.
-      \item $\neg Q.\texttt{isEmpty}() \rightarrow Q.\texttt{remove}().\texttt{toList}() =
-        Q.\texttt{toList}()[2..]$
-
-            If we remove the top element from a non-empty queue $Q$ and then transform the resulting queue into
-            a sorted list, we get the same list that we get when we chop of the first element from the list
-            $Q.\texttt{toList}()$.
+            The constructor returns an empty priority queue.
       \item $Q.\texttt{insert}(p,v).\texttt{toList}() = \texttt{insertList}(p,v,Q.\texttt{toList}())$
 
             If a pair $\pair(p,v)$ is inserted into a priority queue $Q$ and the resulting priority queue is
             converted into a list, then the resulting list is the same as if this pair is inserted
             into $Q.\texttt{toList}()$.
+      \item $Q.\texttt{isEmpty}() \leftrightarrow Q.\texttt{toList}() = \texttt{[]}$
+
+            A queue $Q$ is empty iff converting $Q$ to a list returns the empty list.
+      \item $Q.\texttt{toList}() = \texttt{[]} \rightarrow Q.\texttt{top}() = \Omega$
+
+            If we try to retrieve the pair with the highest priority from an empty priority queue, the
+            undefined value $\Omega$ is returned instead.
+      \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{top}() = Q.\texttt{toList}()[1]$
+
+            If we retrieve the  pair with the highest priority from an non-empty priority queue $Q$,
+            we get the pair that is the first element of the list $Q.\texttt{toList}()$.
+
+      \item $Q.\texttt{toList}() = \texttt{[]} \rightarrow Q.\texttt{remove}().\texttt{toList}() = \texttt{[]}$
+
+            Trying to remove the top element from an empty queue $Q$ results in a queue that is still empty.
+      \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{remove}().\texttt{toList}() =
+        Q.\texttt{toList}()[2..]$
+
+            If we remove the top element from a non-empty queue $Q$ and then transform the resulting queue into
+            a sorted list, we get the same list that we get when we chop of the first element from the list
+            $Q.\texttt{toList}()$.
+      \end{enumerate}
+      The basic idea behind these axioms is the following:  
+      \begin{enumerate}
+      \item Priority queues are \blue{generated} using the two \blue{constructors} \texttt{prioQueue} and
+            \texttt{insert}.
+      \item The behaviour of priority queues is \blue{observed} using the \blue{observer function}
+            \texttt{toList}.  We do not really care how the priority queue works internally.  We only care
+            about the results that are observable via the function \texttt{toList}.  
+      \item The functions \texttt{top} and \texttt{isEmpty} are \blue{observers} of the \textsc{Adt}
+            \texttt{PrioQueue}:  They do not \blue{change} a priority queue, instead they return information
+            about a priority queue.  These observer function can be reduced to the more general observer
+            function \texttt{toList}. 
+      \item The function \texttt{remove} is a \blue{mutator} function: It does \blue{change} a priority queue.
+            The \blue{behaviour} of this function is specified by describing the effects of these
+            changes that can be observed using the function \texttt{toList}. 
       \end{enumerate}
 \end{enumerate}
 \end{Definition}
@@ -146,10 +161,8 @@ We could implement the ADT $\texttt{PrioQueue}$ as a list of pairs that is sorte
 Then, the different methods of $\texttt{PrioQueue}$ would be implemented as follows:
 \begin{enumerate}
 \item $\texttt{prioQueue}()$ returns an empty list.
-\item $Q.\texttt{insert}(p,v)$ is implemented by the function $\texttt{insertList}$.  Note that we have
-      implemented this function already when we had implemented the sorting algorithm \blue{insertion sort}
-      in Chapter \ref{chap:insertionSort}.
-\item $Q.\texttt{top}()$ return the first element from the list $Q$.
+\item $Q.\texttt{insert}(p,v)$ is implemented by the function $\texttt{insertList}$. 
+\item $Q.\texttt{top}()$ returns the first element from the list $Q$.
 \item $Q.\texttt{remove}()$ removes the first element from the list $Q$.
 \end{enumerate}
 The worst case complexity of this approach would be linear for the method $\texttt{insert}()$,
