@@ -49,11 +49,6 @@ of \blue{Dijkstra} and \blue{Huffman}.
         \item $\texttt{prioQueue}: \texttt{PrioQueue}$
 
               This function is the constructor. It creates a new, empty priority queue.
-        \item $\texttt{top}: \texttt{PrioQueue}  \rightarrow (\texttt{Priority} \times \texttt{Value}) \cup \{\Omega\}$
-
-              The expression $Q.\texttt{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
-              element of $Q$ that has a  maximal priority among all elements in $Q$, while $p$ is
-              the priority associated with $v$. 
         \item $\texttt{insert}: \texttt{PrioQueue} \times \texttt{Priority} \times \texttt{Value} \rightarrow \texttt{PrioQueue}$
 
               The expression $Q.\texttt{insert}(p,v)$ inserts the  element $v$ into the priority queue $Q$.
@@ -62,6 +57,11 @@ of \blue{Dijkstra} and \blue{Huffman}.
 
               The expression $Q.\texttt{remove}()$ removes from $Q$ the element that is returned by
               $Q.\texttt{top}()$.
+        \item $\texttt{top}: \texttt{PrioQueue}  \rightarrow (\texttt{Priority} \times \texttt{Value}) \cup \{\Omega\}$
+
+              The expression $Q.\texttt{top}()$ returns a pair $\pair(p,v)$.  Here,  $v$ is any
+              element of $Q$ that has a  maximal priority among all elements in $Q$, while $p$ is
+              the priority associated with $v$. 
         \item $\texttt{isEmpty}: \texttt{PrioQueue} \rightarrow \mathbb{B}$
 
               The expression $Q.\texttt{isEmpty}$ checks whether the priority queue $Q$ is empty.
@@ -94,9 +94,10 @@ of \blue{Dijkstra} and \blue{Huffman}.
             into an ascendingly sorted list of priority-values-pairs such that the resulting list remains
             sorted.  This function has the signature
             \\[0.2cm]
-            \hspace*{-0.8cm}
-            $\texttt{insertList}: \texttt{Priority} \times \texttt{Value} \times \texttt{List}(\texttt{Priority} \times \texttt{Value}) 
-            \rightarrow \texttt{List}(\texttt{Priority} \times \texttt{Value})$.
+            \hspace*{-0.5cm}
+            $\mathtt{insertList}: \mathtt{Priority} \times \mathtt{Value} \times \mathtt{List}(\mathtt{Priority} \times \mathtt{Value}) 
+             \rightarrow \mathtt{List}(\mathtt{Priority} \times \mathtt{Value})
+            $.
             \\[0.2cm]
             This function can be specified as follows:
             \begin{enumerate}
@@ -104,6 +105,8 @@ of \blue{Dijkstra} and \blue{Huffman}.
             \item $p_1 <    p_2 \rightarrow \texttt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_1,v_1), \pair(p_2,v_2)] + R$,
             \item $p_1 \geq p_2 \rightarrow \texttt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_2,v_2)] + \texttt{insertList}\bigl(\pair(p_1,v_1), R\bigr)$.
             \end{enumerate}
+            Conceptually, this function is the same as the function $\mathtt{insert}$ that we had defined when
+            discussing the algorithm \blue{insertion sort} in Chapter \ref{chap:insertionSort}.
       \end{enumerate}
       Now we can specify the behaviour of the abstract data type $\texttt{PrioQueue}$.
       \begin{enumerate}
@@ -113,7 +116,7 @@ of \blue{Dijkstra} and \blue{Huffman}.
       \item $Q.\texttt{insert}(p, v).\texttt{isEmpty}() = \texttt{false}$
 
             If something is inserted into a priority queue, the resulting queue is not empty.
-      \item $\texttt{prioQueue}().\texttt{top}() = \Omega$
+      \item $Q.\texttt{isEmpty} \rightarrow Q.\texttt{top}() = \Omega$
 
             If we try to retrieve the pair with the highest priority from an empty priority queue, the
             undefined value $\Omega$ is returned instead.
@@ -144,7 +147,8 @@ Then, the different methods of $\texttt{PrioQueue}$ would be implemented as foll
 \begin{enumerate}
 \item $\texttt{prioQueue}()$ returns an empty list.
 \item $Q.\texttt{insert}(p,v)$ is implemented by the function $\texttt{insertList}$.  Note that we have
-      implemented this function already when we had implemented the sorting algorithm ``\blue{insertion sort}''.
+      implemented this function already when we had implemented the sorting algorithm \blue{insertion sort}
+      in Chapter \ref{chap:insertionSort}.
 \item $Q.\texttt{top}()$ return the first element from the list $Q$.
 \item $Q.\texttt{remove}()$ removes the first element from the list $Q$.
 \end{enumerate}
