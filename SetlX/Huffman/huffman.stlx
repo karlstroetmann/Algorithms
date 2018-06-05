@@ -1,3 +1,4 @@
+load("tree-2-dot.stlx");
 // m = { [f1, Leaf(c1)], ..., [fn, Leaf(cn)] }
 codingTree := procedure(M) {
     while (#M > 1) {
@@ -42,7 +43,7 @@ extractCodes := procedure(h, p) {
     }    
 };
 
-demo := procedure(M) {
+demo := procedure(M, file) {
     print("-" * 80);
     h := codingTree(M);
     dcng := extractCodes(h, "");
@@ -58,18 +59,21 @@ demo := procedure(M) {
     saving := 100.0 * (costNBit - costHuffman) / costNBit + "";
     print("saving $saving[1..4]$% space when using Huffman code\n");
     print("Huffman tree\n");
-    print(toString(h, "", 0), "\n");
+    // print(toString(h, "", 0), "\n");
+    graph2Dot(h, file);
 };
 
-demo({ [ 1, @Leaf("a")],
+M := { [ 1, @Leaf("a")],
        [ 1, @Leaf("b")],
        [ 2, @Leaf("c")],
        [ 3, @Leaf("d")],
        [ 5, @Leaf("e")],
        [ 8, @Leaf("f")],
-       [13, @Leaf("g")] });
+       [13, @Leaf("g")] };
 
-demoFile := procedure(fn) {
+demo(M, "small");
+
+demoFile := procedure(fn, outFile) {
     data      := readFile(fn);
     frequency := {};
     for (line in data) {
@@ -84,9 +88,9 @@ demoFile := procedure(fn) {
         }
     }
     M := { [ f, @Leaf(c) ] : [c, f] in frequency };
-    demo(M);
+    demo(M, outFile);
 };
 
-demoFile("alice.txt");
-demoFile("moby-dick.txt");
+demoFile("alice.txt",     "alice-huffman"    );
+demoFile("moby-dick.txt", "moby-dick-huffman");
 

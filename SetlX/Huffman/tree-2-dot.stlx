@@ -1,0 +1,75 @@
+// This function takes a 2-3-tree together with a file name and converts
+// this tree into a representation that is suitable for tool dot.  Then
+// dot is called to compute a graphical representation of the tree.  The
+// tool dot is part of the graphviz tool set for graph visualization.
+// This tool set is freely available for download at http://www.graphviz.org/.
+graph2Dot := procedure(tree, file) {
+    graph   := "digraph G {\n";
+    graph   += "    ordering = out;";
+    graph   += "    node [shape = record];\n";
+    NodeIds := {};
+    count   := 0;
+    assignIds(tree, NodeIds, count);
+    for ([node, id] in NodeIds) {
+        nodes := children(node, NodeIds);
+        if (nodes != []) {
+            graph += "    n$id$ -> " + join(["n$child$" : child in nodes | child != @Nil()], ",");
+            graph += ";\n";
+        }
+    }
+    for ([node, count] in NodeIds) {
+        graph += "    n$count$ [label = \"$label(node, NodeIds)$\"];\n";
+    }
+    graph += "}\n";
+    writeFile("$file$.dot", [ graph ]);
+    run("dot -Tpdf $file$.dot -o $file$.pdf");
+    run("open $file$.pdf");
+};
+// This function assigns numbers to all nodes in the tree represented
+// by node.  The parameter count is the initial value of the counter.
+assignIds := procedure(node, rw NodeIds, rw count) {
+    match (node) {
+        case [f, @Leaf(c)]:
+             count += 1;
+             NodeIds[node] := count;
+        case [f, @Node(L, R)]:
+             count += 1;
+             NodeIds[node] := count;
+             assignIds(L, NodeIds, count);
+             assignIds(R, NodeIds, count);
+        default: abort("Error in assignIds($node$)");
+    }
+};
+// Return a a list of the identifiers of all nodes that are children of this
+// node.
+children := procedure(node, NodeIds) {
+    match (node) {
+        case [f, @Leaf(c)]:
+             return [];
+        case [f, @Node(L, R)]:
+             return [NodeIds[L], NodeIds[R]];
+        default: abort("Error in children($node$)");
+    }
+};
+// Extract and return the label of the given node.
+label := procedure(node, NodeIds) {
+    match (node) {
+        case [f, @Leaf(c)]:
+        if (c == "'") {
+             return "\\\"\\\'\\\":$f$";
+        } else if (c == '"') {
+            return "\\\'\\\"\\\':$f$";
+        } else if (c == ' ') {
+            return "\\\" \\\":$f$";
+        } else if (c == "\t") {
+            return "\\\"tab\\\":$f$";
+        } else if (c == "\n") {
+            return "\\\"nl\\\":$f$";
+        } else {
+            return "\\\"$c$\\\":$f$";
+        }
+        case [f, @Node(L, R)]:
+             return f;
+        default: abort("Error in label($node$)");
+    }
+};
