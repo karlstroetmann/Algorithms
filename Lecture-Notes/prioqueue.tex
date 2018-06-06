@@ -561,6 +561,18 @@ to the node $\texttt{this}$.  This method is needed since in \textsc{SetlX}, ass
 \\[0.2cm]
 are not permitted.
 
+\exercise
+The implementation of heaps given in this section has been object-oriented.  Your task is to implement heaps in
+\textsc{SetlX} in a functional way such that heaps are represented as terms.
+\begin{enumerate}[(a)]
+\item The empty heap should be represented as the term \texttt{@Nil()}.
+\item A heap storing the value $v$ with priority $p$, left subtree $L$, right subtree $R$ and $c$ nodes should
+      be represented as the term $\texttt{@Node}(p, v, L, R, c)$.
+\end{enumerate}
+In order to test your implementation, you should implement heapsort.  Furthermore, you should implement a
+function that draws the underlying trees via  \href{http://graphviz.org}{\texttt{Graphviz}}.  
+\pagebreak
+
 
 \exercise
 The implementation of the method $\texttt{remove}$ given above violates the balancing condition.

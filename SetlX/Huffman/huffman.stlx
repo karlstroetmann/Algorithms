@@ -1,5 +1,5 @@
 load("tree-2-dot.stlx");
-// m = { [f1, Leaf(c1)], ..., [fn, Leaf(cn)] }
+// M = { [f1, Leaf(c1)], ..., [fn, Leaf(cn)] }
 codingTree := procedure(M) {
     while (#M > 1) {
         a := first(M);
