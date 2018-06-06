@@ -1,13 +1,19 @@
+load("union-find-2-dot.stlx");
 // This class implements the union find algorithm.
 unionFind := procedure(M, R) {
-    Parent := { [x, x] : x in M };  
+    Parent := { [x, x] : x in M };
+    count  := 1;
     for ([x, y] in R) {
+        graph2Dot(Parent, "union-find-example-$count$");
+        print("take union of $x$ and $y$");
+        count += 1;
         rootX := find(x, Parent);
         rootY := find(y, Parent);
         if (rootX != rootY) {
             Parent[rootY] := rootX;  // create union
         }
     }
+    graph2Dot(Parent, "union-find-example");
     Roots := { x : x in M | Parent[x] == x };
     return { { y : y in M | find(y, Parent) == r } : r in Roots };
 };
@@ -19,8 +25,8 @@ find := procedure(x, Parent) {
 };
 
 demo := procedure() {
-    M := { 1 .. 9 };
-    R := { [1, 4], [7, 9], [3, 5], [2, 6], [5, 8], [1, 9], [4, 7] };
+    M := { 1 .. 12 };
+    R := [ [1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [2, 4], [6, 8], [10, 12], [2, 8], [12, 2] ];
     print("R = $R$");
     P := unionFind(M, R);
     print("P = $P$");
