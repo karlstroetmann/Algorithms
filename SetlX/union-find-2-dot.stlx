@@ -21,9 +21,6 @@ graph2Dot := procedure(Parent, file) {
     writeFile("$file$.dot", [ graph ]);
     run("dot -Tpdf $file$.dot -o $file$.pdf");
     run("open $file$.pdf");
-    print("Press ENTER to continue");
-    get("");
-    run("rm $file$.pdf");
 };
 
 // Return a list of the identifiers of all nodes that are children of this

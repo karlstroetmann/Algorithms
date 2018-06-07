@@ -25,8 +25,9 @@ find := procedure(x, Parent) {
 };
 
 demo := procedure() {
-    M := { 1 .. 12 };
-    R := [ [1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [2, 4], [6, 8], [10, 12], [2, 8], [12, 2] ];
+    n := 9;
+    M := { 1 .. n };
+    R := [ [k+1, k] : k in M | k < n ];
     print("R = $R$");
     P := unionFind(M, R);
     print("P = $P$");

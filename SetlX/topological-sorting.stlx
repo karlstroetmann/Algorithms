@@ -1,0 +1,35 @@
+// This procedure implements Kahn's algorithm for topological sorting.
+// The first argument M is the set of the nodes of the directed graph,
+// while E is the set of the edges.
+// The function returns a list Sorted containing all nodes of M.  If
+// Sorted[i] = x, Sorted[j] = y, and [x, y] is an edge in the graph,
+// then we must have i < j.
+topoSort := procedure(M, E) {
+    PredDict := { [x, {}] : x in M };  // dictionary of successors
+    SuccDict := { [x, {}] : x in M };  // dictionary of predecessors
+    for ([x, y] in E) {
+        SuccDict[x] += { y }; PredDict[y] += { x };
+    }
+    Orphans := { x : [x, Parents] in PredDict | Parents == {} };
+    Sorted  := [];
+    while (M != {}) {
+        assert(Orphans != {}, "The graph is cyclic!");
+        x := from(Orphans);  M -= { x };
+        Sorted += [x];
+        for (y in SuccDict[x]) {
+            PredDict[y] -= { x };
+            if (PredDict[y] == {}) {
+                Orphans += { y };
+            }
+        }
+    }
+    return Sorted;
+};
+
+main := procedure() {
+    M := { 5, 7, 3, 11, 8, 2, 9, 10 };
+    E := { [5, 11], [7, 11], [7, 8], [3, 8], [3, 10], [11, 2], [11, 9], [11, 10], [8, 9] };
+    S := topoSort(M, E);
+    print(S);
+};
+main();

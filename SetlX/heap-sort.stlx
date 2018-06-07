@@ -7,7 +7,7 @@ sink := procedure(k, rw A, n) {
         if (j < n && A[j] > A[j+1]) {
             j += 1;
         }
-        if (A[k] < A[j]) {
+        if (A[k] <= A[j]) {
             return;
         }
         swap(k, j, A);
