@@ -10,7 +10,7 @@ topoSort := procedure(T, D) {
     for ([s, t] in D) {
         Children[s] += { t }; Parents[t] += { s };
     }
-    Orphans := { t : [t, Parents] in Parents | Parents == {} };
+    Orphans := { t : [t, P] in Parents | P == {} };
     Sorted  := [];
     while (T != {}) {
         assert(Orphans != {}, "The graph is cyclic!");

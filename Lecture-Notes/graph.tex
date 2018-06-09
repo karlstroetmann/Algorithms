@@ -1010,7 +1010,7 @@ number of nodes.  In this case, the complexity of
 $\Oh\bigl(\#\nodes * \log_2(\#\nodes)\bigr)$.
 
 \section{Topological Sorting}
-Assume that you have a huge project to manage.  In order to do so, you want to use 
+Assume that you have a huge project to manage.  In order to do so, you can use 
 \href{https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique}{\textsc{Pert}}, which is short for
 \blue{\underline{p}rogram \underline{e}valuation and \underline{r}eview \underline{t}echnique}.  Using \texttt{Pert},
 you break your project into a number of \blue{tasks}
@@ -1020,19 +1020,21 @@ $T := \{t_1,\cdots,t_n\}$.
 \\[0.2cm]
 Furthermore, there are \blue{dependencies} between the task: These dependencies take the form $s \prec t$, where $s$ and
 $t$ are tasks.  A dependency of the form $s \prec t$ means that the task $s$ has to be finished before the task $t$
-can start.  For example, if the overall project is to get dressed in the morning, the set $T$ of task is given
+can start.  For example, if the overall project is to get dressed in the morning\footnote{
+  In order to keep things manageably simple, I have made the assumption that the person that needs to get dressed is male.
+}, the set $T$ of task is given
 as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $T := \{ \textsl{socks}, \textsl{trousers}, \textsl{shirt}, \textsl{shoes} \}$.
 \\[0.2cm]
 The elements of $T$ are interpreted as follows:
-\begin{enumerate}
+\begin{itemize}
 \item \textsl{socks}: Put on socks.
 \item \textsl{trousers}: Put on trousers.
 \item \textsl{shirt}: Put on shirt.
-\item \textsl{shoes}: Put on shoes..
-\end{enumerate}
+\item \textsl{shoes}: Put on shoes.
+\end{itemize}
 There are some \blue{dependencies} between these tasks:  For example, putting on the shoes first and then trying to
 put on the socks does not work.  In detail, we have the following dependencies between the different tasks:
 \begin{enumerate}
@@ -1041,16 +1043,18 @@ put on the socks does not work.  In detail, we have the following dependencies b
 \item $\textsl{shirt} \prec \textsl{trousers}$.
 \end{enumerate}
 Now the problem is to order the tasks such that the dependencies are satisfied.  For example, for the project
-of dressing up in the morning, the following ordering would work:
+of dressing up in the morning, the following schedule would work:
 \\[0.2cm]
 \hspace*{1.3cm}
 \textsl{socks}, \textsl{shirt}, \textsl{trousers}, \textsl{shoes}.
 \\[0.2cm]
-For the simple task of dressing up in the morning, most of you would get the ordering right most of the time.
+For the simple task of dressing up in the morning, most of you would get the scheduling right most of the
+time\footnote{If you have a bad hangover, the correct scheduling can turn out to be more challenging.}.
 However, complex projects can have ten thousands of tasks and even more dependencies between these tasks.  For
-example, the US-lead invasion in the second Irak war was a project consisting of $30\,000$ tasks.  Ordering the
-tasks for a project of this size is very difficult to do by hand.  Instead, a technique called
-\blue{topological sorting} is used. 
+example, the US-lead invasion in the second Irak war was a project consisting of more than $30\,000$ tasks.
+The US invasion plan for the \href{https://en.wikipedia.org/wiki/China}{People's Republic of China} even
+contain more than 2 million tasks!  Ordering the tasks for a project of this size is very difficult to do by
+hand.  Instead, a technique called \blue{topological sorting} is used. 
 
 \subsection{Formal Definition of Topological Sorting}
 In order to better grasp the idea of a topological sorting problem, we define it formally as a graph
@@ -1060,7 +1064,7 @@ theoretical problem.
   $\pair(T, D)$ where
   \begin{itemize}
   \item $T$ is called the set of \blue{tasks} and 
-  \item $D \subseteq T \times T$ is called the set of dependencies.
+  \item $D \subseteq T \times T$ is called the set of \blue{dependencies}.
 
         If $\pair(s, t) \in D$, then this is written as 
         \\[0.2cm]
@@ -1073,27 +1077,37 @@ theoretical problem.
   satisfies 
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\forall s, t \in T:\bigl(s \prec t \rightarrow s < t\bigr)$.
+  $\forall s, t \in T:\bigl(s \prec t \rightarrow s < t\bigr)$,
   \\[0.2cm]
-  In practical applications, the set of tasks $T$ is finite.  Then, the linear ordering is computed as a list
-  $S$ of tasks.  In order for a list $S$ of tasks to be a solution of a \textsc{Tsp} $\pair(T,D)$ we need to have 
+  where $s < t$ is defined in terms of $s \leq t$ as follows
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\forall i,j \in \{1,\cdots,\#S:\bigl(S[i] \prec S[j] \rightarrow i < j\bigr)$,
+  $s < t \;\stackrel{\mathrm{def}}{\Longleftrightarrow}\; s \leq t \wedge s \not= t$.
+  \\[0.2cm]
+  In practical applications, the set of tasks $T$ is always finite.  Then, the linear ordering is computed as a \blue{list}
+  $S$ of tasks.  In order for a list $S$ of tasks to be a solution of a \textsc{Tsp} $\pair(T,D)$, we need to have 
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\forall i,j \in \{1,\cdots,\#S\}:\bigl(S[i] \prec S[j] \rightarrow i < j\bigr)$,
   \\[0.2cm]
   i.e.~if the task $S[j]$ depends on the task $S[i]$, then $S[i]$ needs to precede $S[j]$ in the list $S$.
   Furthermore, every task $t \in T$ occurs exactly once in $S$. This requirement is equivalent to the equation
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\#T = \#S$.  \eox
+  $\texttt{card}(T) = \texttt{length}(S)$,
+  \\[0.2cm]
+  i.e.~the number of elements of the set $T$ is the same as the length of the list $S$.
+  \eox
 \end{Definition}
 
 \subsection{Computing the Solution of a \textsc{Tsp}}
 Next, we present \blue{Kahn's algorithm} \cite{kahn:1962} for solving a \textsc{Tsp}.  The basic idea is very
-simple. Ask yourself:  How can the list $S$ that is supposed to be a solution to a \textsl{Tsp} $\pair(T, D)$ start?
-Of course, it can only start with a task that does not depend on any other task.  Therefore, if every task
-depends on some other task, there is no way to solve the \textsc{Tsp}.  Kahn's algorithm for solving a
-\textsc{Tsp} $\pair(T, D)$ works as follows:
+simple. Ask yourself:  How can a list $S$ that is supposed to be a solution to a \textsl{Tsp} $\pair(T, D)$ start?
+Of course, it can only start with a task that does not depend on any other task.  Therefore, if we are
+unfortunate and every task depends on some other task, there is no way to solve the \textsc{Tsp}.  Otherwise,
+we can just pick any task that does not depend on another task to be the first task and remove it from the set
+of tasks.  After that it's just rinse and repeat.  Therefore, Kahn's algorithm for solving a \textsc{Tsp}
+$\pair(T, D)$ works as follows: 
 \begin{enumerate}
 \item Initialize the list $\texttt{S}$ of tasks to the empty list.
 \item Pick a task $t \in T$ that does not depend on any other task and append this task to $\texttt{S}$.
@@ -1107,13 +1121,13 @@ When the algorithm terminates, the list \texttt{S} is a solution to the \textsc{
 
 In order to implement this algorithm we need to think about the data structures that are needed.
 In order to be able to pick a task $t \in T$ that does not depend on any other task, we need a set of all those
-tasks.  Using graph theoretical manner of speaking we call this set the set of \blue{orphans}, since in graph
-theory, if we have an edge $\pair(s, t)$, then $s$ is called a parent of $t$ and, therefore, a node with no
-parents is called an \blue{orphan}.  In order to maintain the set of orphans, we need to be able to compute
-the \blue{parents} of each node.  Furthermore, when we remove a node $t$ from the graph after inserting it into the
-list \texttt{S}, we have to compute the set of children of that node.  The reason is that we have to update the
-parents of the children of $t$.  This leads to the algorithm shown in Figure \ref{fig:topologocal-sorting.stlx}
-on page \pageref{fig:topologocal-sorting.stlx}.
+tasks that do not depend on any other task.  Using graph theoretical manner of speaking we call this set the
+set of \blue{orphans}, since in graph theory, if we have an edge $\pair(s, t)$, then $s$ is called a parent of
+$t$ and, therefore, a node with no parents is called an \blue{orphan}.  In order to maintain the set of
+orphans, we need to be able to compute the \blue{parents} of each node.  Furthermore, when we remove a node $t$
+from the graph after inserting it into the list \texttt{S}, we have to compute the set of children of that
+node.  The reason is that we have to update the set of parents of the children of $t$.  This leads to the algorithm
+shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologocal-sorting.stlx}.
 
 \begin{figure}[!ht]
 \centering
@@ -1132,7 +1146,7 @@ on page \pageref{fig:topologocal-sorting.stlx}.
         for ([s, t] in D) {
             Children[s] += { t }; Parents[t] += { s };
         }
-        Orphans := { t : [t, Parents] in Parents | Parents == {} };
+        Orphans := { t : [t, P] in Parents | P == {} };
         Sorted  := [];
         while (T != {}) {
             assert(Orphans != {}, "The graph is cyclic!");
@@ -1155,21 +1169,23 @@ on page \pageref{fig:topologocal-sorting.stlx}.
 \begin{enumerate}
 \item In order to compute the parents and children of a given node efficiently, Kahn's algorithm
       uses two dictionaries: $\texttt{Parents}$ and $\texttt{Children}$.
-      In lines 2 and 3 we initialize the dictionaries to be empty and the \texttt{for}-loop in line 4 fills both of these
-      dictionaries: If there is a dependency $\pair(\texttt{s}, \texttt{t})$, then $\texttt{t}$ is a child of $\texttt{s}$ and $\texttt{s}$ is a parent of $\texttt{t}$.
+      In lines 2 and 3 we initialize these dictionaries to be empty and the \texttt{for}-loop in line 4 fills both of these
+      dictionaries: If there is a dependency $\pair(\texttt{s}, \texttt{t})$, then $\texttt{t}$ is a child of
+      $\texttt{s}$ and $\texttt{s}$ is a parent of $\texttt{t}$.  Therefore, $\texttt{t}$ is added to the set
+      $\texttt{Children[s]}$ and $\texttt{s}$ is added to the set $\texttt{Parents[t]}$.
 \item In line 7, we compute the set $\texttt{Orphans}$ of those tasks that have no $\texttt{Parents}$.
 \item In line 8, the list $\texttt{Sorted}$ is initialized.  When the algorithm completes without failure, this list will
-      contain the solution of the \textsc{Tsp}.
+      contain a solution of the \textsc{Tsp}.
 \item As long as there are still tasks in the set $\texttt{T}$ that have not been inserted into the list
       $\texttt{Sorted}$ the algorithm keeps going.
 \item If at any point the set of tasks $\texttt{T}$ that need to be scheduled is not yet empty but all remaining
       tasks still have parents, i.e.~depend on the completion of some other task, then the given \textsc{Tsp}
       is not solvable and the algorithm terminates with a failure message.
 \item Otherwise, we remove a task $\texttt{t}$ from the set of orphaned tasks, remove this task from $\texttt{T}$
-      and append it to the list if scheduled task $\texttt{Sorted}$.
+      and append it to the list of scheduled tasks $\texttt{Sorted}$.
 \item Finally, we have to update the parent dictionary so that for all children $\texttt{s}$ of the task
       $\texttt{t}$, the task $\texttt{t}$ is no longer a parent of the task $\texttt{s}$.  Furthermore, if this
-      implies that a task $\texttt{s}$ becomes orphaned, it needs to be added to the set $\texttt{Orphans}$.
+      implies that the task $\texttt{s}$ has no parents left, it needs to be added to the set $\texttt{Orphans}$.
 \end{enumerate}
 
 %%% Local Variables: 
