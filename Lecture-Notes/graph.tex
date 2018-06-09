@@ -1188,6 +1188,21 @@ shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologo
       implies that the task $\texttt{s}$ has no parents left, it needs to be added to the set $\texttt{Orphans}$.
 \end{enumerate}
 
+\subsection{Complexity}
+If the number of dependencies that any given task is involved in is bounded by some fixed constant and $n$ is
+the number of tasks,  then the complexity of Kahn's algorithm as given in Figure \ref{fig:topologocal-sorting.stlx}
+is  
+\\[0.2cm]
+\hspace*{1.3cm}
+$\Oh\bigl(n \cdot \log_2(n)\bigr)$.
+\\[0.2cm]
+The reason is that building the dictionary \texttt{Parents} as well as the dictionary \texttt{Children} both
+have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$. Furthermore, maintaining  the set \texttt{Orphans} has a complexity of
+$\Oh\bigl(n \cdot \log_2(n)\bigr)$.
+
+
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"
