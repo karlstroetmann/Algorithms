@@ -1,25 +1,25 @@
 // This procedure implements Kahn's algorithm for topological sorting.
-// The first argument M is the set of the nodes of the directed graph,
+// The first argument T is the set of the nodes of the directed graph,
 // while E is the set of the edges.
-// The function returns a list Sorted containing all nodes of M.  If
+// The function returns a list Sorted containing all nodes of T.  If
 // Sorted[i] = x, Sorted[j] = y, and [x, y] is an edge in the graph,
 // then we must have i < j.
-topoSort := procedure(M, E) {
-    PredDict := { [x, {}] : x in M };  // dictionary of successors
-    SuccDict := { [x, {}] : x in M };  // dictionary of predecessors
-    for ([x, y] in E) {
-        SuccDict[x] += { y }; PredDict[y] += { x };
+topoSort := procedure(T, D) {
+    Parents  := { [t, {}] : t in T };  // dictionary of parents
+    Children := { [t, {}] : t in T };  // dictionary of children
+    for ([s, t] in D) {
+        Children[s] += { t }; Parents[t] += { s };
     }
-    Orphans := { x : [x, Parents] in PredDict | Parents == {} };
+    Orphans := { t : [t, Parents] in Parents | Parents == {} };
     Sorted  := [];
-    while (M != {}) {
+    while (T != {}) {
         assert(Orphans != {}, "The graph is cyclic!");
-        x := from(Orphans);  M -= { x };
-        Sorted += [x];
-        for (y in SuccDict[x]) {
-            PredDict[y] -= { x };
-            if (PredDict[y] == {}) {
-                Orphans += { y };
+        t := from(Orphans);  T -= { t };
+        Sorted += [t];
+        for (s in Children[t]) {
+            Parents[s] -= { t };
+            if (Parents[s] == {}) {
+                Orphans += { s };
             }
         }
     }
@@ -27,9 +27,9 @@ topoSort := procedure(M, E) {
 };
 
 main := procedure() {
-    M := { 5, 7, 3, 11, 8, 2, 9, 10 };
-    E := { [5, 11], [7, 11], [7, 8], [3, 8], [3, 10], [11, 2], [11, 9], [11, 10], [8, 9] };
-    S := topoSort(M, E);
+    T := { 5, 7, 3, 11, 8, 2, 9, 10 };
+    D := { [5, 11], [7, 11], [7, 8], [3, 8], [3, 10], [11, 2], [11, 9], [11, 10], [8, 9] };
+    S := topoSort(T, D);
     print(S);
 };
 main();
