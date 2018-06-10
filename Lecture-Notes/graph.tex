@@ -506,7 +506,7 @@ tree problem precisely.  Then, we present
 minimum spanning tree problem. 
 
 \subsection{Basic Definitions}
-\begin{Definition}[Weighted Graph] An \blue{weighted graph} is a triple 
+\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph} is a triple 
    $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
   \item $\nodes$ is the set is a set of  \blue{nodes}.
@@ -522,6 +522,9 @@ minimum spanning tree problem.
         \\[0.2cm]
         Hence, if $x$ is connected to $y$ then $y$ is also connected to $x$.
   \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \blue{weight} to every edge.
+
+        In practical applications, the weight of an edge is often interpreted as the \blue{cost} or the
+        \blue{length} of the edge.
         \conclude
   \end{enumerate}
 \end{Definition}
@@ -534,38 +537,48 @@ $P = [ x_1, x_2, x_3, \cdots, x_n ]$
 \\[0.2cm]
 such that we have : \\[0.2cm]
 \hspace*{1.3cm}
- $\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 1, \cdots, n-1$.
+$\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 1, \cdots, n-1$.
 \\[0.2cm]
-The path $P$ \blue{connects} the nodes $x_1$ and $x_n$.  The \blue{weight} of a path is defined as
+The set of all paths is denoted as $\mathbb{P}$, i.e.~we define
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \mathbb{P}  := \bigl\{ P \mid \mbox{$P$ is a path} \bigr\}$.
+\\[0.2cm]
+A path $P = [ x_1, \cdots, x_n]$ \blue{connects} the nodes $x_1$ and $x_n$.  The \blue{weight} of a path is defined as
 the sum of the weights of all of its edges.  
 \\[0.2cm]
 \hspace*{1.3cm}
  $\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\{x_i,x_{i+1}\}}$. 
 \\[0.2cm]
-A graph is \blue{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$.
+A graph is \blue{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$, i.e.~we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\forall x, y \in \mathbb{V}: \exists P \in \mathbb{P}: \bigl(P[1] = x \wedge P[\#P] = y\bigr)$.
+\\[0.2cm]
 A set of edges can be interpreted as graph since the set of nodes can be computed from the edges as
 follows: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
+$\ds\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
 \\[0.2cm]
 Then, a set of edges $\edges$ is called a \blue{tree} if and only if
 \begin{enumerate}
-\item all of its nodes are connected \quad and
-\item removing an edge from $\edges$ would result in a graph that is no longer connected.
+\item the corresponding graph is connected \quad \textbf{and}
+\item removing any edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
 The \blue{weight} of a tree is the sum of the weights of its edges.
 
 \exercise
-Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that then
+Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that the equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\textsl{card}(\edges) = \textsl{card}(\nodes) - 1$
 \\[0.2cm]
-must hold.  
+holds.  
+\vspace*{0.2cm}
 
 \hint
-The easiest way to prove this is by induction on $n = \textsl{card}(V)$.  You will need to prove the
+The easiest way to prove this is by induction on $n = \textsl{card}(\mathbb{V})$.  You will need to prove the
 following auxiliary claim first: In a tree there is at least one node in $\nodes$ that has
 only one neighbouring node. 
 \eox
@@ -573,14 +586,18 @@ only one neighbouring node.
 \subsection{Kruskal's Algorithm}
 In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Joseph Bernard Kruskal} (1928 -- 2010) 
 found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
-of the union-find algorithm that we have developed previously.  The basic idea is as
+of the \blue{union-find algorithm} that we have shown in the previous section.  The basic idea is as
 follows.
 \begin{enumerate}
 \item In the first step, we create a union-find data structure that contains \blue{singleton trees}
       for all nodes in the graph.  Here, a singleton tree is a tree containing just a single node.
-\item Next, we iterate over all edges $\pair(x, y)$ in the graph in increasing order of their
-      weight.  If the nodes $x$ and $y$ are not yet connected, we join their respective equivalence
-      classes. 
+\item Next, we iterate over all edges $\pair(x, y)$ in the graph in \blue{increasing order of their weight}.
+      If the nodes $x$ and $y$ are not yet connected, we join their respective equivalence classes by adding
+      the edge $\pair(x, y)$ to the tree we are building.
+
+      The fact that we investigate the edges in increasing order of their weight implies that we always choose
+      the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is a
+      \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
 \item We stop when the number of edges is 1 less than the number of nodes since, according to the
       previous exercise, the tree must then connect all the nodes of the graph. 
 \end{enumerate}
@@ -623,7 +640,7 @@ discuss this program next.
 
 \begin{enumerate}
 \item The main function is the function $\texttt{mst}$, which is short for \underline{m}inimum
-      \underline{s}panning \underline{t}ree.  This function is provided with two arguments:
+      \underline{s}panning \underline{t}ree.  This function takes two arguments:
       $\texttt{V}$ is the set of nodes and $\texttt{E}$ is the set of edges of a given graph.  The edges are represented as
       triples of the form
       \\[0.2cm]
@@ -632,22 +649,22 @@ discuss this program next.
       \\[0.2cm] 
       Here, $\texttt{x}$ and $\texttt{y}$ are the nodes connected by the edge and $\texttt{w}$ is the
       weight of the edge.  The function $\texttt{mst}$ computes a minimum spanning tree of  the
-      graph that is specified via the sets $\texttt{V}$ and $\texttt{E}$.  It is assumed that the graph
-      defined by $\texttt{V}$ and $\texttt{E}$ is connected.
+      graph  $\pair(\texttt{V},\texttt{E})$.  It is assumed that this graph is connected.
 \item The function $\texttt{mst}$ first creates the union-find data structure $\texttt{uf}$ in line 2.
       Initially, in $\texttt{uf}$ every node is in an equivalence class all by itself, i.e.~nothing is
       yet connected.
 \item The spanning tree constructed by the algorithm is stored in the variable $\texttt{Result}$.
       The spanning tree is represented by a set of edges.  
 \item Next, we iterate over the edges in $\texttt{E}$.  Since the first part of each edge is its
-      weight, the fact that in \textsc{SetlX} sets are stored as ordered binary trees ensures that
+  weight, the fact that in \textsc{SetlX} sets are stored as \blue{ordered} binary trees ensures that
       we start with the edge that has the smallest weight.
 \item For every edge $[\texttt{x},\texttt{y}]$ we check whether $\texttt{x}$ and $\texttt{y}$ are already
       connected.  This is the case if both $\texttt{x}$ and $\texttt{y}$ are in the same tree.
 \item If $\texttt{x}$ and $\texttt{y}$ are not connected, the corresponding edge is added to the
-      spanning tree and the trees containing $\texttt{x}$ and $\texttt{y}$ are connected.
-\item The algorithm returns if the tree has $\texttt{\#V}-1$ edges, since we know from the previous
-      exercise that in that case all nodes are connected.
+      spanning tree and the trees containing $\texttt{x}$ and $\texttt{y}$ are connected by calling the function
+      \texttt{union}.
+\item The algorithm returns if the tree \texttt{Result} has $\texttt{\#V}-1$ edges, since we know from the previous
+      exercise that in that case all nodes have to be connected.
 \end{enumerate}
 
 
@@ -657,7 +674,7 @@ In this section we will show two algorithms that solve the
 \href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{Bellman-Ford algorithm} and
 \href{https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}.  
 In order to explain the shortest path problem and the algorithms to solve it, we introduce the notion
-of a weighted \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{directed graph}}.
+of a \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{weighted directed graph}}.
 
 
 \begin{Definition}[Weighted Digraph] \
@@ -679,7 +696,7 @@ nodes while in a graph the edges are \underline{sets} of two nodes.  Informally,
 digraph can be viewed as one-way streets, while in a graph they represent streets that can be used in both
 directions.  Hence, if a digraph has an edge $\pair(a,b)$, then this edge enables us to get from $a$ to $b$ but
 this edge does not enable us to go from $b$ to $a$.  On the other hand, if a graph has an edge $\{a,b\}$, then
-this edge enables us to go from $a$ to $b$ as well as from $b$ to $a$.
+this edge enables us to go from $a$ to $b$ as well as to go from $b$ to $a$.
 \eox
 
 \begin{Definition}[Path, Path Length]
@@ -770,11 +787,11 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
       \begin{enumerate}
       \item $\texttt{source}$ is the start node.  Our intention is to compute the distance of all
             vertices from the node $\texttt{source}$.
-      \item $\texttt{Edges}$ is a functional binary relation that encodes the set of edges of the graph.  For
-            every node $x$ we have that $\texttt{Edges}[\texttt{x}]$ is a set of the form
+      \item $\texttt{Edges}$ is a \blue{functional binary relation} that encodes the set of edges of the graph.  For
+            every node $x$ the set $\texttt{Edges}[x]$ has the form
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\{ [y_1, l_1], \cdots, [y_n, l_n] \}$.
+            $\bigl\{ [y_1, l_1], \cdots, [y_n, l_n] \bigr\}$.
             \\[0.2cm]
             This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
             $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
@@ -792,18 +809,19 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
                  };
            \end{verbatim}
       \end{enumerate}
-\item The variable $\texttt{Distance}$ is a functional binary relation.  When the computation is
-      successful, for every node $x$ the relation will contain a pair of the form
+\item The variable $\texttt{Distance}$ is a \blue{functional binary relation}.  When the computation is
+      successful, for every node $x$ this relation will contain a pair of the form
       $[x, \texttt{sp}(x)]$ showing that the node $x$ has distance $\texttt{sp}(x)$ from the node $\texttt{source}$.
 
       The node $\texttt{source}$ has distance $0$ from the node $\texttt{source}$ and initially this is
-      all we know.  Hence, the relation $\texttt{Distance}$ is initialized as the set $\{[\texttt{source},0]\}$.
+      all we know.  Hence, the relation $\texttt{Distance}$ is initialized as the set $\bigl\{[\texttt{source},0]\bigr\}$.
 \item The variable $\texttt{Fringe}$ is a set of those nodes where we already have an estimate of
-      their distance but where we haven't computed the distances of the neighbours.
+      their distance from the  node \texttt{source}, but where we haven't yet computed the distances of their
+      neighbours from the node \texttt{source}. 
       Every iteration of the \texttt{while} loop computes the distances of all those nodes $y$ that are
       connected to a node in $\texttt{Fringe}$ by an edge $\pair(x,y)$.
-      Since, initially we only know the distance of the node $\texttt{source}$, we initialize the set
-      Fringe as the set
+      Initially we only know that the node $\texttt{source}$ is connected to the node \texttt{source}.
+      Therefore, we initialize the set $\texttt{Fringe}$ as the set
       \\[0.2cm]
       \hspace*{1.3cm}
       $\{ \texttt{source} \}$.
@@ -880,7 +898,7 @@ there is an edge $\pair(u,y)$, have been examined.
 The set $\texttt{Visited}$ isn't used in the implementation of the algorithm since the variable is
 only written but is never read.
 I have introduced the variable $\texttt{Visited}$ in order to be able to formulate the invariant that
-is needed to prove the correctness of the algorithm.  This invariant is
+is needed to prove the \blue{correctness} of the algorithm.  This invariant is
 \\[0.2cm]
 \hspace*{1.3cm}
 $\forall \texttt{u}\in\texttt{Visited}: \texttt{Distance}[\texttt{u}] = \texttt{sp}(\texttt{u})$,
@@ -913,7 +931,7 @@ We only need to inspect these lines.
       claim is true by induction hypothesis.  Hence we only need to consider the case where
      $\texttt{u}$ is not a member of the set $\texttt{Visited}$ before it is inserted.
 
-      The proof now proceeds indirect and we assume that we have
+      The proof now proceeds \red{by contradiction} and we \blue{assume} that we have
       \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Distance}[\texttt{u}] > \texttt{sp}(\texttt{u})$
       \\[0.2cm]
@@ -948,12 +966,17 @@ We only need to inspect these lines.
       chosen from the priority queue $\texttt{Fringe}$ before $\texttt{u}$ has been chosen, but then $x_{i+1}$
       would be a member of $\texttt{Visited}$.
 
-      Since $\texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}]$ we now have the contradiction
+      Since $\texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}]$ we now have 
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\texttt{sp(u)} \geq \texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}] \geq \texttt{Distance[u]} > \texttt{sp(u)}$.
+      $\texttt{sp(u)} \geq \texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}] \geq \texttt{Distance[u]} > \texttt{sp(u)}$,
       \\[0.2cm]
-      This shows that the assumption $\texttt{Distance[u]} > \texttt{sp(u)}$ has to be wrong.  On the
+      i.e.~we have shown the \red{contradiction}
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{sp(u)} > \texttt{sp(u)}$,
+      \\[0.2cm]
+      This shows that the \blue{assumption} $\texttt{Distance[u]} > \texttt{sp(u)}$ has to be wrong.  On the
       other hand, since we always have $\texttt{Distance[u]} \geq \texttt{sp(u)}$ we can only conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
