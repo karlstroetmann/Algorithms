@@ -1,3 +1,4 @@
+
 // Moore's algorithm for computing the shortest path function.
 shortestPath := procedure(source, Edges) {
     Distance := { [source, 0] };

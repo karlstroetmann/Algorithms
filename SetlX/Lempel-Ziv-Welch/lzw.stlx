@@ -120,6 +120,6 @@ fileDemo := procedure(f) {
 // fileDemo("lzw.stlx");
 // fileDemo("ComparableSet.java");
 
-// demo("aabaaabb", true);
+demo("abcabcabcabc", true);
 
 

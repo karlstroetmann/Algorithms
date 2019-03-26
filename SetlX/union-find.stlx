@@ -6,6 +6,7 @@ unionFind := procedure(M, R) {
     count  := 1;
     for ([x, y] in R) {
         graph2Dot(Parent, "union-find-example-$count$");
+        get();
         count += 1;
         rootX := find(x, Parent);
         rootY := find(y, Parent);

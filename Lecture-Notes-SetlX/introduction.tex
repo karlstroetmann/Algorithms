@@ -1,0 +1,255 @@
+\chapter{Introduction}
+\section{Motivation}
+The previous lecture during the past winter term has shown us how interesting problems can be solved with the
+help of sets and relations.  However, we did not discuss how \blue{sets} and \blue{relations} can be
+represented by \blue{data structures} and how the operations on sets can be implemented in an efficient way.  This
+course will answer these questions:  We will develop a number of different data structures that can be used to
+realize both sets and relations. Furthermore, we will discuss a number of other data structures and
+algorithms that should be in the toolbox of every computer scientist.
+
+While the class in the last term has introduced the students to the theoretical foundations of
+computer science, this class is more practical.  Indeed, it may be one of the most 
+important classes for your future career: Five years after their students have graduated, Stanford University
+regularly asks their former students to rank those classes that were the most useful for their professional
+career.  Together with programming and databases, the class on algorithms consistently ranks highest.
+On \href{https://quora.com}{Quora}, the answers to the question
+\\[0.1cm]
+\hspace*{1.3cm}
+``\href{What are the 5 most important CS courses that every computer science student must take?}{
+  What are the 5 most important CS courses that every computer science student must take?}''
+\\[0.1cm]
+consistently list the class \blue{algorithms and data structures} among those courses that are most valuable
+for a professional career.  The practical importance of the topic of this class can also be seen by the
+availability of book titles like
+``\href{https://www.amazon.com/Algorithms-Interviews-Adnan-Aziz/dp/1453792996}{Algorithms for Interviews}''  
+\cite{aziz:10} or the \href{http://www.youtube.com/watch?v=k4RRi_ntQc8}{Google job interview questions}.
+ 
+ 
+\section{Overview}
+This lecture covers the design and the analysis of algorithms.  We will discuss the following topics.
+\begin{enumerate}
+% \item Undecidability of the \href{http://en.wikipedia.org/wiki/Halting_problem}{halting problem}.
+
+%       At the beginning of the lecture we discuss the limits of computability:  We will show that
+%       there is no \textsc{SetlX} function \texttt{doesTerminate} such that for a given function $f$
+%       of one argument and a string $s$ the expression
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $\texttt{doesTerminate}(f, s)$ 
+%       \\[0.2cm]
+%       yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
+\item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms.
+
+      In general, in order to solve a given problem it is not enough to develop an algorithm that
+      implements a function $f$ that computes the  value $f(x)$ for a given argument $x$.  It is also important  
+      that the computation of $f(x)$ does not consume too much \blue{time} and \blue{memory}.  Therefore, we want to have
+      \blue{efficient} algorithms.
+      In order to be able to discuss the efficiency of algorithms we have to introduce two 
+      mathematical notions.
+      \begin{enumerate}
+      \item \href{http://en.wikipedia.org/wiki/Big_Oh}{Big O notation} offers a convenient way to
+            discuss the growth rate of functions.  This notation is useful to abstract from
+            unimportant details when discussing the runtime of algorithms.  
+      \item The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+            is the discrete analogue of the notion of a 
+            \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.  
+            Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
+            \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that estimates
+            the growth of \blue{recursive} functions.
+      \end{enumerate}
+\item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}.
+
+      Abstract data types are a means to describe the behaviour of an algorithm in a concise way.
+      Furthermore, abstract data types are part of the foundations of 
+      \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented programming}. 
+\item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}.
+
+      Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
+      these algorithms are easy to understand and easy to analyse.  Therefore, we start our discussion of
+      algorithms and their complexity with sorting algorithms.  In this lecture, we discuss the following
+      sorting algorithms: 
+      \begin{enumerate}
+      \item \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort},
+      \item \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort},
+      \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, 
+      \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, and
+      \item \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}.
+      \end{enumerate}
+%\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
+%  
+%      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
+%      is a method to investigate the correctness of an algorithm.  
+
+\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Associative arrays}.
+  
+      Associative arrays are a means to represent a function.  Most modern programming
+      languages provide associative array as basic data structues.  Mathematically, an associative array is
+      nothing more than a functional relation.  We discuss various data structures that can be used to
+      implement associative arrays efficiently. 
+\item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}.
+  
+      Many graph theoretical algorithms use priority queues as one of their basic building blocks.
+      Furthermore, priority queues have important applications in the theory of operating systems
+      and in simulation.
+\item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}.
+  
+      There are many applications of graphs in computer science.  The topic of graph theory is very
+      rich and can easily fill a class of its own.  Therefore, we can only cover a small subset of this topic.
+      In particular, we will discuss
+      \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
+      for computing the shortest path.
+      Furthermore, we discuss 
+      \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
+      \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph.
+\item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
+ 
+      Many important problems either do not have an exact solution at all or the computation of an
+      exact solution would be prohibitively expensive.  In these cases it is often possible to use 
+      simulation in order to get an approximate solution.  As a concrete example we will show
+      how certain probabilities in \href{http://en.wikipedia.org/wiki/Texas_hold_%27em}{Texas hold 'em} 
+      poker can be determined approximately with the help of the \blue{Monte Carlo method}.
+\end{enumerate}
+The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
+Instead, my goal is to enable you to think algorithmically:  At the end of these
+lectures, you should have acquired the following capabilities:
+\begin{enumerate}
+\item You should be able to understand scientific literature describing algorithms.
+\item You should have acquired the skill to develop your own algorithms and to analyse their complexity.
+
+      Of course, developing an algorithm is a process that requires a lot of creativity on your side.  However,
+      once you are acquainted with a fair number of algorithms, you should be able to develop similar
+      algorithms on your own. 
+\end{enumerate}
+
+
+\section{Algorithms and Programs}
+This is a lecture on \blue{algorithms}, not on \blue{programming}.  It is important that you do not mix up
+these two concepts.  An algorithm is an \blue{abstract concept} to solve a given problem.  In
+contrast, a program is a \blue{concrete implementation} of an algorithm.  In order to implement an
+algorithm by a program we have to cover every detail, be it trivial or not.  On the other hand, 
+to specify an algorithm it is often sufficient to describe the interesting aspects.  It is
+quite possible for an algorithm to leave a number of questions open.
+
+In the literature, algorithms are usually presented as \blue{pseudo code}.  Syntactically, pseudo code looks
+similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
+described in natural language.   However, it is important to realize that a piece of pseudo code is
+\underline{not} an algorithm but is only a \blue{representation} of an algorithm.  However, the
+advantage of pseudo code is that we are not confined by the arbitrariness of the syntax of a
+programming language.
+
+Conceptually, the difference between an algorithm and a program is similar to the difference between
+a \blue{philosophical idea} and a \blue{text} that describes the idea.  If you have an philosophical idea, you
+can write it down to make it concrete.  As you can write down the idea in English, or French or, preferably, in
+ancient Greek, the textual descriptions of the idea might be quite different.  This is the same with an algorithm:
+We can code it in \href{https://en.wikipedia.org/wiki/Java_(programming_language)}{Java}, or
+\href{http://python.org}{Python}, or, preferably, \href{http://setlx.randoom.org}{\textsc{SetlX}}.  The
+programs will be very different, but the algorithm will be the same. 
+
+Having discussed the difference between algorithms and programs, let us now decide how to present
+algorithms in this lecture.  
+\begin{enumerate}
+\item We can describe algorithms using natural language.  While natural language certainly is
+      expressive enough, it also suffers from ambiguities.  Furthermore, natural language
+      descriptions of complex algorithms tend to be difficult to follow.
+\item Instead, we can describe an algorithm by implementing it.  There is certainly no ambiguity
+      in a program, but on the other hand this approach would require us to implement every aspect
+      of an  algorithm and our descriptions of algorithms would therefore get longer than we want.
+\item Finally, we can try to describe algorithms in the language of mathematics.  This language is 
+      concise, unambiguous, and easy to understand, once you are accustomed to it.  This is
+      therefore our method of choice.
+
+      However, after having presented an algorithm in the language of mathematics, it is often very
+      simple to implement this algorithm in the programming language
+      \href{http://randoom.org/Software/SetlX}{\textsc{SetlX}}.  The reason is 
+      that \textsc{SetlX} is based on set theory, which is the language of mathematics.  We will see
+      that \textsc{SetlX} enables us to present and implement algorithms on a very high abstraction level.
+\end{enumerate}
+
+\section{Desirable Properties of Algorithms}
+Before we start with our discussion of algorithms we should think about our goals when designing
+algorithms.  
+\begin{enumerate}
+\item Algorithms have to be \blue{correct}.
+\item Algorithms should be \blue{efficient} with respect to both \blue{computing time} and \blue{memory}.
+\item Algorithms should be \blue{simple}.
+\end{enumerate}
+The first goal in this list is so self-evident that it is often overlooked.  The
+importance of the last goal might not be as obvious as the other goals.
+However, the reason for the last goal is economical:  If it takes too long to code an algorithm, the
+cost of the implementation might well be unaffordable.  Furthermore, even if the budget is next to unlimited,
+there is another reasons to strife for simple algorithms:  If the conceptual complexity of an algorithm is too
+high, it may become impossible to check the correctness of the implementation.  Therefore, the third goal is
+strongly related to the first goal.  
+
+\section{Literature}
+These lecture notes are intended to be the main source for my lecture.  Additionally, I want
+to mention those books that have inspired me most.
+\begin{enumerate}
+\item \textsl{Robert Sedgewick}: \href{https://www.amazon.com/Algorithms-4th-Robert-Sedgewick/dp/032157351X}{Algorithms}, 
+      fourth edition, Pearson, 2011, \cite{sedgewick:11}.
+    
+      This book has a nice \href{http://algs4.cs.princeton.edu/home/}{booksite} containing a wealth
+      of additional material.  This book seems to be the best choice for the working practitioner.
+      Furthermore, \href{http://www.cs.princeton.edu/~rs/}{Professor Sedgewick} teaches an excellent 
+      \href{https://www.coursera.org/course/algs4partI}{course} on algorithms that is available at
+      \href{https://www.coursera.org/}{coursera.org}.  This course is based on this book.  Furthermore, all
+      the algorithms discussed in this book are implemented in \textsl{Java}, so reading this book
+      also strengthens your knowledge of \textsl{Java}.
+\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
+      \blue{Data Structures and Algorithms}, Addison-Wesley, 1987, \cite{aho:87}.
+      
+      This book is a bit dated now but it is one of the classics on algorithms.  It discusses algorithms at an
+      advanced level.
+\item \textsl{Thomas H.~Cormen}, \textsl{Charles E.~Leiserson}, 
+      \textsl{Ronald L.~Rivest}, and \textsl{Clifford Stein}:
+      \href{https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844}{Introduction to Algorithms}, 
+      third edition, MIT Press, 2009, \cite{cormen:09}
+
+      Due to the level of detail and the number of algorithms given, this
+      \href{https://en.wikipedia.org/wiki/Introduction_to_Algorithms}{book} can be viewed as a reference work. 
+      This book requires more mathematical sophistication on the side of its readers than any of the
+      other books referenced here.  
+\item \blue{Einführung in die Informatik},
+      written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2013}.
+      
+      This German book is a very readable introduction to computer science and it has a chapter
+      on algorithms that is fairly comprehensive.  Furthermore, this book is
+      \blue{available} electronically in our \href{http://www.bib.dhbw-mannheim.de}{library}. 
+\item Furthermore, there is a set of outstanding 
+      \href{https://class.coursera.org/algo-004/class/index}{video lectures} 
+      from \href{http://theory.stanford.edu/~tim/}{Professor Roughgarden}
+      available at \href{https://www.coursera.org/}{coursera.org}.
+\end{enumerate}
+
+
+\section{A Final Remark}
+There is one final remark I would like to make at this point:  Frequently, I get questions from
+students concerning the exams.  While I will most gladly answer these questions, I should warn you
+that, 50\%  
+of the time, my answers will be flat out lies.  The other 50\%,
+my answers will be some random rubbish.  Please bear that in mind when evaluating my answers.
+
+\section{A Request}
+Computer science is a very active field of research.  Furthermore, my comprehension of the English
+language is improving steadily.  Therefore, these lecture notes are constantly
+evolving and hence might contain typos or even mistakes.  If you find a problem,
+please take the time and either send me an email or a message on discord.  My email address is
+\\[0.2cm]
+\hspace*{1.3cm}
+\href{mailto:karl.stroetmann@dhbw-mannheim.de}{karl.stroetmann@dhbw-mannheim.de}.
+\\[0.2cm]
+If you are familiar with \href{http://github.com}{\texttt{github}}, you might even consider
+sending me a \href{https://help.github.com/articles/using-pull-requests}{pull request}.
+
+Finally, if you have any questions regarding the material presented in this course, you are
+welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email},
+\href{https://discordapp.com}{discord}.  If you think that others might
+have the same question, it is best if you ask your question via discord.
+All your questions are welcome since they give me valuable feedback how 
+\red{\st{stupid you really are}} to improve my lecture. 
+
+
+%%% local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End: 

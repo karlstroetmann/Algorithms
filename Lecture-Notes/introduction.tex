@@ -1,11 +1,11 @@
 \chapter{Introduction}
 \section{Motivation}
-The previous lecture during the past winter term has shown us how interesting problems can be solved with the
+The previous course during the past winter term has shown us how interesting problems can be solved with the
 help of sets and relations.  However, we did not discuss how \blue{sets} and \blue{relations} can be
-represented by \blue{data structures} and how the operations on sets can be implemented in an efficient way.  This
-course will answer these questions:  We will develop a number of different data structures that can be used to
-realize both sets and relations. Furthermore, we will discuss a number of other data structures and
-algorithms that should be in the toolbox of every computer scientist.
+represented by \blue{data structures} and how operations on sets like $x \in S$ can be implemented in an
+efficient way.  This course will answer these questions:  We will develop a number of different data structures
+that can be used to implement both sets and functional relations. Furthermore, we will discuss a number of
+other data structures and algorithms that should be in the toolbox of every computer scientist.
 
 While the class in the last term has introduced the students to the theoretical foundations of
 computer science, this class is more practical.  Indeed, it may be one of the most 
@@ -14,8 +14,8 @@ regularly asks their former students to rank those classes that were the most us
 career.  Together with programming and databases, the class on algorithms consistently ranks highest.
 On \href{https://quora.com}{Quora}, the answers to the question
 \\[0.1cm]
-\hspace*{1.3cm}
-``\href{What are the 5 most important CS courses that every computer science student must take?}{
+\hspace*{0.8cm}
+``\href{https://www.quora.com/What-are-the-5-most-important-CS-courses-that-every-computer-science-student-must-take}{
   What are the 5 most important CS courses that every computer science student must take?}''
 \\[0.1cm]
 consistently list the class \blue{algorithms and data structures} among those courses that are most valuable
@@ -38,7 +38,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %       $\texttt{doesTerminate}(f, s)$ 
 %       \\[0.2cm]
 %       yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
-\item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms.
+\item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms
 
       In general, in order to solve a given problem it is not enough to develop an algorithm that
       implements a function $f$ that computes the  value $f(x)$ for a given argument $x$.  It is also important  
@@ -57,12 +57,12 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
             \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that estimates
             the growth of \blue{recursive} functions.
       \end{enumerate}
-\item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}.
+\item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}
 
       Abstract data types are a means to describe the behaviour of an algorithm in a concise way.
       Furthermore, abstract data types are part of the foundations of 
       \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented programming}. 
-\item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}.
+\item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
       these algorithms are easy to understand and easy to analyse.  Therefore, we start our discussion of
@@ -80,18 +80,18 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
 %      is a method to investigate the correctness of an algorithm.  
 
-\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Associative arrays}.
+\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries}
   
-      Associative arrays are a means to represent a function.  Most modern programming
-      languages provide associative array as basic data structues.  Mathematically, an associative array is
+      Dictionaries are a way to implement a function.  Most modern programming
+      languages provide dictionaries as basic data structues.  Mathematically, dictionaries is
       nothing more than a functional relation.  We discuss various data structures that can be used to
-      implement associative arrays efficiently. 
-\item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}.
+      implement dictionaries efficiently.   These data structures can also be used to implement sets.
+\item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}
   
       Many graph theoretical algorithms use priority queues as one of their basic building blocks.
       Furthermore, priority queues have important applications in the theory of operating systems
       and in simulation.
-\item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}.
+\item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
       There are many applications of graphs in computer science.  The topic of graph theory is very
       rich and can easily fill a class of its own.  Therefore, we can only cover a small subset of this topic.
@@ -101,11 +101,12 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       Furthermore, we discuss 
       \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
       \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph.
+      Furthermore, we discuss \blue{topological sorting} and the \blue{Union-Find Problem}.
 \item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
  
       Many important problems either do not have an exact solution at all or the computation of an
       exact solution would be prohibitively expensive.  In these cases it is often possible to use 
-      simulation in order to get an approximate solution.  As a concrete example we will show
+      random simulations in order to get an approximate solution.  As a concrete example we will show
       how certain probabilities in \href{http://en.wikipedia.org/wiki/Texas_hold_%27em}{Texas hold 'em} 
       poker can be determined approximately with the help of the \blue{Monte Carlo method}.
 \end{enumerate}
@@ -113,7 +114,7 @@ The primary goal of these lectures on algorithms is not to teach as many algorit
 Instead, my goal is to enable you to think algorithmically:  At the end of these
 lectures, you should have acquired the following capabilities:
 \begin{enumerate}
-\item You should be able to understand scientific literature describing algorithms.
+\item You should be able to read and understand scientific literature describing algorithms.
 \item You should have acquired the skill to develop your own algorithms and to analyse their complexity.
 
       Of course, developing an algorithm is a process that requires a lot of creativity on your side.  However,
@@ -141,9 +142,8 @@ Conceptually, the difference between an algorithm and a program is similar to th
 a \blue{philosophical idea} and a \blue{text} that describes the idea.  If you have an philosophical idea, you
 can write it down to make it concrete.  As you can write down the idea in English, or French or, preferably, in
 ancient Greek, the textual descriptions of the idea might be quite different.  This is the same with an algorithm:
-We can code it in \href{https://en.wikipedia.org/wiki/Java_(programming_language)}{Java}, or
-\href{http://python.org}{Python}, or, preferably, \href{http://setlx.randoom.org}{\textsc{SetlX}}.  The
-programs will be very different, but the algorithm will be the same. 
+We can code it in \href{https://en.wikipedia.org/wiki/Java_(programming_language)}{Java} or
+\href{http://python.org}{Python}.  The programs will be very different, but the algorithm will be the same. 
 
 Having discussed the difference between algorithms and programs, let us now decide how to present
 algorithms in this lecture.  
@@ -160,9 +160,7 @@ algorithms in this lecture.
 
       However, after having presented an algorithm in the language of mathematics, it is often very
       simple to implement this algorithm in the programming language
-      \href{http://randoom.org/Software/SetlX}{\textsc{SetlX}}.  The reason is 
-      that \textsc{SetlX} is based on set theory, which is the language of mathematics.  We will see
-      that \textsc{SetlX} enables us to present and implement algorithms on a very high abstraction level.
+      \textsl{Python}.
 \end{enumerate}
 
 \section{Desirable Properties of Algorithms}
@@ -242,9 +240,9 @@ If you are familiar with \href{http://github.com}{\texttt{github}}, you might ev
 sending me a \href{https://help.github.com/articles/using-pull-requests}{pull request}.
 
 Finally, if you have any questions regarding the material presented in this course, you are
-welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email},
+welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or
 \href{https://discordapp.com}{discord}.  If you think that others might
-have the same question, it is best if you ask your question via discord.
+have the same question, it is best if you ask your question via discord in the channel called \texttt{algorithms}.
 All your questions are welcome since they give me valuable feedback how 
 \red{\st{stupid you really are}} to improve my lecture. 
 

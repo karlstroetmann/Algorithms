@@ -3,6 +3,7 @@
 // The resulting equivalence relation is represented as a partition.
 unionFind := procedure(M, R) {
     P := { { x } : x in M };  // start with the trivial partition
+    print(P);
     for ([x, y] in R) {
         print("[$x$, $y$]");
         Sx := find(x, P);

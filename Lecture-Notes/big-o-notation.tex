@@ -6,7 +6,6 @@ These two notions are needed to analyse the running time of algorithms.  In orde
 the application of these notions, we show how to implement the computation of powers efficiently,
 i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
 is significantly faster than the naive approach. 
-
 \section{Motivation}
 Sometimes it is necessary to have a precise understanding of the complexity of an algorithm.  
 In order to obtain this understanding we could proceed as follows:  
@@ -765,22 +764,19 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
 
 \begin{figure}[!h]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
-    power := procedure(m, n) {
-        r := m;
-        for (i in {2 .. n}) {
-            r := r * m;
-        }
-        return r;
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
+    def power(m, n):
+        r = m
+        for i in range(n-1):
+            r *= m
+        return r
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Naive computation of $m^n$ for  $m,n \in \N$.}
   \label{fig:power-naive.stlx}
@@ -820,26 +816,22 @@ $
 
 \begin{figure}[!h]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
-    power := procedure(m, n) {
-        if (n == 0) {
-            return 1;
-        }
-        p := power(m, n \ 2);
-        if (n % 2 == 0) {
-            return p * p;
-        } else {
-            return p * p * m;
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
+    def power(m, n):
+        if n == 0:
+            return 1
+        p = power(m, n // 2)
+        if n % 2 == 0:
+            return p * p
+        else:
+            return p * p * m
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Computation of $m^n$ for $m,n \in \N$.}
   \label{fig:power.stlx}
