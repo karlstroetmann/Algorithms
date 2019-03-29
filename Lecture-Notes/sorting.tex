@@ -163,35 +163,35 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.3cm,
-                  xrightmargin  = 0.3cm
-                ]
-    sort := procedure(L) {
-        match (L) {
-            case []     : return [];
-            case [x | R]: return insert(x, sort(R));
-        }
-    };
-    insert := procedure(x, L) {
-        match (L) {
-            case []                  : return [x];
-            case [y | R] |   x <= y  : return [x | L];
-            case [y | R] | !(x <= y) : return [y | insert(x, R)];
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.3cm,
+                xrightmargin  = 0.3cm
+              ]{python3}
+    def sort(L):
+        if L == []:
+            return []
+        x, R = L[0], L[1:]
+        return insert(x, sort(R))
+    
+    def insert(x, L):
+        if L == []:
+            return [x]
+        y, R = L[0], L[1:]
+        if x <= y:
+            return [x] + L
+        else:
+            return [y] + insert(x, R)
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Implementing \blue{insertion sort} in \textsc{SetlX}.}
-  \label{fig:insertion-sort.stlx}
+  \label{fig:Insertion-Sort.ipynb}
 \end{figure} 
 
 \noindent
-Figure \ref{fig:insertion-sort.stlx} shows how the \blue{insertion-sort} algorithm can be implemented 
+Figure \ref{fig:Insertion-Sort.ipynb} shows how the \blue{insertion-sort} algorithm can be implemented 
 in \textsc{SetlX}.
 \begin{enumerate}
 \item The definition of the function \texttt{sort} makes use of the \texttt{match} statement
@@ -212,47 +212,13 @@ in \textsc{SetlX}.
 \end{enumerate}
 
 \subsection{Complexity of Insertion Sort}
-We will compute the number of comparisons that are done in the implementation of \texttt{insert}.
-Before doing so, let us note that the function \texttt{insert.stlx} can be rewritten as shown in Figure
-\ref{fig:insert.stlx}.  In comparison to Figure \ref{fig:insertion-sort.stlx}, we have dropped the
-test
-\\[0.2cm]
-\hspace*{1.3cm}
-``\texttt{!(x <= y)}'' 
-\\[0.2cm]
-from line 5 since it is unnecessary:  If control ever reaches line 5, it must
-have skipped line 4 before and for a non-empty list that can only happen if the test 
-``\texttt{x <= y}'' fails.
-\begin{figure}[!ht]
-  \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
-    insert := procedure(x, L) {
-        match (L) {
-            case []               : return [x];
-            case [y | R] | x <= y : return [x, y | R];
-            case [y | R]          : return [y | insert(x, R)];
-        }
-    };
-\end{Verbatim}
-\vspace*{-0.3cm}
-  \caption{More efficient implementation of $\mathtt{insert}$.}
-  \label{fig:insert.stlx}
-\end{figure} 
-
-Let us compute the number of evaluations of the comparison operator ``\texttt{<=}'' in line 4 in the
-worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that, we have to
-compute the number of evaluations of the operator ``\texttt{<=}'' when 
+We will compute the number of comparisons that are done in the implementation of \texttt{insert}
+in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that,
+we have to compute the number of evaluations of the operator ``\texttt{<=}'' when 
  $\texttt{insert}(x,L)$ is evaluated for a list $L$ of length $n$.  Let us denote this number as 
 $a_n$.  The worst case happens if $x$ is bigger than every element of $L$ because in that case the
-test ``\texttt{x <= y}'' in line 4 of Figure \ref{fig:insert.stlx} will always evaluate to
-\texttt{false} and therefore \texttt{insert} will keep calling itself recursively.
+test ``\texttt{x <= y}'' in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} will always evaluate to
+\texttt{False} and therefore \texttt{insert} will keep calling itself recursively.
 Then we have
 \\[0.2cm]
 \hspace*{1.3cm}

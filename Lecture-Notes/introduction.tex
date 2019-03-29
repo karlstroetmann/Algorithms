@@ -1,10 +1,9 @@
 \chapter{Introduction}
 \section{Motivation}
-The previous course during the past winter term has shown us how interesting problems can be solved with the
-help of sets and relations.  However, we did not discuss how \blue{sets} and \blue{relations} can be
-represented by \blue{data structures} and how operations on sets like $x \in S$ can be implemented in an
-efficient way.  This course will answer these questions:  We will develop a number of different data structures
-that can be used to implement both sets and functional relations. Furthermore, we will discuss a number of
+The previous course has shown us how interesting problems can be solved with the
+help of \blue{sets} and \blue{dictionaries}.  However, we did not discuss how these data structures can be
+implemented in an efficient way.  This course will answer this question:  We will develop a number of different data structures
+that can be used to implement both sets and dictionaries.  Furthermore, we will discuss a number of
 other data structures and algorithms that should be in the toolbox of every computer scientist.
 
 While the class in the last term has introduced the students to the theoretical foundations of
@@ -41,22 +40,31 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 \item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms
 
       In general, in order to solve a given problem it is not enough to develop an algorithm that
-      implements a function $f$ that computes the  value $f(x)$ for a given argument $x$.  It is also important  
-      that the computation of $f(x)$ does not consume too much \blue{time} and \blue{memory}.  Therefore, we want to have
-      \blue{efficient} algorithms.
-      In order to be able to discuss the efficiency of algorithms we have to introduce two 
-      mathematical notions.
-      \begin{enumerate}
-      \item \href{http://en.wikipedia.org/wiki/Big_Oh}{Big O notation} offers a convenient way to
-            discuss the growth rate of functions.  This notation is useful to abstract from
-            unimportant details when discussing the runtime of algorithms.  
-      \item The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
-            is the discrete analogue of the notion of a 
-            \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.  
-            Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
-            \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that estimates
-            the growth of \blue{recursive} functions.
-      \end{enumerate}
+      implements a function $f$ computing the  value $f(x)$ for a given argument $x$.  It is also important  
+      that the computation of $f(x)$ does not consume too much \blue{time} or \blue{memory}.  Hence, we have
+      to develop \blue{efficient} algorithms.  In order to be able to discuss the concept of \blue{efficiency} 
+      we discuss the \blue{growth rate} of functions.  This notation is useful to abstract from
+      unimportant details when discussing the runtime of algorithms.  
+\item Recurrence Relations
+
+      The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+      is the discrete analogue of the notion of a 
+      \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
+      For example, the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $a_{n+2} = a_{n+1} + a_n$
+      \\[0.2cm]
+      is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
+      defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
+      the formula
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
+      \\[0.2cm]
+      Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
+      \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that estimates
+      the growth of \blue{recursive} functions.
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}
 
       Abstract data types are a means to describe the behaviour of an algorithm in a concise way.
@@ -66,13 +74,14 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
       these algorithms are easy to understand and easy to analyse.  Therefore, we start our discussion of
-      algorithms and their complexity with sorting algorithms.  In this lecture, we discuss the following
+      algorithms and their complexity with these algorithms.  In this lecture, we discuss the following
       sorting algorithms: 
       \begin{enumerate}
       \item \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort},
       \item \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort},
       \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, 
-      \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, and
+      \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, 
+      \item \href{http://en.wikipedia.org/wiki/Radix_sort}{radix sort}, and
       \item \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}.
       \end{enumerate}
 %\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
@@ -82,26 +91,25 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 
 \item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries}
   
-      Dictionaries are a way to implement a function.  Most modern programming
-      languages provide dictionaries as basic data structues.  Mathematically, dictionaries is
-      nothing more than a functional relation.  We discuss various data structures that can be used to
-      implement dictionaries efficiently.   These data structures can also be used to implement sets.
+      A \blue{dictionary} is a data structures that can be used to implement a function on a finite domain.
+      Most modern programming languages provide dictionaries as basic data structures.  We discuss various data
+      structures that can be used to implement dictionaries efficiently.   
+      These data structures can also be used to implement sets.
 \item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}
   
-      Many graph theoretical algorithms use priority queues as one of their basic building blocks.
-      Furthermore, priority queues have important applications in the theory of operating systems
-      and in simulation.
+      Some graph theoretical algorithms use priority queues as one of their basic building blocks.
+      Therefore, our discussion of \blue{graph theory} is preceded by a chapter on priority queues.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
-      There are many applications of graphs in computer science.  The topic of graph theory is very
-      rich and can easily fill a class of its own.  Therefore, we can only cover a small subset of this topic.
-      In particular, we will discuss
-      \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
-      for computing the shortest path.
-      Furthermore, we discuss 
-      \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
-      \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph.
-      Furthermore, we discuss \blue{topological sorting} and the \blue{Union-Find Problem}.
+      This chapter discusses the following algorithms:
+      \begin{enumerate}
+      \item \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
+            for computing the shortest path in a graph,
+      \item \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
+            \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph,
+      \item \blue{topological sorting}, and 
+      \item the \blue{union-find problem}.
+      \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
  
       Many important problems either do not have an exact solution at all or the computation of an
@@ -113,6 +121,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
 Instead, my goal is to enable you to think algorithmically:  At the end of these
 lectures, you should have acquired the following capabilities:
+\pagebreak
 \begin{enumerate}
 \item You should be able to read and understand scientific literature describing algorithms.
 \item You should have acquired the skill to develop your own algorithms and to analyse their complexity.
@@ -128,8 +137,9 @@ This is a lecture on \blue{algorithms}, not on \blue{programming}.  It is import
 these two concepts.  An algorithm is an \blue{abstract concept} to solve a given problem.  In
 contrast, a program is a \blue{concrete implementation} of an algorithm.  In order to implement an
 algorithm by a program we have to cover every detail, be it trivial or not.  On the other hand, 
-to specify an algorithm it is often sufficient to describe the interesting aspects.  It is
-quite possible for an algorithm to leave a number of questions open.
+to specify an algorithm it is often sufficient to describe just the interesting aspects.  The rest can then be
+filled in by a competent programmer.  Therefore, a specification of an algorithm often abstracts from minor
+details. 
 
 In the literature, algorithms are usually presented as \blue{pseudo code}.  Syntactically, pseudo code looks
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
@@ -142,7 +152,7 @@ Conceptually, the difference between an algorithm and a program is similar to th
 a \blue{philosophical idea} and a \blue{text} that describes the idea.  If you have an philosophical idea, you
 can write it down to make it concrete.  As you can write down the idea in English, or French or, preferably, in
 ancient Greek, the textual descriptions of the idea might be quite different.  This is the same with an algorithm:
-We can code it in \href{https://en.wikipedia.org/wiki/Java_(programming_language)}{Java} or
+We can code it in \href{https://en.wikipedia.org/wiki/C_(programming_language)}{\texttt{C}} or
 \href{http://python.org}{Python}.  The programs will be very different, but the algorithm will be the same. 
 
 Having discussed the difference between algorithms and programs, let us now decide how to present
@@ -155,11 +165,11 @@ algorithms in this lecture.
       in a program, but on the other hand this approach would require us to implement every aspect
       of an  algorithm and our descriptions of algorithms would therefore get longer than we want.
 \item Finally, we can try to describe algorithms in the language of mathematics.  This language is 
-      concise, unambiguous, and easy to understand, once you are accustomed to it.  This is
-      therefore our method of choice.
+      concise, unambiguous, and easy to understand, once you are accustomed to it.  Therefore, this is
+      our method of choice.
 
       However, after having presented an algorithm in the language of mathematics, it is often very
-      simple to implement this algorithm in the programming language
+      straightforward  to implement this algorithm in the programming language
       \textsl{Python}.
 \end{enumerate}
 
@@ -173,11 +183,11 @@ algorithms.
 \end{enumerate}
 The first goal in this list is so self-evident that it is often overlooked.  The
 importance of the last goal might not be as obvious as the other goals.
-However, the reason for the last goal is economical:  If it takes too long to code an algorithm, the
-cost of the implementation might well be unaffordable.  Furthermore, even if the budget is next to unlimited,
-there is another reasons to strife for simple algorithms:  If the conceptual complexity of an algorithm is too
-high, it may become impossible to check the correctness of the implementation.  Therefore, the third goal is
-strongly related to the first goal.  
+However, the reason for the last goal is \blue{economical}:  If it takes too long to code an algorithm, the
+cost of the implementation might well be unaffordable.  Furthermore, even if the time budget to implement an
+algorithm is next to unlimited,  there is another reasons to strife for simple algorithms:  If the conceptual
+complexity of an algorithm is too high, it may become impossible to check the correctness of the
+implementation.  Therefore, the third goal is strongly related to the first goal.  
 
 \section{Literature}
 These lecture notes are intended to be the main source for my lecture.  Additionally, I want
@@ -211,8 +221,7 @@ to mention those books that have inspired me most.
       written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2013}.
       
       This German book is a very readable introduction to computer science and it has a chapter
-      on algorithms that is fairly comprehensive.  Furthermore, this book is
-      \blue{available} electronically in our \href{http://www.bib.dhbw-mannheim.de}{library}. 
+      on algorithms that is fairly comprehensive.  
 \item Furthermore, there is a set of outstanding 
       \href{https://class.coursera.org/algo-004/class/index}{video lectures} 
       from \href{http://theory.stanford.edu/~tim/}{Professor Roughgarden}
@@ -226,6 +235,7 @@ students concerning the exams.  While I will most gladly answer these questions,
 that, 50\%  
 of the time, my answers will be flat out lies.  The other 50\%,
 my answers will be some random rubbish.  Please bear that in mind when evaluating my answers.
+\pagebreak
 
 \section{A Request}
 Computer science is a very active field of research.  Furthermore, my comprehension of the English
