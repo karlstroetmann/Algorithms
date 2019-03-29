@@ -9,7 +9,7 @@
 \usepackage{fancyvrb}
 \usepackage{fleqn}
 \usepackage{epic}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{wasysym}
 \usepackage{hyperref}
 \usepackage{soul}
@@ -47,6 +47,7 @@
 
 \definecolor{amethyst}{rgb}{0.2, 0.4, 0.6}
 \definecolor{orange}{rgb}{1, 0.9, 0.0}
+\definecolor{sepia}{rgb}{1,0.95,0.9}
 
 \setlength{\mathindent}{1.3cm}
 \theoremstyle{plain}
@@ -109,7 +110,6 @@ can be used to load the current version of these lecture notes from \href{https:
 \textbf{Exercise \arabic{aufgabe}}: }
 
 \newcommand{\proof}{
- \vspace*{0.2cm}
   
 \noindent
 \textbf{Proof}: }
@@ -140,11 +140,15 @@ can be used to load the current version of these lecture notes from \href{https:
 \noindent
 \textbf{Hint}: \ }
 
+
 \newcommand{\blue}[1]{{\color{blue}#1}}
 \newcommand{\red}[1]{{\color{red}#1}}
 \newcommand{\magenta}[1]{{\bf\color{magenta}#1}}
 
-\newcommand{\mod}{\;\texttt{\%}\;}
+
+\newcommand{\dv}{\mbox{\,\texttt{/}$\!$\texttt{/}\,}}
+\newcommand{\dvv}{\mbox{\scriptsize\,\texttt{/}$\!$\texttt{/}\,}}
+\newcommand{\mod}{\,\texttt{\%}\,}
 \newcommand{\hoare}[3]{\bigl\{#1\bigr\}\quad\texttt{#2}\quad\bigl\{#3\bigr\}}
 \newcommand{\folge}[1]{\bigl(#1\bigr)_{n\in\mathbb{N}}}
 \newcommand{\bruch}[2]{{\displaystyle \frac{\displaystyle \raisebox{1pt}[0pt][-0pt]{$\,#1\,$}}{\displaystyle \raisebox{0pt}[10pt]{$\,#2\,$}}}}

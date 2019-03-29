@@ -3,7 +3,7 @@ This chapter introduces both the
 \href{http://en.wikipedia.org/wiki/O_notation}{big $O$ notation} and the
 \blue{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
 These two notations are useful to analyse the running time of algorithms.  In order to illustrate
-the application of these notions, we show how to implement the computation of powers efficiently,
+the application of these notations, we show how to implement the computation of powers efficiently,
 i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
 is significantly faster than the naive approach. 
 \section{Motivation}
@@ -12,7 +12,7 @@ In order to obtain this understanding we could proceed as follows:
 \begin{enumerate}
 \item We implement the algorithm in a given programming language.
 \item We count how many additions, multiplications, assignments, etc.~are needed
-      for an input of a given length.
+      for an input of a given size.
 \item We read the processor handbook to look up the amount of time that is needed for the different operations.
 \item Using the information discovered in the previous two steps we can then predict the running
       time of our algorithm for given input.
@@ -31,14 +31,14 @@ This approach is problematic for a number of reasons.
       computation. 
 \end{enumerate}
 The final reason shows that the approach sketched above is not well suited to measure the complexity of
-an algorithm: After all, the notion of an algorithm is more abstract than the notion of a program
+an \blue{algorithm}: After all, the notion of an algorithm is more abstract than the notion of a program
 and we really need a notion measuring the complexity of an algorithm that is more abstract than the
 notion of the running time of a program.  This notion of complexity should satisfy the following
 specification: 
 \begin{itemize}
 \item The notion of complexity should \blue{abstract from constant factors}.  After all, according to 
       \href{http://en.wikipedia.org/wiki/Moore's_law}{Moore's law}, 
-      computers hitting the market 18 month from now will be about twice as powerful as today's computers.
+      computers hitting the market two years from now will be about twice as powerful as today's computers.
 
 \item The notion should abstract from \blue{insignificant terms}.
 
@@ -95,14 +95,20 @@ Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that
   \hspace*{0.5cm} 
   \colorbox{red}{\framebox{\colorbox{orange}{
   $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N} \mid \exists k \in \N \colon 
-    \exists c \in \R_+\colon \forall n \in \N \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$.}}}
+    \exists c \in \R_+\colon \forall n \in \N \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$}}}
   \eox
 \end{Definition}
 
 The definition of $\Oh(g)$ contains three nested quantifiers and may be difficult to understand
 when first encountered.  Therefore, let us analyse this definition carefully.  Let us consider a
-function $g \in \R_+^\N$.  Informally, $f \in \Oh(g)$ is true if the function $f$ does not grow faster than
-the function $g$.  
+function $g \in \R_+^\N$.  Informally, we have the following:
+\\[0.2cm]
+\hspace*{1.3cm}
+\colorbox{red}{\framebox{\colorbox{orange}{
+   \blue{$f \in \Oh(g)$}  \quad if and only if \quad \blue{$f$ does not grow faster than $g$}
+}}}
+\\[0.2cm]
+We proceed to explain the definition of $\Oh(g)$ in more detail.
 \begin{enumerate}
 \item The fact that $f \in \Oh(g)$ holds does not impose any restriction on small values of $n$.
       After all, the condition
@@ -113,7 +119,7 @@ the function $g$.
       is only required for those values of $n$ that are bigger than or equal to $k$ and the value
       $k$ can be \underline{an}y\hspace*{-0.1cm}\underline{\ } suitable natural number.
 
-      This property shows that the big $\Oh$ notation captures the \colorbox{orange}{\blue{growth rate}} of functions.
+      This property shows that the big $\Oh$ notation captures the \blue{growth rate} of functions.
 \item Furthermore, $f(n)$ can be bigger than $g(n)$ even for arbitrary values of $n$ 
       but it can only be bigger by a constant factor:  There must be some fixed constant $c$
       such that 
@@ -124,7 +130,7 @@ the function $g$.
       holds for all values of $n$ that are sufficiently big.  This implies that if $f \in \Oh(g)$
       holds. then, for example, the function $2 \cdot f$ will also be in $\Oh(g)$.
 
-      This last property shows that the big $\Oh$ notation \colorbox{orange}{\blue{abstracts from constant factors}}.
+      This last property shows that the big $\Oh$ notation \blue{abstracts from constant factors}.
 \end{enumerate}
 I have borrowed Figure \ref{fig:big-o.eps} below from the \href{http://www.wikipedia.org}{Wikipedia} article on 
 \href{http://en.wikipedia.org/wiki/Asymptotic_notation}{asymptotic notation}.  It shows two functions 
@@ -155,7 +161,7 @@ We claim that the following holds:
 \hspace*{1.3cm}
 $3 \cdot n^3 + 2 \cdot n^2 + 7 \in \Oh(n^3)$. 
 \\[0.2cm]
-\textbf{Proof}:  We have to  provide a constant $c$ and another constant $k$ such that for all $n\in
+\textbf{Proof}:  We have to  provide a constant $c\in\mathbb{R}_+$ and another constant $k\in\mathbb{N}$ such that for all $n\in
 \N$ satisfying
 $n \geq k$ the inequality
 \\[0.2cm]
@@ -175,24 +181,24 @@ holds and we have to show that this implies
 If we take the third power of both sides of the inequality (\ref{eq:u1}) then we see that
 \begin{equation}
   \label{eq:u3pre}
-  1 \leq n^3  
+  1 \leq n^3.
 \end{equation}
 holds.  Let us multiply both sides of this inequality with $7$.  We get: 
 \begin{equation}
   \label{eq:u3}
-  7 \leq 7 \cdot n^3
+  7 \leq 7 \cdot n^3.
 \end{equation}
 Furthermore, let us multiply the inequality (\ref{eq:u1}) with the term $2\cdot n^2$.  This yields
 \begin{equation}
   \label{eq:u4}
-  2 \cdot n^2 \leq 2 \cdot n^3  
+  2 \cdot n^2 \leq 2 \cdot n^3.
 \end{equation}
 Finally, we obviously have
 \begin{equation}
   \label{eq:u5}
-  3 \cdot n^3 \leq 3 \cdot n^3
+  3 \cdot n^3 \leq 3 \cdot n^3.
 \end{equation}
-Adding up the inequalities (\ref{eq:u3}), (\ref{eq:u4}), and (\ref{eq:u5}) gives \\[0.2cm]
+Adding up the inequalities (\ref{eq:u3}), (\ref{eq:u4}), and (\ref{eq:u5}) shows that \\[0.2cm]
 \hspace*{1.3cm} $3 \cdot n^3 + 2 \cdot n^2 + 7 \leq 12 \cdot n^3$ \\[0.2cm]
 and therefore the proof is complete. \qed
 
@@ -200,8 +206,7 @@ and therefore the proof is complete. \qed
 We have  $n \in \Oh(2^n)$. 
 
 \proof
-We have to provide a constant $c$ and a constant $k$
-such that 
+We have to provide a constant $c \in \mathbb{R}_+$ and a constant $k\in\mathbb{N}$ such that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $ n \leq c \cdot 2^n$ 
@@ -230,6 +235,7 @@ We prove this claim by induction on $n$.
       \\[0.2cm]
       \hspace*{1.3cm} $n+1 \leq 2^n + 2^n = 2^{n+1}$. \qed
 \end{enumerate}
+\pagebreak 
 
 \exercise
 \begin{enumerate}[(a)]
@@ -251,12 +257,12 @@ We prove this claim by induction on $n$.
             $n^{\alpha+1} \leq c(\alpha+1) \cdot 2^n$ \hspace*{\fill} $(*)$
             \\[0.2cm]
             holds.  When proving this claim you may assume by induction hypothesis that for all 
-            $k \leq \alpha+1$ we have numbers $c(k)$ such that
+            $\beta \leq \alpha$ there exist numbers $c(\beta)$ such that
             \\[0.2cm]
             \hspace*{1.3cm}
-            $n^{k} \leq c(k) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}$.
+            $n^{\beta} \leq c(\beta) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}$.
             \\[0.2cm]
-            You can prove the claim $(*)$ via a side induction on $n$.
+            You can prove the claim $(*)$ via a \blue{side induction} on $n$.
       \item The \href{https://en.wikipedia.org/wiki/Binomial_theorem}{binomial theorem} tells
             us that for all $n \in \mathbb{N}$ and all $a,b \in \mathbb{R}$ the equation
             \\[0.2cm]
@@ -264,24 +270,19 @@ We prove this claim by induction on $n$.
             $\ds (a+b)^n = \sum\limits_{k=0}^n {n \choose k} \cdot a^k \cdot b^{n-k}$
             \\[0.2cm]
             holds.  Here, the expression ${n \choose k}$ is read as \blue{$n$ choose $k$} and is
-            defined for all $n \in \mathbb{N}$ and all $k \in \{0, 1, 2, \cdots, n\}$ via
+            defined for all $n \in \mathbb{N}$ and all $k \in \{0, 1, 2, \cdots, n\}$ as follows:
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\ds {n \choose k} = \frac{n!}{k! \cdot (n-k)!}$.
+            $\ds {n \choose k} \df \frac{n!}{k! \cdot (n-k)!}$.
             \\[0.2cm]
             The binomial theorem should be used to expand the term $(n+1)^{\alpha + 1}$ that occurs
             in the induction step of the side induction.  \eox
       \end{enumerate}
 \end{enumerate}
-
-
-
 It would be very tedious if we would have to use induction every time we need to prove that 
 $f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a number of properties of
 the big $\Oh$ notation next.  These properties will later enable us to prove a claim of the form 
 $f \in \Oh(g)$ much quicker than by induction.
-
-
 
 \begin{Proposition}[Reflexivity]
   For all functions $f\colon \N \rightarrow {\R_+}$ we have that
@@ -399,12 +400,11 @@ Let us multiply the second of these inequalities with $c_1$.  Keeping the first 
 \hspace*{1.3cm}
 $f(n) \leq c_1\cdot g(n)$  \quad and \quad $c_1\cdot g(n) \leq c_1\cdot c_2 \cdot h(n)$. 
 \\[0.2cm]
-However, by the transitivity of the relation $\leq$, this immediately implies $f(n) \leq c \cdot h(n)$ and our
-claim has been proven.  
+The transitivity of the relation $\leq$ immediately implies $f(n) \leq c \cdot h(n)$ for $n \geq k$.  
 \qed
 
 \begin{Proposition}[Limit Proposition] \label{limit}
-  Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the limit 
+  Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the \href{https://en.wikipedia.org/wiki/Limit_(mathematics)#Limit_of_a_sequence}{limit}
   \\[0.2cm]
   \hspace*{3.3cm}
  $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$
@@ -489,12 +489,12 @@ Assume $k \in \N$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0.2
 is true.  Then the claim is an immediate consequence of the limit proposition. 
 According to \blue{L'H\^opital's rule}\footnote{Basically, L'H\^opital's rule states that provided the
   limit $\ds \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$ exists and $g'(x) \not= 0$, we have
-\\
-\hspace*{1.3cm}
-$\ds\lim\limits_{x \rightarrow \infty} \frac{f(x)}{g(x)} = \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$.
-\\[0.2cm]
-Here $f'$ and $g'$ denote the derivatives of $f$ and $g$. 
-  We will discuss L'H\^opital's rule in the lectures on analysis.
+  \\
+  \hspace*{1.3cm}
+  $\ds\lim\limits_{x \rightarrow \infty} \frac{f(x)}{g(x)} = \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$.
+  \\[0.2cm]
+  Here $f'$ and $g'$ denote the derivatives of $f$ and $g$. 
+  L'H\^opital's rule is discussed in the \href{https://github.com/karlstroetmann/Analysis/blob/master/Skript/analysis.pdf}{lectures on analysis}.
 },  
 the limit can be computed as follows: \\[0.2cm]
 \hspace*{1.3cm} 
@@ -557,8 +557,8 @@ $\displaystyle \lim\limits_{n \rightarrow \infty} \bruch{\;\ln(n)\;}{n} =
 Prove that $\sqrt{n} \in \Oh(n)$ holds.  \eox
 
 \exercise
-Assume $\varepsilon \in \mathbb{R}$ and $\varepsilon > 0$.  Prove that $n \cdot \ln(n) \in \Oh\bigl(n^{1 + \varepsilon}\bigr)$
-holds. \eox
+Assume $\varepsilon \in \mathbb{R}$ and $\varepsilon > 0$.  Prove that $\ln(n) \in
+\Oh\bigl(n^{\varepsilon}\bigr)$ holds. \eox
 
 \example
 We have $2^n \in \Oh(3^n)$, but  $3^n \notin \Oh(2^n)$.
@@ -631,51 +631,30 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
 
       \remark
       The previous exercise shows that, with respect to the big $\mathcal{O}$ notation, the base of
-      a logarithm is not important.  The reason is that if $b > 1$ and $c > 1$ are both used as
-      bases for the logarithm, we have 
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\log_b(n) = \log_b(\mathrm{e}) \cdot \ln(n)$ \quad and \quad $\log_c(n) = \log_c(\mathrm{e}) \cdot \ln(n)$.
-      \\[0.2cm]
-      Solving these equations for $\ln(n)$ yields
-      \\[0.4cm]
-      \hspace*{1.3cm}
-      $\bruch{\log_b(n)}{\log_b(\mathrm{e})} = \ln(n)$ \quad and \quad $\bruch{\log_c(n)}{\log_c(\mathrm{e})} = \ln(n)$.
-      \\[0.2cm]
-      This shows that
-      \\[0.4cm]
-      \hspace*{1.3cm}
-      $\bruch{\log_b(n)}{\log_b(\mathrm{e})} = \bruch{\log_c(n)}{\log_c(\mathrm{e})}$
-      \\[0.2cm]
-      holds.  This can be rewritten as
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\log_b(n) = \bruch{\log_b(\mathrm{e})}{\log_c(\mathrm{e})} \cdot \log_c(n)$,
-      \\[0.2cm]
-      showing that $\log_b(n)$ and $\log_c(n)$ differ only by a constant factor.  Therefore, we have
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\log_b(n) \in \Oh\bigl(\log_c(n)\bigr)$.
-      \eox
-\item Prove $3 \cdot n^2 + 5 \cdot n + \sqrt{n} \in \Oh(n^2)$.
-\item Prove $7 \cdot n + \bigl(\log_2(n)\bigr)^2 \in \Oh(n)$.
-\item Prove  $\sqrt{n} + \log_2(n) \in \Oh\left(\sqrt{n}\right)$.
+      a logarithm is not important because if $b > 1$ and $c > 1$, then $\log_{b}(n)$ and $ \log_{c}(n)$
+      only differ by a constant factor.
+\item Prove $\bigl(\log_2(n)\bigr)^2 \in \Oh(n)$.
+\item Prove  $\log_2(n) \in \Oh\left(\sqrt{n}\right)$.
 \item Assume that $f, g \in \mathbb{R}_+^\mathbb{N}$ and that, furthermore, $f \in \Oh(g)$.  
-      Proof or refute the claim that this implies 
+      Refute the claim that this implies 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
 \item Assume that $f, g \in \mathbb{R}_+^\mathbb{N}$ and that, furthermore, 
-      \\[0.4cm]
-      \hspace*{1.3cm}
       $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)} = 0$.  
-      \\[0.2cm]
-      Proof or refute the claim that this implies
+      holds.
+      Prove that this implies
       \\[0.2cm]
       \hspace*{1.3cm}
       $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
-\item Prove $n^n \in \mathcal{O}\bigl(2^{2^n}\bigr)$.
+\item Prove that $n^n \in \mathcal{O}\bigl(2^{2^n}\bigr)$.
       \eox
+\item Prove that we have that $n^k \in \Oh\bigl(n^{\ln(n)}\bigr)$ for all $k \in \mathbb{N}$. \eox
+\item Prove that $n^{\ln(n)} \in \Oh\bigl(b^n\bigr)$ for all $b > 1$.  \eox
+
+      \remark
+      The last two examples show that the function $n^{\ln(n)}$ grows faster than any polynomial function but
+      slower than any exponential function.
 \end{enumerate}
 
 \section{A Remark on Notation}
@@ -692,7 +671,7 @@ notation and write
 \hspace*{1.3cm}
 $f = \Oh(g)$ \quad instead of \quad $f \in \Oh(g)$.
 \\[0.2cm]
-Where convenient, we will also use this notation.  However, you have to be aware of the fact that
+Where convenient, we will use this notation, too.  However, you have to be aware of the fact that
 this is quite dangerous.  For example, if we have two different functions $f_1$ and
 $f_2$ such that both
 \\[0.2cm]
@@ -717,12 +696,12 @@ $f = g + \Oh(h)$
 to express the fact that  $(f - g) \in \Oh(h)$.  For example, we have 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds n^2 + \frac{1}{2} \cdot n \cdot \log_2(n) + 3 \cdot n = n^2 + \Oh\bigl(n \cdot \log_2(n)\bigr)$.
+$\ds n^2 + \log_2(n) + n = n^2 + \Oh\bigl(n \cdot \log_2(n)\bigr)$.
 \\[0.2cm]
 This is true because
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\frac{1}{2} \cdot n \cdot \log_2(n) + 3 \cdot n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.
+$\ds \log_2(n) + n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.
 \\[0.2cm] 
 The notation $f = g + \Oh(h)$ is useful because it is more precise than the pure big $\Oh$
 notation.  For example, assume we have two algorithms $A$ and $B$ for sorting a list of length
@@ -730,12 +709,12 @@ $n$.  Assume further that the number $\textsl{count}_A(n)$ of comparisons used b
 length $n$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\textsl{count}_A(n) = n \cdot \log_2(n) + 7 \cdot n$,
+$\ds\textsl{count}_A(n) = n \cdot \log_2(n) + n$,
 \\[0.2cm]
 while for algorithm $B$ the corresponding number of comparisons is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\textsl{count}_B(n) = \frac{3}{2} \cdot n \cdot \log_2(n) + 4 \cdot n$.
+$\ds\textsl{count}_B(n) = 3 \cdot n \cdot \log_2(n) + n$.
 \\[0.2cm]
 Then the big $\Oh$ notation is not able to distinguish between the complexity of algorithm $A$ and
 algorithm $B$ since we have
@@ -748,10 +727,11 @@ However, by writing
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\textsl{count}_A(n) = n \cdot \log_2(n) + \Oh(n)$ \quad and \quad
-$\ds\textsl{count}_B(n) = \frac{3}{2} \cdot n \cdot \log_2(n) + \Oh(n)$
+$\ds\textsl{count}_B(n) = 3 \cdot n \cdot \log_2(n) + \Oh(n)$
 \\[0.2cm]
 we can abstract from lower order terms while still retaining the leading coefficient of the term
 determining the complexity.  
+\pagebreak
 
 \section[Computation of Powers]{Case Study:  Efficient Computation of Powers}
 Let us study an example to clarify the notions introduced so far.  
@@ -768,12 +748,13 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
                 framesep      = 0.3cm, 
                 numbers       = left,
                 numbersep     = -0.2cm,
+                bgcolor       = sepia,
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm
               ]{python3}
     def power(m, n):
-        r = m
-        for i in range(n-1):
+        r = 1
+        for i in range(n):
             r *= m
         return r
 \end{minted}
@@ -782,7 +763,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
   \label{fig:power-naive.stlx}
 \end{figure} 
 
-This program is obviously correct.  The computation of $m^n$ requires $n-1$ multiplications if the
+This program is obviously correct.  The computation of $m^n$ requires $n$ multiplications if the
 function \texttt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
 Fortunately, there is an algorithm for computing $m^n$ that is much more efficient.
 Consider we have to evaluate $m^4$.  We have
@@ -807,12 +788,19 @@ The basic idea that makes this program work is captured by the following formula
 \hspace*{1.3cm} 
 $m^n = 
 \left\{\begin{array}{ll}
-m^{n/2} \cdot m^{n/2}          & \mbox{if $n$ is even};    \\
-m^{n/2} \cdot m^{n/2} \cdot m  & \mbox{if $n$ is odd}.
+m^{n\dvv 2} \cdot m^{n\dvv 2}          & \mbox{if $n$ is even};    \\
+m^{n\dvv 2} \cdot m^{n\dvv 2} \cdot m  & \mbox{if $n$ is odd}.
 \end{array}
 \right.
 $
-\vspace*{0.3cm}
+\\[0.2cm] 
+In this formula $n \dv  2$ denotes \blue{integer division} by $2$, e.g.~we have $4 \dv  2 = 2$, but also $5 \dv  2 =
+2$.
+Formally, for natural numbers $n \in \mathbb{N}$ and $k \in \mathbb{N}$ s.t.~$k\geq 1$ the expression 
+$n \dv k $ is defined as
+\\[0.2cm]
+\hspace*{1.3cm}
+$n \dv k \df (n - n \mod k) / k$.
 
 \begin{figure}[!h]
   \centering
@@ -820,6 +808,7 @@ $
                 framesep      = 0.3cm, 
                 numbers       = left,
                 numbersep     = -0.2cm,
+                bgcolor       = sepia,
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm
               ]{python3}
@@ -840,17 +829,17 @@ $
 It is by no means obvious that the program shown in \ref{fig:power.stlx} does compute
 $m^n$.  We prove this claim by  \blue{computational induction}.
 Computational induction is an induction on the number of recursive invocations.
-This method is the method of choice to prove the correctness of a recursive procedure.
+This method is the method of choice to prove the correctness of a recursive function definition.
 The method of computational induction consists of two steps:
 \begin{enumerate}
 \item The \blue{base case}.
 
-      In the base case we have to show that the procedure is correct in all those cases were it
+      In the base case we have to show that the function definition is correct in all those cases were the function
       does not invoke itself recursively.
 \item The \blue{induction step}.
 
-      In the induction step we have to prove that the method works in all those cases were
-      it does invoke itself recursively.  In order to prove the correctness of these cases we may
+      In the induction step we have to prove that the function definition works in all those cases were
+      the function does invoke itself recursively.  In order to prove the correctness of these cases we may
       assume that the recursive invocations work correctly.  This assumption is called the
       \blue{induction hypotheses}.
 \end{enumerate}
@@ -871,24 +860,24 @@ by computational induction.
 \item \textbf{Induction step}:
 
       The recursive invocation of $\mathtt{power}$ has the form
-      $\mathtt{power}(m,n \backslash 2)$.  By the induction hypotheses we know that 
+      $\mathtt{power}(m,n \dv 2)$.  By the induction hypotheses we know that 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\displaystyle \mathtt{power}(m,n \backslash 2) = m^{n \backslash 2}$ 
+      $\displaystyle \mathtt{power}(m,n \dv 2) = m^{n \dvv 2}$ 
       \\[0.2cm]
       holds.  After the recursive invocation there are two different cases:
       \begin{enumerate}
       \item $n \;\texttt{\%}\; 2 = 0$, therefore $n$ is even.
 
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k$ and therefore
-            $n / 2 = k$.
+            $n \dv 2 = k$.
             Then, we have the following:
             \\[0.2cm]
             \hspace*{1.3cm}
            $ 
             \begin{array}{lcl}
             \mathtt{power}(m,n) & = & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \\[0.2cm]
-                                & \stackrel{IV}{=} & m^k \cdot m^k  \\[0.2cm]
+                                & \stackrel{\mathrm{IV}}{=} & m^k \cdot m^k  \\[0.2cm]
                                 & = & m^{2\cdot k} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
@@ -896,20 +885,19 @@ by computational induction.
       \item $n \;\texttt{\%}\; 2 = 1$, therefore $n$ is odd.
 
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k + 1$ and we have
-            $n \backslash 2 = k$, where $n \backslash 2$ denotes integer division of $n$ by $2$.
-            In this case we have:
+            $n \dv 2 = k$.  In this case we have:
             \\[0.2cm]
             \hspace*{1.3cm}
             $ 
             \begin{array}{lcl}
             \mathtt{power}(m,n) & = & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \cdot m  \\[0.2cm]
-                                & \stackrel{IV}{=} & m^k \cdot m^k \cdot m  \\[0.2cm]
+                                & \stackrel{\mathrm{IV}}{=} & m^k \cdot m^k \cdot m  \\[0.2cm]
                                 & = & m^{2\cdot k+1} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
             $
       \end{enumerate}
-      As we have $\mathtt{power}(m,n) = m^n$ in both cases, the proof is finished.
+      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the proof is finished.
       \qed
 \end{enumerate}
 Next, we want to investigate the \blue{computational complexity} of this implementation of \texttt{power}.
@@ -923,11 +911,11 @@ $n = 2^l - 1$
 \\[0.2cm]
 because then we have 
 \\[0.2cm]
-\hspace*{1.3cm} $n \backslash 2 = 2^{l-1} - 1$ \quad and therefore for $l > 1$ we have \quad $n \,\texttt{\symbol{37}}\, 2 = 1$, \\[0.2cm]
+\hspace*{1.3cm} $n \dv 2 = 2^{l-1} - 1$ \quad and therefore for $l > 1$ we have \quad $n \,\texttt{\symbol{37}}\, 2 = 1$, \\[0.2cm]
 because in that case we have 
 \\[0.2cm]
 \hspace*{1.3cm}
-$2 \cdot(n \backslash 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$.
+$2 \cdot(n \dv 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$.
 \\[0.2cm]
 Therefore, if $n = 2^l - 1$ the exponent $n$ will be odd on every recursive call.
 Let us assume $n = 2^l - 1$ and let us compute the number $a_n$ of multiplications that
@@ -935,19 +923,19 @@ are done when $\mathtt{power}(m,n)$ is evaluated.
 
 First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluation of 
 $\mathtt{power}(m, n)$ does not require a single multiplication.
-Otherwise, we have two multiplications in line 9 that have to be added to those multiplications
-that are performed in the recursive call in line 5.  Therefore, we get the following
+Otherwise, we have two multiplications in line 8 that have to be added to those multiplications
+that are performed in the recursive call in line 4.  Therefore, we get the following
 \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n = a_{n \backslash 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
+$a_n = a_{n \dvv 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
 \\[0.2cm]
 In order to solve this recurrence relation, let us define $b_l := a_{2^l-1}$.  Then, the sequence
 $(b_l)_l$ 
 satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l-1} = a_{(2^l-1) \backslash 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$ with
+$b_l = a_{2^l-1} = a_{(2^l-1) \dvv 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$ with
 $l > 0$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
@@ -977,21 +965,21 @@ Therefore, let us now assume $n = 2^l$ and let us again compute the number $a_n$
 that are needed to compute $\mathtt{power}(m,n)$. 
 
 First, we have $a_{2^0} = a_1 = 2$, because if $n = 1$, the test \texttt{n \% 2 == 0} fails and in
-this case line 9 yields 2 multiplications.  Furthermore, in this case
-line 5 does not add any multiplications since the call $\mathtt{power}(m,0)$ immediately returns its
+this case line 8 yields two multiplications.  Furthermore, in this case
+line 4 does not add any multiplications since the call $\mathtt{power}(m,0)$ immediately returns its
 result.
 
-Now, if $n = 2^l$ and $n > 1$ then line 7 yields one multiplication that 
+Now, if $n = 2^l$ and $n > 1$ then line 6 yields one multiplication that 
 has to be added to those multiplications that are done during the recursive invocation of
-\texttt{power} in line 5.  Therefore, we have the following recurrence relation:
+\texttt{power} in line 4.  Therefore, we have the following recurrence relation:
  \\[0.2cm]
-\hspace*{1.3cm} $a_n = a_{n \backslash 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N\right\}$\quad and
+\hspace*{1.3cm} $a_n = a_{n \dvv 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N\right\}$\quad and
 $a_1 = 2$. 
 \\[0.2cm]
 Let us define $b_l := a_{2^l}$.  Then the sequence $(b_l)_l$ satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l} = a_{(2^l) \backslash 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N$, \\[0.2cm]
+$b_l = a_{2^l} = a_{2^l \dvv 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N$, \\[0.2cm]
 and the initial value is given as $b_0 = a_{2^0} = a_1 = 2$.
 Therefore, we have to solve the recurrence relation 
 \\[0.2cm]
@@ -1027,9 +1015,9 @@ that the time needed to multiply two numbers depends on the size of these number
 Implement a procedure $\mathtt{prod}$ that multiplies two numbers:
 For given natural numbers $m$ and $n$, the expression $\mathtt{prod}(m, n)$  should compute the product
 $m\cdot n$.  Of course, your implementation must not use the multiplication operator ``\texttt{*}''.
-However, you may use the operators ``\texttt{\symbol{92}}'' and ``\texttt{\%}'' provided
+However, you may use the operators ``$\dv$'' and ``\texttt{\%}'' provided
 the second argument of these
-operators is the number $2$.  The reason it that division by $2$ can be implemented by a simple
+operators is the number $2$.  The reason it that integer division by $2$ can be implemented by a simple
 shift, while $n\, \texttt{\symbol{37}}\, 2$ is just the last bit of $n$.
 
 In your implementation, you should use the
@@ -1049,25 +1037,20 @@ Instead, we can use the
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem} to short
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
-\pagebreak
 
 \begin{Theorem}[\blue{Master Theorem}] 
   Assume that 
-  \begin{enumerate}
-  \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$,
-  \item $\delta \in \mathbb{R}$ and $\delta \geq 0$,
+  \begin{enumerate}[(a)]
+  \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$, $\delta \in \mathbb{R}$ such that $\delta \geq
+    0$ and
   \item the function $f:\N \rightarrow \R_+$ satisfies the recurrence relation
         \\[0.2cm]
         \hspace*{1.3cm}
-        $f(n) = \alpha \cdot f\left(n \backslash \beta\right) + \Oh(n^\delta)$,
+        $f(n) = \alpha \cdot f\left(n \dv \beta\right) + \Oh(n^\delta)$,
         \\[0.2cm]
-        where $n \backslash \beta$ denotes \blue{integer division}\footnote{
-          For given integers $a, b \in \mathbb{N}$, the \blue{integer division} $a \backslash b$
-          is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  It can
-          be implemented via the formula $a \backslash b = \textsl{floor}(a/b)$, where
-          $\textsl{floor}(x)$ rounds $x$ down to the nearest integer.  In \textsc{SetlX}, integer
-          division is available via the backslash operator ``\texttt{\symbol{92}}''.  In \textsl{Python},
-          the operator ``\texttt{//}'' performs integer division.
+        where $n \dv \beta$ denotes \blue{integer division}\footnote{
+          For given integers $a, b \in \mathbb{N}$, the \blue{integer division} $a \dv b$
+          is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  
         }  
         of $n$ by $\beta$.
   \end{enumerate}
@@ -1092,7 +1075,7 @@ Furthermore, in order to simplify our exposition even further, we assume that th
 relation for $f$ has the form 
 \\[0.2cm]
 \hspace*{1.3cm}
- $f(n) = \alpha \cdot f\left(n \backslash \beta\right) + n^\delta$,
+ $f(n) = \alpha \cdot f\left(n \dv \beta\right) + n^\delta$,
 \\[0.2cm]
 i.e.~instead of adding the term $\Oh\bigl(n^\delta\bigr)$ we just add $n^\delta$.  These
 simplifications do not change the proof idea.  We start the proof by defining
@@ -1107,7 +1090,7 @@ is transformed into a recurrence relation for the sequence $a_k$ as follows:
 $
 \begin{array}[t]{lcl}
 a_k & = & f\bigl(\beta^{k}\bigr)                                             \\[0.2cm]
-    & = & \alpha \cdot f\bigl(\beta^{k} \backslash \beta\bigr) + \bigl(\beta^{k}\bigr)^\delta    \\[0.2cm]
+    & = & \alpha \cdot f\bigl(\beta^{k} \dv \beta\bigr) + \bigl(\beta^{k}\bigr)^\delta    \\[0.2cm]
     & = & \alpha \cdot f\bigl(\beta^{k-1}\bigr) + \beta^{k \cdot \delta}    \\[0.2cm]
     & = & \alpha \cdot a_{k-1} + \beta^{k \cdot \delta}    \\[0.2cm]
     & = & \alpha \cdot a_{k-1} + \bigl(\beta^{\delta}\bigr)^k    \\[0.2cm]
@@ -1300,7 +1283,7 @@ In order to proceed, we have to perform a case distinction:
 Assume that $f$ satisfies the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = 9 \cdot f(n \backslash 3) + n$.
+$f(n) = 9 \cdot f(n \dv 3) + n$.
 \\[0.2cm] 
 Define $\alpha := 9$, $\beta := 3$, and $\delta := 1$.
 Then we have
@@ -1324,14 +1307,14 @@ $f(n) \in \Oh(n^2)$ \quad holds.
 Assume that the function $f(n)$ satisfies the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = f(n \backslash 2) + 2$.
+$f(n) = f(n \dv 2) + 2$.
 \\[0.2cm]
 We want to analyse the asymptotic growth of $f$ with the help of the master theorem.
 Defining $\alpha := 1$, $\beta := 2$,  $\delta = 0$ and noting that $2 \in \Oh(n^0)$ we see that
 the recurrence relation for $f$ can be written as
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = \alpha \cdot f(n \backslash \beta) + \Oh(n^\delta)$.
+$f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
 \\[0.2cm]
 Furthermore, we have
 \\[0.2cm]
@@ -1348,12 +1331,12 @@ $f(n) \in \Oh\bigl(\log_\beta(n) \cdot n^\delta\bigr) = \Oh\bigl(\log_2(n) \cdot
 This time, $f$ satisfies the recurrence relation 
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = 3 \cdot f(n \backslash 4) + n^2$.
+$f(n) = 3 \cdot f(n \dv 4) + n^2$.
 \\[0.2cm]
 Define $\alpha := 3$, $\beta := 4$, and $\delta := 2$.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = \alpha \cdot f(n \backslash \beta) + \Oh(n^\delta)$.
+$f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
 \\[0.2cm]
 Since this time we have
 \\[0.2cm]
@@ -1369,7 +1352,7 @@ $f(n) \in \Oh\bigl(n^2\bigr)$.  \qed
 This next example is a slight variation of the previous example.  Assume $f$ satisfies the recurrence relation 
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = 3 \cdot f(n \backslash 4) + n \cdot \log_2(n)$.
+$f(n) = 3 \cdot f(n \dv 4) + n \cdot \log_2(n)$.
 \\[0.2cm]
 Again, define $\alpha := 3$ and $\beta := 4$.  This time we define $\delta := 1 + \varepsilon$ where
 $\varepsilon$ is some small positive number that will be defined later.  You can think of $\varepsilon$ being 
@@ -1386,7 +1369,7 @@ $n \cdot \log_2(n) \in \Oh\bigl(n \cdot n^\varepsilon\bigr) = \Oh\bigl(n^{1+\var
 Therefore, we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = \alpha \cdot f(n \backslash \beta) + \Oh(n^\delta)$.
+$f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
 \\[0.2cm]
 Furthermore, we have
 \\[0.2cm]
@@ -1411,28 +1394,29 @@ $f(n) \in \Oh\bigl(n \cdot \log_2(n)\bigr)$
 holds.  This example shows that the master theorem, as given in these lecture notes, does not always
 produce the most precise estimate for the asymptotic growth of a function.
 \qed
+\pagebreak
 
 \exercise
 For each of the following recurrence relations, use the master theorem to give estimates of the
 growth of the function $f$. 
 \begin{enumerate}
-\item $f(n) = 4 \cdot f(n \backslash 2) + 2 \cdot n + 3$.
-\item $f(n) = 4 \cdot f(n \backslash 2) + n^2$.
-\item $f(n) = 3 \cdot f(n \backslash 2) + n^3$.  \eox
+\item $f(n) = 4 \cdot f(n \dv 2) + 2 \cdot n + 3$.
+\item $f(n) = 4 \cdot f(n \dv 2) + n^2$.
+\item $f(n) = 3 \cdot f(n \dv 2) + n^3$.  \eox
 \end{enumerate}
 
 \exercise
 Consider the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = 2 \cdot f(n \backslash 2) + n \cdot \log_2(n)$.
+$f(n) = 2 \cdot f(n \dv 2) + n \cdot \log_2(n)$.
 \\[0.2cm] 
 How can you bound the growth of $f$ using the master theorem? 
 \vspace*{0.1cm}
 
 \noindent
 \textbf{Optional}: Assume that $n$ has the form $n = 2^k$ for some natural number $k$.
-Furthermore, you are told that $f(1) = 1$.  Solve the recurrence relation in this case.
+Furthermore, you are told that $f(1) = 1$.  Try to solve the recurrence relation in this case.
 \eox
 
 \section{Variants of Big $\Oh$ Notation}
@@ -1491,22 +1475,22 @@ $n$.   Assume that the number $\textsl{count}_A(n)$ of comparisons used by algor
 length $n$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{count}_A(n) = n \cdot \log_2(n) + 7 \cdot n$,
+$\textsl{count}_A(n) = n \cdot \log_2(n) + n$,
 \\[0.2cm]
 while for algorithm $B$ the corresponding number of comparisons is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\textsl{count}_B(n) = \frac{3}{2} \cdot n \cdot \log_2(n) + 4 \cdot n$.
+$\textsl{count}_B(n) = 3 \cdot n \cdot \log_2(n) + n$.
 \\[0.2cm]
 Clearly, if $n$ is big then algorithm $A$ is better than algorithm $B$ but as we have pointed out in a previous
 section, the big $\Oh$ notation is not able to distinguish between the complexity of algorithm $A$ and
 algorithm $B$.  However we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds \frac{3}{2} \cdot \textsl{count}_A(n) \sim \textsl{count}_B(n)$
+$\ds 3 \cdot \textsl{count}_A(n) \sim \textsl{count}_B(n)$
 \\[0.2cm]
 and this clearly shows that for big values of $n$, algorithm $A$ is faster than algorithm $B$ by a
-factor of $\frac{3}{2}$.
+factor of $3$.
 
 
 
