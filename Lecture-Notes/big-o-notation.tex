@@ -1063,7 +1063,7 @@ We present a simplified version of the master theorem next.
 \end{Theorem}
 
 \proof
-We will compute an upper bound for the expression $f(n)$ but in order to keep our exposition clear
+We will compute an upper bound for the expression $f(n)$, but in order to keep our exposition clear
 and simple we will only discuss the case where $n$ is a power of $\beta$, that is $n$ has the form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1249,11 +1249,15 @@ In order to proceed, we have to perform a case distinction:
       \hspace*{1.3cm}
       $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\biggl(\Bigl(\frac{\alpha}{\gamma}\Bigr)^k\biggr)$.
       \\[0.2cm]
-      Therefore, we have
+      Therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \Bigl(\frac{\alpha}{\gamma}\Bigr)^k = \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)$.
+      $\ds a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} =
+                   \alpha^k\cdot a_0 + \gamma \cdot \bruch{\alpha^k -\gamma^k}{\alpha - \gamma} =
+                   \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)
+      $,
       \\[0.2cm] 
+      where we have used the fact that $\gamma < \alpha$ in the last step.
       Since $\alpha^k \cdot a_0 \in \Oh\bigl(\alpha^k\bigr)$, we have shown that
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1264,13 +1268,18 @@ In order to proceed, we have to perform a case distinction:
       \hspace*{1.3cm}
       $f(n) \in \Oh\Bigl(\alpha^{\log_{\beta}(n)}\Bigr)$.
       \\[0.2cm] 
-      Next, we observe that 
+      Next, we observe the following:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds\alpha^{\log_{\beta}(n)} = n^{\log_{\beta}(\alpha)}$
+      $
+      \begin{array}[t]{lrcl}
+                        & \ds\alpha^{\log_{\beta}(n)} & = & n^{\log_{\beta}(\alpha)} \\[0.2cm]
+        \Leftrightarrow & \log_\beta\bigl(\alpha^{\log_{\beta}(n)}\bigr) & = & \log_{\beta}\bigl(n^{\log_{\beta}(\alpha)}\bigr) \\[0.2cm]
+        \Leftrightarrow & \log_{\beta}(n) \cdot \log_\beta(\alpha) & = & \log_{\beta}(\alpha) \cdot \log_{\beta}\bigl(n\bigr) \\[0.2cm]      
+      \end{array}
+      $
       \\[0.2cm]
-      holds.   This equation is easily proven by taking the logarithm with base $\beta$ on both sides
-      of the equation.  Using this equation we conclude that
+      Using the first of these equations we conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
       $\alpha > \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^{\log_{\beta}(\alpha)}\bigr)$
@@ -1278,75 +1287,69 @@ In order to proceed, we have to perform a case distinction:
       holds.  \qed
 \end{enumerate}
 
-
-\example
-Assume that $f$ satisfies the recurrence relation
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) = 9 \cdot f(n \dv 3) + n$.
-\\[0.2cm] 
-Define $\alpha := 9$, $\beta := 3$, and $\delta := 1$.
-Then we have
-\\[0.2cm]
-\hspace*{1.3cm}
-$\alpha = 9 > 3^1 = \beta^\delta$.
-\\[0.2cm] 
-This is the last case of the master theorem and, since 
-\\[0.2cm]
-\hspace*{1.3cm}
-$\log_{\beta}(\alpha) = \log_3(9) = 2$,
-\\[0.2cm]
-we conclude that
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) \in \Oh(n^2)$ \quad holds.
- \qed
-
-
-\example
-Assume that the function $f(n)$ satisfies the recurrence relation
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) = f(n \dv 2) + 2$.
-\\[0.2cm]
-We want to analyse the asymptotic growth of $f$ with the help of the master theorem.
-Defining $\alpha := 1$, $\beta := 2$,  $\delta = 0$ and noting that $2 \in \Oh(n^0)$ we see that
-the recurrence relation for $f$ can be written as
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
-\\[0.2cm]
-Furthermore, we have
-\\[0.2cm]
-\hspace*{1.3cm}
-$\alpha = 1 = 2^0 = \beta^\delta$.
-\\[0.2cm]
-Therefore, the second case of the master theorem tells us that
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) \in \Oh\bigl(\log_\beta(n) \cdot n^\delta\bigr) = \Oh\bigl(\log_2(n) \cdot n^0\bigr) = \Oh\bigl(\log_2(n)\bigr)$.
-\qed
-
-\example
-This time, $f$ satisfies the recurrence relation 
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) = 3 \cdot f(n \dv 4) + n^2$.
-\\[0.2cm]
-Define $\alpha := 3$, $\beta := 4$, and $\delta := 2$.  Then we have
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
-\\[0.2cm]
-Since this time we have
-\\[0.2cm]
-\hspace*{1.3cm}
-$\alpha = 3 < 16 = \beta^\delta$
-\\[0.2cm]
-the first case of the master theorem tells us that
-\\[0.2cm]
-\hspace*{1.3cm}
-$f(n) \in \Oh\bigl(n^2\bigr)$.  \qed
+\examples
+\begin{enumerate}
+\item Assume that $f$ satisfies the recurrence relation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) = 9 \cdot f(n \dv 3) + n$.
+      \\[0.2cm] 
+      Define $\alpha := 9$, $\beta := 3$, and $\delta := 1$.
+      Then we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = 9 > 3^1 = \beta^\delta$.
+      \\[0.2cm] 
+      This is the last case of the master theorem and, since 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\log_{\beta}(\alpha) = \log_3(9) = 2$,
+      \\[0.2cm]
+      we conclude that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) \in \Oh(n^2)$ \quad holds.
+\item Assume that the function $f(n)$ satisfies the recurrence relation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) = f(n \dv 2) + 2$.
+      \\[0.2cm]
+      We want to analyse the asymptotic growth of $f$ with the help of the master theorem.
+      Defining $\alpha := 1$, $\beta := 2$,  $\delta = 0$ and noting that $2 \in \Oh(n^0)$ we see that
+      the recurrence relation for $f$ can be written as
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
+      \\[0.2cm]
+      Furthermore, we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = 1 = 2^0 = \beta^\delta$.
+      \\[0.2cm]
+      Therefore, the second case of the master theorem tells us that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) \in \Oh\bigl(\log_\beta(n) \cdot n^\delta\bigr) = \Oh\bigl(\log_2(n) \cdot n^0\bigr) = \Oh\bigl(\log_2(n)\bigr)$.
+\item This time, $f$ satisfies the recurrence relation 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) = 3 \cdot f(n \dv 4) + n^2$.
+      \\[0.2cm]
+      Define $\alpha := 3$, $\beta := 4$, and $\delta := 2$.  Then we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) = \alpha \cdot f(n \dv \beta) + \Oh(n^\delta)$.
+      \\[0.2cm]
+      Since this time we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = 3 < 16 = \beta^\delta$
+      \\[0.2cm]
+      the first case of the master theorem tells us that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f(n) \in \Oh\bigl(n^2\bigr)$.
+\end{enumerate}
 
 \example
 This next example is a slight variation of the previous example.  Assume $f$ satisfies the recurrence relation 
@@ -1393,8 +1396,6 @@ $f(n) \in \Oh\bigl(n \cdot \log_2(n)\bigr)$
 \\[0.2cm]
 holds.  This example shows that the master theorem, as given in these lecture notes, does not always
 produce the most precise estimate for the asymptotic growth of a function.
-\qed
-\pagebreak
 
 \exercise
 For each of the following recurrence relations, use the master theorem to give estimates of the
@@ -1429,7 +1430,7 @@ bounds concisely, we introduce the big $\Omega$ notation next.
 
 \begin{Definition}[$\Omega(g)$] 
   Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that grow 
-  \underline{at least as fast as} the function $g$ as follows:
+  \blue{at least as fast as} the function $g$ as follows:
   \\[0.2cm]
   \hspace*{0.5cm} 
   \colorbox{red}{\framebox{\colorbox{orange}{
