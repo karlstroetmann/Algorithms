@@ -709,37 +709,40 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
                 xleftmargin   = 1.3cm,
                 xrightmargin  = 1.3cm
               ]{python3}
-    sort(rw L) :
-        A := L;
-        mergeSort(L, 1, #L + 1, A); 
-    };
-    mergeSort := procedure(rw L, start, end, rw A) {
-        if (end - start < 2) { return; }
-        middle := (start + end) \ 2;
-        mergeSort(L, start,  middle, A);  
-        mergeSort(L, middle, end   , A);   
-        merge(L, start, middle, end, A); 
-    };
-    merge := procedure(rw L, start, middle, end, rw A) {    
-        for (i in [start .. end-1]) { A[i] := L[i]; }
-        idx1 := start;
-        idx2 := middle;
-        i    := start;
-        while (idx1 < middle && idx2 < end) {
-            if (A[idx1] <= A[idx2]) {
-                L[i] := A[idx1]; idx1 += 1;
-            } else {
-                L[i] := A[idx2]; idx2 += 1;
-            }
-            i += 1; 
-        }
-        while (idx1 < middle) { 
-            L[i] := A[idx1]; idx1 += 1; i += 1; 
-        }
-        while (idx2 < end   ) { 
-            L[i] := A[idx2]; idx2 += 1; i += 1; 
-        }
-    };
+    def sort(L):
+        A = L[:]  # A is a copy of L
+        mergeSort(L, 0, len(L), A)
+    
+    def mergeSort(L, start, end, A):
+        if end - start < 2:
+            return
+        middle = (start + end) // 2
+        mergeSort(L, start,  middle, A)
+        mergeSort(L, middle, end   , A)
+        merge(L, start, middle, end, A)
+    
+    def merge(L, start, middle, end, A):
+        for i in range(start, end):
+            A[i] = L[i]
+        idx1 = start
+        idx2 = middle
+        i    = start
+        while idx1 < middle and idx2 < end:
+            if A[idx1] <= A[idx2]:
+                L[i]  = A[idx1]
+                idx1 += 1
+            else:
+                L[i]  = A[idx2]
+                idx2 += 1
+            i += 1
+        while idx1 < middle:
+            L[i]  = A[idx1]
+            idx1 += 1
+            i    += 1
+        while idx2 < end:
+            L[i]  = A[idx2]
+            idx2 += 1
+            i    += 1
 \end{minted}
 \vspace*{-0.3cm}
   \caption{An array based implementation of \blue{merge sort}.}
@@ -979,14 +982,13 @@ be implemented in \textsc{SetlX}.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm
                 ]{python3}
-    sort(L):
-        match (L) {
-            case []   : return [];
-            case [x|R]: S := [y: y in R | y <= x];
-                        B := [y: y in R | y >  x];
-                        return sort(S) + [x] + sort(B);
-        }
-    };
+    def sort(L):
+        if L == []:
+            return L
+        x, R = L[0], L[1:]
+        S = [y for y in R if y <= x]
+        B = [y for y in R if y >  x]
+        return sort(S) + [x] + sort(B)
 \end{minted}
 \vspace*{-0.3cm}
   \caption{The \blue{quicksort} algorithm.}
