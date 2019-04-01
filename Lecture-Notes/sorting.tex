@@ -164,7 +164,8 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
 \begin{figure}[!ht]
   \centering
 \begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
+                framesep      = 0.3cm,
+                bgcolor       = sepia,
                 numbers       = left,
                 numbersep     = -0.2cm,
                 xleftmargin   = 0.3cm,
@@ -355,29 +356,27 @@ function will provide us with an error message in this case.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.3cm,
-                  xrightmargin  = 0.3cm
-                ]
-    sort := procedure(L) {
-        if (L == []) {
-            return [];
-        }
-        x := min(L);
-        return [x] + sort(delete(x, L));
-    };
-    delete := procedure(x, L) {
-        match (L) {
-            case []              : assert(false, "$x$ not in $L$");
-            case [y | R] | y == x: return R;
-            case [y | R] | y != x: return [y] + delete(x, R);
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.3cm,
+                xrightmargin  = 0.3cm
+              ]{python3}
+    def sort(L):
+        if L == []:
+            return []
+        x = min(L)
+        return [x] + sort(delete(x, L))
+    
+    def delete(x, L):
+        if L == []:
+            assert L != [], f'delete({x}, [])'
+        if L[0] == x:
+            return L[1:]
+        return [L[0]] + delete(x, L[1:])
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Implementing \blue{selection sort} in \textsc{SetlX}.}
   \label{fig:selection-sort.setlx}
@@ -446,23 +445,23 @@ was one of the most prominent mathematicians of the last century.
 % \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
 % $200\,000$ innocent civilian at the end of the second world war.
 
-In order to sort a list $L$ the algorithm proceeds as follows:
+In order to sort a list $L$ of length $n := \#L$ the algorithm proceeds as follows:
 \begin{enumerate}
 \item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\#L < 2 \rightarrow \mathtt{sort}(L) = L$.
+      $n < 2 \rightarrow \mathtt{sort}(L) = L$.
 \item Otherwise, the list $L$ is split into two lists that have approximately the same size.
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\#L \geq 2 \rightarrow \mathtt{sort}(L) =
-         \mathtt{merge}\bigl(\mathtt{sort}\bigl(\texttt{L[..n\symbol{92}2]}\bigr),
-         \mathtt{sort}\bigl(\texttt{L[n\symbol{92}2+1..]}\bigr)\bigr)
+      $n \geq 2 \rightarrow \mathtt{sort}(L) =
+         \mathtt{merge}\bigl(\mathtt{sort}\bigl(\texttt{L[:n\dv 2]}\bigr),
+         \mathtt{sort}\bigl(\texttt{L[n\dv 2:]}\bigr)\bigr)
      $
      \\[0.2cm]
-     Here, $\texttt{L[..\#L\symbol{92}2]}$ is the first part of the list, while
-     $\texttt{L[\#L\symbol{92}2+1..]}$ is the second part.  If the length of $L$ is even, both part have the same number of
+     Here,  $\texttt{L[:n\dv 2]}$ is the first part of the list, while
+     $\texttt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
      takes two sorted lists and combines their element in a way that the resulting list is sorted.
 \end{enumerate}
@@ -471,34 +470,33 @@ program.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
-                ]
-    sort := procedure(L) {
-        if (#L < 2) {
-            return L;
-        }
-        n := #L;
-        [L1, L2] := [L[.. n\2], L[n\2+1 ..]];
-        return merge(sort(L1), sort(L2));
-    };
-    merge := procedure(L1, L2) {
-        match ([L1, L2]) {
-            case [      [],       L2] : return L2;
-            case [      L1,       []] : return L1;
-            case [[x | R1], [y | R2]] : if (x <= y) {
-                                            return [x] + merge(R1, L2);
-                                        } else {
-                                            return [y] + merge(L1, R2);
-                                        }
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm
+              ]{python3}
+    def sort(L):
+        n = len(L)
+        if n < 2:
+            return L
+        L1, L2 = L[:n//2], L[n//2:]
+        return merge(sort(L1), sort(L2))
+    
+    def merge(L1, L2):
+        if L1 == []:
+            return L2
+        if L2 == []:
+            return L1
+        x1, R1 = L1[0], L1[1:]
+        x2, R2 = L2[0], L2[1:]
+        if x1 <= x2:
+            return [x1] + merge(R1, L2)
+        else:
+            return [x2] + merge(L1, R2)
+\end{minted}
 \vspace*{-0.3cm}
   \caption{The \blue{merge sort} algorithm implemented in \textsc{SetlX}.}
   \label{fig:merge-sort.stlx}
@@ -506,7 +504,7 @@ program.
 \begin{enumerate}
 \item If the list $L$ has less than two elements, it is already sorted and, therefore, it
       can be returned as it is.
-\item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\symbol{92}2$
+\item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\dv 2$
       elements into the list $L_1$ and the remaining elements into the list $L_2$.
 \item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
 \end{enumerate}
@@ -599,12 +597,12 @@ Now we are ready to compute the complexity of \blue{merge sort} in the worst cas
 $f(n)$  \texttt{:=} number of comparisons needed to sort a list $L$ of length $n$.
 \\[0.2cm]
 The algorithm \blue{merge sort} 
-splits the list $L$ into two lists that have the length of $n\symbol{92}2$ or $n\symbol{92}2+1$, then sorts
+splits the list $L$ into two lists that have the length of $n\dv 2$ or $n\dv 2+1$, then sorts
 these lists recursively, and finally merges the sorted lists.  Merging the two lists can be done with
 at most $n$ comparisons.  Therefore, the function $f$ satisfies the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n) = 2 \cdot f(n \symbol{92} 2) + \Oh(n)$,
+$f(n) = 2 \cdot f(n \dv  2) + \Oh(n)$,
 \\[0.2cm]
 We can use the master theorem to get an upper bound for $f(n)$.  In the master theorem, we have
 $\alpha = 2$, $\beta = 2$, and $\delta = 1$. Therefore,
@@ -703,15 +701,15 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.4cm,
-                  xleftmargin   = 1.3cm,
-                  xrightmargin  = 1.3cm
-                ]
-    sort := procedure(rw L) {
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.4cm,
+                xleftmargin   = 1.3cm,
+                xrightmargin  = 1.3cm
+              ]{python3}
+    sort(rw L) :
         A := L;
         mergeSort(L, 1, #L + 1, A); 
     };
@@ -742,7 +740,7 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
             L[i] := A[idx2]; idx2 += 1; i += 1; 
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{An array based implementation of \blue{merge sort}.}
   \label{fig:merge-sort-array.stlx}
@@ -776,7 +774,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 \item In line 7 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{middle = (start + end) \symbol{92} 2;} 
+      \texttt{middle = (start + end) \dv  2;} 
       \\[0.2cm]
       This way, the list $\texttt{L}$ is split into the lists 
       \\[0.2cm]
@@ -835,15 +833,15 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
-                ]
-    sort := procedure(rw L) {
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm
+              ]{python3}
+    sort(rw L):
         A := L;
         mergeSort(L, A);
     };
@@ -858,7 +856,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             n *= 2;
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{A non-recursive implementation of \blue{merge sort}.}
   \label{fig:merge-sort-nr.stlx}
@@ -973,15 +971,15 @@ be implemented in \textsc{SetlX}.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm
-                ]
-    sort := procedure(L) {
+                ]{python3}
+    sort(L):
         match (L) {
             case []   : return [];
             case [x|R]: S := [y: y in R | y <= x];
@@ -989,7 +987,7 @@ be implemented in \textsc{SetlX}.
                         return sort(S) + [x] + sort(B);
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{The \blue{quicksort} algorithm.}
   \label{fig:quick-sort.stlx}
@@ -1247,15 +1245,15 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm
-                ]
-    sort := procedure(rw L) {
+                ]{python3}
+    def sort(rw L):
         quickSort(1, #L, L);
     };
     quickSort := procedure(a, b, rw L) {
@@ -1281,7 +1279,7 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
     swap := procedure(x, y, rw L) {
         [ L[x], L[y] ] := [ L[y], L[x] ];
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{An implementation of \blue{quicksort} based on arrays.}
   \label{fig:quick-sort-array.stlx}
@@ -1425,16 +1423,16 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
-                ]
-    sort := procedure(L) {
+                ]{python3}
+    def sort(L):
         match (L) {
         case []     : return [];
         case [x]    : return [x];
@@ -1457,7 +1455,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
                     }
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{A list based implementation of \blue{dual pivot quicksort}.}
 \label{fig:dual-pivot-quick-sort.stlx}
@@ -1728,16 +1726,16 @@ counting sort.  We proceed to discuss this algorithm line by line.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
-    countingSort := procedure(Names, Grades) {
+                ]{python3}
+    def countingSort(Names, Grades):
         assert(#Names == #Grades, "$#Names$ != $#Grades$");
         maxGrade     := max(Grades);
         Counts       := [0] * maxGrade;
@@ -1760,7 +1758,7 @@ counting sort.  We proceed to discuss this algorithm line by line.
         }
         return [SortedNames, SortedGrades];
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{An Implementation of \blue{counting sort}.}
 \label{fig:counting-sort.stlx}
@@ -1868,15 +1866,15 @@ Then, radix sort works as follows:
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                  ]
+                  ]{python3}
     load("counting-sort.stlx");
     
     extractByte := [x, k] |-> (x \ 256 ** (k-1)) % 256; 
@@ -1888,7 +1886,7 @@ Then, radix sort works as follows:
         }
         return L;
     };                  
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{An implementation of \blue{radix sort} for sorting unsigned 32 integers.}
 \label{fig:radix-sort.stlx}
