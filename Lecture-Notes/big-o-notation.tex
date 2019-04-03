@@ -1498,7 +1498,15 @@ In some cases knowing the growth rate of a function is not sufficient.  Rather, 
 the growth rate exactly.  If the growth rate to be computed results from the complexity analysis of a recursive
 algorithm, the growth rate is often defined via a \href{https://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}.
 In this section we discuss a simple program whose complexity analysis leads to a recurrence relation for the 
-number of additions.  We will then see how this recurrence relation can be solved explicitly.
+number of additions.  We will then see how this recurrence relation can be solved explicitly.  The program that
+we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\texttt{fib}(n)$ computes the
+\href{https://en.wikipedia.org/wiki/Fibonacci_number}{Fibonacci number} $F_n$.  These numbers are defined
+inductively as follows:
+\begin{enumerate}
+\item $F_0 := 0$,
+\item $F_1 := 1$, 
+\item $F_{n+2} = F_{n+1} + F_n$.
+\end{enumerate}
 
 \begin{figure}[!h]
   \centering
@@ -1647,6 +1655,12 @@ This explains the strong increase in computing time.
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
 and plays an important role in geometry, art, and alchemy.
+
+\exercise
+As the Fibonacci numbers are defined via a linear recurrence relation, it is possible
+to derive an explicit formula for $F_n$.  Your task is to derive this formula.
+\eox
+
 
 \section{Further Reading}
 Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
