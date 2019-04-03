@@ -129,8 +129,8 @@ However, the implementation of these algorithms is much more involved.
 
 
 \section{Insertion Sort \label{chap:insertionSort}}
-Let us start our investigation of sorting algorithms with
-\href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}.  We will describe the
+Let us start our investigation of sorting algorithms with the algorithm
+\href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}.  We will describe this
 algorithm via a set of equations.
 \begin{enumerate}
 \item If the list $L$ that has to be sorted is empty, then the result is the empty list: 
@@ -187,29 +187,20 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
             return [y] + insert(x, R)
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementing \blue{insertion sort} in \textsc{SetlX}.}
+  \caption{Implementing \blue{insertion sort} in \textsl{Python}.}
   \label{fig:Insertion-Sort.ipynb}
 \end{figure} 
 
 \noindent
 Figure \ref{fig:Insertion-Sort.ipynb} shows how the \blue{insertion-sort} algorithm can be implemented 
-in \textsc{SetlX}.
+in \textsl{Python}.
 \begin{enumerate}
-\item The definition of the function \texttt{sort} makes use of the \texttt{match} statement
-      that is available in \texttt{SetlX}.  Essentially, the \texttt{match} statement is an upgraded
-      \texttt{switch} statement.  Therefore, line 3 is executed if the list $L$ is empty.
-
-      Line 4 tests whether $L$ can be written as  
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $L = [x | R]$.
-      \\[0.2cm]
-      Here, $x$ is the first element of $L$ while $R$ contains all elements but the first element of $L$.  
-\item The definition of the function $\mathtt{insert}$ also uses a 
-      \texttt{match} statement.  However, in the last two cases the match statement
-      also has a logical condition attached via the operator ``\texttt{|}'':
-      In line 10, this condition checks whether $x \leq y$, while line 11 checks for the
-      complementary case.
+\item If $L$ is empty, we return the empty list.
+\item Otherwise, $L$ is split into two parts: $x$ is the first element of $L$ and $R$ is the rest of $L$,
+      i.e.~all elements of $L$ with the exception of the first element.  Next, the rest $R$ is sorted and $x$
+      is inserted into $R$.
+\item The definition of the function $\mathtt{insert}$ is a direct translation of the equations specifying the
+      function $\texttt{insert}$.
 \end{enumerate}
 
 \subsection{Complexity of Insertion Sort}
@@ -346,8 +337,8 @@ Finally, we have to specify the computation of the minimum of a list $L$:
       $
 \end{enumerate}
 Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
-implementation of selection sort in \textsc{SetlX}.  There is no need to implement the function
-\texttt{min} as this function is already predefined in \textsc{SetlX}. 
+implementation of selection sort in \textsl{Python}.  There is no need to implement the function
+\texttt{min} as this function is already predefined in \textsl{Python}. 
 The implementation of $\mathtt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, L)$
 should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
 to delete an element from the empty list, something must have gone wrong.  The predefined \texttt{assert}
@@ -378,7 +369,7 @@ function will provide us with an error message in this case.
         return [L[0]] + delete(x, L[1:])
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementing \blue{selection sort} in \textsc{SetlX}.}
+  \caption{Implementing \blue{selection sort} in \textsl{Python}.}
   \label{fig:selection-sort.setlx}
 \end{figure}
 %$
@@ -465,7 +456,7 @@ In order to sort a list $L$ of length $n := \#L$ the algorithm proceeds as follo
      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
      takes two sorted lists and combines their element in a way that the resulting list is sorted.
 \end{enumerate}
-Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsc{SetlX}
+Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsl{Python}
 program.  
 
 \begin{figure}[!ht]
@@ -498,7 +489,7 @@ program.
             return [x2] + merge(L1, R2)
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{The \blue{merge sort} algorithm implemented in \textsc{SetlX}.}
+  \caption{The \blue{merge sort} algorithm implemented in \textsl{Python}.}
   \label{fig:merge-sort.stlx}
 \end{figure}
 \begin{enumerate}
@@ -679,8 +670,8 @@ $a_n = n \cdot \log_2(n)$.
 
 
 \subsection{Implementing Merge Sort for Arrays}
-All the implementations of the \textsc{SetlX} programs presented up to now are quite inefficient.  The
-reason is that, in \textsc{SetlX}, lists are internally represented as arrays.  Therefore, when
+All the implementations of the \textsl{Python} programs presented up to now are quite inefficient.  The
+reason is that, in \textsl{Python}, lists are internally represented as arrays.  Therefore, when
 we evaluate an expression of the form 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -970,7 +961,7 @@ algorithm \cite{hoare:61}.  The basic idea is as follows:
       $\mathtt{sort}([\mathtt{x}|\mathtt{R}]) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
-be implemented in \textsc{SetlX}.
+be implemented in \textsl{Python}.
 
 \begin{figure}[!ht]
   \centering
@@ -1379,7 +1370,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \cite{bentley:93} describes the previous two improvements.
 \item In order to be sure that the average case analysis of \blue{quicksort} holds we can randomly
       \blue{shuffle} the list $L$ that is to be sorted.  This approach is advocated by Sedgewick
-      \cite{sedgewick:2011}.  In \textsc{SetlX} this is quite easy as
+      \cite{sedgewick:2011}.  In \textsl{Python} this is quite easy as
       there is a predefined function \texttt{shuffle} that takes a list and shuffles it randomly.
       For example, the expression
       \\[0.2cm]
@@ -1899,7 +1890,7 @@ sort that implements these ideas.
 \item The function \texttt{extractByte} is called with two arguments:
       \begin{enumerate}[(a)]
       \item $x$ is supposed to be an unsigned 32 bit number.  With respect to the programming language
-            \textsc{SetlX} this just means that $x$ is a integer satisfying $0 \leq x < 2^{32}$.
+            \textsl{Python} this just means that $x$ is a integer satisfying $0 \leq x < 2^{32}$.
       \item $k$ is the index of the byte that is to be extracted.  It is supposed that the least significant
             byte has the index $1$.
       \end{enumerate}
@@ -1912,7 +1903,7 @@ sort that implements these ideas.
 \item It iterates over the four bytes of these numbers starting with the least significant byte.
 \item In order to be able to interpret a byte as a grade we have to add 1 to it, since counting sort
       assumes that the lowest grade is $1$.  The reason is that grades are used as array indices and in
-      \textsc{SetlX} list indices start at index $1$.
+      \textsl{Python} list indices start at index $1$.
 \item With respect to counting sort,  the elements of the list given to counting sort as its first argument are
       just arbitrary objects.  Therefore, it does not matter whether the first argument to the function
       \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.  This list
