@@ -341,8 +341,12 @@ implementation of selection sort in \textsl{Python}.  There is no need to implem
 \texttt{min} as this function is already predefined in \textsl{Python}. 
 The implementation of $\mathtt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, L)$
 should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
-to delete an element from the empty list, something must have gone wrong.  The predefined \texttt{assert}
-function will provide us with an error message in this case.
+to delete an element from the empty list, something must have gone wrong.  The \texttt{assert}
+statement will provide us with an error message in this case.  This error message is printed if $L$ is empty.
+
+If $L$ is not empty we check whether $x$ is the first element of $L$.  If it is, the rest of $L$ is
+returned.  Otherwise, $x$ is deleted recursively from the rest of $L$.
+
 
 
 \begin{figure}[!ht]
