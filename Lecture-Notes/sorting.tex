@@ -4,10 +4,10 @@ some set $S$.  If we want to \blue{sort} the list $L$ we have to be able to comp
 to each other.   Therefore, we assume that $S$ is equipped with a binary relation $\leq$ which is
 \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive}, i.~e.~we have  
 \begin{enumerate}
-\item $\forall x \el S \colon x \leq x$,
+\item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is reflexive)
 \item $\forall x, y \el S \colon \bigl(x \leq y \wedge y \leq x
-  \rightarrow x = y\bigr)$, 
-\item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$. 
+  \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is anti-symmetric)
+\item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
 \end{enumerate}
 A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation
 on $S$ that is \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive} is called a
@@ -44,7 +44,7 @@ the relation $\leq$ is called a \blue{total order} or a \blue{linear order}.
       \\[0.2cm]
       but obviously $\mathrm{Smith} \not= \mathrm{Robinson}$.
 \end{enumerate}
-In the examples given above we see that it does not make much sense to sort subsets of $\mathbb{N}$.
+In the example given above we see that it does not make much sense to sort subsets of $\mathbb{N}$.
 However, we can sort natural numbers with respect to their size and we can also sort employees with
 respect to their income.  This shows that, in order to sort,  we do not necessarily need a totally
 ordered set.  In order to capture the requirements that are needed to be able to sort we introduce
@@ -106,10 +106,10 @@ is defined as follows:
         \hspace*{1.3cm}
         $\forall x \in s: \textsl{count}(x,S) \leq 1 \wedge \forall x\el M \colon \bigl(\textsl{count}(x,L) > 0 \leftrightarrow \textsl{count}(x,S) = 1\bigr)$.
         \\[0.2cm]
-        Hence, in this case we require that the sorted list $s$ does not contain duplicate elements.
+        Hence, in this case we require that the sorted list $s$ does not contain \blue{duplicate} elements.
         Of course, an object $x$ should only occur in $s$ if it also occurs in $L$.  If we change
         the second requirement in this way, then the main purpose of sorting is to remove duplicate
-        elements from a list.  This is actually one common application of sorting in practice.  The
+        elements from a list.  This is actually a common application of sorting in practice.  The
         reason this application is so common is the following: A list that contains every element at
         most once can be viewed as representing a set.
 
@@ -125,7 +125,7 @@ Next, we present various algorithms for solving the sorting problem.  We start w
 that are very easy to implement: \blue{insertion sort} and \blue{selection sort}.  However, the
 efficiency of these algorithms is far from optimal.  Next, we present \blue{quick sort} and 
 \blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
-However, the implementation of these algorithms is much more involved.
+However, the implementation of these algorithms is more involved.
 
 
 \section{Insertion Sort \label{chap:insertionSort}}
@@ -199,13 +199,21 @@ in \textsl{Python}.
 \item Otherwise, $L$ is split into two parts: $x$ is the first element of $L$ and $R$ is the rest of $L$,
       i.e.~all elements of $L$ with the exception of the first element.  Next, the rest $R$ is sorted and $x$
       is inserted into $R$.
-\item The definition of the function $\mathtt{insert}$ is a direct translation of the equations specifying the
-      function $\texttt{insert}$.
+\item In order to insert $x$ into a list $L$ that is already sorted, we first check whether $L$ is the
+      empty list.  Inserting $x$ into the empty list yields the list $[x]$.
+\item Otherwise, $L$ is split into two parts: $y$ is the first element of $L$ and $R$ is the rest of $L$.
+      Then, there are two cases:
+      \begin{enumerate}[(a)]
+      \item If $x$ is less or equal than $y$, then, as $L$ is sorted,  $x$ is less or equal than all elements
+            of $L$ and therefore $x$ is prepended in front of $L$.
+      \item Otherwise, we recursive insert $x$ into the rest $R$ and prepend $y$ to the resulting list.
+        
+      \end{enumerate}
 \end{enumerate}
 
 \subsection{Complexity of Insertion Sort}
 We will compute the number of comparisons that are done in the implementation of \texttt{insert}
-in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that,
+in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that,
 we have to compute the number of evaluations of the operator ``\texttt{<=}'' when 
  $\texttt{insert}(x,L)$ is evaluated for a list $L$ of length $n$.  Let us denote this number as 
 $a_n$.  The worst case happens if $x$ is bigger than every element of $L$ because in that case the
@@ -221,15 +229,15 @@ A trivial induction shows that this recurrence relation has the solution
 \hspace*{1.3cm} 
 $a_n = n$.
 \\[0.2cm]
-In the worst case the evaluation of $\mathtt{insert}(x,L)$ will lead to $n$ comparisons for a list
+Hence, in the worst case the evaluation of $\mathtt{insert}(x,L)$ will lead to $n$ comparisons for a list
 $L$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $L$, then we have to
 compare $x$ with every element of $L$ in order to insert $x$ into $L$.
 
 Next, let us compute the number of comparisons that have to be done when calling
 $\texttt{sort}(L)$ in the worst case for a list  $L$ of length $n$.  Let us denote this number as
 $b_n$. The worst case happens if $L$ is sorted in reverse order, i.~e.~if $L$ is sorted
-descendingly.   
-Then we have \\[0.2cm]
+descendingly, because then the element $x$ that is inserted in $\texttt{sort}(R)$ is bigger than all elements
+of $R$ and therefore also bigger than all elements of $\texttt{sort}(R)$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
@@ -273,7 +281,7 @@ comparisons needed for sorting a list of length $n$  satisfies
 $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$.
 \\[0.2cm]
 Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ and hence
-\blue{insertion sort} is quadratic.
+\blue{insertion sort} has a \blue{quadratic} complexity.
 
 
 Next, let us consider the best case.  The best case happens if the list $L$ is already sorted
@@ -285,9 +293,9 @@ equation for the number $b_l$ of comparisons when sorting $L$ satisfies
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
 Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
-\blue{insertion sort} is linear.  This is as good as it can possibly get because when sorting a list $L$ we
-must at least inspect all of the elements of $L$ and therefore we will always have at least a linear
-amount of work to do.
+\blue{insertion sort} has a \blue{linear} complexity.  This is as good as it can possibly get because when
+sorting a list $L$ we must at least inspect all of the elements of $L$ and therefore we will always have at
+least a linear amount of work to do.
 
 
 \section{Selection Sort}
