@@ -89,9 +89,9 @@ is defined as follows:
   \begin{enumerate}
   \item $S$ is sorted ascendingly: \\[0.2cm]
         \hspace*{1.3cm} 
-        $\forall i \el \{ 1, \cdots, \#S-1 \} \colon S[i] \preceq S[i+1]$ 
+        $\forall i \el \{ 0, \cdots, \texttt{len}(S)-2 \} \colon S[i] \preceq S[i+1]$ 
         \\[0.2cm]
-        Here, the length of the list $S$ is denoted as $\#S$ and $S[i]$ is the $i$-th element of $S$.
+        Here, the length of the list $S$ is denoted as $\texttt{len}(S)$ and $S[i]$ is the $i$-th element of $S$.
   \item The elements of $M$ occur in $L$ and $S$ with the same frequency: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
@@ -99,12 +99,12 @@ is defined as follows:
         Here, the function $\textsl{count}(x,L)$ returns the number of occurrences of $x$ in $L$.
         Therefore, we have: \\[0.2cm]
         \hspace*{1.3cm}
-        $\textsl{count}(x,L) := \# \bigl\{ i \el \{1,\cdots,\#L\} \mid L[i] = x \bigr\}$.
+        $\textsl{count}(x,L) := \texttt{card}\bigl(\bigl\{ i \el \{0,\cdots,\texttt{len}(L)-1\} \mid L[i] = x \bigr\}\bigr)$.
         \\[0.2cm]
         Sometimes, this second requirement is changed as follows:
         \\[0.2cm]
         \hspace*{1.3cm}
-        $\forall x \in s: \textsl{count}(x,S) \leq 1 \wedge \forall x\el M \colon \bigl(\textsl{count}(x,L) > 0 \leftrightarrow \textsl{count}(x,S) = 1\bigr)$.
+        $\forall x \in S: \textsl{count}(x,S) \leq 1 \wedge \forall x\el M \colon \bigl(\textsl{count}(x,L) > 0 \leftrightarrow \textsl{count}(x,S) = 1\bigr)$.
         \\[0.2cm]
         Hence, in this case we require that the sorted list $s$ does not contain \blue{duplicate} elements.
         Of course, an object $x$ should only occur in $s$ if it also occurs in $L$.  If we change
@@ -435,12 +435,12 @@ partially sorted and have only a few elements that are out of place.  In these c
 
 
 \section{\href{http://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}}
-Next, we discuss \blue{merge sort}.  This algorithm
+Next, we discuss \href{https://en.wikipedia.org/wiki/Merge_sort}{merge sort}.  This algorithm
 is the first \blue{optimally efficient} sorting algorithm that we encounter: We will see that merge sort 
 only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  Later, we will prove
 that every algorithm that needs to compare its elements in order to sort them has at least this complexity.  
 The \blue{merge sort} algorithm was discovered by
-\href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945.  John von Neumann 
+\href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945, who 
 was one of the most prominent mathematicians of the last century.  
 % Furthermore, he published a
 % number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb and
@@ -448,7 +448,7 @@ was one of the most prominent mathematicians of the last century.
 % \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
 % $200\,000$ innocent civilian at the end of the second world war.
 
-In order to sort a list $L$ of length $n := \#L$ the algorithm proceeds as follows:
+In order to sort a list $L$ of length $n := \texttt{len}(L)$ the algorithm proceeds as follows:
 \begin{enumerate}
 \item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
@@ -466,8 +466,35 @@ In order to sort a list $L$ of length $n := \#L$ the algorithm proceeds as follo
      Here,  $\texttt{L[:n\dv 2]}$ is the first part of the list, while
      $\texttt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
-     takes two sorted lists and combines their element in a way that the resulting list is sorted.
+     takes two sorted lists and combines their element in a way that the resulting list again is sorted.
 \end{enumerate}
+Next, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
+is sorted.
+\begin{enumerate}
+\item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\mathtt{merge}([], L_2) = L_2$.
+\item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\mathtt{merge}(L_1, []) = L_1$.
+\item Otherwise, $L_1$ must have the form $[x|R_1]$ and $L_2$ has the form $[y|R_2]$.
+      Then there is a case distinction with respect to the result of the comparison of $x$ and $y$:
+      \begin{enumerate}
+      \item $x \preceq y$.
+
+            In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
+            \\[0.2cm]
+            \hspace*{1.3cm} 
+            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[x\bigr] + \mathtt{merge}\bigl(R_1,[y|R_2]\bigr)$.
+      \item $\neg x \preceq y$.
+
+            Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
+            \\[0.2cm]
+            \hspace*{1.3cm} 
+            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[y \bigr] + \mathtt{merge}\bigl([x|R_1],R_2\bigr)$.
+      \end{enumerate}
+\end{enumerate}
+
 Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsl{Python}
 program.  
 
@@ -510,32 +537,8 @@ program.
 \item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\dv 2$
       elements into the list $L_1$ and the remaining elements into the list $L_2$.
 \item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
-\end{enumerate}
-Finally, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
-is also sorted.
-\begin{enumerate}
-\item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mathtt{merge}([], L_2) = L_2$.
-\item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mathtt{merge}(L_1, []) = L_1$.
-\item Otherwise, $L_1$ must have the form $[x|R_1]$ and $L_2$ has the form $[y|R_2]$.
-      Then there is a case distinction with respect to the comparison of $x$ and $y$:
-      \begin{enumerate}
-      \item $x \preceq y$.
-
-            In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
-            \\[0.2cm]
-            \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[x\bigr] + \mathtt{merge}\bigl(R_1,[y|R_2]\bigr)$.
-      \item $\neg x \preceq y$.
-
-            Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
-            \\[0.2cm]
-            \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[y \bigr] + \mathtt{merge}\bigl([x|R_1],R_2\bigr)$.
-      \end{enumerate}
+\item The implementation of the function \texttt{merge} is a straightforward translation of the equations
+      given above.
 \end{enumerate}
 
 \subsection{Complexity of Merge Sort}
@@ -545,42 +548,51 @@ are done in a call of $\mathtt{merge}(L_1, L_2)$.   In order to do this we defin
 \hspace*{1.3cm} 
 $\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ 
 \\[0.2cm]
-such that, given two lists $L_1$ and $L_2$ of elements of some set $M$ the expression $\mathtt{cmpCount}(L_1, L_2)$ returns the
+such that, given two lists $L_1$ and $L_2$ of elements from some set $M$, the expression $\mathtt{cmpCount}(L_1, L_2)$ returns the
 number of comparisons needed to compute $\texttt{merge}(L_1,L_2)$. 
 Our claim is that, for any lists $L_1$ and $L_2$ we have  
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(L_1, L_2) \leq \# L_1 + \# L_2$. 
+$\mathtt{cmpCount}(L_1, L_2) \leq \texttt{len}(L_1) + \texttt{len}(L_2)$. 
 \\[0.2cm]
-The proof is done by induction on $\#L_1 + \#L_2$.
+The proof is done by induction on $\texttt{len}(L_1) + \texttt{len}(L_2)$.
 \begin{enumerate}
-\item[I.A.:] $\#L_1 + \#L_2=0$.
+\item[I.A.:] $\texttt{len}(L_1) + \texttt{len}(L_2) = 0$.
 
              Then both $L_1$ and $L_2$ are empty and therefore the evaluation of
              $\mathtt{merge}(L_1, L_2)$ does not need any comparisons.  Therefore, we have 
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \#L_1 + \#L_2$.
-\item[I.S.:] $\#L_1 + \#L_2 = n+1$.
+             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \texttt{len}(L_1) + \texttt{len}(L_2)$.
+\item[I.S.:] $\texttt{len}(L_1) + \texttt{len}(L_2) = n+1$.
 
              If either $L_1$ or $L_2$ is empty, then we do not need any comparisons in order to
              compute $\mathtt{merge}(L_1, L_2)$ and, therefore, we have
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \#L_1 + \#L_2$.
+             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \texttt{len}(L_1) + \texttt{len}(L_2)$.
              \\[0.2cm]
              Next, let us assume that \\[0.2cm]
              \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad and \quad $L_2 = [y] + R_2$.
              \\[0.2cm]
-             We have to do a case distinction with respect to the relative size of $x$ and $y$.
+             We have to do a case distinction with respect to the relative order of $x$ and $y$.
              \begin{enumerate}
              \item $x \preceq y$.  Then we have \\[0.2cm]
                    \hspace*{1.3cm} 
                    $\mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = [x] + \mathtt{merge}\bigl(R_1, [y] + R_2\bigr)$. 
                    \\[0.2cm]
-                   Therefore, we have \\
-                   $\mathtt{cmpCount}(L_1, L_2) = 1 + \mathtt{cmpCount}(R_1, L_2) \stackrel{ih}{\leq} 1 + \#R_1 + \#L_2 = \#L_1 + \#L_2$.
-             \item $\neg x \preceq y$.  This case is similar to the previous case. 
+                   Therefore, we have:
+                   \\[0.2cm]
+                   \hspace*{1.3cm}
+                   $
+                   \begin{array}{lcl}
+                    \mathtt{cmpCount}(L_1, L_2) & = & 1 + \mathtt{cmpCount}(R_1, L_2) \\[0.2cm]
+                                               & \stackrel{ih}{\leq} & 1 + \texttt{len}(R_1) + \texttt{len}(L_2) \\[0.2cm]
+                                               & = & \texttt{len}(L_1) + \texttt{len}(L_2)
+                   \end{array}
+                   $
+                   \\[0.2cm]
+                   \item $\neg x \preceq y$.  This case is similar to the previous case. 
                    \qed
              \end{enumerate}
 \end{enumerate}
@@ -753,12 +765,10 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
 \end{figure}
 We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} line by line.
 \begin{enumerate}
-\item In line 1 the keyword ``\texttt{rw}'' specifies that the parameter $\mathtt{L}$ is a
-      \blue{\underline{r}ead-\underline{w}rite} parameter.  Therefore, changes to $\mathtt{L}$ remain
-      visible after $\texttt{sort}(\mathtt{L})$ has returned.  This is also the reason that the procedure 
+\item The list $\mathtt{L}$ is sorted in place. Hence, the procedure 
       \texttt{sort} does not return a result.  Instead, the evaluation of the expression
       $\mathtt{sort}(\mathtt{L})$ has the side effect of sorting the list $\mathtt{L}$.
-\item The purpose of the assignment ``\texttt{A := L;}'' in line 2 is to create an auxiliary array
+\item The purpose of the assignment ``\texttt{A = L[:]}'' in line 2 is to create an auxiliary array
       $\texttt{A}$.  This auxiliary array is needed in the procedure
       \texttt{mergeSort} called in line 3.
 \item The procedure \texttt{mergeSort} defined in line 5 is called with 4 arguments.
@@ -768,7 +778,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             the part of $\texttt{L}$ that is given as
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[start..end-1]}. 
+            \texttt{L[start..end]}. 
             \\[0.2cm]
             Hence, the parameters \texttt{start} and \texttt{end} are indices specifying the 
             subarray that needs to be sorted.
@@ -780,57 +790,57 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 \item In line 7 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{middle = (start + end) \dv  2;} 
+      \texttt{middle = (start + end) \dv\  2;} 
       \\[0.2cm]
       This way, the list $\texttt{L}$ is split into the lists 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{L[start..middle-1]} \quad and \quad \texttt{L[middle..end-1]}.
+      \texttt{L[start:middle]} \quad and \quad \texttt{L[middle:end]}.
       \\[0.2cm]
       These two lists have approximately the same size which is about half the size of the list $\texttt{L}$.
-\item Next, the lists \texttt{L[start..middle-1]} and \texttt{L[middle..end-1]} are sorted
-      recursively in line 8 and 9, respectively.
-\item The call to \texttt{merge} in line 10 merges these lists.
-\item The procedure \texttt{merge} defined in line 12 has 5 parameters: 
+\item Next, the lists \texttt{L[start:middle]} and \texttt{L[middle:end]} are sorted
+      recursively in line 9 and 10, respectively.
+\item The call to \texttt{merge} in line 11 merges these lists.
+\item The procedure \texttt{merge} defined in line 13 has 5 parameters: 
       \begin{enumerate}
       \item The first parameter $\texttt{L}$ is the list that contains the two sublists that have to be merged.
       \item The parameters \texttt{start}, \texttt{middle}, and \texttt{end} specify the sublists
             that have to be merged.  The first sublist is 
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[start..middle-1]}, 
+            \texttt{L[start:middle]}, 
             \\[0.2cm]
             while the second sublist is \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[middle..end-1]}. 
+            \texttt{L[middle:end]}. 
       \item The final parameter $\texttt{A}$ is used as an auxiliary array.  It needs to be a list of the
             same size as the list $\texttt{L}$.
       \end{enumerate}
 \item The function \texttt{merge} assumes that the sublists 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{L[start..middle-1]} \quad and \quad \texttt{L[middle..end-1]} 
+      \texttt{L[start:middle]} \quad and \quad \texttt{L[middle:end]} 
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 13 copies the sublists into the auxiliary array $\texttt{A}$.
+      \item First, line 14 and 15 copies the sublists into the auxiliary array $\texttt{A}$.
       \item In order to merge the two sublists stored in $\texttt{A}$ into the list $\texttt{L}$ we define
             three indices: 
             \begin{itemize}
             \item \texttt{idx1} points to the next element of the first sublist stored in $\texttt{A}$.
             \item \texttt{idx2} points to the next element of the second sublist stored in $\texttt{A}$.
             \item \texttt{i} points to the position in the list $\texttt{L}$ where we have to put the next
-                       element.
+                  element.
             \end{itemize}
       \item As long as neither the first nor the second sublist stored in $\texttt{A}$ have been exhausted
-            we compare in line 17 the elements from these sublists and then copy the smaller of these
+            we compare in line 20 the elements from these sublists and then copy the smaller of these
             two elements into the list $\texttt{L}$ at position \texttt{i}.
             In order to remove this element from the corresponding sublist in $\texttt{A}$ we just need to
             increment the corresponding index pointing to the beginning of this sublist.
       \item If one of the two sublists gets empty while the other sublist still has elements, then we have
             to copy the remaining elements of the non-empty sublist into the list $\texttt{L}$.
-            The \texttt{while}-loop in line 24 covers the case that the second sublist is exhausted before 
-            the first sublist, while the \texttt{while}-loop in line 25 covers the case that the first
+            The \texttt{while}-loop in line 27 covers the case that the second sublist is exhausted before 
+            the first sublist, while the \texttt{while}-loop in line 31 covers the case that the first
             sublist is exhausted before the second sublist.
       \end{enumerate}
 \end{enumerate}
@@ -844,24 +854,22 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
                 bgcolor = sepia,
                 numbers       = left,
                 numbersep     = -0.2cm,
-                xleftmargin   = 0.0cm,
-                xrightmargin  = 0.0cm
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
               ]{python3}
-    sort(rw L):
-        A := L;
-        mergeSort(L, A);
-    };
-    mergeSort := procedure(rw L, rw A) {
-        n := 1;
-        while (n < #L) {
-            k := 0;
-            while (n * (k + 1) + 1 <= #L) {
-                merge(L, n*k+1, n*(k+1)+1, min([n*(k+2), #L])+1, A);
-                k += 2;    
-            }
-            n *= 2;
-        }
-    };
+    def sort(L):
+        A = L[:]  # A is a copy of L
+        mergeSort(L, A)
+
+    def mergeSort(L, A):
+        n = 1
+        while n < len(L):
+            k = 0
+            while n * (k + 1) + 1 <= len(L):
+                top = min(n * k + 2 * n, len(L))
+                merge(L, n * k, n * k + n, top, A)
+                k += 2    
+            n *= 2 
 \end{minted}
 \vspace*{-0.3cm}
   \caption{A non-recursive implementation of \blue{merge sort}.}
@@ -884,38 +892,37 @@ length 2.  After that, we take pairs of lists of length 2 and merge them into so
 4. Proceeding in this way we generate sorted lists of length
 $8$, $16$, $\cdots$.  This algorithm only stops when the list $\texttt{L}$ itself is sorted.
 
-The precise working of this implementation gets obvious if we formulate the invariants of the
+The precise working of this implementation gets obvious if we formulate the \blue{invariants} of the
 \texttt{while}-loops.  The invariant of the outer loop states that all sublists of $\texttt{L}$ 
 that have the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[n*k+1..n*(k+1)]}
+\texttt{L[n*k:n*k+n]}
 \\[0.2cm]
 are already sorted.  These sublists have a length of $n$.  It is the task of the outer while loop to build
 pairs of sublists of this kind and to merge them into a sublist of length $2 \cdot n$.
 
-In the expression $\texttt{L[n*k+1 .. n*(k+1)]}$ the variable $k$ denotes a natural
+In the expression $\texttt{L[n*k:n*k+n]}$ the variable $k$ denotes a natural
 number that is used to numerate the sublists.  The index $k$ of the first sublists is $0$ and
 therefore this sublists has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[1..n]},
+\texttt{L[0:n]},
 \\[0.2cm]
 while the second sublist is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[n+1..2*n]}.
+\texttt{L[n:2*n]}.
 \\[0.2cm]
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
 of $\texttt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
-in line 10 is the minimum of $n\cdot(k+2)$ and $\texttt{\#L}$.
+in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\texttt{len}(\texttt{L})$.
 
 \subsection{Further Improvements of Merge Sort}
 The implementation given above can still be improved in a number of ways.  
 \href{http://c2.com/cgi/wiki?TimPeters}{Tim Peters} has used a number of tricks to improve the
 practical performance of \blue{merge sort}.  The resulting algorithm is known as
 \href{http://en.wikipedia.org/wiki/Timsort}{Timsort}.
-
 The starting point of the development of \blue{Timsort} was the observation that the input arrays 
 given to a sorting procedure often contain subarrays that are already sorted, either ascendingly or
 descendingly.   For this reason, \blue{Timsort} uses the following tricks:
@@ -1067,11 +1074,11 @@ We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note
 is a list of $n+1$ elements, then the number of elements of the  
 list $\mathtt{S}$ that are smaller than or equal to the pivot element $\mathtt{x}$ is a member of the set 
 $\{0,1,2,\cdots,n\}$.  If the length of $\mathtt{S}$ is $i$ and the length of $\mathtt{L}$ is $n+1$, then the length
-of the list $\mathtt{B}$ of those elements, that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\#\mathtt{S} = i$, then on average we need
+of the list $\mathtt{B}$ of those elements, that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\texttt{len}(\mathtt{S}) = i$, then on average we need
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
 comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we take the average over all possible values of
- $i = \#S$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
+ $i = \texttt{len}(S)$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1403,7 +1410,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       define
       \\[0.2cm]
       \hspace*{1.3cm}
-      $x := \mathtt{L}[1]$ \quad and \quad $y := \mathtt{L}[\#\mathtt{L}]$,
+      $x := \mathtt{L}[1]$ \quad and \quad $y := \mathtt{L}[\texttt{len}(\mathtt{L})]$,
       \\[0.2cm]
       i.e.~we take $x$ as the first element of $\mathtt{L}$, while $y$ is the last element of
       $\mathtt{L}$.  Then, the list 
