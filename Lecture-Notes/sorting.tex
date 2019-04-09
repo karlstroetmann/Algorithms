@@ -1262,35 +1262,31 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
                   bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
                 ]{python3}
-    def sort(rw L):
-        quickSort(1, #L, L);
-    };
-    quickSort := procedure(a, b, rw L) {
-        if (b <= a) {
-            return; // at most one element, nothing to do
-        }
-        m := partition(a, b, L);  // m is the split index
-        quickSort(a, m - 1, L);
-        quickSort(m + 1, b, L);
-    };
-    partition := procedure(start, end, rw L) {
-        pivot := L[end];
-        left  := start - 1;
-        for (idx in [start .. end-1]) {
-            if (L[idx] <= pivot) {
-                left += 1;
-                swap(left, idx, L);
-            }
-        }
-        swap(left + 1, end, L);
-        return left + 1;
-    };
-    swap := procedure(x, y, rw L) {
-        [ L[x], L[y] ] := [ L[y], L[x] ];
-    };
+    def sort(L):
+        quickSort(0, len(L) - 1, L)
+    
+    def quickSort(a, b, L):
+        if b <= a:
+            return  # at most one element, nothing to do
+        m = partition(a, b, L)  # m is the split index
+        quickSort(a, m - 1, L)
+        quickSort(m + 1, b, L)
+    
+    def partition(start, end, L):
+        pivot = L[end]
+        left  = start - 1
+        for idx in range(start, end):
+            if L[idx] <= pivot:
+                left += 1
+                swap(left, idx, L)
+        swap(left + 1, end, L)
+        return left + 1
+    
+    def swap(x, y, L):
+        L[x], L[y] = L[y], L[x]    
 \end{minted}
 \vspace*{-0.3cm}
   \caption{An implementation of \blue{quicksort} based on arrays.}
@@ -1325,15 +1321,15 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
       be stored at indexes that are bigger than $\mathtt{m}$.  The pivot element itself will be stored at the
       index $\mathtt{m}$. 
 \item The difficult part of the implementation of \blue{quicksort} is the implementation of the
-      function $\mathtt{partition}$ that is shown beginning in line 12.
-      The \texttt{for} loop in line 15 satisfies the following invariants.
+      function $\mathtt{partition}$ that is shown beginning in line 11.
+      The \texttt{for} loop in line 14 satisfies the following invariants.
       \begin{enumerate}
       \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{L}[i] \leq \mathtt{pivot}$.
 
-            All elements in the subarray $\mathtt{L[start..left]}$ are less or equal than the pivot element.
+            All elements in the subarray $\mathtt{L[start:left+1]}$ are less or equal than the pivot element.
       \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < \mathtt{L}[i]$.
 
-            All elements in the subarray $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$ are greater than the pivot
+            All elements in the subarray $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ are greater than the pivot
             element.
       \item $\mathtt{pivot} = \mathtt{L[end]}$
 
@@ -1352,21 +1348,21 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
             \hspace*{1.3cm}
             $\{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\} =  \{ \mathtt{start},\cdots,\mathtt{start}-1\}=\{\}$.
       \item If the element $\mathtt{L[idx]}$ is less than the
-            pivot element, it need to become part of the subarray $\mathtt{L}[\mathtt{start}\;..\;\mathtt{left}]$.  In order to
+            pivot element, it need to become part of the subarray $\mathtt{L}[\mathtt{start}:\mathtt{left}+1]$.  In order to
             achieve this, it is placed at the position $\mathtt{L}[\mathtt{left}+1]$.  The element that has been at
-            that position is part of the subarray $\mathtt{L}[\mathtt{left}+1\; ..\; \mathtt{idx}-1]$ and therefore, most of the times,\footnote{It is not always greater than the pivot element
+            that position is part of the subarray $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ and therefore, most of the times,\footnote{It is not always greater than the pivot element
       because the subarray $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$ might well be empty.}
             it is greater than the pivot element.  
             Hence we append this element to the end of the subarray
-            $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$.  After incrementing the index $\mathtt{left}$,
+            $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$.  After incrementing the index $\mathtt{left}$,
             both the placing of the element $\mathtt{L[idx]}$ at position $\mathtt{left}+1$ and the appending
             of the element $\mathtt{L}[\mathtt{left}+1]$ to the end of the subarray
-            $\mathtt{L}[\mathtt{left}+1\;..\;\mathtt{idx}-1]$ is achieved by the statement
+            $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ is achieved by the statement
             \\[0.2cm]
             \hspace*{1.3cm}
-            \texttt{swap(left, idx, L}.            
+            \texttt{swap(left, idx, L)}.            
       \end{enumerate}
-      Once the \texttt{for} loop in line 15 terminates, the call to $\mathtt{swap}$ in line 21 moves
+      Once the \texttt{for} loop in line 14 terminates, the call to $\mathtt{swap}$ in line 18 moves
       the pivot element into its correct position and returns the index where the pivot element has been
       placed. 
 \end{enumerate}
