@@ -1,11 +1,15 @@
-\chapter{\href{https://en.wikipedia.org/wiki/Abstract_data_type}{Abstract Data Types}}
+\chapter{Abstract Data Types}
 In the same way as the notion of an \blue{algorithm} abstracts from the details of a concrete
-implementation of this algorithm, the notion of an \blue{abstract data type} abstracts from the implementiation
+implementation of this algorithm, the notion of an \href{https://en.wikipedia.org/wiki/Abstract_data_type}{abstract data type} abstracts from the implementiation
 details of concrete data structures.  Therefore, this notion enables us to separate algorithms from the data
 structures used in these algorithms.  The next section gives a formal definition of
-abstract data types.  As an example, we introduce the abstract data type of \blue{stacks}.
-The second section shows how abstract data types are supported in \textsc{SetlX}.  Finally, we show how stacks can be used
-to evaluate \blue{arithmetic expressions}.  Abstract data types were proposed by Barbara Liskov and Stephen
+abstract data types.  As an example, we introduce the abstract data type of
+\href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stacks}.
+The second section shows how abstract data types are supported in \textsl{Python}.  Finally, we show how stacks can be used
+to evaluate \blue{arithmetic expressions}.  To this end we build an
+\href{https://en.wikipedia.org/wiki/Operator-precedence_parser}{operator precedence parser}. 
+
+Abstract data types were proposed by Barbara Liskov and Stephen
 Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main ingredients of
 \blue{object oriented programming}.  The other ingredient is \blue{inheritance}.
 
@@ -13,7 +17,7 @@ Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main i
 We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of the form
 \\[0.2cm]
 \hspace*{1.3cm}
- $\mathcal{D} = \langle N, P, Fs, Ts, Ax \rangle$,
+ $\mathcal{D} = \langle N, P, \textsl{Fs}, \textsl{Ts}, \textsl{Ax} \rangle$,
 \\[0.2cm] 
 where the meaning of the components is as follows:
 \begin{enumerate}
@@ -33,7 +37,7 @@ where the meaning of the components is as follows:
       Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
       these data types: 
       \begin{enumerate}
-      \item We can have concrete data types like, e.g.~``\texttt{int}'' or ``\texttt{String}''.
+      \item We can have concrete data types like, e.g.~``\texttt{int}'' or ``\texttt{str}''.
       \item Furthermore, these can be the names of abstract data types.
       \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
       \end{enumerate}
@@ -42,15 +46,15 @@ where the meaning of the components is as follows:
       \hspace*{1.3cm}
       $f(t_1,\cdots,t_n)$ 
       \\[0.2cm]
-      where for all $i \in \{1,\cdots,n\}$ the argument $t_i$ has type 
-      $T_i$.  Furthermore, the result of the function $f$ is of type $S$.
+      where the argument $t_i$ has type $T_i$ for all $i \in \{1,\cdots,n\}$.
+      Furthermore, the result of the function $f$ is of type $S$.
 
       Additionally, we must have either $T_1 = T$ or $S = T$.  Therefore, either
       the first argument of $f$ has to be of type $T$ or the result of $f$ has to be of type 
       $T$.  If we have  $T_1 \not= T$ and, therefore, $S = T$,
       then $f$ is called a \blue{constructor} of the data type $T$.  Otherwise,
       $f$ is called a  \blue{method}.
-\item $Ax$ is a set of mathematical formul\ae.   These formul\ae\ 
+\item $Ax$ is a set of mathematical formulas.   These formulas 
       specify the behaviour of the abstract data type and are therefore called
       the \blue{axioms} of $\mathcal{D}$.
 \end{enumerate}
@@ -59,7 +63,7 @@ The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often
 Next, we provide a simple example of an abstract data type, the \blue{stack}.
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
-plates that can be found in a canteen.  Usually, the clean plates are placed on top of each other
+plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
 and only the plate on top is accessible.  Formally, we define the data type \texttt{Stack} as follows:
 \begin{enumerate}
 \item The name of the data type is \texttt{Stack}.
@@ -72,7 +76,7 @@ and only the plate on top is accessible.  Formally, we define the data type \tex
       \item $\texttt{stack}: \texttt{Stack}$
 
             The function $\texttt{stack}$ takes no arguments and produces an empty stack.
-            Therefore, this function is a constructor.  Intuitively, the function call $\texttt{stack}()$ 
+            Therefore, this function is a \blue{constructor}.  Intuitively, the function call $\texttt{stack}()$ 
             creates an empty stack.
       \item $\texttt{push}: \texttt{Stack} \times \texttt{Element} \rightarrow \texttt{Stack}$
 
@@ -88,10 +92,10 @@ and only the plate on top is accessible.  Formally, we define the data type \tex
             The stack $S$ is left unchanged.
      \item $\texttt{isEmpty}: \texttt{Stack} \rightarrow \mathbb{B}$
 
-            The function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty.
+            The Boolean function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty.
       \end{enumerate}
 \end{enumerate}
-The intuition that we have of a stack is captured by the following axioms.
+The behaviour of a stack is specified by the following axioms.
 \begin{enumerate}
 \item $\texttt{stack}().\texttt{top}() = \Omega$
 
@@ -99,20 +103,20 @@ The intuition that we have of a stack is captured by the following axioms.
        Some philosophers are concerned that it is not possible to define an undefined value.
        They argue that if an undefined value could be defined, it would be no longer undefined
        and hence it can not be defined.  However, that is precisely the point of the undefined 
-       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.  
-      The expression $\texttt{stack}()$
+       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.
+      In \textsl{Python}, $\Omega$ is represented as \texttt{None}. The expression $\texttt{stack}()$
       creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
       element on top of the empty stack.
 \item $S.\texttt{push}(x).\texttt{top}() = x$
 
-      If we have a stack $S$ and then push an element $x$ on top of $S$, then the element on top
-      of the resulting stack is, obviously, $x$.
+      If we have a stack $S$ and push an element $x$ on top of $S$, then the element on top
+      of the resulting stack is, unsurprisingly, $x$.
 \item $\texttt{stack}().\texttt{pop}() = \Omega$
 
       Trying to remove an element from the empty stack yields an undefined result.
 \item $S.\texttt{push}(x).\texttt{pop}() = S$
 
-      If we have a stack $S$, then push an element $x$ of top of $S$, and finally remove the element
+      If we have a stack $S$, push an element $x$ of top of $S$, and finally remove the element
       on top of the resulting stack, then we are back at the original stack $S$.
     
 \item $\texttt{stack}().\texttt{isEmpty}() = \mathtt{true}$
@@ -125,26 +129,27 @@ The intuition that we have of a stack is captured by the following axioms.
 \end{enumerate}
 When contemplating the axioms given above, we can recognize some structure.  If we denote the
 functions \texttt{stack} and \texttt{push} as \blue{generators},  then the axioms specify the
-behaviour of the remaining functions on the stacks created by the generators.
+behaviour of the remaining functions on the stacks created by these generators.
 
 The data type of a stack has many applications in computer science.  To give just one example, the
-implementation of the \textsl{Java virtual machine} is based on a stack.  Furthermore,  we will
-later see how,  using three stacks, arithmetic expressions can be evaluated.
+implementation of the \href{https://en.wikipedia.org/wiki/Java_virtual_machine}{\textsl{Java} virtual machine}
+is based on a stack.  Furthermore,  we will later see how,  using three stacks, arithmetic expressions can be
+evaluated. 
 
 
-
-\section[Implementation]{Implementing Abstract Data Types in \textsc{SetlX}}
-In an object oriented programming language, abstract data types are conveniently implemented via a
-\blue{class}.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
+\section[Implementation]{Implementing Abstract Data Types in \textsl{Python}}
+In object oriented programming languages, abstract data types are conveniently implemented as
+\blue{classes}.  In a typed object oriented programming language like \textsl{Java}, the usual way to proceed
 is to create an interface describing the signatures of the abstract data type and then to implement
 the abstract data type as a class.  Instead of an interface, we can also use an abstract class
-to describe the signatures.  In an untyped language like \textsc{SetlX} there is no way to
+to describe the signatures.  In an untyped language like \textsl{Python} there is no way to
 neatly capture the signatures.  Therefore, the implementation of an abstract data type in
-\textsc{SetlX} merely consists of a class.
-At this point we note that classes are discussed in depth in Chapter 10 of the \textsc{SetlX} 
-\href{http://download.randoom.org/setlX/tutorial.pdf}{tutorial}.  If the reader
-hasn't encountered classes in \textsc{SetlX}, she is advised to consult this chapter before reading
-any further. 
+\textsl{Python} merely consists of a class.  At this point we note that classes are discussed in depth in
+Chapter 9 of the \textsl{Python}  \href{https://docs.python.org/3.6/tutorial/classes.html}{tutorial}.  These
+lecture notes only describe the most basic concepts of \textsl{Python} classes, since this is sufficient for this
+lecture.  Further details can be found in the \textsl{Python}
+\href{https://docs.python.org/3.6/reference/index.html}{online reference}. 
+
 
 \begin{figure}[!h]
   \centering
@@ -200,7 +205,7 @@ any further.
     };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{An array based implementation of the ADT \textsl{Stack} in \textsc{SetlX}.}
+  \caption{An array based implementation of the ADT \textsl{Stack} in \textsl{Python}.}
   \label{fig:stack-array.stlx}
 \end{figure} 
 
@@ -212,7 +217,7 @@ discussed next.
       After the keyword \texttt{class}, the name of the class has to be given.  In Figure
       \ref{fig:stack-array.stlx} this name is \texttt{stack}.
 
-      In \textsc{SetlX}, every class also defines a constructor which has the same name as the class.
+      In \textsl{Python}, every class also defines a constructor which has the same name as the class.
       Since in line 1 the name \texttt{class} is followed by ``\texttt{()}'', the constructor
       \texttt{stack} does not take any arguments.  In order to use it, we can write
       \\[0.2cm]
@@ -231,7 +236,7 @@ discussed next.
       \\[0.2cm]
       The implementation of stacks shown
       in Figure \ref{fig:stack-array.stlx} is based on storing the elements of the stack in a
-      \textsc{SetlX} list.  In \textsc{SetlX}, lists are internally implemented as arrays.  However,
+      \textsl{Python} list.  In \textsl{Python}, lists are internally implemented as arrays.  However,
       this is not the only way to implement a stack: A stack can also be implemented as a linked list.
 
       One word on naming convention.  It is my convention to start all member variables of a class
@@ -645,7 +650,7 @@ while there are two cases for the operator symbols that are part of the input to
 \end{figure} 
 
 \noindent
-An implementation of this algorithm in \textsc{SetlX} is shown in the Figures
+An implementation of this algorithm in \textsl{Python} is shown in the Figures
 \ref{fig:calculator.setlx-1} and \ref{fig:calculator.setlx-2} on the following pages.
 We start our discussion of the class \texttt{calculator} by inspecting the method
 \texttt{evalBefore} that is defined in line 32.
@@ -798,7 +803,7 @@ In the following exercise, your task is to extend the program for evaluating ari
       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
       circle to its diameter. 
 
-      Note that these constants can be accessed in \textsc{SetlX} via the function \texttt{mathConst}.
+      Note that these constants can be accessed in \textsl{Python} via the function \texttt{mathConst}.
       For example, the function calls
       \\[0.2cm]
       \hspace*{1.3cm}
