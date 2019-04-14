@@ -480,7 +480,7 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
       \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
 \item We remove the operator \texttt{\symbol{34}*\symbol{34}} from the  token stack and compare the
-      precedence of the operator with the precedence of the operator \texttt{\symbol{34}+\symbol{34}},
+      \blue{precedence} of the operator with the precedence of the operator \texttt{\symbol{34}+\symbol{34}},
       which is on top of the operator stack.  Since the precedence of the operator 
       \texttt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
       \texttt{\symbol{34}+\symbol{34}}, the operator \texttt{\symbol{34}*\symbol{34}} is put onto
@@ -543,8 +543,9 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
 The algorithm introduced in the last example is known as the 
-\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.
-It was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
+\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  This technique is also
+known as \blue{operator precedence parsing}.
+This algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
 1961.  We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
 that are needed for this algorithm.
 \begin{enumerate}

@@ -25,8 +25,7 @@ class Stack:
     def __str__(self):
         C = self.copy()
         result = C._convert()
-        dashes = "-" * len(result)
-        return '\n'.join([dashes, result, dashes])
+        return result
 
     def _convert(self):
         if self.isEmpty():
@@ -40,11 +39,10 @@ def createStack(L):
     n = len(L)
     for i in range(n):
         S.push(L[i])
-        print(S)
     return S
 
-S = createStack(range(10))
-
-for i in range(10):
-    S.pop()
-    print(S)
+if __name__ == 'main':
+    S = createStack(range(10))
+    for i in range(10):
+        S.pop()
+        print(S)
