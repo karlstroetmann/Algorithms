@@ -546,7 +546,70 @@ The algorithm introduced in the last example is known as the
 \href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  This technique is also
 known as \blue{operator precedence parsing}.
 This algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
-1961.  We give a detailed presentation of this algorithm next.  To begin with, we fix the data structures
+1961.  We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
+function that are needed to implement this algorithm.  The first of these functions is the function
+\texttt{toInt}, that is used to convert a string into a natural number, if the string can be interpreted as a
+natural number.  For example, the string \texttt{'123'} is converted into the natural number $123$, while the
+string \texttt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
+implementation of this function:  The function \texttt{int} converts $s$ into a number, provided $s$ the string
+$s$ represents an integer.  Otherwise, an Exception of type \texttt{ValueError} is raised.  This exception is
+then caught and the string itself is returned.
+
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def toInt(s):
+        try:
+            return int(s)   
+        except ValueError:
+            return s                
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The function \texttt{toInt}.}
+\label{fig:toInt.py}
+\end{figure}
+
+The function \texttt{tokenize} receives a string $s$ representing an arithmetic expression and splits this
+string into a list of numbers and operators. For example, the string \texttt{'1+2*3-4'} is transformed into the list
+\\[0.2cm]
+\hspace*{1.3cm}
+$[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
+\\[0.2cm]
+
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+        import re
+
+        def tokenize(s):
+            regExp = r'([0-9]+|\*\*|[()+*%\/\-])'
+            L = [ toInt(t) for t in re.findall(regExp, s) ]
+            return list(reversed(L))                 
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The function \texttt{tokenize}.}
+\label{fig:tokenize.py}
+\end{figure}
+
+Next we fix the data structures
 that are needed for this algorithm.
 \begin{enumerate}
 \item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
@@ -576,6 +639,35 @@ while there are two cases for the operator symbols that are part of the input to
       from the argument stack.   The resulting number is then pushed onto the argument stack.
 \end{enumerate}
 
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+    def evalBefore(o1, o2):
+        if o1 =='(':
+            return False
+        Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
+        if Precedence[o1] > Precedence[o2]:
+            return True
+            if o1 == o2:
+                return o1 in { '+', '-', '*', '/', '%' }
+            else:
+                return True
+        else:
+            return False
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The function \texttt{evalBefore}.}
+\label{fig:}
+\end{figure}
+
 
 \begin{figure}[!b]
   \centering
@@ -587,96 +679,54 @@ while there are two cases for the operator symbols that are part of the input to
                 xleftmargin   = 0.0cm,
                 xrightmargin  = 0.0cm,
               ]{python3}
-    class calculator(s) {
-        mTokenStack := createStack(extractTokens(s));
-        mArguments  := stack();
-        mOperators  := stack();
+class Calculator:
+    def __init__(self, s):
+        self.mTokens    = stack.createStack(tokenize(s))
+        self.mOperators = stack.Stack()
+        self.mArguments = stack.Stack()
     
-      static {
-        evaluate := procedure() {
-            while (!mTokenStack.isEmpty()) {
-                if (isInteger(mTokenStack.top())) {
-                    number := mTokenStack.top(); mTokenStack.pop();
-                    mArguments.push(number);
-                    continue;
-                } 
-                nextOp := mTokenStack.top(); mTokenStack.pop();
-                if (mOperators.isEmpty() || nextOp == "(") {
-                    mOperators.push(nextOp);
-                    continue;
-                }
-                stackOp := mOperators.top();
-                if (stackOp == "(" && nextOp == ")") {
-                    mOperators.pop();
-                } else if (nextOp == ")" || evalBefore(stackOp, nextOp)) {
-                    popAndEvaluate();
-                    mTokenStack.push(nextOp);
-                } else {
-                    mOperators.push(nextOp);
-                }
-            }
-            while (!mOperators.isEmpty()) { popAndEvaluate(); }
-            return mArguments.top();
-        };
-        evalBefore := procedure(stackOp, nextOp) {
-            prec := {["+",1],["-",1],["*",2],["/",2],["%",2],["**",3]};
-            if (stackOp == "(") { return false;  }
-            if (prec[stackOp] > prec[nextOp]) {
-                return true;
-            } else if (prec[stackOp] == prec[nextOp]) {
-                if (stackOp == nextOp) {
-                    return stackOp in { "+", "-", "*", "/", "%" };
-                }
-                return true;
-            } 
-            return false;
-        };
-\end{minted}
-\vspace*{-0.3cm}
-  \caption{The class \texttt{calculator}, part 1.}
-  \label{fig:calculator.setlx-1}
-\end{figure} 
+    def evaluate(self):
+        while not self.mTokens.isEmpty():
+            t = self.mTokens.top(); self.mTokens.pop()
+            if isinstance(t, int):
+                self.mArguments.push(t)
+                continue
+            if (self.mOperators.isEmpty() or t == "("):
+                self.mOperators.push(t)
+                continue
+            topOp = self.mOperators.top()
+            if topOp == "(" and t == ")":
+                self.mOperators.pop()
+            elif (t == ")" or evalBefore(topOp, t)):
+                self.popAndEvaluate()
+                self.mTokens.push(t)
+            else:
+                self.mOperators.push(t)
+        while not self.mOperators.isEmpty():
+            self.popAndEvaluate()
+        return self.mArguments.top()        
 
-\begin{figure}[!htb]
-  \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                bgcolor       = sepia,
-                firstnumber   = last,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
-              ]{python3}
-        popAndEvaluate := procedure() {
-            rhs := mArguments.top(); mArguments.pop();
-            lhs := mArguments.top(); mArguments.pop();
-            op  := mOperators.top(); mOperators.pop();
-            match (op) {
-                case "+" : result := lhs + rhs;
-                case "-" : result := lhs - rhs;
-                case "*" : result := lhs * rhs;
-                case "/" : result := lhs / rhs;
-                case "%" : result := lhs % rhs;
-                case "**": result := lhs ** rhs;       
-                default: abort("ERROR: *** Unknown Operator *** $op$");
-            }
-            mArguments.push(result);
-        };    
-      }
-    }
-    
-    c := calculator("1+2*3**4-5/2");
-    c.evaluate();
+    def popAndEvaluate(self):
+        rhs = self.mArguments.top(); self.mArguments.pop()
+        lhs = self.mArguments.top(); self.mArguments.pop()
+        op  = self.mOperators.top(); self.mOperators.pop()
+        if op == '+' : result = lhs +  rhs
+        if op == '-' : result = lhs -  rhs
+        if op == '*' : result = lhs *  rhs
+        if op == '/' : result = lhs // rhs
+        if op == '%' : result = lhs %  rhs
+        if op == '**': result = lhs ** rhs
+        self.mArguments.push(result) 
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{The class \texttt{calculator}, part 2.}
-  \label{fig:calculator.setlx-2}
+  \caption{The class \texttt{Calculator}.}
+  \label{fig:Calculator.py}
 \end{figure} 
+ 
 
 \noindent
-An implementation of this algorithm in \textsl{Python} is shown in the Figures
-\ref{fig:calculator.setlx-1} and \ref{fig:calculator.setlx-2} on the following pages.
+An implementation of this algorithm in \textsl{Python} is shown in  Figure
+\ref{fig:Calculator.py} and on page \pageref{fig:Calculator.py}.
 We start our discussion of the class \texttt{calculator} by inspecting the method
 \texttt{evalBefore} that is defined in line 32.
 This method takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
@@ -760,7 +810,7 @@ Now we can understand the implementation of $\texttt{evalBefore}(\texttt{stackOp
 \item If the precedence of \texttt{stackOp} is less than the precedence of \texttt{nextOp}, then 
       $\texttt{evalBefore(stackOp,nextOp})$ returns \texttt{false}.
 \end{enumerate}
-Figure  \ref{fig:calculator.setlx-2} on page \pageref{fig:calculator.setlx-2} shows the
+Figure  \ref{fig:Calculator.py} on page \pageref{fig:Calculator.py} shows the
 implementation of the method \texttt{popAndEvaluate}.
 This method works as follows: 
 \begin{enumerate}
@@ -770,7 +820,7 @@ This method works as follows:
 \item finally puts the result back on top of the argument stack.
 \end{enumerate}
 Finally, we are ready to discuss the implementation of the method \texttt{evaluate} in line 7 of
-Figure \ref{fig:calculator.setlx-1}.  
+Figure \ref{fig:Calculator.py}.  
 
 \begin{enumerate}
 \item First, as long as the token stack is non-empty we take a token from the token stack.

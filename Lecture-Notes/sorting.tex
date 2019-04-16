@@ -434,7 +434,7 @@ partially sorted and have only a few elements that are out of place.  In these c
 \blue{insertion sort} is, in fact,  more efficient than any other sorting algorithm.
 
 
-\section{\href{http://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}}
+\section{Merge Sort}
 Next, we discuss \href{https://en.wikipedia.org/wiki/Merge_sort}{merge sort}.  This algorithm
 is the first \blue{optimally efficient} sorting algorithm that we encounter: We will see that merge sort 
 only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  Later, we will prove
@@ -956,10 +956,20 @@ Originally, Tim Peters developed Timsort for the programming language \textsl{Py
 \\[0.2cm]
 Timsort is also used on the Android platform.
 
-\section{\href{http://en.wikipedia.org/wiki/Quicksort}{Quicksort}}
+\exercise
+While merge sort splits the list $L$ that is to be sorted into two parts of roughly the same size, 
+\blue{3-way merge sort} splits the list $L$ into three parts of roughly the same size.
+\begin{enumerate}
+\item Analyse the computational complexity of 3-way merge sort in the same way as we have analysed the
+      complexity of merge sort in this section.
+\item Develop an iterative implementation of 3-way merge sort and compare its computation time with the 
+      implementation time needed by the conventional version of merge sort.
+      \eox
+\end{enumerate}
+
+\section{Quicksort}
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
-\blue{quicksort}  
-algorithm \cite{hoare:61}.  The basic idea is as follows:
+\href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
       \\[0.2cm]
@@ -1563,16 +1573,16 @@ $k \geq n \cdot \log_2(n) + \Theta(n)$.
 As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
 we have shown that this algorithm is optimal with respect to the number of comparisons.
 
-\section{\href{https://en.wikipedia.org/wiki/Counting_sort}{Counting Sort}}
-In the last section of this chapter we introduce a sorting algorithm that has only a \blue{linear} complexity.  According
-to the result of the previous section this algorithm does not work by comparing the elements of the list that
-is to be sorted.  Rather, this algorithm exploits the fact that the keys used for sorting are natural
-numbers.  We explain counting sort with the help of an example.  Table \ref{tab:marks} on page
-\pageref{tab:marks} shows a table showing students and their grades. 
-As it stands, the names of the students are ordered alphabetically.  However, the teacher would like to sort
-the list of students according to their grades.  Within a group of students that have achieved the same grade,
-the students should still be ordered alphabetically.  Table \ref{tab:marks-sorted} on page \pageref{tab:marks-sorted}
-shows the table that has been sorted accordingly.
+\section{Counting Sort}
+In the last section of this chapter we introduce a sorting algorithm that has only a \blue{linear} complexity.
+According to the result of the previous section this algorithm does not work by comparing the elements of the
+list that is to be sorted.  Rather, this algorithm exploits the fact that the keys used for sorting are natural
+numbers.  This algorithm is called \href{https://en.wikipedia.org/wiki/Counting_sort}{counting sort}. We
+explain this algorithm via an example.  Table \ref{tab:marks} on page \pageref{tab:marks} shows a table showing
+students and their grades.  As it stands, the names of the students are ordered alphabetically.  However, the
+teacher would like to sort the list of students according to their grades.  Within a group of students that
+have achieved the same grade, the students should still be ordered alphabetically.  Table
+\ref{tab:marks-sorted} on page \pageref{tab:marks-sorted} shows the table that has been sorted accordingly.
 
 \begin{table}[!ht]
   \centering
@@ -1821,7 +1831,7 @@ same grade $g$ but the name of $x$ is alphabetically before the name of $y$, the
 sublist corresponding to grade $g$ before $y$ and hence these sublists are ordered alphabetically.  This property
 is crucial for the development of our next sorting algorithm \blue{radix sort}.
 
-\section{\href{https://en.wikipedia.org/wiki/Radix_sort}{Radix Sort}}
+\section{Radix Sort}
 The importance of the previous sorting algorithm, \blue{counting sort}, stems from the fact that it is part of the
 implementation of \href{https://en.wikipedia.org/wiki/Radix_sort}{radix sort}.  \blue{Radix sort} was used as early as 1887 in
 \href{https://en.wikipedia.org/wiki/Tabulating_machine}{tabulating machines} constructed by

@@ -466,8 +466,8 @@ partially sorted and have only a few elements that are out of place.  In these c
 \blue{insertion sort} is, in fact,  more efficient than any other sorting algorithm.
 
 
-\section{\href{http://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}}
-Next, we discuss \blue{merge sort}.  This algorithm
+\section{Merge Sort}
+Next, we discuss \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}.  This algorithm
 is the first \blue{optimally efficient} sorting algorithm that we encounter: We will see that merge sort 
 only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  Later, we will prove
 that every algorithm that needs to compare its elements in order to sort them has at least this complexity.  
@@ -979,9 +979,9 @@ Originally, Tim Peters developed Timsort for the programming language \textsl{Py
 \\[0.2cm]
 Timsort is also used on the Android platform.
 
-\section{\href{http://en.wikipedia.org/wiki/Quicksort}{Quicksort}}
+\section{Quicksort}
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
-\blue{quicksort}  
+\href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}  
 algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
@@ -1602,12 +1602,12 @@ $k \geq n \cdot \log_2(n) + \Theta(n)$.
 As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
 we have shown that this algorithm is optimal with respect to the number of comparisons.
 
-\section{\href{https://en.wikipedia.org/wiki/Counting_sort}{Counting Sort}}
+\section{Counting Sort}
 In the last section of this chapter we introduce a sorting algorithm that has only a linear complexity.  According
 to the result of the previous section this algorithm does not work by comparing the elements of the list that
 is to be sorted.  Rather, this algorithm exploits the fact that the keys used for sorting are natural
-numbers.  We explain counting sort with the help of an example.  Table \ref{tab:marks} on page
-\pageref{tab:marks} shows a table showing students and their grades. 
+numbers.  This algorithm is called \href{https://en.wikipedia.org/wiki/Counting_sort}{counting sort}.  We
+explain this algorithm via an example.  Table \ref{tab:marks} on page \pageref{tab:marks} shows a table showing students and their grades. 
 As it stands, the names of the students are ordered alphabetically.  However, the teacher would like to sort
 the list of students according to their grades.  Within a group of students that have achieved the same grade,
 the students should still be ordered alphabetically.  Table \ref{tab:marks-sorted} on page \pageref{tab:marks-sorted}

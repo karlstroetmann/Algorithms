@@ -585,11 +585,11 @@ the expression $L[i]$ stores a node of the tree.  The crucial idea is that the l
 subtree stored at the index $i$ is stored at the index $2 \cdot i$, while the right subtree is
 stored at the index $2 \cdot i + 1$.  Develop an implementation of heaps that is based on this idea.
 
-\section{\href{https://en.wikipedia.org/wiki/Heapsort}{Heapsort} \label{sec:heapsort}}
+\section{Heapsort \label{sec:heapsort}}
 Heaps can be used to implement a sorting algorithm that is efficient in terms of both time and
 memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the job done, the
 algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
-consumption.  The algorithm we describe next, \blue{heapsort}, has
+consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}, has
 a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not require an auxiliary
 array.  Heapsort was invented in 1964 by \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} and
 improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} in the same year.
