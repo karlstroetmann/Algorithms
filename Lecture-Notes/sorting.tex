@@ -504,7 +504,7 @@ program.
                 framesep      = 0.3cm, 
                 bgcolor = sepia,
                 numbers       = left,
-                numbersep     = -0.2cm,
+                numbersep     = -0.3cm,
                 xleftmargin   = 0.0cm,
                 xrightmargin  = 0.0cm
               ]{python3}
@@ -1439,7 +1439,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
                   firstnumber   = 1,
                   bgcolor = sepia,
                   numbers       = left,
-                  numbersep     = -0.2cm,
+                  numbersep     = -0.3cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
                 ]{python3}
@@ -1918,6 +1918,183 @@ sort that implements these ideas.
       irrelevant.  Therefore, in line 7 the list $L$ is sorted with respect to the $k$-th byte. 
 \item When $L$ is returned, this list is sorted with respect to all of the four bytes making up its numbers and
       hence, it is sorted.
+\end{enumerate}
+
+\section{Handwritten Digit Recognition}
+In the last section of this chapter we discuss an application of sorting: \blue{Handwritten digit recognition}.
+We have been given a \blue{training set} of $50,000$ handwritten digits. Figure \ref{fig:digits.pdf} shows the first 24
+handwritten digits.  These digits are given as grey scale images of $28 \times 28$ pixels.  Each pixel $p$ is a
+floating point number satisfying $0 \leq p \leq 1$. If $p = 1.0$, the pixel is completely black, while $p = 0.0$ if the
+pixel is white.  Furthermore, for each of these images we also have been given a \blue{label}
+$d \in \{0,1,2,\cdots,9\}$, which specifies the digit that is represented in the image.  Besides the training set 
+there is also a \blue{test set} of $10,000$ of handwritten images.  Our task is to \blue{classify} these images
+as digits.
+
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=Abbildungen/digits.pdf, scale=0.60}} 
+  \caption{The first 24 digits of our dataset.}
+  \label{fig:digits.pdf}
+\end{figure}
+
+\subsection{The $k$-Nearest Neighbour Algorithm}
+We will use the \href{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}{$k$-nearest neighbour algorithm} 
+to solve this task.  Given an image $x$ that is to be classified as a digit, we look at those images in the
+training set that are somehow \blue{close} to $x$.  If these images are all labelled with the same digit $d$,
+we conclude that $x$ shows the digit $d$.  In order to implement this algorithm, we have to specify what it
+means for an image $\mathbf{x}$ to be close to another image $\mathbf{y}$.  As the images have a size of $28 \times 28 = 784$
+pixels, they can be viewed as $784$-dimensional vectors.  We can compute the \blue{Euclidean distance}
+$d(\mathbf{x}, \mathbf{y})$ between $\mathbf{x}$ and $\mathbf{y}$ using the formula
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds d(\mathbf{x}, \mathbf{y}) := \sqrt{\sum\limits_{i=1}^n (x_i - y_i)^2\;}$.
+\\[0.2cm]
+This formula is a generalization of the distance between two points $(x_1, x_2)$ and $(y_1, y_2)$ in the the
+plane $\mathbb{R}^2$, which, according to the \href{https://en.wikipedia.org/wiki/Pythagorean_theorem}{Pythagorean theorem}, is given as 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2\;}$.
+\\[0.2cm]
+Given an image $\mathbf{y}$ that needs to be classified and a training set of $n$ labelled images, the $k$-nearest
+neighbour algorithm works as follows: 
+\begin{enumerate}[(a)]
+\item For every image $\mathbf{x}$ in the training set we compute the Euclidean distance $d(\mathbf{x},
+  \mathbf{y})$ between $\mathbf{x}$ and $\mathbf{y}$.
+\item We \blue{sort} the images in the training set according to their distances.
+\item We pick those $k$ images that have the smallest distances to $\mathbf{y}$.
+      These $k$ images are called the \blue{$k$ nearest neighbours}.
+\item Among the $k$ nearest neighbours we pick the label that occurs most frequently.
+      
+      For example, if $k=7$ and $3$ of the $7$ nearest neighbours are labelled as the digit $3$, while $2$ are
+      labelled as the digit $2$ and $2$ are labelled as the digit $1$, then we conclude that the image
+      $\mathbf{y}$ shows the digit $3$. 
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.3cm,
+                 xleftmargin   = 0.0cm,
+                 xrightmargin  = 0.0cm,
+               ]{python3}
+    import gzip
+    import pickle
+    import numpy as np
+
+    def load_data():
+        with gzip.open('mnist.pkl.gz', 'rb') as f:
+            train, _, test = pickle.load(f, encoding="latin1")
+        return (train[0], test[0], train[1], test[1])
+        
+    X_train, X_test, Y_train, Y_test = load_data()
+        
+    def distance(x, y):
+        return np.sqrt(np.sum((x - y)**2))
+    
+    def maxCount(L):
+        Frequencies         = {}    # number of occurrences 
+        most_frequent       = L[0]  # most frequent digit so far
+        most_frequent_count = 1     
+        for d in L:
+            if d in Frequencies:
+                Frequencies[d] += 1
+            else:
+                Frequencies[d]  = 1
+            if Frequencies[d] > most_frequent_count:
+                most_frequent       = d
+                most_frequent_count = Frequencies[d]
+        return most_frequent, most_frequent_count / len(L)
+    
+    def digit(x, k):
+        n          = X_train.shape[0]  # number of all training images
+        Distances  = [(distance(X_train[i, :],x),i) for i in range(n)]
+        Neighbours = [Y_train[i] for _, i in sorted(Distances)]
+        return maxCount(Neighbours[:k])
+
+    digit(X_test[0,:], 13)
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The $k$-nearest neighbour algorithm for digit recognition.}
+\label{fig:Digit-Recognition.ipynb}
+\end{figure}
+
+Figure \ref{fig:Digit-Recognition.ipynb} on page \pageref{fig:Digit-Recognition.ipynb} shows a program that can
+be used to recognize a handwritten digit.
+\begin{enumerate}
+\item The images of the handwritten digits are stored in the file \texttt{mnist.pkl.gz}.  This file is compressed
+      using \texttt{gzip} and the images have been \blue{pickled} using the module \texttt{pickle}.  The module
+      \texttt{pickle} supports the reading and writing of \textsl{Python} data structures and is therefore
+      used to make data \blue{persistent}, i.e.~store them in a file system.  The counterpart of the function
+      \texttt{load} is the function \texttt{dump}.
+
+      In order to read the images of the handwritten digits, we therefore have to import the modules
+      \texttt{gzip} and \texttt{pickle}.  The module \texttt{numpy} is needed to store the images as \blue{arrays}. 
+\item The function $\texttt{load\_data}()$ returns a tuple of the form
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $ \ds (\texttt{X\_train}, \texttt{X\_test}, \texttt{Y\_train}, \texttt{Y\_test}) $
+      \\[0.2cm]
+      where 
+      \begin{enumerate}[(a)]
+      \item $\texttt{X\_train}$ is a matrix storing the 50,000 training images of handwritten digits.
+            For each $i \in \{0,\cdots,49\,999\}$ the row $\texttt{X\_train}[i, :]$ is an array of size $784$ storing a single image.
+      \item $\texttt{X\_test}$ is a matrix containing 10,000 images of handwritten digits that can be used for testing.
+      \item $\texttt{Y\_train}$ is an array of size 50,000. For each $i \in \{0,\cdots,49\,999\}$ the number $\texttt{Y\_train}[i]$
+            specifies the digit shown in the $i$th training image.
+      \item $\texttt{Y\_test}$ is an array of size 10,000. For each $i \in \{0,\cdots,9\,999\}$ the number $\texttt{Y\_test}[i]$
+            specifies the digit shown in the $i$th test image.
+      \end{enumerate}
+      The function \texttt{open} from the module \texttt{gzip} opens the specified file and automatically
+      decompresses it.  In the file \texttt{mnist.pkl.gz} the data is stored as a triple of pairs.
+      For our purposes, we only need the first and the last component of this triple.  Each of these components
+      is a pair of the form $(\textsl{data}, \textsl{label})$, where \textsl{data} is an array of images and
+      \textsl{labels} is an array specifying the digits represented in the images.
+      The function \texttt{load\_data} extracts the data stored in these pairs.
+\item The function $\mathtt{distance}(x, y)$ computes the Euclidean distance between the images $x$ and $y$.
+      Given a vector $x$, the expression $x \texttt{**} 2$ computes a vector containing the squares of the
+      components of $x$.  These squares can then be summed using the \texttt{numpy} function \texttt{sum}.
+\item Given a list $L$ of digits, the function $\texttt{maxCounts}(L)$ returns a pair $(d, p)$ where $d$ is the digit that occurs most frequently in $L$
+      and $p$ is the fraction of occurrences of $d$ in $L$.  For example, we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{maxCounts}([5,2,3,5,2,5,6,5,7,8]) = (5, 0.4)$
+      \\[0.2cm]
+      because the digit $5$ is the most frequent digit in the list $[5,2,3,5,2,5,6,5,7,8]$ and $40$\%
+      of the digits in this list are fives.  In detail, the function \texttt{maxCounts} works as follows:
+      \begin{enumerate}[(a)]
+      \item \texttt{Frequencies} is a dictionary that specifies how often a digit $d$ occurs in the list $L$.
+      \item \texttt{most\_frequent} is the digit that so far is known to be the most frequent digit in $L$.
+            Initially, this is assumed to be the first digit.  As we iterate over the list $L$, this variable
+            is updated.
+      \item \texttt{most\_frequent\_count} is the number of occurrences of the digit \texttt{most\_frequent}
+            that we have so far counted.
+      \item As we iterate over the digits in $L$ we update their frequencies.  If we encounter a digit that is
+            more common than the digit stored in the variable \texttt{most\_frequent} we update this variable.
+      \end{enumerate}
+\item Given an image of a digit stored in the vector $\mathbf{x}$ and a number of neighbours $k$, the function
+      $\texttt{digit}(\mathbf{x}, k)$ computes those $k$ images in the training set \texttt{X\_train} that are
+      \blue{closest} to the image $\mathbf{x}$, where \blue{closeness} of images is defined in terms of the
+      \blue{Euclidean distance} of the vectors that store the images.  From these $k$ images of the training
+      set the function chooses the digit that occurs most frequently.  It returns a pair $(d, p)$ where $d$
+      is the digit that is most frequently occurring in the list of $k$ neighbours and $p$ is the percentage
+      of images in the $k$ neighbours of $\mathbf{x}$ that show the digit $d$.  The implementation works as follows:
+      \begin{enumerate}[(a)]
+      \item \texttt{n} is the number of training examples.  In our case, $n = 50,000$.
+      \item \texttt{Distances} is a list of pairs of the form $(d, i)$, where $d$ is the distance
+            of the $i$-th image in the training set from the given image $x$.
+      \item These pairs are \blue{sorted} with respect to their distance and the labels corresponding to the
+            images are computed.  Therefore, \texttt{Neighbours} is a list of the labels of all $50,000$
+            training images sorted according to their distance to the given image $x$.
+      \item Finally, the function \texttt{maxCounts} takes the $k$ closest images and computes the digit that
+            is most frequently occurring.
+      \end{enumerate}
+\item The last line shows how the function \texttt{digit} can be used to classify the first image from the test
+      set using the 13 closest neighbours. 
 \end{enumerate}
 
 %%% Local Variables: 
