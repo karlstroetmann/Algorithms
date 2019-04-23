@@ -19,12 +19,12 @@ as a map.  The rest of this chapter is organized as follows:
       Following this definition we present several different implementations of maps. 
 \item We start our discussion with \blue{ordered binary trees}.  These trees can be used to implement maps,
       provided the keys are ordered.        The average complexity of inserting
-      an element into an ordered binary tree is logarithmic.  Unfortunately, the worst case complexity
-      is linear in the number of the entries.
+      an element into an ordered binary tree is \blue{logarithmic}.  Unfortunately, the worst case complexity
+      is \blue{linear} in the number of the entries.
 \item Next, we discuss \blue{balanced ordered trees}.  In the case of balanced ordered trees the
-      complexity of insertion is guaranteed to be logarithmic.
+      complexity of insertion is g\underline{uaranteed} to be \blue{logarithmic}.
 \item After that, we discuss so called \blue{tries}.  These can be used as maps if the keys to be
-      stored in the map are strings.
+      stored in the map are \blue{strings}.
 \item Finally, we discuss \blue{hash tables}.  Hash tables provide another way to implement a map.
       Although I personally think that hash tables are a bit overrated, they are in wide spread use
       and therefore every computer scientist should have a good understanding of their inner workings.
@@ -33,7 +33,7 @@ as a map.  The rest of this chapter is organized as follows:
 \section{The Abstract Data Type \blue{Map}} 
 Many applications require the efficient maintenance of some mapping of \blue{keys} to
 \blue{values}.  For example, in order to implement a software analogue of a telephone book we have to
-be able to associate the numbers with the names.  In this case, the name of a person is regarded as a
+be able to associate the telephone numbers with the names.  In this case, the name of a person is regarded as a
 \blue{key} and the telephone number is the \blue{value} that gets associated with the key.
 The most important functions provided by a telephone directory are the following:
 \begin{enumerate}
@@ -124,24 +124,23 @@ The most important functions provided by a telephone directory are the following
 }
 \end{Definition}
 
-In \textsc{SetlX} it is very easy to implement the abstract data type  \textsl{map}.  We just have
-to realize that a map is the same thing as a function and we have already seen in the first term that functions
-can be interpreted as binary relations.
-Now if $r$ is a binary relation that, for a given key $k$,  contains exactly one pair of the form
-$[k,v]$, then the expression
-\\[0.1cm]
-\hspace*{1.3cm} $r[k]$
-\\[0.1cm]
-returns the value $v$.  On the other hand we can insert the pair $[k,v]$ into the relation $r$ by
+In \textsl{Python} it is very easy to implement the abstract data type  \textsl{map}.  We just have
+to realize that a map is essentially the same thing as a dictionary.
+Now if $d$ is a dictionary storing the value $v$ for a key $k$, then the expression
+\\[0.2cm]
+\hspace*{1.3cm} $d[k]$
+\\[0.2cm]
+returns the value $v$.  On the other hand we can insert a value $v$ for a key $k$ by
 writing
-\\[0.1cm]
-\hspace*{1.3cm} $r[k] := v$\texttt{;} \\[0.1cm]
-and in order to delete the value stored for a key  $k$ it is sufficient to assign the undefined value
-$\Omega$ to the key $k$ as follows: \\[0.1cm]
-\hspace*{1.3cm} $r[k] := \mathtt{om;}$. \\[0.1cm]
-This value $\Omega$ is also the value that is returned by the expression  $r[k]$ if
-the binary  relation $r$ has no pair of the form $[k,v]$.
-Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along these lines.
+\\[0.2cm]
+\hspace*{1.3cm}
+$d[k] = v$ 
+\\[0.2cm]
+and in order to delete the value stored for a key  $k$ we can use the \texttt{del} statement
+as follows: \\[0.2cm]
+\hspace*{1.3cm} $\texttt{del}\ d[k]$. \\[0.2cm]
+Figure  \ref{fig:Map-Trivial.ipynb} presents an implementation of the class \texttt{Map} that proceeds along
+these lines.
 
 
 \begin{figure}[!ht]
@@ -154,19 +153,28 @@ Figure  \ref{fig:map-trivial.stlx} presents an implementation of maps along thes
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm
                 ]
-    class map() {
-        mRelation := {};
-      static {
-        find   := k |-> mRelation[k];
-        insert := procedure(k, v) { mRelation[k] := v;  };
-        delete := procedure(k)    { mRelation[k] := om; };
-      }
-    }
+    class Map:
+        def __init__(self):
+            self.mDictionary = {}
+        
+        def find(self, k):
+            return self.mDictionary[k]
+        
+        def insert(self, k, v):
+            self.mDictionary[k] = v
+            
+        def delete(self, k):
+            del self.mDictionary[k]
+            
+        def __str__(self):
+            return str(self.mDictionary)
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsc{SetlX}.}
-  \label{fig:map-trivial.stlx}
+  \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsl{Python}.}
+  \label{fig:Map-Trivial.ipynb}
 \end{figure} 
+Note that the methods \texttt{insert} and \texttt{delete} do not return a object of type \texttt{Map}.  Rather, for
+efficiency reasons, the existing \texttt{Map} is updated.
 
 
 \section{Ordered Binary Trees}
@@ -188,7 +196,7 @@ In order to define \blue{ordered binary trees} we introduce
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
   The set $\Bin$ of binary trees is defined inductively as the set of terms that is build using the
   function symbols \textsl{Nil} and \textsl{Node}, where the signature of these function symbols is
-  given as follows: \\[0.1cm]
+  given as follows: \\[0.2cm]
   \hspace*{1.3cm} 
   $\textsl{Nil}: \Bin$ \qquad and \qquad  $\textsl{Node}: \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
   \begin{enumerate}
@@ -244,8 +252,8 @@ Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost
 node that has the key $8$ and the value $22$ is called the \blue{root} of the binary tree.
 A \blue{path of length} $k$ in the tree is  list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
-\\[0.1cm]
-\hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.1cm]
+\\[0.2cm]
+\hspace*{1.3cm} $\bigl[ \pair(8,22), \pair(12,18), \pair(10,16), \pair(9,39) \bigr]$ \\[0.2cm]
 is a path of length 3.
 
 
@@ -348,7 +356,7 @@ removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the 
 
       If the left subtree is empty, $k$ has to be the smallest key in the tree 
       $\textsl{Node}(k, v, \textsl{Nil}, r)$.  If $k$ is removed, we are left with the subtree $r$.
-\item $l\not= \textsl{Nil} \wedge l.\textsl{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.1cm]
+\item $l\not= \textsl{Nil} \wedge l.\textsl{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
        $\textsl{Node}(k, v, l, r).\textsl{delMin}() = [\textsl{Node}(k, v, l', r), k_{min}, v_{min}]$.
 
@@ -363,7 +371,7 @@ Next, we specify the method $\mathtt{delete}()$.
 \item $\textsl{Nil}.\textsl{delete}(k) = \textsl{Nil}$.
 \item $\textsl{Node}(k,v,\textsl{Nil},r).\textsl{delete}\bigl(k\bigr) = r$.
 \item $\textsl{Node}(k,v,l,\textsl{Nil}).\textsl{delete}(k) = l$.
-\item $l \not= \textsl{Nil} \,\wedge\, r \not= \textsl{Nil} \,\wedge\, r.\textsl{delMin}() = [r',k_{min}, v_{min}]  \;\rightarrow$ \\[0.1cm]
+\item $l \not= \textsl{Nil} \,\wedge\, r \not= \textsl{Nil} \,\wedge\, r.\textsl{delMin}() = [r',k_{min}, v_{min}]  \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
       $\textsl{Node}(k,v,l,r).\textsl{delete}(k) = \textsl{Node}(k_{min},v_{min},l,r')$.
       
@@ -384,9 +392,9 @@ Next, we specify the method $\mathtt{delete}()$.
        located in the right subtree $r$.  Hence, $k$ is removed from the right subtree $r$ recursively.
 \end{enumerate}
 
-\subsection{Implementing Ordered Binary Trees in \textsc{SetlX}}
+\subsection{Implementing Ordered Binary Trees in \textsl{Python}}
 Figure \ref{fig:binary-tree.stlx-1} and Figure \ref{fig:binary-tree.stlx-2} show how ordered binary
-trees can be implemented in \textsc{SetlX}.  Objects of class \texttt{map} encapsulate ordered
+trees can be implemented in \textsl{Python}.  Objects of class \texttt{map} encapsulate ordered
 binary trees.  We discuss the implementation of this class next.
 \begin{enumerate}
 \item The constructor map is called with one argument.  This argument, called \texttt{cmp}
@@ -413,7 +421,7 @@ binary trees.  We discuss the implementation of this class next.
 \item The implementation of \texttt{find} works as follows:
       \begin{enumerate}
       \item If the node is empty, there is no value to find and the function returns \texttt{om}.
-            Note that in \textsc{SetlX} a \texttt{return} statement which does not return a value 
+            Note that in \textsl{Python} a \texttt{return} statement which does not return a value 
             automatically returns \texttt{om}.
       \item If the key we are looking for is stored at the root of this tree, the value stored for
             this key is \texttt{mValue}.
@@ -465,7 +473,7 @@ binary trees.  We discuss the implementation of this class next.
         };
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees \textsc{SetlX}, part (I).}
+  \caption{Implementation of ordered binary trees \textsl{Python}, part (I).}
   \label{fig:binary-tree.stlx-1}
 \end{figure}
 \item The implementation of \texttt{insert} is similar to the implementation of \texttt{find}.
@@ -528,7 +536,7 @@ binary trees.  We discuss the implementation of this class next.
     }
 \end{Verbatim}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees in \textsc{SetlX}, part (II).}
+  \caption{Implementation of ordered binary trees in \textsl{Python}, part (II).}
   \label{fig:binary-tree.stlx-2}
 \end{figure}
 
