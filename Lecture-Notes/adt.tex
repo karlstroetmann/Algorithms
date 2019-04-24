@@ -658,6 +658,7 @@ while there are two cases for the operator symbols that are part of the input to
         Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
         if Precedence[o1] > Precedence[o2]:
             return True
+        elif Precedence[o1] == Precedence[o2]:
             if o1 == o2:
                 return o1 in { '+', '-', '*', '/', '%' }
             else:

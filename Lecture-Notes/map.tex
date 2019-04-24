@@ -435,14 +435,14 @@ binary trees.  We discuss the implementation of this class next.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm
+              ]{python3}
     class map(cmp) {
         mKey    := om;
         mValue  := om; 
@@ -458,7 +458,7 @@ binary trees.  We discuss the implementation of this class next.
             else                       { return mRight.find(k); }
         };
         insert := procedure(k, v) {
-              if (isEmpty()) { 
+            if (isEmpty()) { 
                 this.mKey   := k;
                 this.mValue := v; 
                 this.mLeft  := map(mCmpFct);
@@ -471,7 +471,7 @@ binary trees.  We discuss the implementation of this class next.
                 mRight.insert(k, v); 
             }
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Implementation of ordered binary trees \textsl{Python}, part (I).}
   \label{fig:binary-tree.stlx-1}
@@ -491,15 +491,15 @@ binary trees.  We discuss the implementation of this class next.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = last,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = last,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
         delMin := procedure() {
             if (mLeft.isEmpty()) { 
                 return [ mRight, mKey, mValue ]; 
@@ -534,7 +534,7 @@ binary trees.  We discuss the implementation of this class next.
         };
       }
     }
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Implementation of ordered binary trees in \textsl{Python}, part (II).}
   \label{fig:binary-tree.stlx-2}
