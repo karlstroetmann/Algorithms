@@ -145,14 +145,14 @@ these lines.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
     class Map:
         def __init__(self):
             self.mDictionary = {}
@@ -168,7 +168,7 @@ these lines.
             
         def __str__(self):
             return str(self.mDictionary)
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsl{Python}.}
   \label{fig:Map-Trivial.ipynb}

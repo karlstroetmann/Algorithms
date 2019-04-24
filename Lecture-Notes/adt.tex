@@ -168,7 +168,7 @@ lecture.  Further details can also be found in the \textsl{Python}
             self.mStackElements = []
     
         def push(self, e):
-           self.mStackElements.append(e)
+            self.mStackElements.append(e)
     
         def pop(self):
             assert len(self.mStackElements) > 0, "popping empty stack"
@@ -599,12 +599,12 @@ $[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
                  xleftmargin   = 0.8cm,
                  xrightmargin  = 0.8cm,
                ]{python3}
-        import re
+    import re
 
-        def tokenize(s):
-            regExp = r'([0-9]+|\*\*|[()+*%\/\-])'
-            L = [ toInt(t) for t in re.findall(regExp, s) ]
-            return list(reversed(L))                 
+    def tokenize(s):
+        regExp = r'([0-9]+|\*\*|[()+*%\/\-])'
+        L = [ toInt(t) for t in re.findall(regExp, s) ]
+        return list(reversed(L))                 
 \end{minted}
 \vspace*{-0.3cm}
 \caption{The function \texttt{tokenize}.}
@@ -649,11 +649,11 @@ while there are two cases for the operator symbols that are part of the input to
                  bgcolor       = sepia,
                  numbers       = left,
                  numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
+                 xleftmargin   = 0.0cm,
+                 xrightmargin  = 0.0cm,
                ]{python3}
     def evalBefore(o1, o2):
-        if o1 =='(':
+        if o1 == '(':
             return False
         Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
         if Precedence[o1] > Precedence[o2]:
@@ -681,44 +681,44 @@ while there are two cases for the operator symbols that are part of the input to
                 xleftmargin   = 0.0cm,
                 xrightmargin  = 0.0cm,
               ]{python3}
-class Calculator:
-    def __init__(self, s):
-        self.mTokens    = stack.createStack(tokenize(s))
-        self.mOperators = stack.Stack()
-        self.mArguments = stack.Stack()
-    
-    def evaluate(self):
-        while not self.mTokens.isEmpty():
-            t = self.mTokens.top(); self.mTokens.pop()
-            if isinstance(t, int):
-                self.mArguments.push(t)
-                continue
-            if (self.mOperators.isEmpty() or t == "("):
-                self.mOperators.push(t)
-                continue
-            topOp = self.mOperators.top()
-            if topOp == "(" and t == ")":
-                self.mOperators.pop()
-            elif (t == ")" or evalBefore(topOp, t)):
+    class Calculator:
+        def __init__(self, s):
+            self.mTokens    = stack.createStack(tokenize(s))
+            self.mOperators = stack.Stack()
+            self.mArguments = stack.Stack()
+        
+        def evaluate(self):
+            while not self.mTokens.isEmpty():
+                t = self.mTokens.top(); self.mTokens.pop()
+                if isinstance(t, int):
+                    self.mArguments.push(t)
+                    continue
+                if (self.mOperators.isEmpty() or t == "("):
+                    self.mOperators.push(t)
+                    continue
+                topOp = self.mOperators.top()
+                if topOp == "(" and t == ")":
+                    self.mOperators.pop()
+                elif (t == ")" or evalBefore(topOp, t)):
+                    self.popAndEvaluate()
+                    self.mTokens.push(t)
+                else:
+                    self.mOperators.push(t)
+            while not self.mOperators.isEmpty():
                 self.popAndEvaluate()
-                self.mTokens.push(t)
-            else:
-                self.mOperators.push(t)
-        while not self.mOperators.isEmpty():
-            self.popAndEvaluate()
-        return self.mArguments.top()        
-
-    def popAndEvaluate(self):
-        rhs = self.mArguments.top(); self.mArguments.pop()
-        lhs = self.mArguments.top(); self.mArguments.pop()
-        op  = self.mOperators.top(); self.mOperators.pop()
-        if op == '+' : result = lhs +  rhs
-        if op == '-' : result = lhs -  rhs
-        if op == '*' : result = lhs *  rhs
-        if op == '/' : result = lhs // rhs
-        if op == '%' : result = lhs %  rhs
-        if op == '**': result = lhs ** rhs
-        self.mArguments.push(result) 
+            return self.mArguments.top()        
+    
+        def popAndEvaluate(self):
+            rhs = self.mArguments.top(); self.mArguments.pop()
+            lhs = self.mArguments.top(); self.mArguments.pop()
+            op  = self.mOperators.top(); self.mOperators.pop()
+            if op == '+' : result = lhs +  rhs
+            if op == '-' : result = lhs -  rhs
+            if op == '*' : result = lhs *  rhs
+            if op == '/' : result = lhs // rhs
+            if op == '%' : result = lhs %  rhs
+            if op == '**': result = lhs ** rhs
+            self.mArguments.push(result) 
 \end{minted}
 \vspace*{-0.3cm}
   \caption{The class \texttt{Calculator}.}
