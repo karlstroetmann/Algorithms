@@ -186,11 +186,10 @@ order, then the abstract data type \textsl{Map} can be implemented via
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
 \begin{enumerate}
-\item The average case complexity of the lookup operation is \blue{logarithmic}.
-\item The worst case complexity of the lookup operation is \blue{linear}.  
+\item In the average case, the complexity of the method \texttt{find} is \blue{logarithmic}.
+\item In the worst case, the complexity of the method \texttt{find} is \blue{linear}.  
 \end{enumerate}
-In order to define \blue{ordered binary trees} we introduce
-\blue{binary trees} first.
+In order to define \blue{ordered binary trees} we introduce \blue{binary trees} first.
 
 \begin{Definition}[Binary Trees] \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
@@ -238,7 +237,7 @@ Next, we define the notion of an  \blue{ordered binary tree}.
 \end{Definition}
 Graphically, ordered binary trees are depicted as follows:
 \begin{enumerate}
-\item The empty tree \textsl{Nil} is shown as a black circle.
+\item The empty tree \textsl{Nil} is either shown as a black circle or not shown at all.
 \item A binary tree of the form $\textsl{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
       both are separated by a horizontal line.  This oval is then called a
@@ -347,18 +346,18 @@ Next, we specify the  method \textsl{delMin}.  The call $t.\textsl{delMin}()$ re
 If 
 \\[0.2cm]
 \hspace*{1.3cm}
-$t.\textsl{delMin}() = [r,k,v]$,
+$t.\textsl{delMin}() = (r,k,v)$,
 \\[0.2cm]
 then $r$ is the tree that  results from
 removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the associated value.
 \begin{enumerate}
-\item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = [r, k, v]$
+\item $\textsl{Node}(k, v, \textsl{Nil}, r).\textsl{delMin}() = (r, k, v)$
 
       If the left subtree is empty, $k$ has to be the smallest key in the tree 
       $\textsl{Node}(k, v, \textsl{Nil}, r)$.  If $k$ is removed, we are left with the subtree $r$.
 \item $l\not= \textsl{Nil} \wedge l.\textsl{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
-       $\textsl{Node}(k, v, l, r).\textsl{delMin}() = [\textsl{Node}(k, v, l', r), k_{min}, v_{min}]$.
+       $\textsl{Node}(k, v, l, r).\textsl{delMin}() = \bigl(\textsl{Node}(k, v, l', r), k_{min}, v_{min})\bigr)$.
 
       If the left subtree $l$ in the binary tree $t = \textsl{Node}(k, v, l, r)$
       is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
@@ -371,7 +370,7 @@ Next, we specify the method $\mathtt{delete}()$.
 \item $\textsl{Nil}.\textsl{delete}(k) = \textsl{Nil}$.
 \item $\textsl{Node}(k,v,\textsl{Nil},r).\textsl{delete}\bigl(k\bigr) = r$.
 \item $\textsl{Node}(k,v,l,\textsl{Nil}).\textsl{delete}(k) = l$.
-\item $l \not= \textsl{Nil} \,\wedge\, r \not= \textsl{Nil} \,\wedge\, r.\textsl{delMin}() = [r',k_{min}, v_{min}]  \;\rightarrow$ \\[0.2cm]
+\item $l \not= \textsl{Nil} \,\wedge\, r \not= \textsl{Nil} \,\wedge\, r.\textsl{delMin}() = (r',k_{min}, v_{min})  \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
       $\textsl{Node}(k,v,l,r).\textsl{delete}(k) = \textsl{Node}(k_{min},v_{min},l,r')$.
       
@@ -397,39 +396,36 @@ Figure \ref{fig:binary-tree.stlx-1} and Figure \ref{fig:binary-tree.stlx-2} show
 trees can be implemented in \textsl{Python}.  Objects of class \texttt{map} encapsulate ordered
 binary trees.  We discuss the implementation of this class next.
 \begin{enumerate}
-\item The constructor map is called with one argument.  This argument, called \texttt{cmp}
-      in line 1, is a function representing a total order ''$<$''.  The idea is that the function
-      \texttt{cmp} is called with two arguments and we have
+\item The constructor is called without any argument.  The expression
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{cmp}(x,y)$ \quad if and only if \quad $x < y$.
+      $\texttt{OrderedBinaryTree}()$
       \\[0.2cm]
-      The function \texttt{cmp} is later stored in the member variable \texttt{mCmpFct} in line 6.
-\item The class \texttt{map} represents a node in an ordered binary tree.  In order to do so, it
+      creates an empty tree that corresponds to $\textsl{Nil}$.
+\item The class \texttt{OrderedBinaryTree} represents a node in an ordered binary tree.  In order to do so, it
       maintains four additional member variables.
       \begin{enumerate}
       \item \texttt{mKey} is the key stored at this node.  For an empty node, \texttt{mKey}
-            has the value \texttt{om}, which represents $\Omega$.
+            has the value \texttt{None}, which represents $\Omega$.
       \item \texttt{mValue} stores the value that is associated with \texttt{mKey}.  For an empty node,
-            \texttt{mValue} is \texttt{om}.
-      \item \texttt{mLeft} is the left subtree.  An empty subtree is represented as \texttt{om}.
+            \texttt{mValue} is \texttt{None}.
+      \item \texttt{mLeft} is the left subtree.  
       \item \texttt{mRight} is the right subtree.  
       \end{enumerate}
 \item The function \texttt{isEmpty} checks whether \texttt{this} represents an empty tree.
-      The assumption is that if \texttt{mKey} is \texttt{om}, then the member variables
-      \texttt{mValue}, \texttt{mLeft}, and \texttt{mRight} will also be \texttt{om}.
+      The assumption is that if \texttt{mKey} is \texttt{None}, then the member variables
+      \texttt{mValue}, \texttt{mLeft}, and \texttt{mRight} will also be \texttt{None}.
+      Hence, in this case the object represents the empty tree \textsl{Nil}.
 \item The implementation of \texttt{find} works as follows:
       \begin{enumerate}
-      \item If the node is empty, there is no value to find and the function returns \texttt{om}.
-            Note that in \textsl{Python} a \texttt{return} statement which does not return a value 
-            automatically returns \texttt{om}.
-      \item If the key we are looking for is stored at the root of this tree, the value stored for
-            this key is \texttt{mValue}.
-      \item Otherwise, we have to compare the key \texttt{k}, which is the key we are looking for,
-            with the key \texttt{mKey}, which is the key stored in this node.  If \texttt{k}
-            is less than \texttt{mKey}, \texttt{k} can only be stored in the left subtree
-            \texttt{mLeft}, while if $k$ is greater than \texttt{mKey}, \texttt{k} can only be
-            stored in the right subtree.
+      \item If the node is empty, there is no value to find and the function returns \texttt{None}.
+      \item If $\texttt{key} == \texttt{mKey}$, then the key we are looking for is stored at the root of this
+            tree and hence the value we are looking for is \texttt{mValue}.
+      \item Otherwise, we have to compare the key \texttt{key}, which is the key we are looking for,
+            with the key \texttt{mKey}, which is the key stored in this node.  If \texttt{key}
+            is less than \texttt{mKey}, the value associated with \texttt{key} can only be stored in the left subtree
+            \texttt{mLeft}, while if \texttt{key} is greater than \texttt{mKey}, the value associated with
+            \texttt{key} can only be stored in the right subtree \texttt{mRight}.
       \end{enumerate}
 
 
@@ -443,37 +439,41 @@ binary trees.  We discuss the implementation of this class next.
                 xleftmargin   = 0.0cm,
                 xrightmargin  = 0.0cm
               ]{python3}
-    class map(cmp) {
-        mKey    := om;
-        mValue  := om; 
-        mLeft   := om;
-        mRight  := om;
-        mCmpFct := cmp;  // function to compare keys
-      static {
-        isEmpty := [] |-> mKey == om;
-        find := procedure(k) {
-            if      (isEmpty())        { return;                }
-            else if (mKey == k)        { return mValue;         }
-            else if (mCmpFct(k, mKey)) { return mLeft .find(k); }
-            else                       { return mRight.find(k); }
-        };
-        insert := procedure(k, v) {
-            if (isEmpty()) { 
-                this.mKey   := k;
-                this.mValue := v; 
-                this.mLeft  := map(mCmpFct);
-                this.mRight := map(mCmpFct);
-            } else if (mKey == k) { 
-                mValue := v; 
-            } else if (mCmpFct(k, mKey)) { 
-                mLeft .insert(k, v); 
-            } else { 
-                mRight.insert(k, v); 
-            }
-        };
+    class OrderedBinaryTree:
+        def __init__(self):
+            self.mKey   = None
+            self.mValue = None
+            self.mLeft  = None
+            self.mRight = None
+    
+        def isEmpty(self):
+            return self.mKey == None
+    
+        def find(self, key):
+            if self.isEmpty():
+                return None
+            elif self.mKey == key:
+                return self.mValue
+            elif key < self.mKey:
+                return self.mLeft.find(key)
+            else:
+                return self.mRight.find(key)
+    
+        def insert(self, key, value):
+            if self.isEmpty():
+                self.mKey   = key
+                self.mValue = value
+                self.mLeft  = OrderedBinaryTree()
+                self.mRight = OrderedBinaryTree()
+            elif self.mKey == key:
+                self.mValue = value
+            elif key < self.mKey:
+                self.mLeft.insert(key, value)
+            else:
+                self.mRight.insert(key, value)
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees \textsl{Python}, part (I).}
+  \caption{Implementation of ordered binary trees in \textsl{Python}, part \texttt{I}.}
   \label{fig:binary-tree.stlx-1}
 \end{figure}
 \item The implementation of \texttt{insert} is similar to the implementation of \texttt{find}.
@@ -481,10 +481,11 @@ binary trees.  We discuss the implementation of this class next.
       \item If the binary tree is empty, we set the member variables \texttt{mKey} and
             \texttt{mValue} to the appropriate values.  The member variables \texttt{mLeft} and 
             \texttt{mRight} are initialized as empty trees.
-      \item If the key \texttt{k} under which the value \texttt{v} is to be inserted is identical
+      \item If the key \texttt{key}, for which the value \texttt{value} is to be inserted, is identical
             to the key \texttt{mKey} stored at this node, then we have found the node where we need
-            to insert \texttt{v}.  In this case, \texttt{mValue} is overwritten with \texttt{v}.
-      \item Otherwise, \texttt{k} is compared with \texttt{mKey} and the search is continued in the
+            to insert \texttt{value}.  In this case, the current value of the variables \texttt{mValue} is
+            overwritten with \texttt{value}. 
+      \item Otherwise, \texttt{key} is compared with \texttt{mKey} and the insertion is recursively continued in the
             appropriate subtree.
       \end{enumerate}      
 
@@ -500,43 +501,40 @@ binary trees.  We discuss the implementation of this class next.
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm
               ]{python3}
-        delMin := procedure() {
-            if (mLeft.isEmpty()) { 
-                return [ mRight, mKey, mValue ]; 
-            } else {
-                 [ ls, km, vm ] := mLeft.delMin();
-                 this.mLeft := ls;
-                 return [ this, km, vm ];
-            }
-        };
-        delete := procedure(k) {
-            if      (isEmpty())  { return; } 
-            else if (k == mKey)  {
-                if      (mLeft .isEmpty()) { update(r); }  
-                else if (mRight.isEmpty()) { update(l); } 
-                else {
-                    [ rs, km, vm ] := mRight.delMin();
-                    this.mKey   := km;
-                    this.mValue := vm; 
-                    this.mRight := rs;
-                }
-            } else if (mCmpFct(k, mKey)) {
-                if (!mLeft .isEmpty()) { mLeft .delete(k); }
-            } else {
-                if (!mRight.isEmpty()) { mRight.delete(k); }
-            }
-        };
-        update := procedure(t) {
-            this.mKey   := t.mKey;
-            this.mValue := t.mValue;
-            this.mLeft  := t.mLeft;
-            this.mRight := t.mRight;
-        };
-      }
-    }
+        def delete(self, key):
+            if self.isEmpty():
+                return
+            if key == self.mKey:
+                if self.mLeft.isEmpty():
+                    self._update(self.mRight)
+                elif self.mRight.isEmpty():
+                    self._update(self.mLeft)
+                else:
+                    rs, km, vm = self.mRight._delMin()
+                    self.mKey   = km
+                    self.mValue = vm
+                    self.mRight = rs
+            elif key < self.mKey:
+                self.mLeft.delete(key)
+            else:
+                self.mRight.delete(key)
+    
+        def _delMin(self):
+            if self.mLeft.isEmpty():
+                return (self.mRight, self.mKey, self.mValue)
+            else:
+                ls, km, vm = self.mLeft._delMin()
+                self.mLeft = ls
+                return self, km, vm
+
+        def _update(self, t):
+            self.mKey   = t.mKey
+            self.mValue = t.mValue
+            self.mLeft  = t.mLeft
+            self.mRight = t.mRight
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees in \textsl{Python}, part (II).}
+  \caption{Implementation of ordered binary trees in \textsl{Python}, part \texttt{II}.}
   \label{fig:binary-tree.stlx-2}
 \end{figure}
 
@@ -544,16 +542,18 @@ binary trees.  We discuss the implementation of this class next.
       implementation of \texttt{insert}.  It should be noted that the implementation follows directly from the
       equations derived  previously. 
       
-      There is however one caveat that should be mentioned.  Line 55 show the implementation of the
+      There is however one caveat that should be mentioned.  Line 59 show the implementation of the
       function \texttt{update}.  When we delete the key at the root of the tree and either of the
-      subtrees is empty, we would ideally just overwrite the current tree with the non-empty
+      subtrees is empty, we would like to overwrite the current tree with the non-empty
       subtree, i.e.~we would like to write something like
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{this := mLeft;}
+      \texttt{self = mLeft}
       \\[0.2cm]
-      However, we cannot change the object \texttt{this}.  The only thing we can do is change the
-      attributes of the object \texttt{this}.  This is done in the method \texttt{update}.
+      However, we cannot replace the object \texttt{self} with another object.  The only thing we can do is
+      change the attributes of the object \texttt{self}.  This is done in the method \texttt{update}.
+      This method overwrites the member variables of \texttt{self} with the corresponding member variables of
+      \texttt{t}. 
 \end{enumerate}
 
 \begin{figure}[!th]
@@ -564,7 +564,7 @@ binary trees.  We discuss the implementation of this class next.
 \end{figure}
 
 
-\subsection{Analysis of the Complexity}
+\subsection{Complexity Analysis}
 In this section we will first discuss the worst case complexity, which is quite bad.  In fact, in
 the worst case, the call $b.\mathtt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
 binary search tree of $n$ elements.  After that, we investigate the average case complexity.  We
