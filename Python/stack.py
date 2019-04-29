@@ -40,7 +40,7 @@ def createStack(L):
         S.push(L[i])
     return S
 
-if __name__ == 'main':
+if __name__ == '__main__':
     S = createStack(range(10))
     for i in range(10):
         S.pop()
