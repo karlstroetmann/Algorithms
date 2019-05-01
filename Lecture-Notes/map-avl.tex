@@ -225,172 +225,158 @@ Finally, the equations for $\texttt{delete}$ are as follows:
 \end{enumerate}
 
 
-\subsection{Implementing AVL-Trees in \textsc{SetlX}}
-If we want to implement AVL-trees in \textsc{SetlX} then we have to decide how to compute the height
+\subsection{Implementing AVL-Trees in \textsl{Python}}
+If we want to implement AVL-trees in \textsl{Python} then we have to decide how to compute the height
 of the trees.  The idea is to store the height of every subtree in the corresponding node since it
 would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
 member variable \texttt{mHeight} to our class map.
-Figure \ref{fig:avl-tree.stlx:outline} shows an outline of the class \texttt{map}.  The variable
-\texttt{mHeight} is defined in line 6.  It is initialised as $0$ since the constructor \texttt{map}
+Figure \ref{fig:avl-tree.ipython:init} shows the constructor of the class \texttt{AVLTree}.  The variable
+\texttt{mHeight} is defined in line 7.  It is initialised as $0$ since the constructor \texttt{\_\_init\_\_}
 constructs an empty node.  
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
-                ]
-    class map(cmp) {
-        mKey    := om;
-        mValue  := om; 
-        mLeft   := om;
-        mRight  := om;
-        mHeight := 0;
-        mCmpFct := cmp;  
-    
-      static {
-        isEmpty       := [] |-> mKey == om;
-        find          := procedure(k)          { ... };
-        insert        := procedure(k, v)       { ... };
-        delMin        := procedure()           { ... };
-        delete        := procedure(k)          { ... };
-        update        := procedure(t)          { ... };
-        restore       := procedure()           { ... };
-        setValues     := procedure(k, v, l, r) { ... };
-        restoreHeight := procedure()           { ... };
-      }
-    }
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
+    class AVLTree:
+        def __init__(self):
+            self.mKey    = None
+            self.mValue  = None
+            self.mLeft   = None
+            self.mRight  = None
+            self.mHeight = 0 
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Outline of the class \texttt{map}.}
-  \label{fig:avl-tree.stlx:outline}
+  \label{fig:avl-tree.ipython:init}
 \end{figure}
 
 
-Figure \ref{fig:avl-tree.stlx:find} shows the implementation of the function $\texttt{find}$.
+Figure \ref{fig:avl-tree.ipython:find} shows the implementation of the function $\texttt{find}$.
 Actually, the implementation is the same as the implementation in Figure
-\ref{fig:binary-tree.stlx-1}.  The reason is that every AVL tree is also an ordered binary tree and
+\ref{fig:binary-tree.py-1}.  The reason is that every AVL tree is also an ordered binary tree and
 since searching for a key does not change the underlying tree there is no need to restore anything.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
-    find := procedure(k) {
-        if      (isEmpty())        { return;                }
-        else if (mKey == k)        { return mValue;         }
-        else if (mCmpFct(k, mKey)) { return mLeft .find(k); }
-        else                       { return mRight.find(k); }
-    };
-\end{Verbatim}
+                ]{python3}
+    def find(self, key):
+        if self.isEmpty():
+            return
+        elif self.mKey == key:
+            return self.mValue
+        elif key < self.mKey:
+            return self.mLeft.find(key)
+        else:
+            return self.mRight.find(key)
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{find}$.}
-\label{fig:avl-tree.stlx:find}
+\label{fig:avl-tree.ipython:find}
 \end{figure}
 
 
-Figure \ref{fig:avl-tree.stlx:insert} shows the implementation of the method $\texttt{insert}$.
-If we compare this implementation with the implementation for binary trees, we find three
+Figure \ref{fig:avl-tree.ipython:insert} shows the implementation of the method $\texttt{insert}$.
+If we compare this implementation with the implementation for ordered binary trees, we find three
 differences.
 \begin{enumerate}
 \item When inserting into an empty tree, we now have to update the member variable \texttt{mHeight}
       to $1$.  This is done in line 7.
-\item After inserting a value into the left subtree \texttt{mLeft}, it might be necessary to 
+\item After inserting a key-value pair into the left subtree \texttt{mLeft}, it might be necessary to 
       rebalance the tree.  This is done in line 12.
-\item Similarly, if we insert a value into the right subtree \texttt{mRight}, we have to rebalance 
+\item Similarly, if we insert a key-value pair into the right subtree \texttt{mRight}, we have to rebalance 
       the tree.  This is done in line 15.
 \end{enumerate}
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
-    insert := procedure(k, v) {
-        if (isEmpty()) { 
-            this.mKey    := k;
-            this.mValue  := v; 
-            this.mLeft   := map(mCmpFct);
-            this.mRight  := map(mCmpFct);
-            this.mHeight := 1;
-        } else if (mKey == k) { 
-            this.mValue := v; 
-        } else if (mCmpFct(k, mKey)) { 
-            mLeft.insert(k, v); 
-            restore();
-        } else { 
-            mRight.insert(k, v); 
-            restore();
-        }
-    };
-\end{Verbatim}
+                ]{python3}
+    def insert(self, key, value):
+        if self.isEmpty():
+            self.mKey    = key
+            self.mValue  = value
+            self.mLeft   = AVLTree()
+            self.mRight  = AVLTree()
+            self.mHeight = 1
+        elif self.mKey == key:
+            self.mValue = value
+        elif key < self.mKey:
+            self.mLeft.insert(key, value)
+            self._restore()
+        else:
+            self.mRight.insert(key, value)
+            self._restore()
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{insert}$.}
-\label{fig:avl-tree.stlx:insert}
+\label{fig:avl-tree.ipython:insert}
 \end{figure}
 
-Figure \ref{fig:avl-tree.stlx:delMin} shows the implementation of the method \texttt{delMin}.
+Figure \ref{fig:avl-tree.ipython:delMin} shows the implementation of the method \texttt{delMin}.
 The only change compared to the previous implementation for ordered binary trees is in line 7, where
 we have to take care of the fact that the balancing condition might be violated after deleting the
 smallest element in the left subtree.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
-    delMin := procedure() {
-        if (mLeft.isEmpty()) { 
-            return [ mRight, mKey, mValue ]; 
-        } else {
-             [ ls, km, vm ] := mLeft.delMin();
-             this.mLeft := ls;
-             restore();
-             return [ this, km, vm ];
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def _delMin(self):
+        if self.mLeft.isEmpty():
+            return self.mRight, self.mKey, self.mValue
+        else:
+            ls, km, vm = self.mLeft._delMin()
+            self.mLeft = ls
+            self._restore()
+            return self, km, vm
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of \texttt{delMin}.}
-\label{fig:avl-tree.stlx:delMin}
+\label{fig:avl-tree.ipython:delMin}
 \end{figure}
 
-\pagebreak
-Figure \ref{fig:avl-tree.stlx:delete} shows the implementation of the method $\texttt{delete}$ and the
+
+Figure \ref{fig:avl-tree.ipython:delete} shows the implementation of the method $\texttt{delete}$ and the
 implementation of the auxiliary method \texttt{update}.  Compared with Figure
-\ref{fig:binary-tree.stlx-2} there are only three differences:
+\ref{fig:binary-tree.py-2} there are only three differences:
 \begin{enumerate}
 \item If we delete the key at the root of the tree, we replace this key with the smallest key in the
       right subtree. Since this key is deleted in the right subtree, the height of the right
       subtree might shrink and hence the balancing condition at the root might be violated.
       Therefore, we have to restore the balancing condition.  This is done in line 12.
 \item If we delete a key in the left subtree, the height of the left subtree might shrink.
-      Hence we have to rebalance the tree at the root in line 16.
+      Hence we have to rebalance the tree at the root in line 15.
 \item Similarly, if we delete a key in the right subtree, we have to restore the balancing
-      condition.  This is done in line 19.
+      condition.  This is done in line 18.
 \end{enumerate}
 Since the method \texttt{update} replaces the current tree with either its left or right subtree and this
 subtree is assumed to satisfy the balancing condition, there is no need for a call to \texttt{restore} in this
@@ -398,105 +384,96 @@ method.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
-                ]
-    delete := procedure(k) {
-        if (isEmpty())  { 
-            return; 
-        } else if (k == mKey) {
-            if (mLeft.isEmpty()) {
-                update(mRight);
-            } else if (mRight.isEmpty()) {
-                update(mLeft);
-            } else {
-                [ rs, km, vm ] := mRight.delMin();
-                [this.mKey,this.mValue,this.mRight ] := [km,vm,rs];
-                restore();
-            }
-        } else if (mCmpFct(k, mKey)) {
-            mLeft.delete(k);
-            restore();
-        } else {
-            mRight.delete(k);
-            restore();
-        }
-    };
-    update := procedure(t) {
-        this.mKey    := t.mKey;
-        this.mValue  := t.mValue;
-        this.mLeft   := t.mLeft;
-        this.mRight  := t.mRight;
-        this.mHeight := t.mHeight;
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def delete(self, key):
+        if self.isEmpty():
+            return
+        if key == self.mKey:
+            if self.mLeft.isEmpty():
+                self._update(self.mRight)
+            elif self.mRight.isEmpty():
+                self._update(self.mLeft)
+            else:
+                self.mRight, self.mKey, self.mValue = \
+                     self.mRight._delMin()
+                self._restore()
+        elif key < self.mKey:
+            self.mLeft.delete(key)
+            self._restore()
+        else:
+            self.mRight.delete(key)
+            self._restore() 
+
+    def _update(self, t):
+        self.mKey    = t.mKey
+        self.mValue  = t.mValue
+        self.mLeft   = t.mLeft
+        self.mRight  = t.mRight
+        self.mHeight = t.mHeight            
+\end{minted}
 \vspace*{-0.3cm}
 \caption{The methods $\texttt{delete}$ and \texttt{update}.}
-\label{fig:avl-tree.stlx:delete}
+\label{fig:avl-tree.ipython:delete}
 \end{figure}
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
-                ]
-    restore := procedure() {
-        if (abs(mLeft.mHeight - mRight.mHeight) <= 1) {
-            restoreHeight();
-            return;
-        }
-        if (mLeft.mHeight > mRight.mHeight) {
-            [ k1,v1,l1,r1 ] := [ mKey,mValue,mLeft,mRight ];
-            [ k2,v2,l2,r2 ] := [ l1.mKey,l1.mValue,l1.mLeft,l1.mRight ];
-            if (l2.mHeight >= r2.mHeight) {
-                setValues(k2,v2,l2,createNode(k1,v1,r2,r1,mCmpFct));
-            } else {
-                [ k3,v3,l3,r3 ] := [r2.mKey,r2.mValue,r2.mLeft,r2.mRight];
-                setValues(k3,v3,createNode(k2,v2,l2,l3,mCmpFct),
-                                createNode(k1,v1,r3,r1,mCmpFct) );
-            }
-        }
-        if (mRight.mHeight > mLeft.mHeight) {
-            [ k1,v1,l1,r1 ] := [ mKey,mValue,mLeft,mRight ];
-            [ k2,v2,l2,r2 ] := [ r1.mKey,r1.mValue,r1.mLeft,r1.mRight ];
-            if (r2.mHeight >= l2.mHeight) {
-                setValues(k2,v2,createNode(k1,v1,l1,l2,mCmpFct),r2);
-            } else {
-                [ k3,v3,l3,r3 ] := [l2.mKey,l2.mValue,l2.mLeft,l2.mRight];
-                setValues(k3,v3,createNode(k1,v1,l1,l3,mCmpFct),
-                                createNode(k2,v2,r3,r2,mCmpFct) );
-            }
-        }
-        restoreHeight();
-    };
-    setValues := procedure(k, v, l, r) {
-        this.mKey   := k;
-        this.mValue := v;
-        this.mLeft  := l;
-        this.mRight := r;
-    };
-    restoreHeight := procedure() {
-        this.mHeight := 1 + max({ mLeft.mHeight, mRight.mHeight });
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
+              ]{python3}
+    def _restore(self):
+        if abs(self.mLeft.mHeight - self.mRight.mHeight) <= 1:
+            self._restoreHeight()
+            return
+        if self.mLeft.mHeight > self.mRight.mHeight:
+            k1,v1,l1,r1 = self.mKey,self.mValue,self.mLeft,self.mRight
+            k2,v2,l2,r2 = l1.mKey, l1.mValue, l1.mLeft, l1.mRight
+            if l2.mHeight >= r2.mHeight:
+                self._setValues(k2, v2, l2, createNode(k1,v1,r2,r1))
+            else: 
+                k3,v3,l3,r3 = r2.mKey,r2.mValue,r2.mLeft,r2.mRight
+                self._setValues(k3, v3, createNode(k2, v2, l2, l3),
+                                        createNode(k1, v1, r3, r1))
+        elif self.mRight.mHeight > self.mLeft.mHeight:
+            k1,v1,l1,r1 = self.mKey,self.mValue,self.mLeft,self.mRight
+            k2,v2,l2,r2 = r1.mKey, r1.mValue, r1.mLeft, r1.mRight
+            if r2.mHeight >= l2.mHeight:
+                self._setValues(k2, v2, createNode(k1,v1,l1,l2), r2)
+            else:
+                k3,v3,l3,r3 = l2.mKey,l2.mValue,l2.mLeft,l2.mRight
+                self._setValues(k3, v3, createNode(k1, v1, l1, l3),
+                                        createNode(k2, v2, r3, r2))
+        self._restoreHeight()
+    
+    def _setValues(self, k, v, l, r):
+        self.mKey   = k
+        self.mValue = v
+        self.mLeft  = l
+        self.mRight = r
+    
+    def _restoreHeight(self):
+        self.mHeight = max(self.mLeft.mHeight, self.mRight.mHeight)+1
+\end{minted}
 \vspace*{-0.3cm}
 \caption{The implementation of \texttt{restore} and \texttt{restoreHeight}.}
-\label{fig:avl-tree.stlx:restore}
+\label{fig:avl-tree.ipython:restore}
 \end{figure}
 
 
-Figure \ref{fig:avl-tree.stlx:restore} shows the implementation of the function \texttt{restore}.
+Figure \ref{fig:avl-tree.ipython:restore} shows the implementation of the function \texttt{restore}.
 It is this method that makes most of the difference between ordered binary trees and AVL trees.  Let
 us discuss this method line by line.
 \begin{enumerate}
@@ -509,31 +486,31 @@ us discuss this method line by line.
       balancing condition is still satisfied, as now the left subtree and the right subtree have the
       same height.  However, the height of the complete tree has also shrunk by one and therefore, 
       the variable \texttt{mHeight} needs to be decremented.  This is done via the auxiliary method
-      \texttt{restoreHeight}.  This method is defined in line 36 and it recomputes \texttt{mHeight}
+      \texttt{restoreHeight}.  This method is defined in line 31 and it recomputes \texttt{mHeight}
       according to the definition of the height of a binary tree.
 \item If the check in line 2 fails, then we know that the balancing condition is violated.
       However, we do not yet know which of the two subtrees is bigger.  
 
-      If the test in line 6 succeeds, then the left subtree must have a height that is bigger by
+      If the test in line 5 succeeds, then the left subtree must have a height that is bigger by
       two than the height of the right subtree.  In order to be able to use the same variable names 
       as the variable names given in the equations discussed in the previous subsection, we define
       the variables \texttt{k1}, \texttt{v1}, \texttt{l1}, \texttt{r1}, \texttt{k2}, \texttt{v2}, \texttt{l2},
-      and \texttt{r2} in line 7 and 8 so that these variable names correspond exactly to the variable names
+      and \texttt{r2} in line 6 and 7 so that these variable names correspond exactly to the variable names
       used in the Figures \ref{fig:casell} and \ref{fig:caselr}.
-\item Next, the test in line 9 checks whether we have the case that is depicted in Figure
+\item Next, the test in line 8 checks whether we have the case that is depicted in Figure
       \ref{fig:casell}.  In this case, Figure \ref{fig:casell} tells us that the key \texttt{k2}
       has to move to the root.  The left subtree is now \texttt{l2}, while the right subtree is a
       new node that has the key \texttt{k1} at its root.  This new node is created by the call
-      of the function \texttt{createNode} in line 10.  The function \texttt{createNode} is shown in
-      Figure \ref{fig:avl-tree.stlx:createNode} on page \pageref{fig:avl-tree.stlx:createNode}.
-\item If the test in line 9 fails, the right subtree is bigger than the left subtree and we are in 
+      of the function \texttt{createNode} in line 9.  The function \texttt{createNode} is shown in
+      Figure \ref{fig:avl-tree.ipython:createNode} on page \pageref{fig:avl-tree.ipython:createNode}.
+\item If the test in line 8 fails, the right subtree is bigger than the left subtree and we are in 
       the case that is depicted in Figure \ref{fig:caselr}.  We have to create the tree that is
       shown in Figure \ref{fig:caselr-nach}.  To this end we first define the variables 
       \texttt{k3}, \texttt{v3}, \texttt{l3}, and \texttt{r3} in a way that these variables
       correspond to the variables shown in Figure \ref{fig:caselr}.  Next, we create the tree
       that is shown in Figure \ref{fig:caselr-nach}.
-\item Line 17 deals with the case that the right subtree is bigger than the left subtree. 
-      As this case is analogous to the case covered in line 6 to line 16, we won't discuss this case
+\item Line 14 deals with the case that the right subtree is bigger than the left subtree. 
+      As this case is analogous to the case covered in line 5 to line 13, we won't discuss this case
       any further.
 \item Finally, we recompute the variable \texttt{mHeight} since it is possible that the old value is
       no longer correct.
@@ -542,32 +519,30 @@ us discuss this method line by line.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
-    createNode :=  procedure(key, value, left, right, cmp) {
-        node         := map(cmp);
-        node.mKey    := key;
-        node.mValue  := value;
-        node.mLeft   := left;
-        node.mRight  := right;
-        node.mCmpFct := cmp;
-        node.mHeight := 1 + max({ left.mHeight, right.mHeight });
-        return node;
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def createNode(key, value, left, right):
+        node         = AVLTree()
+        node.mKey    = key
+        node.mValue  = value
+        node.mLeft   = left
+        node.mRight  = right
+        node.mHeight = max(left.mHeight, right.mHeight) + 1
+        return node
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of \texttt{createNode}.}
-\label{fig:avl-tree.stlx:createNode}
+\label{fig:avl-tree.ipython:createNode}
 \end{figure}
 
-The function \texttt{createNode} shown in Figure \ref{fig:avl-tree.stlx:createNode}
+The function \texttt{createNode} shown in Figure \ref{fig:avl-tree.ipython:createNode}
 constructs a node with given left and right subtrees.  In fact, this method serves as a second
 constructor for the class \texttt{map}.  The implementation should be obvious.
 
@@ -888,7 +863,7 @@ lifted up recursively to its parent.
 \item Specify a method $t.\texttt{insert}(k)$ that inserts the key $k$ into the 2-3 tree
       $t$.  You should make use of an auxiliary function $t.\texttt{restore}()$ that takes a 2-3-4
       tree and transforms it into an equivalent 2-3 tree.
-\item Implement 2-3 trees in \textsc{SetlX}.
+\item Implement 2-3 trees in \textsl{Python}.
 \item \textbf{Optional}: Specify a method $t.\texttt{delete}(k)$ that deletes the key $k$ in the tree $t$.
 \end{enumerate}
 There is a good description of 2-3-trees at 
@@ -1152,18 +1127,18 @@ it is obvious that we have to check all $k$ characters of the string $s$, this b
 improved.   Another advantage of tries is the fact that they use very little storage to store the
 keys because common prefixes are only stored once. 
 
-\subsection{Implementing Tries in \textsc{SetlX}}
+\subsection{Implementing Tries in \textsl{Python}}
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     class map() {
         mValue := om;
         mChars := [];
@@ -1176,14 +1151,14 @@ keys because common prefixes are only stored once.
         isEmpty := procedure()     { ... };
       }
     }
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Outline of the class \texttt{trieMap}.}
-\label{fig:trie.stlx-outline}
+\label{fig:trie.ipython-outline}
 \end{figure}
 
 \noindent
-We proceed to discuss the implementation of tries.  Figure \ref{fig:trie.stlx-outline} shows the
+We proceed to discuss the implementation of tries.  Figure \ref{fig:trie.ipython-outline} shows the
 outline of the class \texttt{trie}.  This class supports three member variables.  In order to
 understand these member variables, remember that a trie has the form
 \\[0.2cm]
@@ -1207,15 +1182,15 @@ implementation of all these methods is given below.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     find := procedure(s) {
         match (s) {
             case ""   : return mValue;
@@ -1227,10 +1202,10 @@ implementation of all these methods is given below.
                         return;  // not found
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{find}$ for tries.}
-\label{fig:trie.stlx-find}
+\label{fig:trie.ipython-find}
 \end{figure}
 
 The method $\texttt{find}$ takes a string $s$ as its sole argument and checks whether the given trie
@@ -1251,15 +1226,15 @@ contains a value associated with the string $s$.  Essentially, the are two cases
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     insert := procedure(s, v) {
         match (s) {
             case ""   : this.mValue := v;
@@ -1277,10 +1252,10 @@ contains a value associated with the string $s$.  Essentially, the are two cases
                         this.mTries += [ newTrie ];
         } 
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{insert}$ for tries.}
-\label{fig:trie.stlx-insert}
+\label{fig:trie.ipython-insert}
 \end{figure}
 
 
@@ -1316,15 +1291,15 @@ implementation of $\texttt{find}$.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
-                ]
+                ]{python3}
     delete := procedure(s) {
         match (s) {
             case ""   : this.mValue := om;
@@ -1343,10 +1318,10 @@ implementation of $\texttt{find}$.
                 }
         }
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{delete}$ for tries.}
-\label{fig:trie.stlx-delete}
+\label{fig:trie.ipython-delete}
 \end{figure}
 
 The method $\texttt{delete}$ takes a string and, provided there is a value associated with $s$, this
@@ -1368,56 +1343,56 @@ value is deleted.
       After the deletion, the subtrie  $\texttt{mTries}[i]$ might well be empty.  In this case,
       we remove the $i$-th character form $\texttt{mChars}$ and also remove the $i$-th trie from the list
       $\texttt{mTries}$.  This is done with the help of the function $\texttt{removeIthElement}$,
-      which is shown in Figure \ref{fig:trie.stlx-removeIthElement}.
+      which is shown in Figure \ref{fig:trie.ipython-removeIthElement}.
 \end{enumerate}
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     isEmpty := procedure() {
         return mValue == om && mChars == [];
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{isEmpty}$ for tries.}
-\label{fig:trie.stlx-isEmpty}
+\label{fig:trie.ipython-isEmpty}
 \end{figure}
 
 In order to check whether a given trie is empty it suffices to check that no value is stored at the root
 and that the list $\texttt{mChars}$ is empty, since then the list $\texttt{mTries}$ will also be empty.  Hence,
 there is no need to recursively check whether all tries in $\texttt{mTries}$ are empty.  
-The implementation is shown in Figure \ref{fig:trie.stlx-isEmpty}.
+The implementation is shown in Figure \ref{fig:trie.ipython-isEmpty}.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     removeIthElement := procedure(l, i) {
         return l[1 .. i-1] + l[i+1 .. #l];
     };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{The function to remove the $i$-th element from a list.}
-\label{fig:trie.stlx-removeIthElement}
+\label{fig:trie.ipython-removeIthElement}
 \end{figure}
 
 Finally, the implementation of $\texttt{removeIthElement}$, which is shown in Figure
-\ref{fig:trie.stlx-removeIthElement}, is straightforward. 
+\ref{fig:trie.ipython-removeIthElement}, is straightforward. 
 
 \exercise
 (\textbf{Binary Tries})  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
@@ -1470,7 +1445,7 @@ Solve the following exercises:
 
       \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplifies those binary tries
       that are empty. 
-\item Implement binary tries in \textsc{SetlX}.
+\item Implement binary tries in \textsl{Python}.
 \item Test your implementation with a meaningful example.
 \end{enumerate}
 \textbf{Remark}: Binary tries are known as \blue{digital search trees}.  \eox
@@ -1481,19 +1456,19 @@ It is very simple to implement a function of the form \\[0.2cm]
 provided the set $\texttt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
 \hspace*{1.3cm} $\texttt{Key} = \{ 1, 2, \cdots, n \}$. \\[0.2cm]
 In this case, we can implement the function $f$ via an array of size $n$.
-Figure \ref{fig:map-array.stlx} shows how a map can be realized in this case.
+Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
     class map(n) {
         mArray := [1..n];
       static {
@@ -1503,10 +1478,10 @@ Figure \ref{fig:map-array.stlx} shows how a map can be realized in this case.
         f_str  := procedure()     { return str(mArray);   };
       }
     }
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementing a map as an array.}
-\label{fig:map-array.stlx}
+\label{fig:map-array.ipython}
 \end{figure}
 
 
@@ -1622,14 +1597,14 @@ We proceed to discuss the implementation of hash tables.
 
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm
-                ]
+                ]{python3}
     class hashTable(n) {
         mSize    := n;  // size of the array 
         mEntries := 0;  // number of entries
@@ -1652,13 +1627,13 @@ We proceed to discuss the implementation of hash tables.
             delete   := procedure(key)        { ... };    
         }
     }
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{Outline of the class $\texttt{hashTable}$.}
-  \label{fig:hashTable.stlx-outline}
+  \label{fig:hashTable.ipython-outline}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-outline} on page \pageref{fig:hashTable.stlx-outline} shows the outline of the
+Figure \ref{fig:hashTable.ipython-outline} on page \pageref{fig:hashTable.ipython-outline} shows the outline of the
 class $\texttt{hashTable}$.
 \begin{enumerate}
 \item The constructor is called with one argument.  This argument $n$ is the initial size
@@ -1695,7 +1670,7 @@ class $\texttt{hashTable}$.
         This relation is needed for the efficient computation of the method $\texttt{hashCode}$
         discussed below.
 
-        In \textsc{SetlX} there is no function that returns the \textsc{Ascii} code of a given character.
+        In \textsl{Python} there is no function that returns the \textsc{Ascii} code of a given character.
         Fortunately, it is easy to implement this function as a binary relation via the function
         $\texttt{char}(i)$.  Given a number $i \in \{0,\cdots,127\}$, the function $\texttt{char}(i)$
         returns the character that has \textsc{Ascii} code $i$.  The relation $\texttt{sOrd}$ is the inverse
@@ -1710,15 +1685,15 @@ Next, we discuss the implementation of the various methods.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
-                ]
+                ]{python3}
         hashCode := procedure(s) {
             return hashCodeAux(s) + 1;
         };
@@ -1728,13 +1703,13 @@ Next, we discuss the implementation of the various methods.
             }
             return (sOrd[s[1]] + 128 * hashCodeAux(s[2..])) % mSize;
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{hashCode}$.}
-\label{fig:hashTable.stlx-hashCode}
+\label{fig:hashTable.ipython-hashCode}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-hashCode} gives the implementation of the method $\texttt{hashCode}$.
+Figure \ref{fig:hashTable.ipython-hashCode} gives the implementation of the method $\texttt{hashCode}$.
 \begin{enumerate}
 \item The function $\texttt{hashCode}(s)$ takes a string $s$ and computes a hash code for this string.
       This hash code satisfies
@@ -1765,27 +1740,27 @@ Figure \ref{fig:hashTable.stlx-hashCode} gives the implementation of the method 
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
         find := procedure(key) {
              index := hashCode(key);
              aList := mArray[index];
              return aList[key];
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{find}$.}
-\label{fig:hashTable.stlx-find}
+\label{fig:hashTable.ipython-find}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-find} shows the implementation of the method $\texttt{find}$.
+Figure \ref{fig:hashTable.ipython-find} shows the implementation of the method $\texttt{find}$.
 \begin{enumerate}
 \item First, we compute the index of the key-value list that is used to store the given
       $\texttt{key}$.
@@ -1798,15 +1773,15 @@ Figure \ref{fig:hashTable.stlx-find} shows the implementation of the method $\te
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
         insert := procedure(key, value) {
              if (mEntries > mSize * mAlpha) {
                  rehash();
@@ -1823,13 +1798,13 @@ Figure \ref{fig:hashTable.stlx-find} shows the implementation of the method $\te
                  this.mEntries += 1;
              }    
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{insert}$.}
-\label{fig:hashTable.stlx-insert}
+\label{fig:hashTable.ipython-insert}
 \end{figure}
 
-Figure \ref{fig:hashTable.stlx-insert} shows the implementation of the method $\texttt{insert}$.
+Figure \ref{fig:hashTable.ipython-insert} shows the implementation of the method $\texttt{insert}$.
 The implementation works as follows.
 \begin{enumerate}
 \item First, we check whether our hash table is already overcrowded.
@@ -1853,15 +1828,15 @@ The implementation works as follows.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = 1,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
-                ]
+                ]{python3}
         rehash := procedure() {
              prime  := min({ p in sPrimes | p * mAlpha > mEntries });
              bigMap := hashTable(prime);
@@ -1873,14 +1848,14 @@ The implementation works as follows.
              this.mSize  := prime;
              this.mArray := bigMap.mArray;
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{rehash}$.}
-\label{fig:hashTable.stlx-rehash}
+\label{fig:hashTable.ipython-rehash}
 \end{figure}
 
 
-Figure \ref{fig:hashTable.stlx-rehash} shows the implementation of the method
+Figure \ref{fig:hashTable.ipython-rehash} shows the implementation of the method
 $\texttt{rehash}()$.  This method is called if the hash table becomes overcrowded.  The idea is to
 roughly double the size of $\texttt{mArray}$.  Theoretical considerations that are  beyond the scope
 of this lecture show that it is beneficial if the size of $\texttt{mArray}$ is a prime number.
@@ -1902,15 +1877,15 @@ proceed as follows:
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
+\begin{minted}[ frame         = lines, 
                   framesep      = 0.3cm, 
                   firstnumber   = last,
-                  labelposition = bottomline,
+                  bgcolor = sepia,
                   numbers       = left,
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
-                ]
+                ]{python3}
         delete := procedure(key) {
              index      := hashCode(key);
              aList      := mArray[index];
@@ -1922,16 +1897,16 @@ proceed as follows:
                  this.mEntries -= 1;
              }    
         };
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the procedure $\texttt{delete}(\texttt{map}, \texttt{key})$.}
-\label{fig:hashTable.stlx-delete}
+\label{fig:hashTable.ipython-delete}
 \end{figure}
 
 Finally, we discuss the implementation of the method $\texttt{delete}$ that is shown in Figure
-\ref{fig:hashTable.stlx-delete}.  The implementation of this method is similar to the implementation
+\ref{fig:hashTable.ipython-delete}.  The implementation of this method is similar to the implementation
 of the method $\texttt{insert}$.   The implementation makes use of the fact that in order to delete
-a key-value pair from a function relation in \textsc{SetlX} it is possible to assign the value
+a key-value pair from a function relation in \textsl{Python} it is possible to assign the value
 $\texttt{om}$ to the $\texttt{key}$ that needs to be deleted. Note, that we have to be careful to
 maintain the number of entries since we do not know whether the list of key-value pairs has an entry
 for the given $\texttt{key}$.
