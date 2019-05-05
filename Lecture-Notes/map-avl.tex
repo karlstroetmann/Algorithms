@@ -861,10 +861,32 @@ lifted up recursively to its parent.
 \item Specify a method $t.\texttt{member}(k)$ that checks whether the key $k$ occurs in the 2-3 tree
       $t$.  You should use recursive equations to specify  $t.\texttt{member}(k)$.
 \item Specify a method $t.\texttt{insert}(k)$ that inserts the key $k$ into the 2-3 tree
-      $t$.  You should make use of an auxiliary function $t.\texttt{restore}()$ that takes a 2-3-4
-      tree and transforms it into an equivalent 2-3 tree.
+      $t$.  You should use three auxiliary functions to implement \texttt{insert}:
+      \begin{enumerate}
+      \item $t.\texttt{ins}(k)$ takes a 2-3 tree $t$ and a key $k$ and inserts the key $k$ into $t$.
+            It returns a 2-3-4 tree that has at most one 4-node, which has to be a child of the root
+            node.  The function \texttt{ins} is recursive and uses the function \texttt{restore} described
+            next. 
+      \item $t.\texttt{restore}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be a child
+            of the root.  It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
+      \item $t.\texttt{grow}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be the root
+            node of the tree.  It returns an equivalent 2-3 tree.
+      \end{enumerate}
+      Having defined these auxiliary functions, the function \texttt{insert} can then be computed as follows:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $t.\texttt{insert}(k) = t.\texttt{ins}(k).\texttt{restore}().\texttt{grow}()$.
 \item Implement 2-3 trees in \textsl{Python}.
 \item \textbf{Optional}: Specify a method $t.\texttt{delete}(k)$ that deletes the key $k$ in the tree $t$.
+
+      In order to implement the function \texttt{delete}, it is necessary to define 1-2-3 trees.
+      In addition to both 2-nodes and 3-nodes, these trees also have 1-nodes.  These nodes come into existence
+      when a key is deleted from a 2-node:  Deleting the key $k$ from the node
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{Two}(\texttt{Nil}, k, \texttt{Nil})$
+      \\[0.2cm]
+      creates the 1-node $\texttt{One}(\texttt{Nil})$.
 \end{enumerate}
 Prof. Lyn Turbak has written a helpful
 \href{http://www.cs.princeton.edu/~dpw/courses/cos326-12/ass/2-3-trees.pdf}{paper} describing 2-3 trees in more
