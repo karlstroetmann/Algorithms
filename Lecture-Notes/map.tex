@@ -173,7 +173,7 @@ these lines.
   \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsl{Python}.}
   \label{fig:Map-Trivial.ipynb}
 \end{figure} 
-Note that the methods \texttt{insert} and \texttt{delete} do not return a object of type \texttt{Map}.  Rather, for
+Note that the methods \texttt{insert} and \texttt{delete} do not return an object of type \texttt{Map}.  Rather, for
 efficiency reasons, the existing \texttt{Map} is updated.
 
 
@@ -187,7 +187,9 @@ The implementation of the ADT map that is based on ordered binary trees has the 
 characteristics: 
 \begin{enumerate}
 \item In the average case, the complexity of the method \texttt{find} is \blue{logarithmic}.
-\item In the worst case, the complexity of the method \texttt{find} is \blue{linear}.  
+\item In the worst case, the complexity of the method \texttt{find} is \blue{linear}.
+
+      Unfortunately, the worst case occurs when the keys are inserted in sorted order.
 \end{enumerate}
 In order to define \blue{ordered binary trees} we introduce \blue{binary trees} first.
 
