@@ -1075,12 +1075,11 @@ To this end, we define the auxiliary function
 $\texttt{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$.
 \\[0.2cm]
 For a trie $t$, we have $t.\texttt{isEmpty}() = \texttt{true}$ if and only if the trie $t$ does not
-store any key.  The following formul\ae\ specify the function $\texttt{isEmpty}$:
-\begin{enumerate}
-\item $\texttt{Node}(\Omega, L, T).\texttt{isEmpty}() = \mathtt{True} \Leftrightarrow L = []$
-\item $v \not= \Omega \rightarrow 
-       \texttt{Node}(v, [c_1,\cdots,c_n],[t_1,\cdots,t_n]).\texttt{isEmpty}() = \texttt{false}$,
-\end{enumerate}
+store any key.  The following formula specifies the function $\texttt{isEmpty}$:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{Node}(v, L, T).\texttt{isEmpty}() = \mathtt{True} \Leftrightarrow v = \Omega \wedge L = []$
+\\[0.2cm]
 Now, we can specify the method
 \\[0.2cm]
 \hspace*{1.3cm}
