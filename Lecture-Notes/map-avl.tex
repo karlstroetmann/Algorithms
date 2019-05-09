@@ -1077,24 +1077,9 @@ $\texttt{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$.
 For a trie $t$, we have $t.\texttt{isEmpty}() = \texttt{true}$ if and only if the trie $t$ does not
 store any key.  The following formul\ae\ specify the function $\texttt{isEmpty}$:
 \begin{enumerate}
-\item $\texttt{Node}(\Omega, [],[]).\texttt{isEmpty}() = \texttt{true}$,
+\item $\texttt{Node}(\Omega, L, T).\texttt{isEmpty}() = \mathtt{True} \Leftrightarrow L = []$
 \item $v \not= \Omega \rightarrow 
        \texttt{Node}(v, [c_1,\cdots,c_n],[t_1,\cdots,t_n]).\texttt{isEmpty}() = \texttt{false}$,
-\item $\texttt{Node}(\Omega, L, T).\texttt{isEmpty}() = \texttt{isEmptyList}(T)$
-\end{enumerate}
-In the last formula we have used the auxiliary function
-\\[0.2cm]
-\hspace*{1.3cm}
-$\texttt{isEmptyList}: \texttt{List}(\mathbb{T}) \rightarrow \mathbb{B}$.
-\\[0.2cm]
-For a list of tries, this function checks whether all tries in this list are empty.  Formally,
-$\texttt{isEmptyList}(l)$ is defined by induction on the length of the list $l$.
-\begin{enumerate}
-\item $\texttt{isEmptyList}\bigl([]\bigr) = \texttt{true}$,
-\item $\texttt{isEmptyList}\bigl([t] + r\bigr) = \bigl(t.\texttt{isEmpty}() \wedge \texttt{isEmptyList}(r)\bigr)$,
-
-      because all  tries in the list $[t]+r$ are empty if  $t$ is an empty trie
-      and, furthermore, all tries in  $r$ are empty.
 \end{enumerate}
 Now, we can specify the method
 \\[0.2cm]
@@ -1463,7 +1448,7 @@ with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the
 Solve the following exercises:
 \begin{enumerate}[(a)]
 \item Provide equations that specify the methods $\texttt{insert}$ and $\texttt{delete}$ in a binary trie.
-      When specifying delete you should take care that empty binary trees are reduced to
+      When specifying delete you should take care that empty binary tries are reduced to
       $\texttt{Nil}$.
 
       \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplifies those binary tries
