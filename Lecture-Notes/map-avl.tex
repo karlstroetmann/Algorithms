@@ -864,11 +864,13 @@ lifted up recursively to its parent.
       $t$.  You should use three auxiliary functions to implement \texttt{insert}:
       \begin{enumerate}
       \item $t.\texttt{ins}(k)$ takes a 2-3 tree $t$ and a key $k$ and inserts the key $k$ into $t$.
-            It returns a 2-3-4 tree that has at most one 4-node, which has to be a child of the root
-            node.  The function \texttt{ins} is recursive and uses the function \texttt{restore} described
-            next. 
+            It returns a 2-3-4 tree that has at most one 4-node.  Unless the tree $t$ has a height of $1$, this
+            4-node has to be a child of the root node.  The function \texttt{ins} is recursive and uses the
+            function \texttt{restore} that is described next.
+            Furthermore, the height of the tree $t.\mathtt{ins}(k)$ has to be the same as the height of the tree $t$.
       \item $t.\texttt{restore}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be a child
             of the root.  It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
+            Furthermore, the height of the tree $t.\mathtt{restore}()$ has to be the same as the height of the tree $t$.
       \item $t.\texttt{grow}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be the root
             node of the tree.  It returns an equivalent 2-3 tree.
       \end{enumerate}
