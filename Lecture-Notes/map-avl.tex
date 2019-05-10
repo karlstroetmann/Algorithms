@@ -933,9 +933,9 @@ $\texttt{Node}: \texttt{Value} \times \texttt{List}(\Sigma) \times
 \\[0.2cm]
 The inductive definition of the set $\mathbb{T}$ has only a single clause: If
 \begin{enumerate}
-\item $v \in \texttt{Value} \cup \{\Omega\}$
+\item $v \in \texttt{Value} \cup \{\Omega\}$,
 \item $C = [c_1, \cdots, c_n] \in \texttt{List}(\Sigma)$ is a list of different characters of length
-      $n$ and
+      $n$ and,
 \item $T = [t_1, \cdots, t_n] \in \texttt{List}(\mathbb{T})$ is a list of  tries of the same length $n$, 
 \end{enumerate}
 then we have 
@@ -957,7 +957,7 @@ In order to do so, we specify a function
 $\texttt{find}: \mathbb{T} \times \Sigma^* \rightarrow \texttt{Value} \cup \{ \Omega\}$
 \\[0.2cm]
 that takes a trie and a string.  For a trie $t$ and a string $s$, the expression $t.\texttt{find}(s)$ returns the
-value that is associated with  $s$ in $t$.  The expression
+value that is associated with the key $s$ in $t$.  The expression
 $\texttt{Node}(v,C,T).\texttt{find}(s)$ is defined by induction on the length of the  string $s$:
 \begin{enumerate}
 \item $\texttt{Node}(v, C, T).\texttt{find}(\varepsilon) = v$.
@@ -1076,7 +1076,7 @@ To this end, we define the auxiliary function
 \hspace*{1.3cm} 
 $\texttt{isEmpty}: \mathbb{T} \rightarrow \mathbb{B}$.
 \\[0.2cm]
-For a trie $t$, we have $t.\texttt{isEmpty}() = \texttt{true}$ if and only if the trie $t$ does not
+For a trie $t$, we have $t.\texttt{isEmpty}() = \texttt{True}$ if and only if the trie $t$ does not
 store any key.  The following formula specifies the function $\texttt{isEmpty}$:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1087,14 +1087,14 @@ Now, we can specify the method
 \hspace*{1.3cm}
 $\texttt{delete}: \mathbb{T} \times \Sigma^* \rightarrow \mathbb{T}$.
 \\[0.2cm]
-For a trie  $t \in \mathbb{T}$ and a string $w \in \Sigma^*$ the value of
+For a trie  $t \in \mathbb{T}$ and a string $w \in \Sigma^*$ the value 
  \\[0.2cm]
 \hspace*{1.3cm} 
 $t.\texttt{delete}(w)$
 \\[0.2cm]
 is defined by induction on the length of  $w$.
 \begin{enumerate}
-\item $\texttt{Node}(v,L,T).\texttt{delete}(\varepsilon) = \texttt{Node}(\Omega,L,T)$
+\item $\texttt{Node}(v,C,T).\texttt{delete}(\varepsilon) = \texttt{Node}(\Omega,C,T)$
 
       The value that is associated with the empty  string $\varepsilon$ is stored at the root of the
       trie where is can be deleted without further ado.
@@ -1124,9 +1124,9 @@ is defined by induction on the length of  $w$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\texttt{delete}(cr) =
        \texttt{Node}(v, C, T)$. 
        
-       If  the key that is to be deleted starts with the character $c$ and if $c$ does not occur in
+       If  the key that is to be deleted starts with the character $c$ and $c$ does not occur in
        the list of characters $C$, then the trie does not contain the key $cr$ and therefore there
-       is nothing  to do:  The trie is left unchanged.
+       is nothing to do:  The trie is left unchanged.
 \end{enumerate}
 
 \subsection{Complexity}
@@ -1148,27 +1148,20 @@ keys because common prefixes are only stored once.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    class map() {
-        mValue := om;
-        mChars := [];
-        mTries := [];
-    
-      static {
-        find    := procedure(s)    { ... };
-        insert  := procedure(s, v) { ... };
-        delete  := procedure(s)    { ... };
-        isEmpty := procedure()     { ... };
-      }
-    }
+    class Trie(): 
+        def __init__(self):
+            self.mValue  = None
+            self.mChars  = []
+            self.mTries  = []
 \end{minted}
 \vspace*{-0.3cm}
-\caption{Outline of the class \texttt{trieMap}.}
+\caption{The constructor of the class \texttt{Trie}.}
 \label{fig:trie.ipython-outline}
 \end{figure}
 
 \noindent
 We proceed to discuss the implementation of tries.  Figure \ref{fig:trie.ipython-outline} shows the
-outline of the class \texttt{trie}.  This class supports three member variables.  In order to
+definition of the class \texttt{Trie} and its constructor.  This class supports three member variables.  In order to
 understand these member variables, remember that a trie has the form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1183,7 +1176,7 @@ tries.  Therefore, the member variables have the following semantics:
       the list $C$.
 \item $\texttt{mTries}$ represent the list of subtries $T$.  
 \end{enumerate}
-The class $\texttt{trieMap}$ implements the abstract data type $\texttt{map}$ and therefore provides the
+The class $\texttt{Trie}$ implements the abstract data type $\texttt{map}$ and therefore provides the
 methods $\texttt{find}$, $\texttt{insert}$, and $\texttt{delete}$.  Furthermore, the method
 $\texttt{isEmpty}$ is an auxiliary method that is needed in the implementation of the method 
 $\texttt{delete}$.  This method checks whether the given trie corresponds to the empty map.  The
@@ -1200,17 +1193,13 @@ implementation of all these methods is given below.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    find := procedure(s) {
-        match (s) {
-            case ""   : return mValue;
-            case [c|r]: for (i in [1 .. #mChars]) {
-                            if (mChars[i] == c) {
-                                return mTries[i].find(r);
-                            }
-                        }
-                        return;  // not found
-        }
-    };
+    def find(self, s):
+        if s == '':
+            return self.mValue
+        c, r = s[0], s[1:]
+        for i, ci in enumerate(self.mChars):
+            if c == ci:
+                return self.mTries[i].find(r)
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{find}$ for tries.}
@@ -1228,8 +1217,9 @@ contains a value associated with the string $s$.  Essentially, the are two cases
       equal to $c$.  If this is the case, the subtrie $\texttt{mTries}[i]$ contains the value
       associated with $s$.  Then, we have to invoke $\texttt{find}$ recursively on this subtrie.
 
-      If the loop in line 4 does not find the character $c$ in the list $\texttt{mChars}$, then the method
-      $\texttt{find}$ will just return the undefined value $\Omega$ in line 9.
+      If the loop in line 5 does not find the character $c$ in the list $\texttt{mChars}$, then the method
+      $\texttt{find}$ will just return the undefined value $\texttt{None}$.  In \textsl{Python} this happens
+      automatically when a function ends without explicitly returning a value.
 \end{enumerate}
 
 
@@ -1244,23 +1234,20 @@ contains a value associated with the string $s$.  Essentially, the are two cases
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    insert := procedure(s, v) {
-        match (s) {
-            case ""   : this.mValue := v;
-            case [c|r]: for (i in [1 .. #mChars]) {
-                            if (mChars[i] == c) {
-                                t := mTries[i];
-                                t.insert(r,v);
-                                this.mTries[i] := t;
-                                return;
-                            }
-                        }
-                        newTrie := trieMap();
-                        newTrie.insert(r, v);
-                        this.mChars += [ c ]; 
-                        this.mTries += [ newTrie ];
-        } 
-    };
+    def insert(self, s, v):
+        if s == '':
+            self.mValue = v
+            return
+        c, r = s[0], s[1:]
+        for i, ci in enumerate(self.mChars):
+            if c == ci:
+                self.mTries[i].insert(r, v)
+                return
+        t = Trie()
+        t.insert(r, v)
+        t.mParent = c # necessary for visualization
+        self.mChars.append(c)
+        self.mTries.append(t)
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{insert}$ for tries.}
@@ -1273,24 +1260,13 @@ into the given trie.  The implementation of $\texttt{insert}$ works somewhat sim
 implementation of $\texttt{find}$.
 \begin{enumerate}
 \item If the string $s$ is empty, then the value $v$ has to be positioned at the root of this trie.
-      Hence we just set $\texttt{mValue}$ to $v$.
+      Hence we just set $\texttt{mValue}$ to $v$ and return.
 \item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
       consists of the remaining characters.  In this case, we need to check whether the list
       $\texttt{mChars}$ already contains the character $c$ or not.
       \begin{enumerate}
       \item If $c$ is the $i$-th character of $\texttt{mChars}$, then we have to insert the value $v$
-            in the trie $\texttt{mTries}[i]$.  However, this is a little tricky to do.
-            First, we retrieve the subtrie $\texttt{mTries}[i]$ and store this trie into the
-            variable $t$.  Next, we can insert the value $v$ into the trie $t$ using the rest $r$ of the
-            string $s$ as the key.  Finally, we have to set $\texttt{mTries}[i]$ to $t$.  At this point, you
-            might wonder why we couldn't have just used the statement
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $\texttt{this}.\texttt{mTries}[i].\texttt{insert}(r,v)\texttt{;}$
-            \\[0.2cm]
-            to achieve the same effect. Unfortunately, this does not work because the expression $\texttt{this}.\texttt{mTries}[i]$ will
-            create a temporary value and inserting $v$ into this temporary value will not change the
-            original list $\texttt{mTries}$.
+            in the trie $\texttt{mTries}[i]$.  
       \item If $c$ does not occur in $\texttt{mChars}$, things are straightforward: We create a new
             empty trie and insert $v$ into this trie.  Next, we append the character $c$ to
             $\texttt{mChars}$ and simultaneously append the newly created trie that contains $v$ to
@@ -1309,50 +1285,41 @@ implementation of $\texttt{find}$.
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
                 ]{python3}
-    delete := procedure(s) {
-        match (s) {
-            case ""   : this.mValue := om;
-            case [c|r]: 
-                for (i in [1 .. #mChars]) {
-                     if (mChars[i] == c) {
-                         t := mTries[i]; 
-                         t.delete(r);
-                         this.mTries[i] := t;
-                         if (this.mTries[i].isEmpty()) {
-                             this.mChars := removeIthElement(mChars, i);
-                             this.mTries := removeIthElement(mTries, i);
-                         }
-                         return;
-                     }
-                }
-        }
-    };
+    def delete(self, s):
+        if s == '':
+            self.mValue = None
+            return
+        c, r = s[0], s[1:]
+        for i, ci in enumerate(self.mChars):
+            if c == ci:
+                self.mTries[i].delete(r)
+                if self.mTries[i].isEmpty():
+                    self.mChars.pop(i)
+                    self.mTries.pop(i)
+                return
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{delete}$ for tries.}
 \label{fig:trie.ipython-delete}
 \end{figure}
 
-The method $\texttt{delete}$ takes a string and, provided there is a value associated with $s$, this
+The method $\texttt{delete}$ takes a string $s$ and, provided there is a value associated with $s$, this
 value is deleted.
 \begin{enumerate}
 \item If the string $s$ is empty, the value associated with $s$ is stored at the root of this trie.
-      In order to remove this value, the variable $\texttt{mValue}$ is set to $\texttt{om}$, which represents
-      the undefined value $\Omega$.
+      In order to remove this value, the variable $\texttt{mValue}$ is set to $\texttt{None}$, which represents
+      the undefined value $\Omega$ in \textsl{Python}.
 \item Otherwise, $s$ can be written as $cr$ where $c$ is the first character of $s$ while $r$
       consists of the remaining characters.  In this case, we need to check whether the list
       $\texttt{mChars}$ contains the character $c$ or not.
  
-      If $c$ is the $i$-th character of $\texttt{mChars}$, then we have to delete the value 
-      associated with $r$ in the trie $\texttt{mTries}[i]$.  Again, this is tricky to do.
-      First, we retrieve the subtrie $\texttt{mTries}[i]$ and store this trie into the
-      variable $t$.  Next, the value associated with $r$ is deleted in $t$ and, finally, 
-      $t$ is written to $\texttt{mTries}[i]$.  
-
-      After the deletion, the subtrie  $\texttt{mTries}[i]$ might well be empty.  In this case,
+      If $c$ is the $i$-th character of $\texttt{mChars}$, then we have to recursively
+      delete the value associated with $r$ in the trie $\texttt{mTries}[i]$.  
+      After this deletion, the subtrie  $\texttt{mTries}[i]$ might well be empty.  In this case,
       we remove the $i$-th character form $\texttt{mChars}$ and also remove the $i$-th trie from the list
-      $\texttt{mTries}$.  This is done with the help of the function $\texttt{removeIthElement}$,
-      which is shown in Figure \ref{fig:trie.ipython-removeIthElement}.
+      $\texttt{mTries}$.  This is done with the help of the function $\texttt{pop}$.
+      Given a list $L$ and an integer $i$, the statement $L.\texttt{pop}(i)$ removes the $i$-th element from
+      the list $L$.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -1366,9 +1333,8 @@ value is deleted.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    isEmpty := procedure() {
-        return mValue == om && mChars == [];
-    };
+    def isEmpty(self):
+        return self.mValue == None and self.mChars == []
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{isEmpty}$ for tries.}
@@ -1379,29 +1345,6 @@ In order to check whether a given trie is empty it suffices to check that no val
 and that the list $\texttt{mChars}$ is empty, since then the list $\texttt{mTries}$ will also be empty.  Hence,
 there is no need to recursively check whether all tries in $\texttt{mTries}$ are empty.  
 The implementation is shown in Figure \ref{fig:trie.ipython-isEmpty}.
-
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  bgcolor = sepia,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]{python3}
-    removeIthElement := procedure(l, i) {
-        return l[1 .. i-1] + l[i+1 .. #l];
-    };
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function to remove the $i$-th element from a list.}
-\label{fig:trie.ipython-removeIthElement}
-\end{figure}
-
-Finally, the implementation of $\texttt{removeIthElement}$, which is shown in Figure
-\ref{fig:trie.ipython-removeIthElement}, is straightforward. 
 
 \exercise
 (\textbf{Binary Tries})  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
