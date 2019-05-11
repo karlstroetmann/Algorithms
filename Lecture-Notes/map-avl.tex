@@ -1402,7 +1402,7 @@ Solve the following exercises:
 \end{enumerate}
 \textbf{Remark}: Binary tries are known as \blue{digital search trees}.  \eox
 
-\section{Hash Tables$^*$}
+\section{Hash Tables}
 It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \texttt{Key} \rightarrow \texttt{Value}$ \\[0.2cm]
 provided the set $\texttt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
@@ -1421,20 +1421,35 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    class map(n) {
-        mArray := [1..n];
-      static {
-        find   := k |-> mArray[k];
-        insert := procedure(k, v) { this.mArray[k] := v;  };
-        delete := procedure(k)    { this.mArray[k] := om; };
-        f_str  := procedure()     { return str(mArray);   };
-      }
-    }
+    class ArrayMap:
+        def __init__(self, n):
+            self.mArray = [None] * (n + 1)
+            
+        def find(self, k):
+            return self.mArray[k]
+        
+        def insert(self, k, v):
+            self.mArray[k] = v
+    
+        def delete(self, k):
+            self.mArray[k] = None
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementing a map as an array.}
 \label{fig:map-array.ipython}
 \end{figure}
+
+\begin{enumerate}
+\item The constructor takes a second argument $0$.  This argument specifies the
+      maximum size that a key is allowed to have.  Therefore, it is assumed that
+      the keys are elements of the set $\{0,1, \cdots, n\}$.
+\item The member variable maintained by the class \texttt{ArrayMap} is the array \texttt{mArray}.
+      Initially, all entries of this array are \texttt{None}.
+\item The method \texttt{find} looks up the value stored at the index $k$.
+\item The method \texttt{insert} stores the value $v$ at the index $k$.
+\item The method \texttt{delete} removes the value stored at the index $k$ by overwriting it with the undefined
+      value. 
+\end{enumerate}
 
 
 
