@@ -1406,7 +1406,7 @@ Solve the following exercises:
 It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \texttt{Key} \rightarrow \texttt{Value}$ \\[0.2cm]
 provided the set $\texttt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
-\hspace*{1.3cm} $\texttt{Key} = \{ 1, 2, \cdots, n \}$. \\[0.2cm]
+\hspace*{1.3cm} $\texttt{Key} = \{ 0, 1, 2, \cdots, n \}$. \\[0.2cm]
 In this case, we can implement the function $f$ via an array of size $n$.
 Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 
@@ -1440,7 +1440,7 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 \end{figure}
 
 \begin{enumerate}
-\item The constructor takes a second argument $0$.  This argument specifies the
+\item The constructor takes a second argument $n$.  This argument specifies the
       maximum size that a key is allowed to have.  Therefore, it is assumed that
       the keys are elements of the set $\{0,1, \cdots, n\}$.
 \item The member variable maintained by the class \texttt{ArrayMap} is the array \texttt{mArray}.
@@ -1450,13 +1450,9 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 \item The method \texttt{delete} removes the value stored at the index $k$ by overwriting it with the undefined
       value. 
 \end{enumerate}
-
-
-
-
-If the domain $D := \texttt{dom}(f)$ of the function $f$ is not a set of the form $\{1, \cdots, n\}$, 
-then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{1,\cdots,n\}$.
-Let us explain the idea with a simple example:  Suppose we wanted to implement an electronic 
+If the domain $D := \texttt{dom}(f)$ of the function $f$ is not a set of the form $\{0,1, \cdots, n\}$, 
+then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{0,1,\cdots,n\}$.
+Let us explain the idea with a simple example:  Suppose we want to implement an digital
 telephone book.
 To simplify things, let us assume first that all the names stored in our telephone dictionary
 have a length of 8 characters.  To achieve this, names that are shorter than eight characters
@@ -1484,13 +1480,13 @@ $\texttt{ord}(\texttt{'z'}) := 26$.
 \\[0.2cm]
 Then, the value of the string  $w = c_0c_1\cdots c_7$ can be computed by the function \\[0.2cm]
 \hspace*{1.3cm} 
-$\texttt{code}: \Sigma^* \rightarrow \mathbb{N} \symbol{92} \{ 0 \}$ \\[0.2cm]
+$\texttt{code}: \Sigma^* \rightarrow \mathbb{N}$ \\[0.2cm]
 as follows: \\[0.2cm]
 \hspace*{1.3cm} 
-$\ds \texttt{code}(c_0c_1\cdots c_7) = 1 + \sum\limits_{i=0}^7 \texttt{ord}(c_i) \cdot 27^i$.
+$\ds \texttt{code}(c_0c_1\cdots c_7) = \sum\limits_{i=0}^7 \texttt{ord}(c_i) \cdot 27^i$.
 \\[0.2cm]
 The function $\texttt{code}$ maps the set of all non-empty strings with at most eight characters in a
-one-to-one way to the set of numbers $\{1,\cdots,27^8\}$.
+one-to-one way to the set of numbers $\{0,1,\cdots, 282,429,536,480 \}$.
 
 
 \begin{figure}[!ht]
@@ -1506,10 +1502,9 @@ Unfortunately, this naive implementation has several problems:
 \item The array needed to store the telephone dictionary has a size of 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds 1 + 26 \cdot \sum\limits_{i=0}^7 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 27^8 = 282\,429\,536\,481$ 
+      $\ds 1 + \sum\limits_{i=0}^7 26 \cdot 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 1 + 27^8 = 282,429,536,482$ 
       \\[0.2cm]
-      entries.  Even if every entry only needs 8 bytes, we still would need more than one terabyte
-      of memory.
+      entries.  If every entry needs 8 bytes, we would need more than two terabyte to store this array.
 \item If two names happen to differ only after their eighth character, then we would not be able to
       store both of these names as we would not be able to distinguish between them.
 \end{enumerate}
@@ -1525,19 +1520,25 @@ These problems can be solved as follows:
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\ds\texttt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot
-        27^i\right) \;\texttt{\%}\; \texttt{size} + 1$,
+        27^i\right) \;\texttt{\%}\; \texttt{size}$,
       \\[0.2cm]
-      then we will always have $1 \leq \texttt{code}(c_0c_1\cdots c_n) \leq \texttt{size}$.  In order to
-      prevent overflows when computing the numbers $27^i$ we can define the partial sum $s_k$ for
-      $k=n,n-1,\cdots,1,0$ by induction: 
+      then we will always have $1 \leq \texttt{code}(c_0c_1\cdots c_n) < \texttt{size}$.  In order to
+      prevent overflow when computing the numbers $27^i$ we can use the following mathematical facts:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $(a + b)   \mod n = \bigl(a + (b \mod n)\bigr) \mod n$ \quad and \quad
+      $(a \cdot b) \mod n = \bigl(a \cdot (b \mod n)\bigr) \mod n$.
+      \\[0.2cm]
+      Then we can  define the partial sum $s_k$ for
+      $k=n,n-1,\cdots,1,0$ by backward induction: 
       \begin{enumerate}
       \item $s_n = \texttt{ord}(c_n)$,
       \item $s_{k} = \bigl(\texttt{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\texttt{\%}\; \texttt{size}$.
       \end{enumerate}
-      Then we have
+      It can be shown that
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $s_0 + 1 = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot 27^i\right) \;\texttt{\%}\; \texttt{size} + 1$.
+      $\ds s_0 = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot 27^i\right) \;\texttt{\%}\; \texttt{size}$.
 \item Rather than storing the values associated with the keys in an array, the values are now stored
       in \blue{linked lists} that contain key-value pairs.  The array itself only stores pointers to these
       linked list. 
