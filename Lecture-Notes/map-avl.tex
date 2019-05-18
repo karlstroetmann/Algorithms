@@ -1557,8 +1557,140 @@ These problems can be solved as follows:
       In order to find the value associated with the key $k$ we have to search this list for the key
       $k$.
 \end{enumerate}
-Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} shows an example of a map that is implemented
-along these lines.  This data structure is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}.
+
+\subsection{Computing the Hash Function efficiently}
+In this section we discuss how to compute the function 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{hash\_code}:\Sigma^* \rightarrow \mathbb{N}$
+\\[0.2cm]
+that takes a string $s$ and returns a natural number less than some predefined size $n$.
+Given an \textsc{Ascii} string $s = c_0 c_1 c_2 \cdots c_{k-1}$ of length $k$ this function is defined as
+\begin{equation}
+  \texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n) = \left(\sum\limits_{i=0}^k \texttt{ord}(c_i) \cdot 128^i\right) \mmod n.
+  \label{eq:hash1}
+\end{equation}
+However, a naive implementation of equation (\ref{eq:hash1}) is inefficient because the computation of $128^i$
+produces very big numbers.  In the programming language \texttt{C}, computing $128^{k-1}$ causes an overflow for a
+string that has more than five characters.  In \textsl{Python}, integers are unbounded.  However, a computation
+using big numbers is considerably slower than a computation that uses numbers that fit into a single memory word.
+Hence we should try to reorganize the computation of that happens in equation (\ref{eq:hash1}).  The should be
+possible as the final result of $\texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n)$ is bounded by $n$.    In order
+to be able to reorganize the computation we need to discuss
+\href{https://en.wikipedia.org/wiki/Euclidean_division}{Euclidean division}.
+
+\begin{Theorem}[Euclidean Division]
+  Given two natural numbers $a, n \in \mathbb{N}$ such that $n > 0$, there exist \textbf{unique} natural numbers 
+  $q$ and $r$ such that:
+  \begin{enumerate}[(a)]
+  \item $a = q \cdot n + r$ \quad and
+  \item $0 \leq r < n$.
+  \end{enumerate}
+  The number $q$ is called the \blue{quotient} of $a$ divided $n$ and denoted as $a \;\texttt{//}\; n$, while
+  $r$ is called the \blue{remainder} of $a$ divided by $n$ and denoted as $a \mmod n$.  \eox
+\end{Theorem}
+
+A proof of this theorem can be given by writing a program that computes $a \;\texttt{//}\; n$ by successively subtracting
+$n$ from $a$ as long as the result of the subtraction is non-negative.  Then $a \;\texttt{//}\; n$ is the number of times $n$ can be
+subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementation of this idea.
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+    def divide(a, n):
+        q = 0
+        while a >= n:
+            a -= n
+            q += 1
+        return q, a
+\end{minted}
+\vspace*{-0.3cm}
+\caption{A naive implementation of Euclidean division.}
+\label{fig:Division-Naive.ipynb}
+\end{figure}
+
+\exercise
+The computational complexity of the implementation of the function \texttt{divide} shown in Figure
+\ref{fig:Division-Naive.ipynb} is linear in $a$.  Develop an implementation of Euclidean division that has a
+logarithmic complexity.  Your implementation is allowed to use addition, subtraction, comparison, shift, and
+``bitwise and'' operations, but using either the operator ``\texttt{//}'' or the operator ``\texttt{\%}'' 
+is, of course, forbidden.  Similarly, your implementation should not use floating point numbers.
+\vspace*{0.2cm}
+
+\hint
+Develop a recursive implementation of the function \texttt{divide}.  Your implementation should employ the
+``divide-and-conquer'' paradigm. 
+\eox
+
+When computing a sum $(a + b) \mmod n$ and $b$ is a big number, the following theorem can be used to simplify
+the computation.
+
+\begin{Theorem}[Modulo Arithmetic: Addition]
+  If $a, b \in \mathbb{N}$ and $n \in \mathbb{N}$ with $n > 0$, then we have
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\ds (a + b) \mmod n = (a + b \mmod n) \mmod n$.
+\end{Theorem}
+
+\proof
+If we define $q_1 := (a + b) \mdiv n$, the according to the division theorem we have 
+\\[0.2cm]
+\hspace*{1.3cm}
+$a + b = q_1 \cdot n + (a + b) \mmod n$. 
+\\[0.2cm]
+Similarly, if $q_2 := b \mdiv n$ we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$b = q_2 \cdot n + b \mmod n$,
+\\[0.2cm]
+which implies that $b \mmod n = b - q_2 \cdot n$.
+Therefore we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}[t]{lcl}
+  a + b \mmod n & = & a + b - q_2 \cdot n \\
+                & = & q_1 \cdot n + (a + b) \mmod n - q_2 \cdot n \\
+                & = & (q_1 - q_2) \cdot n + (a + b) \mmod n
+\end{array}
+$
+\\[0.2cm]
+Hence we have shown that
+\\[0.2cm]
+\hspace*{1.3cm}
+$a + b \mmod n = (q_1 - q_2) \cdot n + (a + b) \mmod n$.
+\\[0.2cm]
+The right hand side of this equation has the same form as the first condition in the Euclidean division theorem.
+As we also have $0 \leq (a + b) \mmod n < n$, the uniqueness of Euclidean division implies that
+\\[0.2cm]
+\hspace*{1.3cm}
+$(a + b \mmod n) \mmod n = (a + b) \mmod n$
+\\[0.2cm]
+holds.  \qed
+
+\begin{Theorem}[Modulo Arithmetic: Multiplication] \lb
+  If $a, b \in \mathbb{N}$ and $n \in \mathbb{N}$ with $n > 0$, then we have
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\ds (a \cdot b) \mmod n = \bigl(a \cdot (b \mmod n)\bigr) \mmod n$.
+\end{Theorem}
+
+\exercise
+Prove the last theorem. \eox
+
+
+\subsection{Implementing Hash Tables}
+
+Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} an outline of the implementation of a hash map.  This data
+structure is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}. 
 We proceed to discuss the implementation of hash tables.
 
 
