@@ -1572,11 +1572,12 @@ Given an \textsc{Ascii} string $s = c_0 c_1 c_2 \cdots c_{k-1}$ of length $k$ th
 \end{equation}
 However, a naive implementation of equation (\ref{eq:hash1}) is inefficient because the computation of $128^i$
 produces very big numbers.  In the programming language \texttt{C}, computing $128^{k-1}$ causes an overflow for a
-string that has more than five characters.  In \textsl{Python}, integers are unbounded.  However, a computation
-using big numbers is considerably slower than a computation that uses numbers that fit into a single memory word.
-Hence we should try to reorganize the computation of that happens in equation (\ref{eq:hash1}).  The should be
-possible as the final result of $\texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n)$ is bounded by $n$.    In order
-to be able to reorganize the computation we need to discuss
+string that has more than five characters.  In \textsl{Python}, integers are only bounded by the size of the
+available memory and therefore overflow ist not a problem.  However, a computation
+involving numbers with hundreds of places is considerably slower than a computation that uses numbers that fit
+into a single memory word. Hence we should try to reorganize the computation that happens in equation
+(\ref{eq:hash1}).  This should be possible as the final result of $\texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n)$
+is bounded by $n$.  In order to be able to reorganize this computation we need to discuss
 \href{https://en.wikipedia.org/wiki/Euclidean_division}{Euclidean division}.
 
 \begin{Theorem}[Euclidean Division]
@@ -1641,7 +1642,7 @@ the computation.
 \end{Theorem}
 
 \proof
-If we define $q_1 := (a + b) \mdiv n$, the according to the division theorem we have 
+If we define $q_1 := (a + b) \mdiv n$, then according to the division theorem we have 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a + b = q_1 \cdot n + (a + b) \mmod n$. 
@@ -1686,157 +1687,154 @@ holds.  \qed
 \exercise
 Prove the last theorem. \eox
 
+Next, we assume to have been given a finite sequence of numbers $a_0$, $a_1$, $a_2$, $\cdots$, $a_m$  and we want to compute the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds p(x) := \biggl(\sum\limits_{i=0}^m a_i \cdot x^i\biggr) \mmod n$.
+\\[0.2cm]
+\href{https://en.wikipedia.org/wiki/Horner%27s_method}{Horner's method}
+for modular arithmetic is an efficient way to do this.  This method is introduced in the following theorem.
+
+\begin{Theorem}[Horner's Method for Modular Arithmetic]
+   Assume that $a_0$, $a_1$, $a_2$, $\cdots$, $a_m$ is a finite sequence of real numbers, $x \in \mathbb{R}$,
+   and $n\in \mathbb{N}$ such that $n > 0$.
+   We define the sequence $s_k$ for $k=0,1,\cdots,m$ inductively as follows:
+   \begin{description}
+   \item[B.C.:] $k = 0$
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             $s_0 := a_m \mmod n$.
+   \item[I.S.:] $k \mapsto k + 1$
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             $s_{k+1}:= (s_k \cdot x + a_{m - (k + 1)}) \mmod n$.
+   \end{description}
+   Then we have 
+   \\[0.2cm]
+   \hspace*{1.3cm}
+   $\ds s_k = \biggl(\sum\limits_{i=0}^k a_{m - i} \cdot x^{k - i}\biggr) \mmod n$.
+\end{Theorem}
+
+\proof
+As the numbers $s_m$ are defined by induction, the proof of this theorem is by
+induction on $m$.
+\begin{enumerate}
+\item[B.C.:] $k = 0$
+             \\[0.2cm]
+             \hspace*{1.3cm}
+           $\ds\biggl(\sum\limits_{i=0}^0 a_{m-i} \cdot x^{0-i}\biggr) \mmod n = \bigl(a_{m-0} \cdot x^0
+          \bigr)\mmod n = a_m \mmod n = s_0$. $\surd$
+\item[I.S.:] $k \mapsto k + 1$
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             $
+             \begin{array}{lcll}
+               s_{k+1} & = & (s_k \cdot x + a_{m - (k+1)} ) \mmod n \\[0.2cm]
+                      & \stackrel{IV}{=} & \ds\Biggl(\biggl(\Bigl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \mmod n\biggr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
+                                         \\[0.5cm]
+                      & = & \ds\Biggl(\biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
+                            \\[0.5cm]
+                      & = & \ds\Biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k+1-i}  + a_{m - (k+1)} \cdot x^{k+1-(k+1)}\Biggr) \mmod n
+                            \\[0.5cm]
+                      & = & \ds\Biggl(\sum\limits_{i=0}^{k+1} a_{m-i} \cdot x^{k+1-i}  \Biggr) \mmod n \quad \surd & \Box
+             \end{array}
+             $
+\end{enumerate}
+Setting $k := m$ in Horner's method we arrive at the following formula:
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds s_m = \biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\biggr) \mmod n = \biggl(\sum\limits_{i=0}^m a_{i} \cdot x^{i}\biggr) \mmod n = p(x)$.
+\\[0.2cm]
+This formula is used to implement the function \texttt{hash\_code} efficiently.
+Figure \ref{fig:hash_code.py} shows an implementation of this formula.
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+    def hash_code(w, n):
+        m = len(w)
+        s = 0
+        for k in range(m-1, 0, -1):
+            s = (s * 128 + ord(w[k])) % n
+            return s
+\end{minted}
+\vspace*{-0.3cm}
+\caption{An implementation of the function \texttt{hash\_code} in \textsl{Python}.}
+\label{fig:hash_code.py}
+\end{figure}
+
 
 \subsection{Implementing Hash Tables}
 
-Figure \ref{fig:hash-example} on page \pageref{fig:hash-example} an outline of the implementation of a hash map.  This data
-structure is called a \href{https://en.wikipedia.org/wiki/Hash_table}{hash table}. 
-We proceed to discuss the implementation of hash tables.
-
-
+Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the class \texttt{HashMap}
 
 \begin{figure}[!ht]
   \centering
 \begin{minted}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  bgcolor = sepia,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
-                ]{python3}
-    class hashTable(n) {
-        mSize    := n;  // size of the array 
-        mEntries := 0;  // number of entries
-        mArray   := [ {} : i in [1 .. mSize] ];
-        mAlpha   := 2;  // load factor
-    
-        static {
-            sOrd    := { [ char(i), i ] : i in [ 0 .. 127 ] };
-            sPrimes := [ 3, 7, 13, 31, 61, 127, 251, 509, 1021, 2039, 
-                         4093, 8191, 16381, 32749, 65521, 131071, 
-                         262139, 524287, 1048573, 2097143, 4194301, 
-                         8388593, 16777213, 33554393, 67108859, 
-                         134217689, 268435399, 536870909, 1073741789, 
-                         2147483647 
-                       ];    
-            hashCode := procedure(s)          { ... };
-            find     := procedure(key)        { ... };
-            insert   := procedure(key, value) { ... };
-            rehash   := procedure()           { ... };
-            delete   := procedure(key)        { ... };    
-        }
-    }
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm
+              ]{python3}
+    class HashTable:
+        def __init__(self, n):
+            self.mSize    = n
+            self.mEntries = 0  # number of entries
+            self.mArray   = [ [] for i in range(self.mSize) ]
+            self.mAlpha   = 2  # load factor
+        
+        Primes = [ 3, 7, 13, 31, 61, 127, 251, 509, 1021, 2039, 4093, 
+                   8191, 16381, 32749, 65521, 131071, 262139, 524287, 
+                   1048573, 2097143, 4194301, 8388593, 16777213, 
+                   33554393, 67108859, 134217689, 268435399, 
+                   536870909, 1073741789, 2147483647 
+                 ]
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Outline of the class $\texttt{hashTable}$.}
-  \label{fig:hashTable.ipython-outline}
+  \caption{Definition of the class $\texttt{HashTable}$.}
+  \label{fig:HashMap.ipynb}
 \end{figure}
 
-Figure \ref{fig:hashTable.ipython-outline} on page \pageref{fig:hashTable.ipython-outline} shows the outline of the
-class $\texttt{hashTable}$.
+
 \begin{enumerate}
-\item The constructor is called with one argument.  This argument $n$ is the initial size
+\item The constructor \texttt{\_\_init\_\_} is called with one additional argument.  This argument $n$ is the initial size
       of the array storing the different key-value lists.  The constructor constructs an empty hash
       table with the given capacity.
 \item $\texttt{mSize}$ is the actual size of the array that stores the different key-value lists.
-      Although this variable is initialized as $n$, it can later be increased.  This happens
+      Although this variable is initialized as $n$, it can be increased later if more space is needed.  This happens 
       if the hash table becomes \blue{overcrowded}.
 \item $\texttt{mEntries}$ is the number of key-value pairs that are stored in this hash map.
       Since, initially, this map is empty, $\texttt{mEntries}$ is  initialized as $0$.
 \item $\texttt{mArray}$ is the array containing the list of key value pairs.
-
-      In our implementation, the key-value pairs are not stored in a list but, instead, they are
-      stored in a set.  Since every key is associated with at most one value, this set can be interpreted as a
-      functional relation.  Therefore, looking up a key is more efficient than it would be if we had
-      used a list.  Although we actually use a relation instead of a list, we will still call
-      this relation the \blue{list of key-value pairs}.
-
-      As the hash map is initially empty, all entries of $\texttt{mArray}$ are initialized as empty sets.
-\item $\texttt{mAlpha}$ is the \blue{load factor} of our hash table.  If at any point in time, we have
+      As the hash map is initially empty, all entries of $\texttt{mArray}$ are initialized as empty lists.
+\item $\texttt{mAlpha}$ is the \blue{load factor} of our hash table.  If at any point in time we have that
       \\[0.2cm]
       \hspace*{1.3cm}
       $\texttt{mEntries} > \texttt{mAlpha} \cdot \texttt{mSize}$,
       \\[0.2cm]
       then we consider our hash table to be \blue{overcrowded}.  In that case, we increase the size
       of the array $\texttt{mArray}$.  To determine the best value for $\texttt{mAlpha}$, we have to
-      make a tradeoff:  If $\texttt{mAlpha}$ were too big, many entries in the array $\texttt{mArray}$
-      would be empty and thus we would waste space.  On the other hand, if $\texttt{mAlpha}$ were too
-      small, the key-value lists would become very long and hence it would take too much time to
+      make a tradeoff:  If $\texttt{mAlpha}$ is too big, many entries in the array $\texttt{mArray}$
+      will be empty and thus we will waste space.  On the other hand, if $\texttt{mAlpha}$ is too
+      small, the key-value lists will become very long and hence it will take too much time to
       search for a given key in one of these lists.
-\item Our implementation maintains two static variables.
-  \begin{enumerate}
-  \item $\texttt{sOrd}$ is a functional relation mapping characters to \textsc{Ascii} codes.
-        This relation is needed for the efficient computation of the method $\texttt{hashCode}$
-        discussed below.
-
-        In \textsl{Python} there is no function that returns the \textsc{Ascii} code of a given character.
-        Fortunately, it is easy to implement this function as a binary relation via the function
-        $\texttt{char}(i)$.  Given a number $i \in \{0,\cdots,127\}$, the function $\texttt{char}(i)$
-        returns the character that has \textsc{Ascii} code $i$.  The relation $\texttt{sOrd}$ is the inverse
-        of the function $\texttt{char}$.
-  \item $\texttt{sPrimes}$ is a list of prime numbers.  Roughly, these prime numbers double in size.
-        The reason is that the performance of a hash table is best if the size of $\texttt{mArray}$ is a
-        prime number.  When $\texttt{mArray}$ gets overcrowded, the idea is to, more or less, double
-        the size of $\texttt{mArray}$.  To achieve this, the variable $\texttt{sPrimes}$ is needed.
-  \end{enumerate}
+\item Our implementation maintains the static variable $\texttt{sPrimes}$.  This is a list of prime numbers.
+      Roughly, these prime numbers double in size.   
+      The reason is that the performance of a hash table is best if the size of $\texttt{mArray}$ is a
+      prime number.  When the hash table gets overcrowded, the idea is to, more or less, double
+      the size of $\texttt{mArray}$.  To achieve this, the variable $\texttt{sPrimes}$ is needed.
 \end{enumerate}
-Next, we discuss the implementation of the various methods.
-
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  bgcolor = sepia,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
-                ]{python3}
-        hashCode := procedure(s) {
-            return hashCodeAux(s) + 1;
-        };
-        hashCodeAux := procedure(s) {
-            if (s == "") {
-                return 0;
-            }
-            return (sOrd[s[1]] + 128 * hashCodeAux(s[2..])) % mSize;
-        };
-\end{minted}
-\vspace*{-0.3cm}
-\caption{Implementation of the method $\texttt{hashCode}$.}
-\label{fig:hashTable.ipython-hashCode}
-\end{figure}
-
-Figure \ref{fig:hashTable.ipython-hashCode} gives the implementation of the method $\texttt{hashCode}$.
-\begin{enumerate}
-\item The function $\texttt{hashCode}(s)$ takes a string $s$ and computes a hash code for this string.
-      This hash code satisfies
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{hashCode}(s) \in \{ 1, \cdots, \texttt{mSize} \}$.
-      \\[0.2cm]
-      Therefore, the hash code can be used to index into $\texttt{mArray}$.  The implementation of
-      $\texttt{hashCode}$ works by calling $\texttt{hashCodeAux}(s)$.  As the values returned by
-      $\texttt{hashCodeAux}(s)$ are elements of the set
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{hashCode}(s,n) \in \{ 0, \cdots, \texttt{mSize}-1 \}$      
-      \\[0.2cm]
-      we have to add $1$ so that the hash code is an element of 
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{hashCode}(s,n) \in \{ 1, \cdots, \texttt{mSize} \}$.      
-\item The function $\texttt{hashCodeAux}(s)$ is defined by induction on the string $s$.
-      If the string $s$ has length $m$ we have
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{hashCodeAux}(s,n) := \left(\sum\limits_{i=1}^m \texttt{ord}(s[i]) \cdot 128^{i-1}\right) \;\texttt{\%}\; \texttt{mSize}$.
-      \\[0.2cm]
-      Here, given an \textsc{Ascii} character $c$, the expression  $\texttt{ord}(c)$ computes the
-      \textsc{Ascii} code of  $c$.
-\end{enumerate}
+Next, we discuss the implementation of the  methods of the class \texttt{HashTable}.
 
 \begin{figure}[!ht]
 \centering
@@ -1849,26 +1847,24 @@ Figure \ref{fig:hashTable.ipython-hashCode} gives the implementation of the meth
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-        find := procedure(key) {
-             index := hashCode(key);
-             aList := mArray[index];
-             return aList[key];
-        };
+    def find(self, key):
+        index = hash_code(key, self.mSize)
+        aList = self.mArray[index];
+        for (k, v) in aList:
+            if k == key:
+                return v
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\texttt{find}$.}
-\label{fig:hashTable.ipython-find}
+\label{fig:HashMap.ipynb-find}
 \end{figure}
 
-Figure \ref{fig:hashTable.ipython-find} shows the implementation of the method $\texttt{find}$.
+Figure \ref{fig:HashMap.ipynb-find} shows the implementation of the method $\texttt{find}$.
 \begin{enumerate}
 \item First, we compute the index of the key-value list that is used to store the given
       $\texttt{key}$.
 \item Next, we retrieve this key-value list from the array $\texttt{mArray}$.
-\item Finally, we look up the information stored under the given $\texttt{key}$ in this 
-      key-value list.  Remember, that the key-value list is not an actual list but rather a binary
-      relation.  We can use the notation $\texttt{aList}[\texttt{key}]$ to retrieve the value associated with
-      the given key.
+\item Finally, we look up the information stored under the given $\texttt{key}$ in this key-value list.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -1882,22 +1878,17 @@ Figure \ref{fig:hashTable.ipython-find} shows the implementation of the method $
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-        insert := procedure(key, value) {
-             if (mEntries > mSize * mAlpha) {
-                 rehash();
-                 insert(key, value);
-                 return;
-             }
-             index      := hashCode(key);
-             aList      := mArray[index];
-             oldSz      := #aList;
-             aList[key] := value;
-             newSz      := #aList;
-             this.mArray[index] := aList;
-             if (newSz > oldSz) {
-                 this.mEntries += 1;
-             }    
-        };
+    def insert(self, key, value):
+        if self.mEntries >= self.mSize * self.mAlpha:
+            self._rehash()
+        index = hash_code(key, self.mSize)
+        aList = self.mArray[index]
+        for i, (k, v) in enumerate(aList):
+            if k == key:
+                aList[i] = (key, value) 
+                return
+        self.mEntries += 1
+        aList.append((key, value))
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{insert}$.}
@@ -1910,8 +1901,7 @@ The implementation works as follows.
 \item First, we check whether our hash table is already overcrowded.
       In this case, we \blue{rehash}, which means we roughly double the size of $\texttt{mArray}$.
       How the method $\texttt{rehash}$ works in detail is explained later.
-      After rehashing, the $\texttt{key}$ is inserted via a recursive call to $\texttt{insert}$.
-\item If we don't have to rehash, we compute the index of the key-value list that has to store
+\item Next, we compute the index of the key-value list that has to store
       $\texttt{mKey}$, retrieve the associated key-value list, and finally associate the
       $\texttt{value}$ with the given key.  When inserting the given key-value
       pair into the key-value list there can be two cases.
@@ -1921,33 +1911,31 @@ The implementation works as follows.
       \item If the given $\texttt{key}$ is not yet present in the given key-value list,
             the number of entries needs to be incremented.
       \end{enumerate}
-      In order to distinguish these two cases, we compare the size of the key-value list before
-      the insertion with the size after the insertion.     
 \end{enumerate}
 
 
 \begin{figure}[!ht]
 \centering
 \begin{minted}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  bgcolor = sepia,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
-                ]{python3}
-        rehash := procedure() {
-             prime  := min({ p in sPrimes | p * mAlpha > mEntries });
-             bigMap := hashTable(prime);
-             for (aList in mArray) {
-                 for ([k, v] in aList) {
-                     bigMap.insert(k, v);
-                 }    
-             }
-             this.mSize  := prime;
-             this.mArray := bigMap.mArray;
-        };
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
+              ]{python3}
+    def _rehash(self):
+        for p in HashTable.Primes:
+            if p * self.mAlpha > self.mEntries:
+                prime = p
+                break
+        biggerTable = HashTable(prime)
+        for aList in self.mArray:
+            for k, v in aList:
+                biggerTable.insert(k, v)
+        self.mSize  = prime
+        self.mArray = biggerTable.mArray
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the method $\texttt{rehash}$.}
@@ -1961,55 +1949,45 @@ roughly double the size of $\texttt{mArray}$.  Theoretical considerations that a
 of this lecture show that it is beneficial if the size of $\texttt{mArray}$ is a prime number.
 Hence, we look for the first prime number $\texttt{prime}$ such that $\texttt{prime}$ times the load
 factor $\texttt{mAlpha}$ is bigger than the
-number of entries since this will assure that, on average, the number of entries in each key-value
+number of entries.  This will assure that after rehashing the average number of entries in each key-value
 list is less than the load factor $\texttt{mAlpha}$.  After we have determined $\texttt{prime}$, we
 proceed as follows: 
 \begin{enumerate}
 \item We create a new empty hash table of size $\texttt{prime}$.
-\item Next, we move the key-value pairs from the given hash table to the new hash table.
+\item Next, we insert the key-value pairs from the given hash table in our newly created new hash table
+      \texttt{biggerTable}.
 \item Finally, the array stored in the new hash table is moved to the given hash table
       and the size is adjusted correspondingly.
 \end{enumerate}
 
-
-
-
-
 \begin{figure}[!ht]
 \centering
 \begin{minted}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = last,
-                  bgcolor = sepia,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]{python3}
-        delete := procedure(key) {
-             index      := hashCode(key);
-             aList      := mArray[index];
-             oldSz      := #aList;
-             aList[key] := om;
-             newSz      := #aList;
-             this.mArray[index] := aList;
-             if (newSz < oldSz) {
-                 this.mEntries -= 1;
-             }    
-        };
+                framesep      = 0.3cm, 
+                firstnumber   = last,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def delete(self, key):
+        index = hash_code(key, self.mSize)
+        aList = self.mArray[index]
+        for i, (k, v) in enumerate(aList):
+            if k == key:
+                aList.pop(i)
+                self.mEntries -= 1
+                return 
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of the procedure $\texttt{delete}(\texttt{map}, \texttt{key})$.}
-\label{fig:hashTable.ipython-delete}
+\label{fig:HashMap.ipynb-delete}
 \end{figure}
 
 Finally, we discuss the implementation of the method $\texttt{delete}$ that is shown in Figure
-\ref{fig:hashTable.ipython-delete}.  The implementation of this method is similar to the implementation
-of the method $\texttt{insert}$.   The implementation makes use of the fact that in order to delete
-a key-value pair from a function relation in \textsl{Python} it is possible to assign the value
-$\texttt{om}$ to the $\texttt{key}$ that needs to be deleted. Note, that we have to be careful to
-maintain the number of entries since we do not know whether the list of key-value pairs has an entry
-for the given $\texttt{key}$.
+\ref{fig:HashMap.ipynb-delete}.  The implementation of this method is similar to the implementation
+of the method $\texttt{insert}$.   
 
 However, there is one crucial difference compared to the implementation of $\texttt{insert}$.
 We do not rehash the hash table if the number of entries falls under a certain threshold.
@@ -2017,11 +1995,11 @@ Although this could be done and there are implementations of hash tables that re
 hash table if the hash table gets underpopulated, we don't do so here because often a table will
 grow again after it has shrunk and in that case rehashing would be counterproductive.
 
-If our implementation had used linked lists instead of functional relations then the complexity of
-the methods  $\texttt{find}$, $\texttt{insert}$, and $\texttt{delete}$ could grow linearly with the number
-of entries in the hash table.  This would happen if the function 
-$\texttt{hashCode}(k)$ would return the same number for all keys $k$.  Of course, this case is
-highly unlikely, but it is not impossible.  If we have a good function to compute hash codes, then
+In the worst case, the complexity of
+the methods  $\texttt{find}$, $\texttt{insert}$, and $\texttt{delete}$ can grow linearly with the number
+of entries in the hash table.  This happens if the function 
+$\texttt{hash\_code}(k)$ returns the same number for all keys $k$.  Although this case is
+highly unlikely, it is not impossible.  If we have a good function to compute hash codes, then
 most of the linked lists will have roughly the same length.  The average length of a list is then
  \\[0.2cm]
 \hspace*{1.3cm}
@@ -2031,7 +2009,6 @@ Here, the number $\alpha$ is the \blue{load factor} of the hash table.  In pract
 achieve good performance, $\alpha$ should be less than 4.  The implementation of the programming
 language \textsl{Java} provides the class  $\texttt{HashMap}$ that implements maps via hash tables.
 The default load factor used in this class is only $\texttt{0.75}$.
-\pagebreak
 
 \subsection{Further Reading}
 In this section, we have discussed hash tables only briefly.  The reason is that, although hash tables are very
