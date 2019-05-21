@@ -1619,17 +1619,21 @@ subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementat
 \end{figure}
 
 \exercise
-The computational complexity of the implementation of the function \texttt{divide} shown in Figure
-\ref{fig:Division-Naive.ipynb} is linear in $a$.  Develop an implementation of Euclidean division that has a
-logarithmic complexity.  Your implementation is allowed to use addition, subtraction, comparison, shift, and
-``bitwise and'' operations, but using either the operator ``\texttt{//}'' or the operator ``\texttt{\%}'' 
-is, of course, forbidden.  Similarly, your implementation should not use floating point numbers.
-\vspace*{0.2cm}
+The computational complexity of the implementation of the function call $\texttt{divide}(a)$ shown in Figure
+\ref{fig:Division-Naive.ipynb} is $\Oh(a)$.  The purpose of this exercise is to develop an implementation of
+Euclidean division that has the complexity $\Oh\bigl(\log_2(a)\bigr)$.  In order to do so, proceed as follows:
+\begin{enumerate}[(a)]
+\item Derive equations that show how $a \mdiv n$ is related to $(a \mdiv 2) \mdiv n$.
+      In order to arrive at these equations, it is necessary to make a case distinction whether $a$ is even or
+      odd.  
+\item Implement these equations as a recursive program.  Your implementation is allowed to use addition,
+      subtraction, comparison, shift, and ``bitwise and'' operations, but using either the operator
+      ``\texttt{//}'' or the operator ``\texttt{\%}'' 
+      is, of course, forbidden.  Similarly, your implementation should not use floating point numbers.
+\item Compute the total number of shift operation that are performed when $\texttt{divide}(a, n)$ is computed
+      and $n$ is a power of $2$. \eox
+\end{enumerate}
 
-\hint
-Develop a recursive implementation of the function \texttt{divide}.  Your implementation should employ the
-``divide-and-conquer'' paradigm. 
-\eox
 
 When computing a sum $(a + b) \mmod n$ and $b$ is a big number, the following theorem can be used to simplify
 the computation.
