@@ -992,25 +992,22 @@ trees with the lists of characters corresponding to these nodes, we use a trick:
 visualize a node of the form \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(v, [c_1, \cdots, c_n], [t_1, \cdots, t_n])$ \\[0.2cm]
-we draw a oval.  This oval is split into two parts by a horizontal line.
-If the value  $v$ that is stored in this node is different from $\Omega$, then the value $v$ is
-written in the lower part of the oval.  The label that we put in the upper half of the oval
+we draw a rectangle with rounded corners.  This rectangle is split into two parts by a horizontal line.
+If the value  $v$ that is stored in this node is different from $\Omega$, then $v$ is
+written in the lower part of the rectangle.  The label that we put in the upper half of the rectangle
 depends on the parent of the node.  We will explain how this label is computed in a moment.
 The node itself has $n$ different children.  These $n$ children are the tries
 $t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labelled with the character $c_i$,
-i.e.~the oval that represents this node carries the label $c_i$ in its upper half.
+i.e.~the rectangle that represents this node carries the label $c_i$ in its upper half.
 
 In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
-mapping some strings to numbers.  The mapping depicted in this tree can be written as a functional
-relation: 
+mapping some strings to numbers.  The mapping depicted in this tree can be written as a \textsl{Python}
+dictionary: 
 \\[0.2cm]
-\hspace*{1.3cm} $ \bigl\{ \langle \textrm{``Stahl''},   1  \rangle, \langle \textrm{``Stolz''},     2  \rangle, \langle \textrm{``Stoeger''},   3  \rangle, 
-             \langle \textrm{``Salz''},      4  \rangle, \langle \textrm{``Schulz''},    5  \rangle$, \\[0.2cm]
-\hspace*{1.5cm} $\langle \textrm{``Schulze''},   6  \rangle, \langle \textrm{``Schnaut''},   7  \rangle, 
-  \langle \textrm{``Schnupp''},   8  \rangle, 
-  \langle \textrm{``Schroer''},   9  \rangle\}$. \\[0.2cm]
-Since the node at the root has no parent, the upper half of  the oval representing the root is
-always empty.  In the example shown in Figure \ref{fig:trie}, the lower half of this oval is also empty
+\hspace*{1.3cm} $ \bigl\{ \texttt{'Stahl'}: 1, \texttt{'Stolz'}: 2, \texttt{'Stoeger'}: 3, \texttt{'Salz'}: 4, \texttt{'Schulz'}: 5$, \\[0.2cm]
+\hspace*{1.5cm} $         \texttt{'Schulze'}: 6, \texttt{'Schnaut'}: 7, \texttt{'Schnupp'}: 8, \texttt{'Schroer'}: 9\bigr\}$. \\[0.2cm]
+Since the node at the root has no parent, the upper half of  the rectangle representing the root is
+always empty.  In the example shown in Figure \ref{fig:trie}, the lower half of this rectangle is also empty
 because the trie doesn't associate a value with the empty string.  In this example, the root node corresponds
 to the term  
 \\[0.2cm]
@@ -1021,10 +1018,10 @@ Here,  $t$ denotes the trie that is labelled with the character  ``S'' at its ro
 This trie can then be represented by the term  \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}(\Omega,[\textrm{`t'},\textrm{`a'},\textrm{`c'}], [t_1, t_2, t_3])$. \\[0.2cm]
-This trie has three children that are labelled with the characters  ``t'', ``a'', and ``c''.
+This trie has three children that are labelled with the characters  \texttt{'t'}, \texttt{'a'}, and \texttt{'c'}.
 
 \subsection{Insertion in Tries}
-Next, we present formul\ae\ that describe how new values can be inserted into existing tries,
+Next, we present formulas that describe how new values can be inserted into existing tries,
 i.e.~we specify the method $\texttt{insert}$.  The signature of $\texttt{insert}$ is given as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1057,7 +1054,7 @@ length of $w$.
       
       If we want to associate a value $v$ with the key $cr$ in the trie
       $\texttt{Node}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$ then, if the character $c$
-      does not occur in the list $[c_1,\cdots,c_n]$, we first have to create a new empty trie.
+      does not already occur in the list $[c_1,\cdots,c_n]$, we first have to create a new empty trie.
       This trie has the form \\[0.2cm]
       \hspace*{1.3cm} $\texttt{Node}(\Omega, [], [])$. \\[0.2cm]
       Next, we associate the value $v_2$ with the key $r$ in this empty trie.  Finally,
@@ -1070,7 +1067,7 @@ length of $w$.
 \end{enumerate}
 
 \subsection{Deletion in Tries}
-Finally, we present formul\ae\ that specify how a key can be deleted from a trie.
+Finally, we present formulas that specify how a key can be deleted from a trie.
 To this end, we define the auxiliary function
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -1108,8 +1105,8 @@ is defined by induction on the length of  $w$.
        $
 
        If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
-       $r$ in the $i$th  trie $t_i$ yields an empty
-       trie, then both the $i$th character $c_i$ and the $i$th trie $t_i$ are deleted.
+       $r$ in the $i^\textrm{th}$  trie $t_i$ yields an empty
+       trie, then both the $i^\textrm{th}$ character $c_i$ and the $i^\textrm{th}$ trie $t_i$ are deleted.
 \item $\begin{array}[t]{ll}
        \neg t_i.\texttt{delete}(r).\texttt{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\texttt{delete}(c_ir) 
@@ -1119,8 +1116,8 @@ is defined by induction on the length of  $w$.
        $
 
        If  the key that is to be deleted starts with the character $c_i$ and if deletion of  the key
-       $r$ in the $i$th  trie $t_i$ yields a non-empty trie, then the key $r$ has to be deleted recursively
-       in the trie $t_i$.
+       $r$ in the $i^\textrm{th}$  trie $t_i$ yields a non-empty trie, then the key $r$ has to be deleted recursively
+       in the trie $t_i$ and $t_i$ has to be replaced by $t_i.\texttt{delete}(r)$.
 \item $c \notin C \rightarrow \texttt{Node}(v, C, T).\texttt{delete}(cr) =
        \texttt{Node}(v, C, T)$. 
        
@@ -1265,7 +1262,7 @@ implementation of $\texttt{find}$.
       consists of the remaining characters.  In this case, we need to check whether the list
       $\texttt{mChars}$ already contains the character $c$ or not.
       \begin{enumerate}
-      \item If $c$ is the $i$-th character of $\texttt{mChars}$, then we have to insert the value $v$
+      \item If $c$ is the $i^\textrm{th}$ character of $\texttt{mChars}$, then we have to recursively insert the value $v$
             in the trie $\texttt{mTries}[i]$.  
       \item If $c$ does not occur in $\texttt{mChars}$, things are straightforward: We create a new
             empty trie and insert $v$ into this trie.  Next, we append the character $c$ to
@@ -1313,12 +1310,12 @@ value is deleted.
       consists of the remaining characters.  In this case, we need to check whether the list
       $\texttt{mChars}$ contains the character $c$ or not.
  
-      If $c$ is the $i$-th character of $\texttt{mChars}$, then we have to recursively
+      If $c$ is the $i^\textrm{th}$ character of $\texttt{mChars}$, then we have to recursively
       delete the value associated with $r$ in the trie $\texttt{mTries}[i]$.  
       After this deletion, the subtrie  $\texttt{mTries}[i]$ might well be empty.  In this case,
-      we remove the $i$-th character form $\texttt{mChars}$ and also remove the $i$-th trie from the list
+      we remove the $i^\textrm{th}$ character form $\texttt{mChars}$ and also remove the $i^\textrm{th}$ trie from the list
       $\texttt{mTries}$.  This is done with the help of the function $\texttt{pop}$.
-      Given a list $L$ and an integer $i$, the statement $L.\texttt{pop}(i)$ removes the $i$-th element from
+      Given a list $L$ and an integer $i$, the statement $L.\texttt{pop}(i)$ removes the $i^\textrm{th}$ element from
       the list $L$.
 \end{enumerate}
 
@@ -1452,7 +1449,7 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 \end{enumerate}
 If the domain $D := \texttt{dom}(f)$ of the function $f$ is not a set of the form $\{0,1, \cdots, n\}$, 
 then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{0,1,\cdots,n\}$.
-Let us explain the idea with a simple example:  Suppose we want to implement an digital
+Let us explain the idea with a simple example:  Suppose we want to implement a digital
 telephone book.
 To simplify things, let us assume first that all the names stored in our telephone dictionary
 have a length of 8 characters.  To achieve this, names that are shorter than eight characters
@@ -1486,7 +1483,7 @@ as follows: \\[0.2cm]
 $\ds \texttt{code}(c_0c_1\cdots c_7) = \sum\limits_{i=0}^7 \texttt{ord}(c_i) \cdot 27^i$.
 \\[0.2cm]
 The function $\texttt{code}$ maps the set of all non-empty strings with at most eight characters in a
-one-to-one way to the set of numbers $\{0,1,\cdots, 282,429,536,480 \}$.
+one-to-one way to the set of numbers $\{0,1,\cdots, 282\,429\,536\,481 \}$.
 
 
 \begin{figure}[!ht]
@@ -1502,7 +1499,7 @@ Unfortunately, this naive implementation has several problems:
 \item The array needed to store the telephone dictionary has a size of 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds 1 + \sum\limits_{i=0}^7 26 \cdot 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 1 + 27^8 = 282,429,536,482$ 
+      $\ds 1 + \sum\limits_{i=0}^7 26 \cdot 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 27^8 = 282,429,536,481$ 
       \\[0.2cm]
       entries.  If every entry needs 8 bytes, we would need more than two terabyte to store this array.
 \item If two names happen to differ only after their eighth character, then we would not be able to
@@ -1522,38 +1519,22 @@ These problems can be solved as follows:
       $\ds\texttt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot
         27^i\right) \;\texttt{\%}\; \texttt{size}$,
       \\[0.2cm]
-      then we will always have $1 \leq \texttt{code}(c_0c_1\cdots c_n) < \texttt{size}$.  In order to
-      prevent overflow when computing the numbers $27^i$ we can use the following mathematical facts:
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $(a + b)   \mod n = \bigl(a + (b \mod n)\bigr) \mod n$ \quad and \quad
-      $(a \cdot b) \mod n = \bigl(a \cdot (b \mod n)\bigr) \mod n$.
-      \\[0.2cm]
-      Then we can  define the partial sum $s_k$ for
-      $k=n,n-1,\cdots,1,0$ by backward induction: 
-      \begin{enumerate}
-      \item $s_n = \texttt{ord}(c_n)$,
-      \item $s_{k} = \bigl(\texttt{ord}(c_{k}) + s_{k+1} \cdot 27 \bigr) \;\texttt{\%}\; \texttt{size}$.
-      \end{enumerate}
-      It can be shown that
-      \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\ds s_0 = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot 27^i\right) \;\texttt{\%}\; \texttt{size}$.
+      then we will always have $\texttt{code}(c_0c_1\cdots c_n) < \texttt{size}$.  
 \item Rather than storing the values associated with the keys in an array, the values are now stored
-      in \blue{linked lists} that contain key-value pairs.  The array itself only stores pointers to these
-      linked list. 
+      in \blue{lists} that contain key-value pairs.  The array itself only stores pointers to these
+       lists. 
       
-      The reason we have to use linked lists is the fact that different keys may be mapped to the
+      The reason we have to use lists is the fact that different keys may be mapped to the
       same index.  Hence, we can no longer store the values directly in the array.  Instead,
       the values of all keys that map to the same index are stored in a
-      linked list of key-value pairs.  These linked lists are then stored in the array.  As long as
+      list of key-value pairs.  These  lists are then stored in the array.  As long as
       these lists contain only a few entries, the look-up of a key is still fast: Given a key $k$,
       we first compute 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\texttt{idx} = \texttt{code}(k)$.
       \\[0.2cm]
-      Then, $\texttt{array}[\texttt{idx}]$ returns a linked list containing a pair of the form $\langle k, v \rangle$.
+      Then, $\texttt{array}[\texttt{idx}]$ returns a list containing a pair of the form $\langle k, v \rangle$.
       In order to find the value associated with the key $k$ we have to search this list for the key
       $k$.
 \end{enumerate}
@@ -1591,7 +1572,8 @@ is bounded by $n$.  In order to be able to reorganize this computation we need t
   $r$ is called the \blue{remainder} of $a$ divided by $n$ and denoted as $a \mmod n$.  \eox
 \end{Theorem}
 
-A proof of this theorem can be given by writing a program that computes $a \;\texttt{//}\; n$ by successively subtracting
+The existential claim of this theorem can be established by providing a program that computes $a \;\texttt{//}\; n$ and $a \mmod n$.  
+A trivial way to do compute $a \mdiv n$ is to successively subtract
 $n$ from $a$ as long as the result of the subtraction is non-negative.  Then $a \;\texttt{//}\; n$ is the number of times $n$ can be
 subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementation of this idea.
 
@@ -1617,6 +1599,14 @@ subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementat
 \caption{A naive implementation of Euclidean division.}
 \label{fig:Division-Naive.ipynb}
 \end{figure}
+\exercise
+Prove the uniqueness of the quotient and the remainder in the theorem on Euclidean division.
+In order to do this, assume that
+\begin{enumerate}
+\item $a = q_1 \cdot n + r_1 = q_2 \cdot n + r_2$ and
+\item $0 \leq r_1 < n$ and $0 \leq r_2 < n$
+\end{enumerate}
+holds and prove that this implies both $q_1 = q_2$ as well as $r_1 = r_2$.  \eox
 
 \exercise
 The computational complexity of the implementation of the function call $\texttt{divide}(a)$ shown in Figure
@@ -1625,11 +1615,13 @@ Euclidean division that has the complexity $\Oh\bigl(\log_2(a)\bigr)$.  In order
 \begin{enumerate}[(a)]
 \item Derive equations that show how $a \mdiv n$ is related to $(a \mdiv 2) \mdiv n$.
       In order to arrive at these equations, it is necessary to make a case distinction whether $a$ is even or
-      odd.  
-\item Implement these equations as a recursive program.  Your implementation is allowed to use addition,
-      subtraction, comparison, shift, and ``bitwise and'' operations, but using either the operator
+      odd. In each of these cases, there are two cases that must be dealt with because
+      $a \mdiv n$ is either $2 \cdot \bigl(a \mdiv 2) \mdiv n\bigr)$ or it is 
+      $2 \cdot \bigl((a \mdiv 2) \mdiv n\bigr) + 1$.
+\item Implement the equations that you have derived as a recursive program.  Your implementation is allowed to
+      use addition, subtraction, comparison, shift, and ``bitwise and'' operations, but using either the operator
       ``\texttt{//}'' or the operator ``\texttt{\%}'' 
-      is, of course, forbidden.  Similarly, your implementation should not use floating point numbers.
+      is, of course, forbidden.  Your implementation should not use floating point numbers.
 \item Compute the total number of shift operation that are performed when $\texttt{divide}(a, n)$ is computed
       and $a$ is a power of $2$. \eox
 \end{enumerate}
@@ -2004,7 +1996,7 @@ the methods  $\texttt{find}$, $\texttt{insert}$, and $\texttt{delete}$ can grow 
 of entries in the hash table.  This happens if the function 
 $\texttt{hash\_code}(k)$ returns the same number for all keys $k$.  Although this case is
 highly unlikely, it is not impossible.  If we have a good function to compute hash codes, then
-most of the linked lists will have roughly the same length.  The average length of a list is then
+most of the  lists will have roughly the same length.  The average length of a list is then
  \\[0.2cm]
 \hspace*{1.3cm}
  $\alpha = \ds \frac{\texttt{mEntries}}{\texttt{mSize}}$. 
