@@ -9,17 +9,19 @@ to each other.   Therefore, we assume that $S$ is equipped with a binary relatio
   \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is anti-symmetric)
 \item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
 \end{enumerate}
-A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation
-on $S$ that is \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive} is called a
-\href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}.  
-If, furthermore
-\\[0.2cm]
-\hspace*{1.3cm}
-$\forall x, y \el S \colon\bigl( x \leq y \vee y \leq x\bigr)$
-\\[0.2cm]
-holds, then the pair $\langle S, \leq \rangle$ is called a 
-\href{http://en.wikipedia.org/wiki/Totally_ordered_set}{totally ordered set} and
-the relation $\leq$ is called a \blue{total order} or a \blue{linear order}.
+\begin{Definition}[Linear Order\label{def:linear_order}]
+  A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation
+  on $S$ that is \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive} is called a
+  \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}.  
+  If, furthermore
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\forall x, y \el S \colon\bigl( x \leq y \vee y \leq x\bigr)$
+  \\[0.2cm]
+  holds, then the pair $\langle S, \leq \rangle$ is called a 
+  \href{http://en.wikipedia.org/wiki/Totally_ordered_set}{totally ordered set} and
+  the relation $\leq$ is called a \blue{total order} or a \blue{linear order}. \eox
+\end{Definition}
 
 \examples
 \begin{enumerate}
@@ -128,7 +130,7 @@ efficiency of these algorithms is far from optimal.  Next, we present \blue{quic
 However, the implementation of these algorithms is more involved.
 
 
-\section{Insertion Sort \label{chap:insertionSort}}
+\section{Insertion Sort \label{sec:insertionSort}}
 Let us start our investigation of sorting algorithms with the algorithm
 \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}.  We will describe this
 algorithm via a set of equations.

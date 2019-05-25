@@ -29,8 +29,9 @@ priority queue. We will discuss heapsort in Section \ref{sec:heapsort}.
 \section[Formal Definition]{Formal Definition of the ADT \textsl{PrioQueue}}
 Next, we give a formal definition of the ADT \blue{$\texttt{PrioQueue}$}.  Since the data type
 $\texttt{PrioQueue}$ is really just an auxiliary data type, the definition we give is somewhat
-restricted: We will only specify those functions that are needed to implement the algorithms 
-of \blue{Dijkstra} and \blue{Huffman}.
+restricted: We will only specify those functions that are needed to implement
+the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
+\hyperref[sec:huffman]{compression algorithm of Huffman}.
 
 \begin{Definition}[Priority Queue] \hspace*{\fill} \\
   The abstract data type of priority queues is defined as follows:
@@ -39,7 +40,8 @@ of \blue{Dijkstra} and \blue{Huffman}.
   \item The set of type parameters is \\[0.1cm]
         \hspace*{1.3cm} $\{ \texttt{Priority}, \texttt{Value} \}$.
 
-        Furthermore, there must exist a linear ordering $\leq$ on the set $\texttt{Priority}$.
+        Furthermore, there has to exist a binary relation $\leq$ on the set $\texttt{Priority}$ such that
+        the pair $\langle \texttt{Priority}, \leq \rangle$ is a \hyperref[def:linear_order]{linear order}.
         This is needed since we want to compare the priority of different elements.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
@@ -67,9 +69,9 @@ of \blue{Dijkstra} and \blue{Huffman}.
               The expression $Q.\texttt{isEmpty}$ checks whether the priority queue $Q$ is empty.
         \end{enumerate}
 \item Before we are able to specify the behaviour of the functions implementing the function symbols
-      given above, we have to discuss the notion of the \blue{priority}.  We assume that there exists
-      a set $\texttt{Priority}$ and there is a linear order $\leq$ defined on this set.
-      If  $p_1 < p_2$, then the priority $p_1$ is \blue{higher} than the priority $p_2$.  This
+      given above, we have to discuss the notion of the \blue{priority}.  We assume that the pair
+      $\langle \texttt{Priority}, \leq \rangle$  is a linear order.
+      If  $p_1 < p_2$, then we say that the priority $p_1$ is \blue{higher} than the priority $p_2$.  This
       nomenclature might seem counter intuitive.  It is motivated by 
       Dijkstra's algorithm which is discussed later.  In Dijkstra's algorithm, the priorities are
       distances in a graph and the priority of a node is higher if the node is nearer to the source
@@ -106,7 +108,7 @@ of \blue{Dijkstra} and \blue{Huffman}.
             \item $p_1 \geq p_2 \rightarrow \texttt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_2,v_2)] + \texttt{insertList}\bigl(\pair(p_1,v_1), R\bigr)$.
             \end{enumerate}
             Conceptually, this function is the same as the function $\mathtt{insert}$ that we had defined when
-            discussing the algorithm \blue{insertion sort} in Chapter \ref{chap:insertionSort}.
+            discussing the algorithm \hyperref[sec:insertionSort]{insertion sort}.
       \end{enumerate}
       Now we can specify the behaviour of the abstract data type $\texttt{PrioQueue}$.
       \begin{enumerate}
@@ -125,7 +127,7 @@ of \blue{Dijkstra} and \blue{Huffman}.
 
             If we try to retrieve the pair with the highest priority from an empty priority queue, the
             undefined value $\Omega$ is returned instead.
-      \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{top}() = Q.\texttt{toList}()[1]$
+      \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{top}() = Q.\texttt{toList}()[0]$
 
             If we retrieve the  pair with the highest priority from an non-empty priority queue $Q$,
             we get the pair that is the first element of the list $Q.\texttt{toList}()$.
@@ -134,7 +136,7 @@ of \blue{Dijkstra} and \blue{Huffman}.
 
             Trying to remove the top element from an empty queue $Q$ results in a queue that is still empty.
       \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{remove}().\texttt{toList}() =
-        Q.\texttt{toList}()[2..]$
+        Q.\texttt{toList}()[1:]$
 
             If we remove the top element from a non-empty queue $Q$ and then transform the resulting queue into
             a sorted list, we get the same list that we get when we chop of the first element from the list
@@ -168,9 +170,9 @@ Then, the different methods of $\texttt{PrioQueue}$ would be implemented as foll
 The worst case complexity of this approach would be linear for the method $\texttt{insert}()$,
 i.e.~it would have complexity $\Oh(n)$ where $n$ is the number of elements in $Q$. 
 All other operations would have the complexity $\Oh(1)$.  
-Next, we introduce a more efficient implementation such that the complexity of $\texttt{insert}()$ 
-is only $\Oh\bigl(\log(n)\bigr)$.  To this end, we introduce a new data structure:
-\href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heaps}. 
+Next, we introduce a more efficient implementation.  In this implementation the complexity of $\texttt{insert}()$ 
+is only $\Oh\bigl(\log(n)\bigr)$, while the other operations still have the complexity $\Oh(1)$.
+To this end, we introduce a new data structure: \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heaps}. 
 
 \section[Heaps]{The $\texttt{Heap}$ Data Structure}
 We define the set \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heap}\footnote{
@@ -181,10 +183,7 @@ allocated objects is known as \href{https://en.wikibooks.org/wiki/Memory_Managem
 The \blue{heap storage} is the part of the memory system that is used to provide \blue{dynamically allocated memory}.
 }
 inductively as a subset of the set $\Bin$ of binary trees.  To this end, we first define a relation
-\\[0.2cm]
-\hspace*{1.3cm}
-$\leq \;\subseteq \texttt{Priority}  \times \mathcal{B}$.
-\\[0.2cm]
+$\leq$ on the Cartesian product $\texttt{Priority} \times \mathcal{B}$.
 For a priority $p \in \texttt{Priority}$ and a binary tree $b \in \Bin$ we have  $p \leq b$ 
 if and only if $p \leq q$ for every priority $q$ occurring in $b$.  The formal definition of 
 $p \leq b$ is as follows:
@@ -206,10 +205,10 @@ $b.\texttt{count}()$ is given by induction on $b$.
 \item $\texttt{Nil}.\texttt{count}() = 0$.
 \item $\texttt{Node}(p,v,l,r).\texttt{count}() = 1 + l.\texttt{count}() + r.\texttt{count}()$.
 \end{enumerate}
-Now we are ready to define the set $\texttt{Heap}$ by induction:
+Next, we define the set $\mathcal{H}$ of heaps by induction:
 \begin{enumerate}
-\item $\texttt{Nil} \in \texttt{Heap}$.
-\item $\texttt{Node}(p,v,l,r) \in \texttt{Heap}$ if and only if the following is true:
+\item $\texttt{Nil} \in \mathcal{H}$.
+\item $\texttt{Node}(p,v,l,r) \in \mathcal{H}$ if and only if the following is true:
       \begin{enumerate}
       \item $p \leq l \;\wedge\; p \leq r$
 
@@ -223,7 +222,7 @@ Now we are ready to define the set $\texttt{Heap}$ by induction:
             balancing condition of AVL trees, but instead of comparing the heights, this condition
             compares the number of elements.  Therefore, this balancing condition is much stricter than the
             balancing condition for AVL trees.
-      \item $l \in \texttt{Heap} \;\wedge\; r \in \texttt{Heap}$
+      \item $l \in \mathcal{H} \;\wedge\; r \in \mathcal{H}$
 
             This condition ensures that all subtrees of a heap are heaps, too.
       \end{enumerate}
@@ -605,7 +604,7 @@ This algorithm can be described using an auxiliary function \texttt{toHeap} that
 transforms this list into a heap.  The signature of this function is as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{toHeap}: \texttt{List}(\mathbb{N}) \rightarrow \texttt{Heap}$
+$\texttt{toHeap}: \texttt{List}(\mathbb{N}) \rightarrow \mathcal{H}$
 \\[0.2cm]
 This function can be specified via the following equations:
 \begin{enumerate}
@@ -619,7 +618,7 @@ $\texttt{heapSort}(L) := \texttt{toHeap}(L).\texttt{toList}()$.
 \\[0.2cm]
 A basic implementation of heapsort along those lines is given in Figure
 \ref{fig:basic-heapsort.stlx} on page \pageref{fig:basic-heapsort.stlx}.  This implementation makes
-use of the class $\texttt{Heap}$ that had been presented in the previous section.
+use of the class $\mathcal{H}$ that had been presented in the previous section.
 \begin{enumerate}
 \item In order to sort the list $\texttt{A}$ that is given as argument to $\texttt{heapSort}$, we first
       create the empty heap $\texttt{H}$ in line 2 and then proceed to insert all elements of the list
