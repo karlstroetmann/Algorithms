@@ -1539,7 +1539,7 @@ These problems can be solved as follows:
       $k$.
 \end{enumerate}
 
-\subsection{Computing the Hash Function efficiently}
+\subsection{Computing the Hash Function Efficiently}
 In this section we discuss how to compute the function 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1548,11 +1548,11 @@ $\texttt{hash\_code}:\Sigma^* \rightarrow \mathbb{N}$
 that takes a string $s$ and returns a natural number less than some predefined size $n$.
 Given an \textsc{Ascii} string $s = c_0 c_1 c_2 \cdots c_{k-1}$ of length $k$ this function is defined as
 \begin{equation}
-  \texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n) = \left(\sum\limits_{i=0}^k \texttt{ord}(c_i) \cdot 128^i\right) \mmod n.
+  \texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n) = \left(\sum\limits_{i=0}^{k-1} \texttt{ord}(c_i) \cdot 128^i\right) \mmod n.
   \label{eq:hash1}
 \end{equation}
 However, a naive implementation of equation (\ref{eq:hash1}) is inefficient because the computation of $128^i$
-produces very big numbers.  In the programming language \texttt{C}, computing $128^{k-1}$ causes an overflow for a
+produces very big numbers.  In the programming language \texttt{C}, computing $128^i$ causes an overflow for a
 string that has more than five characters.  In \textsl{Python}, integers are only bounded by the size of the
 available memory and therefore overflow ist not a problem.  However, a computation
 involving numbers with hundreds of places is considerably slower than a computation that uses numbers that fit
