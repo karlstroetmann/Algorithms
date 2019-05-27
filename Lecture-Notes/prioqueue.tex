@@ -433,52 +433,52 @@ previous section.
                  bgcolor       = sepia,
                  numbers       = left,
                  numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
+                 xleftmargin   = 0.0cm,
+                 xrightmargin  = 0.0cm,
                ]{python3}
-class Node(Heap):
-    def __init__(self, priority, value, left, right):
-        Heap.__init__(self)
-        self.mPriority = priority
-        self.mValue    = value
-        self.mLeft     = left
-        self.mRight    = right
-        self.mCount    = left._count() + right._count() + 1
-        
-    def _extract(self):
-        return self.mPriority, self.mValue, self.mLeft, self.mRight
-    
-    def _count(self):
-        return self.mCount
-    
-    def top(self):
-        return self.mPriority, self.mValue
-
-    def insert(self, p, v):
-        p_top, v_top, l, r = self._extract()
-        if p_top <= p:
-            if l._count() <= r._count():
-                return Node(p_top, v_top, l.insert(p, v), r)
-            else:
-                return Node(p_top, v_top, l, r.insert(p, v))
-        else:
-            if l._count() <= r._count():
-                return Node(p, v, l.insert(p_top, v_top), r)
-            else:
-                return Node(p, v, l, r.insert(p_top, v_top))    
-
-    def remove(self):
-        p, v, l, r = self._extract()
-        if isinstance(l, Nil):
-            return r
-        if isinstance(r, Nil):
-            return l
-        p1, v1, l1, r1 = l._extract()
-        p2, v2, l2, r2 = r._extract()
-        if p1 <= p2:
-            return Node(p1, v1, l.remove(), r)
-        else:
-            return Node(p2, v2, l, r.remove())
+  class Node(Heap):
+      def __init__(self, priority, value, left, right):
+          Heap.__init__(self)
+          self.mPriority = priority
+          self.mValue    = value
+          self.mLeft     = left
+          self.mRight    = right
+          self.mCount    = left._count() + right._count() + 1
+          
+      def _extract(self):
+          return self.mPriority, self.mValue, self.mLeft, self.mRight
+      
+      def _count(self):
+          return self.mCount
+      
+      def top(self):
+          return self.mPriority, self.mValue
+  
+      def insert(self, p, v):
+          p_top, v_top, l, r = self._extract()
+          if p_top <= p:
+              if l._count() <= r._count():
+                  return Node(p_top, v_top, l.insert(p, v), r)
+              else:
+                  return Node(p_top, v_top, l, r.insert(p, v))
+          else:
+              if l._count() <= r._count():
+                  return Node(p, v, l.insert(p_top, v_top), r)
+              else:
+                  return Node(p, v, l, r.insert(p_top, v_top))    
+  
+      def remove(self):
+          p, v, l, r = self._extract()
+          if isinstance(l, Nil):
+              return r
+          if isinstance(r, Nil):
+              return l
+          p1, v1, l1, r1 = l._extract()
+          p2, v2, l2, r2 = r._extract()
+          if p1 <= p2:
+              return Node(p1, v1, l.remove(), r)
+          else:
+              return Node(p2, v2, l, r.remove())
 \end{minted}
 \vspace*{-0.3cm}
 \caption{The class \texttt{Node}.}
@@ -516,8 +516,10 @@ memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the j
 algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
 consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}, has
 a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not require an auxiliary
-array.  Heapsort was invented in 1964 by \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} and
-improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} in the same year.
+array.  Heapsort was invented in 1964 by
+\href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} \cite{williams:1964}
+and improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} \cite{floyd:1964} in the
+same year.  Robert Floyd received the Turing award 1978.
 
 The basic version of heapsort that was given by Williams takes an array $\texttt{A}$ of keys to be sorted and
 then proceeds as follows:
@@ -537,66 +539,76 @@ This function can be specified via the following equations:
 \item $\texttt{toHeap}(\texttt{[]}) := \texttt{Nil}$
 \item $\texttt{toHeap}(\texttt{[}x\texttt{|}R\texttt{]}) := \texttt{toHeap}(R).\texttt{insert}(x, x)$
 \end{enumerate}
+Furthermore, we need an auxiliary function $\texttt{toList}$ that has the signature
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{toList}: \mathcal{H} \rightarrow \texttt{List}(\mathbb{N})$.
+\\[0.2cm]
+This function transforms a heap in a list of numbers that is sorted ascendingly.  This function is specified as
+follows:
+\begin{enumerate}
+\item $\texttt{Nil}.\texttt{toList}() = []$,
+\item $h \not= \texttt{Nil} \wedge \langle p, \_ \rangle = h.\texttt{top}() \rightarrow h.\texttt{toList}() = [p] + h.\texttt{remove}().\texttt{toList}()$
+\end{enumerate}
 Then, the function \texttt{heapSort} that takes a list of natural numbers and sorts them can be defined as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{heapSort}(L) := \texttt{toHeap}(L).\texttt{toList}()$.
 \\[0.2cm]
 A basic implementation of heapsort along those lines is given in Figure
-\ref{fig:basic-heapsort.stlx} on page \pageref{fig:basic-heapsort.stlx}.  This implementation makes
-use of the class $\mathcal{H}$ that had been presented in the previous section.
+\ref{fig:Heap.ipynb:heap_sort} on page \pageref{fig:Heap.ipynb:heap_sort}.  This implementation makes 
+use of the class $\texttt{Heap}$ that had been presented in the previous section.
 \begin{enumerate}
-\item In order to sort the list $\texttt{A}$ that is given as argument to $\texttt{heapSort}$, we first
-      create the empty heap $\texttt{H}$ in line 2 and then proceed to insert all elements of the list
-      $\texttt{A}$ into $\texttt{H}$ in line 4.  We use the elements of the list \texttt{A} both as priorities
-      and as values. 
-\item Next we create an empty list $\texttt{S}$ in line 6. When the procedure $\texttt{heapSort}$
-      finishes, this list will be a sorted version of the list $\texttt{A}$.
-\item As long as the heap $\texttt{H}$ is not empty, we take its top element and append it to
-      $\texttt{S}$.  Since the method $\texttt{top}$ returns a pair of the form $\langle \texttt{p}, \texttt{p}\rangle$,
+\item In order to sort the list $L$ that is given as argument to $\texttt{heap\_sort}$, we first
+      create the empty heap $H$ in line 2 and then proceed to insert all elements of the list
+      $A$ into $H$ in line 4.  
+\item Next we create an empty list $S$ in line 5. When the procedure $\texttt{heapSort}$
+      finishes, this list will be a sorted version of the list $L$.
+\item As long as the heap $H$ is not empty, we take its top element and append it to
+      $S$.  We can test whether the heap is empty by checking that it has the type \texttt{Node}.
+      Since the method $\texttt{top}$ returns a pair of the form $\langle p, \texttt{None}\rangle$,
       we just add the first element of this pair to the
-      end of the list $\texttt{S}$.  After we have appended $\texttt{p}$ to the list $\texttt{S}$, the pair
-      is removed $\langle \texttt{p}, \texttt{p}\rangle$ from the heap $\texttt{H}$.
-\item Once the heap $\texttt{H}$ has become empty, $\texttt{S}$ contains all of the elements of the list $\texttt{A}$
+      end of the list $S$.  After we have appended $p$ to the list $S$, the pair
+      is removed $\langle p, \texttt{None}\rangle$ from the heap ${H}$.
+\item Once the heap ${H}$ has become empty, ${S}$ contains all of the elements of the list ${A}$
       and is sorted ascendingly.
 \end{enumerate}
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
-    heapSort := procedure(A) {
-        H := Heap();    
-        for (x in A) {
-            H.insert(x, x);
-        }
-        S := [];
-        while (!H.isEmpty()) {
-            S += [ H.top()[1] ];
-            H.remove();
-        }
-        return S;
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+    def heap_sort(L):
+        H = Nil()
+        for p in L:
+            H = H.insert(p, None)
+        S = []
+        while isinstance(H, Node):
+            p, _ = H.top()
+            S.append(p)
+            H = H.remove()
+        return S
+\end{minted}
 \vspace*{-0.3cm}
-\caption{A basic version of heapsort.}
-\label{fig:basic-heapsort.stlx}
+\caption{Basic implementation of heapsort.}
+\label{fig:Heap.ipynb:heap_sort}
 \end{figure}
 
-The basic version of heapsort that is shown in Figure \ref{fig:basic-heapsort.stlx} can be improved
+
+The basic version of heapsort that is shown in Figure \ref{fig:Heap.ipynb:heap_sort} can be improved
 by noting that a heap can be stored efficiently in an array $\texttt{A}$.  If a node of the form
 $\texttt{Node}(p, v, l, r)$ is stored at index $i$, then the left subtree $l$ is stored at
-index $2 \cdot i$ while the right subtree $r$ is stored at index $2 \cdot i + 1$:
+index $2 \cdot i + 1$ while the right subtree $r$ is stored at index $2 \cdot i + 2$:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r) \;\rightarrow\; \texttt{A}[2\cdot i] \doteq l \;\wedge\; \texttt{A}[2\cdot i+1] \doteq r$.
+$\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r) \;\rightarrow\; \texttt{A}[2\cdot i + 1] \doteq l \;\wedge\; \texttt{A}[2\cdot i+2] \doteq r$.
 \\[0.2cm]
 Here, the expression $\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r)$ is to be read as 
 \\[0.2cm]
@@ -652,7 +664,7 @@ subtree of a node, we can just use index arithmetic to retrieve the subtrees.
 \label{fig:heap-sort.stlx}
 \end{figure}
 
-Figure \ref{fig:heap-sort.stlx} on page \pageref{fig:basic-heapsort.stlx} makes use of this idea.
+Figure \ref{fig:heap-sort.stlx} on page \pageref{fig:Heap.ipynb:heap_sort} makes use of this idea.
 We discuss this implementation line by line.
 \begin{enumerate}
 \item The function $\texttt{swap}$ exchanges the elements in the array $\texttt{A}$ that are at the
