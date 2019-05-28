@@ -569,7 +569,7 @@ use of the class $\texttt{Heap}$ that had been presented in the previous section
       Since the method $\texttt{top}$ returns a pair of the form $\langle p, \texttt{None}\rangle$,
       we just add the first element of this pair to the
       end of the list $S$.  After we have appended $p$ to the list $S$, the pair
-      is removed $\langle p, \texttt{None}\rangle$ from the heap ${H}$.
+      $\langle p, \texttt{None}\rangle$ is removed from the heap ${H}$.
 \item Once the heap ${H}$ has become empty, ${S}$ contains all of the elements of the list ${A}$
       and is sorted ascendingly.
 \end{enumerate}
@@ -616,114 +616,110 @@ Here, the expression $\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r)$ is to be r
 ``The root of the heap $\texttt{Node}(p, v, l, r)$ is stored at index $i$ in the array $\texttt{A}$''.
 \\[0.2cm]
 If we store a heap in this manner, then, instead of using pointers that point to the left and right
-subtree of a node, we can just use index arithmetic to retrieve the subtrees.  
+subtree of a node, we can use index arithmetic to retrieve the subtrees.  This results in memory savings as we
+no longer have to store the pointers.
 
 
- 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
-    swap := procedure(x, y, rw A) {
-        [A[x], A[y]] := [A[y], A[x]];
-    };
-    sink := procedure(k, rw A, n) {
-        while (2 * k <= n) {
-            j := 2 * k;
-            if (j < n && A[j] > A[j+1]) {
-                j += 1;
-            }
-            if (A[k] < A[j]) {
-                return;
-            }
-            swap(k, j, A);
-            k := j;
-        }
-    };
-    heapSort := procedure(rw A) {
-        n := #A;
-        for (k in [n\2, n\2-1 .. 1]) {
-            sink(k, A, n);
-        }
-        while (n > 1) {
-            swap(1, n, A);
-            n -= 1;
-            sink(1, A, n);
-        }
-    };
-\end{Verbatim}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def swap(A, i, j):
+        A[i], A[j] = A[j], A[i]
+    
+    def sink(A, k, n):
+        while 2 * k + 1 <= n:
+            j = 2 * k + 1
+            if j + 1 <= n and A[j] > A[j + 1]:
+                j += 1
+            if A[k] < A[j]:
+                return
+            swap(A, k, j)
+            k = j
+    
+    def heap_sort(A):
+        n = len(A) - 1
+        for k in range(n // 2 - 1, -1, -1):
+            sink(A, k, n)
+        while n > 0:
+            swap(A, 0, n)
+            n -= 1
+            sink(0, A, n)
+\end{minted}
 \vspace*{-0.3cm}
-\caption{An implementation of Heapsort in \textsc{SetlX}.}
-\label{fig:heap-sort.stlx}
+\caption{An efficient implementation of Heapsort.}
+\label{fig:Heapsort.ipynb}
 \end{figure}
 
-Figure \ref{fig:heap-sort.stlx} on page \pageref{fig:Heap.ipynb:heap_sort} makes use of this idea.
+
+
+Figure \ref{fig:Heapsort.ipynb} on page \pageref{fig:Heapsort.ipynb} makes use of this idea.
 We discuss this implementation line by line.
 \begin{enumerate}
-\item The function $\texttt{swap}$ exchanges the elements in the array $\texttt{A}$ that are at the
-      positions $\texttt{x}$ and $\texttt{y}$.
+\item The function $\texttt{swap}$ exchanges the elements in the array ${A}$ that are at the
+      positions $i$ and $j$.
 \item The procedure $\texttt{sink}$ takes three arguments.
       \begin{enumerate}
-      \item $\texttt{k}$ is an index into the array $\texttt{A}$.
-      \item $\texttt{A}$ is the array representing the heap.
-      \item $\texttt{n}$ is the size of the part of this array that has to be sorted.  
+      \item ${A}$ is the array representing the heap.
+      \item ${k}$ is an index into the array ${A}$.
+      \item ${n}$ is the upper bound  of the part of this array that has to be transformed into a heap.  
 
-            The array $\texttt{A}$ itself might actually have more than $\texttt{n}$ elements, but for the
+            The array ${A}$ itself might actually have more than $n+1$ elements, but for the
             purpose of the method $\texttt{sink}$ we restrict our attention to the subarray
-            $\texttt{A[1..n]}$. 
+            ${A[k:n]}$. 
       \end{enumerate}
-      When calling $\texttt{sink}$, the assumption is that $\texttt{A}[\texttt{k..n}]$ should represent a heap 
-      that possibly has its heap condition violated at its root, i.e.~at index $\texttt{k}$.  The
-      purpose of the procedure $\texttt{sink}$ is to restore the heap condition at index $\texttt{k}$.
-      To this end, we first compute the index $\texttt{j}$ of the left subtree below index $\texttt{k}$.
-      Then we check whether there also is a right subtree at position $\texttt{j}+1$, which is the
-      case if $\texttt{j}$ is less than $\texttt{n}$.  Now if the heap condition is violated at index
-      $\texttt{k}$, we have to exchange the element at  position $\texttt{k}$ with the child that has
+      When calling $\texttt{sink}$, the assumption is that $A[{k:n}]$ should represent a heap 
+      that possibly has its heap condition violated at its root, i.e.~at index ${k}$.  The
+      purpose of the procedure $\texttt{sink}$ is to restore the heap condition at index ${k}$.
+      To this end, we first compute the index ${j}$ of the left subtree below index ${k}$.
+      Then we check whether there also is a right subtree at position ${j}+1$, which is the
+      case if $j + 1$ is less than or equal to  ${n}$.  Now if the heap condition is violated at index
+      ${k}$, we have to exchange the element at  position ${k}$ with the child that has
       the higher priority, i.e.~the child that is smaller. Therefore, in line 8 we arrange for index
-      $\texttt{j}$ to point to the smaller child.  Next, we check in line 10 whether the heap
-      condition is violated at index $\texttt{k}$.  If the heap condition is satisfied, there is
-      nothing left to do and the procedure returns.  Otherwise, the element at position $\texttt{k}$ is swapped with
-      the element at position $\texttt{j}$.  Of course, after this swap it is possible that the heap condition is
-      violated at position $\texttt{j}$.  Therefore,  $\texttt{k}$ is set to $\texttt{j}$ and the \texttt{while}-loop continues
-      as long as the node at position $\texttt{k}$ has a child, i.e.~as long as 
-      $2 \cdot \texttt{k}\leq \texttt{n}$.
-\item The procedure $\texttt{heapSort}$ has the task to sort the array $\texttt{A}$ and proceeds in two phases.
+      ${j}$ to point to the smaller child.  Next, we check in line 9 whether the heap
+      condition is violated at index ${k}$.  If the heap condition is satisfied, there is
+      nothing left to do and the procedure returns.  Otherwise, the element at position ${k}$ is swapped with
+      the element at position ${j}$.  Of course, after this swap it is possible that the heap condition is
+      violated at position ${j}$.  Therefore,  ${k}$ is set to ${j}$ and the \texttt{while}-loop continues
+      as long as the node at position ${k}$ has at least one child, i.e.~as long as 
+      $2 \cdot {k}\leq {n} + 1$.
+\item The procedure $\texttt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
       \begin{enumerate}
-      \item In phase 1 our goal is to transform the array $\texttt{A}$ into a heap that is stored in $\texttt{A}$.
+      \item In phase one our goal is to transform the array ${A}$ into a heap that is stored in ${A}$.
 
-            In order to do so, we traverse the array $\texttt{A}$ in reverse using the
+            In order to do so, we traverse the array ${A}$ in reverse using the
             \texttt{for}-loop starting in line 19.  The invariant of this loop is that before
-            $\texttt{sink}$ is called, all trees rooted at an index greater than
-            $\texttt{k}$ satisfy the heap condition.  Initially this is true because the trees that
-            are rooted at indices greater than $\texttt{n}\backslash 2$ are trivial, i.e.~they only
+            $\texttt{sink}$ is called, all trees rooted at an index greater than 
+            ${k}$ satisfy the heap condition.  Initially this is true because the trees that
+            are rooted at indices greater than or equal to ${n}// 2$ are trivial, i.e.~they only
             consist of their root node.  Then, since there are no children below these nodes, the heap
             condition is satisfied vacuously. 
             
-            In order to satisfy the invariant for index $\texttt{k}$, $\texttt{sink}$ is called with
-            argument $\texttt{k}$,  since at this point, the tree rooted at index $\texttt{k}$ satisfies
+            In order to satisfy the invariant for index ${k}$, $\texttt{sink}$ is called with
+            argument ${k}$,  since at this point, the tree rooted at index ${k}$ satisfies
             the heap condition except possibly at the root.  It is then the job of $\texttt{sink}$ to
-            establish the heap condition for index $\texttt{k}$.  If the element at the root has a
+            establish the heap condition for index ${k}$.  If the element at the root has a
             priority that is too low, $\texttt{sink}$ ensures that this element sinks down in the tree
             as far as necessary.
-      \item In phase 2 we remove the elements from the heap one-by-one and insert them at the end of
+      \item In phase two we remove the elements from the heap one-by-one and insert them at the end of
             the array.
 
-            When the \texttt{while}-loop starts, the array $\texttt{A}$ contains a heap.  Therefore,
+            When the \texttt{while}-loop starts, the array ${A}$ contains a heap.  Therefore,
             the smallest element is found at the root of the heap.  Since we want to sort the
-            array $\texttt{A}$ \blue{descendingly}, we move this element to the end of the array $\texttt{A}$ and in
-            return move the element from the end of the array $\texttt{A}$ to the front.
-            After this exchange, the sublist \texttt{a[1..n-1]} represents a heap, except that the
-            heap condition might now be violated at the root.  Next, we decrement $\texttt{n}$ in line 24, since the
-            last element of the array $\texttt{A}$ is already in its correct position.  
+            array ${A}$ \blue{descendingly}, we move this element to the end of the array ${A}$ and in
+            return move the element from the end of the array ${A}$ to the front.
+            After this exchange, the sublist $A[0:n-2]$ represents a heap, except that the
+            heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 24, since the
+            last element of the array ${A}$ is already in its correct position.  
             In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
-            \texttt{1} in line 25.
+            \texttt{0} in line 25.
 
             The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
             a length greater than 1.  If there is only one element left in this part of the array, the array is
