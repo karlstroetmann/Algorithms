@@ -257,7 +257,6 @@ of bits.
                 
     class Node(CodingTree):
         def __init__(self, l, r):
-            CodingTree.__init__(self)
             self.mLeft  = l
             self.mRight = r
     
@@ -274,7 +273,7 @@ of bits.
             a = heapq.heappop(H)
             b = heapq.heappop(H)
             heapq.heappush(H, (a[0] + b[0], Node(a[1], b[1])))
-        return H[0]
+        return H[0][1]
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{Huffman's algorithm implemented in \textsl{Python}.}
@@ -284,65 +283,71 @@ of bits.
 \noindent
 The function $\texttt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb} implements this algorithm.
 \begin{enumerate}
-\item The function $\texttt{codingTree}$ is called with a set  $M$ of nodes.  This set has the form
+\item \textsl{Python} has a module called \texttt{heapq}.  This module implements a heap via a list.
+      This module offers the following functions:
+      \begin{enumerate}[(a)]
+      \item Given a heap $H$ and an item $x$, the function call
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\texttt{heappush}(H, x)$
+            \\[0.2cm]
+            pushes the item $x$ onto the heap $H$.  The item $x$ serves both as a priority and a value.
+            In applications of \texttt{heapq} the items are usually pairs of the form $(p, v)$ where $p$ is a
+            priority (often represented as a natural number) and $v$ is some value.
+
+            The function call $\texttt{heappush}(H, x)$ does not return a value.  Rather, the heap $H$ is
+            modified in place.
+      \item Given a heap $H$, the function call
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\texttt{heappop}(H)$
+            \\[0.2cm]
+            returns the object from $H$ that has the highest priority and removes this object from the heap
+            $H$.
+      \item As heaps are represented as lists, the empty heap is the empty list.
+      \end{enumerate}
+\item We define a superclass \texttt{CodingTree} and two derived classes \texttt{Leaf} and \texttt{Node}.
+      As we want to place objects of these classes onto a priority queue, we have to make them comparable.
+      This is done by defining the method \texttt{\_\_lt\_\_} in these classes.  This method is automatically 
+      called whenever two objects of class \texttt{CodingTree} are compared using the operator $<$.
+      As this only happens when the corresponding counts are different, the precise implementation of this
+      method does not matter as long as we take care to ensure that $<$ is a linear order.
+\item The function $\texttt{codingTree}$ is called with a set  $M$ of pairs.  This set has the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $M = \bigl\{ [ f_1, \texttt{Leaf}(c_1) ], \cdots, [f_k, \texttt{Leaf}(c_k)] \bigr\}$.
+      $M = \bigl\{ (c_1, f_1), \cdots, (c_k, f_k) \bigr\}$.
       \\[0.2cm]
       Here, $c_1$, $\cdots$, $c_k$ are the different character that occur in the string $s$ that is to be encoded. 
-      For every character $c_i$, the number $f_i$ counts the number of times that $c_i$ occurs in the string $s$.
-
-      In the pairs $[f_i, \texttt{Leaf}(c_i)]$ the frequency $f_i$ is stored first.
-      As \textsc{SetlX} stores this set internally as an ordered binary tree that is sorted ascendingly, this
-      fact enables us to extract the node with the lowest frequency by calling the function $\texttt{first}$.
-      The reason is that in \textsc{SetlX} pairs of the form $[f, \texttt{Leaf}(c)$ are compared
-      lexicographically:  In order to compare two pairs
+      For every character $c_i$, the number $f_i$ counts the number of times that $c_i$ occurs in the string
+      $s$.
+\item Line 27 creates the empty heap.
+\item The \texttt{for}-loop in line 28 turns pairs of the form $(c, f)$ into pairs of the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $[f_1, \texttt{Leaf}(c_1)]$ \quad and \quad $[f_2, \texttt{Leaf}(c_2)]$
+      $\bigl(f, \texttt{Leaf}(c, f)\bigr)$
       \\[0.2cm]
-      \textsc{SetlX} first compares the frequencies $f_1$ and $f_2$.  If $f_1$ is less than $f_2$, the pair
-      $[f_1, \texttt{Leaf}(c_1)]$ is considered to be smaller than $[f_2, \texttt{Leaf}(c_2)]$, if $f_2$ is bigger
-      than $f_2$, then the pair $[f_1, \texttt{Leaf}(c_2)]$ is considered to be bigger than
-      $[f_2,
-      \texttt{Leaf}(c_2)]$.  Finally, if the frequencies $f_1$ and $f_2$ are the same, the characters $c_1$ and
-      $c_2$ are compared to determine the order.  Hence, the first element of the set $M$ is the pair that has
-      the smallest frequency.  Effectively, this trick turns the set $M$ into a priority queue:
-      \begin{enumerate}
-      \item The function $\texttt{first}$ that is predefined in \textsc{SetlX} returns the first element of the
-            set $M$ and thus the call $\texttt{first}(M)$ achieves the same as the call $M.\texttt{top}()$
-            would achieve if $M$ had been implemented as a priority queue.
-      \item In order to insert an element $v$ with priority $v$ into $M$ we can use the expression
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            \texttt{$M$ += \{ [$p$, $v$] \};}
-            \\[0.2cm]
-            instead of writing $M.\texttt{insert}(p, v)$, which would have been necessary if $M$ had been
-            implemented as a priority queue.
-      \item In order to remove the top element from the priority queue $M$ we can use the expression
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            \texttt{$M$ -= \{ \texttt{first}($M$) \};}
-            \\[0.2cm]
-            This achieves the same effect as the call $M.\texttt{remove}()$ would have achieved if $M$ had been
-            implemented as a priority queue.
-      \end{enumerate}
-      What makes this approach elegant is the fact that with this implementation all operations of the abstract
-      data type \textsl{PrioQueue} have logarithmic complexity.  In the case of the operation
-      $M.\texttt{top}()$ this is not optimal as the data structure heap achieves a constant complexity in this case.
-      However, for every call of the form  $M.\texttt{top}()$ there is a call of the form
-      $M.\texttt{remove}()$ and this call has a logarithmic complexity even if we implement the priority queue
-      as a heap.   This complexity would dominate the overall complexity so that in the end the heap based
-      implementation of the abstract data type \textsl{PrioQueue} has the same complexity as the set based
-      implementation. 
+      In the pairs $\bigl(f, \texttt{Leaf}(c, f)\bigr)$ the frequency $f$ is stored first because
+      when \textsl{Python} compares two pairs $(x_1, y_1)$ and $(x_2, y_2)$, the comparison is done
+      \blue{lexicograhically}, i.e.~we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $(x_1, y_1) < (x_2, y_2)$ \quad iff \quad $x_1 < x_2 \vee (x_1 = x_2 \wedge y_1 < y_2)$.
+      \\[0.2cm]
+      Therefore the pair $\bigl(f_1, \texttt{Leaf}(c_1, f_1)\bigr)$ has a higher priority than the pair
+      $\bigl(f_2, \texttt{Leaf}(c_2, f_2)\bigr)$ if $f_1 < f_2$.  If the frequencies $f_1$ and $f_2$ are the
+      same, then the priority is decided by comparing the objects $\texttt{Leaf}(c_1, f_1)$ and
+      $\texttt{Leaf}(c_2, f_2)$.  For the purpose of string compression the order does not matter in this case.
+
+      The pairs  $\bigl(f, \texttt{Leaf}(c, f)\bigr)$ are inserted into the heap $H$.
 \item The \texttt{while} loop in line 2 reduces the number of nodes of the set $M$ in every step by one.
+      This is done by combining the nodes $a$ and $b$ into a single node $\texttt{Node}(a, b)$
       \begin{enumerate}
-      \item Using the function $\texttt{first}()$, we compute those nodes $a$ and $b$ that have the lowest count.
-      \item These two nodes are removed from $M$ .
-      \item Next $a$ and $b$ are combined into the new node $\texttt{Node}(a,b)$ that is added to $M$.
+      \item Using the function $\texttt{heappop}$ we compute those nodes $a$ and $b$ that have the lowest 
+            character count and remove them from the heap $H$.
+      \item Next $a$ and $b$ are combined into the new node $\texttt{Node}(a,b)$ that is added to $H$.
       \end{enumerate}
-\item The \texttt{while} loop terminates when $M$ contains but a single element.  This element
-      is then extracted using the function $\texttt{arb}$ and is returned as the result.
+\item The \texttt{while} loop terminates when $H$ contains but a single element.  This element
+      is then returned as the result.
 \end{enumerate}
 The running time of Huffman's algorithm is given as  $\Oh\bigl(n \cdot \ln(n)\bigr)$ where $n$ denotes the
 number of different characters occurring in the string $s$.  The reason is that all
@@ -496,9 +501,7 @@ Frequency &          1 &          1 &          2 &          3 &          5 &    
 \end{table}
 
 \item How many bits do we save when we use the Huffman encoding compared to a fixed with encoding?
-\item Try to guess the law that has been used to specify the frequencies in the table given above
-      and try to compute the Huffman code in the general case where the string $s$ has $n$ different
-      characters. \eox
+      \eox
 \end{enumerate}
 
 
