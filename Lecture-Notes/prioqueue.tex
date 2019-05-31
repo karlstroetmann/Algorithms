@@ -537,7 +537,7 @@ $\texttt{toHeap}: \texttt{List}(\mathbb{N}) \rightarrow \mathcal{H}$
 This function can be specified via the following equations:
 \begin{enumerate}
 \item $\texttt{toHeap}(\texttt{[]}) := \texttt{Nil}$
-\item $\texttt{toHeap}(\texttt{[}x\texttt{|}R\texttt{]}) := \texttt{toHeap}(R).\texttt{insert}(x, x)$
+\item $\texttt{toHeap}(\texttt{[}x\texttt{]} + R) := \texttt{toHeap}(R).\texttt{insert}(x, x)$
 \end{enumerate}
 Furthermore, we need an auxiliary function $\texttt{toList}$ that has the signature
 \\[0.2cm]
@@ -699,13 +699,39 @@ We discuss this implementation line by line.
             $\texttt{sink}$ is called, all trees rooted at an index greater than 
             ${k}$ satisfy the heap condition.  Initially this is true because the trees that
             are rooted at indices greater than or equal to ${n}// 2$ are trivial, i.e.~they only
-            consist of their root node.  Then, since there are no children below these nodes, the heap
-            condition is satisfied vacuously. 
+            consist of their root node.  This can be seen as follows:  If $k = n//2$, there are two cases:
+            Either $n$ is even or $n$ is odd.
+            \begin{enumerate}
+            \item Case: $n$ is even, i.e.~there is an $m\in \mathbb{N}$ such that $n = 2 \cdot m$.
+
+                  Then $k = n//2 = m$.  Therefore, the left subtree of the tree 
+                  rooted at $k$ would be at position 
+                  \\[0.2cm]
+                  \hspace*{1.3cm}
+                  $2 \cdot k + 1 = 2 \cdot m + 1 = n + 1 > n-1$.
+                  \\[0.2cm]
+                  As $n + 1$ is greater than $n-1$ and $n-1$ is the last index in an array of length $n$, the
+                  node at position $k$ does not have a left subtree.  As $2 \cdot k + 2$ is even 
+                  bigger than $2 \cdot k + 1$ there can be no right subtree either.
+            \item Case: $n$ is odd, i.e.~there is an $m \in \mathbb{N}$ such that $n = 2 \cdot m + 1$.
+
+                  Then again $k = n//2 = m$.  Therefore, the left subtree of the tree rooted at $k$ would be
+                  at position
+                  \\[0.2cm]
+                  \hspace*{1.3cm}
+                  $2 \cdot k + 1 = 2 \cdot m + 1 = n$.
+                  \\[0.2cm]
+                  As $n$ is greater than $n-1$ and $n-1$ is the last index in an array of length $n$, 
+                  the node at position $k$ does not have a left subtree.  As $2 \cdot k + 2$ is even
+                  bigger than $2 \cdot k + 1$ there can also be no right subtree.
+            \end{enumerate}
+            Therefore, if $k \geq n//2$ the node at position $k$ has no subtrees and hence the heap
+            condition is satisfied vacuously.   This explains that we start with $k = n//2 - 1$ in line 16.
             
             In order to satisfy the invariant for index ${k}$, $\texttt{sink}$ is called with
             argument ${k}$,  since at this point, the tree rooted at index ${k}$ satisfies
             the heap condition except possibly at the root.  It is then the job of $\texttt{sink}$ to
-            establish the heap condition for index ${k}$.  If the element at the root has a
+            establish the heap condition at index ${k}$.  If the element at the root has a
             priority that is too low, $\texttt{sink}$ ensures that this element sinks down in the tree
             as far as necessary.
       \item In phase two we remove the elements from the heap one-by-one and insert them at the end of
@@ -719,25 +745,28 @@ We discuss this implementation line by line.
             heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 24, since the
             last element of the array ${A}$ is already in its correct position.  
             In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
-            \texttt{0} in line 25.
+            \texttt{0} in line 21.
 
             The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
             a length greater than 1.  If there is only one element left in this part of the array, the array is
             sorted and the \texttt{while}-loop terminates.
       \end{enumerate}
 \end{enumerate}
+Prof.~David Galles from the University of San Francisco has implemented a nice animation of heapsort that is
+available at the following address:
+\\[0.2cm]
+\hspace*{1.3cm}
+\href{https://www.cs.usfca.edu/~galles/visualization/HeapSort.html}{https://www.cs.usfca.edu/\symbol{126}galles/visualization/HeapSort.html}.
+\\[0.2cm] 
+However, he has defined heaps in a way that is different from our definition:  In his version,
+$\texttt{Node}(p, v, l, r)$ is a heap if $p$ is bigger than all priorities occurring in $l$ and $r$.
 
 \subsection{Complexity}
 Heapsort uses fewer than $2 \cdot n \cdot \log_2(n)$ comparisons to sort a list of $n$ elements.  Since it does
 not need an auxiliary array, it is the algorithm that is to be chosen if there is not enough memory available
 to run merge sort \cite{sedgewick:2011}.  
 
-% Prof.~David Galles from the University of San Francisco has implemented a nice animation of heapsort that is
-% available at the following address:
-% \\[0.2cm]
-% \hspace*{1.3cm}
-% \href{https://www.cs.usfca.edu/~galles/visualization/HeapSort.html}{https://www.cs.usfca.edu/\symbol{126}galles/visualization/HeapSort.html}.
-% \\[0.2cm] 
+
 
 %%% Local Variables: 
 %%% mode: latex

@@ -1,0 +1,462 @@
+
+\section[LZW Algorithm$^*$]{The Algorithm  of Lempel, Ziv, and Welch$^*$}
+The algorithm developed by Abraham Lempel, Jacob Ziv \cite{ziv:77,ziv:78} and Terry A.~Welch
+\cite{welch:84}, which is also known as the \blue{LZW algorithm}, is based on the idea that in most
+texts certain combinations of letters are quite frequent.  Therefore, it should pay of to view
+these combinations of letters as new letters and insert them into the alphabet.  This is the main
+idea of the LZW algorithm.  However, since counting the occurrences of all words would be too time
+consuming, the LZW algorithm works with a \blue{dynamic} coding dictionary.  Initially, this dictionary
+contains only the \textsc{Ascii} characters.  Then, the idea is to extend this dictionary
+dynamically: Every time a new string is encountered, it is entered into the dictionary and a code is
+assigned to the corresponding string.  However, since it would not make sense to add arbitrary
+strings to the dictionary, a new string $s$ of length $n=\#s$ is only added to the dictionary if
+\begin{enumerate}
+\item $s$ is a substring of the string that is encoded and
+\item the substring $s[1..n-1]$ has already been entered into the dictionary.  
+\end{enumerate} 
+The algorithm is best
+explained via an example.  The basic working of the algorithm is explained with the help of four
+variables:
+\begin{enumerate}
+\item $\alpha$ is the last substring that has been encoded.  Initially, this is the empty string
+      $\varepsilon$.
+  
+      The encoding of a string $s$ by the LZW algorithm works by encoding substrings of $s$ as
+      numbers and $\alpha$ denotes the last of theses substrings.
+\item $c$ is the next character of the string that is inspected.  This is also known as the
+      \blue{look-ahead character}.
+\item \textsl{d} is the dictionary mapping strings to numbers.  Initially, \textsl{d} maps all
+      \textsc{Ascii} characters to their respective \textsc{Ascii} codes.
+\item \texttt{nextCode} is the number assigned as code to the next string that is entered into
+      the dictionary $d$.  Since the \textsc{Ascii} codes are the numbers from 0 up to 127,
+      initially \texttt{nextCode} is equal to $128$.
+\end{enumerate}
+To describe the working of the algorithm, let us encode the string ``\texttt{maumau}''.
+\begin{enumerate}
+\item Initially, we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = \varepsilon$ \quad and \quad $c = \texttt{m}$.
+      \\[0.2cm]
+      Since the \textsc{Ascii} code of the character ``\texttt{m}'' is $109$, we output this number.
+\item After reading the next character ``\texttt{a}'' we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = \texttt{m}$ \quad and \quad $c = \texttt{a}$.
+      \\[0.2cm]
+      Now, the substring $\alpha c$, which is ``\texttt{ma}'', is entered into the dictionary and
+      assigned to the code $128$:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = d \cup \{\langle \texttt{ma}, 128 \rangle\}$.
+      \\[0.2cm]
+      Furthermore, we output the \textsc{Ascii} code of ``\texttt{a}'', which is $97$.
+\item After reading the next character ``\texttt{u}'' we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = \texttt{a}$ \quad and \quad $c = \texttt{u}$.
+      \\[0.2cm]
+      Now, the substring $\alpha c$, which is ``\texttt{au}'', is entered into the dictionary and
+      assigned to the next available code, which is $129$:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = d \cup \{\langle \texttt{au}, 129 \rangle\}$.
+      \\[0.2cm]
+      Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
+\item After reading the next character, which is the character ``\texttt{m}'', we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = \texttt{u}$ \quad and \quad $c = \texttt{m}$.
+      \\[0.2cm]
+      Next, the substring $\alpha c$, which is ``\texttt{um}'', is entered into the dictionary and
+      assigned to the next available code, which is $130$:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = d \cup \{\langle \texttt{um}, 130 \rangle\}$.
+      \\[0.2cm]
+      Since our dictionary already contains the substring ``\texttt{ma}'' and the character
+      ``\texttt{a}'' is indeed the character following the character ``\texttt{m}'', we output
+      $128$, which is the code assigned to the string ``\texttt{ma}''.
+
+\item The next character to be read is now the final character ``\texttt{u}''.  We have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\alpha = \texttt{ma}$ \quad and \quad $c = \texttt{u}$.
+      \\[0.2cm]
+      Next, the substring $\alpha c$, which is ``\texttt{mau}'', is entered into the dictionary and
+      assigned to the next available code, which is $131$:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = d \cup \{\langle \texttt{mau}, 131 \rangle\}$.
+      \\[0.2cm]
+      Furthermore, we output the \textsc{Ascii} code of ``\texttt{u}'', which is $117$.
+\end{enumerate} 
+Putting everything together, we have coded the string ``\texttt{maumau}'' as the list
+\\[0.2cm]
+\hspace*{1.3cm}
+$[109,97,117,128,117]$
+\\[0.2cm]
+If we had encoded this string in \textsc{Ascii} we would have used $6 \cdot 7 = 42$ bits.  Since the
+dictionary that we have built on the fly uses codes starting at 128 we now have to use 8 bits to
+encode the numbers.  However, we have only used 5 numbers to encode the string ``\texttt{maumau}''.
+Hence we have only used $5 \cdot 8 = 40$ bits.   Of course, in this tiny example the compression
+factor is quite low.  However, for texts that are longer and have more repetitions, the compression
+factor is usually higher: On average, the experience shows that text corresponding to natural
+language is compressed by a factor that is slightly bigger than $2$.
+
+If we use the LZW algorithm there is no need to add the dictionary to the encoded string.  The
+reason is that the recipient of an encoded string can construct the dictionary using exactly the
+algorithm that is used when encoding the string.
+
+Let us summarize the algorithm seen in the previous example:
+\begin{enumerate}
+\item The dictionary is initialized to map all \textsc{Ascii} characters to their \textsc{Ascii} codes.
+\item Next, we search for the longest prefix $\beta$ of $s$ that is in the dictionary.  This prefix
+      is removed from $s$.
+\item We emit the code stored for $\beta$ in the dictionary.
+\item Let $\alpha$ be the string that has been encoded in the previous step.  Append the first
+      character $c$ of $\beta$ to $\alpha$ and enter the resulting string $\alpha c$ to the
+      dictionary.
+
+      This step expands the dictionary dynamically.
+\item Go to step 2 and repeat as long as the string $s$ is not empty.
+\end{enumerate}
+Decoding a list of numbers $l$ into a string $s$ is quite similar to the encoding and works as follows.
+\begin{enumerate}
+\item This time, the dictionary is initialized to map all \textsc{Ascii} codes to their corresponding
+      \textsc{Ascii} characters.  Hence, the dictionary constructed in this step is just the inverse
+      of the dictionary constructed when starting to encode the string.
+\item We initialize $s$ as the 
+      empty string, which is denoted as $\varepsilon$:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $s := \varepsilon$.
+\item We remove the first number $n$ from the list $l$ and look up the corresponding
+      string $\beta$ in the dictionary.  This string is appended to $s$.
+\item Assume that $\alpha$ is the string decoded in the previous iteration and that $c$ is the first
+      character of $\beta$.  Enter the resulting string $\alpha c$ into the dictionary.
+\item Goto step 2 and repeat as long as the list $l$ is not empty.
+\end{enumerate}
+The third step of this algorithm needs to refined:  The problem is
+that it might happen that the dictionary does not have an entry for the number $n$.  This can occur because
+the encoder is one step ahead of the decoder: The encoder encodes a substring and enters a code
+corresponding to the previous substring into the dictionary.  Now if the next substring is identical
+to the substring just entered, the encoder will produce a code that is not yet in the dictionary of
+the decoder when he tries to decode it.   The question then is: How do we decode a number that has
+not yet been entered into the dictionary.  To answer this question, we can reason as follows:
+If the encoder outputs a code that it has just entered into the dictionary, then the string that is
+encoded starts with the string that has been output previously, followed by some character.  However,
+this character must be the first character of the string encoded now.  The string encoded now
+corresponds to the code and hence this string is the same as the string previously decoded plus one
+character. Therefore, if the previous string is $\alpha$, then the string
+corresponding to an unknown code must be $\alpha \alpha[1]$, i.e. $\alpha$ followed by the first
+character of $\alpha$.
+
+
+
+\subsection{Implementing the LZW algorithm in \textsc{SetlX}}
+In order to gain a better understanding of a complex algorithm it is best to code this algorithm.
+Then the resulting program can be run on several examples.  Since humans tend
+to learn better from examples than from logical reasoning, inspecting these examples deepens
+the understanding of the algorithm.  We proceed to discuss an implementation of the LZW
+algorithm.  
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    class lzw() {
+        mDictionary := { [ char(i), i ] : i in [32 .. 127] };
+        mInverse    := { [ i, char(i) ] : i in [32 .. 127] };
+        mNextCode   := 128;
+    
+        static {
+            compress      := procedure(s)     { ... };
+            uncompress    := procedure(l)     { ... };
+            longestPrefix := procedure(s, i)  { ... };
+        }
+    }
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Outline of the class \texttt{lzw}.}
+\label{fig:lzw.stlx-outline}
+\end{figure}
+
+
+Figure \ref{fig:lzw.stlx-outline} shows the outline of the class \texttt{lzw}.  This class contains both the
+method \texttt{compress} that takes a string $s$ and encodes this string into a list of numbers
+and the method \texttt{uncompress} that takes a list of numbers $l$ and decodes this list back into
+a string $s$.  These methods are designed to satisfy the following specification:
+\\[0.2cm]
+\hspace*{1.3cm}
+$l = \texttt{lzw().compress}(s_1) \wedge s_2 = \texttt{lzw().uncompress}(l) \rightarrow s_1 = s_2$.
+\\[0.2cm]
+Furthermore, the class \texttt{lzw} contains the auxiliary method \texttt{longestPrefix}, which will
+be discussed later.  The class \texttt{lzw} contains 3 member variables:
+\begin{enumerate}
+\item \texttt{mDictionary} is the dictionary used when encoding a string.  It is initialized to map
+      the \textsc{Ascii} characters to their codes.  Remember that for a given number $i$, the
+      expression $\texttt{char}(i)$ returns the \textsc{Ascii} character with code $i$.
+\item \texttt{mInverse} is a binary relation that associates the codes with the corresponding
+      strings.  It is initialized to map every number in the set $\{ 0, 1, 2, \cdots, 127 \}$
+      with the corresponding \textsc{Ascii} character.  The binary relation \texttt{mInverse} is the
+      inverse of the relation \texttt{mDictionary}.
+\item \texttt{mNextCode} gives the value of the next code used in the dictionary.  Since the codes
+      up to and including $127$ are already used for the \textsc{Ascii} character, the next
+      available code will be $128$.
+\end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    compress := procedure(s) {
+        result := [];
+        idx    := 1;
+        while (idx <= #s) {
+            p := longestPrefix(s, idx);
+            result += [ mDictionary[s[idx..p]] ];
+            if (p < #s) {
+                mDictionary[s[idx..p+1]] := mNextCode;
+                this.mNextCode += 1;
+            }
+            idx := p + 1;
+        }
+        return result;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The method \texttt{compress} encodes a string as a list of integers.}
+\label{fig:lzw.stlx-compress}
+\end{figure}
+Figure \ref{fig:lzw.stlx-compress} shows the implementation of the method compress.  We discuss this
+implementation line by line.
+\begin{enumerate}
+\item The variable \texttt{result} points to the list that encodes the string $s$ given as argument.
+      Initially, this list is empty.  Every time a substring of $s$ is encoded, the corresponding code
+      is appended to this list.
+\item The variable \texttt{idx} is an index into the string $s$.  The idea is that the substring
+      $s[1..\texttt{idx}-1]$ has been encoded and the corresponding codes have already been written
+      to the list \texttt{result}, while the substring $s[\texttt{idx}..]$ is
+      the part of $s$ that still needs to be encoded.
+\item Hence, the \texttt{while}-loop runs as long as the index \texttt{idx} is less or equal than
+      the length $\texttt{\#}s$ of the string $s$.
+\item Next, the method \texttt{longestPrefix}  computes the index of longest prefix of the substring
+      $s[\texttt{idx}..]$ that can be found in the dictionary \texttt{mDictionary}, i.e.~$p$ is the
+      maximal number such that the expression \texttt{mDictionary[s[idx..p]]} is defined.
+\item The code corresponding to this substring is looked up in \texttt{mDictionary}
+      and is then appended to the list \texttt{result}.
+\item Next, we take care to maintain the dictionary \texttt{mDictionary} and add the substring
+      $s[\texttt{idx}..p+1]$ to the dictionary.  Of course, we can only do this if the upper index
+      of this expression, which is $p+1$, is an index into the string $s$. 
+      Therefore we have to check that $p < \texttt{\#}s$.
+      Once we have entered the
+      new string with its corresponding code into the dictionary, we have to make sure that the
+      variable \texttt{mNextCode} is incremented so that every string is associated with a unique
+      code.  
+\item Since the code corresponding to the substring $s[\texttt{idx}..p]$ has been written to the
+      list \texttt{result}, the index \texttt{idx} is set to $p+1$.
+\item Once the while loop has terminated, the string $s$ has been completely encoded and the list
+      containing the codes can be returned.
+\end{enumerate}
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    longestPrefix := procedure(s, i) {
+       oldK := i;
+       k    := i+1;
+       while (k <= #s && mDictionary[s[i..k]] != om) {
+           oldK := k;
+           k    += 1;
+       }
+       return oldK;
+    };
+    incrementBitNumber := procedure() {
+        if (2 ** mBitNumber <= mNextCode) {
+            this.mBitNumber += 1;
+        }
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{Computing the longest prefix.}
+\label{fig:lzw.stlx-longestPrefix}
+\end{figure}
+Figure \ref{fig:lzw.stlx-longestPrefix} show the implementation of the auxiliary function
+\texttt{longestPrefix}.  
+The function $\texttt{longestPrefix}(s, i)$ computes the maximum value of $k$ such that
+\\[0.2cm]
+\hspace*{1.3cm}
+$i \leq k \wedge k \leq \texttt{\#}s \wedge \texttt{mDictionary}[s[i..k]] \not= \Omega$.
+\\[0.2cm]
+This value is well defined since the dictionary is initialized to contain all strings of
+length 1.  Therefore, $\texttt{mDictionary}[s[i..i]]$ is known to be defined: It is the
+\textsc{Ascii} code of the character $s[i]$.
+      
+The required value is computed by a simple \texttt{while}-loop that tests all possible values of $k$.
+The loop exits once the value of $k$ is too big.  Then the previous value of $k$, which is
+stored in the variable \texttt{oldK} is returned as the result.
+
+
+
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    uncompress := procedure(l) {
+        result := "";
+        idx    := 1;
+        code   := l[idx]; 
+        old    := mInverse[code];
+        idx    += 1;
+        while (idx < #l) {
+            result += old;
+            code := l[idx];
+            idx  += 1;
+            next := mInverse[code];
+            if (next == om) {
+                next := old + old[1];
+            }
+            mInverse[mNextCode] := old + next[1];
+            this.mNextCode += 1;
+            old := next;
+        }
+        result += old;
+        return result;
+    };
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The method \texttt{uncompress} to decode a list of integers into a string.}
+\label{fig:lzw.stlx-uncompress}
+\end{figure}
+Figure \ref{fig:lzw.stlx-uncompress} shows the implementation of the method \texttt{uncompress} that
+takes a list of numbers and decodes it into a string $s$.
+\begin{enumerate}
+\item The variable \texttt{result} contains the decoded string.  Initially, this variable is empty.
+      Every time a code of the list $l$ is deciphered into some string, this string is added to
+      \texttt{result}.
+\item The variable \texttt{idx} is an index into the list $l$.  It points to the next code that
+      needs to be deciphered.
+\item The variable \texttt{code} contains the code in $l$ at position \texttt{idx}.  Therefore, we
+      always have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $l[\texttt{idx}] = \texttt{code}$
+\item The variable \texttt{old} contains the substring associated with \texttt{code}.  Therefore,
+      the invariant
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{mInverse}[\texttt{code}] = \texttt{old}$
+      \\[0.2cm]
+      is maintained.
+\item As long as the index \texttt{idx} still points inside the list, the substring 
+      that has just been decoded is appended to the string \texttt{result}.
+\item Then, an attempt is made to decode the next number in the list $l$ by looking up the code
+      in the dictionary \texttt{mInverse}.  
+      
+      Now there is one subtle case: If the \texttt{code} has not yet been defined in the
+      dictionary,  then we can conclude that this code has been created when coding the
+      substring \texttt{old} followed by some character $c$.  However, as the next substring $\beta$
+      corresponds to this code, the character $c$ must be the first
+      character of this substring, i.e.~we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $c = \beta[1]$.
+      \\[0.2cm]
+      On the other hand, we know that the substring $\beta$ has the form
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\beta = \texttt{old} + c$,
+      \\[0.2cm]
+      where the operator ``$+$'' denotes string concatenation.  But then the first character of this string
+      must be the first character of \texttt{old}, i.e.~we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\beta[1] = \texttt{old}[1]$
+      \\[0.2cm]
+      and hence we have shown that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $c = \texttt{old}[1]$.
+      \\[0.2cm]
+      Therefore, we conclude
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\beta = \texttt{old} + \texttt{old}[1]$
+      \\[0.2cm]
+      and hence this is the string encoded by a code that is not yet defined in the dictionary
+      \texttt{mInverse}.
+\item Next, we need to maintain the dictionary \texttt{mInverse} in the same fashion as the
+      dictionary \texttt{mDictionary} is maintained in the method \texttt{compress}:
+      Hence we take the string previously decoded and concat the next character of the
+      string decoded in the current step.  Of course, this string is
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{old} + \texttt{next}[1]$
+      \\[0.2cm]
+      and this string is then associated with the next available code value.
+\item At the end of the loop, we need to set \texttt{old} to \texttt{next} so that \texttt{old}
+      will always contain the string decoded in the previous step.
+\item When the \texttt{while}-loop has terminated, we still need to append the final value of \texttt{old}
+      to the variable \texttt{result}.
+\end{enumerate}
+Now that we have discussed the implementation of the \texttt{LZW} algorithm I would like to
+encourage you to test it on several examples that are not too long.  Time does not permit me
+to discuss examples of this kind in these lecture notes and, indeed, I do not think that discussing
+these examples here would be as beneficial for the student as performing the algorithm on their own.
+
+\exercise
+\begin{enumerate}[(a)]
+\item Use the LZW algorithm to encode the string ``\texttt{abcabcabcabc}''.  Compute the compression
+      factor for this string.
+\item For all $n \in \mathbb{N}$ with $n \geq 1$ the string $\alpha_n$ is defined inductively as
+      follows:
+      \\[0.2cm]
+      \hspace*{1.3cm} $\alpha_1 := \texttt{a}$ \quad and \quad $\alpha_{n+1} = \alpha_n + \texttt{a}$.
+      \\[0.2cm]
+      Hence, the string $\alpha_n$ has the form $\underbrace{\texttt{a} \cdots \texttt{a}}_n$,
+      i.e. it is the character \texttt{a} repeated $n$ times.
+      Encode the string $\alpha_n$ using the LZW algorithm.  What is the compression rate?
+\item Decode the list 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $[97, 98, 128, 130]$
+      \\[0.2cm]
+      using the LZW algorithm.  \eox
+\end{enumerate}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End:
