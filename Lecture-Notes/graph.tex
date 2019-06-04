@@ -391,7 +391,7 @@ In this case, the relations $\texttt{Parent}$ and $\texttt{Height}$ can be imple
 Develop an implementation that is based on this idea.
 \eox
 
-\subsection{Packaging the  Union-Find Algorithm as a Class}
+\subsection{Packaging the  Union-Find Algorithm as a Class \ref{sec:union-find-oo}}
 When we later discus  the minimum spanning tree problem,  we will need the union-find algorithm as an
 auxiliary data structure.  To this end we present a class that encapsulates the union-find
 algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
@@ -525,27 +525,27 @@ minimum spanning tree problem.
 A \blue{path} $P$ is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$P = [ x_1, x_2, x_3, \cdots, x_n ]$ 
+$P = [ x_0, x_1, x_1, \cdots, x_n ]$ 
 \\[0.2cm]
 such that we have : \\[0.2cm]
 \hspace*{1.3cm}
-$\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 1, \cdots, n-1$.
+$\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 0, \cdots, n-1$.
 \\[0.2cm]
 The set of all paths is denoted as $\mathbb{P}$, i.e.~we define
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds \mathbb{P}  := \bigl\{ P \mid \mbox{$P$ is a path} \bigr\}$.
 \\[0.2cm]
-A path $P = [ x_1, \cdots, x_n]$ \blue{connects} the nodes $x_1$ and $x_n$.  The \blue{weight} of a path is defined as
+A path $P = [ x_0, x_1, \cdots, x_n]$ \blue{connects} the nodes $x_0$ and $x_n$.  The \blue{weight} of a path is defined as
 the sum of the weights of all of its edges.  
 \\[0.2cm]
 \hspace*{1.3cm}
- $\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\{x_i,x_{i+1}\}}$. 
+ $\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\{x_i,x_{i+1}\}}$. 
 \\[0.2cm]
 A graph is \blue{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$, i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall x, y \in \mathbb{V}: \exists P \in \mathbb{P}: \bigl(P[1] = x \wedge P[\#P] = y\bigr)$.
+$\forall x, y \in \mathbb{V}: \exists P \in \mathbb{P}: \bigl(P[0] = x \wedge P[\texttt{len}(P)-1] = y\bigr)$.
 \\[0.2cm]
 A set of edges can be interpreted as graph since the set of nodes can be computed from the edges as
 follows: 
@@ -571,8 +571,8 @@ holds.
 
 \hint
 The easiest way to prove this is by induction on $n = \textsl{card}(\mathbb{V})$.  You will need to prove the
-following auxiliary claim first: In a tree there is at least one node in $\nodes$ that has
-only one neighbouring node. 
+following auxiliary claim first: In a tree with more than one node there is at least one node that has
+at most one neighbouring node. 
 \eox
 
 \subsection{Kruskal's Algorithm}
@@ -595,7 +595,7 @@ follows.
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
 resulting tree has a minimal weight.
-The algorithm is shown in Figure \ref{fig:kruskal.stlx} on page \pageref{fig:kruskal.stlx}.  We
+The algorithm is shown in Figure \ref{fig:Kruskal.ipynb} on page \pageref{fig:Kruskal.ipynb}.  We
 discuss this program next. 
 
 \begin{figure}[!ht]
@@ -609,54 +609,66 @@ discuss this program next.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    mst := procedure(V, E) {
-        uf     := unionFind(V);
-        Result := {};
-        for([w, [x, y]] in E) {
-            rx := uf.find(x);
-            ry := uf.find(y);
-            if (rx != ry) {
-                Result += { [w, [x, y]] };
-                uf.union(rx, ry);
-                if (#Result == #V - 1) {
-                    return Result;
-                }
-            }
-        }        
-    };
+    import union_find_oo as uf
+    import heapq         as hq
+
+    def mst(V, E):
+        UF  = uf.UnionFind(V)
+        MST = set()         # minimum spaning tree
+        H   = []            # empty priority queue for edges
+        for edge in E:
+            hq.heappush(H, edge)
+        while True:
+            w, (x, y) = hq.heappop(H)
+            root_x = UF.find(x)
+            root_y = UF.find(y)
+            if root_x != root_y:
+                MST.add((w, (x, y)))
+                UF.union(x, y)
+                if len(MST) == len(V) - 1:
+                    return MST
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{Kruskal's algorithm.}
-\label{fig:kruskal.stlx}
+\label{fig:Kruskal.ipynb}
 \end{figure}
 
 \begin{enumerate}
+\item Initially, we import the module \texttt{union\_find\_oo}, which is the object oriented 
+      implementation of the union-find algorithm that has been presented in Section \label{sec:union-find-oo}.
+\item Furthermore, we import the module \texttt{heapq} as it provides us with a priority queue.
 \item The main function is the function $\texttt{mst}$, which is short for \underline{m}inimum
       \underline{s}panning \underline{t}ree.  This function takes two arguments:
       $\texttt{V}$ is the set of nodes and $\texttt{E}$ is the set of edges of a given graph.  The edges are represented as
-      triples of the form
+      pairs of the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{[w, [x, y]]}.
+      $\bigl(\texttt{w}, (\texttt{x}, \texttt{y})\bigr)$.
       \\[0.2cm] 
       Here, $\texttt{x}$ and $\texttt{y}$ are the nodes connected by the edge and $\texttt{w}$ is the
       weight of the edge.  The function $\texttt{mst}$ computes a minimum spanning tree of  the
       graph  $\pair(\texttt{V},\texttt{E})$.  It is assumed that this graph is connected.
-\item The function $\texttt{mst}$ first creates the union-find data structure $\texttt{uf}$ in line 2.
-      Initially, in $\texttt{uf}$ every node is in an equivalence class all by itself, i.e.~nothing is
-      yet connected.
-\item The spanning tree constructed by the algorithm is stored in the variable $\texttt{Result}$.
-      The spanning tree is represented by a set of edges.  
-\item Next, we iterate over the edges in $\texttt{E}$.  Since the first part of each edge is its
-  weight, the fact that in \textsc{SetlX} sets are stored as \blue{ordered} binary trees ensures that
-      we start with the edge that has the smallest weight.
-\item For every edge $[\texttt{x},\texttt{y}]$ we check whether $\texttt{x}$ and $\texttt{y}$ are already
-      connected.  This is the case if both $\texttt{x}$ and $\texttt{y}$ are in the same tree.
-\item If $\texttt{x}$ and $\texttt{y}$ are not connected, the corresponding edge is added to the
+\item The function $\texttt{mst}$ first creates the union-find data structure $\texttt{UF}$ in line 5.
+      Initially, every node in $\texttt{UF}$ is  an equivalence class all by itself, i.e.~no nodes
+      are connected.
+\item The spanning tree constructed by the algorithm is stored in the variable $\texttt{MST}$.
+      The spanning tree is represented by the set of its weighted edges.  
+\item Next, the set of weighted edges $\texttt{E}$ is turned into a priority queue.
+      We use the weights of the edges as priorities. 
+      To this end, we create an empty priority queue $\texttt{H}$ in line 7.
+      The \texttt{for}-loop in line 8-9 inserts all edges into this priority queue.
+\item The \texttt{while}-loop in line 10 checks for every edge $(\texttt{x},\texttt{y})$  whether $\texttt{x}$ and $\texttt{y}$ are already
+      connected.  This is the case if both $\texttt{x}$ and $\texttt{y}$ are part of the same tree
+      in the union-find data structure \texttt{UF}.  In order to
+      check whether $\texttt{x}$ and $\texttt{y}$ are part of the same tree
+      we have to compute the roots of these trees. 
+      If these roots are identical, then \texttt{x} and \texttt{y} are part of the same tree and hence
+      connected. 
+\item If $\texttt{x}$ and $\texttt{y}$ are not connected, the  edge $(\texttt{w}, (\texttt{x}, \texttt{y}))$ is added to the
       spanning tree and the trees containing $\texttt{x}$ and $\texttt{y}$ are connected by calling the function
       \texttt{union}.
-\item The algorithm returns if the tree \texttt{Result} has $\texttt{\#V}-1$ edges, since we know from the previous
-      exercise that in that case all nodes have to be connected.
+\item The algorithm returns if the tree \texttt{MST} has $\texttt{\#V}-1$ edges, since we know from the previous
+      exercise that in this case all nodes have to be connected.
 \end{enumerate}
 
 
