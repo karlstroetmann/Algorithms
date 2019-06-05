@@ -20,7 +20,7 @@ class UnionFind:
     def __init__(self, M):
         self.mParent = { x: x for x in M }
         self.mHeight = { x: 1 for x in M }
-
+        self.mSize   = { x: 1 for x in M }
 
 # Given an element $x$ from the set $M$, the function $\texttt{self}.\texttt{find}(x)$ 
 # returns the ancestor of $x$ that is at the root of the tree containing $x$.
@@ -34,21 +34,22 @@ def find(self, x):
 UnionFind.find = find
 
 
-
 def union(self, x, y):
     root_x = self.find(x)
     root_y = self.find(y)
     if root_x != root_y:
         if self.mHeight[root_x] < self.mHeight[root_y]:
             self.mParent[root_x] = root_y
+            self.mSize[root_y] += self.mSize[root_x]
         elif self.mHeight[root_x] > self.mHeight[root_y]:
             self.mParent[root_y] = root_x
+            self.mSize[root_x] += self.mSize[root_y]
         else:
             self.mParent[root_y]  = root_x
             self.mHeight[root_x] += 1
+            self.mSize[root_x] += self.mSize[root_y]
                 
 UnionFind.union = union
-
 
 
 def partition(M, R):
