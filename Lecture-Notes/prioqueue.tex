@@ -646,9 +646,9 @@ no longer have to store the pointers.
     
     def heap_sort(A):
         n = len(A) - 1
-        for k in range(n // 2 - 1, -1, -1):
+        for k in range((n + 1) // 2 - 1, -1, -1):
             sink(A, k, n)
-        while n > 0:
+        while n > 1:
             swap(A, 0, n)
             n -= 1
             sink(0, A, n)
@@ -698,35 +698,35 @@ We discuss this implementation line by line.
             \texttt{for}-loop starting in line 19.  The invariant of this loop is that before
             $\texttt{sink}$ is called, all trees rooted at an index greater than 
             ${k}$ satisfy the heap condition.  Initially this is true because the trees that
-            are rooted at indices greater than or equal to ${n}// 2$ are trivial, i.e.~they only
-            consist of their root node.  This can be seen as follows:  If $k = n//2$, there are two cases:
+            are rooted at indices greater than  $(n + 1) // 2 - 1$ are trivial, i.e.~they only
+            consist of their root node.  This can be seen as follows:  If $k = (n + 1)//2$, which is the first
+            natural number that is greater than $(n + 1) // 2 - 1$, then there are two cases:
             Either $n$ is even or $n$ is odd.
             \begin{enumerate}
             \item Case: $n$ is even, i.e.~there is an $m\in \mathbb{N}$ such that $n = 2 \cdot m$.
 
-                  Then $k = n//2 = m$.  Therefore, the left subtree of the tree 
+                  Then $k = (n + 1)//2 = (2 \cdot m + 1) // 2 = m$.  Therefore, the left subtree of the tree 
                   rooted at $k$ would be at position 
                   \\[0.2cm]
                   \hspace*{1.3cm}
-                  $2 \cdot k + 1 = 2 \cdot m + 1 = n + 1 > n-1$.
+                  $2 \cdot k + 1 = 2 \cdot m + 1 = n + 1 > n$.
                   \\[0.2cm]
-                  As $n + 1$ is greater than $n-1$ and $n-1$ is the last index in an array of length $n$, the
-                  node at position $k$ does not have a left subtree.  As $2 \cdot k + 2$ is even 
+                  As $2 \cdot k  + 1$ is greater than $n$ is the last index in an array of length $n+1$, the
+                  node at position $k = (n+1)//2$ does not have a left subtree.  As $2 \cdot k + 2$ is even 
                   bigger than $2 \cdot k + 1$ there can be no right subtree either.
             \item Case: $n$ is odd, i.e.~there is an $m \in \mathbb{N}$ such that $n = 2 \cdot m + 1$.
 
-                  Then again $k = n//2 = m$.  Therefore, the left subtree of the tree rooted at $k$ would be
-                  at position
+                  Then $k = (n + 1)//2 = (2 \cdot m + 1 + 1) // 2 = m + 1$.  Therefore, the left subtree
+                  of the tree rooted at $k$ would be at position
                   \\[0.2cm]
                   \hspace*{1.3cm}
-                  $2 \cdot k + 1 = 2 \cdot m + 1 = n$.
+                  $2 \cdot k + 1 = 2 \cdot (m + 1) = 2 \cdot m + 2 = n + 1 > n$.
                   \\[0.2cm]
-                  As $n$ is greater than $n-1$ and $n-1$ is the last index in an array of length $n$, 
-                  the node at position $k$ does not have a left subtree.  As $2 \cdot k + 2$ is even
-                  bigger than $2 \cdot k + 1$ there can also be no right subtree.
+                  As $2 \cdot k + 1$ is greater than $n$ and $n$ is the last index in an array of length $n+1$, 
+                  the node at position $k$ does not have a left subtree and hence also no right subtree. 
             \end{enumerate}
-            Therefore, if $k \geq n//2$ the node at position $k$ has no subtrees and hence the heap
-            condition is satisfied vacuously.   This explains that we start with $k = n//2 - 1$ in line 16.
+            We conclude that if $k > (n + 1)//2 - 1$ the node at position $k$ has no subtrees and hence the heap
+            condition is satisfied vacuously.   This explains that we start with $k = (n+1)//2 - 1$ in line 16.
             
             In order to satisfy the invariant for index ${k}$, $\texttt{sink}$ is called with
             argument ${k}$,  since at this point, the tree rooted at index ${k}$ satisfies
@@ -743,8 +743,8 @@ We discuss this implementation line by line.
             return move the element from the end of the array ${A}$ to the front.
             After this exchange, the sublist $A[0:n-2]$ represents a heap, except that the
             heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 24, since the
-            last element of the array ${A}$ is already in its correct position.  
-            In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
+            last element of the array ${A}$ is already in its correct position in the list taht is to be
+            returned in the end.  In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
             \texttt{0} in line 21.
 
             The \texttt{while}-loop runs as long as the part of the array that has to be sorted has
