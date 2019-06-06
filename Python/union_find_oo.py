@@ -1,12 +1,6 @@
 
 # coding: utf-8
 
-
-#%autosave 0
-from IPython.core.display import HTML, display
-display(HTML('<style>.container { width:100%; !important } </style>'))
-
-
 # # An Object-Oriented Implementation of the Union-Find Algorithm
 
 # The class `UnionFind` maintains two member variables:
