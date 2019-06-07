@@ -257,8 +257,8 @@ sets \texttt{Sx} and \texttt{Sy}.
                 bgcolor       = sepia,
                 numbers       = left,
                 numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
               ]{python3}
     def find(x, Parent):
         if Parent[x] == x:
@@ -282,7 +282,7 @@ sets \texttt{Sx} and \texttt{Sy}.
 
 Figure \ref{fig:Union-Find-Tree.ipynb} on page \pageref{fig:Union-Find-Tree.ipynb} shows an
 implementation of this idea.  In this implementation, the parent pointers are represented using the
-binary relation $\texttt{Parent}$.  
+dictionary $\texttt{Parent}$.  
 \begin{enumerate}
 \item The function $\texttt{find}$ takes a node $\texttt{x}$ and the dictionary $\texttt{Parent}$ 
       that represents the parent pointers.  For a node $\texttt{y}$ the expression
