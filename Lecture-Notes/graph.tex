@@ -495,8 +495,12 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
 Imagine a telecommunication company that intends to supply internet access to a developing country.
 The capital of the country is located at the coast line and is already connected to the internet via
 a submarine cable. It is the company's task to connect all of the towns and villages to the capital.
-Since most parts of the country are covered by jungle, it is cheapest to build the power lines
-alongside existing roads.  Mathematically, this kind of problem can be formulated as the problem of
+Since most parts of the country are covered by jungle, it is cheapest to build the connecting lines
+alongside existing roads.  However, it is not necessary to have connection lines at every road.  The task is to
+compute the set of roads that have to be equipped with connection lines so that all cities are connected and
+the overall cost of the connection is minimal.
+
+Mathematically, this kind of problem can be formulated as the problem of
 constructing a \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for
 a given \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Weighted_graph}{weighted}
 \href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)#Undirected_graph}{undirected graph}.
