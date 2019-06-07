@@ -421,10 +421,10 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
             self.mHeight = { x: 1 for x in M }
             
         def find(self, x):
-            if self.mParent[x] == x:
+            p = self.mParent[x]
+            if p == x:
                 return x
-            return find(self, self.mParent[x])
-        
+
         def union(self, x, y):
             root_x = self.find(x)
             root_y = self.find(y)
