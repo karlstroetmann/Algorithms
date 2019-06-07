@@ -328,23 +328,23 @@ different trees.  Then, if we want to join the trees rooted at $\texttt{parentX}
 $\texttt{parentY}$, we have a choice: We can either set the parent of the node $\texttt{parentX}$ to
 be $\texttt{parentY}$ or we can set the parent of the node $\texttt{parentY}$ to be $\texttt{parentX}$.
 If the tree rooted at $\texttt{parentX}$ is smaller than the tree rooted at $\texttt{parentY}$, then we should
-use the assignment
+attach this tree to the tree rooted at \texttt{parentY} via the assignment
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{parent[parentX] := parentY;}
+\texttt{parent[parentX] = parentY}
 \\[0.2cm]
 otherwise we should use
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{parent[parentY] := parentX;}
+\texttt{parent[parentY] = parentX}
 \\[0.2cm]
 In order to be able to distinguish these cases, we store the height of the tree rooted at node
-$\texttt{n}$ in the relation $\texttt{Height}$, i.e.~if $\texttt{n}$ is a node, then $\texttt{Height}[\mathtt{n}]$ is
+$\texttt{n}$ in the dictionary $\texttt{Height}$, i.e.~if $\texttt{n}$ is a node, then $\texttt{Height}[\mathtt{n}]$ is
 the height of the tree rooted at node $\texttt{n}$.  This yields the implementation shown in Figure
 \ref{fig:Union-Find.ipynb} on page \pageref{fig:Union-Find.ipynb}.  Provided the size  of the relation
 $\texttt{R}$ is bounded by the size $n$ of the set $ \texttt{M}$, the complexity of this
 implementation is $\Oh\bigl(n \cdot \log(n)\bigr)$.  However, this excludes the last two lines of
-the program.  In practice, the implementation of the function $\texttt{unionFind}$ would omit these
+the program.  In practice, the implementation of the function $\texttt{union\_find}$ would omit these
 two lines and, instead, return the relation $\texttt{Parent}$ since this is all that is needed to
 determine whether two elements $x$ and $y$ are equivalent. 
 
@@ -391,8 +391,15 @@ In this case, the relations $\texttt{Parent}$ and $\texttt{Height}$ can be imple
 Develop an implementation that is based on this idea.
 \eox
 
+\exercise
+For a natural number $h$, assume that $t_h$ is a tree of height $h$ that has been constructed with the union-find algorithm
+discussed in this section and, furthermore, assume that this tree has the smallest number of nodes that is
+possible for a tree of height $h$.  Define $c_h$ as the number of nodes in a tree $t_h$, set up an equation for
+$c_h$ and solve this equation. \eox
+
+
 \subsection{Packaging the  Union-Find Algorithm as a Class \label{sec:union-find-oo}}
-When we later discus  the minimum spanning tree problem,  we will need the union-find algorithm as an
+Later, when we discus the problem of constructing a \blue{minimum spanning tree}, we will need the union-find algorithm as an
 auxiliary data structure.  To this end we present a class that encapsulates the union-find
 algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
 \pageref{fig:Union-Find-OO.ipynb}.
