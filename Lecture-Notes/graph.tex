@@ -537,7 +537,7 @@ minimum spanning tree problem.
 A \blue{path} $P$ is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$P = [ x_0, x_1, x_1, \cdots, x_n ]$ 
+$P = [ x_0, x_1, x_2, \cdots, x_n ]$ 
 \\[0.2cm]
 such that we have : \\[0.2cm]
 \hspace*{1.3cm}
@@ -719,23 +719,23 @@ this edge enables us to go from $a$ to $b$ as well as to go from $b$ to $a$.
  A \blue{path} $P$ in a digraph is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$P = [ x_1, x_2, x_3, \cdots, x_n ]$ 
+$P = [ x_0, x_1, x_2, \cdots, x_n ]$ 
 \\[0.2cm]
 such that
 \\[0.2cm]
-\hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$ \quad holds for all $i = 1, \cdots, n-1$. 
+\hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$ \quad holds for all $i = 0, 1, \cdots, n-1$. 
 \\[0.2cm]
 The set of all paths is denoted as $\paths$.
 The length of a path is the sum of the length of all edges:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\Weight{[x_1,x_2, \cdots, x_n]} \df \sum\limits_{i=1}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
+$\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
 \\[0.2cm]
 If  $p = [x_1, x_2, \cdots, x_n]$ is a path then  $p$ \blue{connects} the node $x_1$ with the node
 $x_n$.  We denote the set of all paths that connect the node $v$ with the node $w$ as
 \\[0.2cm]
 \hspace*{1.3cm} 
- $\paths(v,w) \df \bigl\{ [x_1, x_2, \cdots, x_n] \in \paths \bigm| x_1 = v \,\wedge\, x_n = w \bigr\}$.
+ $\paths(v,w) \df \bigl\{ [x_0, x_1, \cdots, x_n] \in \paths \bigm| x_0 = v \,\wedge\, x_n = w \bigr\}$.
 \end{Definition}
 
 \noindent
@@ -762,8 +762,8 @@ It is named after the mathematicians
 \href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
 \href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who found this algorithm
 independently and published their results in 1958 and 1956, respectively.  Figure
-\ref{fig:moore.stlx} on page \pageref{fig:moore.stlx} shows the implementation of a variant of this 
-algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by 
+\ref{fig:Moore.ipynb} on page \pageref{fig:Moore.ipynb} shows the implementation of a variant of this 
+algorithm in \textsl{Python}.  This variant of the algorithm was suggested by 
 \href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
 
 
@@ -774,88 +774,99 @@ algorithm in \textsc{SetlX}.  This variant of the algorithm was suggested by
                   labelposition = bottomline,
                   numbers       = left,
                   numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm
                 ]
-    shortestPath := procedure(source, Edges) {
-        Distance := { [source, 0] };
-        Fringe   := { source };
-        while (Fringe != {}) {
-            u := from(Fringe);
-            for ([v,l] in Edges[u]) {
-                if (Distance[v] == om || Distance[u]+l < Distance[v]) {
-                    Distance[v] := Distance[u] + l;
-                    Fringe      += { v };
-                }
-            }
-        }
-        return Distance;
-    };
+    def shortest_path(source, Edges):
+        Distance = { source: 0 }
+        Fringe   = [ source ]
+        while len(Fringe) > 0:
+            u = Fringe.pop()
+            for v, l in Edges[u]:
+                dv = Distance.get(v, None)
+                if dv == None or Distance[u] + l < dv:
+                    Distance[v] = Distance[u] + l
+                    if v not in Fringe: 
+                        Fringe = Fringe + [v] 
+        return Distance
 \end{Verbatim}
 \vspace*{-0.3cm}
   \caption{The Bellman-Ford algorithm to solve the shortest path problem.}
-  \label{fig:moore.stlx}
+  \label{fig:Moore.ipynb}
 \end{figure} 
 
 \noindent
 \begin{enumerate}
 \item The function $\texttt{shortestPath}(\texttt{source}, \texttt{Edges})$ is called with two arguments:
       \begin{enumerate}
-      \item $\texttt{source}$ is the start node.  Our intention is to compute the distance of all
+      \item $\texttt{source}$ is the start node.  The task of the function
+            $\texttt{shortestPath}(\texttt{source}, \texttt{Edges})$ is to compute the distances of all 
             vertices from the node $\texttt{source}$.
-      \item $\texttt{Edges}$ is a \blue{functional binary relation} that encodes the set of edges of the graph.  For
-            every node $x$ the set $\texttt{Edges}[x]$ has the form
+      \item $\texttt{Edges}$ is a \blue{dictionary} that encodes the set of edges of the graph.  For
+            every node $x$ the value of $\texttt{Edges}[x]$ has the form
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\bigl\{ [y_1, l_1], \cdots, [y_n, l_n] \bigr\}$.
+            $\bigl[ (y_1, l_1), \cdots, (y_n, l_n) \bigr]$.
             \\[0.2cm]
             This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
-            $\langle x, y_i \rangle$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
+            $(x, y_i)$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
 
-            For example, the relation $\texttt{Edges}$ defined below defines a simple digraph.
+            For example, the dictionary $\texttt{Edges}$ given below defines a simple digraph.
             In that digraph, there is an edge from node $\texttt{"a"}$ to node $\texttt{"b"}$ which has a
             length of $2$ and there is another edge from node $\texttt{"a"}$ to the node $\texttt{"c"}$ that has a length of $3$.
             \begin{verbatim}
-        Edges := { ["a", {["b", 2], ["c", 3]}], 
-                   ["b", {["d", 1]} ],
-                   ["c", {["e", 3]} ],  
-                   ["d", {["e", 2], ["f", 4]} ],  
-                   ["e", {["f", 1]} ],
-                   ["f", {} ]
-                 };
-           \end{verbatim}
+    Edges = { 'a': [ ('c', 2), ('b', 9)], 
+              'b': [('d', 1)],
+              'c': [('e', 5), ('g', 3)],  
+              'd': [('f', 2), ('e', 4)],  
+              'e': [('f', 1), ('b', 2)],
+              'f': [('h', 5)],
+              'g': [('e', 1)],
+              'h': []
+            }
+            \end{verbatim}
+      
+      The directed graph defined by this dictionary is shown in Figure \ref{fig:directed-graph.pdf}.
+      In this Figure, every node is labelled both with its name and its distance from the source node \texttt{a}.
+      \begin{figure}[!ht]
+        \centering
+        \hspace*{-1.5cm}
+        \epsfig{file=Abbildungen/directed-graph.pdf,scale=0.8}
+        \caption{A directed graph.}
+        \label{fig:directed-graph.pdf}
+      \end{figure}
       \end{enumerate}
-\item The variable $\texttt{Distance}$ is a \blue{functional binary relation}.  When the computation is
-      successful, for every node $x$ this relation will contain a pair of the form
-      $[x, \texttt{sp}(x)]$ showing that the node $x$ has distance $\texttt{sp}(x)$ from the node $\texttt{source}$.
+\item The variable $\texttt{Distance}$ is a \blue{dictionary}.  After the computation is
+      finished, for every node $x$ such that $x$ is reachable from the node \texttt{source},
+      the value $\texttt{Distance}[x]$ records the length of the shortest path from \texttt{source} to $x$.
 
       The node $\texttt{source}$ has distance $0$ from the node $\texttt{source}$ and initially this is
-      all we know.  Hence, the relation $\texttt{Distance}$ is initialized as the set $\bigl\{[\texttt{source},0]\bigr\}$.
-\item The variable $\texttt{Fringe}$ is a set of those nodes where we already have an estimate of
-      their distance from the  node \texttt{source}, but where we haven't yet computed the distances of their
-      neighbours from the node \texttt{source}. 
-      Every iteration of the \texttt{while} loop computes the distances of all those nodes $y$ that are
-      connected to a node in $\texttt{Fringe}$ by an edge $\pair(x,y)$.
+      all we know.  Hence, the dictionary $\texttt{Distance}$ is initialized as $\bigl\{\texttt{source}:0 \bigr\}$.
+\item The variable $\texttt{Fringe}$ is a list of those nodes that already have an estimate of
+      their distance from the  node \texttt{source}.  Furthermore, if a node is in \texttt{Fringe} then this
+      node has at least one neighbouring node whose distance from \texttt{source} hasn't been computed. 
       Initially we only know that the node $\texttt{source}$ is connected to the node \texttt{source}.
-      Therefore, we initialize the set $\texttt{Fringe}$ as the set
+      Therefore, we initialize the list $\texttt{Fringe}$ as the list
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\{ \texttt{source} \}$.
-\item As long as there are nodes left in the set $\texttt{Fringe}$ we pick an arbitrary node
-      $\texttt{u}$ from $\texttt{Fringe}$ and remove it from $\texttt{Fringe}$. 
-\item Next, we compute the set of all nodes $\texttt{v}$ that can be reached from $\texttt{u}$ and check whether we
-      have found a shorter path leading to any of these nodes.  There are two cases.
+      $[ \texttt{source} ]$.
+\item Every iteration of the \texttt{while} takes the first node \texttt{u} from the \texttt{Fringe} and computes the
+      distances of all those nodes $v$ that are 
+      connected to a node in $\texttt{Fringe}$ by an edge $(u,v)$.
+\item Next, we compute all nodes $\texttt{v}$ that can be reached from $\texttt{u}$. For every node \texttt{v} we check whether 
+      reaching \texttt{v} from \texttt{u} results in a shorter path than previously known.
+      There are two cases.
       \begin{enumerate}
       \item If there is an edge from $\texttt{u}$ to a node $\texttt{v}$ and  $\texttt{Distance}[\texttt{v}]$ is still
             undefined, then we hadn't yet found a path leading to $\texttt{v}$.
       \item Furthermore, there are those nodes $\texttt{v}$ where we had already found a path leading from
             $\texttt{source}$ to $\texttt{v}$ but the length of this path is longer than the length of the path
-            that we get when we first visit $\texttt{u}$ and then proceed to $\texttt{v}$ via the edge $\pair(\texttt{u},\texttt{v})$.
+            that we get when we first visit $\texttt{u}$ and then proceed to $\texttt{v}$ via the edge $(\texttt{u},\texttt{v})$.
       \end{enumerate}
       We compute the distance of the path leading from $\texttt{source}$ to $\texttt{u}$ and then to
-      $\texttt{v}$ in both of these cases and add $\texttt{v}$ to the fringe.
-\item The algorithm terminates when the set $\texttt{Fringe}$ is empty because in that case we don't
-      have any means left to improve our estimation of the distance function.
+      $\texttt{v}$ in both of these cases and add $\texttt{v}$ to the \texttt{Fringe}.
+\item The algorithm terminates when the list $\texttt{Fringe}$ is empty because in that case we don't
+      have any means left to improve our estimate of the distance function.
 \end{enumerate}
 
 \subsection{Dijkstra's Algorithm \label{sec:dijkstra}}
