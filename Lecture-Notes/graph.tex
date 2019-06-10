@@ -883,7 +883,16 @@ then after picking the node 'h' the distances are as follows:
 \hspace*{1.3cm}
 '\texttt{b}': 9, '\texttt{d}': 10, '\texttt{e}': 14, '\texttt{f}': 12, '\texttt{h}': 17, '\texttt{c}': 2.
 \\[0.2cm]
-You can verify this by running the jupyter notebook \href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}{\texttt{Moore.ipynb}}.
+You can verify this by running the jupyter notebook
+\href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}{\texttt{Moore.ipynb}}.
+You can also view the output of this notebook directly at
+\\[0.2cm]
+\hspace*{0.3cm}
+\href{https://nbviewer.jupyter.org/github/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}{
+  \texttt{https://nbviewer.jupyter.org/}\\
+\hspace*{1.3cm}
+  \texttt{github/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}}.
+\\[0.2cm]
 When we next pick '\texttt{c}' and then '\texttt{g}', the distance of '\texttt{e}' decreases first from 14 to 7 and
 then to 6.  Follwing that, the distance of '\texttt{b}' decreases to 8.  If would have been better if we had
 started inspecting the node '\texttt{c}' prior to the node '\texttt{b}'.
@@ -915,7 +924,6 @@ distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} 
 
     def shortest_path(source, Edges):
         Distance = { source: 0 }
-        Visited  = { source }
         Fringe   = Set.Set()
         Fringe.insert( (0, source) )
         while not Fringe.isEmpty():
@@ -927,7 +935,6 @@ distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} 
                         Fringe.delete( (dv, v) )
                     Distance[v] = d + l
                     Fringe.insert( (d + l, v) )
-            Visited |= { u }
         return Distance
 \end{Verbatim}
 \vspace*{-0.3cm}
@@ -935,7 +942,8 @@ distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} 
 \label{fig:Dijkstra.ipynb}
 \end{figure}
 Since the priority queue that is implemented in \textsl{Python} as the module \texttt{heapq} does not provide a
-method to change the priority of an object that is already part of the queue, I have used instead the module Set.  This
+method to change the priority of an object that is already part of the queue, I have used instead the module
+\href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Set.py}{Set}.  This
 module implements sets via \textsc{Avl} trees.  In addition to the methods \texttt{insert}, \texttt{delete},
 and \texttt{isEmpty}, the module \texttt{Set} provides the method $\texttt{pop}$.  Given a set $S$, the call
 \\[0.2cm]
@@ -957,7 +965,10 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
       the correctness of the algorithm.  This is explained in more detail later.
 \item \texttt{Fringe} is a priority queue that contains pairs of the form $(d, x)$, where $x$ is a node and $d$
       is the distance that $x$ has from the node \texttt{source}.  This priority queue is implemented as a set,
-      which in turn is represented by an ordered binary tree.  Initially the only node that is known to be
+      which in turn is represented by an ordered binary tree.  The fact that we store the node $x$ and the
+      distance $d$ as a pair $(d,c)$ implies that the distances are used as priorities because pairs are
+      compared lexicographically.
+      Initially the only node that is known to be
       reachable from \texttt{source} is the node \texttt{source}.  Hence \texttt{Fringe} is initialized as the
       set $\{ (0, \texttt{source}) \}$.
 \item As long as the set \texttt{Fringe} is not empty, line 9 of the implementation removes that node $u$
@@ -977,95 +988,59 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
 \item When the \texttt{Fringe} has been exhausted, the dictionary \texttt{Distance} contains the distances of
       every node that is reachable from the node \texttt{source}.  
 \end{enumerate}
-The set $\texttt{Visited}$ isn't used in the implementation of the algorithm since the variable is
-only written but is never read.
-I have introduced the variable $\texttt{Visited}$ in order to be able to formulate the \blue{invariant} that
-is needed to prove the \blue{correctness} of the algorithm.  This invariant is
-\\[0.2cm]
-\hspace*{1.3cm}
-$\forall \texttt{u}\in\texttt{Visited}: \texttt{Distance}[\texttt{u}] = \texttt{sp}(\texttt{u})$,
-\\[0.2cm]
-i.e.~for all nodes $\texttt{u}$ from the set $\texttt{Visited}$, the dictionary $\texttt{Distance}$
-already contains the length of the shortest path leading from $\texttt{source}$ to $u$.  
-\vspace*{0.1cm}
 
-\proof 
-We prove by induction that every time that a node $\texttt{u}$ is added to the set
-$\texttt{Visited}$ we have that
-\\[0.2cm]
-\hspace*{1.3cm}
-$\texttt{Distance}[\texttt{u}] = \texttt{sp}(\texttt{u})$ 
-\\[0.2cm]
-holds.  To begin, observe that the program has only two lines where the set $\texttt{Visited}$ is changed.
-We only need to inspect these lines.
+\begin{Theorem}[Distance Property of Dijkstra's Algorithm]
+  If a node $u$ is removed from the \texttt{Fringe} in line 8, then we have
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\texttt{sp}[u] = d = \texttt{Distance}[u]$
+  \\[0.2cm]
+  and every node $w$ such that $\texttt{sp}(w) < \texttt{sp}(u)$ satisfies
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\texttt{Distance}[w] = \texttt{sp}(w)$.
+\end{Theorem}
 
-\begin{enumerate}
-\item \textbf{Base Case:}  
-      Initially, the set $\texttt{Visited}$ contains only the node $\texttt{source}$ and we have
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{sp}(\texttt{source}) = 0 = \texttt{Distance}[\texttt{source}]$.
-      \\[0.2cm]
-      Surely, the distance from $\texttt{source}$ to $\texttt{source}$ is $0$.  Hence the claim is true initially.
-\item \textbf{Induction Step:}
-      In line 17 we add the node $\texttt{u}$ to the set $\texttt{Visited}$.  Immediately before $\texttt{u}$ is
-      inserted there are two cases: If $\texttt{u}$ is already a member of the set $\texttt{Visited}$, the
-      claim is true by induction hypothesis.  Hence we only need to consider the case where
-      $\texttt{u}$ is not a member of the set $\texttt{Visited}$ before it is inserted.
+\proof The claim is proven by induction on $n := \texttt{sp}[u]$.
+\begin{description}
+\item[Base case:] $n = 0$.
 
-      The proof now proceeds \red{by contradiction} and we \blue{assume} that we have
-      \\[0.2cm]
-      \hspace*{1.3cm} $\texttt{Distance}[\texttt{u}] > \texttt{sp}(\texttt{u})$
-      \\[0.2cm]
-      Then there must exist a shortest path 
-      \\[0.2cm]
-      \hspace*{1.3cm} $p = [ x_0 = \texttt{source}, x_1, \cdots, x_n = \texttt{u} ]$
-      \\[0.2cm]
-      leading from $\texttt{source}$ to $\texttt{u}$ that has length $\texttt{sp}(u)$ and this length is less
-      than $\texttt{Distance}[\texttt{u}]$.  Define  $i\in\{0,\cdots,n-1\}$ to be the index such that
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $x_0\in \texttt{Visited}$, $\cdots$, $x_i\in \texttt{Visited}$ \quad but \quad $x_{i+1} \not\in \texttt{Visited}$
-      \\[0.2cm]
-      holds.  Hence $x_i$ is the first node in the path  $p$ such that $x_{i+1}$ is not a member of
-      $\texttt{Visited}$.  Such an index $i$ has to exist because $\texttt{u} \not\in \texttt{Visited}$.
-      Before the node $x_i$ is added to the set $\texttt{Visited}$, all nodes $y$ that are connected
-      to $x_i$ via an edge $\pair(x_i, y)$ are examined and for these nodes the function
-      $\texttt{Distance}$ is updated if this edge leads to a shorter path.  In particular, $x_{i+1}$ has
-      been examined and $\texttt{Distance}[x_{i+1}]$ has been recomputed.  At the latest, the node
-      $x_{i+1}$ has been added to the set  $\texttt{Fringe}$ at this time, although, of course, it
-      could have been added already earlier.  Furthermore, we must have
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{Distance}[x_{i+1}] = \texttt{sp}(x_{i+1})$,
-      \\[0.2cm]
-      because by induction hypothesis we have that $\texttt{Distance}[x_i] = \texttt{sp}(x_i)$ and 
-      the edge $\pair(x_i,x_{i+1})$ is part of a shortest path from  $x_i$ to $x_{i+1}$.
-      
-      As we have assumed that $x_{i+1} \not\in \texttt{Visited}$, the node $x_{i+1}$ still has to be an
-      element of the priority queue $\texttt{Fringe}$ at this point.  Therefore we must have
-      $\texttt{Distance}[x_{i+1}] \geq \texttt{Distance}[u]$, since otherwise  $x_{i+1}$ would have been
-      chosen from the priority queue $\texttt{Fringe}$ before $\texttt{u}$ has been chosen, but then $x_{i+1}$
-      would be a member of $\texttt{Visited}$.
+  The only node $u$ satisfying $\texttt{sp}(u) = 0$ is the node $u = \texttt{source}$.
+  Initially, the pair $(0, \texttt{source})$ is put onto the \texttt{Fringe} in line 6.
+  The only way a pair on the \texttt{Fringe} could be changed is when a pair is removed in line 13 and then
+  reinserted in line 15 with a smaller distance.  As there is no smaller distance than $0$, the pair
+  $(0, \texttt{source})$ can not be altered.  Therefor, when \texttt{source} is removed from the
+  \texttt{Fringe} in line 8, we must have $d = 0$ and hence we have $\texttt{sp}[u] = d$.
+  As all of our edges are assumed to be positive natural numbers, there can be no node $w$ such that
+  $\texttt{sp}[w] < 0$. Hence the second part of the claim is trivially true in this case.
+\item[Induction step:]  We assume that the claim holds for $\mathtt{sp}[u] \in \{0,1,\cdots,n-1\}$
+  and we prove that this implies that the claim also holds in case that $\texttt{sp}[u] = n$.
 
-      Since $\texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}]$ we now have 
-      \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\texttt{sp(u)} \geq \texttt{sp}(x_{i+1}) = \texttt{Distance}[x_{i+1}] \geq \texttt{Distance[u]} > \texttt{sp(u)}$,
-      \\[0.2cm]
-      i.e.~we have shown the \red{contradiction}
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{sp(u)} > \texttt{sp(u)}$,
-      \\[0.2cm]
-      This shows that the \blue{assumption} $\texttt{Distance[u]} > \texttt{sp(u)}$ has to be wrong.  On the
-      other hand, since we always have $\texttt{Distance[u]} \geq \texttt{sp(u)}$ we can only conclude that
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\texttt{Distance[u]} = \texttt{sp(u)}$
-      \\[0.2cm]
-      holds for all nodes $\texttt{u} \in \texttt{Visited}$. \qed
-\end{enumerate}
+  As $\texttt{sp}[u] = n$ there has to be a shortest path
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $P = [x_0, x_1, \cdots, x_{k-1}, x_k]$
+  \\[0.2cm]
+  such that $x_0 = \texttt{source}$, $x_k = u$, and $\weight{P} = n$.  Since the lengths of all edges are
+  positive natural numbers, this implies that the path $P' = [x_0,x_1, \cdots, x_{k-1}]$ has a length $d'$ such
+  that $d' < \texttt{sp}(u) = n$.  By induction hypothesis this implies that
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $d' = \texttt{Distance}[x_{k-1}] = \texttt{sp}(x_{k-1})$.
+  \\[0.2cm]
+  Immediately after $\texttt{Distance}[x_{k-1}]$ is computed in line 14, the pair
+  $(d', x_{k-1})$ is put on the \texttt{Fringe} in line 15.  Since $d' < d$, this pair is removed from the
+  \texttt{Fringe} prior to the pair $(d, u)$.  After the pair $(d',x_{k-1})$ is removed from the
+  \texttt{Fringe} in line 8, all edges starting in $x_{k-1}$ are checked in line 9.
+  Hence, the edge $(x_{k-1}, x_k)$ has also been checked and, if $\texttt{Distance}[x_k]$ had been greater than
+  $d$, it has been reduced to $d$ at that time.  Therefore,
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\texttt{Distance}[u] = d = \texttt{sp}(u)$.
+  \\[0.2cm]
+  A similar argument shows that for all nodes $w$ such that  
+  $\texttt{sp}(w) < \texttt{sp}(u)$ we must have $\texttt{Distance}[w] = \texttt{sp}(w)$.  \qed
+\end{description}
 
 \exercise
 Improve the implementation of Dijkstra's algorithm given above so that the algorithm also computes
