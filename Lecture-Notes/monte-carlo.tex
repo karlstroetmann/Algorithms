@@ -1,16 +1,18 @@
 \chapter{The Monte-Carlo Method}
 Some problems are just too complex to be solved exactly.  Often, these problem can be solved approximately via simulation.
 \begin{enumerate}
-\item The computation of the volumes of a three-dimensional object can be reduced to multiple integrals.
-      However, if the object has a complicated surface, then computing these integrals exactly might be impossible.
+\item The computation of the volume of a three-dimensional object can be reduced to the computation of a
+      \href{https://en.wikipedia.org/wiki/Multiple_integral}{multiple integral}.
+      However, if the object has a complicated surface, then computing the associated multiple integral exactly
+      might be very difficult.
       In this case, the \href{https://en.wikipedia.org/wiki/Monte_Carlo_integration}{Monte-Carlo} method is
       often able to compute a rough approximation of the volume.  Although the precision attained using the Monte-Carlo
       method is limited, the method is often very easy to implement.
-\item Complex systems that are influenced by random events are often difficult to predict.  Their behaviour can
-      often only be understood via random simulations.  For example, if a new underground transportation system
+\item Complex systems that are influenced by random events are inherently difficult to predict.  In many cases,
+      their behaviour can only be understood via random simulations.  For example, if a new underground transportation system
       is planned, the capacity of the system is estimated via simulation.
-\item In games of chance it is often not possible to compute all probabilities exactly.  However, Monte-Carlo
-      simulations can be used to compute reasonable estimates of these probabilities.
+\item In games of chance it is sometimes either impossible or at least very difficult to compute the
+      probabilities exactly.  However, Monte-Carlo simulations can be used to compute reasonable estimates of these probabilities.
 \end{enumerate}
 This list can easily be extended.  In this chapter, we investigate three applications of the Monte-Carlo method.
 \begin{enumerate}
@@ -27,13 +29,13 @@ This list can easily be extended.  In this chapter, we investigate three applica
 The \href{https://en.wikipedia.org/wiki/Unit_circle}{unit circle} $U$ is defined as the set 
 \\[0.2cm]
 \hspace*{1.3cm}
-$U = \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \bigr\}$.
+$U := \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \bigr\}$.
 \\[0.2cm]
 The set $U$ contains those points $\pair(x,y)$ that have distance of $1$ or less from the origin
 $\pair(0,0)$.  The unit circle is a subset of the square $Q$ that is defined as 
 \\[0.2cm]
 \hspace*{1.3cm}
-$Q := \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid -1 \leq x \leq +1 \wedge -1 \leq y \leq +1 \bigr\}$
+$Q := \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid -1 \leq x \leq +1 \wedge -1 \leq y \leq +1 \bigr\}$.
 \\[0.2cm]
 A simple algorithm to compute $\pi$ works as follows:  We randomly throw $n$ grains of sand into the square $Q$.
 Then we count the number of grains that end up in the unit circle $U$.  Call this number $k$.
@@ -48,8 +50,8 @@ Multiplying by $4$ we get
 \hspace*{1.3cm}
 $\ds \pi \approx 4 \cdot \frac{k}{n}$.
 \\[0.2cm]
-Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:monte-carlo.stlx} on page
-\pageref{fig:monte-carlo.stlx} shows the resulting program.
+Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:Monte-Carlo-Pi.ipynb} on page
+\pageref{fig:Monte-Carlo-Pi.ipynb} shows the resulting program.
 
 
 \begin{figure}[!ht]
@@ -62,24 +64,19 @@ Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:mo
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    approximatePi := procedure(n) {
-        k := 0;  
-        i := 0;
-        while (i < n) {
-            x := 2 * random() - 1;
-            y := 2 * random() - 1;
-            r := x * x + y * y;
-            if (r <= 1) {
-                k += 1;
-            }
-            i += 1;
-        }
-        return 4.0 * k / n;
-    };
+    def approximate_pi(n):
+        k = 0
+        for _ in range(n):
+            x = 2 * rnd.random() - 1
+            y = 2 * rnd.random() - 1
+            r = x * x + y * y
+            if r <= 1:
+                k += 1
+        return 4 * k / n
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{Experimentelle Bestimmung von $\pi$ mit Hilfe der Monte-Carlo-Methode.}
-\label{fig:monte-carlo.stlx}
+\label{fig:Monte-Carlo-Pi.ipynb}
 \end{figure}
 
 \begin{enumerate}
@@ -145,142 +142,142 @@ increase the number of trial by a hundred times!
   }}}
 \end{center}
 
-\section[Theory]{Theoretischer Hintergrund$^*$}
-Wir diskutieren nun den theoretischen Hintergrund der Monte-Carlo-Methode.  Da im zweiten Semester noch
-keine detaillierteren Kenntnisse aus der Wahrscheinlichkeits\-rechnung vorhanden sind, beschr\"anken wir
-uns darauf, die wesentlichen Ergebnisse anzugeben.  Eine Begr\"undung dieser Ergebnisse erfolgt dann
-in der Statistik-Vorlesung im vierten Semester. 
+% \section[Theory]{Theoretischer Hintergrund$^*$}
+% Wir diskutieren nun den theoretischen Hintergrund der Monte-Carlo-Methode.  Da im zweiten Semester noch
+% keine detaillierteren Kenntnisse aus der Wahrscheinlichkeits\-rechnung vorhanden sind, beschr\"anken wir
+% uns darauf, die wesentlichen Ergebnisse anzugeben.  Eine Begr\"undung dieser Ergebnisse erfolgt dann
+% in der Statistik-Vorlesung im vierten Semester. 
 
-Bei der Monte-Carlo-Methode wird ein Zufalls-Experiment, im gerade diskutierten Beispiel war es das Werfen
-eines Sandkorns, sehr oft wiederholt.  F\"ur den Ausgang dieses Zufalls-Experiments gibt es dabei zwei
-M\"oglichkeiten:  Es ist ent\-weder erfolgreich (im obigen Beispiel landet das Sandkorn im Kreis) oder nicht
-erfolgreich.  Ein solches Experiment bezeichnen wir als \emph{Bernoulli-Experiment}.
- Hat die Wahrscheinlichkeit, dass das Experiment erfolgreich ist, den Wert $p$ und wird das
-Experiment $n$ mal ausgef\"uhrt, so ist die Wahrscheinlichkeit, dass genau $k$ dieser Versuche erfolgreich sind,
-durch die Formel
-\[ P(k) = \frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \]
-gegeben, die auch als \emph{Binomial-Verteilung} bekannt ist.  F\"ur gro{\ss}e Werte von $n$ ist die obige Formel
-sehr unhandlich, kann aber gut durch die \emph{Gau{\ss}-Verteilung} approximiert werden, es gilt
-\\[0.2cm]
-\hspace*{0.8cm}
-$\ds\frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \approx  
-   \frac{1}{\sqrt{2\cdot \pi \cdot n \cdot p \cdot (1-p)\;}} \cdot 
-   \exp\left(-\frac{(k - n \cdot p)^2}{2 \cdot n \cdot p \cdot (1 - p)}\right)
-$
-\\[0.2cm]
-Wird das Experiment $n$ mal durchgef\"uhrt, so erwarten wir im Durchschnitt nat\"urlich, dass $n \cdot p$ der
-Versuche erfolgreich sein werden.  Darauf basiert unsere Sch\"atzung f\"ur den Wert von $p$, denn wir approximieren
-$p$ durch die Formel
-\[ p \approx \frac{k}{n}, \]
-wobei $k$ die Anzahl der erfolgreichen Experimente bezeichnet.  Nun werden in der Regel nicht genau $n \cdot p$
-Versuche erfolgreich sein: Zufallsbedingt werden etwas mehr oder etwas weniger Versuche
-erfolgreich sein.  Das f\"uhrt dazu, dass unsere Sch\"atzung von $p$ eine Ungenauigkeit aufweist, deren ungef\"ahre
-Gr\"o{\ss}e wir irgendwie absch\"atzen m\"ussen um unsere Ergebnisse beurteilen zu k\"onnen.
+% Bei der Monte-Carlo-Methode wird ein Zufalls-Experiment, im gerade diskutierten Beispiel war es das Werfen
+% eines Sandkorns, sehr oft wiederholt.  F\"ur den Ausgang dieses Zufalls-Experiments gibt es dabei zwei
+% M\"oglichkeiten:  Es ist ent\-weder erfolgreich (im obigen Beispiel landet das Sandkorn im Kreis) oder nicht
+% erfolgreich.  Ein solches Experiment bezeichnen wir als \emph{Bernoulli-Experiment}.
+%  Hat die Wahrscheinlichkeit, dass das Experiment erfolgreich ist, den Wert $p$ und wird das
+% Experiment $n$ mal ausgef\"uhrt, so ist die Wahrscheinlichkeit, dass genau $k$ dieser Versuche erfolgreich sind,
+% durch die Formel
+% \[ P(k) = \frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \]
+% gegeben, die auch als \emph{Binomial-Verteilung} bekannt ist.  F\"ur gro{\ss}e Werte von $n$ ist die obige Formel
+% sehr unhandlich, kann aber gut durch die \emph{Gau{\ss}-Verteilung} approximiert werden, es gilt
+% \\[0.2cm]
+% \hspace*{0.8cm}
+% $\ds\frac{n!}{k! \cdot (n-k)!} \cdot p^k \cdot (1-p)^{n-k} \approx  
+%    \frac{1}{\sqrt{2\cdot \pi \cdot n \cdot p \cdot (1-p)\;}} \cdot 
+%    \exp\left(-\frac{(k - n \cdot p)^2}{2 \cdot n \cdot p \cdot (1 - p)}\right)
+% $
+% \\[0.2cm]
+% Wird das Experiment $n$ mal durchgef\"uhrt, so erwarten wir im Durchschnitt nat\"urlich, dass $n \cdot p$ der
+% Versuche erfolgreich sein werden.  Darauf basiert unsere Sch\"atzung f\"ur den Wert von $p$, denn wir approximieren
+% $p$ durch die Formel
+% \[ p \approx \frac{k}{n}, \]
+% wobei $k$ die Anzahl der erfolgreichen Experimente bezeichnet.  Nun werden in der Regel nicht genau $n \cdot p$
+% Versuche erfolgreich sein: Zufallsbedingt werden etwas mehr oder etwas weniger Versuche
+% erfolgreich sein.  Das f\"uhrt dazu, dass unsere Sch\"atzung von $p$ eine Ungenauigkeit aufweist, deren ungef\"ahre
+% Gr\"o{\ss}e wir irgendwie absch\"atzen m\"ussen um unsere Ergebnisse beurteilen zu k\"onnen.
 
-Um eine Idee davon zu bekommen, wie sehr die Anzahl der erfolgreichen Versuche von dem Wert $\frac{k}{n}$
-abweicht,  f\"uhren wir den Begriff der \emph{Streuung} $\sigma$ ein, die f\"ur eine binomialverteilte Zufallsgr\"o{\ss}e
-durch die Formel
-\[ \sigma = \sqrt{n \cdot p \cdot (1 - p)} \]
-gegeben ist.  Die Streuung gibt ein Ma{\ss} daf\"ur, wie stark der gemessene Wert von $k$ von dem im Mittel
-erwarteten Wert $p \cdot n$ abweicht.  Es kann gezeigt werden, dass die Wahrscheinlichkeit, dass $k$ au{\ss}erhalb
-des Intervalls
-\[ [ p \cdot n - 3 \cdot \sigma,\, p \cdot n + 3 \cdot \sigma ] \]
-liegt, also um mehr als das Dreifache von dem erwarteten Wert abweicht, kleiner als $0.27 \%$ ist.  F\"ur
- die Genauigkeit unserer Sch\"atzung $p \approx \frac{k}{n}$ hei{\ss}t das, dass dieser Sch\"atzwert mit hoher
- Wahrscheinlichkeit ($99.73\%$) in dem Intervall
-\[  \left[ \frac{p \cdot n - 3 \cdot \sigma}{n},\, \frac{p \cdot n + 3 \cdot \sigma}{n} \right] 
-  = \left[ p - 3 \cdot \frac{\sigma}{n},\, p + 3 \cdot \frac{\sigma}{n} \right]
-\] 
-liegt.  Die Genauigkeit $\varepsilon(n)$ ist durch die halbe L\"ange dieses Intervalls gegeben und hat daher den
-Wert 
-\[ \varepsilon(n) = 3 \cdot \frac{\sigma}{n} = 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}}. \]
-Wir erkennen hier, dass zur Erh\"ohung der Genauigkeit um den Faktor 10 die Zahl der Versuche um den Faktor 100
-vergr\"o{\ss}ert werden muss.
+% Um eine Idee davon zu bekommen, wie sehr die Anzahl der erfolgreichen Versuche von dem Wert $\frac{k}{n}$
+% abweicht,  f\"uhren wir den Begriff der \emph{Streuung} $\sigma$ ein, die f\"ur eine binomialverteilte Zufallsgr\"o{\ss}e
+% durch die Formel
+% \[ \sigma = \sqrt{n \cdot p \cdot (1 - p)} \]
+% gegeben ist.  Die Streuung gibt ein Ma{\ss} daf\"ur, wie stark der gemessene Wert von $k$ von dem im Mittel
+% erwarteten Wert $p \cdot n$ abweicht.  Es kann gezeigt werden, dass die Wahrscheinlichkeit, dass $k$ au{\ss}erhalb
+% des Intervalls
+% \[ [ p \cdot n - 3 \cdot \sigma,\, p \cdot n + 3 \cdot \sigma ] \]
+% liegt, also um mehr als das Dreifache von dem erwarteten Wert abweicht, kleiner als $0.27 \%$ ist.  F\"ur
+%  die Genauigkeit unserer Sch\"atzung $p \approx \frac{k}{n}$ hei{\ss}t das, dass dieser Sch\"atzwert mit hoher
+%  Wahrscheinlichkeit ($99.73\%$) in dem Intervall
+% \[  \left[ \frac{p \cdot n - 3 \cdot \sigma}{n},\, \frac{p \cdot n + 3 \cdot \sigma}{n} \right] 
+%   = \left[ p - 3 \cdot \frac{\sigma}{n},\, p + 3 \cdot \frac{\sigma}{n} \right]
+% \] 
+% liegt.  Die Genauigkeit $\varepsilon(n)$ ist durch die halbe L\"ange dieses Intervalls gegeben und hat daher den
+% Wert 
+% \[ \varepsilon(n) = 3 \cdot \frac{\sigma}{n} = 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}}. \]
+% Wir erkennen hier, dass zur Erh\"ohung der Genauigkeit um den Faktor 10 die Zahl der Versuche um den Faktor 100
+% vergr\"o{\ss}ert werden muss.
 
-Wenden wir die obige Formel auf die im letzten Abschnitt durchgef\"uhrte Berechnung der Zahl $\pi$ an, so erhalten
-wir wegen $p = \frac{\pi}{4}$ die in Abbildung \ref{tab:Precision.java} gezeigten Ergebnisse.
+% Wenden wir die obige Formel auf die im letzten Abschnitt durchgef\"uhrte Berechnung der Zahl $\pi$ an, so erhalten
+% wir wegen $p = \frac{\pi}{4}$ die in Abbildung \ref{tab:Precision.java} gezeigten Ergebnisse.
 
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}[t]{|r|r|}
-\hline
-Anzahl Versuche $n$ & Genauigkeit $\varepsilon(n)$ \\
-\hline
-\hline
-                $10$ & 0.389478 \\
-\hline
-               $100$ & 0.123164 \\
-\hline
-            $1\,000$ & 0.0389478 \\
-\hline
-           $10\,000$ & 0.0123164 \\
-\hline
-          $100\,000$ & 0.00389478 \\
-\hline
-       $1\,000\,000$ & 0.00123164 \\
-\hline
-      $10\,000\,000$ & 0.000389478 \\
-\hline
-     $100\,000\,000$ & 0.000123164 \\
-\hline
-  $1\,000\,000\,000$ & 3.89478e-05 \\
-\hline
- $10\,000\,000\,000$ & 1.23164e-05 \\
-\hline
-$100\,000\,000\,000$ & 3.89478e-06 \\
-\hline
+% \begin{table}[htbp]
+%   \centering
+%   \begin{tabular}[t]{|r|r|}
+% \hline
+% Anzahl Versuche $n$ & Genauigkeit $\varepsilon(n)$ \\
+% \hline
+% \hline
+%                 $10$ & 0.389478 \\
+% \hline
+%                $100$ & 0.123164 \\
+% \hline
+%             $1\,000$ & 0.0389478 \\
+% \hline
+%            $10\,000$ & 0.0123164 \\
+% \hline
+%           $100\,000$ & 0.00389478 \\
+% \hline
+%        $1\,000\,000$ & 0.00123164 \\
+% \hline
+%       $10\,000\,000$ & 0.000389478 \\
+% \hline
+%      $100\,000\,000$ & 0.000123164 \\
+% \hline
+%   $1\,000\,000\,000$ & 3.89478e-05 \\
+% \hline
+%  $10\,000\,000\,000$ & 1.23164e-05 \\
+% \hline
+% $100\,000\,000\,000$ & 3.89478e-06 \\
+% \hline
 
-  \end{tabular}
-  \caption{Genauigkeit der Bestimmung von $\pi$ bei einer Sicherheit von $99,73\%$.}
-  \label{tab:Precision.java}
-\end{table}
+%   \end{tabular}
+%   \caption{Genauigkeit der Bestimmung von $\pi$ bei einer Sicherheit von $99,73\%$.}
+%   \label{tab:Precision.java}
+% \end{table}
 
-\vspace*{0.3cm}
+% \vspace*{0.3cm}
 
-\exercise
-Wie viele Versuche sind notwendig um $\pi$ mit der Monte-Carlo-Methode auf 6
-Stellen hinter dem Komma zu berechnen, wenn das Ergebnis mit einer Wahr\-scheinlichkeit von $99,73\%$
-korrekt sein soll?
-\vspace*{0.1cm}
+% \exercise
+% Wie viele Versuche sind notwendig um $\pi$ mit der Monte-Carlo-Methode auf 6
+% Stellen hinter dem Komma zu berechnen, wenn das Ergebnis mit einer Wahr\-scheinlichkeit von $99,73\%$
+% korrekt sein soll?
+% \vspace*{0.1cm}
 
-\noindent
-\textbf{Hinweis}: 
-Um eine Genauigkeit von 6 Stellen hinter dem Komma zu erreichen, sollte der Fehler durch $10^{-7}$
-abgesch\"atzt werden.  \eox
-\pagebreak
+% \noindent
+% \textbf{Hinweis}: 
+% Um eine Genauigkeit von 6 Stellen hinter dem Komma zu erreichen, sollte der Fehler durch $10^{-7}$
+% abgesch\"atzt werden.  \eox
+% \pagebreak
 
-\solution
-Nach dem Hinweis soll 
-\\[0.2cm]
-\hspace*{1.3cm}
-$\varepsilon(n) = 10^{-7}$
-\\[0.2cm]
-gelten. Setzen wir hier die Formel f\"ur $\varepsilon(n)$ ein, so erhalten wir
-\\[0.2cm]
-\hspace*{1.3cm}
-$  
-\begin{array}[t]{llcl}
-                & \ds 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
-\Leftrightarrow & \ds 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
-\Leftrightarrow & \ds 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
-\end{array}
-$
-\\[0.2cm] 
-Um an dieser Stelle weitermachen zu k\"onnen, ben\"otigen wir den Wert der Wahr\-scheinlichkeit $p$.  Der korrekte
-Wert von $p$ ist f\"ur unser Experiment durch $\frac{\pi}{4}$ gegeben.  Da wir $\pi$ ja erst berechnen wollen,
-nehmen wir als N\"aherung von $\pi$ den Wert $3$, so dass $p$ den Wert $\frac{3}{4}$ hat.  Damit
-ergibt sich f\"ur $n$ der Wert
-\\[0.2cm]
-\hspace*{1.3cm}
-$n = 168.75 \cdot 10^{12}$.
-\\[0.2cm]
-Das sind also mehr als fast 169 Billionen Versuche. \qed
+% \solution
+% Nach dem Hinweis soll 
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $\varepsilon(n) = 10^{-7}$
+% \\[0.2cm]
+% gelten. Setzen wir hier die Formel f\"ur $\varepsilon(n)$ ein, so erhalten wir
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $  
+% \begin{array}[t]{llcl}
+%                 & \ds 3 \cdot \sqrt{\frac{p \cdot (1 - p)}{n}} & = & 10^{-7}   \\[0.3cm]
+% \Leftrightarrow & \ds 9 \cdot        \frac{p \cdot (1 - p)}{n} & = & 10^{-14}      \\[0.3cm]
+% \Leftrightarrow & \ds 9 \cdot    p \cdot (1 - p) \cdot 10^{14} & = & n 
+% \end{array}
+% $
+% \\[0.2cm] 
+% Um an dieser Stelle weitermachen zu k\"onnen, ben\"otigen wir den Wert der Wahr\-scheinlichkeit $p$.  Der korrekte
+% Wert von $p$ ist f\"ur unser Experiment durch $\frac{\pi}{4}$ gegeben.  Da wir $\pi$ ja erst berechnen wollen,
+% nehmen wir als N\"aherung von $\pi$ den Wert $3$, so dass $p$ den Wert $\frac{3}{4}$ hat.  Damit
+% ergibt sich f\"ur $n$ der Wert
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $n = 168.75 \cdot 10^{12}$.
+% \\[0.2cm]
+% Das sind also mehr als fast 169 Billionen Versuche. \qed
 
 
-\exercise
-Berechnen Sie mit Hilfe der Monte-Carlo-Methode eine N\"aherung f\"ur den Ausdruck $\mathrm{ln}(2)$.
-Ihre N\"aherung soll mit einer Wahrscheinlichkeit von $99.73\%$ eine Genauigkeit von 
-$\varepsilon = 10^{-3}$ haben. \eox
+% \exercise
+% Berechnen Sie mit Hilfe der Monte-Carlo-Methode eine N\"aherung f\"ur den Ausdruck $\mathrm{ln}(2)$.
+% Ihre N\"aherung soll mit einer Wahrscheinlichkeit von $99.73\%$ eine Genauigkeit von 
+% $\varepsilon = 10^{-3}$ haben. \eox
 
 
 \section{The Monty Hall Problem}
@@ -291,23 +288,28 @@ US from the sixties through the seventies.  The host of this show was
 \href{http://en.wikipedia.org/wiki/Monty_Hall}{Monty Hall}. In his show, a player had to choose one
 of three doors.  Monty Hall had placed goats behind two of the doors but there was a shiny new car
 behind the third door.  Of course, the player did not know the location of the door with the car.  
-Once the player had told Monty Hall the door he had chosen, Monty Hall would open one of the other
+Once the player had told Monty Hall the door she had chosen, Monty Hall would open one of the other
 two doors.  However, Monty Hall would never open the door with the car behind it.  Therefore, if the
 player had chosen the door with the car, Monty Hall would have randomly chosen a door leading to a
 goat.  If, instead, the player had chosen a door leading to a goat, Monty Hall would have opened the
 door showing the other goat.  In either case, after opening the door  Monty Hall would ask the
-player whether he wanted to stick with his first choice or whether, instead, he wanted to pick the
-remaining closed door.  
-
+player whether she wanted to stick with her first choice or whether, instead, she wanted to pick the
+remaining closed door.  In order to better understand the problem you can try the animation at:
+\\[0.2cm]
+\hspace*{1.3cm}
+\href{http://math.ucsd.edu/~crypto/Monty/monty.html}{\texttt{http://math.ucsd.edu/\symbol{126}crypto/Monty/monty.html}}
+\\[0.2cm]
 The question now is whether it is a good strategy to stick with the door chosen first or whether it
-is better to switch doors.  Mathematically, the reasoning is quite simple: The probability that the
+is a better idea to switch doors.  Mathematically, the reasoning is quite simple: As there are three doors
+initially and the probability that the car is behind any of them is the same, the probability that the
 door chosen first leads to the car is $\frac{1}{3}$.  Therefore, the probability that the car is behind
-the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  
+the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  hence the
+best strategy is to switch the door.
 
 Although the reasoning given above is straightforward, many people don't believe it.  In order to
-convince them, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:monty-hall.stlx}
+convince them, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:Monty-Hall-Problem.ipynb}
 on page 
-\pageref{fig:monty-hall.stlx} shows a function that simulates \texttt{n} games and compares the
+\pageref{fig:Monty-Hall-Problem.ipynb} shows a function that simulates \texttt{n} games and compares the
 different strategies.  
 \begin{enumerate}
 \item The first strategy is the strategy that does not switch doors.
@@ -315,14 +317,14 @@ different strategies.
 \item The second strategy will always switch to the other door.
       This strategy is called the \emph{smart strategy}.
 \end{enumerate}
-We discuss the implementation of the function \texttt{calculateChances} line by line.
+We discuss the implementation of the function \texttt{calculate\_chances} line by line.
 \begin{enumerate}
 \item In order to compare the two strategies, the idea is to play the game offered by Monty Hall
       \texttt{n} times.  Then we need to count how many cars are won by the stupid strategy and how
       many cars are won by the smart strategy.
-\item The variable \texttt{successStupid} counts the number of cars won by the stupid strategy.
-\item The variable \texttt{successSmart}  counts the number of cars won by the smart  strategy.
-\item The \texttt{for} loop extending from line 4 to line 15 runs \texttt{n} simulations of the
+\item The variable \texttt{success\_stupid} counts the number of cars won by the stupid strategy.
+\item The variable \texttt{success\_smart}  counts the number of cars won by the smart  strategy.
+\item The \texttt{for} loop extending from line 4 to line 12 runs \texttt{n} simulations of the
        game.
        \begin{enumerate}
        \item First, in line 5 the car is placed randomly behind one of the three doors.
@@ -334,18 +336,18 @@ We discuss the implementation of the function \texttt{calculateChances} line by 
 \item Next, we check which of the two strategies actually wins the car.
       \begin{enumerate}
       \item If the car was placed behind the door originally chosen by the player, the stupid
-            strategy wins the car.  Therefore, we increment the variable \texttt{successStupid} in
+            strategy wins the car.  Therefore, we increment the variable \texttt{success\_stupid} in
             this case.
       \item If, instead, the car was placed behind the door that was neither chosen nor opened, then
-            the smart strategy wins the car.  Hence, the variable \texttt{successSmart} has to be incremented.
+            the smart strategy wins the car.  Hence, the variable \texttt{success\_smart} has to be incremented.
       \end{enumerate}
 \item The function concludes by printing the results.  Running the function for \texttt{n} equal to
-      $100\,000$ has yielded the following result:
+      $1000\,000$ has yielded the following result:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{The stupid strategy wins 33262 cars.} \\ 
+      \texttt{The stupid strategy wins 333525 cars.} \\ 
       \hspace*{1.3cm}
-      \texttt{The smart \ strategy wins 66738 cars.}
+      \texttt{The smart \ strategy wins 666475 cars.}
       \\[0.2cm]
       This shows that, on average, the payoff from the smart strategy is about twice as high as the
       payoff from the stupid strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
@@ -363,28 +365,24 @@ We discuss the implementation of the function \texttt{calculateChances} line by 
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    calculateChances := procedure(n) {
-        successStupid := 0;  
-        successSmart  := 0; 
-        for (i in [1..n]) {
-            car    := rnd({1..3});                       
-            choice := rnd({1..3});                      
-            opened := rnd({1..3} - { choice, car });   
-            last   := arb({1..3} - { choice, opened });
-            if (car == choice) {
-                successStupid += 1;
-            }
-            if (car == last) {
-                successSmart += 1;
-            }
-        }
-        print("The stupid strategy wins $successStupid$ cars.");
-        print("The smart  strategy wins $successSmart $ cars.");
-    };
+    def calculate_chances(n):
+        success_stupid = 0
+        success_smart  = 0
+        for _ in range(n):
+            car    = rnd.randint(1, 3)
+            choice = rnd.randint(1, 3) 
+            opened = rnd.choice(list({1,2,3} - {choice,car}))
+            last   = arb({ 1, 2, 3 } - { choice, opened })
+            if car == choice:
+                success_stupid += 1
+            if car == last:
+                success_smart  += 1
+        print(f'The stupid strategy wins {success_stupid} cars.')
+        print(f'The smart  strategy wins {success_smart } cars.')
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{A program to solve the Monty Hall problem.}
-\label{fig:monty-hall.stlx}
+\label{fig:Monty-Hall-Problem.ipynb}
 \end{figure}
 
 
@@ -436,20 +434,18 @@ unterscheiden wir zwei F\"alle:
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]
-    permute := procedure(l) {
-        if (#l == 1) {
-            return l;
-        }
-        k := rnd([1..#l]);
-        return permute(l[..k-1] + l[k+1..]) + [l[k]];
-    };
+    def permute(L):
+        if len(L) == 1:
+            return L
+        k = rnd.randint(0, len(L)-1)
+        return permute(L[:k] + L[k+1:]) + [L[k]]
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{Berechnung zuf\"alliger Permutationen eines Feldes}
-\label{fig:permutation.stlx}
+\label{fig:Permutation.ipynb}
 \end{figure}
 
-Abbildung \ref{fig:permutation.stlx} zeigt die Umsetzung dieser Idee in \textsc{SetlX}.
+Abbildung \ref{fig:Permutation.ipynb} zeigt die Umsetzung dieser Idee in \textsl{Python}.
 Die dort gezeigte Me\-thode \textsl{permute} erzeugt eine zuf\"allige Permutation der Liste $l$, die
 als Argument \"uber\-geben wird.  Die Implementierung setzt die oben beschriebenen Gleichungen
 unmittelbar um.
