@@ -389,39 +389,36 @@ We discuss the implementation of the function \texttt{calculate\_chances} line b
 
 
 
-\section[Permutations]{Erzeugung zuf\"alliger Permutationen}
-In diesem Abschnitt lernen wir ein Verfahren kennen, mit dem es m\"oglich ist, eine gegebene
-Liste zuf\"allig zu permutieren.  Anschaulich kann ein solches Verfahren mit dem Mischen von
-Karten verglichen werden.  Das Verfahren wird auch tats\"achlich genau dazu eingesetzt:
-Bei der Berechnung von Gewinn-Wahrscheinlichkeiten bei Kartenspielen wie Poker wird das
-Mischen der Karten durch den gleich vorgestellten Algorithmus erledigt.  
+\section[Permutations]{Generation of Random Permutations}
+In this section we present an algorithm that can randomly permute a given list.
+Such a procedure can be likened to the shuffling of cards. The process is actually used for this purpose: When
+calculating the probability of winning in card games such as poker, the cards are shuffled using the algorithm
+presented here. 
 
-Um eine $n$-elementige Liste $L = [x_1,x_2, \cdots, x_n]$ zuf\"allig zu permutieren,
-unterscheiden wir zwei F\"alle:
+In order to permute a list $L = [x_1,x_2, \cdots, x_n]$ of length $n$ we distinguish two cases:
 \begin{enumerate}
-\item Die Liste $L$ hat die L\"ange 1 und besteht folglich nur aus einem Element, $L = [x]$.
-      In diesem Fall gibt die Funktion $\textsl{permute}(L)$ die Liste unver\"andert zur\"uck:
-      \[ \#L = 1 \rightarrow \textsl{permute}(L) = L \]
-\item Die Liste $L$ hat eine L\"ange, die gr\"o{\ss}er als $1$ ist.  In diesem Fall w\"ahlen wir
-      zuf\"allig ein Element aus, das hinterher  in der zu erzeugenden Permutation an der letzten Stelle
-      stehen soll.  Wir entfernen dieses Element aus der Liste und permutieren
-      anschlie{\ss}end die verbleibende Liste.  An die dabei erhaltene Permutation h\"angen wir
-      noch das anfangs ausgew\"ahlte Element an.  Haben wir eine Funktion
-      \[ \textsl{random}: \mathbb{N} \rightarrow \mathbb{N}, \]
-      so dass der Aufruf $\textsl{random}(n)$ zuf\"allig eine Zahl aus der Menge $\{1,\cdots,n\}$
-      liefert, so k\"onnen wir diese \"Uberlegung wie folgt formalisieren:
-      \\[0.2cm]
-      \hspace*{0.8cm}
-      $\#L = n \wedge n > 1 \wedge k :=\textsl{random}(n)  \rightarrow 
-         \textsl{permute}(L) = \textsl{permute}\bigl(\textsl{delete}(L,k)\bigr) + \bigl[ L(k)
-         \bigr]
-      $.
-\\[0.2cm]
-      Der  Funktionsaufruf $\textsl{delete}(L,k)$ l\"oscht dabei das $k$-te Element aus der Liste $L$,
-      wir k\"onnten also schreiben
+\item The list  $L$ has length 1 and hence contains a single element, i.e.~we have $L = [x]$.
+      In this case,  $\texttt{permute}(L)$ returns the list unchanged:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\textsl{delete}(L,k) = L[1\,..\,k-1] + L[k+1\,..\,\#L]$.
+      $\#L = 1 \rightarrow \texttt{permute}(L) = L$.
+\item The length of  $L$ is bigger than  $1$.  In this case, we randomly select an element to be the last in
+      the permutation to be created.  We remove this element from the list and then permute the remaining list.  
+      We append the initially selected element to the resulting permutation.
+      Given two natural numbers $a$ and $b$ such that $a < b$ the \textsl{Python} Funktion
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\texttt{rnd.randint}(a,b)$
+      \\[0.2cm]
+      returns a random element from the set $\{a,\cdots,b\}$.  Using this function we define:
+      \\[0.2cm]
+      \hspace*{0.8cm}
+      $\#L = n \wedge n > 1 \wedge k :=\texttt{rnd.randint}(0,n-1) $
+      \\[0.2cm]
+      \hspace*{2.3cm}
+      $\rightarrow\quad  
+         \texttt{permute}(L) = \texttt{permute}\bigl(L\texttt{[:}k\texttt{]} + L\texttt{[}k+1\texttt{:]}\bigr) + \texttt{[}L\texttt{[}k\texttt{]]}
+      $.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -445,14 +442,13 @@ unterscheiden wir zwei F\"alle:
 \label{fig:Permutation.ipynb}
 \end{figure}
 
-Abbildung \ref{fig:Permutation.ipynb} zeigt die Umsetzung dieser Idee in \textsl{Python}.
-Die dort gezeigte Me\-thode \textsl{permute} erzeugt eine zuf\"allige Permutation der Liste $l$, die
-als Argument \"uber\-geben wird.  Die Implementierung setzt die oben beschriebenen Gleichungen
-unmittelbar um.
+Figure \ref{fig:Permutation.ipynb} shows the implementation of this idea in Python. The method \texttt{permute} shown
+there creates a random permutation of the list $L$, which is passed as argument. The implementation directly
+implements the equations described above. 
 
-Es kann gezeigt werden, dass der oben vorgestellte Algorithmus tats\"achlich alle Permutationen einer
-gegebenen Liste mit derselben Wahrscheinlichkeit erzeugt.  Einen Beweis dieser Behauptung
-finden Sie beispielsweise in \cite{cormen:01}.
+It can be shown that the algorithm presented above actually generates all permutations of a given list with the
+same probability. A proof of this claim can be found, for example, in 
+Cormen et.~al.~\cite{cormen:01}.
 
 
 
