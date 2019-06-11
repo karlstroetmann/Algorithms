@@ -1207,7 +1207,7 @@ $t$ and, therefore, a node with no parents is called an \blue{orphan}.  In order
 orphans, we need to be able to compute the \blue{parents} of each node.  Furthermore, when we remove a node $t$
 from the graph after inserting it into the list \texttt{S}, we have to compute the set of children of that
 node.  The reason is that we have to update the set of parents of the children of $t$.  This leads to the algorithm
-shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologocal-sorting.stlx}.
+shown in Figure \ref{fig:Topologocal-Sorting.ipynb} on page \pageref{fig:Topologocal-Sorting.ipynb}.
 
 \begin{figure}[!ht]
 \centering
@@ -1220,30 +1220,29 @@ shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologo
                   xleftmargin   = 0.0cm,
                   xrightmargin  = 0.0cm,
                 ]
-    topoSort := procedure(T, D) {
-        Parents  := { [t, {}] : t in T };  // dictionary of parents
-        Children := { [t, {}] : t in T };  // dictionary of children
-        for ([s, t] in D) {
-            Children[s] += { t }; Parents[t] += { s };
-        }
-        Orphans := { t : [t, P] in Parents | P == {} };
-        Sorted  := [];
-        while (T != {}) {
-            assert(Orphans != {}, "The graph is cyclic!");
-            t := from(Orphans);  T -= { t };  Sorted += [t];
-            for (s in Children[t]) {
-                Parents[s] -= { t };
-                if (Parents[s] == {}) {
-                    Orphans += { s };
-                }
-            }
-        }
-        return Sorted;
-    };
+    def topo_sort(T, D):
+        Parents  = { t: set() for t in T }  # dictionary of parents
+        Children = { t: set() for t in T }  # dictionary of children
+        for s, t in D:
+            Children[s].add(t)
+            Parents [t].add(s)
+        Orphans = { t for t, P in Parents.items() if len(P) == 0 }
+        Sorted  = []
+        while len(T) > 0:
+            assert Orphans != set(), 'The graph is cyclic!'
+            t        = arb(Orphans)
+            Orphans -= { t }
+            T       -= { t }
+            Sorted.append(t)
+            for s in Children[t]:
+                Parents[s] -= { t }
+                if Parents[s] == set():
+                    Orphans.add(s)
+        return Sorted
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{Kahn's algorithm for topological sorting.}
-\label{fig:topologocal-sorting.stlx}
+\label{fig:Topologocal-Sorting.ipynb}
 \end{figure}
 
 \begin{enumerate}
@@ -1253,14 +1252,15 @@ shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologo
       dictionaries: If there is a dependency $\pair(\texttt{s}, \texttt{t})$, then $\texttt{t}$ is a child of
       $\texttt{s}$ and $\texttt{s}$ is a parent of $\texttt{t}$.  Therefore, $\texttt{t}$ is added to the set
       $\texttt{Children[s]}$ and $\texttt{s}$ is added to the set $\texttt{Parents[t]}$.
-\item In line 7, we compute the set $\texttt{Orphans}$ of those tasks that have no $\texttt{Parents}$.
+\item In line 7, we compute the set $\texttt{Orphans}$.  This is the set of those tasks that have no
+      $\texttt{Parents}$.  We can start with any task from this set.
 \item In line 8, the list $\texttt{Sorted}$ is initialized.  When the algorithm completes without failure, this list will
       contain a solution of the \textsc{Tsp}.
 \item As long as there are still tasks in the set $\texttt{T}$ that have not been inserted into the list
       $\texttt{Sorted}$ the algorithm keeps going.
 \item If at any point the set of tasks $\texttt{T}$ that need to be scheduled is not yet empty but all remaining
-      tasks still have parents, i.e.~depend on the completion of some other task, then the given \textsc{Tsp}
-      is not solvable and the algorithm terminates with a failure message.
+      tasks still have parents, i.e.~they depend on the completion of some other task, then the given \textsc{Tsp}
+      is cyclic and hence not solvable and therefore the algorithm terminates with a failure message.
 \item Otherwise, we remove a task $\texttt{t}$ from the set of orphaned tasks, remove this task from $\texttt{T}$
       and append it to the list of scheduled tasks $\texttt{Sorted}$.
 \item Finally, we have to update the parent dictionary so that for all children $\texttt{s}$ of the task
@@ -1270,7 +1270,7 @@ shown in Figure \ref{fig:topologocal-sorting.stlx} on page \pageref{fig:topologo
 
 \subsection{Complexity}
 If the number of dependencies that any given task is involved in is bounded by some fixed constant and $n$ is
-the number of tasks,  then the complexity of Kahn's algorithm as given in Figure \ref{fig:topologocal-sorting.stlx}
+the number of tasks,  then the complexity of Kahn's algorithm as given in Figure \ref{fig:Topologocal-Sorting.ipynb}
 is  
 \\[0.2cm]
 \hspace*{1.3cm}
