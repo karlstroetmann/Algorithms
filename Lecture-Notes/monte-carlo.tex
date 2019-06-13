@@ -303,27 +303,28 @@ The question now is whether it is a good strategy to stick with the door chosen 
 is a better idea to switch doors.  Mathematically, the reasoning is quite simple: As there are three doors
 initially and the probability that the car is behind any of them is the same, the probability that the
 door chosen first leads to the car is $\frac{1}{3}$.  Therefore, the probability that the car is behind
-the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  hence the
+the other unopened door has to be $\frac{2}{3}$, as the two probabilities have to add up to $1$.  Hence the
 best strategy is to switch the door.
 
-Although the reasoning given above is straightforward, many people don't believe it.  In order to
+Although the reasoning given above is straightforward, many people don't believe it, as is shown
+by this \href{https://priceonomics.com/the-time-everyone-corrected-the-worlds-smartest/}{article}.  In order to
 convince them, the best thing is to run a Monte Carlo simulation.  Figure \ref{fig:Monty-Hall-Problem.ipynb}
 on page 
 \pageref{fig:Monty-Hall-Problem.ipynb} shows a function that simulates \texttt{n} games and compares the
 different strategies.  
 \begin{enumerate}
 \item The first strategy is the strategy that does not switch doors.
-      For obvious reasons, this strategy is called the \emph{stupid strategy}.
+      For obvious reasons, this strategy is called the \emph{persistent strategy}.
 \item The second strategy will always switch to the other door.
-      This strategy is called the \emph{smart strategy}.
+      This strategy is called the \emph{wavering strategy}.
 \end{enumerate}
 We discuss the implementation of the function \texttt{calculate\_chances} line by line.
 \begin{enumerate}
 \item In order to compare the two strategies, the idea is to play the game offered by Monty Hall
-      \texttt{n} times.  Then we need to count how many cars are won by the stupid strategy and how
-      many cars are won by the smart strategy.
-\item The variable \texttt{success\_stupid} counts the number of cars won by the stupid strategy.
-\item The variable \texttt{success\_smart}  counts the number of cars won by the smart  strategy.
+      \texttt{n} times.  Then we need to count how many cars are won by the persistent strategy and how
+      many cars are won by the wavering strategy.
+\item The variable \texttt{success\_persistent} counts the number of cars won by the persistent strategy.
+\item The variable \texttt{success\_wavering}  counts the number of cars won by the wavering  strategy.
 \item The \texttt{for} loop extending from line 4 to line 12 runs \texttt{n} simulations of the
        game.
        \begin{enumerate}
@@ -331,26 +332,26 @@ We discuss the implementation of the function \texttt{calculate\_chances} line b
        \item Second, in line 6 the player picks a door.
        \item In line 7, Monty Hall opens a door that does not have a car behind it and that
              is different from the door chosen by the player.
-       \item When the player uses the smart strategy, she will then pick the remaining door in line 8.
+       \item When the player uses the wavering strategy, she will then pick the remaining door in line 8.
        \end{enumerate}
 \item Next, we check which of the two strategies actually wins the car.
       \begin{enumerate}
-      \item If the car was placed behind the door originally chosen by the player, the stupid
-            strategy wins the car.  Therefore, we increment the variable \texttt{success\_stupid} in
+      \item If the car was placed behind the door originally chosen by the player, the persistent
+            strategy wins the car.  Therefore, we increment the variable \texttt{success\_persistent} in
             this case.
       \item If, instead, the car was placed behind the door that was neither chosen nor opened, then
-            the smart strategy wins the car.  Hence, the variable \texttt{success\_smart} has to be incremented.
+            the wavering strategy wins the car.  Hence, the variable \texttt{success\_wavering} has to be incremented.
       \end{enumerate}
 \item The function concludes by printing the results.  Running the function for \texttt{n} equal to
       $1000\,000$ has yielded the following result:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{The stupid strategy wins 333525 cars.} \\ 
+      \texttt{The persistent strategy wins 333525 cars.} \\ 
       \hspace*{1.3cm}
-      \texttt{The smart \ strategy wins 666475 cars.}
+      \texttt{The wavering \ \ strategy wins 666475 cars.}
       \\[0.2cm]
-      This shows that, on average, the payoff from the smart strategy is about twice as high as the
-      payoff from the stupid strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
+      This shows that, on average, the payoff from the wavering strategy is about twice as high as the
+      payoff from the persistent strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
 \end{enumerate}
 
 
@@ -366,19 +367,19 @@ We discuss the implementation of the function \texttt{calculate\_chances} line b
                   xrightmargin  = 0.8cm,
                 ]
     def calculate_chances(n):
-        success_stupid = 0
-        success_smart  = 0
+        success_persistent = 0
+        success_wavering   = 0
         for _ in range(n):
             car    = rnd.randint(1, 3)
             choice = rnd.randint(1, 3) 
             opened = rnd.choice(list({1,2,3} - {choice,car}))
             last   = arb({ 1, 2, 3 } - { choice, opened })
             if car == choice:
-                success_stupid += 1
+                success_persistent += 1
             if car == last:
-                success_smart  += 1
-        print(f'The stupid strategy wins {success_stupid} cars.')
-        print(f'The smart  strategy wins {success_smart } cars.')
+                success_wavering  += 1
+        print(f'The persistent strategy wins {success_persistent} cars.')
+        print(f'The wavering   strategy wins {success_wavering  } cars.')
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{A program to solve the Monty Hall problem.}
