@@ -995,7 +995,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   \hspace*{1.3cm}
   $\texttt{sp}[u] = d = \texttt{Distance}[u]$
   \\[0.2cm]
-  and every node $w$ such that $\texttt{sp}(w) < \texttt{sp}(u)$ satisfies
+  and every node $w$ such that $\texttt{sp}(w) \leq \texttt{sp}(u)$ satisfies
   \\[0.2cm]
   \hspace*{1.3cm}
   $\texttt{Distance}[w] = \texttt{sp}(w)$.
@@ -1009,7 +1009,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   Initially, the pair $(0, \texttt{source})$ is put onto the \texttt{Fringe} in line 6.
   The only way a pair on the \texttt{Fringe} could be changed is when a pair is removed in line 13 and then
   reinserted in line 15 with a smaller distance.  As there is no smaller distance than $0$, the pair
-  $(0, \texttt{source})$ can not be altered.  Therefor, when \texttt{source} is removed from the
+  $(0, \texttt{source})$ can not be altered.  Therefore, when \texttt{source} is removed from the
   \texttt{Fringe} in line 8, we must have $d = 0$ and hence we have $\texttt{sp}[u] = d$.
   As all of our edges are assumed to be positive natural numbers, there can be no node $w$ such that
   $\texttt{sp}[w] < 0$. Hence the second part of the claim is trivially true in this case.
@@ -1039,7 +1039,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   $\texttt{Distance}[u] = d = \texttt{sp}(u)$.
   \\[0.2cm]
   A similar argument shows that for all nodes $w$ such that  
-  $\texttt{sp}(w) < \texttt{sp}(u)$ we must have $\texttt{Distance}[w] = \texttt{sp}(w)$.  \qed
+  $\texttt{sp}(w) \leq \texttt{sp}(u)$ we must have $\texttt{Distance}[w] = \texttt{sp}(w)$.  \qed
 \end{description}
 
 \exercise
