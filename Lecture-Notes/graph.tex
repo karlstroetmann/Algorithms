@@ -993,7 +993,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   If a node $u$ is removed from the \texttt{Fringe} in line 8, then we have
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\texttt{sp}[u] = d = \texttt{Distance}[u]$
+  $\texttt{sp}(u) = d = \texttt{Distance}[u]$
   \\[0.2cm]
   and every node $w$ such that $\texttt{sp}(w) \leq \texttt{sp}(u)$ satisfies
   \\[0.2cm]
@@ -1001,7 +1001,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   $\texttt{Distance}[w] = \texttt{sp}(w)$.
 \end{Theorem}
 
-\proof The claim is proven by induction on $n := \texttt{sp}[u]$.
+\proof The claim is proven by induction on $n := \texttt{sp}(u)$.
 \begin{description}
 \item[Base case:] $n = 0$.
 
@@ -1010,13 +1010,13 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   The only way a pair on the \texttt{Fringe} could be changed is when a pair is removed in line 13 and then
   reinserted in line 15 with a smaller distance.  As there is no smaller distance than $0$, the pair
   $(0, \texttt{source})$ can not be altered.  Therefore, when \texttt{source} is removed from the
-  \texttt{Fringe} in line 8, we must have $d = 0$ and hence we have $\texttt{sp}[u] = d$.
+  \texttt{Fringe} in line 8, we must have $d = 0$ and hence we have $\texttt{sp}(u) = d$.
   As all of our edges are assumed to be positive natural numbers, there can be no node $w$ such that
   $\texttt{sp}[w] < 0$. Hence the second part of the claim is trivially true in this case.
 \item[Induction step:]  We assume that the claim holds for $\mathtt{sp}[u] \in \{0,1,\cdots,n-1\}$
-  and we prove that this implies that the claim also holds in case that $\texttt{sp}[u] = n$.
+  and we prove that this implies that the claim also holds in case that $\texttt{sp}(u) = n$.
 
-  As $\texttt{sp}[u] = n$ there has to be a shortest path
+  As $\texttt{sp}(u) = n$ there has to be a shortest path
   \\[0.2cm]
   \hspace*{1.3cm}
   $P = [x_0, x_1, \cdots, x_{k-1}, x_k]$
@@ -1053,7 +1053,7 @@ If a node $\texttt{u}$ is removed from the priority queue $\texttt{Fringe}$, the
 $\texttt{Visited}$.  The invariant that was just proven implies that in that case
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{sp(u)} = \texttt{Distance[u]}$
+$\texttt{sp}(u) = \texttt{Distance}[u]$
 \\[0.2cm]
 holds.  This implies that the node $\texttt{u}$ can never be reinserted into the priority queue
 $\texttt{Fringe}$, because a node $\texttt{v}$ is only inserted in $\texttt{Fringe}$ if either 
@@ -1290,3 +1290,4 @@ $\Oh\bigl(n \cdot \log_2(n)\bigr)$.
 %%% mode: latex
 %%% TeX-master: "algorithms"
 %%% End: 
+\texttt{sp}
