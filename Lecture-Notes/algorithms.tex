@@ -16,6 +16,7 @@
 \usepackage{hyperref}
 \usepackage{soul}
 \usepackage{minted}
+\usepackage{makeidx}
 
 \usepackage[all]{hypcap}
 \hypersetup{
@@ -89,9 +90,8 @@ The lecture notes itself can be found in the file
 \hspace*{1.3cm}
 \href{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}{\texttt{Lecture-Notes/algorithms.pdf}}.
 \\[0.2cm]
-I am currently rewriting all \href{https://randoom.org/Software/SetlX/}{\textsc{SetlX}} programs contained in
-these lecture notes to \href{https://www.python.org}{\textsl{Python}}.  Hence, these lecture notes are subject
-to frequent changes.  Provided the program \href{http://git-scm.com/download}{\texttt{git}} 
+These lecture notes are still subject to some changes.
+Provided the program \href{http://git-scm.com/download}{\texttt{git}} 
 is installed on your computer, the repository containing the lecture notes and all of the accompanying programs
 can be cloned using the command 
 \\[0.2cm]
@@ -104,6 +104,8 @@ Once you have cloned the repository, the command
 \textcolor{amethyst}{\texttt{git pull}}
 \\[0.2cm]
 can be used to load the current version of these lecture notes from \href{https://github.com}{\texttt{github}}.
+If you find any errors or typos in these lecture notes I would like you to send me an email.  Alternatively,
+you are welcome to send a pull request.
 \end{minipage}
 }
 
@@ -187,6 +189,8 @@ can be used to load the current version of these lecture notes from \href{https:
 
 \hyphenation{stra-te-gy}
 
+\makeindex
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -203,6 +207,11 @@ can be used to load the current version of these lecture notes from \href{https:
 \include{huffman}
 \include{graph}
 \include{monte-carlo}
+
 \bibliographystyle{alpha}
 \bibliography{cs}
+
+\listoffigures
+\printindex
+
 \end{document}

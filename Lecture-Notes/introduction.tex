@@ -37,7 +37,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %       $\texttt{doesTerminate}(f, s)$ 
 %       \\[0.2cm]
 %       yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
-\item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} of algorithms
+\item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} \index{complexity} of algorithms
 
       In general, in order to solve a given problem it is not enough to develop an algorithm that
       implements a function $f$ computing the  value $f(x)$ for a given argument $x$.  It is also important  
@@ -48,6 +48,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 \item Recurrence Relations
 
       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+      \index{recurrence relation}
       is the discrete analogue of the notion of a 
       \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
       For example, the equation
@@ -63,8 +64,8 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
       \\[0.2cm]
       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
-      \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that estimates
-      the growth of \blue{recursive} functions.
+      \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
+      be used to compute the growth of \blue{recursive} functions.
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
@@ -81,7 +82,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}
 
-      Abstract data types are a means to describe the behaviour of an algorithm in a concise way.
+      Abstract data types enable us to describe the behaviour of a data structure in a concise way.
       Furthermore, abstract data types are part of the foundations of 
       \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented programming}. 
 %\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
@@ -96,8 +97,10 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       structures that can be used to implement dictionaries efficiently.   
       These data structures can also be used to implement sets.
 \item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}
-  
-      Some graph theoretical algorithms use priority queues as one of their basic building blocks.
+
+      A \blue{priority queue} is a data structure that can best be described as a sorted list that remains
+      sorted when elements are inserted or removed.
+      Some \blue{graph theoretical} algorithms use \blue{priority queues} as one of their basic building blocks.
       Therefore, our discussion of \blue{graph theory} is preceded by a chapter on priority queues.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
@@ -119,7 +122,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       poker can be determined approximately with the help of the \blue{Monte Carlo method}.
 \end{enumerate}
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
-Instead, my goal is to enable you to think algorithmically:  At the end of these
+Instead, my goal is to enable you to \blue{think} algorithmically:  At the end of these
 lectures, you should have acquired the following capabilities:
 \pagebreak
 \begin{enumerate}
@@ -134,14 +137,15 @@ lectures, you should have acquired the following capabilities:
 
 \section{Algorithms and Programs}
 This is a lecture on \blue{algorithms}, not on \blue{programming}.  It is important that you do not mix up
-these two concepts.  An algorithm is an \blue{abstract concept} to solve a given problem.  In
+these two concepts.  An algorithm \index{algorithm} is an \blue{abstract concept} to solve a given problem.  In
 contrast, a program is a \blue{concrete implementation} of an algorithm.  In order to implement an
 algorithm by a program we have to cover every detail, be it trivial or not.  On the other hand, 
 to specify an algorithm it is often sufficient to describe just the interesting aspects.  The rest can then be
-filled in by a competent programmer.  Therefore, a specification of an algorithm often abstracts from minor
+filled in by a competent programmer.  Therefore, a specification of an algorithm often \blue{abstracts} from minor
 details. 
 
-In the literature, algorithms are usually presented as \blue{pseudo code}.  Syntactically, pseudo code looks
+In the literature, algorithms are usually presented as \blue{pseudo code}. \index{pseudo code}
+Syntactically, pseudo code looks
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
 described in natural language.   However, it is important to realize that a piece of pseudo code is
 \underline{not} an algorithm but is only a \blue{representation} of an algorithm.  However, the
@@ -159,18 +163,17 @@ Having discussed the difference between algorithms and programs, let us now deci
 algorithms in this lecture.  
 \begin{enumerate}
 \item We can describe algorithms using natural language.  While natural language certainly is
-      expressive enough, it also suffers from ambiguities.  Furthermore, natural language
+      expressive enough, it also suffers from \blue{ambiguities}.  Furthermore, natural language
       descriptions of complex algorithms tend to be difficult to follow.
 \item Instead, we can describe an algorithm by implementing it.  There is certainly no ambiguity
       in a program, but on the other hand this approach would require us to implement every aspect
       of an  algorithm and our descriptions of algorithms would therefore get longer than we want.
-\item Finally, we can try to describe algorithms in the language of mathematics.  This language is 
+\item Finally, we can specify an algorithm \blue{mathematically}.  The language of mathematics is 
       concise, unambiguous, and easy to understand, once you are accustomed to it.  Therefore, this is
       our method of choice.
 
       However, after having presented an algorithm in the language of mathematics, it is often very
-      straightforward  to implement this algorithm in the programming language
-      \textsl{Python}.
+      straightforward to implement this algorithm in the programming language \textsl{Python}.
 \end{enumerate}
 
 \section{Desirable Properties of Algorithms}
@@ -183,7 +186,7 @@ algorithms.
 \end{enumerate}
 The first goal in this list is so self-evident that it is often overlooked.  The
 importance of the last goal might not be as obvious as the other goals.
-However, the reason for the last goal is \blue{economical}:  If it takes too long to code an algorithm, the
+However, the reason for the last goal is \blue{economical}:  If it takes very long to code an algorithm, the
 cost of the implementation might well be unaffordable.  Furthermore, even if the time budget to implement an
 algorithm is next to unlimited,  there is another reasons to strife for simple algorithms:  If the conceptual
 complexity of an algorithm is too high, it may become impossible to check the correctness of the
@@ -191,7 +194,7 @@ implementation.  Therefore, the third goal is strongly related to the first goal
 
 \section{Literature}
 These lecture notes are intended to be the main source for my lecture.  Additionally, I want
-to mention those books that have inspired me most.
+to mention those books that have inspired me the most.
 \begin{enumerate}
 \item \textsl{Robert Sedgewick}: \href{https://www.amazon.com/Algorithms-4th-Robert-Sedgewick/dp/032157351X}{Algorithms}, 
       fourth edition, Pearson, 2011, \cite{sedgewick:11}.
@@ -218,7 +221,7 @@ to mention those books that have inspired me most.
       This book requires more mathematical sophistication on the side of its readers than any of the
       other books referenced here.  
 \item \blue{Einführung in die Informatik},
-      written by \textsl{Heinz-Peter Gumm} and \texttt{Manfred Sommer} \cite{gumm:2013}.
+      written by \textsl{Heinz-Peter Gumm} and \textsl{Manfred Sommer} \cite{gumm:2013}.
       
       This German book is a very readable introduction to computer science and it has a chapter
       on algorithms that is fairly comprehensive.  
@@ -231,15 +234,15 @@ to mention those books that have inspired me most.
 
 \section{A Final Remark}
 There is one final remark I would like to make at this point:  Frequently, I get questions from
-students concerning the exams.  While I will most gladly answer these questions, I should warn you
+students concerning the exam. \index{exam} While I will most gladly answer these questions, I should warn you
 that, 50\%  
-of the time, my answers will be flat out lies.  The other 50\%,
-my answers will be some random rubbish.  Please bear that in mind when evaluating my answers.
+of the time, my answers will be flat out \red{lies}.  The other 50\%,
+my answers will be some \blue{random rubbish}.  Please bear that in mind when evaluating my answers.
 \pagebreak
 
 \section{A Request}
 Computer science is a very active field of research.  Furthermore, my comprehension of the English
-language is improving steadily.  Therefore, these lecture notes are constantly
+language is improving steadily, or so I hope.  Therefore, these lecture notes are constantly
 evolving and hence might contain typos or even mistakes.  If you find a problem,
 please take the time and either send me an email or a message on discord.  My email address is
 \\[0.2cm]
@@ -252,9 +255,9 @@ sending me a \href{https://help.github.com/articles/using-pull-requests}{pull re
 Finally, if you have any questions regarding the material presented in this course, you are
 welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or
 \href{https://discordapp.com}{discord}.  If you think that others might
-have the same question, it is best if you ask your question via discord in the channel called \texttt{algorithms}.
-All your questions are welcome since they give me valuable feedback how 
-\red{\st{stupid you really are}} to improve my lecture. 
+have the same question, it is best if you ask your question via the \href{https://discordapp.com}{discord}
+server that I am using as a discussion forum for this lecture.  All your questions are welcome since they give
+me valuable feedback  \blue{\st{how stupid you really are}} to improve my lecture. 
 
 
 %%% local Variables: 
