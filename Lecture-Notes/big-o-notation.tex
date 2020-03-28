@@ -1,25 +1,29 @@
 \chapter{Big $\mathcal{O}$ Notation} 
 This chapter introduces both the
-\href{http://en.wikipedia.org/wiki/O_notation}{big $O$ notation} and the
+\href{http://en.wikipedia.org/wiki/O_notation}{big $\mathcal{O}$ notation} and the
 \blue{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
-These two notations are useful to analyse the running time of algorithms.  In order to illustrate
-the application of these notations, we show how to implement the computation of powers efficiently,
-i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
-is significantly faster than the naive approach. 
+These two notations are useful to analyse the running time of algorithms.  Furthermore, the big $\mathcal{O}$
+notation is part of the technical language of computer science and hence you need to understand this notation
+when conversing with your colleagues.
+
+In order to illustrate the application of these notations, we will show how to implement the computation of
+powers efficiently, i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
+is significantly faster than the naive approach.
+
 \section{Motivation}
 Sometimes it is necessary to have a precise understanding of the complexity of an algorithm.  
 In order to obtain this understanding we could proceed as follows:  
 \begin{enumerate}
 \item We implement the algorithm in a given programming language.
 \item We count how many additions, multiplications, assignments, etc.~are needed
-      for an input of a given size.
-\item We read the processor handbook to look up the amount of time that is needed for the different operations.
-\item Using the information discovered in the previous two steps we can then predict the running
+      for an input of a given size.  Additionally, we have to count all storage accesses.
+\item We look up the amount of time that is needed for the different operations in the processor handbook.
+\item Using the information discovered in the previous two steps we predict the running
       time of our algorithm for given input.
 \end{enumerate}
 This approach is problematic for a number of reasons.
 \begin{enumerate}
-\item It is very complicated.
+\item It is both time consuming and complicated.
 \item The execution time of the basic operations is highly dependent on the memory hierarchy of the
       computer system:  For many modern computer architectures, adding two numbers that happen to be
       in a \blue{register} is more than ten times faster than adding two numbers that reside in
@@ -30,7 +34,7 @@ This approach is problematic for a number of reasons.
       the program to a computer with a different processor we would have to redo most of the
       computation. 
 \end{enumerate}
-The final reason shows that the approach sketched above is not well suited to measure the complexity of
+This final reason shows that the approach sketched above is not well suited to measure the complexity of
 an \blue{algorithm}: After all, the notion of an algorithm is more abstract than the notion of a program
 and we really need a notion measuring the complexity of an algorithm that is more abstract than the
 notion of the running time of a program.  This notion of complexity should satisfy the following
@@ -80,17 +84,17 @@ Let us denote the set of all positive real numbers\footnote{
 as $\R_+$, i.e.~let us define 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\R_+ := \{ x \in \R \mid x > 0 \}$. 
+$\R_+ := \{ x \in \R \mid x > 0 \}$. \index{$\mathbb{R}_+$}
 \\[0.2cm]
 Furthermore, the set of all functions defined on  $\N$ yielding a positive real number is defined
 as: 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \}$.
+$\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \}$. \index{$\mathbb{R}_+^\mathbb{N}$}
 
 \begin{Definition}[$\Oh(g)$] 
 Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that \blue{grow at most as fast}
-  as the function $g$ as follows:
+  as the function $g$ as follows: \index{$\mathcal{O}(g)$}
   \\[0.2cm]
   \hspace*{0.5cm} 
   \colorbox{red}{\framebox{\colorbox{orange}{
@@ -127,8 +131,8 @@ We proceed to explain the definition of $\Oh(g)$ in more detail.
       \hspace*{1.3cm}
       $f(n) \leq c \cdot g(n)$
       \\[0.2cm]
-      holds for all values of $n$ that are sufficiently big.  This implies that if $f \in \Oh(g)$
-      holds. Then, for example, the function $2 \cdot f$ will also be in $\Oh(g)$.
+      holds for all values of $n$ that are sufficiently big.  This implies that, for example, if $f \in \Oh(g)$
+      holds, then the function $2 \cdot f$ will also be in $\Oh(g)$.
 
       This last property shows that the big $\Oh$ notation \blue{abstracts from constant factors}.
 \end{enumerate}
@@ -136,9 +140,9 @@ I have borrowed Figure \ref{fig:big-o.eps} below from the \href{http://www.wikip
 \href{http://en.wikipedia.org/wiki/Asymptotic_notation}{asymptotic notation}.  It shows two functions 
 $f(x)$ and $c \cdot g(x)$ such that $f \in \Oh(g)$.  Note that the function $f(x)$, which is drawn
 in red, is less or equal than $c \cdot g(x)$ for all values of $x$ such that $x \geq k$.  In the
-figure, we have $k=5$, since the condition $f(x) \leq g(x)$ is satisfied for $x \geq 5$. For
+figure, we have $k=5$, since the condition $f(x) \leq c \cdot g(x)$ is satisfied for $x \geq 5$. For
 values of $x$ that are less than $k = 5$, sometimes $f(x)$ is bigger than $c \cdot g(x)$ but that does
-not matter.  In Figure \ref{fig:big-o.eps} the functions $f(x)$ and $g(x)$ are drawn as if they were
+not matter.  In Figure \ref{fig:big-o.eps} the functions $f(x)$ and $c \cdot g(x)$ are drawn as if they were
 functions defined for all positive real numbers.  However, this is only done to support the
 visualization of these functions.  In reality, the functions $f$ and $g$ are only defined for
 natural numbers.
@@ -211,7 +215,7 @@ We have to provide a constant $c \in \mathbb{R}_+$ and a constant $k\in\mathbb{N
 \hspace*{1.3cm}
 $ n \leq c \cdot 2^n$ 
 \\[0.2cm]
-holds for all $n \geq k$.  Let us define $k := 0$ and $c := 1$.  We will then have to show that \\[0.2cm]
+holds for all $n \geq k$.  Let us define $k := 0$ and $c := 1$.  We have to show that \\[0.2cm]
 \hspace*{1.3cm} $n \leq 2^n$ \quad holds for all $n \in \N$.
 \\[0.2cm]
 We prove this claim by induction on $n$.
@@ -263,7 +267,8 @@ We prove this claim by induction on $n$.
             $n^{\beta} \leq c(\beta) \cdot 2^n$ \quad holds for all $n \in \mathbb{N}$.
             \\[0.2cm]
             You can prove the claim $(*)$ via a \blue{side induction} on $n$.
-      \item The \href{https://en.wikipedia.org/wiki/Binomial_theorem}{binomial theorem} tells
+      \item The \href{https://en.wikipedia.org/wiki/Binomial_theorem}{binomial theorem}\index{binomial theorem}
+            tells
             us that for all $n \in \mathbb{N}$ and all $a,b \in \mathbb{R}$ the equation
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -284,7 +289,7 @@ $f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a numb
 the big $\Oh$ notation next.  These properties will later enable us to prove a claim of the form 
 $f \in \Oh(g)$ much quicker than by induction.
 
-\begin{Proposition}[Reflexivity]
+\begin{Proposition}[Reflexivity of Big $\Oh$ Notation] \index{reflexivity of big $\Oh$ notation}
   For all functions $f\colon \N \rightarrow {\R_+}$ we have that
   \\[0.2cm]
   \hspace*{1.3cm} $f \in \Oh(f)$ \quad holds. 
@@ -370,7 +375,7 @@ Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the
 $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 / f_2 \in \Oh(h_1 / h_2)$
 \quad holds.  \eox
 
-\begin{Proposition}[Transitivity]
+\begin{Proposition}[Transitivity of Big $\mathcal{O}$ Notation] \index{transitivity of big $\mathcal{O}$ notation}
 Assume $f,g,h \colon \N \rightarrow {\R_+}$. Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $f \in \Oh(g) \wedge g \in \Oh(h) \,\rightarrow\, f \in \Oh(h)$.
@@ -403,7 +408,7 @@ $f(n) \leq c_1\cdot g(n)$  \quad and \quad $c_1\cdot g(n) \leq c_1\cdot c_2 \cdo
 The transitivity of the relation $\leq$ immediately implies $f(n) \leq c \cdot h(n)$ for $n \geq k$.  
 \qed
 
-\begin{Proposition}[Limit Proposition] \label{limit}
+\begin{Proposition}[Limit Proposition] \index{limit proposition} \label{limit}
   Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the \href{https://en.wikipedia.org/wiki/Limit_(mathematics)#Limit_of_a_sequence}{limit}
   \\[0.2cm]
   \hspace*{3.3cm}
