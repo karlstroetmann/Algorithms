@@ -1,14 +1,16 @@
 \chapter{Big $\mathcal{O}$ Notation} 
-This chapter introduces both the
-\href{http://en.wikipedia.org/wiki/O_notation}{big $\mathcal{O}$ notation} and the
-\blue{tilde notation} advocated by Sedgewick \cite{sedgewick:11}.
-These two notations are useful to analyse the running time of algorithms.  Furthermore, the big $\mathcal{O}$
+This chapter introduces the
+\href{http://en.wikipedia.org/wiki/O_notation}{big $\mathcal{O}$ notation}. 
+This  notation is useful when analysing the running time of algorithms.  Furthermore, the big $\mathcal{O}$
 notation is part of the technical language of computer science and hence you need to understand this notation
 when conversing with your colleagues.
 
 In order to illustrate the application of these notations, we will show how to implement the computation of
 powers efficiently, i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
-is significantly faster than the naive approach.
+is significantly faster than the naive approach.  After that, we discuss the \blue{master theorem}, which
+enables us to estimate the \blue{growth rate} of functions that are defined recursively.  Finally, we learn how to solve
+\blue{recurrence relations}.  These are recursive equations that arise from the complexity analysis of
+functions that are recursively defined.
 
 \section{Motivation}
 Sometimes it is necessary to have a precise understanding of the complexity of an algorithm.  
@@ -151,7 +153,7 @@ natural numbers.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/big-o.eps, scale=0.50}} 
-  \caption{Example for $f \in \Oh(g)$.}
+  \caption{Example for $f \in \Oh(g)$.} %$
   \label{fig:big-o.eps}
 \end{figure}
 
@@ -164,7 +166,9 @@ We claim that the following holds:
 \\[0.2cm]
 \hspace*{1.3cm}
 $3 \cdot n^3 + 2 \cdot n^2 + 7 \in \Oh(n^3)$. 
-\\[0.2cm]
+\ex
+
+\noindent
 \textbf{Proof}:  We have to  provide a constant $c\in\mathbb{R}_+$ and another constant $k\in\mathbb{N}$ such that for all $n\in
 \N$ satisfying
 $n \geq k$ the inequality
@@ -208,6 +212,7 @@ and therefore the proof is complete. \qed
 
 \example
 We have  $n \in \Oh(2^n)$. 
+\ex
 
 \proof
 We have to provide a constant $c \in \mathbb{R}_+$ and a constant $k\in\mathbb{N}$ such that 
@@ -472,7 +477,8 @@ Assume $k \in \N$.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
  $n^k \in \Oh(n^{k+1})$.
-
+\ex
+ 
 \proof
 We have \\[0.2cm]
 \hspace*{1.3cm} 
@@ -484,6 +490,7 @@ Therefore, the claim follows from the limit proposition.
 \example
 Assume $k \in \N$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0.2cm]
 \hspace*{1.3cm} $n^k \in \Oh(\lambda^n)$.
+\ex
 
 \proof  We will show that 
 \hspace*{1.3cm} 
@@ -538,6 +545,7 @@ Therefore the limit exists and the claim follows from the limit proposition.
 
 \example
 We have $\ln(n) \in \Oh(n)$.
+\ex
 
 \proof
 This claim is again a simple consequence of the limit proposition.  We will use L'H\^opital's rule
@@ -567,7 +575,7 @@ Assume $\varepsilon \in \mathbb{R}$ and $\varepsilon > 0$.  Prove that $\ln(n) \
 
 \example
 We have $2^n \in \Oh(3^n)$, but  $3^n \notin \Oh(2^n)$.
-\eox
+\ex
 
 \proof
  First, we have \\[0.2cm]
@@ -670,7 +678,7 @@ either have
 \hspace*{1.3cm}
 $f \in \Oh(g)$ \quad or \quad $f \not\in \Oh(g)$,
 \\[0.2cm]
-we can never have $f = \Oh(g)$.  Nevertheless, in the literature it has become common to abuse the
+but we can never have $f = \Oh(g)$.  Nevertheless, in the literature it has become common to abuse the
 notation and write
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -739,6 +747,7 @@ determining the complexity.
 \pagebreak
 
 \section[Computation of Powers]{Case Study:  Efficient Computation of Powers}
+\index{computation of powers}
 Let us study an example to clarify the notions introduced so far.  
 Consider the program shown in Figure \ref{fig:power-naive.stlx}.  Given an integer $m$ and a
 natural number $n$, $\mathtt{power}(m, n)$ computes $m^n$.
@@ -787,8 +796,8 @@ If the expression $(m \cdot m) \cdot (m \cdot m)$ is computed only once, then we
 in order to compute $m^8$.   On the other hand, the naive approach would take 7 multiplications to
 compute $m^8$.  The general case is implemented in the program shown in Figure \ref{fig:power.stlx}.  
 In this program, the value of $m^n$ is computed according to the 
-\href{http://en.wikipedia.org/wiki/Divide_and_conquer_algorithm}{divide and conquer} paradigm.
-The basic idea that makes this program work is captured by the following formula: 
+\href{http://en.wikipedia.org/wiki/Divide_and_conquer_algorithm}{divide and conquer} \index{divide and conquer}
+paradigm.  The basic idea that makes this program work is captured by the following formula: 
 \\[0.2cm] 
 \hspace*{1.3cm} 
 $m^n = 
@@ -805,7 +814,8 @@ Formally, for natural numbers $n \in \mathbb{N}$ and $k \in \mathbb{N}$ s.t.~$k\
 $n \dv k $ is defined as
 \\[0.2cm]
 \hspace*{1.3cm}
-$n \dv k \df (n - n \mod k) / k$.
+$n \dv k \df \bigl(n - (n \,\mbox{\texttt{\%}}\, k)\bigr) / k$.
+\ex
 
 \begin{figure}[!h]
   \centering
@@ -832,10 +842,10 @@ $n \dv k \df (n - n \mod k) / k$.
 \end{figure} 
 
 It is by no means obvious that the program shown in \ref{fig:power.stlx} does compute
-$m^n$.  We prove this claim by  \blue{computational induction}.
+$m^n$.  We prove this claim by  \blue{computational induction}\index{computational induction}.
 Computational induction is an induction on the number of recursive invocations.
-This method is the method of choice to prove the correctness of a recursive function definition.
-The method of computational induction consists of two steps:
+This method is the method of choice to prove the correctness of a function that is defined recursively.
+The method of computational induction consists of three steps:
 \begin{enumerate}
 \item The \blue{base case}.
 
@@ -847,6 +857,10 @@ The method of computational induction consists of two steps:
       the function does invoke itself recursively.  In order to prove the correctness of these cases we may
       assume that the recursive invocations work correctly.  This assumption is called the
       \blue{induction hypotheses}.
+\item The \blue{termination proof}.
+
+      In this final step we have to prove that the recursive definition of the function is \blue{well founded},
+      i.e.~we have to prove that the recursive invocations terminate.
 \end{enumerate}
 Let us prove the claim 
 \\[0.2cm]
@@ -902,27 +916,35 @@ by computational induction.
             \end{array}
             $
       \end{enumerate}
-      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the proof is finished.
+      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the induction step is finished.
+\item \textbf{Termination proof}:
+      Every time the function \texttt{power} is invoked as $\mathtt{power}(m, n)$ and $n > 0$, the recursive
+      invocation has the form $\mathtt{power}(m,n \dv 2)$ and, since $n \dv 2 < n$ for all $n > 0$, the second
+      argument is decreased.  As this argument is a natural number, it must eventually reach $0$.  But if the
+      second argument of $\mathtt{power}$ is $0$, the function terminates.
       \qed
 \end{enumerate}
-Next, we want to investigate the \blue{computational complexity} of this implementation of \texttt{power}.
-To this end, let us compute the number of multiplications that are done when
+Next, we want to analyse the \blue{computational complexity} of our implementation of \texttt{power}.
+To this end, let us compute the number of multiplications that are performed when
 $\mathtt{power}(m,n)$ is called.  If the number $n$ is odd there will be more multiplications than
 in the case when $n$ is even.  Let us first investigate the \blue{worst case}.  
 The worst case happens if there is an $l\in \N$ such that 
 \\[0.2cm]
 \hspace*{1.3cm}
-$n = 2^l - 1$ 
+$n = 2^l - 1$. 
 \\[0.2cm]
-because then we have 
+The reason is that then
 \\[0.2cm]
-\hspace*{1.3cm} $n \dv 2 = 2^{l-1} - 1$ \quad and therefore for $l > 1$ we have \quad $n \,\texttt{\symbol{37}}\, 2 = 1$, \\[0.2cm]
-because in that case we have 
+\hspace*{1.3cm} $n \dv 2 = 2^{l-1} - 1$
+\\[0.2cm]
+and hence $n \dv 2$ is of the same form as $n$ and, in particular, is odd again.  To see this, note that
+for $n = 2^l - 1$ we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$2 \cdot(n \dv 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$.
+$2 \cdot(n \dv 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$,
 \\[0.2cm]
-Therefore, if $n = 2^l - 1$ the exponent $n$ will be odd on every recursive call.
+showing that $(2^l -1 ) \dv 2 = 2^{l-1} -1$.
+Therefore, if $n = 2^l - 1$ the exponent $n$ will be odd on every recursive call until it finally reaches $0$.
 Let us assume $n = 2^l - 1$ and let us compute the number $a_n$ of multiplications that
 are done when $\mathtt{power}(m,n)$ is evaluated. 
 
@@ -930,7 +952,13 @@ First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluat
 $\mathtt{power}(m, n)$ does not require a single multiplication.
 Otherwise, we have two multiplications in line 8 that have to be added to those multiplications
 that are performed in the recursive call in line 4.  Therefore, we get the following
-\href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}:
+\href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}\footnote{
+  A \blue{recurrence relation} \index{recurrence relation} for a sequence $a_n$ is any equation that relates
+  $a_n$ to preceding terms of the sequence $a_n$.  For example, $a_n = a_{n-1} + 1$ for $n > 0$ is a very
+  simple recurrence relation, while $a_n = a_{n \dv 2} + n$ for $n > 0$ is a more complicated recurrence
+  relation.  In order for a recurrence relation to \blue{define} the sequence $a_n$ we also need to specify one
+  or more initial values.  
+}:
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n = a_{n \dvv 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
@@ -944,7 +972,7 @@ $b_l = a_{2^l-1} = a_{(2^l-1) \dvv 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qqu
 $l > 0$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
-solution of this recurrence relation is given by
+solution of this recurrence relation is given by the formula
 \\[0.2cm]
 \hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad for all $l \in \N$. 
 \\[0.2cm] 
@@ -1005,7 +1033,7 @@ If we solve the equation $n = 2^l$ for  $l$ we get $l =
 \vspace*{0.3cm}
 
 Since we have gotten the same result both in the worst case and in the best case we may conclude
-that in general the number $a_n$ of multiplications satisfies 
+that in general the number $a_n$ of multiplications needed to compute $\mathtt{power}(m, n)$ satisfies 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $a_n \in \Oh\bigl(\log_2(n)\bigr)$. \qed
@@ -1023,23 +1051,21 @@ $m\cdot n$.  Of course, your implementation must not use the multiplication oper
 However, you may use the operators ``$\dv$'' and ``\texttt{\%}'' provided
 the second argument of these
 operators is the number $2$.  The reason it that integer division by $2$ can be implemented by a simple
-shift, while $n\, \texttt{\symbol{37}}\, 2$ is just the last bit of $n$.
+shift, while $n\, \texttt{\symbol{37}}\, 2$ is just the last bit of $n$. 
 
-In your implementation, you should use the
-divide and conquer paradigm.  Furthermore, you should use computational induction to prove the
+In your implementation of the function \texttt{prod} you should use the
+\blue{divide and conquer} paradigm.  Furthermore, you should use \blue{computational induction} to prove the
 correctness of your implementation.  Finally, you should provide an estimate for the number of
-additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$
-notation. 
+additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$ notation. 
 \eox
-
 
 \section{The Master Theorem}
 In order to analyse the complexity of  the procedure $\textsl{power}()$,
 we have first computed a  recurrence relation, then we have solved this recurrence and, finally,  
 we have approximated the result using the big $\Oh$ notation.  In many cases we are only interested in this
-last approximation and then it is not necessary to actually solve the recurrence relation.  
+last approximation and in that case it is not necessary to actually solve the recurrence relation.  
 Instead, we can use the 
-\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem} to short
+\href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem}\index{master theorem} to short 
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
 
@@ -1083,7 +1109,8 @@ relation for $f$ has the form
  $f(n) = \alpha \cdot f\left(n \dv \beta\right) + n^\delta$,
 \\[0.2cm]
 i.e.~instead of adding the term $\Oh\bigl(n^\delta\bigr)$ we just add $n^\delta$.  These
-simplifications do not change the proof idea.  We start the proof by defining
+simplifications do not change the proof idea.  Without them, the proof would be much more involved and the main
+idea of the proof would be hidden.  We start the proof by defining
 \\[0.2cm]
 \hspace*{1.3cm}
  $a_k := f(n) = f\bigl(\beta^k\bigr)$.  
@@ -1138,9 +1165,12 @@ holds and substitute the right hand side of this equation into the previous equa
 \hspace*{1.3cm}
 $
 \begin{array}[t]{lcl}
-  a_k & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k \\[0.2cm]
-      & = & \alpha^2 \cdot \bigl(\alpha \cdot a_{k-3} + \gamma^{k-2}\bigr) + \alpha \cdot \gamma^{k-1} + \gamma^k \\[0.2cm]
-      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \gamma^{k-2} + \alpha \cdot \gamma^{k-1} + \alpha^0 \cdot \gamma^k. \\[0.2cm]
+  a_k & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k
+            \\[0.2cm]
+      & = & \alpha^2 \cdot \bigl(\alpha \cdot a_{k-3} + \gamma^{k-2}\bigr) + \alpha \cdot \gamma^{k-1} + \gamma^k
+            \\[0.2cm]
+      & = & \alpha^3 \cdot a_{k-3} + \alpha^2 \cdot \gamma^{k-2} + \alpha^1 \cdot \gamma^{k-1} + \alpha^0 \cdot \gamma^k. 
+            \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1149,8 +1179,10 @@ Proceeding in this way we arrive at the general formula
 \hspace*{1.3cm}
 $
 \begin{array}[b]{lcl}
-a_k & = & \alpha^{i} \cdot a_{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \alpha^{i-2} \cdot \gamma^{k-(i-2)} + \cdots + \alpha^0 \cdot \gamma^k \\[0.2cm]
-    & = & \alpha^{i} \cdot a_{k-i} + \sum\limits_{j=0}^{i-1} \alpha^{j} \cdot \gamma^{k-j}. \\[0.2cm]
+a_k & = & \alpha^{i} \cdot a_{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \alpha^{i-2} \cdot \gamma^{k-(i-2)}
+          + \cdots + \alpha^0 \cdot \gamma^k 
+          \\[0.2cm]
+    & = & \ds \alpha^{i} \cdot a_{k-i} + \sum\limits_{j=0}^{i-1} \alpha^{j} \cdot \gamma^{k-j}. \\[0.2cm]
 \end{array}
 $
 \\[0.2cm]
@@ -1289,7 +1321,8 @@ In order to proceed, we have to perform a case distinction:
       \hspace*{1.3cm}
       $\alpha > \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^{\log_{\beta}(\alpha)}\bigr)$
       \\[0.2cm]
-      holds.  \qed
+      holds and hence we have established the validity of the master theorem in all three cases.  
+      \qed
 \end{enumerate}
 
 \examples
@@ -1405,7 +1438,7 @@ produce the most precise estimate for the asymptotic growth of a function.
 \exercise
 For each of the following recurrence relations, use the master theorem to give estimates of the
 growth of the function $f$. 
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item $f(n) = 4 \cdot f(n \dv 2) + 2 \cdot n + 3$.
 \item $f(n) = 4 \cdot f(n \dv 2) + n^2$.
 \item $f(n) = 3 \cdot f(n \dv 2) + n^3$.  \eox
@@ -1426,14 +1459,14 @@ Furthermore, you are told that $f(1) = 1$.  Try to solve the recurrence relation
 \eox
 
 \section{Variants of Big $\Oh$ Notation}
-The big $\Oh$ notation is useful if we want to express that some function $f$ does not grow faster
+The big $\Oh$ notation is useful when we want to express that some function $f$ does not grow faster
 than another function $g$.  Therefore, when stating the running time of the worst case of some algorithm,
 big $\Oh$ notation is the right tool to use.  However, sometimes we want to state a lower bound for
 the complexity of a problem.  For example, it can be shown that every comparison based sort algorithm needs at least
 $n \cdot \log_2(n)$ comparisons to sort a list of length $n$.  In order to be able to express lower
 bounds concisely, we introduce the big $\Omega$ notation next.
 
-\begin{Definition}[$\Omega(g)$] 
+\begin{Definition}[$\Omega(g)$] \index{$\Omega(g)$}
   Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that grow 
   \blue{at least as fast as} the function $g$ as follows:
   \\[0.2cm]
@@ -1451,7 +1484,7 @@ It is not difficult to show that
 Finally, we introduce big $\Theta$ notation.  The idea is that $f \in \Theta(g)$ if 
 $f$ and $g$ have the \blue{same} asymptotic growth rate. 
 
-\begin{Definition}[$\Theta(g)$]
+\begin{Definition}[$\Theta(g)$] \index{$\Theta(g)$}
   Assume $g \in \R_+^{\N}$ is given.   The set of functions that have the same asymptotic growth rate
   as the function $g$ is defined as
   \\[0.2cm]
@@ -1468,35 +1501,6 @@ It can be shown that $f \in \Theta(g)$ if and only if the limit
 $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}$
 \\[0.2cm]
 exists and is greater than $0$.
-\vspace*{0.3cm}
-
-Sedgewick \cite{sedgewick:11} claims that the $\Theta$ notation is too imprecise and advocates the
-\blue{tilde} notation instead.  For two functions $f,g : \mathbb{N} \rightarrow \mathbb{R}_+$ he defines
-\\[0.3cm]
-\hspace*{1.3cm}
-$f \sim g$ \quad iff \quad $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)} = 1$.
-\\[0.2cm]
-To see why this is more precise, let us consider the case of two algorithms $A$ and $B$ for sorting a list of length
-$n$.   Assume that the number $\textsl{count}_A(n)$ of comparisons used by algorithm $A$ to sort a list of
-length $n$ is given as
-\\[0.2cm]
-\hspace*{1.3cm}
-$\textsl{count}_A(n) = n \cdot \log_2(n) + n$,
-\\[0.2cm]
-while for algorithm $B$ the corresponding number of comparisons is given as
-\\[0.2cm]
-\hspace*{1.3cm}
-$\textsl{count}_B(n) = 3 \cdot n \cdot \log_2(n) + n$.
-\\[0.2cm]
-Clearly, if $n$ is big then algorithm $A$ is better than algorithm $B$ but as we have pointed out in a previous
-section, the big $\Oh$ notation is not able to distinguish between the complexity of algorithm $A$ and
-algorithm $B$.  However we have that
-\\[0.2cm]
-\hspace*{1.3cm}
-$\ds 3 \cdot \textsl{count}_A(n) \sim \textsl{count}_B(n)$
-\\[0.2cm]
-and this clearly shows that for big values of $n$, algorithm $A$ is faster than algorithm $B$ by a
-factor of $3$.
 
 \section{Recurrence Relations}
 In some cases knowing the growth rate of a function is not sufficient.  Rather, we want to be able to compute
@@ -1505,12 +1509,14 @@ algorithm, the growth rate is often defined via a \href{https://en.wikipedia.org
 In this section we discuss a simple program whose complexity analysis leads to a recurrence relation for the 
 number of additions.  We will then see how this recurrence relation can be solved explicitly.  The program that
 we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\texttt{fib}(n)$ computes the
-\href{https://en.wikipedia.org/wiki/Fibonacci_number}{Fibonacci number} $F_n$.  These numbers are defined
-inductively as follows:
+\href{https://en.wikipedia.org/wiki/Fibonacci_number}{Fibonacci number} \index{Fibonacci number} $F_n$.  These
+numbers are defined inductively as follows:
 \begin{enumerate}
 \item $F_0 := 0$,
 \item $F_1 := 1$, 
 \item $F_{n+2} = F_{n+1} + F_n$.
+
+      This last equation is an example of a \blue{recurrence relation}.
 \end{enumerate}
 
 \begin{figure}[!h]
@@ -1551,7 +1557,8 @@ We take the equation $a_n = a_{n-1} + a_{n-2} + 1$ and substitute $i+2$ for $n$.
 \hspace*{1.3cm} $a_{i+2} = a_{i+1} + a_i + 1$ \hspace*{\fill} $(1)$
 \\[0.2cm]
 This type of equation is called a \blue{linear inhomogeneous recurrence relation}.
-The associated \blue{homogeneous recurrence relation} is
+\index{linear inhomogeneous recurrence relation}
+The \blue{associated homogeneous recurrence relation} \index{associated homogeneous recurrence relation} is
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{i+2} = a_{i+1} + a_i$ \hspace*{\fill} $(2)$
@@ -1565,18 +1572,20 @@ Putting this ansatz in $(2)$ leads to the equation
 $\lambda^{i+2} = \lambda^{i+1} + \lambda^i$.
 \\[0.2cm]
 If we divide both sides of this equation by $\lambda^i$, we get the
-quadratic equation
+\href{https://en.wikipedia.org/wiki/Quadratic_equation}{quadratic equation}
 \\[0.2cm]
 \hspace*{1.3cm}
 $\lambda^2 = \lambda + 1$,
 \\[0.2cm]
-which we solve by completing the square:
+which we solve by \href{https://en.wikipedia.org/wiki/Completing_the_square}{completing the square}:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\begin{array}{lrcll}
                 &  \lambda^2 & = & \lambda + 1 & |\;- \lambda \\[0.2cm]
 \Leftrightarrow & \ds \lambda^2 - 2 \cdot \frac{1}{2} \cdot\lambda & = & 1 & |\;\ds+ \frac{1}{4} \\[0.4cm]
-\Leftrightarrow & \ds \lambda^2 - 2 \cdot \frac{1}{2} \cdot\lambda + \Big(\frac{1}{2}\Big)^2 & = & \ds\frac{5}{4} & \\[0.4cm]
+\Leftrightarrow & \ds \lambda^2 - 2 \cdot \frac{1}{2} \cdot\lambda + \Big(\frac{1}{2}\Big)^2 & = & \ds\frac{5}{4}
+                & | \;\; \mbox{completing the square}
+                  \\[0.4cm]
 \Leftrightarrow & \ds \Big(\lambda -\frac{1}{2}\Big)^2 & = & \ds\frac{5}{4}         & | \;\;\sqrt{\;\;} \\[0.4cm]
 \Leftrightarrow & \ds \lambda -\frac{1}{2} & = & \ds\pm\frac{\sqrt{5}}{2} & | \ds\;+ \frac{1}{2} \\[0.4cm]
 \Leftrightarrow & \ds \lambda_{1/2} & = & \ds\frac{1}{2} \cdot \bigl(1 \pm \sqrt{5}\bigr) & 
@@ -1597,20 +1606,22 @@ $\lambda_1 - \lambda_2 = \sqrt{5}$ \quad and \quad $\lambda_1 + \lambda_2 = 1$. 
 From the last equation it follows immediately that \\[0.2cm]
 \hspace*{1.3cm} $1 - \lambda_1 = \lambda_2$ \quad and \quad $1 - \lambda_2 = \lambda_1$. \hspace*{\fill} (4)
 \\[0.1cm]
-To solve the original recurrence equation (1), we make the  ansatz
+To solve the original recurrence equation (1) we try the ansatz
 $a_i = c$.  If we use this ansatz in equation (1), we get the equation \\[0.2cm]
 \hspace*{1.3cm}
 $c = c + c + 1$,
 \\[0.2cm]
-which has the solution $c = -1$.  We call this solution a \blue{special solution}.
-The \blue{general solution} of the recurrence equation (1) 
+which has the solution $c = -1$.  We call this solution a \blue{special solution}. \index{special solution}
+This is a solution of the recurrence relation $a_{i+2} = a_{i+1} + a_i + 1$, but it does not satisfy the
+initial conditions $a_0 = 0$ and $a_1 = 1$.
+The \blue{general solution} \index{general solution} of the recurrence equation (1) 
 is the sum of the general solution of the homogeneous recurrence equation and the special
 solution and therefore reads 
 \[ a_i = \alpha \cdot \lambda_1^i + \beta \cdot \lambda_2^i - 1 \]
 with $\lambda_1 = \frac{1}{2}\cdot (1 + \sqrt{5})$ and $\lambda_2 = \frac{1}{2}\cdot (1 - \sqrt{5})$.
 The coefficients $\alpha$ and $\beta$ now have to be determined so that the
 initial conditions $a_0 = 0$ and $a_1 = 0$ are met.  This leads to the following
-system of linear equations: 
+\blue{system of linear equations}: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\begin{array}{lcl}
@@ -1648,10 +1659,9 @@ Because of $\alpha = 1 - \beta$ we find  \\[0.2cm]
 If we use the equations (3) and (4) next, we arrive at \\[0.2cm]
 \hspace*{1.3cm} 
 $\alpha = \bruch{\lambda_1}{\sqrt{5}} $ \quad and \quad $\beta = -\bruch{\lambda_2}{\sqrt{5}}$. \\[0.2cm]
-This allows us to explicitly specify the sequence $(a_i)_i$: \\[0.2cm]
+Therefore the solution of our recurrence relation is: \\[0.2cm]
 \hspace*{1.3cm} 
-$\displaystyle 
-   a_i = \bruch{1}{\sqrt{5}} \cdot \left( \lambda_1^{i+1} - \lambda_2^{i+1} \right) - $1 \\[0.2cm]
+$\ds a_i = \bruch{1}{\sqrt{5}} \cdot \left( \lambda_1^{i+1} - \lambda_2^{i+1} \right) - 1$. \\[0.2cm]
 Because of $\lambda_1\approx 1.61803$ and $\lambda_2 \approx - 0.61803$ the first term
 of the sum dominates the second term and the number of additions increases exponentially with the factor $\lambda_1$.
 This explains the strong increase in computing time.
@@ -1659,18 +1669,36 @@ This explains the strong increase in computing time.
 
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
-and plays an important role in geometry, art, and alchemy.
+and plays an important role in geometry, art, alchemy, and the dark arts.
 
 \exercise
 As the Fibonacci numbers are defined via a linear recurrence relation, it is possible
 to derive an explicit formula for $F_n$.  Your task is to derive this formula.
 \eox
-
+\pagebreak
 
 \section{Further Reading}
 Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
 contains a detailed description of several variants of the big $\Oh$ notation, while
 chapter 4 gives a more general version of the master theorem together with a detailed proof.
+
+\section{Check Your Understanding}
+If you are able to answer the questions below confidently, then you should have mastered the concepts
+introduced in this chapter.
+\begin{enumerate}
+\item What is the difference between a program and an algorithm.
+\item How is the notion $\Oh(g)$ defined?
+\item How would you prove $\ln^2(n) \in \Oh\bigl(\sqrt{n}\bigr)$?.
+\item How can we compute $m^n$ efficiently?
+\item What is computational induction?  Which steps does it involve?
+\item Are you able to recite the master theorem?
+\item Why is the master theorem useful?
+\item Do you know how to apply the master theorem?
+\item Which formula about an infinite series is essential in order to prove the master theorem?
+\item How are the Fibonacci numbers defined?
+\item Can you derive an explicit formula for the Fibonacci numbers?
+\item Describe the method to solve linear recurrence relations?
+\end{enumerate}
 
 %%% Local Variables: 
 %%% mode: latex
