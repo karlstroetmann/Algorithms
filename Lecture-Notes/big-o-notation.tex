@@ -111,7 +111,7 @@ function $g \in \R_+^\N$.  Informally, we have the following:
 \\[0.2cm]
 \hspace*{1.3cm}
 \colorbox{red}{\framebox{\colorbox{orange}{
-   \blue{$f \in \Oh(g)$}  \quad if and only if \quad \blue{$f$ does not grow faster than $g$}
+   \blue{$f \in \Oh(g)$}  \quad if and only if \quad \blue{$f$ does not grow faster than a multiple of $g$}
 }}}
 \\[0.2cm]
 We proceed to explain the definition of $\Oh(g)$ in more detail.
@@ -776,7 +776,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
   \caption{Naive computation of $m^n$ for  $m,n \in \N$.}
   \label{fig:power-naive.stlx}
 \end{figure} 
-
+ 
 This program is obviously correct.  The computation of $m^n$ requires $n$ multiplications if the
 function \texttt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
 Fortunately, there is an algorithm for computing $m^n$ that is much more efficient.
@@ -807,14 +807,20 @@ m^{n\dvv 2} \cdot m^{n\dvv 2} \cdot m  & \mbox{if $n$ is odd}.
 \end{array}
 \right.
 $
-\\[0.2cm] 
-In this formula $n \dv  2$ denotes \blue{integer division} by $2$, e.g.~we have $4 \dv  2 = 2$, but also $5 \dv  2 =
-2$.
-Formally, for natural numbers $n \in \mathbb{N}$ and $k \in \mathbb{N}$ s.t.~$k\geq 1$ the expression 
-$n \dv k $ is defined as
+\\[0.2cm]
+In this formula $n \dv  2$ denotes \blue{integer division} by $2$, e.g.~we have $4 \dv  2 = 2$, but also
+$5 \dv  2 = 2$.
+In general, if $a,b \in \mathbb{N}$ and $b > 0$, it can be shown that there exist natural numbers $q$ and $r$
+such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$n \dv k \df \bigl(n - (n \,\mbox{\texttt{\%}}\, k)\bigr) / k$.
+$a = b \cdot q + r$ \quad where $0 \leq r < b$. \hspace*{\fill} (ID)
+\\[0.2cm]
+Furthermore, $q$ and $r$ are uniquely determined by the condition (ID).  Then, $q$ is called the \blue{integer division} 
+of $a$ by $b$ and $q$ is called the \blue{remainder} of the integer division of $a$ by $b$ and we write
+\\[0.2cm]
+\hspace*{1.3cm}
+$q = a \dvv b$ \quad and \quad $r = a \;\texttt{\%}\; b$.
 \ex
 
 \begin{figure}[!h]
@@ -1045,19 +1051,22 @@ However, this computation would be much more tedious because then we would have 
 that the time needed to multiply two numbers depends on the size of these numbers.
 
 \exercise
-Implement a procedure $\mathtt{prod}$ that multiplies two numbers:
-For given natural numbers $m$ and $n$, the expression $\mathtt{prod}(m, n)$  should compute the product
-$m\cdot n$.  Of course, your implementation must not use the multiplication operator ``\texttt{*}''.
-However, you may use the operators ``$\dv$'' and ``\texttt{\%}'' provided
-the second argument of these
-operators is the number $2$.  The reason it that integer division by $2$ can be implemented by a simple
-shift, while $n\, \texttt{\symbol{37}}\, 2$ is just the last bit of $n$. 
-
-In your implementation of the function \texttt{prod} you should use the
-\blue{divide and conquer} paradigm.  Furthermore, you should use \blue{computational induction} to prove the
-correctness of your implementation.  Finally, you should provide an estimate for the number of
-additions needed to compute $\mathtt{prod}(m,n)$.  This estimate should make use of the big $\Oh$ notation. 
-\eox
+\begin{enumerate}
+\item Implement a procedure $\mathtt{div\_mod}$ that takes two numbers $m$ and $n$ and that returns the pair
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\bigl(m \dvv n, m \;\texttt{\%}\;n\bigr)$.
+      \\[0.2cm]
+      Therefore, if $\mathtt{div\_mod}(m, n) = (q,r)$ we will have both
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $m = n \cdot q + r$ \quad and \quad $0 \leq r < n$.
+      \\[0.2cm]
+      You should try to implement the function recursively and should try to compute 
+      $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dvv 2, n)$.
+\item Prove that your implementation works correctly.
+      \qed
+\end{enumerate} 
 
 \section{The Master Theorem}
 In order to analyse the complexity of  the procedure $\textsl{power}()$,
@@ -1669,13 +1678,130 @@ This explains the strong increase in computing time.
 
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
-and plays an important role in geometry, art, alchemy, and the dark arts.
+and plays an important role in geometry, art, alchemy, and the dark arts. \eox
+
+In the remainder of this section we will define the notion of a \blue{linear inhomogeneous recurrence relation}
+of the second order and describe a general method to solve this kind of recurrence equations.
+
+\begin{Definition}[Second Order Linear Inhomogeneous Recurrence Relation] \hspace*{\fill} \\
+  A \blue{second order linear inhomogeneous recurrence relation}
+  \index{linear inhomogeneous recurrence relation}
+  has the form
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$ \quad and \quad $x_0 = d$, $x_1 = e$
+  \quad where $a, b, c, d, e \in \mathbb{Z}$.
+  \\[0.2cm]
+  Here, $x_0 = d$, $x_1 = e$ are the \blue{initial values}.  Together with the initial values, the recurrence
+  relation defines a sequence $(x_n)_{n\in\mathbb{N}}$.  \eox
+\end{Definition}
+
+\noindent
+The method to \blue{solve} a second order linear inhomogeneous recurrence relation consists of three steps.
+\begin{enumerate}
+\item We use the ansatz $x_n = \lambda^n$ to solve the \blue{associated homogeneous recurrence relation}
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n$.
+      \\[0.2cm]
+      Substituting this ansatz into this homogeneous recurrence relation yields the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\lambda^{n+2} = a \cdot \lambda^{n+1} + b \cdot \lambda^n$.
+      \\[0.2cm]
+      Dividing both sides of this equation by $\lambda^n$ yields the quadratic equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\lambda^{2} = a \cdot \lambda^{1} + b$,
+      \\[0.2cm]
+      which is the same as
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\lambda^{2} - a \cdot \lambda^{1} = b$.
+      \\[0.2cm]
+      We complete the squares by adding $(a/2)^2$ on both sides of this equation:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds \lambda^{2} - a \cdot \lambda^{1} + \Bigl(\frac{a}{2}\Bigr)^2 = b + \frac{a^2}{4}$.
+      \\[0.2cm]
+      Therefore, the solutions are
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds\lambda_1 = \frac{a}{2} + \frac{1}{2} \cdot \sqrt{4 \cdot b + a^2}$ \quad and \quad
+      $\ds\lambda_2 = \frac{a}{2} - \frac{1}{2} \cdot \sqrt{4 \cdot b + a^2}$.
+      \\[0.2cm]
+      There is an exceptional case when $\lambda_1 = \lambda_2$.  This is called the \blue{degenerated case}.
+      This happens when $4 \cdot b + a^2 = 0$.  We will deal with the degenerated case later.  In the
+      following, we assume that $\lambda_1 \not= \lambda_2$.
+\item We compute a \blue{special solution} to the inhomogeneous recurrence relation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$
+      \\[0.2cm]
+      using the \blue{ansatz} $x_n = \gamma$.  Substituting this ansatz into the inhomogeneous recurrence
+      relation leads to the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\gamma = a \cdot \gamma + b \cdot \gamma + c$,
+      \\[0.2cm]
+      which is equivalent to the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $(1 - a - b) \cdot \gamma = c$.
+      \\[0.2cm]
+      Therefore, we find $\gamma$ as
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds \gamma = \frac{c}{1 - a - b}$.
+      \\[0.2cm]
+      If we are lucky\footnote{
+        If we are not lucky, we have to use the ansatz $x_n = \gamma \cdot n$ instead.
+      },
+      $a + b \not= 1$ and we have found $\gamma$.
+\item Now the \blue{general solution} of the inhomogeneous recurrence relation is given as follows:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+      \\[0.2cm]
+      We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
+      This leads to the 
+      following system of linear equations:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = \alpha + \beta$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2$.
+      \\[0.2cm]
+      These are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
+      $\beta$, the solution of the recurrence relation is
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+\end{enumerate}
+If $\lambda_1 = \lambda_2 =: \lambda$ the third step of the procedure is changed as then the \blue{general solution} of
+the inhomogeneous recurrence relation is given as 
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_n = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
+\\[0.2cm]
+We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
+This leads to the following system of linear equations:
+\\[0.2cm]
+\hspace*{1.3cm}
+$d = \alpha$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda$.
+\\[0.2cm]
+These are again two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
+$\beta$, the solution of the recurrence relation is now given as
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
+
 
 \exercise
-As the Fibonacci numbers are defined via a linear recurrence relation, it is possible
-to derive an explicit formula for $F_n$.  Your task is to derive this formula.
-\eox
-\pagebreak
+ Solve the following second order recurrence relations:
+\begin{enumerate}[(a)]
+\item $x_{n+2} = x_{n+1} + x_n$, \quad where $x_0 = 0$ and $x_1 = 1$.  
+\item $x_{n+2} = 4 \cdot x_{n+1} - 4 \cdot x_n + 1$, \quad where $x_0 = 1$ and $x_1 = 3$.  \eox
+\end{enumerate}
+
 
 \section{Further Reading}
 Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
@@ -1697,7 +1823,8 @@ introduced in this chapter.
 \item Which formula about an infinite series is essential in order to prove the master theorem?
 \item How are the Fibonacci numbers defined?
 \item Can you derive an explicit formula for the Fibonacci numbers?
-\item Describe the method to solve linear recurrence relations?
+\item Describe the method to solve linear recurrence relations!
+\item Which special cases might occur when solving a linear recurrence relation?
 \end{enumerate}
 
 %%% Local Variables: 
