@@ -2,17 +2,18 @@
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
 some set $S$.  If we want to \blue{sort} the list $L$ we have to be able to compare these elements
 to each other.   Therefore, we assume that $S$ is equipped with a binary relation $\leq$ which is
-\blue{reflexive}, \blue{anti-symmetric} and \blue{transitive}, i.~e.~we have  
+\blue{reflexive}\index{reflexive}, \blue{anti-symmetric}\index{anti-symmetric}, and
+\blue{transitive}\index{transitive}, i.~e.~we have   
 \begin{enumerate}
 \item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is reflexive)
 \item $\forall x, y \el S \colon \bigl(x \leq y \wedge y \leq x
   \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is anti-symmetric)
 \item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
 \end{enumerate}
-\begin{Definition}[Linear Order\label{def:linear_order}]
+\begin{Definition}[Linear Order\label{def:linear_order}] \index{linear order}
   A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation
   on $S$ that is \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive} is called a
-  \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}.  
+  \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}\index{partially ordered set}.  
   If, furthermore
   \\[0.2cm]
   \hspace*{1.3cm}
@@ -20,22 +21,22 @@ to each other.   Therefore, we assume that $S$ is equipped with a binary relatio
   \\[0.2cm]
   holds, then the pair $\langle S, \leq \rangle$ is called a 
   \href{http://en.wikipedia.org/wiki/Totally_ordered_set}{totally ordered set} and
-  the relation $\leq$ is called a \blue{total order} or a \blue{linear order}. \eox
+  the relation $\leq$ is called a \blue{total order} or a \blue{linear order}\index{linear order}. \eox
 \end{Definition}
 
 \examples
 \begin{enumerate}
 \item $\langle\mathbb{N}, \leq \rangle$ is a totally ordered set.
-\item $\langle 2^{\mathbb{N}}, \subseteq \rangle$ is a partially ordered set but it is not a totally
+\item $\langle 2^{\mathbb{N}}, \subseteq \rangle$ is a partially ordered set, but it is not a totally
       ordered set.  For example, the sets $\{1\}$ and $\{2\}$ are not comparable since we have
       \\[0.2cm]
       \hspace*{1.3cm}
       $\{1\} \not\subseteq \{2\}$ \quad and \quad  $\{2\} \not\subseteq \{1\}$.
-\item If $P$ is the set of employees of some company and if we define for given employees
+\item If $P$ is the set of employees of some company and if we define for two given employees
       $a,b \el P$
       \\[0.2cm]
       \hspace*{1.3cm}
-      $a \preceq b$ \quad iff \quad  $a$ does not earn more than $b$, 
+      $a \preceq b$ \quad iff \quad  $a$ does not earn more money than $b$, 
       \\[0.2cm]
       then the pair $\langle P, \leq \rangle$ is not a partially ordered set.  The reason is that
       the relation $\preceq$ is not anti-symmetric:  If Mr.~Smith earns as much as
@@ -55,7 +56,7 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 
 \begin{Definition}[Quasiorder]  \hspace*{\fill} \\
 {\em
-  A pair $\langle S, \preceq\rangle$ is a \blue{quasiorder}  if $\preceq$ is a 
+  A pair $\langle S, \preceq\rangle$ is a \blue{quasiorder} \index{quasiorder}  iff $\preceq$ is a 
   binary relation on $S$ such that we have the following:
   \begin{enumerate}
   \item $\forall x \el S\colon x \preceq x$. \hspace*{\fill} (reflexivity)
@@ -65,7 +66,7 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
   If, furthermore,
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$ \hspace*{\fill} (linearity)
+  $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$ \hspace*{\fill} (linearity) \index{linearity}
   \\[0.2cm]
   holds, then $\langle S, \preceq \rangle$ is called a \blue{total quasiorder}.  This will be
   abbreviated as \textsc{TQO}.
@@ -74,7 +75,18 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 A quasiorder $\langle S, \preceq \rangle$ does not require the relation $\preceq$ to be
 anti-symmetric.  Nevertheless, the notion of a quasiorder is very closely related to the notion of a
 linear order.  The reason is as follows:  If $\langle S, \preceq \rangle$ is a quasiorder, then we
-can define an equivalence relation $\approx$ on $S$ by setting
+can define an \blue{equivalence relation}\index{equivalence relation}\footnote{
+  A pair $\langle M, \approx \rangle$ where $M$ is a set and $\approx$ is a binary relation on $M$ called an
+  \blue{equivalence relation on $M$} iff we have
+  \begin{enumerate}[(a)]
+  \item $\forall x \el M \colon x \approx x$,                      \hspace*{\fill} ($\approx$ is reflexive)
+  \item $\forall x, y \el M \colon \bigl(x \approx y \rightarrow y \approx x\bigr)$,
+        \hspace*{\fill} ($\approx$ is symmetric)
+  \item $\forall x, y, z \el M \colon \bigl(x \approx y \wedge y \approx z \rightarrow x \approx z\bigr)$.
+        \hspace*{\fill} ($\approx$ is transitive)
+\end{enumerate}
+}
+$\approx$ on $S$ by setting
 \\[0.2cm]
 \hspace*{1.3cm}
 $x \approx y \stackrel{\mbox{\scriptsize def}}{\Longleftrightarrow} x \preceq y \wedge y \preceq x$. 
@@ -83,23 +95,24 @@ If we extend the order $\preceq$ to the equivalence classes generated by the rel
 then it can be shown that this extension is a linear order.
 \vspace*{0.3cm}
 
-Let us assume that $\langle M, \preceq \rangle$ is a  \textsc{TQO}.  Then the \blue{sorting problem}
-is defined as follows:
+Let us assume that $\langle M, \preceq \rangle$ is a  \textsc{TQO}.
+Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
 \begin{enumerate}
 \item A list $L$ of elements of $M$ is given.
 \item We want to compute a list $S$ such that we have the following: 
   \begin{enumerate}
-  \item $S$ is sorted ascendingly: \\[0.2cm]
+  \item $S$ is sorted \blue{ascendingly}\index{sorted ascendingly}, i.e.~we have: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall i \el \{ 0, \cdots, \texttt{len}(S)-2 \} \colon S[i] \preceq S[i+1]$ 
         \\[0.2cm]
-        Here, the length of the list $S$ is denoted as $\texttt{len}(S)$ and $S[i]$ is the $i$-th element of $S$.
+        Here, the length of the list $S$ is denoted as $\texttt{len}(S)$ and $S[i]$ is the element at position
+        $i$ in $S$.  We assume here that the first position is indexed with index $0$.
   \item The elements of $M$ occur in $L$ and $S$ with the same frequency: \\[0.2cm]
         \hspace*{1.3cm} 
         $\forall x\el M \colon \textsl{count}(x,L) = \textsl{count}(x,S)$.
         \\[0.2cm]
         Here, the function $\textsl{count}(x,L)$ returns the number of occurrences of $x$ in $L$.
-        Therefore, we have: \\[0.2cm]
+        Therefore,  \\[0.2cm]
         \hspace*{1.3cm}
         $\textsl{count}(x,L) := \texttt{card}\bigl(\bigl\{ i \el \{0,\cdots,\texttt{len}(L)-1\} \mid L[i] = x \bigr\}\bigr)$.
         \\[0.2cm]
@@ -108,7 +121,8 @@ is defined as follows:
         \hspace*{1.3cm}
         $\forall x \in S: \textsl{count}(x,S) \leq 1 \wedge \forall x\el M \colon \bigl(\textsl{count}(x,L) > 0 \leftrightarrow \textsl{count}(x,S) = 1\bigr)$.
         \\[0.2cm]
-        Hence, in this case we require that the sorted list $s$ does not contain \blue{duplicate} elements.
+        Hence, in this case we require that the sorted list $s$ does not contain
+        \blue{duplicate elements}\index{duplicate elements}.
         Of course, an object $x$ should only occur in $s$ if it also occurs in $L$.  If we change
         the second requirement in this way, then the main purpose of sorting is to remove duplicate
         elements from a list.  This is actually a common application of sorting in practice.  The
@@ -127,13 +141,13 @@ Next, we present various algorithms for solving the sorting problem.  We start w
 that are very easy to implement: \blue{insertion sort} and \blue{selection sort}.  However, the
 efficiency of these algorithms is far from optimal.  Next, we present \blue{quick sort} and 
 \blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
-However, the implementation of these algorithms is more involved.
+However, the implementation of these algorithms is considerably more involved.
 
 
 \section{Insertion Sort \label{sec:insertionSort}}
 Let us start our investigation of sorting algorithms with the algorithm
-\href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}.  We will describe this
-algorithm via a set of equations.
+\href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort}\index{insertion sort}.
+We will describe this algorithm via a set of equations.
 \begin{enumerate}
 \item If the list $L$ that has to be sorted is empty, then the result is the empty list: 
       \\[0.2cm]
@@ -141,7 +155,7 @@ algorithm via a set of equations.
       $\mathtt{sort}([]) = []$.
 \item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
       and $R$ is the rest of $L$, i.~e.~everything of $L$ but the first element.  In order to sort
-      $L$ we first sort the rest $R$ and then we insert the element $x$ into the resulting list in a
+      $L$ we first sort the rest $R$ and then we \blue{insert} the element $x$ into the resulting list in a
       way that the resulting list remains sorted:
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$.
@@ -154,7 +168,7 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
 \item Otherwise, $S$ must have the form $[y] + R$.  In order to know where to insert $x$ we have to
       compare $x$ and $y$.
       \begin{enumerate}
-      \item If $x \preceq y$, then we have to insert $x$ at the front of the list $S$: \\[0.2cm]
+      \item If $x \preceq y$, then we can insert $x$ at the front of the list $S$: \\[0.2cm]
             \hspace*{1.3cm}
             $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
       \item Otherwise, $x$ has to be inserted recursively into the list $R$: \\[0.2cm]
@@ -215,7 +229,8 @@ in \textsl{Python}.
 
 \subsection{Complexity of Insertion Sort}
 We will compute the number of comparisons that are done in the implementation of \texttt{insert}
-in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list $L$ of length $n$. In order to do that,
+in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list
+$L$ of length $n$. In order to do that, 
 we have to compute the number of evaluations of the operator ``\texttt{<=}'' when 
  $\texttt{insert}(x,L)$ is evaluated for a list $L$ of length $n$.  Let us denote this number as 
 $a_n$.  The worst case happens if $x$ is bigger than every element of $L$ because in that case the
@@ -233,12 +248,13 @@ $a_n = n$.
 \\[0.2cm]
 Hence, in the worst case the evaluation of $\mathtt{insert}(x,L)$ will lead to $n$ comparisons for a list
 $L$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $L$, then we have to
-compare $x$ with every element of $L$ in order to insert $x$ into $L$.
+compare $x$ with every element of \texttt{$L$[1:]} in order to insert $x$ into \texttt{$L$[1:]}.
 
 Next, let us compute the number of comparisons that have to be done when calling
 $\texttt{sort}(L)$ in the worst case for a list  $L$ of length $n$.  Let us denote this number as
-$b_n$. The worst case happens if $L$ is sorted in reverse order, i.~e.~if $L$ is sorted
-descendingly, because then the element $x$ that is inserted in $\texttt{sort}(R)$ is bigger than all elements
+$b_n$. The worst case happens if $L$ is already sorted in reverse order, i.~e.~if $L$ is
+\blue{sorted descendingly}\index{sorted descendingly}, because then the element $x$ that is inserted in
+$\texttt{sort}(R)$ is bigger than all elements 
 of $R$ and therefore also bigger than all elements of $\texttt{sort}(R)$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
@@ -271,7 +287,7 @@ $
 \end{array}
 $
 \\[0.2cm]
-because $b_1 = 0$ and the sum of all natural numbers from 1 up to  $n - 1$ is given as
+because $b_1 = b_0 + 0 = 0 + 0 = 0$ and the sum of all natural numbers from 1 up to  $n - 1$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.

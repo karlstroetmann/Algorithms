@@ -1051,11 +1051,11 @@ However, this computation would be much more tedious because then we would have 
 that the time needed to multiply two numbers depends on the size of these numbers.
 
 \exercise
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item Implement a procedure $\mathtt{div\_mod}$ that takes two numbers $m$ and $n$ and that returns the pair
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\bigl(m \dvv n, m \;\texttt{\%}\;n\bigr)$.
+      $\bigl(m \dvv n, m \scriptsize{\;\texttt{\%}\;}n\bigr)$.
       \\[0.2cm]
       Therefore, if $\mathtt{div\_mod}(m, n) = (q,r)$ we will have both
       \\[0.2cm]
@@ -1064,6 +1064,10 @@ that the time needed to multiply two numbers depends on the size of these number
       \\[0.2cm]
       You should try to implement the function recursively and should try to compute 
       $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dvv 2, n)$.
+      In your implementation of $\mathtt{div\_mod}$ you may use the operators $\dvv$ and
+      $\scriptsize{\texttt{\%}}$ when the second argument to these operators is $2$, i.e.~you may
+      use the expressions $m \dvv 2$ and $m \scriptsize{\texttt{\%}} 2$ as these operations can be implemented
+      using bit operations.
 \item Prove that your implementation works correctly.
       \qed
 \end{enumerate} 
