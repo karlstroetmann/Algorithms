@@ -318,42 +318,42 @@ least a linear amount of work to do.
 
 \section{Selection Sort}
 Next, we discuss 
-\href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}.  In order to sort a given
-list $L$ this algorithm works as
+\href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
+given list $L$ this algorithm works as
 follows:
 \begin{enumerate}
 \item If $L$ is empty, the result is the empty list: \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
+      \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
 \item Otherwise, we compute the smallest element of the list $L$ and we remove this element from
       $L$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
       to the front of the sorted list:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $L \not= [] \rightarrow \mathtt{sort}\bigl(L\bigr) = \bigl[\texttt{min}(L)\bigr] +  \mathtt{sort}\bigl(\mathtt{delete}(\texttt{min}(L), L)\bigr)$.
+      $L \not= [] \wedge x := \min(L) \rightarrow \mathtt{sort}\bigl(L\bigr) = [x] + \mathtt{sort}\bigl(\mathtt{delete}(x, L)\bigr)$.
 \end{enumerate}
-The algorithm to delete an element $x$ from a list $L$ is formulated recursively.  There are three cases:
+The algorithm to delete an element $x$ from a list $L$ is also formulated recursively.  There are three cases:
 \begin{enumerate}
 \item If $L$ is empty, we have \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{delete}(x, []) = []$.
+      \hspace*{1.3cm} $\mathtt{delete}\bigl(x, []\bigr) = []$.
 \item If $x$ is equal to the first element of $L$, then the function \texttt{delete} returns the
       rest of $L$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{delete}(x, [x] + R) = R$.
+      $\mathtt{delete}\bigl(x, [x] + R\bigr) = R$.
 \item Otherwise, the element $x$ is removed recursively from the rest of the list: \\[0.2cm]
       \hspace*{1.3cm}   
-      $x \not = y \rightarrow \mathtt{delete}(x, [y] + R) = [y] + \mathtt{delete}(x,R)$.
+      $x \not = y \rightarrow \mathtt{delete}\bigl(x, [y] + R\bigr) = [y] + \mathtt{delete}(x,R)$.
 \end{enumerate}
 Finally, we have to specify the computation of the minimum of a list $L$:
 \begin{enumerate}
 \item The minimum of the empty list is bigger than any element.  Therefore we have 
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{min}([]) = \infty$.
+      \hspace*{1.3cm} $\mathtt{min}\bigl([]\bigr) = \infty$.
 \item In order to compute the minimum of the list $[x] + R$ we compute the minimum of $R$ and
-      then use the binary function \texttt{min}: \\[0.2cm]
+      then use the binary function $\mathtt{min}$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}([x] + R) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
+      $\mathtt{min}\bigl([x] + R\bigr) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
 
-      Here, the binary function \texttt{min} is defined as follows: \\[0.2cm]
+      Here, the binary function $\mathtt{min}$ is defined as follows: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{min}(x,y) = \left\{
       \begin{array}{ll}
@@ -364,7 +364,7 @@ Finally, we have to specify the computation of the minimum of a list $L$:
 \end{enumerate}
 Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
 implementation of selection sort in \textsl{Python}.  There is no need to implement the function
-\texttt{min} as this function is already predefined in \textsl{Python}. 
+$\mathtt{min}$ as this function is already predefined in \textsl{Python}. 
 The implementation of $\mathtt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, L)$
 should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
 to delete an element from the empty list, something must have gone wrong.  The \texttt{assert}
@@ -411,8 +411,8 @@ of comparisons that are performed when $\mathtt{min}(L)$ is computed.  We have
 \hspace*{1.3cm} 
 $\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
 \\[0.2cm]
-Therefore, in order to compute $\texttt{min}(L)$ for a list $L$ of length $n$ the binary function \texttt{min}
-is called $(n-1)$ times.  Each of these calls of \texttt{min} causes an evaluation of the comparison
+Therefore, in order to compute $\mathtt{min}(L)$ for a list $L$ of length $n$ the binary function $\mathtt{min}$
+is called $(n-1)$ times.  Each of these calls of $\mathtt{min}$ causes an evaluation of the comparison
 operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
 $L$ of length $n$ is written as $b_n$, we have \\[0.2cm]
 \hspace*{1.3cm}
@@ -436,7 +436,7 @@ The algorithm \blue{insertion sort} needs
 $\frac{1}{2}\cdot n \cdot (n-1)$ comparisons only in the \underline{worst} case while \blue{selection sort}
 \underline{alwa}y$\!\!$\underline{$\;$s} uses $\frac{1}{2} \cdot n\cdot(n-1)$ comparisons.
 In order to compute the minimum of a list of length $n$ we always have to do $n-1$ comparisons.
-However, in order to insert an element into a list of $n$ elements, we only expect to do about
+However, in order to insert an element into a list of $n$ elements, we expect to do about
 $\frac{1}{2} \cdot n$ comparisons on average.  The reason is that we expect about half the elements  to
 be less than the element to be inserted.  Hence, we only have to compare the element to be inserted
 with half of the remaining elements.  Therefore, the average number of comparisons used by
@@ -449,11 +449,11 @@ and this is half as much as the number of comparisons used by \blue{selection so
 average we expect \blue{selection sort} to need about twice as many comparisons as \blue{insertion sort}.
 Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
 partially sorted and have only a few elements that are out of place.  In these cases,
-\blue{insertion sort} is, in fact,  more efficient than any other sorting algorithm.
+\blue{insertion sort} is, in fact,  more efficient than \underline{an}y other sorting algorithm.
 
 
 \section{Merge Sort}
-Next, we discuss \href{https://en.wikipedia.org/wiki/Merge_sort}{merge sort}.  This algorithm
+Next, we discuss \href{https://en.wikipedia.org/wiki/Merge_sort}{merge sort}\index{merge sort}.  This algorithm
 is the first \blue{optimally efficient} sorting algorithm that we encounter: We will see that merge sort 
 only needs $\Oh\bigl(n \cdot \log_2(n)\bigr)$ comparisons to sort a list of $n$ elements.  Later, we will prove
 that every algorithm that needs to compare its elements in order to sort them has at least this complexity.  
@@ -466,7 +466,7 @@ was one of the most prominent mathematicians of the last century.
 % \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
 % $200\,000$ innocent civilian at the end of the second world war.
 
-In order to sort a list $L$ of length $n := \texttt{len}(L)$ the algorithm proceeds as follows:
+In order to sort a list $L$ of length $n := \mathtt{len}(L)$ the algorithm proceeds as follows:
 \begin{enumerate}
 \item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
@@ -477,12 +477,12 @@ In order to sort a list $L$ of length $n := \texttt{len}(L)$ the algorithm proce
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
       $n \geq 2 \rightarrow \mathtt{sort}(L) =
-         \mathtt{merge}\bigl(\mathtt{sort}\bigl(\texttt{L[:n\dv 2]}\bigr),
-         \mathtt{sort}\bigl(\texttt{L[n\dv 2:]}\bigr)\bigr)
+         \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{L[:n\dvv 2]}\bigr),
+         \mathtt{sort}\bigl(\mathtt{L[n\dvv 2:]}\bigr)\Bigr)
      $
      \\[0.2cm]
-     Here,  $\texttt{L[:n\dv 2]}$ is the first part of the list, while
-     $\texttt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
+     Here,  $\mathtt{L[:n\dvv 2]}$ is the first part of the list, while
+     $\mathtt{L[n\dvv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
      takes two sorted lists and combines their element in a way that the resulting list again is sorted.
 \end{enumerate}
@@ -491,10 +491,10 @@ is sorted.
 \begin{enumerate}
 \item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}([], L_2) = L_2$.
+      $\mathtt{merge}\bigl([], L_2\bigr) = L_2$.
 \item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}(L_1, []) = L_1$.
+      $\mathtt{merge}\bigl(L_1, []\bigr) = L_1$.
 \item Otherwise, $L_1$ must have the form $[x|R_1]$ and $L_2$ has the form $[y|R_2]$.
       Then there is a case distinction with respect to the result of the comparison of $x$ and $y$:
       \begin{enumerate}
@@ -567,28 +567,28 @@ are done in a call of $\mathtt{merge}(L_1, L_2)$.   In order to do this we defin
 $\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ 
 \\[0.2cm]
 such that, given two lists $L_1$ and $L_2$ of elements from some set $M$, the expression $\mathtt{cmpCount}(L_1, L_2)$ returns the
-number of comparisons needed to compute $\texttt{merge}(L_1,L_2)$. 
+number of comparisons needed to compute $\mathtt{merge}(L_1,L_2)$. 
 Our claim is that, for any lists $L_1$ and $L_2$ we have  
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(L_1, L_2) \leq \texttt{len}(L_1) + \texttt{len}(L_2)$. 
+$\mathtt{cmpCount}(L_1, L_2) \leq \mathtt{len}(L_1) + \mathtt{len}(L_2)$. 
 \\[0.2cm]
-The proof is done by induction on $\texttt{len}(L_1) + \texttt{len}(L_2)$.
+The proof is done by induction on $\mathtt{len}(L_1) + \mathtt{len}(L_2)$.
 \begin{enumerate}
-\item[I.A.:] $\texttt{len}(L_1) + \texttt{len}(L_2) = 0$.
+\item[I.A.:] $\mathtt{len}(L_1) + \mathtt{len}(L_2) = 0$.
 
              Then both $L_1$ and $L_2$ are empty and therefore the evaluation of
              $\mathtt{merge}(L_1, L_2)$ does not need any comparisons.  Therefore, we have 
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \texttt{len}(L_1) + \texttt{len}(L_2)$.
-\item[I.S.:] $\texttt{len}(L_1) + \texttt{len}(L_2) = n+1$.
+             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
+\item[I.S.:] $\mathtt{len}(L_1) + \mathtt{len}(L_2) = n+1$.
 
              If either $L_1$ or $L_2$ is empty, then we do not need any comparisons in order to
              compute $\mathtt{merge}(L_1, L_2)$ and, therefore, we have
              \\[0.2cm]
              \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \texttt{len}(L_1) + \texttt{len}(L_2)$.
+             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
              \\[0.2cm]
              Next, let us assume that \\[0.2cm]
              \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad and \quad $L_2 = [y] + R_2$.
@@ -605,8 +605,8 @@ The proof is done by induction on $\texttt{len}(L_1) + \texttt{len}(L_2)$.
                    $
                    \begin{array}{lcl}
                     \mathtt{cmpCount}(L_1, L_2) & = & 1 + \mathtt{cmpCount}(R_1, L_2) \\[0.2cm]
-                                               & \stackrel{ih}{\leq} & 1 + \texttt{len}(R_1) + \texttt{len}(L_2) \\[0.2cm]
-                                               & = & \texttt{len}(L_1) + \texttt{len}(L_2)
+                                               & \stackrel{ih}{\leq} & 1 + \mathtt{len}(R_1) + \mathtt{len}(L_2) \\[0.2cm]
+                                               & = & \mathtt{len}(L_1) + \mathtt{len}(L_2)
                    \end{array}
                    $
                    \\[0.2cm]
