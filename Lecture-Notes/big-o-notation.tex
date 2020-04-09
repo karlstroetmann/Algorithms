@@ -1062,11 +1062,11 @@ that the time needed to multiply two numbers depends on the size of these number
       \hspace*{1.3cm}
       $m = n \cdot q + r$ \quad and \quad $0 \leq r < n$.
       \\[0.2cm]
-      You should try to implement the function recursively and should try to compute 
+      You should implement the function recursively and compute 
       $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dvv 2, n)$.
-      In your implementation of $\mathtt{div\_mod}$ you may use the operators $\dvv$ and
-      $\scriptsize{\texttt{\%}}$ when the second argument to these operators is $2$, i.e.~you may
-      use the expressions $m \dvv 2$ and $m \scriptsize{\texttt{\%}} 2$ as these operations can be implemented
+      In your implementation of $\mathtt{div\_mod}$ you are only permitted to use the operators $\dvv$ and
+      $\scriptsize{\texttt{\%}}$ when the second argument of these operators is $2$, i.e.~you are permitted to
+      use the expressions $m \dvv 2$ and $m \,\scriptsize{\texttt{\%}}\, 2$ as these expressions can be implemented
       using bit operations.
 \item Prove that your implementation works correctly.
       \qed
