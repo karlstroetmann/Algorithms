@@ -755,7 +755,7 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
         merge(L, start, middle, end, A)
     
    def merge(L, start, middle, end, A):
-        A    = L[:]
+        A[start:end] = L[start:end]
         idx1 = start
         idx2 = middle
         i    = start
@@ -937,11 +937,11 @@ The implementation given above can still be improved in a number of ways.
 practical performance of \blue{merge sort}.  The resulting algorithm is known as
 \href{http://en.wikipedia.org/wiki/Timsort}{Timsort}.
 The starting point of the development of \blue{Timsort} was the observation that the input arrays 
-given to a sorting procedure often contain subarrays that are already sorted, either ascendingly or
-descendingly.   For this reason, \blue{Timsort} uses the following tricks:
+given to a sorting procedure often contain subarrays that are already sorted, either in ascending or
+descending order.   For this reason, \blue{Timsort} uses the following tricks:
 \begin{enumerate}
 \item First, Timsort looks for subarrays that are already sorted.
-      If a subarray is sorted descendingly, this subarray is reversed.
+      If a subarray is sorted in descending order, this subarray is reversed.
 \item Sorted subarrays that are too small (i.~e.~have less than 32 elements) are extended
       to sorted subarrays to have a length that is at least 32.  In order to sort these subarrays,
       \blue{insertion sort} is used.  The reason is that \blue{insertion sort} is very fast for
@@ -997,7 +997,7 @@ In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published 
       \end{enumerate}
       The process of splitting the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$
       is called \blue{partitioning}.  After partitioning the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$, these lists are sorted
-      recursively.  Then, the result is computed by putting $\mathtt{x}$ between the lists $\mathtt{sort}(\mathtt{S})$ and $\mathtt{sort}(\mathtt{B})$:
+      recursively.  Then, the result is computed by placing $\mathtt{x}$ between the lists $\mathtt{sort}(\mathtt{S})$ and $\mathtt{sort}(\mathtt{B})$:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\mathtt{sort}([\mathtt{x}|\mathtt{R}]) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
