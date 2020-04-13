@@ -727,7 +727,7 @@ the following happens:
 \end{enumerate}
 Therefore, evaluating \texttt{[x] + R} for a list \texttt{R} of length $n$ requires $\Oh(n)$ data
 movements.  This is very wasteful.  In order to arrive at an
-implementation that is more efficient we need to make use of the fact that lists are represented as arrays.
+implementation that is more efficient we have to take advantage of the fact that lists are represented as arrays.
 Figure \ref{fig:merge-sort-array.stlx} on page \pageref{fig:merge-sort-array.stlx} presents
 an implementation of \blue{merge sort} that treats the list $L$ that is to be sorted as an array.
 
@@ -754,9 +754,8 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
         mergeSort(L, middle, end   , A)
         merge(L, start, middle, end, A)
     
-    def merge(L, start, middle, end, A):
-        for i in range(start, end):
-            A[i] = L[i]
+   def merge(L, start, middle, end, A):
+        A    = L[:]
         idx1 = start
         idx2 = middle
         i    = start
@@ -768,14 +767,10 @@ an implementation of \blue{merge sort} that treats the list $L$ that is to be so
                 L[i]  = A[idx2]
                 idx2 += 1
             i += 1
-        while idx1 < middle:
-            L[i]  = A[idx1]
-            idx1 += 1
-            i    += 1
-        while idx2 < end:
-            L[i]  = A[idx2]
-            idx2 += 1
-            i    += 1
+        if idx1 < middle:
+            L[i:end] = A[idx1:middle]
+        if idx2 < end:
+            L[i:end] = A[idx2:end]
 \end{minted}
 \vspace*{-0.3cm}
   \caption{An array based implementation of \blue{merge sort}.}
@@ -796,7 +791,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             the part of $\texttt{L}$ that is given as
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[start..end]}. 
+            \texttt{L[start:end]}. 
             \\[0.2cm]
             Hence, the parameters \texttt{start} and \texttt{end} are indices specifying the 
             subarray that needs to be sorted.
@@ -841,7 +836,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 14 and 15 copies the sublists into the auxiliary array $\texttt{A}$.
+      \item First, line 14 copies the sublists into the auxiliary array $\texttt{A}$.
       \item In order to merge the two sublists stored in $\texttt{A}$ into the list $\texttt{L}$ we define
             three indices: 
             \begin{itemize}
@@ -851,14 +846,14 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
                   element.
             \end{itemize}
       \item As long as neither the first nor the second sublist stored in $\texttt{A}$ have been exhausted
-            we compare in line 20 the elements from these sublists and then copy the smaller of these
+            we compare in line 19 the elements from these sublists and then copy the smaller of these
             two elements into the list $\texttt{L}$ at position \texttt{i}.
             In order to remove this element from the corresponding sublist in $\texttt{A}$ we just need to
             increment the corresponding index pointing to the beginning of this sublist.
       \item If one of the two sublists gets empty while the other sublist still has elements, then we have
             to copy the remaining elements of the non-empty sublist into the list $\texttt{L}$.
-            The \texttt{while}-loop in line 27 covers the case that the second sublist is exhausted before 
-            the first sublist, while the \texttt{while}-loop in line 31 covers the case that the first
+            The statement in line 27 covers the case that the second sublist is exhausted before 
+            the first sublist, while the statement in line 29 covers the case that the first
             sublist is exhausted before the second sublist.
       \end{enumerate}
 \end{enumerate}
