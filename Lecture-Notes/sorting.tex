@@ -1052,7 +1052,7 @@ length $n$ in the worst case as $a_n$.  The worst case occurs if the partitionin
 returns a pair of lists $\mathtt{S}$ and $\mathtt{B}$ such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{S} = []$,
+$\mathtt{S} = []$ and $\mathtt{B} = \mathtt{R}$,
 \\[0.2cm]
 i.e.~all elements of $\mathtt{R}$ are bigger than $x$.  Then, we have
 \\[0.2cm]
@@ -1097,7 +1097,7 @@ We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note
 is a list of $n+1$ elements, then the number of elements of the  
 list $\mathtt{S}$ that are smaller than or equal to the pivot element $\mathtt{x}$ is a member of the set 
 $\{0,1,2,\cdots,n\}$.  If the length of $\mathtt{S}$ is $i$ and the length of $\mathtt{L}$ is $n+1$, then the length
-of the list $\mathtt{B}$ of those elements, that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\texttt{len}(\mathtt{S}) = i$, then on average we need
+of the list $\mathtt{B}$ of those elements that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\texttt{len}(\mathtt{S}) = i$, then on average we need
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
 comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we take the average over all possible values of
@@ -1206,7 +1206,7 @@ Substituting $n \mapsto n-1$ simplifies this equation:
 \hspace*{1.3cm}
 $\ds a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}$,
 \\[0.2cm] 
-This equation can be rewritten as a sum.  Since $a_0 = \ds\frac{d_0}{1} = 0$
+This is a telescoping recurrence equation.  Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1419,7 +1419,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quicksort} \cite{yaroslavskiy:2009}.  His paper can be
       downloaded at the following address:
       \\[0.2cm]
-      \hspace*{-0.3cm}
+      \hspace*{1.3cm}
       \href{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}{\texttt{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}}
       \\[0.2cm]
       The main idea of Yaroslavskiy is to use two pivot elements $p_1$ and $p_2$.  For example, we can
@@ -1560,7 +1560,7 @@ $\textsl{card}\bigl(\{0,1,2,\cdots, 2^k-1\}\bigr) = 2^k$.
 \\[0.2cm]
 Hence there are $2^k$ binary strings of length $k$.  
 
-If we have a list of $n$ different elements then there are $n!$ different permutations of these
+If we have a list of $n$ different elements, then there are $n!$ different permutations of these
 elements.  In order to figure out which of these $n!$ different permutations is given we have to
 perform $k$ comparisons where we must have
 \\[0.2cm]
@@ -1933,7 +1933,7 @@ sort that implements these ideas.
       hence, it is sorted.
 \end{enumerate}
 
-\section{Handwritten Digit Recognition}
+\section{Application: Handwritten Digit Recognition}
 In the last section of this chapter we discuss an application of sorting: \blue{Handwritten digit recognition}.
 We have been given a \blue{training set} of $50,000$ handwritten digits. Figure \ref{fig:digits.pdf} shows the first 24
 handwritten digits.  These digits are given as grey scale images of $28 \times 28$ pixels.  Each pixel $p$ is a
