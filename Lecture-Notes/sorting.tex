@@ -573,47 +573,37 @@ Our claim is that, for any lists $L_1$ and $L_2$ we have
 \hspace*{1.3cm}
 $\mathtt{cmpCount}(L_1, L_2) \leq \mathtt{len}(L_1) + \mathtt{len}(L_2)$. 
 \\[0.2cm]
-The proof is done by induction on $\mathtt{len}(L_1) + \mathtt{len}(L_2)$.
+The proof is done by computational induction w.r.t.~the definition of $\mathtt{merge}(L_1, L_2)$.  Hence there are four cases:
 \begin{enumerate}
-\item[I.A.:] $\mathtt{len}(L_1) + \mathtt{len}(L_2) = 0$.
+\item $L_1 = []$:  Then we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{cmpCount}(L_1, L_2) = \mathtt{cmpCount}([], L_2) = 0 \leq  \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
+\item $L_2 = []$:  This case is analogous to the first case.
 
-             Then both $L_1$ and $L_2$ are empty and therefore the evaluation of
-             $\mathtt{merge}(L_1, L_2)$ does not need any comparisons.  Therefore, we have 
-             \\[0.2cm]
-             \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1, L_2) = 0 \leq 0 = \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
-\item[I.S.:] $\mathtt{len}(L_1) + \mathtt{len}(L_2) = n+1$.
-
-             If either $L_1$ or $L_2$ is empty, then we do not need any comparisons in order to
-             compute $\mathtt{merge}(L_1, L_2)$ and, therefore, we have
-             \\[0.2cm]
-             \hspace*{1.3cm}
-             $\mathtt{cmpCount}(L_1,L_2) = 0 \leq \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
-             \\[0.2cm]
-             Next, let us assume that \\[0.2cm]
-             \hspace*{1.3cm} $L_1 = [x] + R_1$ \quad and \quad $L_2 = [y] + R_2$.
-             \\[0.2cm]
-             We have to do a case distinction with respect to the relative order of $x$ and $y$.
-             \begin{enumerate}
-             \item $x \preceq y$.  Then we have \\[0.2cm]
-                   \hspace*{1.3cm} 
-                   $\mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = [x] + \mathtt{merge}\bigl(R_1, [y] + R_2\bigr)$. 
-                   \\[0.2cm]
-                   Therefore, we have:
-                   \\[0.2cm]
-                   \hspace*{1.3cm}
-                   $
-                   \begin{array}{lcl}
-                    \mathtt{cmpCount}(L_1, L_2) & = & 1 + \mathtt{cmpCount}(R_1, L_2) \\[0.2cm]
-                                               & \stackrel{ih}{\leq} & 1 + \mathtt{len}(R_1) + \mathtt{len}(L_2) \\[0.2cm]
-                                               & = & \mathtt{len}(L_1) + \mathtt{len}(L_2)
-                   \end{array}
-                   $
-                   \\[0.2cm]
-                   \item $\neg x \preceq y$.  This case is similar to the previous case. 
-                   \qed
-             \end{enumerate}
+      In the remaining cases we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $L_1 = [x_1] + R_1$ \quad and \quad   $L_2 = [x_2] + R_2$.
+\item $x_1 \leq x_2$: Then we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\begin{array}{lcl}
+       \mathtt{cmpCount}(L_1, L_2) & = & 1 + \mathtt{cmpCount}(R_1, L_2) \\[0.2cm]
+                                  & \stackrel{ih}{\leq} & 1 + \mathtt{len}(R_1) + \mathtt{len}(L_2) \\[0.2cm]
+                                 & = & \mathtt{len}(L_1) + \mathtt{len}(L_2),
+       \end{array}
+      $
+      \\[0.2cm]
+      where we have used the fact that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\mathtt{cmpCount}(R_1, L_2) \leq \mathtt{len}(R_1) + \mathtt{len}(L_2)$
+      \\[0.2cm]
+      holds by induction hypothesis.
+    \item $\neg (x_1 \leq x_2)$: This case is similar to the previous case. \qed
 \end{enumerate}
+
 \exercise
 What is the form of the lists $L_1$ and $L_2$ that maximizes the value of 
 \\[0.2cm]
@@ -935,7 +925,7 @@ in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\texttt{len}(\texttt{L})
 The implementation given above can still be improved in a number of ways.  
 \href{http://c2.com/cgi/wiki?TimPeters}{Tim Peters} has used a number of tricks to improve the
 practical performance of \blue{merge sort}.  The resulting algorithm is known as
-\href{http://en.wikipedia.org/wiki/Timsort}{Timsort}.
+\href{http://en.wikipedia.org/wiki/Timsort}{Timsort}. \index{Timsort}
 The starting point of the development of \blue{Timsort} was the observation that the input arrays 
 given to a sorting procedure often contain subarrays that are already sorted, either in ascending or
 descending order.   For this reason, \blue{Timsort} uses the following tricks:
@@ -1416,7 +1406,9 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{[1, 9, 8, 5, 2, 0, 6, 3, 4, 7]}.
-\item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quicksort} \cite{yaroslavskiy:2009}.  His paper can be
+\item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quicksort}
+      \cite{yaroslavskiy:2009}.\index{dual pivot quicksort}
+      His paper can be
       downloaded at the following address:
       \\[0.2cm]
       \hspace*{1.3cm}
