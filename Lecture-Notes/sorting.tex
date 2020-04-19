@@ -1,4 +1,16 @@
 \chapter{Sorting}
+In this chapter, we present various algorithms for solving the \blue{sorting problem}.
+After a precise definition of the sorting problem, we start with two algorithms
+that are very easy to implement: \blue{insertion sort} and \blue{selection sort}.  However, the
+efficiency of these algorithms is far from optimal.  Next, we present \blue{quick sort} and 
+\blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
+However, the implementation of these algorithms is considerably more involved.
+After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
+perform $\Omega\bigl(n \cdot \log_2(n)\bigr)$ comparisons.  The last algorithm presented is \blue{radix sort}, which is an
+algorithm of linear complexity for sorting numbers of a fixed size.
+Finally, show how sorting is applied in the \blue{$k$-nearest-neighbour-algorithm}.
+
+\section{The Sorting Problem}
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
 some set $S$.  If we want to \blue{sort} the list $L$ we have to be able to compare these elements
 to each other.   Therefore, we assume that $S$ is equipped with a binary relation $\leq$ which is
@@ -52,7 +64,6 @@ However, we can sort natural numbers with respect to their size and we can also 
 respect to their income.  This shows that, in order to sort,  we do not necessarily need a totally
 ordered set.  In order to capture the requirements that are needed to be able to sort we introduce
 the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
-\pagebreak
 
 \begin{Definition}[Quasiorder]  \hspace*{\fill} \\
 {\em
@@ -128,21 +139,16 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
         elements from a list.  This is actually a common application of sorting in practice.  The
         reason this application is so common is the following: A list that contains every element at
         most once can be viewed as representing a set.
-
-        \exercise
-        Assume a list $S$ is sorted and contains every object at most once.  Develop an efficient
-        algorithm for testing whether a given object $x$ is a member of the list $S$.
-
-        \textbf{Hint}: Try to develop an algorithm that follows the \blue{divide-and-conquer}
-        paradigm. 
   \end{enumerate}
 \end{enumerate}
-Next, we present various algorithms for solving the sorting problem.  We start with two algorithms
-that are very easy to implement: \blue{insertion sort} and \blue{selection sort}.  However, the
-efficiency of these algorithms is far from optimal.  Next, we present \blue{quick sort} and 
-\blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
-However, the implementation of these algorithms is considerably more involved.
 
+\exercise
+Assume a list $S$ is sorted and contains every object at most once.  Develop an efficient
+algorithm for testing whether a given object $x$ is a member of the list $S$.
+
+\hint Try to develop an algorithm that follows the \blue{divide-and-conquer}
+paradigm. 
+\eoxs
 
 \section{Insertion Sort \label{sec:insertionSort}}
 Let us start our investigation of sorting algorithms with the algorithm
@@ -1475,9 +1481,11 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 
 \exercise
 Implement a version of \blue{dual pivot quicksort} that uses arrays instead of lists.
+\eoxs
 \pagebreak
 
-\section[A Lower Bound]{A Lower Bound for the Number of Comparisons Needed to Sort a List}
+
+\section{A Lower Bound for the Sorting Problem}
 In this section we will show that any sorting algorithm that sorts elements by comparing them, must
 use at least 
 \\[0.2cm]
@@ -1579,6 +1587,7 @@ As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \l
 we have shown that this algorithm is optimal with respect to the number of comparisons.
 
 \section{Counting Sort}
+\index{counting sort}
 In the last section of this chapter we introduce a sorting algorithm that has only a \blue{linear} complexity.
 According to the result of the previous section this algorithm does not work by comparing the elements of the
 list that is to be sorted.  Rather, this algorithm exploits the fact that the keys used for sorting are natural
@@ -1700,8 +1709,8 @@ have achieved the same grade, the students should still be ordered alphabeticall
   \caption{Students and their grades, sorted with respect to the grade.}
   \label{tab:marks-sorted}
 \end{table}
-We proceed to describe an algorithm that is capable of sorting the Table \ref{tab:marks} into the Table
-\ref{tab:marks-sorted}.  The algorithm works in three stages.
+We proceed to describe an algorithm that is capable of transforming Table \ref{tab:marks} into Table
+\ref{tab:marks-sorted}.  This algorithm works in three stages.
 \begin{enumerate}
 \item The first stage is the \blue{counting stage}.  In this stage we count the number of students
       that have a specific grades.  In the example from Table \ref{tab:marks} we find the following:
@@ -1712,8 +1721,12 @@ We proceed to describe an algorithm that is capable of sorting the Table \ref{ta
       \item 3 students have grade 4.
       \item 2 students have grade 5.
       \end{enumerate}
-\item The second stage is the \blue{indexing stage}.   From the previous stage we know that the sorted
-      list $\texttt{L}$ that is returned must have the following outline.
+\item The second stage is the \blue{indexing stage}.  In this stage our goal is compute the indices of the
+      sublists containing the different grades.  For example, since there are 3 students with a grade of $1$
+      and $1$ is the smallest grade, we know that the students with grade $1$ will be found in the sublist
+      $\texttt{L[0:3]}$.  Similarly, as there are $8$ students that have a grade of $2$ and $3 + 8 = 11$,
+      the sublist $\texttt{L[3:12]}$ will contain the students with grade $2$.
+      All in all, we have the following:
       \begin{enumerate}[(a)]
       \item The sublist $\texttt{L[0:3]}$ contains the students with grade 1.
       \item The sublist $\texttt{L[3:12]}$ contains the students with grade 2.
@@ -1749,26 +1762,29 @@ counting sort.  We proceed to discuss this algorithm line by line.
                 ]{python3}
     def countingSort(Names, Grades):
         assert len(Names) == len(Grades)
-        maxGrade     = max(Grades)
+        maxGrade     = 256
         Counts       =    [0] * maxGrade
         Indices      = [None] * maxGrade
         SortedNames  = [None] * len(Names)
         SortedGrades = [None] * len(Names)
+        # Phase 1: Counting
         for g in Grades:
-            Counts[g-1] += 1
+            Counts[g] += 1
+        # Phase 2: Indexing
         Indices[0] = 0
-        for g in range(2, maxGrade + 1):
-            Indices[g-1] = Indices[g-2] + Counts[g-2]
+        for g in range(1, maxGrade):
+            Indices[g] = Indices[g-1] + Counts[g-1]
+        # Phase 3: Distribution
         for i in range(len(Names)):
             grade             = Grades [i]
-            idx               = Indices[grade-1]
-            SortedNames [idx] = Names[i]
-            SortedGrades[idx] = Grades[i]
-            Indices[grade-1] += 1
+            idx               = Indices[grade]
+            SortedNames [idx] = Names  [i]
+            SortedGrades[idx] = Grades [i]
+            Indices[grade]   += 1
         return SortedNames, SortedGrades
 \end{minted}
 \vspace*{-0.3cm}
-\caption{An Implementation of \blue{counting sort}.}
+\caption{An implementation of \blue{counting sort}.}
 \label{fig:counting-sort.stlx}
 \end{figure}
 
@@ -1779,43 +1795,48 @@ counting sort.  We proceed to discuss this algorithm line by line.
       \item \texttt{Grades} is a list of the grades attached to the students.
       \end{enumerate}
       Of course, these lists are required to have the same number of elements.  This is checked in the
-      \texttt{assert} statement in line 2.
-\item In order for our routine to generalize to arbitrary grades, we need to compute the maximum of all grades
-      and store it the variable \texttt{maxGrade}.  Of course, in the example discussed so far we know that the biggest
-      grade is $5$.  However, in general the grades can be any positive natural numbers and the procedure \texttt{countingSort}
-      is able to sort the \texttt{Names} according to these grades.  
+      \texttt{assert} statement in line 2.  Furthermore, the nature of the elements of the list \texttt{Names}
+      is unimportant.  While in our example \texttt{Names} is indeed a list of student names, the elements of
+      this list can really be anything.  The only important aspect is that we will sort this list according to
+      the numbers given in the second list \texttt{Grades}.
+\item In order for our function to generalize to arbitrary numbers we will assume that all grades are elements
+      of the set $\{0,\cdots,255\}$.  Therefore we define $\mathtt{maxGrade}$ as $256$.
+      Of course, in the example discussed so far we know that the biggest
+      grade is $5$.  However, we will use the function $\mathtt{countingSort}$ later as an auxiliary function
+      when implementing \blue{radix sort}.  Then the grades will be bytes and hence be natural numbers less
+      than $256$.
 \item Next, we initialize the auxiliary array \texttt{Count} to be an array of length \texttt{maxGrade}.
       Later, for a grade $g$ the number $\texttt{Counts}[g]$ will contain the number of students that have
       attained the grade $g$.  Initially, all entries of the array \texttt{Count} are set to $0$.
 \item After the indexing stage, the array \texttt{Indices} will contain the start indices of the different sublists.
-      For a grade $g$, $\texttt{Indices}[g-1]$ is the first index of the sublist containing those students that
+      For a grade $g$, $\texttt{Indices}[g]$ is the first index of the sublist containing those students that
       have achieved the grade $g$.
 \item The array \texttt{SortedNames} and \texttt{SortedGrades} are the two lists that will be returned as the
       result.  \texttt{SortedNames} will contain the names of the students sorted by their grades, while
       \texttt{SortedGrades} will contain the corresponding grades. 
-\item The \texttt{for}-loop in line 8 performs the \blue{counting stage}.  We iterate over all grades $g$ in
-      \texttt{Grades} and increment the counter $\texttt{Counts}[g-1]$ associated with the grade $g$.
+\item The \texttt{for}-loop in line 9 performs the \blue{counting stage}.  We iterate over all grades $g$ in
+      \texttt{Grades} and increment the counter $\texttt{Counts}[g]$ associated with the grade $g$.
 \item Next, the index for the start of the sublist containing those students that have achieved the grade $1$
       is initialized as $0$ in line 10. 
-\item Then, the \texttt{for}-loop in line 11 performs the \blue{indexing stage}. As the number $\texttt{Indices}[g-2]$
+\item Then, the \texttt{for}-loop in line 12 performs the \blue{indexing stage}. As the number $\texttt{Indices}[g-1]$
       is the index of the start of the sublist for those students that have grade $g-1$ and the number of these
-      students is $\texttt{Counts}[g-2]$, the sublist of the students with grade $g$ has to start at index
+      students is $\texttt{Counts}[g-1]$, the sublist of the students with grade $g$ has to start at index
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{Indices}[g-2] + \texttt{Counts}[g-2]$.
-\item Finally, the \texttt{for}-loop in line 13 performs the \blue{distribution stage}.
+      $\texttt{Indices}[g-1] + \texttt{Counts}[g-1]$.
+\item Finally, the \texttt{for}-loop in line 16 performs the \blue{distribution stage}.
       \begin{enumerate}
       \item Conceptually, the \texttt{for}-loop iterates over all students. The index $i$ refers to the $i$-th
             student in the original list.  However, note that the first student has index $0$, since
             \textsl{Python} starts indexing with $0$.
       \item Next, we need to find where to put the $i$-th student.  To this end we first look up the
-            grade $g = \texttt{Grades}[i]$ of this student.  Then, $\texttt{Indices}[g]$ gives us
+            grade $\texttt{Grades}[i]$ of this student.  Then, $\texttt{Indices}[g]$ gives us
             the \texttt{index} of the next free entry in the result list \texttt{SortedNames} corresponding to grade $g$.
-      \item In line 16 and 17 the student and her grade are stored in the result lists \texttt{SortedNames}
+      \item In line 19 and 20 the student and her grade are stored in the result lists \texttt{SortedNames}
             and \texttt{SortedGrades} at the index $\texttt{idx}$.
       \item Finally, we need to increment the index stored at $\texttt{Indices}[g]$ since we have just used
             this index and therefore the next student with the grade $g$ needs to be stored at the subsequent location.
-            This is done in line 18.
+            This is done in line 21.
       \end{enumerate}
 \item The procedure \texttt{countingSort} returns a pair of lists.
       \begin{enumerate}
@@ -1823,13 +1844,13 @@ counting sort.  We proceed to discuss this algorithm line by line.
       \item The second list is the list of the corresponding grades.
       \end{enumerate}
 \end{enumerate}
-If the list \texttt{Names} has a length of $n$ and the biggest grade is some fixed constant $c$, then it is easy to
-see that counting sort has the complexity $\Oh(n)$.  The reason is that the first \texttt{for}-loop is iterated
-$n$ times, the second \texttt{for}-loop is iterated just $c$ times and the last \texttt{for}-loop is again
-iterated $n$ times.  Hence, counting sort is a linear sorting algorithm.  Note that we do not use any
-comparisons in this algorithm.
+If the list \texttt{Names} has a length of $n$, then it is easy to
+see that counting sort has the complexity $\Oh(n)$.  The first \texttt{for}-loop iterates over all grades so
+its body is executed $n$ times.  The second for loop iterates 256 times and the last \texttt{for}-loop again
+iterates $n$ times.  Hence, counting sort is a \blue{linear sorting algorithm}.  Note that we do not compare grades in
+order to sort them.
 
-Another important fact is that counting sort is \blue{stable}: In the resulting list, the sublists
+Another important fact is that counting sort is \blue{stable}\index{stable}: In the resulting list, the sublists
 corresponding to the different grades are still sorted alphabetically.  This is so because these sublists are
 filled by iterating over the original list that is sorted alphabetically.  If two students $x$ and $y$ have the
 same grade $g$ but the name of $x$ is alphabetically before the name of $y$, then $x$ will be inserted into the
@@ -1837,34 +1858,28 @@ sublist corresponding to grade $g$ before $y$ and hence these sublists are order
 is crucial for the development of our next sorting algorithm \blue{radix sort}.
 
 \section{Radix Sort}
+\index{radix sort}
 The importance of the previous sorting algorithm, \blue{counting sort}, stems from the fact that it is part of the
 implementation of \href{https://en.wikipedia.org/wiki/Radix_sort}{radix sort}.  \blue{Radix sort} was used as early as 1887 in
 \href{https://en.wikipedia.org/wiki/Tabulating_machine}{tabulating machines} constructed by
 \href{https://en.wikipedia.org/wiki/Herman_Hollerith}{Hermann Hollerith}.  He was the founder of
 the \blue{Tabulating Machine Company} that later became \href{https://en.wikipedia.org/wiki/IBM}{\textsc{Ibm}}.
 To understand radix sort, suppose we want to implement an algorithm that sorts a large number of 32 bit
-unsigned integers.  The easiest way to do this would be to use counting sort:  Then the names of the
-students would be unimportant and could be filled with an arbitrary string.  However, since the grades could then
-have a maximum value of 
-\\[0.2cm]
-\hspace*{1.3cm}
-$2^{32} - 1 = 4,294,967,295$,
-\\[0.2cm]
-the lists \texttt{Counts} and \texttt{Indices} that we have used in the function \texttt{countingSort} would
-become huge and would use 16 gigabyte.   This size is prohibitive.  The main idea of radix sort is to split the
+unsigned integers.  The easiest way to do this would be to use counting sort:
+The main idea of radix sort is to split the
 32 bit numbers into four chunks of 8 bits each and to use each of these four chunks as a grade.  To formulate this
 mathematically, a 32 bit unsigned integer $x$ can be decomposed into its four bytes as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds x = b_4 \cdot 256^{3} + b_3 \cdot 256^{2} + b_2 \cdot 256^{1} + b_1$.
 \\[0.2cm]
-Note that have  numbered the bytes starting from the the least significant byte.
+Note that we have  numbered the bytes starting from the the least significant byte.
 Then, radix sort works as follows:
 \begin{enumerate}
 \item Sort the numbers by interpreting the byte $b_1$ as a grade.
 \item Take the numbers that have been sorted by the byte $b_1$ and sort them by the byte $b_2$ next.
       Since counting sort is \blue{stable}, numbers which happen to have the same byte $b_2$ will still be
-      sorted with respect to by the byte $b_1$.  Hence, after the sorting with respect to the byte $b_2$ is
+      sorted with respect to the byte $b_1$.  Hence, after the sorting with respect to the byte $b_2$ is
       complete, in effect the numbers will then be sorted according to both $b_2$ and $b_1$.
 \item Next, use counting sort to sort the numbers with respect to the byte $b_3$.
 \item Finally, use counting sort to sort the numbers with respect to the byte $b_4$.  By the stability of
@@ -1886,10 +1901,10 @@ Then, radix sort works as follows:
                   ]{python3}
     def extractByte(n, k):
         return n >> (8 * (k-1)) & 255
-
+    
     def radixSort(L):
         for k in range(1, 4+1):
-            Grades = [extractByte(n, k) + 1 for n in L]
+            Grades = [extractByte(n, k) for n in L]
             L      = countingSort(L, Grades)[0]
         return L
 \end{minted}
@@ -1898,12 +1913,11 @@ Then, radix sort works as follows:
 \label{fig:radix-sort.stlx}
 \end{figure}
 Figure \ref{fig:radix-sort.stlx} on page \pageref{fig:radix-sort.stlx} shows an implementation of radix
-sort that implements these ideas.
+sort that implements this idea.
 \begin{enumerate}
 \item The function \texttt{extractByte} is called with two arguments:
       \begin{enumerate}[(a)]
-      \item $n$ is supposed to be an unsigned 32 bit number.  With respect to the programming language
-            \textsl{Python} this just means that $n$ is a integer satisfying $0 \leq n < 2^{32}$.
+      \item $n$ is supposed to be an unsigned 32 bit number.  Hence $n$ is a integer satisfying $0 \leq n < 2^{32}$.
       \item $k$ is the index of the byte that is to be extracted.  It is supposed that the least significant
             byte has the index $1$.
       \end{enumerate}
@@ -1911,11 +1925,9 @@ sort that implements these ideas.
 
       \texttt{extractByte} works by shifting the number $x$ by $(k-1) \cdot 8$ bits to the right using the
       operator \texttt{>>}.  Then, the least significant byte of the resulting number is extracted using the 
-      bitwise and operator with mask $255$.  Note that $255$ is written as $11111111_2$ in binary. 
+      \blue{bitwise and operator} with mask $255$.  Note that $255$ is written as $11111111_2$ in binary. 
 \item \texttt{radixSort} takes a list of unsigned 32 bit integers $L$ as its arguments.
 \item It iterates over the four bytes of these numbers starting with the least significant byte.
-\item In order to be able to interpret a byte as a grade we have to add 1 to it, since \texttt{countingSort}
-      assumes that the lowest grade is $1$.  
 \item With respect to \texttt{countingSort},  the elements of the list given to \texttt{countingSort} as its first argument are
       arbitrary objects.  Therefore, it does not matter whether the first argument to the function
       \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.  This list
@@ -1926,6 +1938,7 @@ sort that implements these ideas.
 \end{enumerate}
 
 \section{Application: Handwritten Digit Recognition}
+\index{digit recognition}
 In the last section of this chapter we discuss an application of sorting: \blue{Handwritten digit recognition}.
 We have been given a \blue{training set} of $50,000$ handwritten digits. Figure \ref{fig:digits.pdf} shows the first 24
 handwritten digits.  These digits are given as grey scale images of $28 \times 28$ pixels.  Each pixel $p$ is a
