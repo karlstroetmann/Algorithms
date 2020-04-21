@@ -1939,12 +1939,13 @@ sort that implements this idea.
 
 \section{Application: Handwritten Digit Recognition}
 \index{digit recognition}
-In the last section of this chapter we discuss an application of sorting: \blue{Handwritten digit recognition}.
+In the last section of this chapter we discuss an application of sorting:
+\blue{recognizing handwritten digits}.\index{handwritten digit recognition}
 We have been given a \blue{training set} of $50,000$ handwritten digits. Figure \ref{fig:digits.pdf} shows the first 24
-handwritten digits.  These digits are given as grey scale images of $28 \times 28$ pixels.  Each pixel $p$ is a
-floating point number satisfying $0 \leq p \leq 1$. If $p = 1.0$, the pixel is completely black, while $p = 0.0$ if the
-pixel is white.  Furthermore, for each of these images we also have been given a \blue{label}
-$d \in \{0,1,2,\cdots,9\}$, which specifies the digit that is represented in the image.  Besides the training set 
+images of these handwritten digits.  These images are given as grey scale images of $28 \times 28$ pixels.
+Each pixel $p$ is a floating point number satisfying $0 \leq p \leq 1$. If $p = 1.0$, the pixel is completely
+black, while $p = 0.0$ if the pixel is white.  Furthermore, for each of these images we also have been given a
+\blue{label} $d \in \{0,1,2,\cdots,9\}$, which specifies the digit that is represented in the image.  Besides the training set 
 there is also a \blue{test set} of $10,000$ of handwritten images.  Our task is to \blue{classify} these images
 as digits.
 
@@ -1957,7 +1958,8 @@ as digits.
 \end{figure}
 
 \subsection{The $k$-Nearest Neighbour Algorithm}
-We will use the \href{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}{$k$-nearest neighbour algorithm} 
+We will use the \href{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}{$k$-nearest neighbours algorithm} 
+\index{$k$ nearest neighbours algorithm}
 to solve this task.  Given an image $x$ that is to be classified as a digit, we look at those images in the
 training set that are somehow \blue{close} to $x$.  If these images are all labelled with the same digit $d$,
 we conclude that $x$ shows the digit $d$.  In order to implement this algorithm, we have to specify what it
@@ -1975,14 +1977,14 @@ plane $\mathbb{R}^2$, which, according to the \href{https://en.wikipedia.org/wik
 $\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2\;}$.
 \\[0.2cm]
 Given an image $\mathbf{y}$ that needs to be classified and a training set of $n$ labelled images, the $k$-nearest
-neighbour algorithm works as follows: 
+neighbours algorithm works as follows: 
 \begin{enumerate}[(a)]
-\item For every image $\mathbf{x}$ in the training set we compute the Euclidean distance $d(\mathbf{x},
+\item For every image $\mathbf{x}$ in the training set compute the Euclidean distance $d(\mathbf{x},
   \mathbf{y})$ between $\mathbf{x}$ and $\mathbf{y}$.
-\item We \blue{sort} the images in the training set according to their distances.
-\item We pick those $k$ images that have the smallest distances to $\mathbf{y}$.
+\item \blue{Sort} the images in the training set according to their distance to $\mathbf{y}$.
+\item Pick those $k$ images that have the smallest distances to $\mathbf{y}$.
       These $k$ images are called the \blue{$k$ nearest neighbours}.
-\item Among the $k$ nearest neighbours we pick the label that occurs most frequently.
+\item Among the $k$ nearest neighbours, pick the label that occurs most frequently.
       
       For example, if $k=7$ and $3$ of the $7$ nearest neighbours are labelled as the digit $3$, while $2$ are
       labelled as the digit $2$ and $2$ are labelled as the digit $1$, then we conclude that the image
@@ -2037,18 +2039,20 @@ neighbour algorithm works as follows:
     digit(X_test[0,:], 13)
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The $k$-nearest neighbour algorithm for digit recognition.}
+\caption{The $k$-nearest neighbours algorithm for digit recognition.}
 \label{fig:Digit-Recognition.ipynb}
 \end{figure}
 
+\noindent
 Figure \ref{fig:Digit-Recognition.ipynb} on page \pageref{fig:Digit-Recognition.ipynb} shows a program that can
 be used to recognize a handwritten digit.
 \begin{enumerate}
 \item The images of the handwritten digits are stored in the file \texttt{mnist.pkl.gz}.  This file is compressed
-      using \texttt{gzip} and the images have been \blue{pickled} using the module \texttt{pickle}.  The module
+      using \texttt{gzip} and the images have been \blue{pickled} using the module
+      \texttt{pickle}\index{pickle}.  The module
       \texttt{pickle} supports the reading and writing of \textsl{Python} data structures and is therefore
-      used to make data \blue{persistent}, i.e.~store them in a file system.  The counterpart of the function
-      \texttt{load} is the function \texttt{dump}.
+      used to make data \blue{persistent}, i.e.~to store the data structures of a program in a file system.
+      The counterpart of the function \texttt{load} is the function \texttt{dump}.
 
       In order to read the images of the handwritten digits, we therefore have to import the modules
       \texttt{gzip} and \texttt{pickle}.  The module \texttt{numpy} is needed to store the images as \blue{arrays}. 
@@ -2071,7 +2075,7 @@ be used to recognize a handwritten digit.
       decompresses it.  In the file \texttt{mnist.pkl.gz} the data is stored as a triple of pairs.
       For our purposes, we only need the first and the last component of this triple.  Each of these components
       is a pair of the form $(\textsl{data}, \textsl{label})$, where \textsl{data} is an array of images and
-      \textsl{labels} is an array specifying the digits represented in the images.
+      \textsl{labels} is an array specifying the digits represented in these images.
       The function \texttt{load\_data} extracts the data stored in these pairs.
 \item The function $\mathtt{distance}(x, y)$ computes the Euclidean distance between the images $x$ and $y$.
       Given a vector $x$, the expression $x \texttt{**} 2$ computes a vector containing the squares of the
@@ -2113,6 +2117,32 @@ be used to recognize a handwritten digit.
       \end{enumerate}
 \item The last line shows how the function \texttt{digit} can be used to classify the first image from the test
       set using the 13 closest neighbours. 
+\end{enumerate}
+\pagebreak
+
+\section{Check Your Understanding}
+If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
+introduced in this chapter.
+\begin{enumerate}
+\item How have we defined the concept of a \emph{linear order}?
+\item What type of order do we need when we want to sort a list?
+\item Describe the algorithm \emph{insertion sort} on an abstract mathematical level.
+\item What is the complexity of \emph{insertion sort}?
+\item Is there a case where \emph{insertion sort}  has only a linear complexity?
+\item Describe the algorithm \emph{selection sort} on an abstract mathematical level.
+\item What is the complexity of \emph{selection sort}?
+\item Compare the complexity of \emph{selection sort} with the complexity of \emph{insertion sort}.
+\item Describe the algorithm \emph{merge sort} on an abstract mathematical level.
+\item Describe an array-based, non-recursive implementation of \emph{merge sort}.
+\item Describe the algorithm \emph{quicksort} on an abstract mathematical level.
+\item Describe an array-based implementation of \emph{quicksort}.
+\item Compare the complexity of \emph{merge sort} with the complexity of \emph{quicksort}.
+\item Describe \emph{dual pivot quicksort}.
+\item In which case is \emph{dual pivot quicksort} much faster than \emph{quicksort}?
+\item How does \emph{counting sort} work?
+\item How does \emph{radix sort} work?
+\item What is the complexity of radix sort?
+\item How does the \emph{$k$-nearest neighbours algorithm} work?
 \end{enumerate}
 
 %%% Local Variables: 
