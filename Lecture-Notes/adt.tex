@@ -27,12 +27,12 @@ where the meaning of the components is as follows:
 \item $N$ is a string.  This string is the \blue{name} of the abstract data type.
 \item $P$ is the set of \blue{type parameters}.   Here, a type parameter is just a string.
       This string is interpreted as a type variable.  The idea is that we can later substitute 
-      a concrete data type for this string.
+      a data type for this string.
 \item $\textsl{Fs}$ is the set of \blue{function symbols}.  These function symbols denote the 
       operations that are supported by this abstract data type. The function symbols itself are strings.
 \item $\textsl{Ts}$ is a set of \blue{type specifications}.  For every function symbol
       $f \in \textsl{Fs}$
-      the set $Ts$ contains a \blue{type specifications} of the form 
+      the set $\textsl{Ts}$ contains a \blue{type specifications}\index{type specification} of the form 
       \\[0.2cm]
       \hspace*{1.3cm} 
       $f: T_1 \times \cdots \times T_n \rightarrow S$. 
@@ -40,8 +40,8 @@ where the meaning of the components is as follows:
       Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
       these data types: 
       \begin{enumerate}
-      \item We can have concrete data types like, e.g.~``\texttt{int}'' or ``\texttt{str}''.
-      \item Furthermore, these can be the names of abstract data types.
+      \item We can have predefined data types like, e.g.~``\texttt{int}'' or ``\texttt{str}''.
+      \item Furthermore, $T_1$, $\cdots$, $T_n$ and $S$ can be the names of abstract data types.
       \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
       \end{enumerate}
       The type specification $f: T_1 \times \cdots \times T_n \rightarrow S$ expresses the fact that
@@ -52,24 +52,27 @@ where the meaning of the components is as follows:
       where the argument $t_i$ has type $T_i$ for all $i \in \{1,\cdots,n\}$.
       Furthermore, the result of the function $f$ is of type $S$.
 
-      Additionally, we must have either $T_1 = T$ or $S = T$.  Therefore, either
-      the first argument of $f$ has to be of type $T$ or the result of $f$ has to be of type 
-      $T$.  If we have  $T_1 \not= T$ and, therefore, $S = T$,
-      then $f$ is called a \blue{constructor}\index{constructor} of the data type $T$.  Otherwise,
-      $f$ is called a  \blue{method}.\index{method}
+      Additionally, we must have either $T_1 = N$ or $S = N$.  Therefore, either
+      the first argument of $f$ has to be of type $N$ or the result of $f$ has to be of type 
+      $N$, where $N$ is the name of the abstract data types $\mathcal{D}$.  If we have  $T_1 \not= N$ and, therefore,
+      $S = N$, then $f$ is called a \blue{constructor}\index{constructor} of the abstract data type $N$.  
+      Otherwise,  $f$ is called a  \blue{method}.\index{method}
 \item $Ax$ is a set of mathematical formulas.   These formulas 
       specify the behaviour of the abstract data type and are therefore called
       the \blue{axioms} of $\mathcal{D}$.
 \end{enumerate}
 The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{\blue{Adt}}.
+\index{ADT}
 
-Next, we provide a simple example of an abstract data type, the \blue{stack}.
+Next, we provide a simple example of an abstract data type, the 
+\href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack}\index{stack}.
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
-and only the plate on top is accessible.  Formally, we define the data type \texttt{Stack}\index{Stack} as follows:
+and only the plate on top is accessible.  Formally, we define the abstract data type
+\texttt{Stack}\index{Stack} as follows: 
 \begin{enumerate}
-\item The name of the data type is \texttt{Stack}.
+\item The name of this abstract data type is \texttt{Stack}.
 \item The set of type parameters is $\{ \texttt{Element} \}$.
 \item The set of function symbols is \\[0.2cm]
       \hspace*{1.3cm} 
@@ -98,15 +101,15 @@ and only the plate on top is accessible.  Formally, we define the data type \tex
             The Boolean function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty.
       \end{enumerate}
 \end{enumerate}
-The behaviour of a stack is specified by the following axioms.
+The behaviour of a stack is specified by the following \blue{axioms}.
 \begin{enumerate}
 \item $\texttt{stack}().\texttt{top}() = \Omega$
 
-      Here, $\Omega$ denotes the undefined value\footnote{
+      Here, $\Omega$ \index{$\Omega$} denotes the undefined value\footnote{
        Some philosophers are concerned that it is not possible to define an undefined value.
        They argue that if an undefined value could be defined, it would be no longer undefined
        and hence it can not be defined.  However, that is precisely the point of the undefined 
-       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.
+       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.\index{undefined value}
       In \textsl{Python}, $\Omega$ is represented as \texttt{None}. The expression $\texttt{stack}()$
       creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
       element on top of the empty stack.
@@ -222,14 +225,14 @@ discussed next.
       in line 1.
       After the keyword \texttt{class}, the name of the class has to be given.  In Figure
       \ref{fig:stack-array.stlx} this name is \texttt{Stack}.
-\item In \textsl{Python}, the constructor of a class has the name \texttt{\_\_init\_\_}.
+\item In \textsl{Python}, the \blue{constructor} of a class has the name \texttt{\_\_init\_\_}.
       All methods defined in a class receive the object as their first argument.
       The convention is to name this parameter \texttt{self}, but this is not mandatory.
-      Technically, the name \texttt{self} is similar to the keyword \texttt{this} in the programming language
+      The name \texttt{self} is similar to the keyword \texttt{this} in the programming language
       \textsl{Java}.  However, technically the name \texttt{self} is not a keyword in \textsl{Python}.
       
-      The constructor receives an uninitialized object as its first argument and has the task
-      to initialize the \blue{member variables} of this object.  The class stack uses only one member variable:
+      The constructor receives an \blue{uninitialized} object as its first argument and has the task
+      to initialize the \blue{member variables} of this object.  The class \texttt{Stack} uses only one member variable:
       This member variable is called \texttt{mStackElements}.  My convention is to always start member
       variables with the letter '\texttt{m}'.  Another convention is to use the underscore character
       '\texttt{\_}'.  These conventions facilitates the distinction of member variables from local variables.
@@ -239,8 +242,9 @@ discussed next.
       \hspace*{1.3cm}
       \texttt{s = Stack()}
       \\[0.2cm]
-      This statement creates an uninitialized object of class \texttt{Stack} and then invokes 
-      the constructor \texttt{\_\_init\_\_} to initialize the member variable with an empty list.
+      This statement creates an uninitialized object (in other words: an empty object) of class \texttt{Stack}
+      and then invokes the constructor \texttt{\_\_init\_\_} to initialize the member variable
+      \texttt{mStackElements} as an empty list.
       The object created is then assigned to the variable \texttt{s}.
 \item Line 3 defines the first (and in this case only) member variable of the class \texttt{Stack}.
       Therefore, every object $o$ of class \texttt{Stack} will have a \blue{member variable} called
@@ -374,12 +378,13 @@ that are administered by the abstract data type are actually represented.
 \section{Evaluation of Arithmetic Expressions}
 Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
 evaluated using stacks.  To this end, we present the
-\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm} for
+\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}\index{shunting-yard algorithm} 
+for 
 parsing arithmetic expressions.  
-An \blue{arithmetic expression} is a string that is made up of numbers and
+For our purposes, an \blue{arithmetic expression} is a string that is made up of natural numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
-``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here $x \;\texttt{\symbol{37}}\; y$ denotes the
-remainder of the integer division of $x$ by $y$.  The expression $x\;\texttt{**}\;y$ denotes the power $x^y$.
+``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here, the operator ``\texttt{/}'' denotes integer division,
+while $x \;\texttt{\symbol{37}}\; y$ denotes the remainder of the integer division of $x$ by $y$.  The expression $x\;\texttt{**}\;y$ denotes the power $x^y$.
 Furthermore, arithmetic expressions can use the parentheses ``\texttt{(}'' and ``\texttt{)}''.
   
 Formally, the set of arithmetic expressions is defined by induction.
@@ -410,9 +415,12 @@ Formally, the set of arithmetic expressions is defined by induction.
       is an arithmetic expression.
 \end{enumerate}
 If we have been given a string that is an arithmetic expression, then in order to \blue{evaluate} this
-arithmetic expression we need to know the precedence and the associativity of the operators.
+arithmetic expression we need to know the \blue{precedence}\index{precedence} and the
+\blue{associativity}\index{associativity} of the operators.
 In mathematics the operators ``\texttt{*}'', ``\texttt{/}'' and ``\texttt{\symbol{37}}'' have a
-higher precedence than the operators ``\texttt{+}'' and ``\texttt{-}''.  Furthermore, the operator
+higher precedence than the operators ``\texttt{+}'' and ``\texttt{-}'':  For example, the expression
+$x+y*z$ is interpreted as $x + (y * z)$.
+ Furthermore, the operator
   ``\texttt{**}'' has a precedence that is higher than the precedence
  of any other operators.  The operators
 ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', and ``\texttt{\symbol{37}}''
@@ -440,11 +448,11 @@ simple example.  Consider the arithmetic expression
 First, this string is transformed into the list of \blue{tokens}
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34} 4]}.
+\texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
 \\[0.2cm]
 A \blue{token} is either a number, an operator symbol, or a parenthesis.
 Notice that the space symbols that have been present in the original arithmetic expression string
-have been discarded.  This list is processed from left to right, one token
+have been discarded.  This list is then processed from left to right, one token
  at a time.  In order to process this list, we use three stacks.
 \begin{enumerate}
 \item The  \blue{token list} contains all the tokens of the arithmetic expression.  It is
@@ -465,7 +473,7 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
         \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
       \\[0.2cm]
       Note that the number that is at the beginning of the arithmetic expression is on top of the
-      stack.  \\[0.2cm]
+      stack, i.e.~it is the last element of the list.  \\[0.2cm]
       \hspace*{1.3cm} \texttt{mArguments = []}, \\[0.2cm]
       \hspace*{1.3cm} \texttt{mOperators = []}. 
 \item The number \texttt{1} is removed from the token stack and is put onto the argument stack
@@ -484,8 +492,8 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
       \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
       \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
 \item We remove the operator \texttt{\symbol{34}*\symbol{34}} from the  token stack and compare the
-      \blue{precedence} of the operator with the precedence of the operator \texttt{\symbol{34}+\symbol{34}},
-      which is on top of the operator stack.  Since the precedence of the operator 
+      \blue{precedence} of the operator \texttt{\symbol{34}*\symbol{34}} with the precedence of the operator
+      \texttt{\symbol{34}+\symbol{34}}, which is on top of the operator stack.  Since the precedence of the operator 
       \texttt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
       \texttt{\symbol{34}+\symbol{34}}, the operator \texttt{\symbol{34}*\symbol{34}} is put onto
       the operator stack.  The reason is that we have to evaluate this operator before we can
@@ -502,7 +510,7 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 \item We remove the operator \texttt{\symbol{34}-\symbol{34}} from the token stack and
       compare this operator with the operator \texttt{\symbol{34}*\symbol{34}}, which is on top of
       the operator stack.  As the precedence of the  operator \texttt{\symbol{34}*\symbol{34}} is
-      higher as the precedence of the operator \texttt{\symbol{34}-\symbol{34}},
+      higher than the precedence of the operator \texttt{\symbol{34}-\symbol{34}},
       we have to evaluate the operator \texttt{\symbol{34}*\symbol{34}}.  In order to do so, we
       remove the arguments 3 and 2 from the argument stack, remove the operator
       \texttt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
@@ -547,8 +555,9 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
 The algorithm introduced in the last example is known as the 
-\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  This technique is also
-known as \blue{operator precedence parsing}.
+\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  
+\index{shunting-yard algorithm}
+This technique is also known as \blue{operator precedence parsing}.\index{operator precedence parsing}
 This algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
 1961.  We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
 function that are needed to implement this algorithm.  The first of these functions is the function
@@ -588,6 +597,34 @@ string into a list of numbers and operators. For example, the string \texttt{'1+
 \hspace*{1.3cm}
 $[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
 \\[0.2cm]
+The \blue{tokenization} of is achieved using the regular expression that is defined as
+\begin{verbatim}
+    r'([0-9]+|\*\*|[()+*%/-])'
+\end{verbatim}
+This string is interpreted as follows:
+\begin{enumerate}[(a)]
+\item The ``\texttt{r}'' in front of the apostrophe ``\texttt{'}'' specifies that the regular expression is
+      defined as a blue{raw string}.  In a raw string the backslash does not have to be
+      escaped because it is treated as a literal character.
+\item The regular expression itself is divided into three parts.
+      These parts are separated by the character ``\texttt{|}''.  This operator is interpreted as a logical or.
+      Hence, the regular expression matches any of the following type of strings.
+      \begin{enumerate}
+      \item ``\texttt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\texttt{0}'' or
+            ``\texttt{123}''.  It would also match a string like ``\texttt{007}''.
+            The postfix operator ``\texttt{+}'' at the end of the expression ``\texttt{[0-9]}'' is a
+            \blue{quantifier} that specifies that there may be any positive number of characters in the range
+            $\{0,\cdots,9\}$.  By itself, the expression ``\texttt{[0-9]}'' only specifies a single character.
+            Inside of the expression, the ``\texttt{-}'' serves as a \blue{range operator}.
+      \item ``\verb|\*\*|'' matches the operator ``\texttt{**}''.  The character ``\texttt{*}'' has to be
+            escaped by a backslash character as this character is also used as a quantifier.
+      \item ``\texttt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
+            to put the symbol ``\texttt{-}'' last in this group as otherwise this symbol would be 
+            interpreted as a \blue{range operator}.
+     \end{enumerate}
+\end{enumerate}
+The method call \texttt{re.findall(regExp, s)} scans the string $s$ for every substring that matches the
+given regular expression and collects these substrings into a list.
 
 
 \begin{figure}[!ht]
@@ -604,7 +641,7 @@ $[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
     import re
 
     def tokenize(s):
-        regExp = r'([0-9]+|\*\*|[()+*%\/\-])'
+        regExp = r'([0-9]+|\*\*|[()+*%/-])'
         L = [ toInt(t) for t in re.findall(regExp, s) ]
         return list(reversed(L))                 
 \end{minted}
@@ -613,8 +650,8 @@ $[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
 \label{fig:tokenize.py}
 \end{figure}
 
-Next we fix the data structures
-that are needed for this algorithm.
+Next we fix the data structures that are needed for this algorithm.  The class that we will define has three
+member variables.
 \begin{enumerate}
 \item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
       represented as strings, while the numbers are represented as rational numbers.  Hence, \texttt{mTokens}
@@ -640,7 +677,7 @@ while there are two cases for the operator symbols that are part of the input to
       token stack.  In this case, the operator on top of the operator stack is removed from the
       operator stack and, furthermore, the arguments of this operator are removed from the argument
       stack.  Next, this operator is evaluated using the arguments that have been previously removed
-      from the argument stack.   The resulting number is then pushed onto the argument stack.
+      from the argument stack.   The number resulting from this evaluation is then pushed onto the argument stack.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -654,15 +691,15 @@ while there are two cases for the operator symbols that are part of the input to
                  xleftmargin   = 0.0cm,
                  xrightmargin  = 0.0cm,
                ]{python3}
-    def evalBefore(o1, o2):
-        if o1 == '(':
+    def evalBefore(stackOp, nextOp):
+        if stackOp == '(':
             return False
         Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
-        if Precedence[o1] > Precedence[o2]:
+        if Precedence[stackOp] > Precedence[nextOp]:
             return True
-        elif Precedence[o1] == Precedence[o2]:
-            if o1 == o2:
-                return o1 in { '+', '-', '*', '/', '%' }
+        elif Precedence[stackOp] == Precedence[nextOp]:
+            if stackOp == nextOp:
+                return stackOp in { '+', '-', '*', '/', '%' }
             else:
                 return True
         else:
@@ -670,7 +707,7 @@ while there are two cases for the operator symbols that are part of the input to
 \end{minted}
 \vspace*{-0.3cm}
 \caption{The function \texttt{evalBefore}.}
-\label{fig:}
+\label{fig:evalBefore}
 \end{figure}
 
 
@@ -689,39 +726,46 @@ while there are two cases for the operator symbols that are part of the input to
             self.mTokens    = stack.createStack(tokenize(s))
             self.mOperators = stack.Stack()
             self.mArguments = stack.Stack()
-        
+    
         def evaluate(self):
             while not self.mTokens.isEmpty():
-                t = self.mTokens.top(); self.mTokens.pop()
-                if isinstance(t, int):
-                    self.mArguments.push(t)
+                nextOp = self.mTokens.top(); self.mTokens.pop()
+                if isinstance(nextOp, int):
+                    self.mArguments.push(nextOp)
                     continue
-                if (self.mOperators.isEmpty() or t == "("):
-                    self.mOperators.push(t)
+                if self.mOperators.isEmpty() or nextOp == "(":
+                    self.mOperators.push(nextOp)
                     continue
-                topOp = self.mOperators.top()
-                if topOp == "(" and t == ")":
+                stackOp = self.mOperators.top()
+                if stackOp == "(" and nextOp == ")":
                     self.mOperators.pop()
-                elif (t == ")" or evalBefore(topOp, t)):
+                elif nextOp == ")" or evalBefore(stackOp, nextOp):
                     self.popAndEvaluate()
-                    self.mTokens.push(t)
+                    self.mTokens.push(nextOp)
                 else:
-                    self.mOperators.push(t)
+                    self.mOperators.push(nextOp)
             while not self.mOperators.isEmpty():
                 self.popAndEvaluate()
-            return self.mArguments.top()        
+            return self.mArguments.top()
     
         def popAndEvaluate(self):
             rhs = self.mArguments.top(); self.mArguments.pop()
             lhs = self.mArguments.top(); self.mArguments.pop()
             op  = self.mOperators.top(); self.mOperators.pop()
-            if op == '+' : result = lhs +  rhs
-            if op == '-' : result = lhs -  rhs
-            if op == '*' : result = lhs *  rhs
-            if op == '/' : result = lhs // rhs
-            if op == '%' : result = lhs %  rhs
-            if op == '**': result = lhs ** rhs
-            self.mArguments.push(result) 
+            result = None
+            if op == '+':
+                result = lhs + rhs
+            if op == '-':
+                result = lhs - rhs
+            if op == '*':
+                result = lhs * rhs
+            if op == '/':
+                result = lhs // rhs
+            if op == '%':
+                result = lhs % rhs
+            if op == '**':
+                result = lhs ** rhs
+            self.mArguments.push(result)            
 \end{minted}
 \vspace*{-0.3cm}
   \caption{The class \texttt{Calculator}.}
@@ -731,10 +775,10 @@ while there are two cases for the operator symbols that are part of the input to
 
 \noindent
 An implementation of this algorithm in \textsl{Python} is shown in  Figure
-\ref{fig:Calculator.py} and on page \pageref{fig:Calculator.py}.
-We start our discussion of the class \texttt{calculator} by inspecting the method
-\texttt{evalBefore} that is defined in line 32.
-This method takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
+\ref{fig:Calculator.py} on page \pageref{fig:Calculator.py}.
+We start our discussion of the class \texttt{calculator} by inspecting the function
+\texttt{evalBefore} that is shown in Figure \ref{fig:evalBefore}.
+This function takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
 whether \texttt{stackOp} should be evaluated before \texttt{nextOp}.  Of course, \texttt{stackOp} is
 intended to be the operator on top of the operator stack, while \texttt{nextOp} is an operator that
 is on top of the token stack.
@@ -742,7 +786,7 @@ In order to decide whether the operator \texttt{stackOp} should be evaluated bef
 \texttt{nextOp},  we first have to know the \blue{precedences} of these operators.  Here, a
 \blue{precedence} is a natural number that specifies how strong the operator binds to its
 arguments. Table \ref{tab:predence} on page \pageref{tab:predence} lists the precedences of our
-operators.  This table is coded as the binary relation \texttt{prec} in line 33.
+operators.  This table is coded as the binary relation \texttt{Precedence} in line 4.
 
 \begin{table}[!h]
   \centering
@@ -800,29 +844,29 @@ Now we can understand the implementation of $\texttt{evalBefore}(\texttt{stackOp
 \begin{enumerate}
 \item If \texttt{stackOp} is the opening parenthesis \texttt{\symbol{34}(\symbol{34}}, we have to put
       \texttt{nextOp} onto the operator stack.  The reason is that \texttt{\symbol{34}(\symbol{34}}
-      is no operator that can be evaluated.  Hence, we return \texttt{false} in line 34.
+      is no operator that can be evaluated.  Hence, we return \texttt{False} in line 3.
 \item If the precedence of \texttt{stackOp} is higher than the precedence of \texttt{nextOp}, we
-      return \texttt{true} in line 36.
+      return \texttt{True} in line 6.
 \item If the precedences of \texttt{stackOp} and \texttt{nextOp} are identical, there are two cases:
       \begin{enumerate}
       \item If both operators are equal, then the result of
-            \texttt{evalBefore(stackOp,nextOp)} is \texttt{true} if and only if
+            \texttt{evalBefore(stackOp,nextOp)} is \texttt{True} if and only if
             this operator associates to the left.  The operators that associate to the left are
-            listed in the set in line 39.
+            listed in the set in line 9.
       \item Otherwise, if \texttt{stackOp} is different from \texttt{nextOp}, then \\
-            \texttt{evalBefore(stackOp,nextOp)} returns \texttt{true}. 
+            \texttt{evalBefore(stackOp,nextOp)} returns \texttt{True}. 
       \end{enumerate}
 \item If the precedence of \texttt{stackOp} is less than the precedence of \texttt{nextOp}, then 
-      $\texttt{evalBefore(stackOp,nextOp})$ returns \texttt{false}.
+      $\texttt{evalBefore(stackOp,nextOp})$ returns \texttt{False}.
 \end{enumerate}
 Figure  \ref{fig:Calculator.py} on page \pageref{fig:Calculator.py} shows the
-implementation of the method \texttt{popAndEvaluate}.
+implementation of the method \texttt{popAndEvaluate} in line 28.
 This method works as follows: 
 \begin{enumerate}
-\item It takes an operator from the operator stack (line 48), 
-\item it fetches the arguments of this operator from the argument stack (line 46 and line 47),
+\item It takes an operator from the operator stack (line 31), 
+\item it fetches the arguments of this operator from the argument stack (line 29 and 30),
 \item it evaluates the operator,  and
-\item finally puts the result back on top of the argument stack.
+\item finally puts the result back on top of the argument stack in line 45.
 \end{enumerate}
 Finally, we are ready to discuss the implementation of the method \texttt{evaluate} in line 7 of
 Figure \ref{fig:Calculator.py}.  
@@ -831,7 +875,7 @@ Figure \ref{fig:Calculator.py}.
 \item First, as long as the token stack is non-empty we take a token from the token stack.
 \item If this token is a number, then we put it on the argument stack and continue to read the next token.
   
-      In the following code of the \texttt{while} loop that starts at line 14, we can assume that
+      In the following code of the \texttt{while} loop that starts at line 13, we can assume that
       the last token that has been read is either an operator symbol
       or one of the parentheses \texttt{\symbol{34}(\symbol{34}} or \texttt{\symbol{34})\symbol{34}}. 
 \item If the operator stack is empty or if the token that has been read is an opening parenthesis
@@ -840,7 +884,7 @@ Figure \ref{fig:Calculator.py}.
       \texttt{\symbol{34})\symbol{34}} and, furthermore, the operator on top of the operator stack is
       an opening parenthesis \texttt{\symbol{34}(\symbol{34}}, then this parenthesis is removed from the
       operator stack.
-\item If now in line 22 the token \texttt{nextOp} is a closing parenthesis
+\item If now in line 19 the token \texttt{nextOp} is a closing parenthesis
       \texttt{\symbol{34})\symbol{34}}, then we know that the token on the operator stack
       can't be an opening parenthesis but rather has to be an operator.
       This operator is then evaluated using the method \texttt{popAndEvaluate()}.
@@ -851,14 +895,13 @@ Figure \ref{fig:Calculator.py}.
       the \texttt{while} loop in line 8.  Hence, in this case we keep evaluating operators
       on the operator stack until we hit an opening parenthesis on the operator stack.
 
-      In the part of the \texttt{while} loop following line 24 we may assume that 
-      \texttt{nextOp} is not a parenthesis, since the other case  has been dealt with.
-
-\item If the operator \texttt{stackOp} on top of the operator stack needs to be evaluated before the operator
+      If the operator \texttt{stackOp} on top of the operator stack needs to be evaluated before the operator
       \texttt{nextOp}, we evaluate \texttt{stackOp} using the method \texttt{popAndEvaluate()}.
       Furthermore, the operator \texttt{nextOp} is put back on the token stack 
-      as it has not been consumed.
-\item Otherwise, \texttt{nextOp} is put on the operator stack.
+      as it has not been consumed.  As this is the same thing that happens when 
+      the token \texttt{nextOp} is a closing parenthesis, we have combined these two cases.
+\item Otherwise, \texttt{nextOp} is put on the operator stack as we need to evaluate it before we evaluate
+      \texttt{stackOp}.
 
       The \texttt{while} loop ends when the token stack gets empty.
 \item Finally, the operators remaining on the operator stack are evaluated using
@@ -866,7 +909,7 @@ Figure \ref{fig:Calculator.py}.
       then at the end of the computation there should be one number left on the argument stack.
       This number is the result of the evaluation and hence it is returned.
 \end{enumerate}
-
+\pagebreak
 
 \exercise
 In the following exercise, your task is to extend the program for evaluating arithmetic expressions in three steps.
@@ -877,20 +920,14 @@ In the following exercise, your task is to extend the program for evaluating ari
       \hspace*{1.3cm}
       \texttt{sqrt}, \texttt{exp}, and \texttt{log}.
 \item Extend the given program so that the arithmetic expressions may also contain 
-      the strings ``\texttt{e}'' and ``\texttt{Pi}'', where ``\texttt{e}'' stands for 
+      the strings ``\texttt{e}'' and ``\texttt{pi}'', where ``\texttt{e}'' stands for 
       \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{Euler's number} 
-      while ``\texttt{Pi}'' stands for the mathematical constant
+      while ``\texttt{pi}'' stands for the mathematical constant
       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
       circle to its diameter. 
 
-      Note that these constants can be accessed in \textsl{Python} via the function \texttt{mathConst}.
-      For example, the function calls
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      \texttt{mathConst(\symbol{34}e\symbol{34})} \quad and \quad
-      \texttt{mathConst(\symbol{34}Pi\symbol{34})} 
-      \\[0.2cm]
-      yield the result $2.718281828459045$ and $3.141592653589793$ respectively.
+      Note that these constants can be accessed in \textsl{Python} via the expressions \texttt{math.e}
+      and \texttt{math.pi} provided the module \texttt{math} has been imported.
 \item Extend the program so that it can be used to calculate a zero for a given function in a given
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
       \eox
@@ -955,6 +992,16 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        \end{enumerate}
  \end{enumerate}
 
+\section{Check Your Understanding}
+If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
+introduced in this chapter.
+\begin{enumerate}
+\item Explain the conceptual idea that underlies \emph{abstract data types}.
+\item How have we defined the concept of an \emph{abstract data type} formally?
+\item Can you give the formal definition of the abstract data type \textsl{Stack}?
+\item How does the shunting-yard algorithm work?
+\item What is the benefit of using abstract data types?b
+\end{enumerate}
 
 
 
