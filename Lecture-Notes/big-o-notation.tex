@@ -1518,7 +1518,9 @@ exists and is greater than $0$.
 \section{Recurrence Relations}
 In some cases knowing the growth rate of a function is not sufficient.  Rather, we want to be able to compute
 the growth rate exactly.  If the growth rate to be computed results from the complexity analysis of a recursive
-algorithm, the growth rate is often defined via a \href{https://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}.
+algorithm, the growth rate is often defined via a
+\href{https://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}.  In the literature,
+\emph{recurrence relations} are also known as \blue{difference equations}\index{difference equation}.
 In this section we discuss a simple program whose complexity analysis leads to a recurrence relation for the 
 number of additions.  We will then see how this recurrence relation can be solved explicitly.  The program that
 we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\texttt{fib}(n)$ computes the
@@ -1790,7 +1792,7 @@ We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$
 This leads to the following system of linear equations:
 \\[0.2cm]
 \hspace*{1.3cm}
-$d = \alpha$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda$.
+$d = \alpha + \gamma$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$.
 \\[0.2cm]
 These are again two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
 $\beta$, the solution of the recurrence relation is now given as
@@ -1811,6 +1813,11 @@ $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
 Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
 contains a detailed description of several variants of the big $\Oh$ notation, while
 chapter 4 gives a more general version of the master theorem together with a detailed proof.
+
+The book ``\blue{Calculus of Finite Differences and Difference Equations}'' by Murray R.~Spiegel
+\cite{spiegel:1971} covers difference equations in much more detail than I was able to cover in my lecture.
+Furthermore, this book contains a large number of both solved and unsolved exercises concerning
+\blue{difference equations}. 
 
 \section{Check Your Understanding}
 If you are able to answer the questions below confidently, then you should have mastered the concepts

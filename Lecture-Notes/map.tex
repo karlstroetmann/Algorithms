@@ -9,7 +9,7 @@ reason is that a set $M$ can always be represented by its \blue{characteristic f
 a set, then the characteristic function $\chi_M$ is defined such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$x \in M \Leftrightarrow \chi_M(x) = \mathtt{true}$
+$x \in M \Leftrightarrow \chi_M(x) = \mathtt{True}$
 \\[0.2cm]
 holds true.  In order to implement a set $M$ we can therefore implement its characteristic function
 as a map.  The rest of this chapter is organized as follows:
@@ -26,8 +26,9 @@ as a map.  The rest of this chapter is organized as follows:
 \item After that, we discuss so called \blue{tries}.  These can be used as maps if the keys to be
       stored in the map are \blue{strings}.
 \item Finally, we discuss \blue{hash tables}.  Hash tables provide another way to implement a map.
-      Although I personally think that hash tables are a bit overrated, they are in wide spread use
-      and therefore every computer scientist should have a good understanding of their inner workings.
+      Hash tables are in wide spread use.  For example, in \textsl{Python} sets and dictionaries are
+      implemented via hash tables.  Therefore, every computer scientist should have a good understanding of
+      their inner workings. 
 \end{enumerate}
 
 \section{The Abstract Data Type \blue{Map}} 
