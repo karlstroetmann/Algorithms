@@ -661,24 +661,118 @@ member variables.
 \item \texttt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
       are represented as strings.
 \end{enumerate}
-Considering the previous example we realize that the numbers appearing in the input tokens are always put onto the argument stack,
-while there are two cases for the operator symbols that are part of the input tokens:
+In order to implement the shunting-yard algorithm we need a number of auxiliary functions.
+We start with the function \texttt{precedence} shown in Figure \ref{fig:precedence}.
+Given an operator $o$, the expression $\texttt{precedence}(o)$ returns the \blue{precedence} of the operator
+$o$.  An example will illustrate the concept of \blue{operator precedence}:  The expression $1 + 2 * 3$
+is evaluated in the same way as the expression $1 + (2*3)$ and not as the expression $(1+2)*3$ because the
+precedence of the operator ``$*$'' is higher than the precedence of the operator ``$+$''.
+In general we have the following:
+If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\texttt{o}_1$ is at least as high than the 
+\emph{precedence} of $\texttt{o}_2$, then the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$ \quad should be evaluated as \quad
+$(a \;\texttt{o}_1\; b) \;\texttt{o}_2\; c$.
+\\[0.2cm]
+on the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
+expression $a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$ should be evaluated as  $a \;\texttt{o}_1\; (b
+\;\texttt{o}_2\; c)$.  
+The precedences of the arithmetical operators are shown in Table \ref{tab:precedence}.
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.3cm,
+                 xrightmargin  = 0.3cm,
+               ]{python3}
+    def precedence(o):
+        Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
+        return Precedence[o]
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The function \texttt{precedence}.}
+\label{fig:precedence}
+\end{figure}
+
+
+\begin{table}[!ht]
+  \centering
+    \begin{tabular}{|c|c|}
+    \hline
+      Operator & Precedence \\
+    \hline\hline
+      \texttt{+}, \texttt{-} & 1 \\
+    \hline
+      \texttt{*}, \texttt{/} & 2 \\
+    \hline
+      \texttt{**}           & 3 \\
+    \hline
+    \end{tabular}
+  \caption{The precedences of the arithmetical operators.}
+  \label{tab:precedence}
+\end{table}
+
+The expression $\texttt{isLeftAssociative}(o)$ is \texttt{True} iff the operator $o$ 
+\blue{associates} to the left, i.e.~an expression of the form $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
+is evaluated as  $(x \;\mathtt{o}\; y) \;\mathtt{o}\; z$.  If $o$ \blue{associates} to the 
+right and the expression  $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
+is evaluated as  $x \;\mathtt{o}\; (y \;\mathtt{o}\; z)$, then $\texttt{isLeftAssociative}(o)$
+is \texttt{False}.  From the arithmetical operators that we consider, only the power operator ``\texttt{**}'' 
+associates to the right, i.e.~the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$x \mathtt{**} y \mathtt{**} z$ \quad is evaluated as \quad $x \mathtt{**} (y \mathtt{**} z)$.
+\\[0.2cm]
+The operators 
+``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', and ``\texttt{\%}'' 
+all associate to the left.  For example, the expression
+$x - y - z$ is evaluated as $(x - y) - z$.
+Figure \ref{fig:isLeftAssociative} shows the implementation of the function \texttt{isLeftAssociative}.
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                 framesep      = 0.3cm, 
+                 firstnumber   = 1,
+                 bgcolor       = sepia,
+                 numbers       = left,
+                 numbersep     = -0.2cm,
+                 xleftmargin   = 0.8cm,
+                 xrightmargin  = 0.8cm,
+               ]{python3}
+    def isLeftAssociative(o):
+        if o in { '+', '-', '*', '/', '%' }:
+            return True
+        if o in { '**' }:
+            return False
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The function \texttt{isLeftAssociative}.}
+\label{fig:isLeftAssociative}
+\end{figure}
+The next auxiliary function we discuss is the function \texttt{evalBefore}.  This function is called with two
+operators as arguments.  The expression $\texttt{evalBefore}(o_1, o_2)$ is \texttt{True}
+if the operator $o_1$ should be evaluated before the operator $o_2$ in an arithmetical expression of the form
+$a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
+as the expression $(a \;\texttt{o}_1\; b) \;\texttt{o}_2\; c$.  In order to determine whether $o_1$ should be
+evaluated before $o_2$ we have to take both the precedence and the associativity of the operators $o_1$ and $o_2$ into
+consideration.   The precise behaviour of the function \texttt{evaluated} is specified by the following rules:
 \begin{enumerate}
-\item We have to put an operator retrieved from the token stack onto the operator stack in all of the following cases:
-      \begin{enumerate}
-      \item The operator stack is empty.
-      \item The operator on top of the operator stack is an opening parenthesis \texttt{\symbol{34}(\symbol{34}}. 
-      \item The operator from the token stack has a higher precedence than the operator that is currently on top of the
-            operator stack.
-      \item The operator from the token stack is the same operator as the operator that is on top of the operator stack and, furthermore,
-            this operator associates to the right.
-      \end{enumerate}
-\item In all other cases, the operator that has been taken from the token stack is put back onto the
-      token stack.  In this case, the operator on top of the operator stack is removed from the
-      operator stack and, furthermore, the arguments of this operator are removed from the argument
-      stack.  Next, this operator is evaluated using the arguments that have been previously removed
-      from the argument stack.   The number resulting from this evaluation is then pushed onto the argument stack.
+\item $\texttt{precedence}(o_1) > \texttt{precedence}(o_2) \rightarrow 
+      \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{True}$,
+\item $o_1 = o_2 \rightarrow \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{isLeftAssociative}(o_1)$,
+\item $\texttt{precedence}(o_1) = \texttt{precedence}(o_2) \wedge o_1 \not= o_2 \rightarrow 
+       \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{True}$,
+\item $\texttt{precedence}(o_1) < \texttt{precedence}(o_2) \rightarrow 
+       \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{False}$.
 \end{enumerate}
+The implementation of \texttt{evalBefore} is shown in Figure \ref{fig:evalBefore}.
 
 \begin{figure}[!ht]
 \centering
@@ -692,17 +786,13 @@ while there are two cases for the operator symbols that are part of the input to
                  xrightmargin  = 0.0cm,
                ]{python3}
     def evalBefore(stackOp, nextOp):
-        if stackOp == '(':
-            return False
-        Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
-        if Precedence[stackOp] > Precedence[nextOp]:
+        if precedence(stackOp) > precedence(nextOp):
             return True
-        elif Precedence[stackOp] == Precedence[nextOp]:
-            if stackOp == nextOp:
-                return stackOp in { '+', '-', '*', '/', '%' }
-            else:
-                return True
-        else:
+        if stackOp == nextOp:
+            return isLeftAssociative(stackOp)
+        if precedence(stackOp) == precedence(nextOp) and stackOp != nextOp:
+            return True
+        if precedence(stackOp) < precedence(nextOp):
             return False
 \end{minted}
 \vspace*{-0.3cm}
@@ -710,8 +800,20 @@ while there are two cases for the operator symbols that are part of the input to
 \label{fig:evalBefore}
 \end{figure}
 
+Now we are ready to define the class \texttt{Calculator} that we will use to implement the shunting-yard
+algorithm.  The outline of this class is shown in Figure \ref{fig:Calculator.ipynb} on page
+\pageref{fig:Calculator.ipynb}.  The class contains three member variables:
+\begin{enumerate}
+\item \texttt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
+      read by the tokenizer onto this stack.  As the list of tokens is reversed in the method
+      \texttt{createStack}, the token that has been read first is on top of the stack.
+\item \texttt{mOperators} is the operator stack.  Initially this stack is empty.
+\item \texttt{mArguments} is the argument stack.  Initially this stack is empty.
+\end{enumerate}
+Furthermore, the class defines the method \texttt{evaluate} and the method \texttt{popAndEvaluate}.
+The implementation of these methods is given later.
 
-\begin{figure}[!b]
+\begin{figure}[!ht]
   \centering
 \begin{minted}[ frame         = lines, 
                 framesep      = 0.3cm, 
@@ -727,189 +829,229 @@ while there are two cases for the operator symbols that are part of the input to
             self.mOperators = stack.Stack()
             self.mArguments = stack.Stack()
     
-        def evaluate(self):
-            while not self.mTokens.isEmpty():
-                nextOp = self.mTokens.top(); self.mTokens.pop()
-                if isinstance(nextOp, int):
-                    self.mArguments.push(nextOp)
-                    continue
-                if self.mOperators.isEmpty() or nextOp == "(":
-                    self.mOperators.push(nextOp)
-                    continue
-                stackOp = self.mOperators.top()
-                if stackOp == "(" and nextOp == ")":
-                    self.mOperators.pop()
-                elif nextOp == ")" or evalBefore(stackOp, nextOp):
-                    self.popAndEvaluate()
-                    self.mTokens.push(nextOp)
-                else:
-                    self.mOperators.push(nextOp)
-            while not self.mOperators.isEmpty():
-                self.popAndEvaluate()
-            return self.mArguments.top()
-    
-        def popAndEvaluate(self):
-            rhs = self.mArguments.top(); self.mArguments.pop()
-            lhs = self.mArguments.top(); self.mArguments.pop()
-            op  = self.mOperators.top(); self.mOperators.pop()
-            result = None
-            if op == '+':
-                result = lhs + rhs
-            if op == '-':
-                result = lhs - rhs
-            if op == '*':
-                result = lhs * rhs
-            if op == '/':
-                result = lhs // rhs
-            if op == '%':
-                result = lhs % rhs
-            if op == '**':
-                result = lhs ** rhs
-            self.mArguments.push(result)            
+        def evaluate(self): ...
+
+        def popAndEvaluate(self): ...
 \end{minted}
 \vspace*{-0.3cm}
   \caption{The class \texttt{Calculator}.}
-  \label{fig:Calculator.py}
+  \label{fig:Calculator.ipynb}
 \end{figure} 
- 
 
-\noindent
-An implementation of this algorithm in \textsl{Python} is shown in  Figure
-\ref{fig:Calculator.py} on page \pageref{fig:Calculator.py}.
-We start our discussion of the class \texttt{calculator} by inspecting the function
-\texttt{evalBefore} that is shown in Figure \ref{fig:evalBefore}.
-This function takes two operators \texttt{stackOp} and \texttt{nextOp} and decides
-whether \texttt{stackOp} should be evaluated before \texttt{nextOp}.  Of course, \texttt{stackOp} is
-intended to be the operator on top of the operator stack, while \texttt{nextOp} is an operator that
-is on top of the token stack.
-In order to decide whether the operator \texttt{stackOp} should be evaluated before the operator
-\texttt{nextOp},  we first have to know the \blue{precedences} of these operators.  Here, a
-\blue{precedence} is a natural number that specifies how strong the operator binds to its
-arguments. Table \ref{tab:predence} on page \pageref{tab:predence} lists the precedences of our
-operators.  This table is coded as the binary relation \texttt{Precedence} in line 4.
+The heart of the shunting-yard algorithm is the method evaluate.
+The function $\texttt{evaluate}(\texttt{self})$ evaluates the expression that is given by the tokens on the
+token stack.  It proceeds in are two phases:
+\begin{enumerate}
+\item The first phase is the \blue{reading phase}. In this phase
+      the tokens are removed from the token stack and distributed to both the argument stack and the operator
+      stack.  Furthermore, some operators are already evaluated in this phase.
+\item The second phase is the \blue{evaluation phase}.  In this phase,
+      the  operators on the operator stack are evaluated.  
+\end{enumerate}
+The easiest way to describe what happens in the \emph{reading phase} via
+\blue{rewrite rules} that describe how the three stacks \texttt{mTokens}, \texttt{mArguments} and \texttt{mOperators}
+are changed in each \blue{step} of the algorithm.  Here, a \emph{step} consists of those actions that happen
+once a single token has been removed from the token stack.
+The \blue{rewrite rules} listed below are executed until the token stack is empty.
+\begin{enumerate}
+\item If the token on top of the token stack is an integer, it is removed from the token stack and pushed onto
+      the argument stack.  The operator stack remains unchanged in this case.
+      This behaviour is captured by the following rewrite rule:
+      $$\begin{array}{lcll}
+          \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{token} ] & \wedge & \\
+          \texttt{isInteger}(\texttt{token}) & \Rightarrow  \\[0.2cm]
+                   \texttt{mArguments}' = \texttt{mArguments} + [\texttt{token}] & \wedge \\
+                   \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
+                   \texttt{mOperators}' = \texttt{mOperators}
+       \end{array} 
+     $$
+      Here, the primed variable $\texttt{mArguments}'$ refers to the argument stack after \texttt{token} 
+      has been pushed onto it.  Similarly, $\mathtt{mTokens}'$ refers to the state of the token stack after the
+      rule has been executed and $\mathtt{mOperators}'$ refers to the operator stack after the rule has been executed.
+   
+      In the following rules we implicitly assume that the token $\texttt{nextOp}$ is not an integer but rather a parenthesis
+      or a proper operator.  In order to be more concise, we suppress this condition from the following rewrite rules.
+\item If the operator stack is empty, the next token is pushed onto the operator stack.
+    $$\begin{array}{lc}
+        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{op} ] & \wedge \\
+        \texttt{mOperators} = []                                 & \Rightarrow \\[0.2cm]
+        \texttt{mOperators}' = \texttt{mOperators} + [\texttt{op}] & \wedge \\
+        \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
+        \texttt{mArguments}' = \texttt{mArguments} 
+        \end{array} 
+      $$
+\item If the next token is an opening parenthesis, this parenthesis token is pushed onto the operator stack.
+     $$\begin{array}{lcll}
+         \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{'('} ] & \Rightarrow \\[0.2cm]
+         \texttt{mOperators}' = \texttt{mOperators} + [\texttt{'('}] & \wedge \\
+         \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
+         \texttt{mArguments}' = \texttt{mArguments} 
+         \end{array} 
+      $$
+\item If the next token is a closing parenthesis and the operator on top of the operator stack is an opening
+      parenthesis, then both parentheses are removed from the stacks where they occur.
+     $$\begin{array}{lc}
+         \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{')'}] & \wedge \\
+         \texttt{mOperators} = \texttt{mOperatorsRest} + [\texttt{'('}] & \Rightarrow \\[0.2cm]
+         \texttt{mOperators}' = \texttt{mOperatorsRest} & \wedge \\
+         \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
+         \texttt{mArguments}' = \texttt{mArguments} 
+         \end{array} 
+      $$
+\item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
+      opening parenthesis,  the operator on top of the operator stack is evaluated.  Note that the token stack
+      is not changed in this case. 
+    $$\begin{array}{lc}
+        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{')'} ] & \wedge \\
+        \texttt{mOperators} = \texttt{mOperatorsRest} + [\texttt{op}] & \wedge \\
+        \texttt{op} \not= \texttt{'('} & \wedge \\
+        \texttt{mArguments} = \texttt{mArgumentsRest} + [\texttt{lhs}, \texttt{rhs}] & \Rightarrow \\[0.2cm]
+        \texttt{mOperators}' = \texttt{mOperatorsRest} & \wedge \\
+        \texttt{mTokens}' = \texttt{mTokens} & \wedge \\
+        \texttt{mArguments}' = \texttt{mArgumentsRest} + [\texttt{lhs} \;\texttt{op}\; \texttt{rhs}]
+        \end{array} 
+      $$
+      Here, the expression $\texttt{lhs} \;\texttt{op}\; \texttt{rhs}$ denotes evaluating the operator $\texttt{op}$ with the arguments
+      $\texttt{lhs}$ and $\texttt{rhs}$.
+\item If the token on top of the operator stack is an opening parenthesis, then the operator on top of the token stack
+      is pushed onto the operator stack.
+    $$\begin{array}{lc}
+        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{op}] & \wedge \\
+        \texttt{op} \not= \texttt{')'}                          & \wedge \\
+        \mathtt{mOperators} = \texttt{mOperatorsRest} + [\texttt{'('}] & \Rightarrow \\[0.2cm]
+        \texttt{mOperators}' = \texttt{mOperators} + [\texttt{op}] & \wedge \\
+        \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
+        \texttt{mArguments}' = \texttt{mArguments}
+        \end{array} 
+      $$
+   
+      In the remaining cases neither the token on top of the token stack nor the operator on top of the
+      operator stack can be a parenthesis.  The following rules will implicitly assume that this is the case.
+\item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
+      the operator on top of the operator stack is evaluated.
+    $$\begin{array}{lc}
+        \texttt{mTokens} = \texttt{mTokensRest} + [o_2]                                        & \wedge \\
+        \texttt{mOperators} = \texttt{mOperatorsRest} + [o_1]                                  & \wedge \\
+        \texttt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
+        \texttt{mArguments} = \texttt{mArgumentsRest} + [\texttt{lhs}, \texttt{rhs}]           & \Rightarrow \\[0.2cm]
+        \texttt{mOperators}' = \texttt{mOperatorRest}                                          & \wedge \\
+        \texttt{mTokens}' = \texttt{mTokens}                                                   & \wedge \\
+        \texttt{mArguments}' = \texttt{mArgumentsRest} + [\texttt{lhs} \;o_1\; \texttt{rhs}]
+        \end{array} 
+      $$
+\item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
+     $$\begin{array}{lc}
+         \texttt{mTokens} = \texttt{mTokensRest} + [o_2]           & \wedge \\
+         \texttt{mOperators} = \texttt{mOperatorsRest} + [o_1]     & \wedge \\
+         \neg \texttt{evalBefore}(o_1, o_2)                        & \Rightarrow \\[0.2cm]
+        \texttt{mOperators}' = \texttt{mOperators} + [o_2]         & \wedge \\
+        \texttt{mTokens}' = \texttt{mTokensRest}                   & \wedge \\
+        \texttt{mArguments}' = \texttt{mArguments}
+        \end{array} 
+      $$
+\end{enumerate}
+After the reading phase, we evaluate the remaining operators.  In every step of this evaluation phase we   
+\begin{enumerate}
+\item remove one operator from the operator stack, 
+\item remove its arguments from the argument stack, 
+\item evaluate the operator, and 
+\item push the result back on the argument stack. 
+\end{enumerate}
+The implementation of the method \texttt{evaluate} is shown in Figure \ref{fig:evaluate} on page \pageref{fig:evaluate}.
 
-\begin{table}[!h]
+\begin{figure}[!ht]
   \centering
-\framebox{
-  \begin{tabular}{|r|r|}
-\hline
-   Operator             & Precedence  \\
-\hline
-\hline
-   \texttt{\symbol{34}+\symbol{34}}, \texttt{\symbol{34}-\symbol{34}}  & 1   \\
-\hline
-   \texttt{\symbol{34}*\symbol{34}}, \texttt{\symbol{34}/\symbol{34}}, \texttt{\symbol{34}\symbol{37}\symbol{34}}  & 2   \\
-\hline
-   \texttt{\symbol{34}**\symbol{34}}  & 3   \\
-\hline
-  \end{tabular}}
-  \caption{Precedences of the operators.}
-  \label{tab:predence}
-\end{table}
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
+              ]{python3}
+    def evaluate(self):
+        while not self.mTokens.isEmpty():
+            nextOp = self.mTokens.top(); self.mTokens.pop()
+            if isinstance(nextOp, int):
+                self.mArguments.push(nextOp)
+                continue
+            if self.mOperators.isEmpty():
+                self.mOperators.push(nextOp)
+                continue
+            if nextOp == "(":
+                self.mOperators.push(nextOp)
+                continue
+            stackOp = self.mOperators.top()
+            if stackOp == "(" and nextOp == ")":
+                self.mOperators.pop()
+                continue
+            if nextOp == ")":
+                self.popAndEvaluate()
+                self.mTokens.push(nextOp)
+                continue
+            if stackOp == '(':
+                self.mOperators.push(nextOp)
+                continue
+            if evalBefore(stackOp, nextOp):
+                self.popAndEvaluate()
+                self.mTokens.push(nextOp)
+            else:
+                self.mOperators.push(nextOp)
+        while not self.mOperators.isEmpty():
+            self.popAndEvaluate()
+        return self.mArguments.top()
+\end{minted}
+\vspace*{-0.3cm}
+  \caption{The method \texttt{evaluate}.}
+  \label{fig:evaluate}
+\end{figure} 
 
-If the precedence of \texttt{stackOp} is bigger than the precedence of \texttt{nextOp}, then we have
-to evaluate \texttt{stackOp} before we evaluate \texttt{nextOp}.  On the other hand, if the precedence
-of \texttt{stackOp} is smaller than the precedence of \texttt{nextOp}, then we have to push
-\texttt{nextOp} onto the operator stack as we have to evaluate this operator before we evaluate \texttt{stackOp}.
-If \texttt{stackOp} and \texttt{nextOp} have the same precedence, there are two cases:
-\begin{enumerate}
-\item $\texttt{stackOp} \not= \texttt{nextOp}$.
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def popAndEvaluate(self):
+        rhs = self.mArguments.top(); self.mArguments.pop()
+        lhs = self.mArguments.top(); self.mArguments.pop()
+        op  = self.mOperators.top(); self.mOperators.pop()
+        result = None
+        if op == '+':
+            result = lhs + rhs
+        if op == '-':
+            result = lhs - rhs
+        if op == '*':
+            result = lhs * rhs
+        if op == '/':
+            result = lhs // rhs
+        if op == '%':
+            result = lhs % rhs
+        if op == '**':
+            result = lhs ** rhs
+        self.mArguments.push(result)                
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The method \texttt{popAndEvaluate}.}
+\label{fig:popAndEvaluate}
+\end{figure}
 
-      Let us consider an example:  The arithmetic expression 
-      \\[0.2cm]
-      \hspace*{1.3cm} 
-      \texttt{2 + 3 - 4} \quad is processed as \quad \texttt{(2 + 3) - 4}. 
-      \\[0.2cm]
-      Therefore, in this case we have to evaluate \texttt{stackOp} first.
-\item $\texttt{op1} = \texttt{op2}$.
-
-      In this case we have to consider the \blue{associativity} of the operator.
-      Let us consider two examples: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{2 + 3 + 4} \quad is interpreted as \quad \texttt{(2 + 3) + 4}. \\[0.2cm]
-      The reason is that the operator ``\texttt{+}'' \blue{associates to the left}.
-      On the other hand, \\[0.2cm]
-      \hspace*{1.3cm} 
-      \texttt{2 \texttt{**} 3 \texttt{**} 4}  \quad is interpreted as \quad \texttt{2 \texttt{**} (3 \texttt{**} 4)}
-      \\[0.2cm]
-      because the operator ``\texttt{**}'' \blue{associates to the right}.
-
-      The operators ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'' and 
-      ``\texttt{\symbol{37}}'' are all left associative.  Hence, in this case \texttt{stackOp} is
-      evaluated before \texttt{nextOp}.
-      The operator ``\texttt{**}'' associates to the right. Therefore, if
-      the operator on top of the operator stack is the operator ``\texttt{**}'' and then this operator
-      is read again, then we have to push the  operator ``\texttt{**}'' on the operator stack.
-\end{enumerate}
-Now we can understand the implementation of $\texttt{evalBefore}(\texttt{stackOp},\texttt{nextOp})$.
-\begin{enumerate}
-\item If \texttt{stackOp} is the opening parenthesis \texttt{\symbol{34}(\symbol{34}}, we have to put
-      \texttt{nextOp} onto the operator stack.  The reason is that \texttt{\symbol{34}(\symbol{34}}
-      is no operator that can be evaluated.  Hence, we return \texttt{False} in line 3.
-\item If the precedence of \texttt{stackOp} is higher than the precedence of \texttt{nextOp}, we
-      return \texttt{True} in line 6.
-\item If the precedences of \texttt{stackOp} and \texttt{nextOp} are identical, there are two cases:
-      \begin{enumerate}
-      \item If both operators are equal, then the result of
-            \texttt{evalBefore(stackOp,nextOp)} is \texttt{True} if and only if
-            this operator associates to the left.  The operators that associate to the left are
-            listed in the set in line 9.
-      \item Otherwise, if \texttt{stackOp} is different from \texttt{nextOp}, then \\
-            \texttt{evalBefore(stackOp,nextOp)} returns \texttt{True}. 
-      \end{enumerate}
-\item If the precedence of \texttt{stackOp} is less than the precedence of \texttt{nextOp}, then 
-      $\texttt{evalBefore(stackOp,nextOp})$ returns \texttt{False}.
-\end{enumerate}
-Figure  \ref{fig:Calculator.py} on page \pageref{fig:Calculator.py} shows the
-implementation of the method \texttt{popAndEvaluate} in line 28.
-This method works as follows: 
-\begin{enumerate}
-\item It takes an operator from the operator stack (line 31), 
-\item it fetches the arguments of this operator from the argument stack (line 29 and 30),
-\item it evaluates the operator,  and
-\item finally puts the result back on top of the argument stack in line 45.
-\end{enumerate}
-Finally, we are ready to discuss the implementation of the method \texttt{evaluate} in line 7 of
-Figure \ref{fig:Calculator.py}.  
-
-\begin{enumerate}
-\item First, as long as the token stack is non-empty we take a token from the token stack.
-\item If this token is a number, then we put it on the argument stack and continue to read the next token.
-  
-      In the following code of the \texttt{while} loop that starts at line 13, we can assume that
-      the last token that has been read is either an operator symbol
-      or one of the parentheses \texttt{\symbol{34}(\symbol{34}} or \texttt{\symbol{34})\symbol{34}}. 
-\item If the operator stack is empty or if the token that has been read is an opening parenthesis
-      \texttt{\symbol{34}(\symbol{34}}, the operator or parenthesis is pushed onto the operator stack.
-\item If the  token that has been read as \texttt{nextOp} is a closing parenthesis 
-      \texttt{\symbol{34})\symbol{34}} and, furthermore, the operator on top of the operator stack is
-      an opening parenthesis \texttt{\symbol{34}(\symbol{34}}, then this parenthesis is removed from the
-      operator stack.
-\item If now in line 19 the token \texttt{nextOp} is a closing parenthesis
-      \texttt{\symbol{34})\symbol{34}}, then we know that the token on the operator stack
-      can't be an opening parenthesis but rather has to be an operator.
-      This operator is then evaluated using the method \texttt{popAndEvaluate()}.
-      Furthermore, the closing parenthesis \texttt{nextOp} is pushed back onto the
-      token stack as we have not yet found the matching open parenthesis.
-
-      After pushing the closing parenthesis back onto the token stack, we return to the beginning of
-      the \texttt{while} loop in line 8.  Hence, in this case we keep evaluating operators
-      on the operator stack until we hit an opening parenthesis on the operator stack.
-
-      If the operator \texttt{stackOp} on top of the operator stack needs to be evaluated before the operator
-      \texttt{nextOp}, we evaluate \texttt{stackOp} using the method \texttt{popAndEvaluate()}.
-      Furthermore, the operator \texttt{nextOp} is put back on the token stack 
-      as it has not been consumed.  As this is the same thing that happens when 
-      the token \texttt{nextOp} is a closing parenthesis, we have combined these two cases.
-\item Otherwise, \texttt{nextOp} is put on the operator stack as we need to evaluate it before we evaluate
-      \texttt{stackOp}.
-
-      The \texttt{while} loop ends when the token stack gets empty.
-\item Finally, the operators remaining on the operator stack are evaluated using
-      \texttt{popAndEvaluate}.  If the input has been a syntactically correct arithmetic expression,
-      then at the end of the computation there should be one number left on the argument stack.
-      This number is the result of the evaluation and hence it is returned.
-\end{enumerate}
-\pagebreak
+Finally, Figure \ref{fig:popAndEvaluate} on page \pageref{fig:popAndEvaluate} shows the implementation of the
+method \texttt{popAndEvaluate}.
+This method removes the two topmost numbers $\texttt{rhs}$ and $\texttt{lhs}$ from the argument stack and,
+furthermore, removes the topmost operator $\texttt{op}$ from the argument stack.  It applies the operator
+$\texttt{op}$ to these numbers 
+by computing the value 
+\\[0.2cm]
+\hspace*{1.3cm}
+$ \texttt{lhs} \;\texttt{op}\; \texttt{rhs} $
+\\[0.2cm]
+This value is then pushed onto the argument stack.
 
 \exercise
 In the following exercise, your task is to extend the program for evaluating arithmetic expressions in three steps.
@@ -930,9 +1072,12 @@ In the following exercise, your task is to extend the program for evaluating ari
       and \texttt{math.pi} provided the module \texttt{math} has been imported.
 \item Extend the program so that it can be used to calculate a zero for a given function in a given
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
-      \eox
 \end{enumerate}
-
+In \textsl{Python} there is the predefined function \texttt{eval} which can be used to evaluate a string
+containing an expressions.  Furthermore, \textsl{Python} has the predefined function \texttt{exec}, that can be
+used to execute a command given as a string.  Your program must not use either of these predefined functions,
+for otherwise the exercise would be next to trivial.
+\eox
 
 
 \section[Benefits of Abstract Data Types]{Benefits of Using Abstract Data Types}
