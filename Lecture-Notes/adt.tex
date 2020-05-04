@@ -32,7 +32,7 @@ where the meaning of the components is as follows:
       operations that are supported by this abstract data type. The function symbols itself are strings.
 \item $\textsl{Ts}$ is a set of \blue{type specifications}.  For every function symbol
       $f \in \textsl{Fs}$
-      the set $\textsl{Ts}$ contains a \blue{type specifications}\index{type specification} of the form 
+      the set $\textsl{Ts}$ contains a \blue{type specification}\index{type specification} of the form 
       \\[0.2cm]
       \hspace*{1.3cm} 
       $f: T_1 \times \cdots \times T_n \rightarrow S$. 
@@ -259,7 +259,7 @@ discussed next.
       in Figure \ref{fig:stack-array.stlx} is based on storing the elements of the stack in a
       \textsl{Python} list.  In \textsl{Python}, lists are internally implemented as arrays.  However,
       this is not the only way to implement a stack: A stack can also be implemented as a linked list.
-      We will see how to to this later.
+      We will see how to do this later.
 \item The rest of the class definition contains a number of function definitions.  Function defined inside
       a class are called \blue{methods}.  These methods are available in the class \texttt{Stack}.  For example,
       \\[0.2cm]
@@ -597,14 +597,14 @@ string into a list of numbers and operators. For example, the string \texttt{'1+
 \hspace*{1.3cm}
 $[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
 \\[0.2cm]
-The \blue{tokenization} of is achieved using the regular expression that is defined as
+The \blue{tokenization} is achieved by using the regular expression that is defined as
 \begin{verbatim}
     r'([0-9]+|\*\*|[()+*%/-])'
 \end{verbatim}
 This string is interpreted as follows:
 \begin{enumerate}[(a)]
 \item The ``\texttt{r}'' in front of the apostrophe ``\texttt{'}'' specifies that the regular expression is
-      defined as a blue{raw string}.  In a raw string the backslash does not have to be
+      defined as a \blue{raw string}.  In a raw string the backslash does not have to be
       escaped because it is treated as a literal character.
 \item The regular expression itself is divided into three parts.
       These parts are separated by the character ``\texttt{|}''.  This operator is interpreted as a logical or.
@@ -1074,7 +1074,7 @@ In the following exercise, your task is to extend the program for evaluating ari
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
 \end{enumerate}
 In \textsl{Python} there is the predefined function \texttt{eval} which can be used to evaluate a string
-containing an expressions.  Furthermore, \textsl{Python} has the predefined function \texttt{exec}, that can be
+containing an expression.  Furthermore, \textsl{Python} has the predefined function \texttt{exec}, that can be
 used to execute a command given as a string.  Your program must not use either of these predefined functions,
 for otherwise the exercise would be next to trivial.
 \eox
