@@ -197,53 +197,38 @@ characteristics:
 
       Unfortunately, the worst case occurs when the keys are inserted in sorted order.
 \end{enumerate}
-In order to define \blue{ordered binary trees} we introduce \blue{binary trees} first.
 
-\begin{Definition}[Binary Trees] \hspace*{\fill} \\
+\begin{Definition}[Ordered Binary Trees] \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
-  The set $\Bin$ of binary trees is defined inductively as the set of terms that is build using the
-  function symbols \texttt{Nil} and \texttt{Node}, where the signature of these function symbols is
-  given as follows: \\[0.2cm]
+  The set $\Bin$ of \blue{ordered binary trees}\index{ordered binary trees} is defined inductively as the set
+  of terms that is build using the function symbols \texttt{Nil} and \texttt{Node}, where the signature of
+  these function symbols is given as follows: \\[0.2cm]
   \hspace*{1.3cm} 
   $\texttt{Nil}: \Bin$ \qquad and \qquad  $\texttt{Node}: \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
   \begin{enumerate}
-  \item $\texttt{Nil}$ is a binary tree.
+  \item $\texttt{Nil}$ is an ordered binary tree.
 
         This tree is called the \blue{empty tree} since it does not store any information.
-  \item $\texttt{Node}(k, v, l, r)$ is a binary tree if the following holds true: 
-        \begin{enumerate}
-        \item $k$ is a key from the set $\textsl{Key}$.
-        \item $v$ is a value from the set $\textsl{Value}$.
-        \item $l$ is a binary tree.
-
-              $l$ is the  \blue{left subtree} of the tree $\texttt{Node}(k, v, l, r)$.
-        \item $r$ is a binary tree.
-
-              $r$ is the \blue{right subtree} of the tree $\texttt{Node}(k, v, l, r)$.
-              \eox
-        \end{enumerate}
-  \end{enumerate}
-\end{Definition}
-
-\noindent
-Next, we define the notion of an  \blue{ordered binary tree}.
-\begin{Definition}[Ordered Binary Tree] \hspace*{\fill} \\
-  The set $\Bin_<$ of all \blue{ordered binary trees} is defined inductively.
-  \begin{enumerate}
-  \item $\texttt{Nil} \in \Bin_<$
   \item $\texttt{Node}(k, v, l, r) \in \Bin_<$ \quad iff the following conditions hold:
         \begin{enumerate}
         \item $k$ is a key from the set $\textsl{Key}$.
         \item $v$ is a value from the set $\textsl{Value}$.
-        \item $l$ and $r$ are ordered binary trees.
+        \item $l$ is an ordered binary tree.
+
+              $l$ is the  \blue{left subtree} of the tree $\texttt{Node}(k, v, l, r)$.
+        \item $r$ is a ordered binary tree.
+
+              $r$ is the \blue{right subtree} of the tree $\texttt{Node}(k, v, l, r)$.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
         The last two conditions are known as the \blue{ordering conditions}.
         \eox
-  \end{enumerate}
+\end{enumerate}
 \end{Definition}
-Graphically, ordered binary trees are depicted as follows:
+
+\noindent
+We will depict ordered binary trees graphically as follows:
 \begin{enumerate}
 \item The empty tree \texttt{Nil} is either shown as a black circle or not shown at all.
 \item A binary tree of the form $\texttt{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
