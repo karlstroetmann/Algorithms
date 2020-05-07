@@ -15,7 +15,7 @@ In order to define these trees we need to define the \blue{height} of a binary t
 
 \begin{Definition}[AVL-Tree] \hspace*{\fill} \\
 {\em 
-  The set $\AVL$ of \blue{AVL trees} is defined inductively:
+  The set $\AVL$ of \blue{AVL trees}\index{AVL tree} is defined inductively:
   \begin{enumerate}
   \item $\texttt{Nil} \in \AVL$.
   \item $\texttt{Node}(k,v,l,r) \in \AVL$ \quad iff 
@@ -33,7 +33,8 @@ In order to define these trees we need to define the \blue{height} of a binary t
 }  
 \end{Definition}
 
-In order to implement AVL trees we can start from our implementation of ordered binary trees.
+In order to specify the methods \emph{$\texttt{find}$}, \emph{$\texttt{insert}$}, and \emph{$\texttt{delete}$} for AVL trees we
+adapt the recursive equations that we have used to define these functions for ordered binary trees.
 In addition to those methods that we have already seen in the class $\texttt{Map}$ we will need the method
 \\[0.2cm]
 \hspace*{1.3cm} $\texttt{restore}: \Bin_< \rightarrow \AVL$. 
@@ -629,7 +630,7 @@ Hence we have found the \href{https://en.wikipedia.org/wiki/Recurrence_relation}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
 This also validates our claim that $c_h$ does not depend on $k$.  Due to the presence of the number $1$ on the
-right hand side of this recurrence equation, this recurrence equation is a so called 
+right hand side of this recurrence equation, this recurrence equation is an 
 \blue{inhomogeneous recurrence equation}.  In order to solve this recurrence
 equation we first solve the corresponding \blue{homogeneous recurrence equation} 
 \\[0.2cm]
@@ -721,7 +722,7 @@ $\ds \beta  = -\frac{1}{\sqrt{5}} \cdot \lambda_2^2$.
 Therefore, $c_h$ is given by the following equation:
 \\[0.2cm]
 \hspace*{1.3cm}
-$c_h = \ds \frac{1}{\sqrt{5}} \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -1$.  
+$c_h = \ds \frac{1}{\sqrt{5}} \cdot \left( \lambda_1^{h+2} - \lambda_2^{h+2} \right) -1$.  
 \\[0.2cm]
 As we have  $|\lambda_2| < 1$, the value of  $\ds\lambda_2^{h+2}$ isn't important for big
 values of $h$.  Therefore, for big values of $h$, the minimal number  $n$ of keys in a tree of
