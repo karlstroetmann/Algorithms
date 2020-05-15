@@ -556,17 +556,17 @@ it can possibly be while still satisfying the definition of an AVL tree.  Hence 
 happens if the tree has a given height $h$ but the number of keys stored in the tree is as small as
 possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL tree that has the following three
 properties:
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item The height of $b_h(k)$ is $h$.
-\item The number of keys in $b_h(k)$ is minimal among all other AVL trees of height $h$.  
-\item All keys stored in  $b_h(k)$ are bigger than  $k$.  
+\item The number of keys stored in $b_h(k)$ is minimal among all other AVL trees of height $h$.  
+\item All keys stored in  $b_h(k)$ are natural number that are bigger than  $k$.
+
+      In order for the expression $b_h(k)$ to be clearly defined we demand that keys
+      in $b_h(k)$ are as small as possible.
 \end{enumerate}
-For our investigation of the
-complexity, both the keys and the values do not really matter.  The only problem is that we have to
-make sure that the tree $b_h(k)$ that we are going to construct in a moment is actually an ordered
-tree and for this reason we insist that all keys in $b_h(k)$ are bigger than $k$.  We will use
-natural numbers as keys, while all values will be $0$.
-Before we can actually present the definition of  $b_h(k)$ we need to define the auxiliary function
+For our investigation of the complexity, both the keys and the values do not really matter.  The only problem
+is that we have to ensure that the tree $b_h(k)$ is an ordered tree.
+Before we can present the definition of $b_h(k)$ we need to define the auxiliary function
  $\texttt{maxKey}()$.  This function has the signature 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -611,7 +611,7 @@ Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furth
 \hspace*{1.3cm}
 $c_h := \#\, b_h(k)$
 \\[0.2cm]
-to be the number of keys in the tree $b_h(k)$.  We will see immediately that 
+to be the number of keys in the tree $b_h(k)$.  We will soon see that 
 $\#\,b_h(k)$ does not depend on the number $k$ and therefore $c_h$ does not depend on $k$.  Starting
 from the definition of $b_h(k)$ we find the following equations for $c_h$:
 \begin{enumerate}
@@ -708,8 +708,19 @@ Solving this equation for $\alpha$ gives
 \hspace*{1.3cm}
 $2 - \lambda_2 = \alpha \cdot (\lambda_1 - \lambda_2)$
 \\[0.2cm]
-You can easily verify that $\lambda_1 - \lambda_2 = \sqrt{5}$ and $2 - \lambda_2 = \lambda_1^2$
-holds.  Hence, we have found
+Now it just so happens that $\lambda_1 - \lambda_2 = \sqrt{5}$ and, furthermore, $2 - \lambda_2 = \lambda_1^2$.
+We prove only the second claim, since the first is easy to verify.  We have the following
+chain of equivalences:
+$$
+\begin{array}{crcl}
+                  & 2 - \lambda_2 & = & \lambda_1^2            \\[0.2cm]
+  \Leftrightarrow & 2 - \lambda_2 & = & \lambda_1 + 1          \\[0.2cm]
+  \Leftrightarrow & 1             & = & \lambda_1 + \lambda_2  \\[0.2cm]
+  \Leftrightarrow & 1             & = &\frac{1}{2} \cdot (1 + \sqrt{5}) + \frac{1}{2} \cdot (1 - \sqrt{5}) 
+\end{array}
+$$
+Since the last equation is obviously true, the first is also true.
+Hence, we have found
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt{5}} \cdot \lambda_1^2$.
@@ -770,7 +781,7 @@ Figure
 
 \subsection{Improvements}
 In practice, 
-\href{https://en.wikipedia.org/wiki/Red-black_trees}{red-black trees} 
+\href{https://en.wikipedia.org/wiki/Red-black_trees}{red-black trees} \index{red-black tree}
 are slightly faster than \textsc{AVL} trees.  Similar to
 \textsc{AVL} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
@@ -783,7 +794,7 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 
 \exercise
 Instead of using AVL trees, another alternative to implement a map is to use 
-\href{https://en.wikipedia.org/wiki/2-3_tree}{2-3 trees}.  
+\href{https://en.wikipedia.org/wiki/2-3_tree}{2-3 trees}.  \index{2-3 tree}
 Below we describe a simplified version of these trees.  These trees do not store any values.  Hence, instead
 of implementing maps, these trees implement sets. They are built using the following constructors:
 \begin{enumerate}
@@ -927,13 +938,13 @@ strings.  In order to define tries formally we assume that the following is give
 \item $\varepsilon$ denotes the empty string.
 \item $\texttt{Value}$ is the set of all the values that can be associated with the keys.  
 \end{itemize}
-The set $\mathbb{T}$ of all tries is defined inductively using the constructor \\[0.2cm]
+The set $\mathbb{T}$ of all tries \index{trie} is defined inductively using the constructor \\[0.2cm]
 \hspace*{1.3cm} 
 $\texttt{Node}: \texttt{Value} \times \texttt{List}(\Sigma) \times
 \texttt{List}(\mathbb{T}) \rightarrow \mathbb{T}$. 
 \\[0.2cm]
-The inductive definition of the set $\mathbb{T}$ has only a single clause: If
-\begin{enumerate}
+The inductive definition of the set $\mathbb{T}$ \index{$\mathbb{T}$} has only a single clause: If
+\begin{enumerate}[(a)]
 \item $v \in \texttt{Value} \cup \{\Omega\}$,
 \item $C = [c_1, \cdots, c_n] \in \texttt{List}(\Sigma)$ is a list of different characters of length
       $n$ and,
@@ -1514,7 +1525,7 @@ These problems can be solved as follows:
       order of magnitude as the number of key-value pairs that we want to store in our dictionary.
 
       There is a simple way to adapt the function  $\texttt{code}$ so that its result is never bigger
-      than a given number $\texttt{size}$: If we define $\texttt{code}$ as
+      than a given number $\texttt{size}$: If we define the function $\texttt{code}$ as
       \\[0.2cm]
       \hspace*{1.3cm} 
       $\ds\texttt{code}(c_0c_1\cdots c_n) = \left(\sum\limits_{i=0}^n \texttt{ord}(c_i) \cdot
@@ -1557,7 +1568,7 @@ produces very big numbers.  In the programming language \texttt{C}, computing $1
 string that has more than five characters.  In \textsl{Python}, integers are only bounded by the size of the
 available memory and therefore overflow ist not a problem.  However, a computation
 involving numbers with hundreds of places is considerably slower than a computation that uses numbers that fit
-into a single memory word. Hence we should try to reorganize the computation that happens in equation
+into a single memory word. Hence we should try to reorganize the computation that takes place in equation
 (\ref{eq:hash1}).  This should be possible as the final result of $\texttt{hash\_code}(c_0c_1\cdots c_{k-1}, n)$
 is bounded by $n$.  In order to be able to reorganize this computation we need to discuss
 \href{https://en.wikipedia.org/wiki/Euclidean_division}{Euclidean division}.
@@ -1608,25 +1619,6 @@ In order to do this, assume that
 \item $0 \leq r_1 < n$ and $0 \leq r_2 < n$
 \end{enumerate}
 holds and prove that this implies both $q_1 = q_2$ as well as $r_1 = r_2$.  \eox
-
-\exercise
-The computational complexity of the implementation of the function call $\texttt{divide}(a)$ shown in Figure
-\ref{fig:Division-Naive.ipynb} is $\Oh(a)$.  The purpose of this exercise is to develop an implementation of
-Euclidean division that has the complexity $\Oh\bigl(\log_2(a)\bigr)$.  In order to do so, proceed as follows:
-\begin{enumerate}[(a)]
-\item Derive equations that show how $a \mdiv n$ is related to $(a \mdiv 2) \mdiv n$.
-      In order to arrive at these equations, it is necessary to make a case distinction whether $a$ is even or
-      odd. In each of these cases, there are two cases that must be dealt with because
-      $a \mdiv n$ is either $2 \cdot \bigl(a \mdiv 2) \mdiv n\bigr)$ or it is 
-      $2 \cdot \bigl((a \mdiv 2) \mdiv n\bigr) + 1$.
-\item Implement the equations that you have derived as a recursive program.  Your implementation is allowed to
-      use addition, subtraction, comparison, shift, and ``bitwise and'' operations, but using either the operator
-      ``\texttt{//}'' or the operator ``\texttt{\%}'' 
-      is, of course, forbidden.  Your implementation should not use floating point numbers.
-\item Compute the total number of shift operation that are performed when $\texttt{divide}(a, n)$ is computed
-      and $a$ is a power of $2$. \eox
-\end{enumerate}
-
 
 When computing a sum $(a + b) \mmod n$ and $b$ is a big number, the following theorem can be used to simplify
 the computation.
@@ -2031,6 +2023,31 @@ For example, in \textsl{Perl} \cite{Wall92}, maps are known as \blue{associative
 
 Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see an
 application of maps.
+
+\section{Check Your Understanding}
+If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
+introduced in this chapter.
+\begin{enumerate}
+\item How are sets related to maps?
+\item What is the definition of the abstract data type Map?
+\item Describe a practical application of the \textsc{Adt} Map.
+\item How is the set $\mathcal{B}$ of \emph{ordered binary trees} defined?
+\item How are the functions $\mathtt{find}$, $\mathtt{insert}$, and $\mathtt{delete}$ defined for ordered
+      binary trees?
+\item What is the average complexity of the function $\mathtt{find}$ for an ordered binary tree?
+      What is the worst case complexity?
+\item How is the set $\mathcal{A}$ of \textsc{Avl} trees defined?
+\item How did we define the function $\mathtt{restore}$ that is used to maintain the balancing condition
+      in \textsc{Avl} trees?
+\item What is the worst case complexity of \textsc{Avl} trees?
+\item When can we use tries to implement a map? How are tries defined?
+\item How are the functions $\mathtt{find}$, $\mathtt{insert}$, and $\mathtt{delete}$ defined for tries?
+\item How are binary tries defined?
+\item Define hash tables.
+\item How is the load factor of a hash table defined?
+      What happens if the load factor gets too big?
+\item Describe a simple method to compute the hash value of a string.
+\end{enumerate}
 
 %%% Local Variables: 
 %%% mode: latex

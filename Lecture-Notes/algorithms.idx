@@ -1,0 +1,74 @@
+\indexentry{complexity|hyperpage}{4}
+\indexentry{recurrence relation|hyperpage}{4}
+\indexentry{algorithm|hyperpage}{6}
+\indexentry{pseudo code|hyperpage}{6}
+\indexentry{exam|hyperpage}{7}
+\indexentry{$\mathbb{R}_+$|hyperpage}{10}
+\indexentry{$\mathbb{R}_+^\mathbb{N}$|hyperpage}{10}
+\indexentry{$\mathcal{O}(g)$|hyperpage}{10}
+\indexentry{binomial theorem|hyperpage}{13}
+\indexentry{reflexivity of big $\Oh$ notation|hyperpage}{13}
+\indexentry{transitivity of big $\mathcal{O}$ notation|hyperpage}{14}
+\indexentry{limit proposition|hyperpage}{15}
+\indexentry{computation of powers|hyperpage}{19}
+\indexentry{divide and conquer|hyperpage}{19}
+\indexentry{computational induction|hyperpage}{19}
+\indexentry{recurrence relation|hyperpage}{21}
+\indexentry{master theorem|hyperpage}{23}
+\indexentry{$\Omega(g)$|hyperpage}{27}
+\indexentry{$\Theta(g)$|hyperpage}{28}
+\indexentry{difference equation|hyperpage}{28}
+\indexentry{Fibonacci number|hyperpage}{28}
+\indexentry{linear inhomogeneous recurrence relation|hyperpage}{29}
+\indexentry{associated homogeneous recurrence relation|hyperpage}{29}
+\indexentry{special solution|hyperpage}{29}
+\indexentry{general solution|hyperpage}{29}
+\indexentry{linear inhomogeneous recurrence relation|hyperpage}{30}
+\indexentry{degenerated case, recurrence relation|hyperpage}{31}
+\indexentry{reflexive|hyperpage}{33}
+\indexentry{anti-symmetric|hyperpage}{33}
+\indexentry{transitive|hyperpage}{33}
+\indexentry{linear order|hyperpage}{33}
+\indexentry{partially ordered set|hyperpage}{33}
+\indexentry{linear order|hyperpage}{33}
+\indexentry{quasiorder|hyperpage}{34}
+\indexentry{linearity|hyperpage}{34}
+\indexentry{equivalence relation|hyperpage}{34}
+\indexentry{sorting problem|hyperpage}{34}
+\indexentry{sorted ascendingly|hyperpage}{34}
+\indexentry{duplicate elements|hyperpage}{35}
+\indexentry{insertion sort|hyperpage}{35}
+\indexentry{sorted descendingly|hyperpage}{36}
+\indexentry{selection sort|hyperpage}{37}
+\indexentry{merge sort|hyperpage}{39}
+\indexentry{Timsort|hyperpage}{45}
+\indexentry{dual pivot quicksort|hyperpage}{52}
+\indexentry{counting sort|hyperpage}{54}
+\indexentry{stable|hyperpage}{58}
+\indexentry{radix sort|hyperpage}{58}
+\indexentry{digit recognition|hyperpage}{59}
+\indexentry{handwritten digit recognition|hyperpage}{59}
+\indexentry{$k$ nearest neighbours algorithm|hyperpage}{59}
+\indexentry{pickle|hyperpage}{60}
+\indexentry{abstract data type|hyperpage}{64}
+\indexentry{type specification|hyperpage}{64}
+\indexentry{constructor|hyperpage}{65}
+\indexentry{method|hyperpage}{65}
+\indexentry{ADT|hyperpage}{65}
+\indexentry{stack|hyperpage}{65}
+\indexentry{Stack|hyperpage}{65}
+\indexentry{object oriented notation|hyperpage}{65}
+\indexentry{$\Omega$|hyperpage}{65}
+\indexentry{undefined value|hyperpage}{65}
+\indexentry{generator|hyperpage}{66}
+\indexentry{shunting-yard algorithm|hyperpage}{69}
+\indexentry{precedence|hyperpage}{70}
+\indexentry{associativity|hyperpage}{70}
+\indexentry{shunting-yard algorithm|hyperpage}{72}
+\indexentry{operator precedence parsing|hyperpage}{72}
+\indexentry{ordered binary trees|hyperpage}{83}
+\indexentry{AVL tree|hyperpage}{95}
+\indexentry{red-black tree|hyperpage}{106}
+\indexentry{2-3 tree|hyperpage}{106}
+\indexentry{trie|hyperpage}{109}
+\indexentry{$\mathbb{T}$|hyperpage}{109}

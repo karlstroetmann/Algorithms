@@ -1,5 +1,4 @@
 //Animation frame
-
 import java.io.*;
 import java.util.*;
 import java.awt.*;
@@ -44,7 +43,7 @@ public class OutputGUI extends JFrame {
 		//Initialize new Frame Attributes
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		GraphicPanel.setSize(mWidth,mHigh);
-		GraphicPanel.setBackground(Color.white);
+		GraphicPanel.setBackground(Color.yellow);
 		ControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 200,5));
 		ControlPanel.add(bRun);
 		ControlPanel.add(bStep);
