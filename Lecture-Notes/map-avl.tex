@@ -20,7 +20,7 @@ In order to define these trees we need to define the \blue{height} of a binary t
   \item $\texttt{Nil} \in \AVL$.
   \item $\texttt{Node}(k,v,l,r) \in \AVL$ \quad iff 
         \begin{enumerate}
-        \item $\texttt{Node}(k,v,l,r) \in \Bin_<$,
+        \item $\texttt{Node}(k,v,l,r) \in \Bin$,
         \item $l, r \in \AVL$, \quad and
         \item $|l.\texttt{height}() - r.\texttt{height}()| \leq 1$.
 
@@ -37,7 +37,7 @@ In order to specify the methods \emph{$\texttt{find}$}, \emph{$\texttt{insert}$}
 adapt the recursive equations that we have used to define these functions for ordered binary trees.
 In addition to those methods that we have already seen in the class $\texttt{Map}$ we will need the method
 \\[0.2cm]
-\hspace*{1.3cm} $\texttt{restore}: \Bin_< \rightarrow \AVL$. 
+\hspace*{1.3cm} $\texttt{restore}: \Bin \rightarrow \AVL$. 
 \\[0.2cm]
 This method is used to restore the balancing condition at a given node if it has been violated by
 either inserting or deleting an element.
@@ -570,7 +570,7 @@ Before we can present the definition of $b_h(k)$ we need to define the auxiliary
  $\texttt{maxKey}()$.  This function has the signature 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{maxKey}:\mathcal{B}_< \rightarrow \texttt{Key} \cup \{ \Omega \}$.
+$\texttt{maxKey}:\mathcal{B} \rightarrow \texttt{Key} \cup \{ \Omega \}$.
 \\[0.2cm]
 Given a non-empty ordered binary tree  $b$, the expression $b.\texttt{maxKey}()$ returns the biggest
 key stored in $b$.  The expression  $b.\texttt{maxKey}()$ is defined by induction on $b$:
@@ -857,11 +857,12 @@ $\texttt{Two}(\texttt{Two}(\texttt{Nil}, 1, \texttt{Nil}), 2, \texttt{Three}(\te
 In this case, the key 3 needs to be inserted to the left of the key 4.  This yields the temporary tree 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{Two}(\texttt{Two}(\texttt{Nil}, 1, \texttt{Nil}), 2, \texttt{Four}(\texttt{Nil}, 3, \texttt{Nil}, 4, \texttt{Nil}, 5, \texttt{Nil}))$.
+$\texttt{Two}(\texttt{Two}(\texttt{Nil}, 1, \texttt{Nil}), 2, \texttt{Four}(\texttt{Nil}, 3, \texttt{Nil}, 4, \texttt{Nil}, 5, \texttt{Nil}))$,
 \\[0.2cm]
+where the right subtree is the 4-node $\texttt{Four}(\texttt{Nil}, 3, \texttt{Nil}, 4, \texttt{Nil}, 5, \texttt{Nil})$.
 Since this is not a 2-3 tree, we need to lift the middle key 4 to its parent node.  This results in
 the new tree
-\\[-0.1cm]
+\\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{Three}(\texttt{Two}(\texttt{Nil}, 1, \texttt{Nil}), 2, \texttt{Two}(\texttt{Nil}, 3, \texttt{Nil}), 4, \texttt{Two}(\texttt{Nil}, 5, \texttt{Nil}))$.
 \\[0.2cm]
@@ -884,7 +885,8 @@ lifted up recursively to its parent.
             of the root.  It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
             Furthermore, the height of the tree $t.\mathtt{restore}()$ has to be the same as the height of the tree $t$.
       \item $t.\texttt{grow}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be the root
-            node of the tree.  It returns an equivalent 2-3 tree.
+            node of the tree.  It returns an equivalent 2-3 tree.  The height of this tree is either the same
+            as the height of $t$ or it is the height of $t$ plus $1$.
       \end{enumerate}
       Having defined these auxiliary functions, the function \texttt{insert} can then be computed as follows:
       \\[0.2cm]
