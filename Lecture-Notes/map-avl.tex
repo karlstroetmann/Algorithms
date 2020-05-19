@@ -917,8 +917,8 @@ Turing Award.
 
 \section{Tries}
 Often, the keys of a map are strings.  For example, when you search with 
-\href{https://www.google.com}{\raisebox{-4pt}{\epsfig{file=Abbildungen/google.eps, scale=0.1}}}, you are using
-a string as a key to lookup information that is stored in a gigantic map provided by \blue{Google}.
+\href{https://www.google.com}{\blue{G}\red{o}\orange{o}\blue{g}\green{l}\red{e}}, you are using
+a string as a key to lookup information that is stored in a gigantic map provided by Google.
 As another example, in an electronic phone book the keys are names and therefore strings.  
 There is a species of search trees that is particularly well adapted to the case that the keys are
 strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{tries}.  
@@ -1108,7 +1108,7 @@ is defined by induction on the length of  $w$.
 \item $\texttt{Node}(v,C,T).\texttt{delete}(\varepsilon) = \texttt{Node}(\Omega,C,T)$
 
       The value that is associated with the empty  string $\varepsilon$ is stored at the root of the
-      trie where is can be deleted without further ado.
+      trie where it can be deleted without further ado.
 \item $\begin{array}[t]{ll}
        t_i.\texttt{delete}(r).\texttt{isEmpty}()   & \rightarrow \\
        \texttt{Node}(v, [c_1,\cdots,c_i,\cdots,c_n],[t_1,\cdots,t_i,\cdots,t_n]).\texttt{delete}(c_ir) 
