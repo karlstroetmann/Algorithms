@@ -1136,7 +1136,7 @@ is defined by induction on the length of  $w$.
        is nothing to do:  The trie is left unchanged.
 \end{enumerate}
 
-\subsection{Additional Methods Supported by Tries}
+\subsection{String Completion}
 In addition to the functions specified in the abstract data type map, tries supports 
 \blue{string completion}\index{string completion}:  Given the prefix $p$ of a string $s$ that is known to be a
 member of some set $S$ of strings, we can efficiently find all strings in $S$ that start with the prefix $p$, provided we
@@ -1154,9 +1154,9 @@ Therefore we specify the semantics of the function $\texttt{allKeys}$ as follows
 \hspace*{1.3cm}
 $T.\texttt{allKeys}(p) = \{ p+w \mid w \in T \}$.
 \\[0.2cm]
-Here, $p+w$ denotes the concatenation of the strings $p$ and $w$ and the expression $w \in T$ is true iff  $T.\texttt{find}(w) \not= \Omega$.
-
-Given a trie $T$, the value $T.\texttt{allKeys}(p)$ is computed by induction on $T$.  There are two cases:
+Here, $p+w$ denotes the concatenation of the strings $p$ and $w$ and the expression $w \in T$ is true iff
+$T.\texttt{find}(w) \not= \Omega$.  The function \texttt{allKeys} has two arguments because this enables us to
+compute the value $T.\texttt{allKeys}(p)$ by induction on $T$.  There are two cases in this inductive definition: 
 \begin{enumerate}[(a)]
 \item $\texttt{Node}(\Omega, [c_1, \cdots, c_n], [t_1,\cdots,t_n]).\texttt{allKeys}(p) = 
        \bigcup\limits_{i=1}^n t_1.\texttt{allKeys}(p+c_i) 
@@ -1167,7 +1167,7 @@ Given a trie $T$, the value $T.\texttt{allKeys}(p)$ is computed by induction on 
       $.
 \end{enumerate}
 The function \texttt{allKeys} is useful in itself because if we call it with an empty string as the second
-argument, then it returns the set of all keys that are stored in the given trie.  The argument $p$ is needed
+argument, then it returns the set of all keys that are stored in the given trie.  The second argument is needed
 later when we implement string completion. 
 
 Next, we specify the auxiliary function \texttt{\_findSuffix} that has the following signature:
@@ -1176,13 +1176,14 @@ Next, we specify the auxiliary function \texttt{\_findSuffix} that has the follo
 $\texttt{\_findSuffix}: \mathbf{T} \times \Sigma^* \times \Sigma^* \rightarrow \texttt{Set}(\Sigma^*)$
 \\[0.2cm]
 Given a trie $T$, a string $s$, and a string $p$, it returns the set of all strings that are used as keys in $T$
-and, furthermore, have the prefix $s$.  Additionally, it replaces the prefix $s$ with $p$.  Therefore
+and, furthermore, have the prefix $s$.  Additionally, it replaces the prefix $s$ with the string $p$.  Therefore
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $T.\texttt{\_findSuffix}(s, p) = \bigl\{ p+r \mid s + r \in T \bigr\}$.
 \\[0.2cm]
-The function \texttt{\_findSuffix} can be implemented by induction with respect to its second argument:
+The second argument $p$ is needed in order to make the inductive definition of the function
+\texttt{\_findSuffix} work out.  This definition is given next:
 \begin{enumerate}[(a)]
 \item $T.\texttt{\_findSuffix}(\varepsilon, p) = T.\texttt{allKeys}(p)$,
 \item $\texttt{Node}\bigl(v, [c_1, \cdots, c_n], [t_1,\cdots,t_n]\bigr).\texttt{\_findSuffix}(c_ir, p) = 
@@ -1190,7 +1191,7 @@ The function \texttt{\_findSuffix} can be implemented by induction with respect 
       $,
 \item $c \not\in C\!s \rightarrow \texttt{Node}(v, C\!s, T\!s).\texttt{\_findSuffix}(cr, p) = \{\}$.
 \end{enumerate}
-We specify the function 
+Finally, we specify the function 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{findSuffix}:\mathbb{T} \times \Sigma^* \rightarrow \texttt{Set}(\Sigma^*)$
