@@ -264,7 +264,12 @@ returns the empty tree:
 \hspace*{1.3cm}
 $\texttt{map}() = \texttt{Nil}$. 
 \\[0.2cm]
-The  method $\texttt{find}()$ is specified as follows:
+The  method $\texttt{find}$ has the signature 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{find}:\mathcal{B} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{ \Omega \}$
+\\[0.2cm]
+and is specified as follows:
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{find}(k) = \Omega$,
 
@@ -281,8 +286,12 @@ The  method $\texttt{find}()$ is specified as follows:
       because if $k_1$ is greater than $k_2$, then any mapping for $k_1$ has to be stored in the right
       subtree  $r$.
 \end{enumerate}
-Next, we specify the method  \texttt{insert}.  The definition of \texttt{insert} is similar to the
-definition of the method  \texttt{find}.
+Next, we specify the method  \texttt{insert}.  The signature of \texttt{insert} is
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{insert}: \mathcal{B} \times \textsl{Key} \times \textsl{Value} \rightarrow \mathcal{B}$
+\\[0.2cm]
+and the definition of \texttt{insert} is given by the following equations.
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{insert}(k,v) = \texttt{Node}(k,v, \texttt{Nil}, \texttt{Nil})$,
   
@@ -302,7 +311,12 @@ definition of the method  \texttt{find}.
       If the key $k_1$, which is the key for which we want to store a value, is bigger than the key
       $k_2$ at the root, then we have to insert the information in the right subtree.
 \end{enumerate}
-Finally we specify the method  \texttt{delete}.  The specification of \texttt{delete} is more
+Finally we specify the method  \texttt{delete}.  The signature is
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{delete}: \mathcal{B} \times \textsl{Key} \rightarrow \mathcal{B}$.
+\\[0.2cm]
+The specification of \texttt{delete} is more
 difficult than the specification of \texttt{find} and \texttt{insert}.
 If there is a tree of the form $t =\texttt{Node}(k,v,l,r)$ and we want to delete the key $k$, then
 we have to check first whether either of the subtrees  $l$ or $r$ is empty.  If $l$ is empty,
@@ -335,8 +349,12 @@ shown in Figure \ref{fig:graph2} on page \pageref{fig:graph2}.
   \label{fig:graph2}
 \end{figure}
 
-Next, we specify the  method \texttt{delMin}.  The call $t.\texttt{delMin}()$ returns a triple.
-If 
+Next, we specify the  method \texttt{delMin}.  The signature is
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{delMin}:\mathcal{B} \rightarrow \mathcal{B} \times \textsl{Key} \times \textsl{Value}$.
+\\[0.2cm]
+Hence, the call $t.\texttt{delMin}()$ returns a triple: If 
 \\[0.2cm]
 \hspace*{1.3cm}
 $t.\texttt{delMin}() = (r,k,v)$,

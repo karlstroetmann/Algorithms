@@ -1159,7 +1159,7 @@ $T.\texttt{find}(w) \not= \Omega$.  The function \texttt{allKeys} has two argume
 compute the value $T.\texttt{allKeys}(p)$ by induction on $T$.  There are two cases in this inductive definition: 
 \begin{enumerate}[(a)]
 \item $\texttt{Node}(\Omega, [c_1, \cdots, c_n], [t_1,\cdots,t_n]).\texttt{allKeys}(p) = 
-       \bigcup\limits_{i=1}^n t_1.\texttt{allKeys}(p+c_i) 
+       \bigcup\limits_{i=1}^n t_i.\texttt{allKeys}(p+c_i) 
       $,
 \item $v \not= \Omega \rightarrow 
        \texttt{Node}(v, [c_1, \cdots, c_n], [t_1,\cdots,t_n]).\texttt{allKeys}(p) = 
