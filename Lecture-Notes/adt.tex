@@ -762,7 +762,7 @@ if the operator $o_1$ should be evaluated before the operator $o_2$ in an arithm
 $a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
 as the expression $(a \;\texttt{o}_1\; b) \;\texttt{o}_2\; c$.  In order to determine whether $o_1$ should be
 evaluated before $o_2$ we have to take both the precedence and the associativity of the operators $o_1$ and $o_2$ into
-consideration.   The precise behaviour of the function \texttt{evaluated} is specified by the following rules:
+consideration.   The precise behaviour of the function \texttt{evalBefore} is specified by the following rules:
 \begin{enumerate}
 \item $\texttt{precedence}(o_1) > \texttt{precedence}(o_2) \rightarrow 
       \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{True}$,
@@ -840,7 +840,7 @@ The implementation of these methods is given later.
 
 The heart of the shunting-yard algorithm is the method evaluate.
 The function $\texttt{evaluate}(\texttt{self})$ evaluates the expression that is given by the tokens on the
-token stack.  It proceeds in are two phases:
+token stack.  It proceeds in two phases:
 \begin{enumerate}
 \item The first phase is the \blue{reading phase}. In this phase
       the tokens are removed from the token stack and distributed to both the argument stack and the operator
