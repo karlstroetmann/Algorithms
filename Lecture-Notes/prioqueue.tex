@@ -33,7 +33,7 @@ restricted: We will only specify those functions that are needed to implement
 the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
 \hyperref[sec:huffman]{compression algorithm of Huffman}.
 
-\begin{Definition}[Priority Queue] \hspace*{\fill} \\
+\begin{Definition}[Priority Queue] \index{priority queue} \hspace*{\fill} \\
   The abstract data type of priority queues is defined as follows:
   \begin{enumerate}
   \item The name is $\texttt{PrioQueue}$.
@@ -46,7 +46,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
        $\{ \texttt{prioQueue}, \texttt{insert}, \texttt{remove}, \texttt{top}, \texttt{isEmpty} \}$.
-  \item The type specifications of these function symbols is given as follows:
+  \item The signatures of these function symbols is given as follows:
         \begin{enumerate}
         \item $\texttt{prioQueue}: \texttt{PrioQueue}$
 
@@ -57,7 +57,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
               Furthermore, the priority of $v$ is set to be $p$.
         \item $\texttt{remove}: \texttt{PrioQueue} \rightarrow \texttt{PrioQueue}$
 
-              The expression $Q.\texttt{remove}()$ removes from $Q$ the element that is returned by
+              The expression $Q.\texttt{remove}()$ removes from $Q$ that element that is returned by
               $Q.\texttt{top}()$.
         \item $\texttt{top}: \texttt{PrioQueue}  \rightarrow (\texttt{Priority} \times \texttt{Value}) \cup \{\Omega\}$
 
@@ -136,10 +136,10 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
 
             Trying to remove the top element from an empty queue $Q$ results in a queue that is still empty.
       \item $Q.\texttt{toList}() \not= \texttt{[]} \rightarrow Q.\texttt{remove}().\texttt{toList}() =
-        Q.\texttt{toList}()[1:]$
+        Q.\texttt{toList}()[1\!:\,]$
 
             If we remove the top element from a non-empty queue $Q$ and then transform the resulting queue into
-            a sorted list, we get the same list that we get when we chop of the first element from the list
+            a sorted list, we get the same list that we get when we chop off the first element from the list
             $Q.\texttt{toList}()$.
       \end{enumerate}
       The basic idea behind these axioms is the following:  
@@ -147,13 +147,15 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
       \item Priority queues are \blue{generated} using the two \blue{constructors} \texttt{prioQueue} and
             \texttt{insert}.
       \item The behaviour of priority queues is \blue{observed} using the \blue{observer function}
+            \index{observer function}
             \texttt{toList}.  We do not really care how the priority queue works internally.  We only care
             about the results that are observable via the function \texttt{toList}.  
       \item The functions \texttt{top} and \texttt{isEmpty} are \blue{observers} of the \textsc{Adt}
             \texttt{PrioQueue}:  They do not \blue{change} a priority queue, instead they return information
             about a priority queue.  These observer function can be reduced to the more general observer
             function \texttt{toList}. 
-      \item The function \texttt{remove} is a \blue{mutator} function: It does \blue{change} a priority queue.
+      \item The function \texttt{remove} is a \blue{mutator} function\index{mutator function}: It does
+            \blue{change} a priority queue. 
             The \blue{behaviour} of this function is specified by describing the effects of these
             changes that can be observed using the function \texttt{toList}. 
       \end{enumerate}
@@ -175,51 +177,38 @@ is only $\Oh\bigl(\log(n)\bigr)$, while the other operations still have the comp
 To this end, we introduce a new data structure: \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heaps}. 
 
 \section[Heaps]{The $\texttt{Heap}$ Data Structure}
-We define the set \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heap}\footnote{
+We define the set $\mathcal{H}$ of \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{heaps}\footnote{
 In computer science, the notion of a \blue{Heap} is used for two different concepts:
 First, a \blue{heap} is a data structure that is organized as a tree.  This kind of data structure
 is described in more detail in this section. Second, the part of main memory that contains dynamically
-allocated objects is known as \href{https://en.wikibooks.org/wiki/Memory_Management/Stacks_and_Heaps}{heap storage}.
+allocated objects is known as 
+\href{https://en.wikibooks.org/wiki/Memory_Management/Stacks_and_Heaps}{heap storage}.\index{heap storage} 
 The \blue{heap storage} is the part of the memory system that is used to provide \blue{dynamically allocated memory}.
-}
-inductively as a subset of the set $\Bin$ of binary trees.  To this end, we first define a relation
-$\leq$ on the Cartesian product $\texttt{Priority} \times \mathcal{B}$.
-For a priority $p \in \texttt{Priority}$ and a binary tree $b \in \Bin$ we have  $p \leq b$ 
-if and only if $p \leq q$ for every priority $q$ occurring in $b$.  The formal definition of 
-$p \leq b$ is as follows:
-\begin{enumerate}
-\item $p \leq \texttt{Nil}$,
-
-      because there are no priorities in the empty tree $\texttt{Nil}$.
-\item $p \leq \texttt{Node}(q,v,l,r) \;\stackrel{\mbox{\scriptsize def}}{\Longleftrightarrow}\; p \leq q \;\wedge\; p \leq l \;\wedge\; p \leq r$,
-         
-      because $p$ is less than or equal to every priority in the binary tree 
-      $\texttt{Node}(q,v,l,r)$ iff  $p \leq q$ and if, furthermore, 
-      $p$ is less than or equal to every priority occurring in either  $l$ or $r$.
-\end{enumerate}
-Next, we define a function \\[0.1cm]
-\hspace*{1.3cm} $\texttt{count}: \Bin \rightarrow \mathbb{N}$, \\[0.1cm]
-that counts the number of nodes occurring in a binary tree $b$.  The definition of
-$b.\texttt{count}()$ is given by induction on $b$.
-\begin{enumerate}
-\item $\texttt{Nil}.\texttt{count}() = 0$.
-\item $\texttt{Node}(p,v,l,r).\texttt{count}() = 1 + l.\texttt{count}() + r.\texttt{count}()$.
-\end{enumerate}
-Next, we define the set $\mathcal{H}$ of heaps by induction:
+}\index{heaps}
+inductively. 
 \begin{enumerate}
 \item $\texttt{Nil} \in \mathcal{H}$.
 \item $\texttt{Node}(p,v,l,r) \in \mathcal{H}$ if and only if the following is true:
       \begin{enumerate}
       \item $p \leq l \;\wedge\; p \leq r$
 
-            The priority stored at the root is less than or equal to every other priority stored in
-            the heap. This condition is known as the \blue{heap condition}.
+            Here, the notation $p \leq l$ is used to express the fact that all priorities $q$ occurring
+            in $l$ satisfy $p \leq q$ and $p \leq r$ is interpreted similarly.  Therefore, 
+            the priority stored at the root is less than or equal to every other priority stored in
+            the heap. This condition is known as the \blue{heap condition}.\index{heap condition}
       \item $\mid l.\texttt{count}() - r.\texttt{count}() \mid \;\leq\, 1$
 
-            The number of elements in the left subtree differs from the number of elements stored in
-            the right subtree by at most one.
-            This condition is known as the  \blue{balancing condition}.  It is similar to the
-            balancing condition of AVL trees, but instead of comparing the heights, this condition
+            $l.\mathtt{count}()$ computes the number of nodes of the heap $l$ and $r.\mathtt{count}$ is
+            interpreted similarly.  A formal definition of the function \texttt{count} is given below.
+            The condition 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\mid l.\texttt{count}() - r.\texttt{count}() \mid \;\leq\, 1$ 
+            \\[0.2cm]
+            therefore states the fact that the number of elements in the left subtree differs from the number
+            of elements stored in the right subtree by at most one.
+            This condition is known as the  \blue{balancing condition}\index{balancing condition}.  It is
+            similar to the balancing condition of AVL trees, but instead of comparing the heights, this condition
             compares the number of elements.  Therefore, this balancing condition is much stricter than the
             balancing condition for AVL trees.
       \item $l \in \mathcal{H} \;\wedge\; r \in \mathcal{H}$
@@ -227,6 +216,17 @@ Next, we define the set $\mathcal{H}$ of heaps by induction:
             This condition ensures that all subtrees of a heap are heaps, too.
       \end{enumerate}
 \end{enumerate}
+The function 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\texttt{count}:\mathcal{H} \rightarrow \mathbb{N}$
+\\[0.2cm]
+that has been used above is formally specified as follows:
+\begin{enumerate}
+\item $\texttt{Nil}.\texttt{count}() = 0$.
+\item $\texttt{Node}(p,v,l,r).\texttt{count}() = 1 + l.\texttt{count}() + r.\texttt{count}()$.
+\end{enumerate}
+
 The  \blue{heap condition} implies that in a non-empty heap the element with a highest priority is
 stored at the root.  Figure \ref{fig:heap-list} on page \pageref{fig:heap-list} shows a simple heap.
 In the upper part of the nodes we find the priorities.  Below these priorities we have the values
@@ -689,13 +689,13 @@ We discuss this implementation line by line.
       the element at position ${j}$.  Of course, after this swap it is possible that the heap condition is
       violated at position ${j}$.  Therefore,  ${k}$ is set to ${j}$ and the \texttt{while}-loop continues
       as long as the node at position ${k}$ has at least one child, i.e.~as long as 
-      $2 \cdot {k}\leq {n} + 1$.
-\item The procedure $\texttt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
+      $2 \cdot {k} + 1 \leq {n}$.
+\item The function $\texttt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
       \begin{enumerate}
       \item In phase one our goal is to transform the array ${A}$ into a heap that is stored in ${A}$.
 
             In order to do so, we traverse the array ${A}$ in reverse using the
-            \texttt{for}-loop starting in line 19.  The invariant of this loop is that before
+            \texttt{for}-loop starting in line 16.  The invariant of this loop is that before
             $\texttt{sink}$ is called, all trees rooted at an index greater than 
             ${k}$ satisfy the heap condition.  Initially this is true because the trees that
             are rooted at indices greater than  $(n + 1) // 2 - 1$ are trivial, i.e.~they only
@@ -711,7 +711,7 @@ We discuss this implementation line by line.
                   \hspace*{1.3cm}
                   $2 \cdot k + 1 = 2 \cdot m + 1 = n + 1 > n$.
                   \\[0.2cm]
-                  As $2 \cdot k  + 1$ is greater than $n$ is the last index in an array of length $n+1$, the
+                  As $2 \cdot k  + 1$ is greater than $n$ and $n$ is the last index in an array of length $n+1$, the
                   node at position $k = (n+1)//2$ does not have a left subtree.  As $2 \cdot k + 2$ is even 
                   bigger than $2 \cdot k + 1$ there can be no right subtree either.
             \item Case: $n$ is odd, i.e.~there is an $m \in \mathbb{N}$ such that $n = 2 \cdot m + 1$.
@@ -720,7 +720,7 @@ We discuss this implementation line by line.
                   of the tree rooted at $k$ would be at position
                   \\[0.2cm]
                   \hspace*{1.3cm}
-                  $2 \cdot k + 1 = 2 \cdot (m + 1) = 2 \cdot m + 2 = n + 1 > n$.
+                  $2 \cdot k + 1 = 2 \cdot (m + 1) + 1 = 2 \cdot m + 3 = n + 2 > n$.
                   \\[0.2cm]
                   As $2 \cdot k + 1$ is greater than $n$ and $n$ is the last index in an array of length $n+1$, 
                   the node at position $k$ does not have a left subtree and hence also no right subtree. 
@@ -728,9 +728,9 @@ We discuss this implementation line by line.
             We conclude that if $k > (n + 1)//2 - 1$ the node at position $k$ has no subtrees and hence the heap
             condition is satisfied vacuously.   This explains that we start with $k = (n+1)//2 - 1$ in line 16.
             
-            In order to satisfy the invariant for index ${k}$, $\texttt{sink}$ is called with
+            In order to maintain the invariant for index ${k}$, $\texttt{sink}$ is called with
             argument ${k}$,  since at this point, the tree rooted at index ${k}$ satisfies
-            the heap condition except possibly at the root.  It is then the job of $\texttt{sink}$ to
+            the heap condition except possibly at its root.  It is then the job of $\texttt{sink}$ to
             establish the heap condition at index ${k}$.  If the element at the root has a
             priority that is too low, $\texttt{sink}$ ensures that this element sinks down in the tree
             as far as necessary.
@@ -742,8 +742,8 @@ We discuss this implementation line by line.
             array ${A}$ \blue{descendingly}, we move this element to the end of the array ${A}$ and in
             return move the element from the end of the array ${A}$ to the front.
             After this exchange, the sublist $A[0:n-2]$ represents a heap, except that the
-            heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 24, since the
-            last element of the array ${A}$ is already in its correct position in the list taht is to be
+            heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 20, since the
+            last element of the array ${A}$ is already in its correct position in the list that is to be
             returned in the end.  In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
             \texttt{0} in line 21.
 
@@ -768,7 +768,7 @@ to run merge sort \cite{sedgewick:2011}.
 
 \exercise
 Develop an algorithm for sorting a list of $n$ numbers that makes use of \textsc{Avl}-trees.  Your algorithm
-should have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$.  Specify the algorithm mathematically,
+should have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$.  Specify the algorithm via recursive equations.
 \eox
 
 
