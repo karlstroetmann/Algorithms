@@ -1429,7 +1429,7 @@ there is no need to recursively check whether all tries in $\texttt{mTries}$ are
 The implementation is shown in Figure \ref{fig:trie.ipython-isEmpty}.
 
 \exercise
-(\textbf{Binary Tries})  Let us assume that our alphabet is the binary alphabet, i.e.~the alphabet
+(\textbf{Binary Tries})  Let us assume that our alphabet is the \blue{binary alphabet}, i.e.~the alphabet
 only contains the two digits $0$ and $1$.  Therefore we have $\Sigma = \{0,1\}$.  Every natural
 number can be regarded as a string from the alphabet $\Sigma$, so that numbers are effectively
 elements of $\Sigma^*$.  The set $\BT$ of \blue{binary tries} is defined by induction:
@@ -1474,8 +1474,8 @@ with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the
 Solve the following exercises:
 \begin{enumerate}[(a)]
 \item Provide equations that specify the methods $\texttt{insert}$ and $\texttt{delete}$ in a binary trie.
-      When specifying delete you should take care that empty binary tries are reduced to
-      $\texttt{Nil}$.
+      When specifying delete you should take care that \blue{empty binary tries} are reduced to
+      $\texttt{Nil}$.  A binary trie $b$ is defined to be \blue{empty} iff $b.\mathtt{find}(n) = \Omega$ for all $n \in \mathbb{N}$.
 
       \textbf{Hint}:  It might be helpful to provide an auxiliary method that simplifies those binary tries
       that are empty. 
