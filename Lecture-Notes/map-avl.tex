@@ -1808,8 +1808,8 @@ Setting $k := m$ in Horner's method we arrive at the following formula:
 $\ds s_m = \biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\biggr) \mmod n = \biggl(\sum\limits_{i=0}^m a_{i} \cdot x^{i}\biggr) \mmod n = p(x)$.
 \\[0.2cm]
 This formula is used to implement the function \texttt{hash\_code} efficiently.
-Figure \ref{fig:hash_code.py} shows an implementation of this formula.
-
+Figure \ref{fig:hash_code.py} shows an implementation of this formula.  We have set 
+$x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
 \begin{figure}[!ht]
 \centering
 \begin{minted}[ frame         = lines, 
@@ -1826,7 +1826,7 @@ Figure \ref{fig:hash_code.py} shows an implementation of this formula.
         s = 0
         for k in range(m-1, 0, -1):
             s = (s * 128 + ord(w[k])) % n
-            return s
+        return s
 \end{minted}
 \vspace*{-0.3cm}
 \caption{An implementation of the function \texttt{hash\_code} in \textsl{Python}.}

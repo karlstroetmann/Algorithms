@@ -613,7 +613,7 @@ $\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r) \;\rightarrow\; \texttt{A}[2\cdo
 Here, the expression $\texttt{A}[i] \doteq \texttt{Node}(p, v, l, r)$ is to be read as 
 \\[0.2cm]
 \hspace*{1.3cm}
-``The root of the heap $\texttt{Node}(p, v, l, r)$ is stored at index $i$ in the array $\texttt{A}$''.
+``The root of the heap $\texttt{Node}(p, v, l, r)$ is stored at index $i$ in the array $\texttt{A}$.''
 \\[0.2cm]
 If we store a heap in this manner, then, instead of using pointers that point to the left and right
 subtree of a node, we can use index arithmetic to retrieve the subtrees.  This results in memory savings as we
@@ -648,7 +648,7 @@ no longer have to store the pointers.
         n = len(A) - 1
         for k in range((n + 1) // 2 - 1, -1, -1):
             sink(A, k, n)
-        while n > 1:
+        while n >= 1:
             swap(A, 0, n)
             n -= 1
             sink(0, A, n)
@@ -673,16 +673,16 @@ We discuss this implementation line by line.
 
             The array ${A}$ itself might actually have more than $n+1$ elements, but for the
             purpose of the method $\texttt{sink}$ we restrict our attention to the subarray
-            ${A[k:n]}$. 
+            ${A[k:n+1]}$. 
       \end{enumerate}
-      When calling $\texttt{sink}$, the assumption is that $A[{k:n}]$ should represent a heap 
+      When calling $\texttt{sink}$, the assumption is that $A[{k:n+1}]$ should represent a heap 
       that possibly has its heap condition violated at its root, i.e.~at index ${k}$.  The
       purpose of the procedure $\texttt{sink}$ is to restore the heap condition at index ${k}$.
       To this end, we first compute the index ${j}$ of the left subtree below index ${k}$.
       Then we check whether there also is a right subtree at position ${j}+1$, which is the
       case if $j + 1$ is less than or equal to  ${n}$.  Now if the heap condition is violated at index
       ${k}$, we have to exchange the element at  position ${k}$ with the child that has
-      the higher priority, i.e.~the child that is smaller. Therefore, in line 8 we arrange for index
+      the higher priority, i.e.~the child that is smaller. Therefore, in line 8 we arrange for the index
       ${j}$ to point to the smaller child.  Next, we check in line 9 whether the heap
       condition is violated at index ${k}$.  If the heap condition is satisfied, there is
       nothing left to do and the procedure returns.  Otherwise, the element at position ${k}$ is swapped with
@@ -741,7 +741,7 @@ We discuss this implementation line by line.
             the smallest element is found at the root of the heap.  Since we want to sort the
             array ${A}$ \blue{descendingly}, we move this element to the end of the array ${A}$ and in
             return move the element from the end of the array ${A}$ to the front.
-            After this exchange, the sublist $A[0:n-2]$ represents a heap, except that the
+            After this exchange, the sublist $A[0:n-1]$ represents a heap, except that the
             heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 20, since the
             last element of the array ${A}$ is already in its correct position in the list that is to be
             returned in the end.  In order to reestablish the heap condition at the root, we call $\texttt{sink}$ with index
@@ -771,6 +771,20 @@ Develop an algorithm for sorting a list of $n$ numbers that makes use of \textsc
 should have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$.  Specify the algorithm via recursive equations.
 \eox
 
+\section{Check Your Understanding}
+\begin{enumerate}
+\item Which methods are provided by a priority queue?
+\item Given these methods, how can we transform a priority queue into an ordered list?
+\item Assume that we have a method $\texttt{toList}$ that transforms a priority queue into
+      an ordered list.  How can this method be used to specify the behaviour of the methods
+      provided by a priority queue?
+\item How is the set $\mathcal{H}$ of heaps defined?
+\item How can we define the methods $\texttt{insert}$ and \texttt{remove} if we implement a priority queue as a
+      heap? 
+\item How can we represent a heap as an array?  What are the benefits of this representation.
+\item Try to implement the algorithm \blue{heap sort} in a language of your choice without consulting the text.
+\item Compare \blue{heap sort} and \blue{merge sort}. 
+\end{enumerate}
 
 %%% Local Variables: 
 %%% mode: latex
