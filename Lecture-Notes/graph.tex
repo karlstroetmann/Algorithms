@@ -27,7 +27,7 @@ In this chapter we are going to discuss four problems from \blue{graph theory}.
 Assume that we are given a set $M$ together with a relation $R \subseteq M \times M$.  The relation
 $R$ is not yet an  \href{https://en.wikipedia.org/wiki/Equivalence_relation}{equivalence relation} on $M$, but
 this relation \blue{generates} an equivalence relation $\approx_R$ on $M$.  This
-\blue{generated equivalence relation} is defined inductively. 
+\blue{generated equivalence relation}\index{generated equivalence relation} is defined inductively. 
 \begin{enumerate}
 \item For every pair $\pair(x,y) \in R$ we have that $\pair(x, y) \in\; \approx_R$.
 
@@ -35,13 +35,13 @@ this relation \blue{generates} an equivalence relation $\approx_R$ on $M$.  This
       $\approx_R$ is an \blue{extension} of the relation $R$, i.e.~it ensures that $R \subseteq\, \approx_R$.
 \item For every $x \in M$ we have $\pair(x,x) \in\; \approx_R$.
 
-      This ensures that the relation $\approx_R$ is \blue{reflexive} on $M$.
+      This ensures that the relation $\approx_R$ is \blue{reflexive}\index{reflexive} on $M$.
 \item If $\pair(x,y) \in \approx_R$, then $\pair(y,x) \in\; \approx_R$.
 
-      This  ensures that the relation $\approx_R$ is \blue{symmetric}.
+      This  ensures that the relation $\approx_R$ is \blue{symmetric}.\index{symmetric}
 \item If $\pair(x,y) \in\; \approx_R$ and $\pair(y,z) \in\; \approx_R$, then $\pair(x,z) \in\; \approx_R$.
 
-      This clause ensures that the relation $\approx_R$ is \blue{transitive}.
+      This clause ensures that the relation $\approx_R$ is \blue{transitive}.\index{transitive}
 \end{enumerate}
 Given this inductive definition, it can be shown that:
 \begin{enumerate}
@@ -59,7 +59,7 @@ It turns out that a direct implementation of the inductive definition of $\appro
 not very efficient.  Instead, we remind ourselves that there is are one-to-one correspondence
 between the equivalence relations $R \subseteq M \times M$ and the
 \href{https://en.wikipedia.org/wiki/Partition_of_a_set}{partitions} of $M$.  A set 
-$\mathcal{P} \subseteq 2^M$ is a \blue{partition} of $M$ iff the following holds:
+$\mathcal{P} \subseteq 2^M$ is a \blue{partition}\index{partition} of $M$ iff the following holds:
 \begin{enumerate}
 \item $\{\} \not\in \mathcal{P}$,
 \item $A \in \mathcal{P} \wedge B \in \mathcal{P} \rightarrow A = B \vee A \cap B = \{\}$,
@@ -198,7 +198,7 @@ $\mathcal{P}_2$, $\cdots$, $\mathcal{P}_n$ such that $\mathcal{P}_n$ achieves ou
 \end{figure}
 
 
-What we have sketched in the previous example is known as the \blue{union-find algorithm}.
+What we have sketched in the previous example is known as the \blue{union-find algorithm}.\index{union-find algorithm}
 Figure \ref{fig:Union-Find-Naive.ipynb} shows a naive implementation of this algorithm.  The
 procedure $\texttt{unionFind}$ takes two arguments: $\texttt{M}$ is a set and $\texttt{R}$ is a relation
 on $\texttt{M}$.  The purpose of $\texttt{unionFind}$ is to compute the equivalence relation $\approx_\texttt{R}$
@@ -323,7 +323,7 @@ dictionary $\texttt{Parent}$.
 As it stands, the algorithm shown in the previous section has a complexity that is $\Oh(n^2)$ in the
 worst case where $n$ is the number of elements in the set $ \texttt{M}$.  The worst case happens if there
 is just one equivalence class and the tree representing this class degenerates into a list.
-Fortunately, it is easy to fix this problem if we keep track of the \magenta{height} of the
+Fortunately, it is easy to fix this problem if we keep track of the \blue{height} of the
 different trees.  Then, if we want to join the trees rooted at $\texttt{parentX}$ and
 $\texttt{parentY}$, we have a choice: We can either set the parent of the node $\texttt{parentX}$ to
 be $\texttt{parentY}$ or we can set the parent of the node $\texttt{parentY}$ to be $\texttt{parentX}$.
@@ -333,10 +333,10 @@ attach this tree to the tree rooted at \texttt{parentY} via the assignment
 \hspace*{1.3cm}
 \texttt{parent[parentX] = parentY}
 \\[0.2cm]
-otherwise we should use
+otherwise we should use the assignment
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{parent[parentY] = parentX}
+\texttt{parent[parentY] = parentX}.
 \\[0.2cm]
 In order to be able to distinguish these cases, we store the height of the tree rooted at node
 $\texttt{n}$ in the dictionary $\texttt{Height}$, i.e.~if $\texttt{n}$ is a node, then $\texttt{Height}[\mathtt{n}]$ is
@@ -398,7 +398,7 @@ possible for a tree of height $h$.  Define $c_h$ as the number of nodes in a tre
 $c_h$ and solve this equation. \eox
 
 
-\subsection{Packaging the  Union-Find Algorithm as a Class \label{sec:union-find-oo}}
+\subsection{Packaging the  Union-Find Algorithm as a Class$^*$ \label{sec:union-find-oo}}
 Later, when we discus the problem of constructing a \blue{minimum spanning tree}, we will need the union-find algorithm as an
 auxiliary data structure.  To this end we present a class that encapsulates the union-find
 algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
@@ -424,6 +424,7 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
             p = self.mParent[x]
             if p == x:
                 return x
+            return self.find(p)
 
         def union(self, x, y):
             root_x = self.find(x)
@@ -495,7 +496,7 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
 Imagine a telecommunication company that intends to supply internet access to a developing country.
 The capital of the country is located at the coast line and is already connected to the internet via
 a submarine cable. It is the company's task to connect all of the towns and villages to the capital.
-Since most parts of the country are covered by jungle, it is cheapest to build the connecting lines
+Since most parts of the country are covered by a dense jungle, it is cheapest to build the connecting lines
 alongside existing roads.  However, it is not necessary to have connection lines at every road.  The task is to
 compute the set of roads that have to be equipped with connection lines so that all cities are connected and
 the overall cost of the connection is minimal.
@@ -510,11 +511,11 @@ tree problem precisely.  Then, we present
 minimum spanning tree problem. 
 
 \subsection{Basic Definitions}
-\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph} is a triple 
+\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph}\index{weighted undirected graph} is a triple 
    $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
-  \item $\nodes$ is the set is a set of  \blue{nodes}.
-  \item $\edges$ is the set of  \blue{edges}.  An edge $e$ has the form
+  \item $\nodes$ is the set is a set of  \blue{nodes}.\index{node}
+  \item $\edges$ is the set of  \blue{edges}.\index{edge}  An edge $e$ has the form
         \\[0.2cm]
         \hspace*{1.3cm}
         $\{x, y\}$
@@ -525,7 +526,9 @@ minimum spanning tree problem.
         $\{x,y\} \in \edges$ \quad if and only if $\{y,x\} \in \edges$.
         \\[0.2cm]
         Hence, if $x$ is connected to $y$ then $y$ is also connected to $x$.
-  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \blue{weight} to every edge.
+
+        We will further assume that if $\{x,y\}$ is an edge, then $x \not= y$.
+  \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \blue{weight}\index{weight of an edge} to every edge.
 
         In practical applications, the weight of an edge is often interpreted as the \blue{cost} or the
         \blue{length} of the edge.
@@ -534,7 +537,7 @@ minimum spanning tree problem.
 \end{Definition}
 
 \noindent
-A \blue{path} $P$ is a list of the form 
+A \blue{path}\index{path} $P$ is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $P = [ x_0, x_1, x_2, \cdots, x_n ]$ 
@@ -548,13 +551,14 @@ The set of all paths is denoted as $\mathbb{P}$, i.e.~we define
 \hspace*{1.3cm}
 $\ds \mathbb{P}  := \bigl\{ P \mid \mbox{$P$ is a path} \bigr\}$.
 \\[0.2cm]
-A path $P = [ x_0, x_1, \cdots, x_n]$ \blue{connects} the nodes $x_0$ and $x_n$.  The \blue{weight} of a path is defined as
+A path $P = [ x_0, x_1, \cdots, x_n]$ \blue{connects} the nodes $x_0$ and $x_n$.  The \blue{weight} of a
+path\index{weight of an path} is defined as
 the sum of the weights of all of its edges.  
 \\[0.2cm]
 \hspace*{1.3cm}
  $\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\{x_i,x_{i+1}\}}$. 
 \\[0.2cm]
-A graph is \blue{connected} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$, i.e.~we have
+A graph is \blue{connected}\index{connected graph}\index{connected graph} if for every $x,y \in \nodes$ there is a path connecting $x$ and $y$, i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\forall x, y \in \mathbb{V}: \exists P \in \mathbb{P}: \bigl(P[0] = x \wedge P[\texttt{len}(P)-1] = y\bigr)$.
@@ -565,12 +569,12 @@ follows:
 \hspace*{1.3cm}
 $\ds\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
 \\[0.2cm]
-Then, a set of edges $\edges$ is called a \blue{tree} if and only if
+Then, a set of edges $\edges$ is called a \blue{tree}\index{tree (graph)} if and only if
 \begin{enumerate}
 \item the corresponding graph is connected \quad \textbf{and}
 \item removing any edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
-The \blue{weight} of a tree is the sum of the weights of its edges.
+The \blue{weight} of a tree\index{weight of a tree} is the sum of the weights of its edges.
 
 \exercise
 Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that the equation
@@ -591,7 +595,7 @@ at most one neighbouring node.
 In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Joseph Bernard Kruskal} (1928 -- 2010) 
 found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
 of the \blue{union-find algorithm} that we have shown in the previous section.  The basic idea is as
-follows.
+follows.\index{Kruskal's algorithm}
 \begin{enumerate}
 \item In the first step, we create a union-find data structure that contains \blue{singleton trees}
       for all nodes in the graph.  Here, a singleton tree is a tree containing just a single node.
