@@ -398,7 +398,7 @@ possible for a tree of height $h$.  Define $c_h$ as the number of nodes in a tre
 $c_h$ and solve this equation. \eox
 
 
-\subsection{Packaging the  Union-Find Algorithm as a Class$^*$ \label{sec:union-find-oo}}
+\subsection{Packaging the  Union-Find Algorithm as a Class \label{sec:union-find-oo}}
 Later, when we discus the problem of constructing a \blue{minimum spanning tree}, we will need the union-find algorithm as an
 auxiliary data structure.  To this end we present a class that encapsulates the union-find
 algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
@@ -570,11 +570,16 @@ follows:
 $\ds\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
 \\[0.2cm]
 Then, a set of edges $\edges$ is called a \blue{tree}\index{tree (graph)} if and only if
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item the corresponding graph is connected \quad \textbf{and}
 \item removing any edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
-The \blue{weight} of a tree\index{weight of a tree} is the sum of the weights of its edges.
+These conditions can be restated: A tree is a connected graph that does not have a \blue{cycle}.
+Here, a \blue{cycle} is a path of the form $[x_0, x_1, \cdots, x_n]$ where $x_0 = x_n$.  
+
+Next, we define the \blue{weight} of a tree\index{weight of a tree} as the sum of the weights of its edges,
+i.e.~if $T = (V,\mathbb{E})$ is a tree, then
+$\ds \mathtt{weight}(T) := \sum\limits_{\{x,y\} \in \mathbb{E}} \Weight{\bigl(\{x,y\}}$.
 
 \exercise
 Assume that the graph $\langle \nodes, \edges, \weight{\cdot}\rangle$ is a tree.  Prove that the equation
@@ -612,19 +617,19 @@ follows.\index{Kruskal's algorithm}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
 resulting tree has a minimal weight.
 The algorithm is shown in Figure \ref{fig:Kruskal.ipynb} on page \pageref{fig:Kruskal.ipynb}.  We
-discuss this program next. 
+discuss this program next.
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
     import union_find_oo as uf
     import heapq         as hq
 
@@ -643,7 +648,7 @@ discuss this program next.
                 UF.union(x, y)
                 if len(MST) == len(V) - 1:
                     return MST
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Kruskal's algorithm.}
 \label{fig:Kruskal.ipynb}
@@ -698,8 +703,8 @@ of a \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{weighted directed
 
 
 \begin{Definition}[Weighted Digraph] \
-  A \blue{weighted directed graph} (a.k.a.~a \blue{weighted digraph}) is a triple 
-  $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
+  A \blue{weighted directed graph}\index{weighted directed graph}
+  (a.k.a.~a \blue{weighted digraph}\index{weighted digraph}) is a triple $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
   \item $\nodes$ is the set of \blue{nodes} (sometimes the nodes are known as \blue{vertices}).
   \item $\edges \subseteq \nodes \times \nodes$ is the set of \blue{edges}.
@@ -720,7 +725,7 @@ this edge enables us to go from $a$ to $b$ as well as to go from $b$ to $a$.
 \eox
 
 \begin{Definition}[Path, Path Length]
- A \blue{path} $P$ in a digraph is a list of the form 
+ A \blue{path} $P$ in a digraph \index{path} is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $P = [ x_0, x_1, x_2, \cdots, x_n ]$ 
@@ -748,8 +753,8 @@ Now we are ready to state the shortest path problem.
 \begin{Definition}[Shortest Path Problem] \lb
   Assume a weighted digraph  
   $G = \langle \nodes, \edges, \weight{\cdot} \rangle$ 
-  and a node $\source \in \nodes$ is given.  Then the \blue{shortest path problem} asks to compute
-  the following function:
+  and a node $\source \in \nodes$ is given.  Then the \blue{shortest path problem} \index{shortest path problem}
+  asks to compute the following function:
   \\[0.2cm]
   \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
   \hspace*{1.3cm} $\spath(v) \df \texttt{min}\bigl\{ \weight{p} \bigm| p \in \paths(\source,v) \bigr\}$.
@@ -770,17 +775,17 @@ independently and published their results in 1958 and 1956, respectively.  Figur
 algorithm in \textsl{Python}.  This variant of the algorithm was suggested by 
 \href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
 
-
 \begin{figure}[!ht]
   \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
     def shortest_path(source, Edges):
         Distance = { source: 0 }
         Fringe   = [ source ]
@@ -793,7 +798,7 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
                     if v not in Fringe: 
                         Fringe = Fringe + [v] 
         return Distance
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
   \caption{The Bellman-Ford algorithm to solve the shortest path problem.}
   \label{fig:Moore.ipynb}
@@ -834,8 +839,7 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
       In this Figure, every node is labelled both with its name and its distance from the source node \texttt{a}.
       \begin{figure}[!ht]
         \centering
-        \hspace*{-1.5cm}
-        \epsfig{file=Abbildungen/directed-graph.pdf,scale=0.8}
+        \epsfig{file=Abbildungen/directed-graph.pdf,scale=0.7}
         \caption{A directed graph.}
         \label{fig:directed-graph.pdf}
       \end{figure}
@@ -854,7 +858,7 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
       \\[0.2cm]
       \hspace*{1.3cm}
       $[ \texttt{source} ]$.
-\item Every iteration of the \texttt{while} takes the first node \texttt{u} from the \texttt{Fringe} and computes the
+\item Every iteration of the \texttt{while}-loop takes the first node \texttt{u} from the \texttt{Fringe} and computes the
       distances of all those nodes $v$ that are 
       connected to a node in $\texttt{Fringe}$ by an edge $(u,v)$.
 \item Next, we compute all nodes $\texttt{v}$ that can be reached from $\texttt{u}$. For every node \texttt{v} we check whether 
@@ -876,34 +880,9 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
 \subsection{Dijkstra's Algorithm \label{sec:dijkstra}}
 The Bellman-Ford algorithm stores the nodes that are picked next to be examined in the list $\texttt{Fringe}$.
 This results in non-optimal behaviour of the algorithm:  A node can be picked from $\texttt{Fringe}$ and removed from
-$\texttt{Fringe}$ only to be reinserted into $\texttt{Fringe}$ later.  For example, consider the graph in
-Figure \ref{fig:directed-graph.pdf}: If we pick the nodes from the \texttt{Fringe} in the order
-\\[0.2cm]
-\hspace*{1.3cm}
-'\texttt{b}', '\texttt{d}', '\texttt{e}', '\texttt{f}', '\texttt{h}', '\texttt{c}', '\texttt{g}'
-\\[0.2cm]
-then after picking the node 'h' the distances are as follows:
-\\[0.2cm]
-\hspace*{1.3cm}
-'\texttt{b}': 9, '\texttt{d}': 10, '\texttt{e}': 14, '\texttt{f}': 12, '\texttt{h}': 17, '\texttt{c}': 2.
-\\[0.2cm]
-You can verify this by running the jupyter notebook
-\href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}{\texttt{Moore.ipynb}}.
-You can also view the output of this notebook directly at
-\\[0.2cm]
-\hspace*{0.3cm}
-\href{https://nbviewer.jupyter.org/github/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}{
-  \texttt{https://nbviewer.jupyter.org/}\\
-\hspace*{1.3cm}
-  \texttt{github/karlstroetmann/Algorithms/blob/master/Python/Moore.ipynb}}.
-\\[0.2cm]
-When we next pick '\texttt{c}' and then '\texttt{g}', the distance of '\texttt{e}' decreases first from 14 to 7 and
-then to 6.  Follwing that, the distance of '\texttt{b}' decreases to 8.  If would have been better if we had
-started inspecting the node '\texttt{c}' prior to the node '\texttt{b}'.
-
-In 1959 \href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra}\footnote{
-  Edsger Wybe Dijkstra received the 1972 Turing Award.}
-(1930 -- 2002) \cite{dijkstra:59}
+$\texttt{Fringe}$ only to be reinserted into $\texttt{Fringe}$ later.  In 1959
+\href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra}\footnote{
+  Edsger Wybe Dijkstra received the 1972 Turing Award.}(1930 -- 2002) \cite{dijkstra:59}
 published an algorithm that was more careful in picking the nodes from the \texttt{Fringe}.  Dijkstra's algorithm guarantees that it
 is never necessary to reinsert a node back into the set $\texttt{Fringe}$.  Dijkstra had the idea to always choose
 that node from the \texttt{Fringe} that has the smallest distance to the node $\texttt{source}$.  This has the effect that the algorithm
@@ -913,17 +892,18 @@ represent the variable $\texttt{Fringe}$ as a priority queue where the priority 
 distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} on page
 \pageref{fig:Dijkstra.ipynb} shows an implementation of Dijkstra's algorithm in \textsl{Python}.
 
+
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.8cm,
-                  xrightmargin  = 0.8cm,
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
     import Set
 
     def shortest_path(source, Edges):
@@ -940,7 +920,7 @@ distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} 
                     Distance[v] = d + l
                     Fringe.insert( (d + l, v) )
         return Distance
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Dijkstra's algorithm to solve the shortest path problem.}
 \label{fig:Dijkstra.ipynb}
