@@ -357,18 +357,18 @@ $\texttt{delMin}:\mathcal{B} \rightarrow \mathcal{B} \times \textsl{Key} \times 
 Hence, the call $t.\texttt{delMin}()$ returns a triple: If 
 \\[0.2cm]
 \hspace*{1.3cm}
-$t.\texttt{delMin}() = (r,k,v)$,
+$t.\texttt{delMin}() = \langle r,k,v \rangle$,
 \\[0.2cm]
 then $r$ is the tree that  results from
 removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the associated value.
 \begin{enumerate}
-\item $\texttt{Node}(k, v, \texttt{Nil}, r).\texttt{delMin}() = (r, k, v)$
+\item $\texttt{Node}(k, v, \texttt{Nil}, r).\texttt{delMin}() = \langle r, k, v\rangle$
 
       If the left subtree is empty, $k$ has to be the smallest key in the tree 
       $\texttt{Node}(k, v, \texttt{Nil}, r)$.  If $k$ is removed, we are left with the subtree $r$.
-\item $l\not= \texttt{Nil} \wedge l.\texttt{delMin}() = [l',k_{min}, v_{min}] \;\rightarrow$ \\[0.2cm]
+\item $l\not= \texttt{Nil} \wedge l.\texttt{delMin}() = \langle l',k_{min}, v_{min}\rangle \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
-       $\texttt{Node}(k, v, l, r).\texttt{delMin}() = \bigl(\texttt{Node}(k, v, l', r), k_{min}, v_{min})\bigr)$.
+       $\texttt{Node}(k, v, l, r).\texttt{delMin}() = \bigl\langle\texttt{Node}(k, v, l', r), k_{min}, v_{min})\bigr\rangle$.
 
       If the left subtree $l$ in the binary tree $t = \texttt{Node}(k, v, l, r)$
       is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
@@ -381,7 +381,7 @@ Next, we specify the method $\mathtt{delete}()$.
 \item $\texttt{Nil}.\texttt{delete}(k) = \texttt{Nil}$.
 \item $\texttt{Node}(k,v,\texttt{Nil},r).\texttt{delete}\bigl(k\bigr) = r$.
 \item $\texttt{Node}(k,v,l,\texttt{Nil}).\texttt{delete}(k) = l$.
-\item $l \not= \texttt{Nil} \,\wedge\, r \not= \texttt{Nil} \,\wedge\, r.\texttt{delMin}() = (r',k_{min}, v_{min})  \;\rightarrow$ \\[0.2cm]
+\item $l \not= \texttt{Nil} \,\wedge\, r \not= \texttt{Nil} \,\wedge\, r.\texttt{delMin}() = \langle r',k_{min}, v_{min}\rangle  \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
       $\texttt{Node}(k,v,l,r).\texttt{delete}(k) = \texttt{Node}(k_{min},v_{min},l,r')$.
       
