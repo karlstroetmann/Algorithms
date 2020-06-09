@@ -1,6 +1,14 @@
 
-Sorting:  Sortier-Algorithmen, die in eine Test-Umgebung eingebunden sind.
+Sorting:  Sorting algorithms that are embedded into a test environment.
 
-SortingAlgorithm: Nackte Sortier-Algorithmen auf Listen und Feldern.
+SortingAlgorithm: Naked sorting algorithms working on lists and arrays.
 
-SortingAnimation: Animierung der Sortier-Algorithmen.
+SortingAnimation: Animation of various sorting algorithms.
+
+    In order to start the animation, open a terminal in the directory 'SortingAnimation' and
+    type the following commands:
+    
+        Javac *.java
+        java AnimationFrame
+
+    The last command should start the Animation.
