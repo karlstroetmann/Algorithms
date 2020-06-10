@@ -263,7 +263,7 @@ $b_n$. The worst case happens if $L$ is already sorted in reverse order, i.~e.~i
 $\texttt{sort}(R)$ is bigger than all elements 
 of $R$ and therefore also bigger than all elements of $\texttt{sort}(R)$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
- $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
+ $b_0 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
 because for a list of the form $L = [x] + R$ of length $n+1$ we first have to sort the list $R$
 recursively.  As $R$ has length $n$ this takes $b_n$ comparisons.  After that, the call
@@ -287,18 +287,18 @@ $
         & \vdots &                                  \\
         & = & b_{n-k} + (n - k) + \cdots + (n - 1)  \\ 
         & \vdots &                                  \\
-        & = & b_{1} + 1 + \cdots + (n - 1)      \\[0.2cm] 
-        & = & \ds b_{1} + \sum\limits_{i = 1}^{n - 1} i \\[0.4cm]
+        & = & b_{0} + 0 + \cdots + (n - 1)      \\[0.2cm] 
+        & = & \ds b_{0} + \sum\limits_{i = 0}^{n - 1} i \\[0.4cm]
         & = & \frac{1}{2} \cdot n \cdot (n - 1),
 \end{array}
 $
 \\[0.2cm]
-because $b_1 = b_0 + 0 = 0 + 0 = 0$ and the sum of all natural numbers from 1 up to  $n - 1$ is given as
+because the sum of all natural numbers from 0 up to  $n - 1$ is given as
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.
 \\[0.2cm]
-This can be shown by a straightforward induction.  Therefore, in the worst case the number $b_n$ of
+This last formula can be shown by a straightforward induction.  Therefore, in the worst case the number $b_n$ of
 comparisons needed for sorting a list of length $n$  satisfies 
 \\[0.2cm]
 \hspace*{1.3cm}
