@@ -516,7 +516,7 @@ memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the j
 algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
 consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}, has
 a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not require an auxiliary
-array.  Heapsort was invented in 1964 by
+array.  Heapsort \index{Heapsort} was invented in 1964 by
 \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} \cite{williams:1964}
 and improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} \cite{floyd:1964} in the
 same year.  Robert Floyd received the Turing award 1978.
@@ -651,7 +651,7 @@ no longer have to store the pointers.
         while n >= 1:
             swap(A, 0, n)
             n -= 1
-            sink(0, A, n)
+            sink(A, 0, n)
 \end{minted}
 \vspace*{-0.3cm}
 \caption{An efficient implementation of Heapsort.}

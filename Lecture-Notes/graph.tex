@@ -767,13 +767,16 @@ Now we are ready to state the shortest path problem.
 \subsection{The Bellman-Ford Algorithm}
 The first algorithm we discuss is the
 \href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{\blue{Bellman-Ford algorithm}}.
+\index{Bellman-Ford algorithm}
 It is named after the mathematicians 
 \href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
 \href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who found this algorithm
 independently and published their results in 1958 and 1956, respectively.  Figure
 \ref{fig:Moore.ipynb} on page \pageref{fig:Moore.ipynb} shows the implementation of a variant of this 
 algorithm in \textsl{Python}.  This variant of the algorithm was suggested by 
-\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59}.
+\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59} \index{Moore's algorithm}
+in 1959.
+
 
 \begin{figure}[!ht]
   \centering
@@ -821,10 +824,10 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
             $(x, y_i)$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
 
             For example, the dictionary $\texttt{Edges}$ given below defines a simple digraph.
-            In that digraph, there is an edge from node $\texttt{"a"}$ to node $\texttt{"b"}$ which has a
-            length of $2$ and there is another edge from node $\texttt{"a"}$ to the node $\texttt{"c"}$ that has a length of $3$.
+            In that digraph, there is an edge from node $\texttt{"a"}$ to node $\texttt{"c"}$ which has a
+            length of $2$ and there is another edge from node $\texttt{"a"}$ to the node $\texttt{"b"}$ that has a length of $8$.
             \begin{verbatim}
-    Edges = { 'a': [ ('c', 2), ('b', 9)], 
+    Edges = { 'a': [('c', 2), ('b', 9)], 
               'b': [('d', 1)],
               'c': [('e', 5), ('g', 3)],  
               'd': [('f', 2), ('e', 4)],  
@@ -858,29 +861,29 @@ algorithm in \textsl{Python}.  This variant of the algorithm was suggested by
       \\[0.2cm]
       \hspace*{1.3cm}
       $[ \texttt{source} ]$.
-\item Every iteration of the \texttt{while}-loop takes the first node \texttt{u} from the \texttt{Fringe} and computes the
-      distances of all those nodes $v$ that are 
-      connected to a node in $\texttt{Fringe}$ by an edge $(u,v)$.
-\item Next, we compute all nodes $\texttt{v}$ that can be reached from $\texttt{u}$. For every node \texttt{v} we check whether 
+\item Every iteration of the \texttt{while}-loop takes the first node \texttt{u} from the \texttt{Fringe}.
+\item Next, we compute all nodes $\texttt{v}$ that can be reached from $\texttt{u}$. For every node \texttt{v}
+      that can be reached from $\mathtt{u}$ by an edge $(u, v)$ we check whether 
       reaching \texttt{v} from \texttt{u} results in a shorter path than previously known.
       There are two cases.
       \begin{enumerate}
-      \item If there is an edge from $\texttt{u}$ to a node $\texttt{v}$ and  $\texttt{Distance}[\texttt{v}]$ is still
+      \item If there is an edge from node $\texttt{u}$ to a node $\texttt{v}$ and  $\texttt{Distance}[\texttt{v}]$ is still
             undefined, then we hadn't yet found a path leading to $\texttt{v}$.
       \item Furthermore, there are those nodes $\texttt{v}$ where we had already found a path leading from
             $\texttt{source}$ to $\texttt{v}$ but the length of this path is longer than the length of the path
             that we get when we first visit $\texttt{u}$ and then proceed to $\texttt{v}$ via the edge $(\texttt{u},\texttt{v})$.
       \end{enumerate}
       We compute the distance of the path leading from $\texttt{source}$ to $\texttt{u}$ and then to
-      $\texttt{v}$ in both of these cases and add $\texttt{v}$ to the \texttt{Fringe}.
+      $\texttt{v}$ in both of these cases and add $\texttt{v}$ to the \texttt{Fringe}, provided it isn't
+      already a member of the \texttt{Fringe}.
 \item The algorithm terminates when the list $\texttt{Fringe}$ is empty because in that case we don't
       have any means left to improve our estimate of the distance function.
 \end{enumerate}
 
 \subsection{Dijkstra's Algorithm \label{sec:dijkstra}}
 The Bellman-Ford algorithm stores the nodes that are picked next to be examined in the list $\texttt{Fringe}$.
-This results in non-optimal behaviour of the algorithm:  A node can be picked from $\texttt{Fringe}$ and removed from
-$\texttt{Fringe}$ only to be reinserted into $\texttt{Fringe}$ later.  In 1959
+This results in non-optimal behaviour of the algorithm:  A node can be picked from $\texttt{Fringe}$ and
+removed from the $\texttt{Fringe}$ only to be reinserted into the $\texttt{Fringe}$ later.  In 1959
 \href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra}\footnote{
   Edsger Wybe Dijkstra received the 1972 Turing Award.}(1930 -- 2002) \cite{dijkstra:59}
 published an algorithm that was more careful in picking the nodes from the \texttt{Fringe}.  Dijkstra's algorithm guarantees that it
@@ -890,7 +893,9 @@ visits nodes in increasing order of their distance from the node source.
 To implement this, we have to
 represent the variable $\texttt{Fringe}$ as a priority queue where the priority of a node $x$ is given by the
 distance of $x$ to the node $\texttt{source}$.  Figure \ref{fig:Dijkstra.ipynb} on page
-\pageref{fig:Dijkstra.ipynb} shows an implementation of Dijkstra's algorithm in \textsl{Python}.
+\pageref{fig:Dijkstra.ipynb} shows an implementation of Dijkstra's algorithm 
+\index{Dijkstra's algorithm}
+in \textsl{Python}.
 
 
 \begin{figure}[!ht]

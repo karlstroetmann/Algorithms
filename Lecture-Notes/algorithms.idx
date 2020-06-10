@@ -73,6 +73,7 @@
 \indexentry{trie|hyperpage}{109}
 \indexentry{$\mathbb{T}$|hyperpage}{109}
 \indexentry{string completion|hyperpage}{112}
+\indexentry{binary trie|hyperpage}{116}
 \indexentry{priority queue|hyperpage}{131}
 \indexentry{observer function|hyperpage}{133}
 \indexentry{mutator function|hyperpage}{133}
@@ -80,6 +81,7 @@
 \indexentry{heap storage|hyperpage}{133}
 \indexentry{heap condition|hyperpage}{134}
 \indexentry{balancing condition|hyperpage}{134}
+\indexentry{Heapsort|hyperpage}{139}
 \indexentry{generated equivalence relation|hyperpage}{151}
 \indexentry{reflexive|hyperpage}{151}
 \indexentry{symmetric|hyperpage}{151}
@@ -101,3 +103,6 @@
 \indexentry{weighted digraph|hyperpage}{160}
 \indexentry{path|hyperpage}{161}
 \indexentry{shortest path problem|hyperpage}{161}
+\indexentry{Bellman-Ford algorithm|hyperpage}{161}
+\indexentry{Moore's algorithm|hyperpage}{161}
+\indexentry{Dijkstra's algorithm|hyperpage}{163}
