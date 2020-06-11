@@ -1050,13 +1050,13 @@ holds.  This implies that the node $\texttt{u}$ can never be reinserted into the
 $\texttt{Fringe}$, because a node $\texttt{v}$ is only inserted in $\texttt{Fringe}$ if either 
  $\texttt{Distance}[\texttt{v}]$ is still undefined or if  the  value $\texttt{Distance}[\texttt{v}]$ decreases.  
 Inserting a node into a priority queue containing  $n$ elements can be bounded by
-$\Oh\bigl(\log_2(n)\bigr)$.  As the priority queue never contains more than $\#\nodes$ nodes and we
-can insert every node at most once, insertion into the priority queue can be bounded by
+$\Oh\bigl(\log_2(n)\bigr)$.  As the priority queue never contains more than $\#\nodes$ nodes,
+the first insertion of a node into the priority queue can be bounded by
 \\[0.2cm]
 \hspace*{1.3cm}
 $\Oh\bigl(\#V \cdot \log_2(\#V)\bigr)$.
 \\[0.2cm]
-We also have to analyse the complexity of removing a node from the fringe. 
+We also have to analyse the complexity of removing a node from the fringe and then reinserting this node.
 The number of times the assignment
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1081,6 +1081,7 @@ number of nodes.  In this case, the complexity of
 $\Oh\bigl(\#\nodes * \log_2(\#\nodes)\bigr)$.
 
 \section{Topological Sorting}
+\index{topological sorting}
 Assume that you have a huge project to manage.  In order to do so, you can use 
 \href{https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique}{\textsc{Pert}}, which is short for
 \blue{\underline{p}rogram \underline{e}valuation and \underline{r}eview \underline{t}echnique}.  Using \texttt{Pert},
@@ -1092,7 +1093,7 @@ $T := \{t_1,\cdots,t_n\}$.
 Furthermore, there are \blue{dependencies} between the task: These dependencies take the form $s \prec t$, where $s$ and
 $t$ are tasks.  A dependency of the form $s \prec t$ means that the task $s$ has to be finished before the task $t$
 can start.  For example, if the overall project is to get dressed in the morning\footnote{
-  In order to keep things manageably simple, I have made the assumption that the person that needs to get dressed is male.
+  In order to keep things manageable, I have made the assumption that the person that needs to get dressed is male.
 }, the set $T$ of task is given
 as follows:
 \\[0.2cm]
@@ -1107,7 +1108,7 @@ The elements of $T$ are interpreted as follows:
 \item \textsl{shoes}: Put on shoes.
 \end{itemize}
 There are some \blue{dependencies} between these tasks:  For example, putting on the shoes first and then trying to
-put on the socks does not work.  In detail, we have the following dependencies between the different tasks:
+put on the socks does not work well.  In detail, we have the following dependencies between the different tasks:
 \begin{enumerate}
 \item $\textsl{socks} \prec \textsl{shoes}$,
 \item $\textsl{trousers} \prec \textsl{shoes}$,
@@ -1119,11 +1120,10 @@ of dressing up in the morning, the following schedule would work:
 \hspace*{1.3cm}
 \textsl{socks}, \textsl{shirt}, \textsl{trousers}, \textsl{shoes}.
 \\[0.2cm]
-For the simple task of dressing up in the morning, most of you would get the scheduling right most of the
-time\footnote{If you have a bad hangover, the correct scheduling can turn out to be more challenging.}.
+Of course, the project of dressing up is trivial.
 However, complex projects can have ten thousands of tasks and even more dependencies between these tasks.  For
 example, the US-lead invasion in the second Irak war was a project consisting of more than $30\,000$ tasks.
-The US invasion plan for the \href{https://en.wikipedia.org/wiki/China}{People's Republic of China} 
+It is rumoured that the US invasion plan for the \href{https://en.wikipedia.org/wiki/China}{People's Republic of China} 
 contains an excess of 2 million tasks!  Ordering the tasks for a project of this size is very difficult to do by
 hand.  Instead, a technique called \blue{topological sorting} is used. 
 
@@ -1134,10 +1134,11 @@ topological sorting to execute the commands necessary to build a software system
 In order to better grasp the idea of a topological sorting problem, we define it formally as a graph
 theoretical problem.
 \begin{Definition}[Topological Sorting Problem, Solution of a Topological Sorting Problem]  \hspace*{\fill} \\
-  A \href{https://en.wikipedia.org/wiki/Topological_sorting}{topological sorting problem} is a directed graph
+  \index{topological sorting problem}
+  A \href{https://en.wikipedia.org/wiki/Topological_sorting}{topological sorting problem} is a finite directed graph
   $\pair(T, D)$ where
   \begin{itemize}
-  \item $T$ is called the set of \blue{tasks} and 
+  \item $T$ is a finte set that is called the set of \blue{tasks} and 
   \item $D \subseteq T \times T$ is called the set of \blue{dependencies}.
 
         If $\pair(s, t) \in D$, then this is written as 
@@ -1146,37 +1147,26 @@ theoretical problem.
         $s \prec t$, \quad which is read as $t$ \blue{depends} on $s$.
   \end{itemize}
   For conciseness, we abbreviate ``topological sorting problem'' as \textsc{Tsp}.
-  
-  Mathematically, a \blue{solution} to a topological sorting problem is a \blue{linear ordering} $\leq$ that
-  satisfies 
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $\forall s, t \in T:\bigl(s \prec t \rightarrow s < t\bigr)$,
-  \\[0.2cm]
-  where $s < t$ is defined in terms of $s \leq t$ as follows
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $s < t \;\stackrel{\mathrm{def}}{\Longleftrightarrow}\; s \leq t \wedge s \not= t$.
-  \\[0.2cm]
-  In practical applications, the set of tasks $T$ is always finite.  Then, the linear ordering is computed as a \blue{list}
-  $S$ of tasks.  In order for a list $S$ of tasks to be a solution of a \textsc{Tsp} $\pair(T,D)$, we need to have 
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $\forall i,j \in \{1,\cdots,\#S\}:\bigl(S[i] \prec S[j] \rightarrow i < j\bigr)$,
-  \\[0.2cm]
-  i.e.~if the task $S[j]$ depends on the task $S[i]$, then $S[i]$ needs to precede $S[j]$ in the list $S$.
-  Furthermore, every task $t \in T$ occurs exactly once in $S$. This requirement is equivalent to the equation
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $\texttt{card}(T) = \texttt{length}(S)$,
-  \\[0.2cm]
-  i.e.~the number of elements of the set $T$ is the same as the length of the list $S$.
-  \eox
+  A \blue{solution} of a topological sorting problem is a list $S$ such that
+  \begin{enumerate}[(a)]
+  \item every task $t \in T$ appears exactly once in $S$, i.e.~we have
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\forall t \in T: \exists k \in \mathbb{N}: S[k] = t$.
+\item If there are two tasks $t_1, t_2 \in T$ such that $t_1 \prec t_2$, then $t_1$ appears before $t_2$
+        in the list $S$, i.e.~we have
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\forall i,j \in \bigl\{1,\cdots,\mathtt{len}(S)\bigr\}:\bigl(S[i] \prec S[j] \rightarrow i < j\bigr)$.
+        \eox
+\end{enumerate}
+
 \end{Definition}
 
 \subsection{Computing the Solution of a \textsc{Tsp}}
-Next, we present \blue{Kahn's algorithm} \cite{kahn:1962} for solving a \textsc{Tsp}.  The basic idea is very
-simple. Ask yourself:  How can a list $S$ that is supposed to be a solution to a \textsl{Tsp} $\pair(T, D)$ start?
+Next, we present \blue{Kahn's algorithm}\index{Kahn's algorithm} \cite{kahn:1962} for solving a \textsc{Tsp}.
+The basic idea is very simple. Ask yourself:  How can a list $S$ that is supposed to be a solution to a
+\textsl{Tsp} $\pair(T, D)$ start? 
 Of course, it can only start with a task that does not depend on any other task.  Therefore, if we are
 unfortunate and every task depends on some other task, there is no way to solve the \textsc{Tsp}.  Otherwise,
 we can just pick any task that does not depend on another task to be the first task and remove it from the set
@@ -1188,14 +1178,14 @@ $\pair(T, D)$ works as follows:
 
       If there is no such task, the \textsc{Tsp} is not solvable and the algorithm terminates with failure.
 \item Remove the task $t$ from both $T$ and $D$, i.e.~if there is a pair $\pair(t, s) \in T$ for some $s$, then
-      this pair is removed from $S$.
+      this pair is removed from $D$.
 \item If $T$ is not yet empty, go back to step 1.  
 \end{enumerate}
 When the algorithm terminates, the list \texttt{S} is a solution to the \textsc{Tsp} $\pair(T, D)$.
 
 In order to implement this algorithm we need to think about the data structures that are needed.
 In order to be able to pick a task $t \in T$ that does not depend on any other task, we need a set of all those
-tasks that do not depend on any other task.  Using graph theoretical manner of speaking we call this set the
+tasks that do not depend on any other task.  Using a graph theoretical manner of speaking we call this set the
 set of \blue{orphans}, since in graph theory, if we have an edge $\pair(s, t)$, then $s$ is called a parent of
 $t$ and, therefore, a node with no parents is called an \blue{orphan}.  In order to maintain the set of
 orphans, we need to be able to compute the \blue{parents} of each node.  Furthermore, when we remove a node $t$
@@ -1271,14 +1261,11 @@ is
 $\Oh\bigl(n \cdot \log_2(n)\bigr)$.
 \\[0.2cm]
 The reason is that building the dictionary \texttt{Parents} as well as the dictionary \texttt{Children} both
-have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$. Furthermore, maintaining  the set \texttt{Orphans} has a complexity of
+have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$. Furthermore, maintaining  the set \texttt{Orphans} also
+has a complexity of
 $\Oh\bigl(n \cdot \log_2(n)\bigr)$.
-
-
-
 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"
 %%% End: 
-\texttt{sp}
