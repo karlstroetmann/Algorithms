@@ -190,6 +190,7 @@ inductively.
 \item $\texttt{Nil} \in \mathcal{H}$.
 \item $\texttt{Node}(p,v,l,r) \in \mathcal{H}$ if and only if the following is true:
       \begin{enumerate}
+      \item $p \in \mathtt{Priority} \wedge v \in \mathtt{Value}$.
       \item $p \leq l \;\wedge\; p \leq r$
 
             Here, the notation $p \leq l$ is used to express the fact that all priorities $q$ occurring
