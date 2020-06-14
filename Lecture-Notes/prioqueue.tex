@@ -187,10 +187,13 @@ The \blue{heap storage} is the part of the memory system that is used to provide
 }\index{heaps}
 inductively. 
 \begin{enumerate}
-\item $\texttt{Nil} \in \mathcal{H}$.
+\item $\texttt{Nil} \in \mathcal{H}$
 \item $\texttt{Node}(p,v,l,r) \in \mathcal{H}$ if and only if the following is true:
       \begin{enumerate}
-      \item $p \in \mathtt{Priority} \wedge v \in \mathtt{Value}$.
+      \item $p \in \mathtt{Priority} \wedge v \in \mathtt{Value}$
+      \item $l \in \mathcal{H} \;\wedge\; r \in \mathcal{H}$
+
+            This condition ensures that all subtrees of a heap are heaps, too.
       \item $p \leq l \;\wedge\; p \leq r$
 
             Here, the notation $p \leq l$ is used to express the fact that all priorities $q$ occurring
@@ -212,9 +215,6 @@ inductively.
             similar to the balancing condition of AVL trees, but instead of comparing the heights, this condition
             compares the number of elements.  Therefore, this balancing condition is much stricter than the
             balancing condition for AVL trees.
-      \item $l \in \mathcal{H} \;\wedge\; r \in \mathcal{H}$
-
-            This condition ensures that all subtrees of a heap are heaps, too.
       \end{enumerate}
 \end{enumerate}
 The function 
@@ -224,8 +224,8 @@ $\texttt{count}:\mathcal{H} \rightarrow \mathbb{N}$
 \\[0.2cm]
 that has been used above is formally specified as follows:
 \begin{enumerate}
-\item $\texttt{Nil}.\texttt{count}() = 0$.
-\item $\texttt{Node}(p,v,l,r).\texttt{count}() = 1 + l.\texttt{count}() + r.\texttt{count}()$.
+\item $\texttt{Nil}.\texttt{count}() = 0$
+\item $\texttt{Node}(p,v,l,r).\texttt{count}() = 1 + l.\texttt{count}() + r.\texttt{count}()$
 \end{enumerate}
 
 The  \blue{heap condition} implies that in a non-empty heap the element with a highest priority is
