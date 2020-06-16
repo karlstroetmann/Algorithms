@@ -63,9 +63,11 @@ where the meaning of the components is as follows:
 \end{enumerate}
 The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{\blue{Adt}}.
 \index{ADT}
+Next, we provide a simple example of an abstract data type.
 
-Next, we provide a simple example of an abstract data type, the 
-\href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack}\index{stack}.
+\section{The Abstract Data Type Stack}
+We proceed to discuss the \textsc{Adt} \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack} 
+\index{stack}. 
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
@@ -89,10 +91,10 @@ and only the plate on top is accessible.  Formally, we define the abstract data 
             The function call $\texttt{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
             the following, we will use \blue{object oriented notation}\index{object oriented notation}
             and write $S.\texttt{push}(x)$ instead of $\texttt{push}(S,x)$.
-      \item $\texttt{pop}: \texttt{Stack}  \rightarrow \texttt{Stack}$
+      \item $\texttt{pop}: \texttt{Stack}  \rightarrow \texttt{Stack} \cup \{ \Omega \}$
 
             The function call $S.\texttt{pop}()$ removes the topmost element from the stack $S$.
-      \item $\texttt{top}: \texttt{Stack} \rightarrow \texttt{Element}$
+      \item $\texttt{top}: \texttt{Stack} \rightarrow \texttt{Element} \cup \{ \Omega \}$
 
             The function call $S.\texttt{top}()$ returns the element that is on top of the stack $S$. 
             The stack $S$ is left unchanged.
