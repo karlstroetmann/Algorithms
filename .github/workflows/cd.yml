@@ -1,0 +1,17 @@
+name: Container Factory
+on: 
+  push:
+    paths:
+      - "Python/**"
+jobs:
+  create-container-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout files in repo
+        uses: actions/checkout@master
+      - name: run repo2docker an publish image
+        uses: jupyterhub/repo2docker-action@master
+        with:
+          NO_PUSH: true
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

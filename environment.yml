@@ -1,0 +1,14 @@
+name: example-environment
+channels:
+  - conda-forge
+dependencies:
+# installed with conda
+  - python
+  - numpy
+  - sympy
+  - graphviz
+  - matplotlib
+  - pip
+# installed with pip  
+#  - pip:
+#    - packagename
