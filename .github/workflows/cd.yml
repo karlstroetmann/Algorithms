@@ -4,7 +4,7 @@ on:
     paths:
       - "Python/**"
 jobs:
-  create--and-publish-container:
+  create-and-publish-container:
     runs-on: ubuntu-latest
     steps:
       - name: checkout files in repo
