@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - "Python/**"
+      - "environment.yml"
+      - "apt.txt"
 jobs:
   create-and-publish-container:
     runs-on: ubuntu-latest
