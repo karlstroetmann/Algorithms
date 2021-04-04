@@ -90,7 +90,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
 %      is a method to investigate the correctness of an algorithm.  
 
-\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries}
+\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and sets
   
       A \blue{dictionary} is a data structures that can be used to implement a function on a finite domain.
       Most modern programming languages provide dictionaries as basic data structures.  We discuss various data
@@ -117,7 +117,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
  
       Many important problems either do not have an exact solution at all or the computation of an
       exact solution would be prohibitively expensive.  In these cases it is often possible to use 
-      random simulations in order to get an approximate solution.  As a concrete example we will show
+      \blue{random simulations} in order to get an approximate solution.  As a concrete example we will show
       how certain probabilities in \href{http://en.wikipedia.org/wiki/Texas_hold_%27em}{Texas hold 'em} 
       poker can be determined approximately with the help of the \blue{Monte Carlo method}.
 \end{enumerate}
@@ -139,7 +139,7 @@ lectures, you should have acquired the following capabilities:
 This is a lecture on \blue{algorithms}, not on \blue{programming}.  It is important that you do not mix up
 these two concepts.  An algorithm \index{algorithm} is an \blue{abstract concept} to solve a given problem.  In
 contrast, a program is a \blue{concrete implementation} of an algorithm.  In order to implement an
-algorithm by a program we have to cover every detail, be it trivial or not.  On the other hand, 
+algorithm as a program we have to cover every detail, be it trivial or not.  On the other hand, 
 to specify an algorithm it is often sufficient to describe just the interesting aspects.  The rest can then be
 filled in by a competent programmer.  Therefore, a specification of an algorithm often \blue{abstracts} from minor
 details. 
@@ -148,7 +148,7 @@ In the literature, algorithms are usually presented as \blue{pseudo code}. \inde
 Syntactically, pseudo code looks
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
 described in natural language.   However, it is important to realize that a piece of pseudo code is
-\underline{not} an algorithm but is only a \blue{representation} of an algorithm.  However, the
+\underline{not} an algorithm but is only a \blue{representation} of an algorithm.  The
 advantage of pseudo code is that we are not confined by the arbitrariness of the syntax of a
 programming language.
 
@@ -161,7 +161,7 @@ We can code it in \href{https://en.wikipedia.org/wiki/C_(programming_language)}{
 
 Having discussed the difference between algorithms and programs, let us now decide how to present
 algorithms in this lecture.  
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item We can describe algorithms using natural language.  While natural language certainly is
       expressive enough, it also suffers from \blue{ambiguities}.  Furthermore, natural language
       descriptions of complex algorithms tend to be difficult to follow.
@@ -174,12 +174,14 @@ algorithms in this lecture.
 
       However, after having presented an algorithm in the language of mathematics, it is often very
       straightforward to implement this algorithm in the programming language \textsl{Python}.
+      Furthermore, this has the added benefit that we are able to test our algorithm.  For this reason we
+      present \textsl{Python} implementations of all the algorithms covered in this lecture.
 \end{enumerate}
 
 \section{Desirable Properties of Algorithms}
 Before we start with our discussion of algorithms we should think about our goals when designing
 algorithms.  
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item Algorithms have to be \blue{correct}.
 \item Algorithms should be \blue{efficient} with respect to both \blue{computing time} and \blue{memory}.
 \item Algorithms should be \blue{simple}.
@@ -189,8 +191,8 @@ importance of the last goal might not be as obvious as the other goals.
 However, the reason for the last goal is \blue{economical}:  If it takes very long to code an algorithm, the
 cost of the implementation might well be unaffordable.  Furthermore, even if the time budget to implement an
 algorithm is next to unlimited,  there is another reasons to strife for simple algorithms:  If the conceptual
-complexity of an algorithm is too high, it may become impossible to check the correctness of the
-implementation.  Therefore, the third goal is strongly related to the first goal.  
+complexity of an algorithm is too high, maintenance might become a nightmare and it might be impossible to
+guarantee the correctness of the implementation.  Therefore, the third goal is strongly related to the first goal.  
 
 \section{Literature}
 These lecture notes are intended to be the main source for my lecture.  Additionally, I want
@@ -234,10 +236,10 @@ to mention those books that have inspired me the most.
 
 \section{A Final Remark}
 There is one final remark I would like to make at this point:  Frequently, I get questions from
-students concerning the exam. \index{exam} While I will most gladly answer these questions, I should warn you
-that, 50\%  
-of the time, my answers will be flat out \red{lies}.  The other 50\%,
-my answers will be some \blue{random rubbish}.  Please bear that in mind when evaluating my answers.
+students concerning the exam. \index{exam} While I will most gladly \dSmiley[1.5] answer these questions, I should warn you
+that, unfortunately 50\%
+of the time, my answers will be flat out \red{lies} \dChangey[1.5][red]{-2}.  The other 50\%,
+my answers will be some \blue{random rubbish} \dVomey[2][green!80!black][brown].  Please bear that in mind when evaluating my answers. 
 \pagebreak
 
 \section{A Request}
