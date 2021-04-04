@@ -1,7 +1,8 @@
-\chapter{Big $\mathcal{O}$ Notation} 
-This chapter introduces the
-\href{http://en.wikipedia.org/wiki/O_notation}{big $\mathcal{O}$ notation}. 
-This  notation is useful when analysing the running time of algorithms.  Furthermore, the big $\mathcal{O}$
+\chapter{The Complexity of Algorithms} 
+This chapter discusses the computational \blue{complexity} of algorithms.  In order to do so it introduces the
+\href{http://en.wikipedia.org/wiki/O_notation}{big $\mathcal{O}$ notation}, which is a notion that is used to
+describe the \blue{growth} of a function.  
+This  notation is needed when analysing the running time of algorithms.  Furthermore, the big $\mathcal{O}$
 notation is part of the technical language of computer science and hence you need to understand this notation
 when conversing with your colleagues.
 
@@ -24,8 +25,8 @@ In order to obtain this understanding we could proceed as follows:
       time of our algorithm for given input.
 \end{enumerate}
 This approach is problematic for a number of reasons.
-\begin{enumerate}
-\item It is both time consuming and complicated.
+\begin{enumerate}[(a)]
+\item It is both very time consuming and very complicated.
 \item The execution time of the basic operations is highly dependent on the memory hierarchy of the
       computer system:  For many modern computer architectures, adding two numbers that happen to be
       in a \blue{register} is more than ten times faster than adding two numbers that reside in
@@ -153,7 +154,7 @@ natural numbers.
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/big-o.eps, scale=0.50}} 
-  \caption{Example for $f \in \Oh(g)$.} %$
+  \caption{Example for $f \in \Oh(g)$.} 
   \label{fig:big-o.eps}
 \end{figure}
 
@@ -208,7 +209,7 @@ Finally, we obviously have
 \end{equation}
 Adding up the inequalities (\ref{eq:u3}), (\ref{eq:u4}), and (\ref{eq:u5}) shows that \\[0.2cm]
 \hspace*{1.3cm} $3 \cdot n^3 + 2 \cdot n^2 + 7 \leq 12 \cdot n^3$ \\[0.2cm]
-and therefore the proof is complete. \qed
+for all $n \geq 1$ and therefore the proof is complete. \qed
 
 \example
 We have  $n \in \Oh(2^n)$. 
@@ -294,7 +295,7 @@ $f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a numb
 the big $\Oh$ notation next.  These properties will later enable us to prove a claim of the form 
 $f \in \Oh(g)$ much quicker than by induction.
 
-\begin{Proposition}[Reflexivity of Big $\Oh$ Notation] \index{reflexivity of big $\Oh$ notation}
+\begin{Proposition}[Reflexivity of the Big $\Oh$ Notation] \index{reflexivity of big $\Oh$ notation}
   For all functions $f\colon \N \rightarrow {\R_+}$ we have that
   \\[0.2cm]
   \hspace*{1.3cm} $f \in \Oh(f)$ \quad holds. 
@@ -306,7 +307,7 @@ Let us define $k:=0$ and $c:=1$.  Then our claim  follows immediately from the i
 \hspace*{1.3cm}
 $\forall n \in \N\colon f(n) \leq f(n)$. \qed
 
-\begin{Proposition}[Multiplication with Constants] \hspace*{\fill} \linebreak
+\begin{Proposition}[Stability of the Big $\Oh$ Notation under Multiplication with Constants] \hspace*{\fill} \linebreak
 Assume that we have functions  $f,g\colon \N \rightarrow {\R_+}$ and a number $d \in \R_+$.  Then we
 have 
 \\[0.2cm]
@@ -333,9 +334,9 @@ and by definition this implies $d \cdot g \in \Oh(f)$. \qed
 
 \remark 
 The previous proposition shows that the big $\Oh$ notation does indeed abstract
-from constant factors. \eox
+from constant factors. \eoxs
 
-\begin{Proposition}[Addition]
+\begin{Proposition}[Stability of the Big $\Oh$ Notation under Addition]
 Assume that $f,g,h \colon \N \rightarrow {\R_+}$. Then we have 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -366,11 +367,11 @@ holds for all $n \geq k$.
 \qed
 
 \exercise
-Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove that 
+Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the claim that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 \cdot f_2 \in \Oh(h_1 \cdot h_2)$
-\quad holds.  \eox
+\quad holds.  \eoxs
 
 
 \exercise
@@ -378,7 +379,7 @@ Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 / f_2 \in \Oh(h_1 / h_2)$
-\quad holds.  \eox
+\quad holds.  \eoxs
 
 \begin{Proposition}[Transitivity of Big $\mathcal{O}$ Notation] \index{transitivity of big $\mathcal{O}$ notation}
 Assume $f,g,h \colon \N \rightarrow {\R_+}$. Then we have \\[0.2cm]
@@ -415,7 +416,7 @@ The transitivity of the relation $\leq$ immediately implies $f(n) \leq c \cdot h
 
 \begin{Proposition}[Limit Proposition] \index{limit proposition} \label{limit}
   Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the \href{https://en.wikipedia.org/wiki/Limit_(mathematics)#Limit_of_a_sequence}{limit}
-  \\[0.2cm]
+  \\[0.3cm]
   \hspace*{3.3cm}
  $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$
   \\[0.2cm]
@@ -538,10 +539,16 @@ $\ds
 \hspace*{2.8cm}
 $\ds = 
 \lim\limits_{x \rightarrow \infty} \frac{\ds\;\frac{\mathrm{d}^k\,x^{k}}{\mathrm{d}x^k}\;}{\ds\frac{\mathrm{d}^k\,\lambda^x}{\mathrm{d}x^k}} =
-\lim\limits_{x \rightarrow \infty} \frac{k!}{\ln(\lambda)^k \lambda^x} = 0$.
+\lim\limits_{x \rightarrow \infty} \frac{k!}{\ln(\lambda)^k \lambda^x} =
+\frac{k!}{\ln(\lambda)^k} \cdot \lim\limits_{x \rightarrow \infty} \frac{1}{\lambda^x} = 0$ \quad because
+$\lambda > 0$.
 \\[0.2cm] 
 Therefore the limit exists and the claim follows from the limit proposition.
 \qed
+
+\remark
+This example shows that any polynomial grows slower than any exponential function with a base greater than 1.
+\eoxs
 
 \example
 We have $\ln(n) \in \Oh(n)$.
@@ -672,7 +679,7 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
 
 \section{A Remark on Notation}
 Technically, for some function $g:\mathbb{N} \rightarrow \mathbb{R}_+$ the expression $\Oh(g)$
-denotes a set.  Therefore, for a given function $f:\mathbb{N} \rightarrow \mathbb{R}_+$ we can
+denotes a set of functions.  Therefore, for a given function $f:\mathbb{N} \rightarrow \mathbb{R}_+$ we can
 either have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -744,7 +751,6 @@ $\ds\textsl{count}_B(n) = 3 \cdot n \cdot \log_2(n) + \Oh(n)$
 \\[0.2cm]
 we can abstract from lower order terms while still retaining the leading coefficient of the term
 determining the complexity.  
-\pagebreak
 
 \section[Computation of Powers]{Case Study:  Efficient Computation of Powers}
 \index{computation of powers}
@@ -769,7 +775,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
     def power(m, n):
         r = 1
         for i in range(n):
-            r *= m
+            r = r * m
         return r
 \end{minted}
 \vspace*{-0.3cm}
@@ -820,7 +826,7 @@ Furthermore, $q$ and $r$ are uniquely determined by the condition (ID).  Then, $
 of $a$ by $b$ and $q$ is called the \blue{remainder} of the integer division of $a$ by $b$ and we write
 \\[0.2cm]
 \hspace*{1.3cm}
-$q = a \dvv b$ \quad and \quad $r = a \;\texttt{\%}\; b$.
+$q = a \mbox{\,\texttt{/}$\!$\texttt{/}\,} b$ \quad and \quad $r = a \;\texttt{\%}\; b$.
 \ex
 
 \begin{figure}[!h]
@@ -881,7 +887,7 @@ by computational induction.
       In this case, we have
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{power}(m,0) = 1 =  m^0$.
+      $\mathtt{power}(m,0) = 1 =  m^0$. \mycheck
 \item \textbf{Induction step}:
 
       The recursive invocation of $\mathtt{power}$ has the form
@@ -896,7 +902,7 @@ by computational induction.
 
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k$ and therefore
             $n \dv 2 = k$.
-            Then, we have the following:
+            Hence we have:
             \\[0.2cm]
             \hspace*{1.3cm}
            $ 
@@ -922,12 +928,12 @@ by computational induction.
             \end{array}
             $
       \end{enumerate}
-      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the induction step is finished.
+      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the induction step is finished. \mycheck
 \item \textbf{Termination proof}:
       Every time the function \texttt{power} is invoked as $\mathtt{power}(m, n)$ and $n > 0$, the recursive
       invocation has the form $\mathtt{power}(m,n \dv 2)$ and, since $n \dv 2 < n$ for all $n > 0$, the second
       argument is decreased.  As this argument is a natural number, it must eventually reach $0$.  But if the
-      second argument of $\mathtt{power}$ is $0$, the function terminates.
+      second argument of the function $\mathtt{power}$ is $0$, the function terminates. \mycheck
       \qed
 \end{enumerate}
 Next, we want to analyse the \blue{computational complexity} of our implementation of \texttt{power}.
@@ -952,8 +958,11 @@ $2 \cdot(n \dv 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2
 showing that $(2^l -1 ) \dv 2 = 2^{l-1} -1$.
 Therefore, if $n = 2^l - 1$ the exponent $n$ will be odd on every recursive call until it finally reaches $0$.
 Let us assume $n = 2^l - 1$ and let us compute the number $a_n$ of multiplications that
-are done when $\mathtt{power}(m,n)$ is evaluated. 
-
+are done when $\mathtt{power}(m,n)$ is evaluated:
+\\[0.2cm]
+\hspace*{1.3cm}
+$a_n := \mbox{number of multiplications to compute \texttt{power}}(m, n)$.
+\\[0.2cm]
 First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluation of 
 $\mathtt{power}(m, n)$ does not require a single multiplication.
 Otherwise, we have two multiplications in line 8 that have to be added to those multiplications
@@ -978,7 +987,7 @@ $b_l = a_{2^l-1} = a_{(2^l-1) \dvv 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qqu
 $l > 0$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
-solution of this recurrence relation is given by the formula
+solution of the recurrence relation $b_l = b_{l-1} + 2$ with initial condition $b_0 = 0$ is given by the formula
 \\[0.2cm]
 \hspace*{1.3cm} $b_l = 2 \cdot l$ \qquad for all $l \in \N$. 
 \\[0.2cm] 
@@ -1055,7 +1064,7 @@ that the time needed to multiply two numbers depends on the size of these number
 \item Implement a procedure $\mathtt{div\_mod}$ that takes two numbers $m$ and $n$ and that returns the pair
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\bigl(m \dvv n, m \scriptsize{\;\texttt{\%}\;}n\bigr)$.
+      $\bigl(m \dv n, m \;\texttt{\%}\; n\bigr)$.
       \\[0.2cm]
       Therefore, if $\mathtt{div\_mod}(m, n) = (q,r)$ we will have both
       \\[0.2cm]
@@ -1063,10 +1072,10 @@ that the time needed to multiply two numbers depends on the size of these number
       $m = n \cdot q + r$ \quad and \quad $0 \leq r < n$.
       \\[0.2cm]
       You should implement the function recursively and compute 
-      $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dvv 2, n)$.
-      In your implementation of $\mathtt{div\_mod}$ you are only permitted to use the operators $\dvv$ and
-      $\scriptsize{\texttt{\%}}$ when the second argument of these operators is $2$, i.e.~you are permitted to
-      use the expressions $m \dvv 2$ and $m \,\scriptsize{\texttt{\%}}\, 2$ as these expressions can be implemented
+      $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dv 2, n)$.
+      In your implementation of $\mathtt{div\_mod}$ you are only permitted to use the operators $\dv$ and
+      $\texttt{\%}$ when the second argument of these operators is $2$, i.e.~you are permitted to
+      use the expressions $m \dv 2$ and $m \;\texttt{\%}\; 2$ as these expressions can be implemented
       using bit operations.
 \item Prove that your implementation works correctly.
       \qed
