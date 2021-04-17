@@ -1078,8 +1078,20 @@ that the time needed to multiply two numbers depends on the size of these number
       use the expressions $m \dv 2$ and $m \;\texttt{\%}\; 2$ as these expressions can be implemented
       using bit operations.
 \item Prove that your implementation works correctly.
-      \qed
+      \eoxs
 \end{enumerate} 
+
+\exercise
+Given a natural number $n$, the \blue{integer square root} \index{integer square root} of $n$ is the largest
+number $r$ such that $r^2$ is less or equal than $n$, i.e. we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
+\begin{enumerate}[(a)]
+\item Develop a recursive algorithm that computes $\mathtt{isqrt}(n)$ in terms of $\mathtt{isqrt}(n\dv4)$.
+\item Implement this algorithm in \textsl{Python}.
+\item Prove the correctness of your implementation by computational induction. \eoxs
+\end{enumerate}
 
 \section{The Master Theorem}
 In order to analyse the complexity of  the procedure $\textsl{power}()$,
@@ -1091,7 +1103,7 @@ Instead, we can use the
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
 
-\begin{Theorem}[\blue{Master Theorem}] 
+\begin{Theorem}[\blue{Master Theorem} \index{Master Theorem}] 
   Assume that 
   \begin{enumerate}[(a)]
   \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$, $\delta \in \mathbb{R}$ such that $\delta \geq
