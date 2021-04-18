@@ -1,0 +1,147 @@
+\chapter{Symbolic Program Execution}
+In the last chapter we have seen how to prove the correctness of a recursive function via
+\blue{computational induction}.  If a function is implemented via loops instead of recursion, then the method
+of computational induction is not applicable.  Therefore, this section introduces the method of
+\blue{symbolic execution}. \index{symbolic execution}  Using this method it is possible to verify the
+correctness of programs that are implemented in an iterative fashion using loops. 
+We will introduce this method via a simple example.  Consider the program shown in Figure
+\ref{fig:power-iterative-annotated.stlx}. 
+
+\begin{figure}[!h]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 1.3cm,
+                  xrightmargin  = 1.3cm,
+                  codes         = {\catcode`_=8\catcode`$=3},
+                  commandchars  = \\\{\},
+                ]
+    power := procedure(x$_0$, y$_0$) \{
+        r$_0$ := 1;
+        while (y$_n$ > 0) \{
+            if (y$_n$ % 2 == 1) \{
+                r$_{n+1}$ := r$_n$ * x$_n$;
+            \} 
+            x$_{n+1}$ := x$_n$ * x$_n$;
+            y$_{n+1}$ := y$_n$ \symbol{92} 2;            
+        \} 
+        return r$_N$;
+    \};
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{An annotated programm to compute powers.}
+\label{fig:power-iterative-annotated.stlx}
+\end{figure} % $
+
+The main difference between a mathematical formula and a program is that in a formula all
+occurrences of a variable refer to the same value.   This is different in a program because the
+variables change their values dynamically.  In order to deal with this property of program variables
+we have to be able to distinguish the different occurrences of a variable.  To this end,  we 
+\blue{index} the program variables. 
+When doing this we have to be aware of the fact that the same occurrence of a program variable can
+still denote different values if the variable occurs inside  a loop.  In this case we have to index
+the variables in a way that the index includes a counter that counts the number of loop iterations.
+For concreteness, consider the  program shown in 
+Figure \ref{fig:power-iterative-annotated.stlx}.  
+Here, in line 5 the variable \texttt{r} has the index $n$ on the right side of the assignment,
+while it has the index $r_{n+1}$ on the left side of the assignment in line 5.  Here, $n$ denotes 
+the number of times the \texttt{while} loop has been iterated.
+After the loop in line 10 the variable is indexed as
+$\texttt{r}_N$, where $N$ denotes the total number of loop iterations.
+We show the correctness of the given program next.  Let us define
+\\[0.2cm]
+\hspace*{1.3cm}
+$ a := x_0, \quad b := y_0$.
+\\[0.2cm]
+We show, that the \texttt{while} loop satisfies the invariant
+\begin{equation}
+  \label{eq:powerInv}
+   r_n \cdot x_n^{y_n} = a^b.
+\end{equation}
+This claim is proven by induction on the number of loop iterations.
+\begin{enumerate}
+\item[B.C.] $n=0$: Since we have $r_0 = 1$, $x_0 = a$, and $y_0 = b$ we have 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $r_n \cdot x_n^{y_n} = r_0 \cdot x_0^{y_0} = 1 \cdot a^{b} = a^b$.
+\item[I.S.] $n \mapsto n + 1$:  We proof proceeds by a case distinction with respect to $y \mod 2$:
+            \begin{enumerate}
+            \item $y_n \mmod 2 = 1$.
+
+                  Then we have $y_{n} = 2 \cdot (y_n\dv 2) + 1$ and
+                  $r_{n+1} = r_n \cdot x_n$.  Hence
+                  \begin{eqnarray*}
+                      &   & r_{n+1} \cdot x_{n+1}^{y_{n+1}} \\[0.2cm] 
+                      & = & (r_{n} \cdot x_n) \cdot (x_{n} \cdot x_{n})^{y_{n}\dvv 2} \\[0.2cm] 
+                      & = & r_{n} \cdot x_n^{2 \cdot (y_{n}\dvv 2) + 1} \\[0.2cm] 
+                      & = & r_{n} \cdot x_n^{y_n} \\
+                      & \stackrel{i.h.}{=} & a^{b} 
+                  \end{eqnarray*}
+
+            \item $y_n \mmod 2 = 0$.
+
+                  Then we have $y_{n} = 2 \cdot (y_n\dv 2)$ and $r_{n+1} = r_n$.
+                  Therefore
+                  \begin{eqnarray*}
+                      &   & r_{n+1} \cdot x_{n+1}^{y_{n+1}} \\[0.2cm] 
+                      & = & r_{n} \cdot (x_{n} \cdot x_{n})^{y_{n}\dvv 2} \\[0.2cm] 
+                      & = & r_{n} \cdot x_n^{2 \cdot (y_{n} \dvv 2)} \\[0.2cm] 
+                      & = & r_{n} \cdot x_n^{y_n} \\
+                      & \stackrel{i.h.}{=} & a^{b} 
+                  \end{eqnarray*}
+            \end{enumerate}
+\end{enumerate}
+This shows the validity of the equation (\ref{eq:powerInv}).   If the \texttt{while} loop
+terminates, we must have $y_N = 0$.  If $n=N$, then equation (\ref{eq:powerInv}) yields:
+\\[0.2cm]
+\hspace*{1.3cm}
+$$
+\begin{array}[t]{cl}
+                 & r_N \cdot x_N^{y_N} = a^b \\
+\Leftrightarrow  & r_N \cdot x_N^{0}  = a^b \\
+\Leftrightarrow  & r_N \cdot 1       = a^b \\
+\Leftrightarrow  & r_N               = a^b
+\end{array}
+$$
+\\[0.2cm]
+This shows $r_N = a^b$ and since it is obvious that the \texttt{while} loop terminates, we have proven that
+$\texttt{power}(a,b) =a^b$ holds. \qed
+
+\exercise
+Use the method of symbolic program execution to prove the correctness of the implementation of the
+Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx}.  During the proof you should make
+use of the fact that for all positive natural numbers $x$ and $y$ the equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{gcd}(x, y) = \mathtt{gcd}(x \,\texttt{\%}\, y, y)$
+\\[0.2cm]
+is valid.  
+
+\begin{figure}[!ht]
+\centering
+\begin{Verbatim}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  labelposition = bottomline,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]
+    def gcd(x, y):
+        while y != 0:
+            x, y = y, x % y
+        return x
+\end{Verbatim}
+\vspace*{-0.3cm}
+\caption{The Euclidean algorithm.}
+\label{fig:gcd.stlx}
+\end{figure}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End:
