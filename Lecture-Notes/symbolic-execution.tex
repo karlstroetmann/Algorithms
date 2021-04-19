@@ -19,17 +19,14 @@ We will introduce this method via a simple example.  Consider the program shown 
                   codes         = {\catcode`_=8\catcode`$=3},
                   commandchars  = \\\{\},
                 ]
-    power := procedure(x$_0$, y$_0$) \{
-        r$_0$ := 1;
-        while (y$_n$ > 0) \{
-            if (y$_n$ % 2 == 1) \{
-                r$_{n+1}$ := r$_n$ * x$_n$;
-            \} 
-            x$_{n+1}$ := x$_n$ * x$_n$;
-            y$_{n+1}$ := y$_n$ \symbol{92} 2;            
-        \} 
-        return r$_N$;
-    \};
+    def power(x$_0$, y$_0$):
+        r$_0$ = 1
+        while y$_n$ > 0:
+            if y$_n$ % 2 == 1:
+                r$_{n+1}$ = r$_n$ * x$_n$
+            x$_{n+1}$ = x$_n$ * x$_n$
+            y$_{n+1}$ = y$_n$ \symbol{92} 2
+        return r$_N$
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{An annotated programm to compute powers.}
