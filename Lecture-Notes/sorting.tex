@@ -196,13 +196,13 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
     def sort(L):
         if L == []:
             return []
-        x, R = L[0], L[1:]
+        x, *R = L
         return insert(x, sort(R))
-    
+        
     def insert(x, L):
         if L == []:
             return [x]
-        y, R = L[0], L[1:]
+        y, *R = L
         if x <= y:
             return [x] + L
         else:
@@ -217,29 +217,36 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
 Figure \ref{fig:Insertion-Sort.ipynb} shows how the \blue{insertion-sort} algorithm can be implemented 
 in \textsl{Python}.
 \begin{enumerate}
-\item If $L$ is empty, we return the empty list.
-\item Otherwise, $L$ is split into two parts: $x$ is the first element of $L$ and $R$ is the rest of $L$,
-      i.e.~all elements of $L$ with the exception of the first element.  Next, the rest $R$ is sorted and $x$
-      is inserted into $R$.
-\item In order to insert $x$ into a list $L$ that is already sorted, we first check whether $L$ is the
-      empty list.  Inserting $x$ into the empty list yields the list $[x]$.
-\item Otherwise, $L$ is split into two parts: $y$ is the first element of $L$ and $R$ is the rest of $L$.
+\item If $\texttt{L}$ is empty, we return the empty list.
+\item Otherwise, the assignment
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{x, *R = L}
+      \\[0.2cm]
+      splits $\mathtt{L}$ into two parts: $\texttt{x}$ is the first element of $\texttt{L}$ and $\texttt{R}$ is the rest of $\texttt{L}$,
+      i.e.~all elements of $\texttt{L}$ with the exception of the first element.  Next, the rest $\texttt{R}$
+      is sorted and $\texttt{x}$ is inserted into $\texttt{R}$.
+\item In order to insert $\texttt{x}$ into a list $\texttt{L}$ that is already sorted, we first check whether
+      $\texttt{L}$ is the empty list.  Inserting $\texttt{x}$ into the empty list yields the list $[\texttt{x}]$.
+\item Otherwise, $\texttt{L}$ is split into two parts: $\texttt{y}$ is the first element of $\texttt{L}$ and
+      $\texttt{R}$ is the rest of $\texttt{L}$. 
       Then, there are two cases:
       \begin{enumerate}[(a)]
-      \item If $x$ is less or equal than $y$, then, as $L$ is sorted,  $x$ is less or equal than all elements
-            of $L$ and therefore $x$ is prepended in front of $L$.
-      \item Otherwise, we recursive insert $x$ into the rest $R$ and prepend $y$ to the resulting list.
-        
+      \item If $\texttt{x}$ is less or equal than $\texttt{y}$, then, as $\texttt{L}$ is sorted,  $\texttt{x}$
+            is less or equal than all elements of $\texttt{L}$ and therefore $\texttt{x}$ is prepended in front
+            of $\texttt{L}$. 
+      \item Otherwise, we recursively insert $\texttt{x}$ into the rest $\texttt{R}$ and prepend $\texttt{y}$
+            to the resulting list.     
       \end{enumerate}
 \end{enumerate}
 
 \subsection{Complexity of Insertion Sort}
 We will compute the number of comparisons that are done in the implementation of \texttt{insert}
-in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(L)$ with a list
-$L$ of length $n$. In order to do that, 
+in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(\texttt{L})$ with a list
+$\texttt{L}$ of length $n$. In order to do that, 
 we have to compute the number of evaluations of the operator ``\texttt{<=}'' when 
- $\texttt{insert}(x,L)$ is evaluated for a list $L$ of length $n$.  Let us denote this number as 
-$a_n$.  The worst case happens if $x$ is bigger than every element of $L$ because in that case the
+ $\texttt{insert}(\texttt{x},\texttt{L})$ is evaluated for a list $\texttt{L}$ of length $n$.  Let us denote this number as 
+$a_n$.  The worst case happens if $\texttt{x}$ is bigger than every element of $\texttt{L}$ because in that case the
 test ``\texttt{x <= y}'' in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} will always evaluate to
 \texttt{False} and therefore \texttt{insert} will keep calling itself recursively.
 Then we have
@@ -252,24 +259,24 @@ A trivial induction shows that this recurrence relation has the solution
 \hspace*{1.3cm} 
 $a_n = n$.
 \\[0.2cm]
-Hence, in the worst case the evaluation of $\mathtt{insert}(x,L)$ will lead to $n$ comparisons for a list
-$L$ of length $n$.  The reason is simple:  If $x$ is bigger than any element of $L$, then we have to
-compare $x$ with every element of \texttt{$L$[1:]} in order to insert $x$ into \texttt{$L$[1:]}.
+Hence, in the worst case the evaluation of $\mathtt{insert}(\texttt{x},\texttt{L})$ will lead to $n$ comparisons for a list
+$\texttt{L}$ of length $n$.  The reason is simple:  If $\texttt{x}$ is bigger than any element of $L$, then we have to
+compare $\texttt{x}$ with every element of $\texttt{R}$ in order to insert $\texttt{x}$ into $\texttt{R}$.
 
 Next, let us compute the number of comparisons that have to be done when calling
-$\texttt{sort}(L)$ in the worst case for a list  $L$ of length $n$.  Let us denote this number as
-$b_n$. The worst case happens if $L$ is already sorted in reverse order, i.~e.~if $L$ is
-\blue{sorted descendingly}\index{sorted descendingly}, because then the element $x$ that is inserted in
-$\texttt{sort}(R)$ is bigger than all elements 
-of $R$ and therefore also bigger than all elements of $\texttt{sort}(R)$.  Then we have \\[0.2cm]
+$\texttt{sort}(\texttt{L})$ in the worst case for a list  $\texttt{L}$ of length $n$.  Let us denote this number as
+$b_n$. The worst case happens if $\texttt{L}$ is already sorted in reverse order, i.e.~if $\texttt{L}$ is
+\blue{sorted descendingly}\index{sorted descendingly}, because then the element $\texttt{x}$ that is inserted in
+$\texttt{sort}(\texttt{R})$ is bigger than all elements 
+of $\texttt{R}$ and therefore also bigger than all elements of $\texttt{sort}(\texttt{R})$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_0 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
-because for a list of the form $L = [x] + R$ of length $n+1$ we first have to sort the list $R$
-recursively.  As $R$ has length $n$ this takes $b_n$ comparisons.  After that, the call
-$\mathtt{insert}(x, \mathtt{sort(R)})$ 
-inserts the element $x$ into $\mathtt{sort}(R)$.  We have previously seen that this takes $n$
-comparisons if $x$ is bigger than all elements of $\mathtt{sort}(R)$ and if the list $L$ is sorted
+because for a list of the form $\texttt{L} = [x] + \texttt{R}$ of length $n+1$ we first have to sort the list $\texttt{R}$
+recursively.  As $\texttt{R}$ has length $n$ this takes $b_n$ comparisons.  After that, the call
+$\mathtt{insert}(\texttt{x}, \mathtt{sort(\texttt{R})})$ 
+inserts the element $\texttt{x}$ into $\mathtt{sort}(\texttt{R})$.  We have previously seen that this takes $n$
+comparisons if $\texttt{x}$ is bigger than all elements of $\mathtt{sort}(\texttt{R})$ and if the list $\texttt{L}$ is sorted
 descendingly this will indeed be the case.
 
 If we substitute $n$ by $n-1$ in equation $(1)$ we find
@@ -310,61 +317,61 @@ Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ an
 
 Next, let us consider the best case.  The best case happens if the list $L$ is already sorted
 ascendingly.  Then, the call of 
-$\mathtt{insert}(x,\mathtt{sort}(R))$ only needs a single comparison.  This time, the recurrence
-equation for the number $b_l$ of comparisons when sorting $L$ satisfies
+$\mathtt{insert}(\texttt{x},\mathtt{sort}(\texttt{R}))$ needs a single comparison provided $\texttt{R}$ is non-empty.  This time, the recurrence
+equation for the number $b_l$ of comparisons when sorting $\texttt{L}$ satisfies
  \\[0.2cm]
 \hspace*{1.3cm}
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
 Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
 \blue{insertion sort} has a \blue{linear} complexity.  This is as good as it can possibly get because when
-sorting a list $L$ we must at least inspect all of the elements of $L$ and therefore we will always have at
-least a linear amount of work to do.
+sorting a list $\texttt{L}$ we must at least inspect all of the elements of $\texttt{L}$ and therefore we will
+always have at least a linear amount of work to do.
 
 
 \section{Selection Sort}
 Next, we discuss 
 \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
-given list $L$ this algorithm works as
+given list $\texttt{L}$ this algorithm works as
 follows:
 \begin{enumerate}
-\item If $L$ is empty, the result is the empty list: \\[0.2cm]
+\item If $\texttt{L}$ is empty, the result is the empty list: \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
-\item Otherwise, we compute the smallest element of the list $L$ and we remove this element from
-      $L$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
+\item Otherwise, we compute the smallest element of the list $\texttt{L}$ and we remove this element from
+      $\texttt{L}$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
       to the front of the sorted list:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $L \not= [] \wedge x := \min(L) \rightarrow \mathtt{sort}\bigl(L\bigr) = [x] + \mathtt{sort}\bigl(\mathtt{delete}(x, L)\bigr)$.
+      $\texttt{L} \not= [] \wedge \texttt{x} := \min(\texttt{L}) \rightarrow \mathtt{sort}\bigl(\texttt{L}\bigr) = [\texttt{x}] + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{x}, \texttt{L})\bigr)$.
 \end{enumerate}
-The algorithm to delete an element $x$ from a list $L$ is also formulated recursively.  There are three cases:
+The algorithm to delete an element $\texttt{x}$ from a list $\texttt{L}$ is also formulated recursively.  There are three cases:
 \begin{enumerate}
-\item If $L$ is empty, we have \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{delete}\bigl(x, []\bigr) = []$.
-\item If $x$ is equal to the first element of $L$, then the function \texttt{delete} returns the
-      rest of $L$: \\[0.2cm]
+\item If $\texttt{L}$ is empty, we have \\[0.2cm]
+      \hspace*{1.3cm} $\mathtt{delete}\bigl(\texttt{x}, []\bigr) = []$.
+\item If $\texttt{x}$ is equal to the first element of $\texttt{L}$, then the function \texttt{delete} returns the
+      rest of $\texttt{L}$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{delete}\bigl(x, [x] + R\bigr) = R$.
-\item Otherwise, the element $x$ is removed recursively from the rest of the list: \\[0.2cm]
+      $\mathtt{delete}\bigl(\texttt{x}, [\texttt{x}] + \texttt{R}\bigr) = \texttt{R}$.
+\item Otherwise, the element $\texttt{x}$ is removed recursively from the rest of the list: \\[0.2cm]
       \hspace*{1.3cm}   
-      $x \not = y \rightarrow \mathtt{delete}\bigl(x, [y] + R\bigr) = [y] + \mathtt{delete}(x,R)$.
+      $\texttt{x} \not = \texttt{y} \rightarrow \mathtt{delete}\bigl(\texttt{x}, [\texttt{y}] + \texttt{R}\bigr) = [\texttt{y}] + \mathtt{delete}(\texttt{x},\texttt{R})$.
 \end{enumerate}
-Finally, we have to specify the computation of the minimum of a list $L$:
+Finally, we have to specify the computation of the minimum of a list $\texttt{L}$:
 \begin{enumerate}
 \item The minimum of the empty list is bigger than any element.  Therefore we have 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{min}\bigl([]\bigr) = \infty$.
-\item In order to compute the minimum of the list $[x] + R$ we compute the minimum of $R$ and
+\item In order to compute the minimum of the list $[\texttt{x}] + \texttt{R}$ we compute the minimum of $\texttt{R}$ and
       then use the binary function $\mathtt{min}$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}\bigl([x] + R\bigr) = \mathtt{min}\bigl(x, \mathtt{min}(R) \bigr)$. 
+      $\mathtt{min}\bigl([\texttt{x}] + \texttt{R}\bigr) = \mathtt{min}\bigl(\texttt{x}, \mathtt{min}(\texttt{R}) \bigr)$. 
 
       Here, the binary function $\mathtt{min}$ is defined as follows: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}(x,y) = \left\{
+      $\mathtt{min}(\texttt{x},\texttt{y}) = \left\{
       \begin{array}{ll}
-        x  & \mbox{if $x \preceq y\,$;} \\
-        y  & \mbox{otherwise.} \\
+        \texttt{x}  & \mbox{if $\texttt{x} \preceq \texttt{y}$;} \\
+        \texttt{y}  & \mbox{otherwise.} \\
       \end{array}\right.
       $
 \end{enumerate}
@@ -400,27 +407,28 @@ returned.  Otherwise, $x$ is deleted recursively from the rest of $L$.
     def delete(x, L):
         if L == []:
             assert L != [], f'delete({x}, [])'
-        if L[0] == x:
-            return L[1:]
-        return [L[0]] + delete(x, L[1:])
+        y, *R = L
+        if y == x:
+            return R
+        return [y] + delete(x, R)    
 \end{minted}
 \vspace*{-0.3cm}
   \caption{Implementing \blue{selection sort} in \textsl{Python}.}
   \label{fig:selection-sort.setlx}
 \end{figure}
-%$
+
 
 \subsection{Complexity of Selection Sort}
 In order to be able to analyse the complexity of \blue{selection sort} we have to count the number
-of comparisons that are performed when $\mathtt{min}(L)$ is computed.  We have 
+of comparisons that are performed when $\mathtt{min}(\texttt{L})$ is computed.  We have 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
 \\[0.2cm]
-Therefore, in order to compute $\mathtt{min}(L)$ for a list $L$ of length $n$ the binary function $\mathtt{min}$
+Therefore, in order to compute $\mathtt{min}(\texttt{L})$ for a list $\texttt{L}$ of length $n$ the binary function $\mathtt{min}$
 is called $(n-1)$ times.  Each of these calls of $\mathtt{min}$ causes an evaluation of the comparison
 operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
-$L$ of length $n$ is written as $b_n$, we have \\[0.2cm]
+$\texttt{L}$ of length $n$ is written as $b_n$, we have \\[0.2cm]
 \hspace*{1.3cm}
 $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$. 
 \\[0.2cm]
