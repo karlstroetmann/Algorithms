@@ -44,27 +44,31 @@ the variables in a way that the index includes a counter that counts the number 
 For concreteness, consider the  program shown in 
 Figure \ref{fig:power-iterative-annotated.stlx}.  
 Here, in line 5 the variable \texttt{r} has the index $n$ on the right side of the assignment,
-while it has the index $r_{n+1}$ on the left side of the assignment in line 5.  Here, $n$ denotes 
-the number of times that the test \texttt{y$_n$ > 0} of \texttt{while} loop has been executed.
-After the loop in line 10 the variable is indexed as
-$\texttt{r}_N$, where $N$ denotes the total number of times that the test \texttt{y$_n$ > 0} has been executed.
+while it has the index $r_{n+1}$ on the left side of the assignment in line 5.  The index $n$ denotes 
+the number of times that the test \texttt{y$_n$ > 0} of the \texttt{while} loop has been executed.
+After the loop finishes in line 10 the variable $\texttt{r}$ is indexed as
+$\texttt{r}_N$, where $N$ denotes the total number of times that the test \texttt{y > 0} has been executed.
 We show the correctness of the given program next.  Let us define
 \\[0.2cm]
 \hspace*{1.3cm}
 $ a := x_1, \quad b := y_1$.
 \\[0.2cm]
-We show, that the \texttt{while} loop satisfies the invariant
+We will show that the \texttt{while} loop satisfies the invariant
 \begin{equation}
   \label{eq:powerInv}
    r_n \cdot x_n^{y_n} = a^b.
 \end{equation}
 This claim is proven by induction on the number of loop iterations.
 \begin{enumerate}
-\item[B.C.] $n=1$: Since we have $r_1 = 1$, $x_1 = a$, and $y_1 = b$ we have 
+\item[B.C.:] $n=1$.
+
+            Since we have $r_1 = 1$, $x_1 = a$, and $y_1 = b$ we have 
             \\[0.2cm]
             \hspace*{1.3cm}
             $r_n \cdot x_n^{y_n} = r_1 \cdot x_1^{y_1} = 1 \cdot a^{b} = a^b$.
-\item[I.S.] $n \mapsto n + 1$:  We proof proceeds by a case distinction with respect to $y \mod 2$:
+\item[I.S.:] $n \mapsto n + 1$.
+
+            We proof proceeds by a case distinction with respect to the expression $y \mmod 2$:
             \begin{enumerate}
             \item $y_n \mmod 2 = 1$.
 
@@ -91,7 +95,7 @@ This claim is proven by induction on the number of loop iterations.
                   \end{eqnarray*}
             \end{enumerate}
 \end{enumerate}
-This shows the validity of the equation (\ref{eq:powerInv}).   If the \texttt{while} loop
+This shows the validity of equation (\ref{eq:powerInv}).   If the \texttt{while} loop
 terminates, we must have $y_N = 0$.  If $n=N$, then equation (\ref{eq:powerInv}) yields:
 \\[0.2cm]
 \hspace*{1.3cm}
