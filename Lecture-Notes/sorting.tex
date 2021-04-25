@@ -474,11 +474,6 @@ that every algorithm that needs to compare its elements in order to sort them ha
 The \blue{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945, who 
 was one of the most prominent mathematicians of the last century.  
-% Furthermore, he published a
-% number of influential papers in physics.  Finally, he is one of the fathers of the nuclear bomb and
-% had been one of the fiercest advocaters of its use.  Hence, he shares the joint guilt for the 
-% \href{http://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki}{murder} of more than
-% $200\,000$ innocent civilian at the end of the second world war.
 
 In order to sort a list $L$ of length $n := \mathtt{len}(L)$ the algorithm proceeds as follows:
 \begin{enumerate}
@@ -491,14 +486,14 @@ In order to sort a list $L$ of length $n := \mathtt{len}(L)$ the algorithm proce
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
       $n \geq 2 \rightarrow \mathtt{sort}(L) =
-         \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{L[:n\dvv 2]}\bigr),
-         \mathtt{sort}\bigl(\mathtt{L[n\dvv 2:]}\bigr)\Bigr)
+         \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{L[:n\dv 2]}\bigr),
+         \mathtt{sort}\bigl(\mathtt{L[n\dv 2:]}\bigr)\Bigr)
      $
-     \\[0.2cm]
-     Here,  $\mathtt{L[:n\dvv 2]}$ is the first part of the list, while
-     $\mathtt{L[n\dvv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
-     elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
-     takes two sorted lists and combines their element in a way that the resulting list again is sorted.
+      \\[0.2cm]
+      Here,  $\mathtt{L[:n\dv 2]}$ is the first part of the list, while
+      $\mathtt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
+      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
+      takes two sorted lists and combines their element in a way that the resulting list again is sorted.
 \end{enumerate}
 Next, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
 is sorted.
@@ -509,7 +504,7 @@ is sorted.
 \item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{merge}\bigl(L_1, []\bigr) = L_1$.
-\item Otherwise, $L_1$ must have the form $[x|R_1]$ and $L_2$ has the form $[y|R_2]$.
+\item Otherwise, $L_1$ must have the form $[x] + R_1$ and $L_2$ has the form $[y] +R_2$.
       Then there is a case distinction with respect to the result of the comparison of $x$ and $y$:
       \begin{enumerate}
       \item $x \preceq y$.
@@ -517,13 +512,15 @@ is sorted.
             In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[x\bigr] + \mathtt{merge}\bigl(R_1,[y|R_2]\bigr)$.
+            $x \preceq y \rightarrow \mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[x\bigr] +
+               \mathtt{merge}\bigl(R_1,[y] + R_2\bigr)$.
       \item $\neg x \preceq y$.
 
             Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x|R_1], [y|R_2]\bigr) = \bigl[y \bigr] + \mathtt{merge}\bigl([x|R_1],R_2\bigr)$.
+            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[y \bigr] +
+             \mathtt{merge}\bigl([x] + R_1,R_2\bigr)$.
       \end{enumerate}
 \end{enumerate}
 
@@ -552,8 +549,8 @@ program.
             return L2
         if L2 == []:
             return L1
-        x1, R1 = L1[0], L1[1:]
-        x2, R2 = L2[0], L2[1:]
+        x1, *R1 = L1
+        x2, *R2 = L2
         if x1 <= x2:
             return [x1] + merge(R1, L2)
         else:
@@ -635,7 +632,7 @@ $f(n)$  \texttt{:=} number of comparisons needed to sort a list $L$ of length $n
 \\[0.2cm]
 The algorithm \blue{merge sort} 
 splits the list $L$ into two lists that have the length of $n\dv 2$ or $n\dv 2+1$, then sorts
-these lists recursively, and finally merges the sorted lists.  Merging the two lists can be done with
+these lists recursively, and finally merges the sorted lists.  Merging these two lists can be done with
 at most $n$ comparisons.  Therefore, the function $f$ satisfies the recurrence relation
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -647,14 +644,14 @@ $\alpha = 2$, $\beta = 2$, and $\delta = 1$. Therefore,
 \hspace*{1.3cm}
 $\beta^\delta = 2^1 = 2 = \alpha$
 \\[0.2cm]
-and hence the master theorem shows that we have
+and hence the master theorem tells us that we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$.
 \\[0.2cm]
 This result already shows that, for large inputs, \blue{merge sort} is considerably more efficient
 than both \blue{insertion sort} and \blue{selection sort}.  However, if we want to compare
-\blue{merge sort} with \blue{quick sort}, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
+\blue{merge sort} with \blue{quick sort} later, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
 not precise enough.  In order to arrive at a bound for the number of comparisons that is more precise,
 we need to solve the recurrence equation given above.  To simplify things,  define
 \\[0.2cm]
@@ -677,7 +674,7 @@ First, we compute the initial value $b_0$ as follows:
 $\ds b_0 = a_{2^0} = a_1 = 0$,
 \\[0.2cm]
 since we do not need any comparisons when sorting a list of length one.  Since merging two lists of
-length $2^k$ needs at most  $2^k + 2^k = 2^{k+1}$ comparisons, $b_{k+1}$ can be upper bounded as follows:
+length $2^k$ needs less than  $2^k + 2^k = 2^{k+1}$ comparisons, $b_{k+1}$ can be upper bounded as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $b_{k+1} = 2 \cdot b_k + 2^{k+1}$. 
@@ -733,7 +730,7 @@ Therefore, evaluating \texttt{[x] + R} for a list \texttt{R} of length $n$ requi
 movements.  This is very wasteful.  In order to arrive at an
 implementation that is more efficient we have to take advantage of the fact that lists are represented as arrays.
 Figure \ref{fig:merge-sort-array.stlx} on page \pageref{fig:merge-sort-array.stlx} presents
-an implementation of \blue{merge sort} that treats the list $L$ that is to be sorted as an array.
+an implementation of \blue{merge sort} that treats the list $\texttt{L}$ that is to be sorted as an array.
 
 
 \begin{figure}[!ht]
@@ -797,14 +794,14 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             \hspace*{1.3cm} 
             \texttt{L[start:end]}. 
             \\[0.2cm]
-            Hence, the parameters \texttt{start} and \texttt{end} are indices specifying the 
+            Hence, the parameters $\texttt{start}$ and $\texttt{end}$ are indices specifying the 
             subarray that needs to be sorted.
       \item The final parameter $\texttt{A}$ is used as an auxiliary array.  This array is needed
             as temporary storage and it needs to have the same size as the list $\texttt{L}$.
       \end{enumerate} 
 \item Line 6 deals with the case that the sublist of $\texttt{L}$ that needs to be sorted has at most one element.  
       In this case, there is nothing to do as any such list is already sorted.
-\item In line 7 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
+\item In line 8 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
       \texttt{middle = (start + end) \dv\  2;} 
@@ -840,7 +837,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 14 copies the sublists into the auxiliary array $\texttt{A}$.
+      \item First, line 14 copies these sublists into the auxiliary array $\texttt{A}$.
       \item In order to merge the two sublists stored in $\texttt{A}$ into the list $\texttt{L}$ we define
             three indices: 
             \begin{itemize}
@@ -898,7 +895,7 @@ The implementation of \blue{merge sort} shown in Figure \ref{fig:merge-sort-arra
 \pageref{fig:merge-sort-array.stlx} is recursive.  Unfortunately, the efficiency of a recursive
 implementation of \blue{merge sort} is suboptimal.  The reason is that function calls are quite
 costly since the arguments of the function have to be placed on a stack.  As a recursive
-implementation has lots of function calls, it is considerably less efficient than an iterative
+implementation has lots of function calls, it can be less efficient than an iterative
 implementation.  Therefore, we present an iterative implementation of \blue{merge sort} in Figure
 \ref{fig:merge-sort-nr.stlx} on page \pageref{fig:merge-sort-nr.stlx}.
 
@@ -937,7 +934,7 @@ in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\texttt{len}(\texttt{L})
 
 \subsection{Further Improvements of Merge Sort}
 The implementation given above can still be improved in a number of ways.  
-\href{http://c2.com/cgi/wiki?TimPeters}{Tim Peters} has used a number of tricks to improve the
+\href{https://en.wikipedia.org/wiki/Tim_Peters_(software_engineer)}{Tim Peters} has used a number of tricks to improve the
 practical performance of \blue{merge sort}.  The resulting algorithm is known as
 \href{http://en.wikipedia.org/wiki/Timsort}{Timsort}. \index{Timsort}
 The starting point of the development of \blue{Timsort} was the observation that the input arrays 
@@ -946,7 +943,7 @@ descending order.   For this reason, \blue{Timsort} uses the following tricks:
 \begin{enumerate}
 \item First, Timsort looks for subarrays that are already sorted.
       If a subarray is sorted in descending order, this subarray is reversed.
-\item Sorted subarrays that are too small (i.~e.~have less than 32 elements) are extended
+\item Sorted subarrays that are too small (i.e.~have less than 32 elements) are extended
       to sorted subarrays to have a length that is at least 32.  In order to sort these subarrays,
       \blue{insertion sort} is used.  The reason is that \blue{insertion sort} is very fast for
       arrays that are already partially sorted.  The version of \blue{insertion sort} that is used is called
@@ -991,7 +988,7 @@ In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published 
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
-\item Otherwise, we have $\mathtt{L} = [\mathtt{x}|\mathtt{R}]$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
+\item Otherwise, we have $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
       The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
       or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
       those elements of $\mathtt{R}$ that are bigger than $\mathtt{x}$.  These lists are computed as follows:
@@ -1000,11 +997,12 @@ In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published 
       \item $\mathtt{B} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} > \mathtt{x}]$.
       \end{enumerate}
       The process of splitting the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$
-      is called \blue{partitioning}.  After partitioning the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$, these lists are sorted
+      is called \blue{partitioning}.\index{partitioning}  After partitioning the list $\mathtt{R}$ into the
+      lists $\mathtt{S}$ and $\mathtt{B}$, these lists are sorted 
       recursively.  Then, the result is computed by placing $\mathtt{x}$ between the lists $\mathtt{sort}(\mathtt{S})$ and $\mathtt{sort}(\mathtt{B})$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{sort}([\mathtt{x}|\mathtt{R}]) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
+      $\mathtt{sort}([\mathtt{x}]+\mathtt{R}) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
 be implemented in \textsl{Python}.
@@ -1022,7 +1020,7 @@ be implemented in \textsl{Python}.
     def sort(L):
         if L == []:
             return L
-        x, R = L[0], L[1:]
+        x, *R = L
         S = [y for y in R if y <= x]
         B = [y for y in R if y >  x]
         return sort(S) + [x] + sort(B)
@@ -1056,7 +1054,7 @@ length $n$ in the worst case as $a_n$.  The worst case occurs if the partitionin
 returns a pair of lists $\mathtt{S}$ and $\mathtt{B}$ such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{S} = []$ and $\mathtt{B} = \mathtt{R}$,
+$\mathtt{S} = []$ \quad and \quad $\mathtt{B} = \mathtt{R}$,
 \\[0.2cm]
 i.e.~all elements of $\mathtt{R}$ are bigger than $x$.  Then, we have
 \\[0.2cm]
