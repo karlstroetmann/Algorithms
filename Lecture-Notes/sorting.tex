@@ -982,12 +982,12 @@ While merge sort splits the list $L$ that is to be sorted into two parts of roug
 \end{enumerate}
 
 \section{Quicksort}
-In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
+In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the
 \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
+      \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
 \item Otherwise, we have $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
       The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
       or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
@@ -1107,7 +1107,7 @@ comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we 
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
+$\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \bigl(d_i + d_{n-i}\bigr) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
 Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mathtt{R}$.
 In order to simplify the recurrence relation (1) we note that
@@ -1208,7 +1208,8 @@ Substituting $n \mapsto n-1$ simplifies this equation:
 \hspace*{1.3cm}
 $\ds a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}$,
 \\[0.2cm] 
-This is a telescoping recurrence equation.  Since $a_0 = \ds\frac{d_0}{1} = 0$
+This is a \blue{telescoping} recurrence equation. \index{telescoping recurrence equation}
+Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1233,16 +1234,16 @@ In order to finalize our computation we have to compute an approximation for the
 $H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{\,i\,}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
-\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}.
-\href{http://en.wikipedia.org/wiki/Leonhard_Euler}{Leonhard Euler} (1707 -- 1783) was able to prove
-that the harmonic numbers can be approximated as
+\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}. \index{harmonic number, $H_n$}
+\href{http://en.wikipedia.org/wiki/Leonhard_Euler}{Leonhard Euler} (1707 -- 1783) \index{Euler, Leonhard}
+was able to prove that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{\,n\,}\Bigr)$. 
+$\ds H_n = \ln(n) + \gamma + \Oh\biggl(\frac{1}{\,n\,}\biggr)$. 
 \\[0.2cm] 
 In the formula approximating the harmonic number $H_n$, $\gamma$ is the
-\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the 
-value
+\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni constant}
+constant and has the value
 \\[0.2cm]
 \hspace*{1.3cm}
 $\gamma = 0.5772156649 \cdots$.
@@ -1272,7 +1273,7 @@ comparisons and hence on average \blue{quicksort} needs  $2 \cdot \ln(2) \approx
 
 \subsection{Implementing Quicksort for Arrays}
 Next, we show how \blue{quicksort}  is implemented using arrays instead of lists.  We are following the scheme
-of Nico Lomuto \cite{cormen:09}.
+of Nico Lomuto \cite{cormen:09} \index{Lomuto, Nico}.
 Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows this implementation. 
 
 \begin{figure}[!ht]
