@@ -1400,8 +1400,11 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \item Instead of taking the first element as the pivot element, use three elements from the list
       $\mathtt{L}$ that is to be sorted.  For example, take the first element, the last element, and an
       element from the middle of the list.  Now compare these three elements and take that element as
-      a pivot that is the \blue{median} of the three elements. 
-
+      a pivot that is the \blue{median} of these elements,  where the \blue{median} \index{median} of three
+      elements is defined as the element that lies between the minimum and the maximum of these elements.
+      In general, the \blue{median} of a list $L$ of length $2 \cdot n +1$ is defined as the element $x$ such that at
+      least $n$ elements of $L$ are less or equal to $x$ and at least $n$ elements are bigger or equal than $x$.
+      
       The advantage of this strategy is that the worst case performance is much less likely to occur.  In
       particular,  using this strategy the worst case won't occur for a list that is already
       sorted.
@@ -1444,7 +1447,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \item The third part contains those elements that are bigger than $p_2$.
       \end{enumerate}
       Figure \ref{fig:dual-pivot-quick-sort.stlx} on page \pageref{fig:dual-pivot-quick-sort.stlx}
-      shows a simple list based implementation of \blue{dual pivot quicksort}.
+      shows a simple list-based implementation of \blue{dual pivot quicksort}.
 
       Various studies have shown that, on average, \blue{dual pivot quicksort} is faster than any other sorting
       algorithm.  For this reason, the version 1.7 of \textsl{Java} uses \blue{dual pivot quicksort}:
@@ -1467,7 +1470,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
     def sort(L):
         if len(L) <= 1:
             return L
-        x, y, R    = L[0], L[1], L[2:]
+        x, y, *R   = L
         p1, p2     = min(x, y), max(x,y)
         L1, L2, L3 = partition(p1, p2, R)
         return sort(L1) + [p1] + sort(L2) + [p2] + sort(L3)
@@ -1475,7 +1478,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
     def partition(p1, p2, L):
         if L == []:
             return [], [], []
-        x, R       = L[0], L[1:]
+        x, *R      = L
         R1, R2, R3 = partition(p1, p2, R)
         if x < p1:
             return [x] + R1, R2, R3
@@ -1490,7 +1493,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \end{figure}
 
 \exercise
-Implement a version of \blue{dual pivot quicksort} that uses arrays instead of lists.
+Implement a version of \blue{dual pivot quicksort} that is array-based instead of list-based.
 \eoxs
 \pagebreak
 
@@ -1514,8 +1517,8 @@ $L = [a_1, a_2]$.
 \\[0.2cm]
 In order to sort this list, one comparison is sufficient:
 \begin{enumerate}
- \item If $a_1 < a_2$ then $[a_1, a_2]$ is sorted ascendingly.
- \item If $a_2 < a_1$ then $[a_2, a_1]$ is sorted ascendingly.
+ \item If $a_1 < a_2$, then the list $[a_1, a_2]$ is sorted ascendingly.
+ \item If $a_2 < a_1$, then the list $[a_2, a_1]$ is sorted ascendingly.
 \end{enumerate}
 If the list $L$ that is to be sorted has the form
 \\[0.2cm]
@@ -1533,13 +1536,17 @@ $[a_3,a_1,a_2]$, \quad
 $[a_3,a_2,a_1]$. 
 \\[0.2cm]
 Therefore, we need at least three comparisons, since with two comparisons we could at most choose between
-four different possibilities.  In general, there are 
+four different possibilities.  Next, we generalize this observation.
+
+\begin{Theorem}
+Given a list $L$ of $n$ different elements, there are 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds n! = 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=1}^n i$ 
 \\[0.2cm]
-different permutations of a list of $n$ different elements. 
-We prove this claim by induction. 
+different permutations of $L$. 
+\end{Theorem}
+\proof The claim is proven by induction on $n$. 
 \begin{enumerate}
 \item[B.C.:] $n=1$:  
 
@@ -1551,16 +1558,16 @@ We prove this claim by induction.
       are $n+1$ possibilities for the first element.  In each of these cases the induction
       hypothesis tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
       Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different arrangements of $n+1$
-      elements in a list.
+      elements in a list. \qed
 \end{enumerate}
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
-that only give yes or no answers.  Tests of this kind are called \blue{binary tests}.
+that only give $\mathtt{True}$ or $\mathtt{False}$ answers.  Tests of this kind are called \blue{binary tests}.
 \begin{enumerate}
 \item If we restrict ourselves to binary tests, then one test can only distinguish between two cases.
-\item If we have $2$ tests, then we can distinguish between  $2^2$ different cases.
-\item In general, $k$ tests can choose from at most $2^k$ different cases.
+\item If we have $2$ tests, then we can distinguish between  $2 \cdot 2 = 2^2$ different cases.
+\item In general, an easy induction shows that $k$ tests can choose from at most $2^k$ different cases.
 \end{enumerate}
-The last claim can be argued as follows:  If the results of the tests are represented as
+The last claim can also be argued as follows:  If the results of the tests are represented as
 $0$ and $1$, then $k$ binary tests correspond to a binary string of length
 $k$.  However, binary strings of length $k$ can be used to code the numbers from $0$ up to
 $2^{k}-1$.  We have
@@ -1572,7 +1579,7 @@ Hence there are $2^k$ binary strings of length $k$.
 
 If we have a list of $n$ different elements, then there are $n!$ different permutations of these
 elements.  In order to figure out which of these $n!$ different permutations is given we have to
-perform $k$ comparisons where we must have
+perform $k$ comparisons, where we must have
 \\[0.2cm]
 \hspace*{1.3cm}
 $2^k \geq n!$.
@@ -1582,19 +1589,55 @@ This immediately implies
 \hspace*{1.3cm}
 $k \geq \log_2(n!)$.
 \\[0.2cm]
-In order to proceed, we need an approximation for the expression $\log_2(n!)$.  
-A \href{http://en.wikipedia.org/wiki/Stirling's_approximation}{simple approximation} of this term is
+In order to proceed, we need a lower bound for the expression $\log_2(n!)$.
+First, we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\log_2(n!) = n \cdot \log_2(n) + \Theta(n)$.
+$\ds \log_2(n!) = \log_2\left(\prod\limits_{i=1}^n i\right) = \sum\limits_{i=1}^n \log_2(i)$
 \\[0.2cm]
-Using this approximation we get
+The crucial idea is to interpret this sum as an upper \href{https://en.wikipedia.org/wiki/Riemann_sum}{Riemann sum}
+of the integral
 \\[0.2cm]
 \hspace*{1.3cm}
-$k \geq n \cdot \log_2(n) + \Theta(n)$.
+$\ds\int_1^n\log_2(x)\, \mathrm{d}x$
+\\[0.2cm]
+as is shown in Figure \ref{fig:riemann-sum.pdf}\footnote{
+  I have created this figure using the highly recommended tool \href{https://www.geogebra.org/m/h4P4cjsT}{geogebra}.
+}.
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=Abbildungen/riemann-sum.pdf, scale=0.45}} 
+  \caption{The upper sum for the integral $\ds\int\limits_{1}^{10}\log_2(x) \,\mathrm{d}x$.}
+  \label{fig:riemann-sum.pdf}
+\end{figure}
+
+Therefore we have the following chain of inequations:
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}[t]{lcl}
+  k & \geq & \ds\log_2(n!) \\[0.2cm]
+    & =    & \ds\sum\limits_{i=1}^n \log_2(i) \\[0.5cm]
+    & \geq & \ds\int\limits_{1}^n \log_2(x)\, \mathrm{d}x \\[0.2cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \int\limits_{1}^n \ln(x)\, \mathrm{d}x  \\[0.2cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl[x \cdot \ln(x) - x \bigr]_{1}^n   \\[0.4cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl(n \cdot \ln(n) - n + 1\bigr)     \\[0.2cm]
+    & =    & \ds n \cdot \log_2(n) - \frac{\,n-1\,}{\,\ln(2)\,}                       
+\end{array}
+$ 
+\\[0.2cm]
+This show that
+\\[0.2cm]
+\hspace*{1.3cm}
+$k \geq n \cdot \ds\log_2(n) - \frac{n}{\,\ln(2)\,}$.
 \\[0.2cm]
 As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
-we have shown that this algorithm is optimal with respect to the number of comparisons.
+we have shown that this algorithm is optimal with respect to the number of comparisons within a linear bound of
+size $(n-1)/\ln(2)$.
+
+
+
 
 \section{Counting Sort}
 \index{counting sort}
