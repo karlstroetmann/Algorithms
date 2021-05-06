@@ -988,10 +988,10 @@ While merge sort splits the list $L$ that is to be sorted into two parts of roug
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the
 \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
-\item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
+\item If the list $\mathtt{L}$ that is to be sorted is empty, we return  the empty list: 
       \\[0.2cm]
       \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
-\item Otherwise, we have $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
+\item Otherwise, $\mathtt{L}$ has the form $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
       The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
       or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
       those elements of $\mathtt{R}$ that are bigger than $\mathtt{x}$.  These lists are computed as follows:
@@ -1022,7 +1022,7 @@ be implemented in \textsl{Python}.
                 ]{python3}
     def sort(L):
         if L == []:
-            return L
+            return []
         x, *R = L
         S = [y for y in R if y <= x]
         B = [y for y in R if y >  x]
@@ -1087,13 +1087,15 @@ $
 $
 \\[0.2cm]
 This shows that in the worst case, the number of comparisons is as big as it is in the worst case of 
-\blue{insertion sort}.  However, with quicksort the worst case occurs if we try to sort a list $\mathtt{L}$ that is
-already sorted. 
+\blue{insertion sort}.  However, note that with quicksort the worst case occurs if we try to sort a list
+$\mathtt{L}$ that is already sorted.  It is important to realize that this is a common case in practical
+applications of sorting.  In order to avoid the worst case behaviour for lists that are either sorted or nearly
+sorted we use the element at position $\texttt{len}(\texttt{L})\dv 2$ as the pivot element.
 
 
 \subsubsection{Average Complexity}
 By this time you probably wonder why the algorithm has been called \blue{quicksort} since, in the worst case,
-it is much slower as \blue{merge sort}.  To understand what is really going on, we define
+it is much slower than \blue{merge sort}.  To understand what is really going on, we define
 \\[0.2cm]
 \hspace*{1.3cm}
 $d_n$ \texttt{:=} \underline{avera}g\underline{e} number of comparisons to sort a list $L$ of $n$ elements via quicksort.
@@ -1156,8 +1158,8 @@ This equation can be simplified as
 \hspace*{1.3cm}
 $(n+1)\cdot d_{n+1} = (n+2) \cdot \ds d_{n} + 2 \cdot n$.
 \\[0.2cm] 
-In order to exhibit the true structure of this equation we divide by $(n+1) \cdot(n+2)$ and
-get 
+In order to exhibit the true structure of this equation we divide it by the number $(n+1) \cdot(n+2)$ and
+are left with the equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\frac{1}{n+2} \cdot d_{n+1} = \frac{1}{n+1}\cdot d_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$. \hspace*{\fill} (6) 
@@ -1167,7 +1169,7 @@ In order to simplify this equation, let us define
 \hspace*{1.3cm}
 $\ds a_n = \frac{d_n}{n+1}$. 
 \\[0.2cm] 
-Substituting this into equation $(6)$ yields
+Then $d_n = (n+1) \cdot a_n$.  Substituting this expression for $d_n$ into equation $(6)$ yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds a_{n+1} = a_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$.  \hspace*{\fill} (7)
@@ -1187,14 +1189,30 @@ $\ds\frac{2\cdot n}{(n+1)\cdot(n+2)} = \frac{\alpha}{n+1} + \frac{\beta}{n+2}$.
 Multiplying this equation with $(n+1) \cdot (n+2)$ yields
 \\[0.2cm]
 \hspace*{1.3cm}
-$ 2\cdot n = \alpha \cdot (n+2) + \beta \cdot (n+1)$.
+$ 2\cdot n = \alpha \cdot (n+2) + \beta \cdot (n+1)$. 
 \\[0.2cm]
-Grouping similar terms, this can be simplified as follows:
+Grouping similar terms we get
 \\[0.2cm]
 \hspace*{1.3cm}
-$2\cdot n = (\alpha + \beta) \cdot n + 2 \cdot \alpha  + \beta$.
+$2\cdot n = (\alpha + \beta) \cdot n + 2 \cdot \alpha  + \beta$. \hspace*{\fill} (8)
 \\[0.2cm]
-Since this has to hold for every $n \in \mathbb{N}$ we must have:
+Since this equation has to hold for $n = 0$ we see that
+\\[0.2cm]
+\hspace*{1.3cm}
+$0 = 2 \cdot \alpha + \beta$.  \hspace*{\fill} (9)
+\\[0.2cm]
+Subtracting this equation from equation (8) yields:
+\\[0.2cm]
+\hspace*{1.3cm}
+$2 \cdot n  =  (\alpha + \beta) \cdot n$.
+\\[0.2cm]
+Setting $n=1$ yields
+\\[0.2cm]
+\hspace*{1.3cm}
+$2  =  \alpha + \beta$.  \hspace*{\fill} (10)
+\\[0.2cm]
+Taken together, the equations (9) and (10) are a system of equations that determine the values of the
+parameters $\alpha$ and $\beta$:
 \begin{eqnarray*}
   2 & = & \alpha + \beta, \\
   0 & = & 2 \cdot \alpha + \beta.
@@ -1244,7 +1262,7 @@ was able to prove that the harmonic numbers can be approximated as
 \hspace*{1.3cm}
 $\ds H_n = \ln(n) + \gamma + \Oh\biggl(\frac{1}{\,n\,}\biggr)$. 
 \\[0.2cm] 
-In the formula approximating the harmonic number $H_n$, $\gamma$ is the
+The number $\gamma$ in this formula is the
 \href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni constant}
 constant and has the value
 \\[0.2cm]
@@ -1292,13 +1310,13 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
     def sort(L):
         quickSort(0, len(L) - 1, L)
     
-    def quickSort(a, b, L):
-        if b <= a:
+    def quickSort(start, end, L):
+        if end <= start:
             return  # at most one element, nothing to do
-        m = partition(a, b, L)  # m is the split index
-        quickSort(a, m - 1, L)
-        quickSort(m + 1, b, L)
-    
+        m = partition(start, end, L)  # m is the split index
+        quickSort(start, m - 1, L)
+        quickSort(m + 1, end  , L)
+        
     def partition(start, end, L):
         pivot = L[end]
         left  = start - 1
@@ -1321,24 +1339,24 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 \item Contrary to the array based implementation of \blue{merge sort}, we do not need an auxiliary
       array.  This is one of the main advantages of \blue{quicksort} over \blue{merge sort}.
 \item The function $\mathtt{sort}$ is reduced to a call of $\mathtt{quickSort}$.  This function
-      takes the parameters $\mathtt{a}$, $\mathtt{b}$, and $\mathtt{L}$.  
+      takes the parameters $\mathtt{start}$, $\mathtt{end}$, and $\mathtt{L}$.  
       \begin{enumerate}
-      \item $\mathtt{a}$ specifies the index of the first element of the subarray that needs to be
+      \item $\mathtt{start}$ specifies the index of the first element of the subarray that needs to be
             sorted.
-      \item $\mathtt{b}$ specifies the index of the last element of the subarray that needs to be
+      \item $\mathtt{end}$ specifies the index of the last element of the subarray that needs to be
             sorted. 
-      \item $\mathtt{L}$ is the array that needs to be sorted.
+      \item $\mathtt{L}$ is the array that has to be sorted.
       \end{enumerate}
       Calling $\mathtt{quickSort}(\mathtt{a}, \mathtt{b}, \mathtt{L})$ sorts the subarray \\[0.2cm]
       \hspace*{1.3cm} 
       $\bigl[\mathtt{L}[\mathtt{a}], L[\mathtt{a}+1], \cdots, L[\mathtt{b}]\bigr]$
       \\[0.2cm]
-      of the array $\mathtt{L}$, i.~e.~after that call we expect to have\\[0.2cm]
+      of the array $\mathtt{L}$, i.e.~after that call we expect to have\\[0.2cm]
       \hspace*{1.3cm} 
       $\mathtt{L}[\mathtt{a}] \preceq \mathtt{L}[\mathtt{a}+1] \preceq \cdots \preceq \mathtt{L}[\mathtt{b}]$.
       \\[0.2cm]
       The implementation of the function $\mathtt{quickSort}$
-      is quite similar to the list implementation.  The main difference is that the function
+      is quite similar to the list based implementation.  The main difference is that the function
       $\mathtt{partition}$, that is called in line 8, redistributes the elements of $\mathtt{L}$:
       All elements that are less or equal than the \blue{pivot element} $\mathtt{L[m]}$
       are stored at indexes that are smaller than the index $\mathtt{m}$, while the remaining elements will 
@@ -1359,6 +1377,16 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 
             The pivot element itself is at the end of the array.
       \end{enumerate}
+      Figure \ref{fig:lomuto.png} shows these invariants.
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=../Python/Chapter-04/lomuto.png, scale=0.40}} 
+  \caption{The invariants of the function \texttt{partition}.}
+  \label{fig:lomuto.png}
+\end{figure}
+
+
       Observe how the invariants (a) and (b) are maintained:
       \begin{enumerate}
       \item Initially, the invariants are true because the corresponding sets are empty.
@@ -1495,7 +1523,6 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \exercise
 Implement a version of \blue{dual pivot quicksort} that is array-based instead of list-based.
 \eoxs
-\pagebreak
 
 
 \section{A Lower Bound for the Sorting Problem}

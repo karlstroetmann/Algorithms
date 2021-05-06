@@ -1810,29 +1810,6 @@ $\ds s_m = \biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\biggr) \mmod n =
 This formula is used to implement the function \texttt{hash\_code} efficiently.
 Figure \ref{fig:hash_code.py} shows an implementation of this formula.  We have set 
 $x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
-               ]{python3}
-    def hash_code(w, n):
-        m = len(w)
-        s = 0
-        for k in range(m-1, 0, -1):
-            s = (s * 128 + ord(w[k])) % n
-        return s
-\end{minted}
-\vspace*{-0.3cm}
-\caption{An implementation of the function \texttt{hash\_code} in \textsl{Python}.}
-\label{fig:hash_code.py}
-\end{figure}
-
 
 \subsection{Implementing Hash Tables}
 In order to implement a has table we first need to implement three auxiliary classes:
