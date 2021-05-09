@@ -65,7 +65,10 @@
 \indexentry{handwritten digit recognition|hyperpage}{66}
 \indexentry{$k$-nearest neighbours algorithm|hyperpage}{67}
 \indexentry{pickle|hyperpage}{67}
+\indexentry{Liskov, Barbara|hyperpage}{72}
+\indexentry{\textsc{Clu}|hyperpage}{72}
 \indexentry{abstract data type|hyperpage}{72}
+\indexentry{type parameter|hyperpage}{72}
 \indexentry{type specification|hyperpage}{72}
 \indexentry{constructor|hyperpage}{73}
 \indexentry{method|hyperpage}{73}
@@ -73,14 +76,20 @@
 \indexentry{stack|hyperpage}{73}
 \indexentry{Stack|hyperpage}{73}
 \indexentry{object oriented notation|hyperpage}{73}
-\indexentry{$\Omega$|hyperpage}{73}
-\indexentry{undefined value|hyperpage}{73}
+\indexentry{$\Omega$|hyperpage}{74}
+\indexentry{undefined value|hyperpage}{74}
+\indexentry{$\Omega$, undefined value|hyperpage}{74}
 \indexentry{generator|hyperpage}{74}
-\indexentry{shunting-yard algorithm|hyperpage}{77}
+\indexentry{member variable|hyperpage}{76}
+\indexentry{method|hyperpage}{76}
+\indexentry{shunting-yard algorithm|hyperpage}{78}
 \indexentry{precedence|hyperpage}{78}
 \indexentry{associativity|hyperpage}{78}
-\indexentry{shunting-yard algorithm|hyperpage}{80}
-\indexentry{operator precedence parsing|hyperpage}{80}
+\indexentry{shunting-yard algorithm|hyperpage}{81}
+\indexentry{operator precedence parsing|hyperpage}{81}
+\indexentry{Dijkstra, Edsger|hyperpage}{81}
+\indexentry{associate to the left|hyperpage}{82}
+\indexentry{associate to the right|hyperpage}{82}
 \indexentry{ordered binary trees|hyperpage}{93}
 \indexentry{AVL tree|hyperpage}{104}
 \indexentry{red-black tree|hyperpage}{115}

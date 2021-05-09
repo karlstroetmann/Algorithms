@@ -2,19 +2,24 @@
 In the same way as the notion of an \blue{algorithm} abstracts from the details of a concrete
 implementation of this algorithm, the notion of an \href{https://en.wikipedia.org/wiki/Abstract_data_type}{abstract data type} abstracts from the implementation
 details of concrete data structures.  Therefore, this notion enables us to separate algorithms from the data
-structures used in these algorithms.  The next section gives a formal definition of
-abstract data types.  As an example, we introduce the abstract data type of
-\href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stacks}.
-The second section shows how abstract data types are supported in \textsl{Python} via \blue{classes}.  Finally,
-we show how stacks can be used 
-to evaluate \blue{arithmetic expressions}.  To this end we build an
-\href{https://en.wikipedia.org/wiki/Operator-precedence_parser}{operator precedence parser}. 
-
+structures used in these algorithms.  This chapter is structured as follows:
+\begin{enumerate}[(a)]
+\item We start with the formal definition of an abstract data types.  
+\item As an example of an abstract data types we introduce
+      \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stacks}. 
+\item Then we show how abstract data types are supported in \textsl{Python} via \blue{classes}.  
+\item Next, we demonstrate how stacks can be used to evaluate \blue{arithmetic expressions}.  To this end we build an
+      \href{https://en.wikipedia.org/wiki/Operator-precedence_parser}{operator precedence parser}. 
+\item Finally, we discuss the benefits of abstract data types.
+\end{enumerate}
 Abstract data types were proposed by 
 \href{https://en.wikipedia.org/wiki/Barbara_Liskov}{Barbara Liskov}\footnote{
-  Barbara Liskov received the 2008 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.}
+  Barbara Liskov received the 2008 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
+} \index{Liskov, Barbara}
 and Stephen Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main ingredients of
-\blue{object oriented programming}.  The other ingredient is \blue{inheritance}.
+\blue{object oriented programming}.  They were first implemented in the programming language
+\href{https://en.wikipedia.org/wiki/CLU_(programming_language)}{\textsc{Clu}}. \index{\textsc{Clu}}
+The other ingredient of object oriented programming is \blue{inheritance}.
 
 \section[Formal Definition]{A Formal Definition of Abstract Data Types}
 We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of the form \index{abstract data type}
@@ -24,10 +29,10 @@ We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of th
 \\[0.2cm] 
 where the meaning of the components is as follows:
 \begin{enumerate}
-\item $N$ is a string.  This string is the \blue{name} of the abstract data type.
+\item $N$ is a string.  This string is the \blue{name} of the abstract data type. 
 \item $P$ is the set of \blue{type parameters}.   Here, a type parameter is just a string.
       This string is interpreted as a type variable.  The idea is that we can later substitute 
-      a data type for this string.
+      a data type for this string. \index{type parameter}
 \item $\textsl{Fs}$ is the set of \blue{function symbols}.  These function symbols denote the 
       operations that are supported by this abstract data type. The function symbols itself are strings.
 \item $\textsl{Ts}$ is a set of \blue{type specifications}.  For every function symbol
@@ -93,14 +98,17 @@ and only the plate on top is accessible.  Formally, we define the abstract data 
             and write $S.\texttt{push}(x)$ instead of $\texttt{push}(S,x)$.
       \item $\texttt{pop}: \texttt{Stack}  \rightarrow \texttt{Stack} \cup \{ \Omega \}$
 
-            The function call $S.\texttt{pop}()$ removes the topmost element from the stack $S$.
+            The function call $S.\texttt{pop}()$ removes the topmost element from the stack $S$ and returns the
+            resulting stack.  If the stack $S$ is empty, the return value is $\Omega$, i.e.~the implementation
+            of this function will raise an exception in this case.
       \item $\texttt{top}: \texttt{Stack} \rightarrow \texttt{Element} \cup \{ \Omega \}$
 
             The function call $S.\texttt{top}()$ returns the element that is on top of the stack $S$. 
-            The stack $S$ is left unchanged.
+            The stack $S$ is left unchanged.  If $S$ is empty, then the result is undefined.
      \item $\texttt{isEmpty}: \texttt{Stack} \rightarrow \mathbb{B}$
 
-            The Boolean function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty.
+           The Boolean function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty
+           and returns $\texttt{True}$ or $\texttt{False}$.
       \end{enumerate}
 \end{enumerate}
 The behaviour of a stack is specified by the following \blue{axioms}.
@@ -111,7 +119,8 @@ The behaviour of a stack is specified by the following \blue{axioms}.
        Some philosophers are concerned that it is not possible to define an undefined value.
        They argue that if an undefined value could be defined, it would be no longer undefined
        and hence it can not be defined.  However, that is precisely the point of the undefined 
-       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{$\Large\smiley$}}.\index{undefined value}
+       value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{\dChangey[1.5][yellow]{2}}}.
+       \index{undefined value} \index{$\Omega$, undefined value}
       In \textsl{Python}, $\Omega$ is represented as \texttt{None}. The expression $\texttt{stack}()$
       creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
       element on top of the empty stack.
@@ -141,8 +150,8 @@ behaviour of the remaining functions on the stacks created by these generators.
 
 The data type of a stack has many applications in computer science.  To give just one example, the
 implementation of the \href{https://en.wikipedia.org/wiki/Java_virtual_machine}{\textsl{Java} virtual machine}
-is based on a stack.  Furthermore,  we will later see how,  using three stacks, \blue{arithmetic expressions} can be
-\blue{evaluated}. 
+is based on a stack.  Furthermore,  we will later see how,  using three stacks, we can build a parser for
+\blue{arithmetic expressions}. 
 
 
 \section[Implementation]{Implementing Abstract Data Types in \textsl{Python}}
@@ -246,13 +255,13 @@ discussed next.
       \\[0.2cm]
       This statement creates an uninitialized object (in other words: an empty object) of class \texttt{Stack}
       and then invokes the constructor \texttt{\_\_init\_\_} to initialize the member variable
-      \texttt{mStackElements} as an empty list.
-      The object created is then assigned to the variable \texttt{s}.
+      \texttt{mStackElements} as an empty list.  Next, object created is assigned to the variable \texttt{s}.
 \item Line 3 defines the first (and in this case only) member variable of the class \texttt{Stack}.
-      Therefore, every object $o$ of class \texttt{Stack} will have a \blue{member variable} called
+      Therefore, every object $o$ of class \texttt{Stack} will have a \blue{member variable} \index{member variable}
+      called
       \texttt{mStackElements}. 
-      We will use this list to store the elements of the stack.  To retrieve this member variable from
-      an object $o$ we use the following expression:
+      We will use this list to store the elements of the stack.  To retrieve the member variable
+      \texttt{mStackElements} from an object $o$ we use the following expression:
       \\[0.2cm]
       \hspace*{1.3cm}
       $o$\texttt{.mStackElements}
@@ -260,10 +269,11 @@ discussed next.
       The implementation of stacks shown
       in Figure \ref{fig:stack-array.stlx} is based on storing the elements of the stack in a
       \textsl{Python} list.  In \textsl{Python}, lists are internally implemented as arrays.  However,
-      this is not the only way to implement a stack: A stack can also be implemented as a linked list.
+      this is not the only way to implement a stack: A stack can also be implemented as a \blue{linked list}.
       We will see how to do this later.
-\item The rest of the class definition contains a number of function definitions.  Function defined inside
-      a class are called \blue{methods}.  These methods are available in the class \texttt{Stack}.  For example,
+\item The rest of the class definition contains a number of function definitions.  Functions defined inside
+      a class are called \blue{methods}. \index{method} These methods are available in the class
+      \texttt{Stack}.  For example, 
       \\[0.2cm]
       \hspace*{1.3cm}
       \texttt{stack.push}
@@ -379,10 +389,9 @@ that are administered by the abstract data type are actually represented.
 
 \section{Evaluation of Arithmetic Expressions}
 Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
-evaluated using stacks.  To this end, we present the
-\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}\index{shunting-yard algorithm} 
-for 
-parsing arithmetic expressions.  
+parsed and evaluated using stacks.  To this end, we present the
+\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}
+\index{shunting-yard algorithm} for parsing arithmetic expressions.  
 For our purposes, an \blue{arithmetic expression} is a string that is made up of natural numbers and
 the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
 ``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here, the operator ``\texttt{/}'' denotes integer division,
@@ -437,7 +446,7 @@ The arithmetic expression \\[0.2cm]
 \texttt{2 \texttt{**} 3 \texttt{**}  2} \quad is interpreted as \quad 
 \texttt{2 \texttt{**} (3 \texttt{**} 2)}. 
 \\[0.2cm]
-Our goal is to implement a program that evaluates an arithmetic expression.
+Our goal is to implement a program that reads and evaluates an arithmetic expression.
 
 
 \subsection{A Simple Example}
@@ -453,7 +462,7 @@ First, this string is transformed into the list of \blue{tokens}
 \texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
 \\[0.2cm]
 A \blue{token} is either a number, an operator symbol, or a parenthesis.
-Notice that the space symbols that have been present in the original arithmetic expression string
+Notice that the space symbols that had been present in the original arithmetic expression string
 have been discarded.  This list is then processed from left to right, one token
  at a time.  In order to process this list, we use three stacks.
 \begin{enumerate}
@@ -556,14 +565,17 @@ The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
 \end{enumerate}
 
 \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
-The algorithm introduced in the last example is known as the 
+The algorithm introduced in the last subsection via an example is known as the 
 \href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  
 \index{shunting-yard algorithm}
 This technique is also known as \blue{operator precedence parsing}.\index{operator precedence parsing}
-This algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Dijkstra} (1930-2002) in
-1961.  We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
+The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Wybe Dijkstra}\footnote{
+  Edsger Wybe Dijkstra received the 1972 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
+}
+(1930-2002) in 1961. \index{Dijkstra, Edsger}
+We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
 function that are needed to implement this algorithm.  The first of these functions is the function
-\texttt{toInt}, that is used to convert a string into a natural number, if the string can be interpreted as a
+\texttt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
 natural number.  For example, the string \texttt{'123'} is converted into the natural number $123$, while the
 string \texttt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
 implementation of this function:  The function \texttt{int} converts $s$ into a number, provided $s$ the string
@@ -721,10 +733,10 @@ The precedences of the arithmetical operators are shown in Table \ref{tab:preced
 \end{table}
 
 The expression $\texttt{isLeftAssociative}(o)$ is \texttt{True} iff the operator $o$ 
-\blue{associates} to the left, i.e.~an expression of the form $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
-is evaluated as  $(x \;\mathtt{o}\; y) \;\mathtt{o}\; z$.  If $o$ \blue{associates} to the 
-right and the expression  $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
-is evaluated as  $x \;\mathtt{o}\; (y \;\mathtt{o}\; z)$, then $\texttt{isLeftAssociative}(o)$
+\blue{associates to the left}, \index{associate to the left} i.e.~an expression of the form $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
+is evaluated as  $(x \;\mathtt{o}\; y) \;\mathtt{o}\; z$.  If $o$ \blue{associates to the right},
+\index{associate to the right} then the expression  $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
+is evaluated as  $x \;\mathtt{o}\; (y \;\mathtt{o}\; z)$ and $\texttt{isLeftAssociative}(o)$
 is \texttt{False}.  From the arithmetical operators that we consider, only the power operator ``\texttt{**}'' 
 associates to the right, i.e.~the expression
 \\[0.2cm]
@@ -980,14 +992,14 @@ The implementation of the method \texttt{evaluate} is shown in Figure \ref{fig:e
             if self.mOperators.isEmpty():
                 self.mOperators.push(nextOp)
                 continue
-            if nextOp == "(":
+            if nextOp == '(':
                 self.mOperators.push(nextOp)
                 continue
             stackOp = self.mOperators.top()
-            if stackOp == "(" and nextOp == ")":
+            if stackOp == '(' and nextOp == ')':
                 self.mOperators.pop()
                 continue
-            if nextOp == ")":
+            if nextOp == ')':
                 self.popAndEvaluate()
                 self.mTokens.push(nextOp)
                 continue
@@ -1089,7 +1101,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        are used to implement this algorithm.
 
        When we implemented the algorithm to evaluate arithmetic expressions we did not need to know
-       how the data type \blue{stack} that we have used was implemented.  It was sufficient for us to know 
+       how the data type \texttt{Stack} that we have used was implemented.  It was sufficient for us to know 
        \begin{enumerate}
        \item the signatures of its functions and
        \item the axioms describing the behaviour of these functions.
@@ -1147,7 +1159,7 @@ introduced in this chapter.
 \item How have we defined the concept of an \emph{abstract data type} formally?
 \item Can you give the formal definition of the abstract data type \textsl{Stack}?
 \item How does the shunting-yard algorithm work?
-\item What is the benefit of using abstract data types?
+\item What are the main benefits of using abstract data types?
 \end{enumerate}
 
 
