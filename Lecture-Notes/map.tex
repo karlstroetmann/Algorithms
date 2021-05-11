@@ -8,28 +8,26 @@ maps these keys to \blue{values}.  A typical example of a map is a telephone boo
 are names, while the values are the telephone numbers.
 
 In this chapter we show how sets and
-maps can be implemented efficiently.  We confine our attention to the implementation of maps.  The
-reason is that a set $M$ can always be represented by its \blue{characteristic function}:  If $M$ is
-a set, then the characteristic function $\chi_M$ is defined such that
+maps can be implemented efficiently.  We confine our attention to the implementation of maps.  Once we know how
+to implement a map, it is easy to see that a set $S$ can be represented by a function $f_S$ that satisfies
 \\[0.2cm]
 \hspace*{1.3cm}
-$x \in M \Leftrightarrow \chi_M(x) = \mathtt{True}$
+$x \in S \Leftrightarrow f_S(x) \not= \Omega$.
 \\[0.2cm]
-holds true.  In order to implement a set $M$ we can therefore implement its characteristic function
-as a map.  The rest of this chapter is organized as follows:
+The rest of this chapter is organized as follows:
 \begin{enumerate}[(a)]
 \item We begin with the definition of the abstract data type \blue{Map}. 
     
       Following this definition we present several different implementations of maps. 
 \item We start our discussion with \blue{ordered binary trees}.  These trees can be used to implement maps,
-      provided the keys are ordered.        The average complexity of inserting
-      an element into an ordered binary tree is \blue{logarithmic}.  Unfortunately, the worst case complexity
-      is \blue{linear} in the number of the entries.
+      provided the keys are ordered.  The average complexity of finding the value associated with a key
+      is $\Oh\bigl(\log_2(n)\bigr)$, where $n$ is the number of key-value pairs stored in the binary tree.
+      Unfortunately, the worst case complexity  is $\Oh(n)$.
 \item Next, we discuss \blue{balanced ordered trees}.  In the case of balanced ordered trees the
       complexity of insertion is g\underline{uaranteed} to be \blue{logarithmic}.
       In particular we discuss \blue{AVL trees} and \blue{2-3 trees}.
-\item After that, we explore the so called \blue{tries}.  These can be used as maps if the keys are
-      \blue{strings}. 
+\item After that, we explore a data structure that is known as a \blue{trie}.  This kind of data structure can
+      be used if the keys of the map are \blue{strings}. 
 \item Finally, we discuss \blue{hash tables}.  Hash tables provide another way to implement a map.
       Hash tables are in wide spread use.  For example, in \textsl{Python} sets and dictionaries are
       implemented via hash tables.  Therefore, every computer scientist should have a good understanding of
@@ -39,8 +37,8 @@ as a map.  The rest of this chapter is organized as follows:
 \section{The Abstract Data Type Map} 
 Many applications require the efficient maintenance of some mapping of \blue{keys} to
 \blue{values}.  For example, in order to implement a software analogue of a telephone book we have to
-be able to associate the telephone numbers with the names.  In this case, the name of a person is regarded as a
-\blue{key} and the telephone number is the \blue{value} that gets associated with the key.
+be able to associate the name of a person with their telephone number.  In this case, the name of a person is
+regarded as a \blue{key} and the telephone number is the \blue{value} that gets associated with the key.
 The most important functions provided by a telephone directory are the following:
 \begin{enumerate}
 \item \blue{Lookup}: We have to be able to look up a given name and return the telephone number
@@ -53,7 +51,6 @@ The most important functions provided by a telephone directory are the following
 
 
 \begin{Definition}[Map] \hspace*{\fill} \\
-{\em
   The abstract data type of a \blue{Map} is defined as follows:
   \begin{enumerate}
   \item The name is \textsl{Map}.
@@ -127,7 +124,6 @@ The most important functions provided by a telephone directory are the following
               \eox
         \end{enumerate}
   \end{enumerate}
-}
 \end{Definition}
 
 In \textsl{Python} it is very easy to implement the abstract data type  \textsl{Map}.  We just have
@@ -192,8 +188,8 @@ order, then the abstract data type \textsl{Map} can be implemented via
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
 \begin{enumerate}
-\item In the average case, the complexity of the method \texttt{find} is \blue{logarithmic}.
-\item In the worst case, the complexity of the method \texttt{find} is \blue{linear}.
+\item In the average case, the complexity of the method \texttt{find} is \blue{logarithmic} in the number of entries.
+\item In the worst case, the complexity of the method \texttt{find} is \blue{linear} in the number of entries.
 
       Unfortunately, the worst case occurs when the keys are inserted in sorted order.
 \end{enumerate}
@@ -201,8 +197,8 @@ characteristics:
 \begin{Definition}[Ordered Binary Trees] \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
   The set $\Bin$ of \blue{ordered binary trees}\index{ordered binary trees} is defined inductively as the set
-  of terms that is build using the function symbols \texttt{Nil} and \texttt{Node}, where the signature of
-  these function symbols is given as follows: \\[0.2cm]
+  of \blue{terms} that are constructed from the function symbols \texttt{Nil} and \texttt{Node}, where the
+  signatures of these function symbols are given as follows: \\[0.2cm]
   \hspace*{1.3cm} 
   $\texttt{Nil}: \Bin$ \qquad and \qquad  $\texttt{Node}: \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
   \begin{enumerate}
@@ -222,7 +218,7 @@ characteristics:
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
-        The last two conditions are known as the \blue{ordering conditions}.
+        The last two conditions are known as the \blue{ordering conditions}. \index{ordering conditions}
         \eox
 \end{enumerate}
 \end{Definition}
@@ -230,18 +226,18 @@ characteristics:
 \noindent
 We will depict ordered binary trees graphically as follows:
 \begin{enumerate}
-\item The empty tree \texttt{Nil} is either shown as a black circle or not shown at all.
+\item The empty tree \texttt{Nil} is either shown as a black dot or it is not shown at all.
 \item A binary tree of the form $\texttt{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
       both are separated by a horizontal line.  This oval is then called a
-      \blue{node} of the binary tree. 
-      The left subtree $l$ of the node is depicted both to the left and  below the node,
-      while the right subtree $r$ is depicted both to the right and below the node.  Both the left
+      \blue{node} \index{node of a binary tree} of the binary tree. 
+      The left subtree $l$ of the node is depicted to the south-west of the node,
+      while the right subtree $r$ is depicted to the south-east of the node.  Both the left
       and the right subtree are connected to the node with an arrow that points from the node to the
       subtree.
 \end{enumerate}
 Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
-node that has the key $8$ and the value $22$ is called the \blue{root} of the binary tree.
+node that has the key $8$ and the value $22$ is called the \blue{root} \index{root of a binary tree} of the binary tree.
 A \blue{path of length} $k$ in the tree is a list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
 \\[0.2cm]
@@ -295,7 +291,7 @@ and the definition of \texttt{insert} is given by the following equations.
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{insert}(k,v) = \texttt{Node}(k,v, \texttt{Nil}, \texttt{Nil})$,
   
-      If the tree is empty, the information to be stored can be stored at the root.
+      If the tree is empty, the information to be stored is placed at the root.
 \item $\texttt{Node}(k,v_2,l,r).\texttt{insert}(k,v_1) = \texttt{Node}(k, v_1, l, r)$,
 
       If the key $k$ is located at the root, we can just overwrite the old information. 
@@ -320,7 +316,7 @@ The specification of \texttt{delete} is more
 difficult than the specification of \texttt{find} and \texttt{insert}.
 If there is a tree of the form $t =\texttt{Node}(k,v,l,r)$ and we want to delete the key $k$, then
 we have to check first whether either of the subtrees  $l$ or $r$ is empty.  If $l$ is empty,
-$t.\texttt{delete}(k)$ can return the right subtree  $r$ while if $r$ is empty,
+$t.\texttt{delete}(k)$ can return the right subtree  $r$, while if $r$ is empty,
 $t.\texttt{delete}(k)$ can return the left subtree $l$.
 Things get more difficult when both $l$ and $r$ are non-empty.  In this case,
 our solution is that we look for the smallest key in the right subtree $r$.
@@ -376,7 +372,7 @@ removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the 
       $l'$.  Next,  $l$ is replaced by $l'$ in $t$.  The resulting tree is
       $t' = \texttt{Node}(k, v, l', r)$.
 \end{enumerate}
-Next, we specify the method $\mathtt{delete}()$.
+Finally, we specify the method $\mathtt{delete}()$.
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{delete}(k) = \texttt{Nil}$.
 \item $\texttt{Node}(k,v,\texttt{Nil},r).\texttt{delete}\bigl(k\bigr) = r$.
@@ -404,7 +400,7 @@ Next, we specify the method $\mathtt{delete}()$.
 
 \subsection{Implementing Ordered Binary Trees in \textsl{Python}}
 Figure \ref{fig:binary-tree.py-1} and Figure \ref{fig:binary-tree.py-2} show how ordered binary
-trees can be implemented in \textsl{Python}.  Objects of class \texttt{map} encapsulate ordered
+trees can be implemented in \textsl{Python}.  Objects of class \texttt{map} represent ordered
 binary trees.  We discuss the implementation of this class next.
 \begin{enumerate}
 \item The constructor is called without any argument.  The expression
@@ -423,7 +419,7 @@ binary trees.  We discuss the implementation of this class next.
       \item \texttt{mLeft} is the left subtree.  
       \item \texttt{mRight} is the right subtree.  
       \end{enumerate}
-\item The function \texttt{isEmpty} checks whether \texttt{this} represents an empty tree.
+\item The function \texttt{isEmpty} checks whether \texttt{self} represents an empty tree.
       The assumption is that if \texttt{mKey} is \texttt{None}, then the member variables
       \texttt{mValue}, \texttt{mLeft}, and \texttt{mRight} will also be \texttt{None}.
       Hence, in this case the object represents the empty tree \texttt{Nil}.
@@ -532,7 +528,7 @@ binary trees.  We discuss the implementation of this class next.
     
         def _delMin(self):
             if self.mLeft.isEmpty():
-                return (self.mRight, self.mKey, self.mValue)
+                return self.mRight, self.mKey, self.mValue
             else:
                 ls, km, vm = self.mLeft._delMin()
                 self.mLeft = ls
@@ -578,7 +574,7 @@ binary trees.  We discuss the implementation of this class next.
 \subsection{Complexity Analysis}
 In this section we will first discuss the worst case complexity, which is quite bad.  In fact, in
 the worst case, the call $b.\mathtt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
-binary search tree of $n$ elements.  After that, we investigate the average case complexity.  We
+binary search tree containing $n$ key-value pairs.  After that, we investigate the average case complexity.  We
 will show that the average case complexity is $\Oh\bigr(\ln(n)\bigr)$.
 
 \subsubsection{Worst Case Complexity}
