@@ -4,8 +4,10 @@ roughly the same height, then the complexity of $b.\texttt{find}(k)$ will always
 $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
 called an \href{https://en.wikipedia.org/wiki/AVL_tree}{AVL tree} \cite{adelson:62}.  AVL trees are 
-named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
-(1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).  
+named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky}
+\index{Adelson-Velsky, Georgy Maximovich} 
+(1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).
+\index{Landis, Evgenii Mikhailovich}
 In order to define these trees we need to define the \blue{height} of a binary tree formally:
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{height}() = 0$.
@@ -15,7 +17,7 @@ In order to define these trees we need to define the \blue{height} of a binary t
 
 \begin{Definition}[AVL-Tree] \hspace*{\fill} \\
 {\em 
-  The set $\AVL$ of \blue{AVL trees}\index{AVL tree} is defined inductively:
+  The set $\AVL$ of \blue{AVL trees}\index{AVL tree} \index{$\mathcal{A}$, AVL tree} is defined inductively:
   \begin{enumerate}
   \item $\texttt{Nil} \in \AVL$.
   \item $\texttt{Node}(k,v,l,r) \in \AVL$ \quad iff 
@@ -24,7 +26,7 @@ In order to define these trees we need to define the \blue{height} of a binary t
         \item $l, r \in \AVL$, \quad and
         \item $|l.\texttt{height}() - r.\texttt{height}()| \leq 1$.
 
-              This condition is called the \blue{balancing condition}.
+              This condition is called the \blue{balancing condition}. \index{balancing condition}
         \end{enumerate}
         According to this definition, an AVL tree is an ordered binary tree such that for every node
         $\texttt{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right

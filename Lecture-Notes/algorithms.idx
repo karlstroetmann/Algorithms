@@ -90,11 +90,25 @@
 \indexentry{Dijkstra, Edsger|hyperpage}{81}
 \indexentry{associate to the left|hyperpage}{82}
 \indexentry{associate to the right|hyperpage}{82}
-\indexentry{ordered binary trees|hyperpage}{93}
+\indexentry{ordered binary tree|hyperpage}{93}
+\indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{93}
+\indexentry{\texttt{Nil}, empty tree|hyperpage}{93}
+\indexentry{empty tree|hyperpage}{93}
+\indexentry{$\texttt{Node}(k, v, l, r)$|hyperpage}{93}
+\indexentry{left subtree|hyperpage}{93}
+\indexentry{right subtree|hyperpage}{93}
 \indexentry{ordering conditions|hyperpage}{93}
 \indexentry{node of a binary tree|hyperpage}{93}
 \indexentry{root of a binary tree|hyperpage}{93}
+\indexentry{\texttt{find}, ordered binary tree|hyperpage}{93}
+\indexentry{\texttt{insert}, ordered binary tree|hyperpage}{94}
+\indexentry{\texttt{delete}, ordered binary tree|hyperpage}{95}
+\indexentry{\texttt{delMin}, ordered binary tree|hyperpage}{95}
+\indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{104}
+\indexentry{Landis, Evgenii Mikhailovich|hyperpage}{104}
 \indexentry{AVL tree|hyperpage}{104}
+\indexentry{$\mathcal{A}$, AVL tree|hyperpage}{104}
+\indexentry{balancing condition|hyperpage}{104}
 \indexentry{red-black tree|hyperpage}{115}
 \indexentry{2-3 tree|hyperpage}{115}
 \indexentry{trie|hyperpage}{118}
