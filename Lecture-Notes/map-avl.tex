@@ -227,7 +227,7 @@ Finally, the equations for $\texttt{delete}$ are as follows:
 
 
 \subsection{Implementing AVL-Trees in \textsl{Python}}
-If we want to implement AVL-trees in \textsl{Python} then we have to decide how to compute the height
+If we want to implement AVL-trees in \textsl{Python}, then we have to decide how to compute the height
 of the trees.  The idea is to store the height of every subtree in the corresponding node since it
 would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
 member variable \texttt{mHeight} to our class map.
@@ -257,7 +257,27 @@ constructs an empty node.
   \caption{Outline of the class \texttt{map}.}
   \label{fig:avl-tree.ipython:init}
 \end{figure}
+Figure \ref{fig:avl-tree.ipython:isEmpty} shows the implementation of the function $\texttt{isEmpty}$.
+A tree is empty if its height is $0$.
 
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  bgcolor = sepia,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]{python3}
+    def isEmpty(self):
+        return self.mHeight == 0
+\end{minted}
+\vspace*{-0.3cm}
+\caption{Implementation of the method $\texttt{isEmpyty}$.}
+\label{fig:avl-tree.ipython:isEmpty}
+\end{figure}
 
 Figure \ref{fig:avl-tree.ipython:find} shows the implementation of the function $\texttt{find}$.
 Actually, the implementation is the same as the implementation in Figure
@@ -289,7 +309,6 @@ since searching for a key does not change the underlying tree there is no need t
 \caption{Implementation of the method $\texttt{find}$.}
 \label{fig:avl-tree.ipython:find}
 \end{figure}
-
 
 Figure \ref{fig:avl-tree.ipython:insert} shows the implementation of the method $\texttt{insert}$.
 If we compare this implementation with the implementation for ordered binary trees, we find three
