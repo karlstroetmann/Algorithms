@@ -88,16 +88,14 @@ The method $\texttt{restore}$ is specified via conditional equations.
       of the tree corresponding to this node.  For subtrees, the height is given below the name of
       the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
-      is $h'$ and we know that $h' \leq h$.  As $\texttt{Node}(k_2,v_2,l_2,r_2)$ is an AVL tree and we know that
-      $l_2.\texttt{height}() \geq r_2.\texttt{height}()$, we
-      either have $h' = h$ or $h' = h-1$.
+      is either $h$ or $h-1$.
 
       The state shown in Figure \ref{fig:casell} can arise if either an element has been inserted
       in the left subtree $l_1$ or if an element has been deleted from the right subtree  $r_1$.
 
       \begin{figure}[!ht]
         \centering
-        \framebox{\epsfig{file=Abbildungen/casell.pdf,scale=0.7}} 
+        \framebox{\epsfig{file=Abbildungen/casell.eps,scale=0.63}} 
         \caption{An unbalanced tree and the corresponding rebalanced tree.}
         \label{fig:casell}
       \end{figure}

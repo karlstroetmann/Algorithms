@@ -8,7 +8,7 @@ digraph G {
     l1 -> l2;
     l1 -> r2;
     l2 [ shape = triangle, label = " l2 \n h " ];
-    r2 [ shape = triangle, label = " r2 \n h' " ];
+    r2 [ shape = triangle, label = " r2 \n h or h-1 " ];
 
     pn [ shape = Mrecord, label = "{ k2 | h+2 or h+1 }" ];
     pn -> l1n;
@@ -17,6 +17,6 @@ digraph G {
     r1n [ shape = Mrecord, label = "{ k1 | h+1 or h }" ];
     r1n -> l2n;
     r1n -> r2n;
-    l2n [ shape = triangle, label = " r2 \n h'" ];
+    l2n [ shape = triangle, label = " r2 \n h or h-1" ];
     r2n [ shape = triangle, label = " r1 \n h-1" ];
 }
