@@ -8,9 +8,9 @@ digraph G {
     l1n -> l2n;
     l1n -> r2n;
     l2n [ shape = triangle, label = " l2 \n h" ];
-    r2n [ shape = triangle, label = " l3 \n h or h - 1" ];
+    r2n [ shape = triangle, label = " l3 \n h or h-1" ];
     r1n -> l3n;
     r1n -> r3n;
-    l3n [ shape = triangle, label = " r3 \n h or h - 1" ];
+    l3n [ shape = triangle, label = " r3 \n h or h-1" ];
     r3n [ shape = triangle, label = " r1 \n h" ];
 }

@@ -103,7 +103,7 @@ The method $\texttt{restore}$ is specified via conditional equations.
       \ref{fig:casell} is indeed an  AVL tree. With respect to the balancing condition this is
       easily verified.  The fact that the node containing the key $k_1$ has either the height
       $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ while the height of $r_2$ is
-      $h'$ and we know that $h' \in \{h, h-1\}$.
+      either $h$ or $h-1$.
 
       In order to verify that the tree is ordered we can use the following inequation: 
       \\[0.2cm]
@@ -140,7 +140,7 @@ The method $\texttt{restore}$ is specified via conditional equations.
        
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/caselr,scale=0.7}} 
+  \framebox{\epsfig{file=Abbildungen/caselr.eps,scale=0.7}} 
   \caption{An unbalanced tree, second case.}
   \label{fig:caselr}
 \end{figure}
@@ -154,7 +154,7 @@ The method $\texttt{restore}$ is specified via conditional equations.
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/caselr-nach,scale=0.7}} 
+  \framebox{\epsfig{file=Abbildungen/caselr-nach.eps,scale=0.7}} 
   \caption{The rebalanced tree in the second case.}
   \label{fig:caselr-nach}
 \end{figure}

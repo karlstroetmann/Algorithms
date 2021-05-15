@@ -11,6 +11,6 @@ digraph G {
     r2 [ shape = Mrecord, label = "{ k3 | h+1 }" ];
     r2 -> l3;    
     r2 -> r3;    
-    l3 [ shape = triangle, label = " l3 \n h or h - 1 " ];
-    r3 [ shape = triangle, label = " r3 \n h or h - 1 " ];
+    l3 [ shape = triangle, label = " l3 \n h or h-1 " ];
+    r3 [ shape = triangle, label = " r3 \n h or h-1 " ];
 }
