@@ -110,43 +110,43 @@
 \indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{104}
 \indexentry{balancing condition|hyperpage}{104}
 \indexentry{red-black tree|hyperpage}{115}
-\indexentry{2-3 tree|hyperpage}{115}
+\indexentry{2-3 tree|hyperpage}{116}
 \indexentry{trie|hyperpage}{118}
 \indexentry{$\mathbb{T}$|hyperpage}{118}
-\indexentry{string completion|hyperpage}{121}
-\indexentry{binary trie|hyperpage}{125}
-\indexentry{priority queue|hyperpage}{140}
-\indexentry{observer function|hyperpage}{142}
-\indexentry{mutator function|hyperpage}{142}
-\indexentry{heaps|hyperpage}{142}
-\indexentry{heap storage|hyperpage}{142}
-\indexentry{heap condition|hyperpage}{143}
-\indexentry{balancing condition|hyperpage}{143}
-\indexentry{Heapsort|hyperpage}{148}
-\indexentry{generated equivalence relation|hyperpage}{160}
-\indexentry{reflexive|hyperpage}{160}
-\indexentry{symmetric|hyperpage}{160}
-\indexentry{transitive|hyperpage}{160}
-\indexentry{partition|hyperpage}{161}
-\indexentry{union-find algorithm|hyperpage}{162}
-\indexentry{weighted undirected graph|hyperpage}{167}
-\indexentry{node|hyperpage}{167}
-\indexentry{edge|hyperpage}{167}
-\indexentry{weight of an edge|hyperpage}{167}
-\indexentry{path|hyperpage}{167}
-\indexentry{weight of an path|hyperpage}{167}
-\indexentry{connected graph|hyperpage}{167}
-\indexentry{connected graph|hyperpage}{167}
-\indexentry{tree (graph)|hyperpage}{167}
-\indexentry{weight of a tree|hyperpage}{168}
-\indexentry{Kruskal's algorithm|hyperpage}{168}
-\indexentry{weighted directed graph|hyperpage}{169}
-\indexentry{weighted digraph|hyperpage}{169}
-\indexentry{path|hyperpage}{170}
-\indexentry{shortest path problem|hyperpage}{170}
-\indexentry{Bellman-Ford algorithm|hyperpage}{170}
-\indexentry{Moore's algorithm|hyperpage}{170}
-\indexentry{Dijkstra's algorithm|hyperpage}{172}
-\indexentry{topological sorting|hyperpage}{175}
-\indexentry{topological sorting problem|hyperpage}{176}
-\indexentry{Kahn's algorithm|hyperpage}{176}
+\indexentry{string completion|hyperpage}{122}
+\indexentry{binary trie|hyperpage}{126}
+\indexentry{priority queue|hyperpage}{141}
+\indexentry{observer function|hyperpage}{143}
+\indexentry{mutator function|hyperpage}{143}
+\indexentry{heaps|hyperpage}{143}
+\indexentry{heap storage|hyperpage}{143}
+\indexentry{heap condition|hyperpage}{144}
+\indexentry{balancing condition|hyperpage}{144}
+\indexentry{Heapsort|hyperpage}{149}
+\indexentry{generated equivalence relation|hyperpage}{161}
+\indexentry{reflexive|hyperpage}{161}
+\indexentry{symmetric|hyperpage}{161}
+\indexentry{transitive|hyperpage}{161}
+\indexentry{partition|hyperpage}{162}
+\indexentry{union-find algorithm|hyperpage}{163}
+\indexentry{weighted undirected graph|hyperpage}{168}
+\indexentry{node|hyperpage}{168}
+\indexentry{edge|hyperpage}{168}
+\indexentry{weight of an edge|hyperpage}{168}
+\indexentry{path|hyperpage}{168}
+\indexentry{weight of an path|hyperpage}{168}
+\indexentry{connected graph|hyperpage}{168}
+\indexentry{connected graph|hyperpage}{168}
+\indexentry{tree (graph)|hyperpage}{168}
+\indexentry{weight of a tree|hyperpage}{169}
+\indexentry{Kruskal's algorithm|hyperpage}{169}
+\indexentry{weighted directed graph|hyperpage}{170}
+\indexentry{weighted digraph|hyperpage}{170}
+\indexentry{path|hyperpage}{171}
+\indexentry{shortest path problem|hyperpage}{171}
+\indexentry{Bellman-Ford algorithm|hyperpage}{171}
+\indexentry{Moore's algorithm|hyperpage}{171}
+\indexentry{Dijkstra's algorithm|hyperpage}{173}
+\indexentry{topological sorting|hyperpage}{176}
+\indexentry{topological sorting problem|hyperpage}{177}
+\indexentry{Kahn's algorithm|hyperpage}{177}

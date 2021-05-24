@@ -573,25 +573,26 @@ properties:
 
       In order for the expression $b_h(k)$ to be unambiguously defined we demand that the keys
       in $b_h(k)$ are natural numbers that are as small as possible.  Furthermore, as the values do
-      not really matter, we define them to be $0$.
-\item If $h \geq 1$, then the height of the left subtree of $b_h(k)$ is bigger than the height of its right subtree.
+      not really matter, we define the values to be $0$.
+\item If $h > 1$, then the height of the left subtree of $b_h(k)$ is bigger than the height of its right subtree.
 \end{enumerate}
 For our investigation of the complexity, both the keys and the values do not really matter.  The only problem
 is that we have to ensure that the tree $b_h(k)$ is an ordered tree.
 Before we can present the definition of $b_h(k)$ we need to define the auxiliary function
- $\texttt{maxKey}()$.  This function has the signature 
+$\texttt{maxKey}()$, which computes the largest key that is stored in a given tree.  This function has the
+ signature  
 \\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{maxKey}:\mathcal{B} \rightarrow \texttt{Key} \cup \{ \Omega \}$.
 \\[0.2cm]
-Given an ordered binary tree  $b$, the expression $b.\texttt{maxKey}()$ returns the biggest
-key stored in $b$.  The expression  $b.\texttt{maxKey}()$ is defined by induction on $b$:
+Given an ordered binary tree  $b$, the expression $b.\texttt{maxKey}()$ returns the largest
+key that is stored in $b$.  The expression  $b.\texttt{maxKey}()$ is defined by induction on $b$:
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{maxKey}() = \Omega$,
 \item $\texttt{Node}(k,v,l,\texttt{Nil}).\texttt{maxKey}() = k$,
 \item $r \not= \texttt{Nil} \rightarrow \texttt{Node}(k,v,l,r).\texttt{maxKey}() = r.\texttt{maxKey}()$.
 \end{enumerate}
-Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
+Now we are ready to define the tree $b_h(k)$ by induction on  $h$.
 \begin{enumerate}
 \item $b_0(k) = \texttt{Nil}$,
 
@@ -604,7 +605,7 @@ Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
        b_{h+2}(k) = \texttt{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr)$.
 
       In order to construct an \textsc{Avl} tree of height $h+2$ that contains the minimal number of keys 
-      possible we first construct the \textsc{Avl} tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
+      we first construct the \textsc{Avl} tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
       key as possible given its height.  Next, we determine the biggest key $l$ in this tree. 
       Now to construct $b_{h+2}(k)$ we take a node with the key $l+1$ as the root.
       The left subtree $b_{h+2}(k)$ is $b_{h+1}(k)$, while its right subtree is $b_h(l+1)$.
@@ -618,7 +619,7 @@ Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
       any \textsc{Avl} tree can possibly get, since if the left subtree has height $h+1$ the right subtree
       must at least have height $h$ in order for the whole tree to satisfy the balancing condition.
 \end{enumerate}
-Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furthermore, we define
+Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  We define
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h := \#\, b_h(k)$
@@ -641,9 +642,8 @@ Hence we have found the \href{https://en.wikipedia.org/wiki/Recurrence_relation}
 \hspace*{1.3cm}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
-This also validates our claim that $c_h$ does not depend on $k$.  Due to the presence of the number $1$ on the
-right hand side of this recurrence equation, this recurrence equation is an 
-\blue{inhomogeneous recurrence equation}.  In order to solve this recurrence
+This also validates our claim that $c_h$ does not depend on $k$.  This is a linear, inhomogeneous recurrence
+equation.  In order to solve this recurrence
 equation we first solve the corresponding \blue{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -667,23 +667,28 @@ $\lambda^2 = \lambda + 1$
 which can be rearranged as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} = 1$.
+$\ds \lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} = 1$.
 \\[0.2cm]
-Adding $\frac{1}{4}$ on both sides of this equation completes the square on the left hand side:
+To complete the square we add $\frac{1}{4}$ on both sides of this equation:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bigl(\lambda - \frac{1}{2}\bigr)^2 = \frac{5}{4}$. 
+$\ds \lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} + \Bigl(\frac{1}{2}\Bigr)^2 = 1 + \frac{1}{4}$.
+\\[0.2cm]
+This is equivalent to
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \Bigl(\lambda - \frac{1}{2}\Bigr)^2 = \frac{5}{4}$. 
 \\[0.2cm]
 From this we conclude 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda = \frac{1}{2} \cdot \bigl(1 + \sqrt{5}\bigr) \;\vee\; \lambda = \frac{1}{2} \cdot \bigl(1 - \sqrt{5}\bigr)$.
+$\ds\lambda = \frac{1}{2} \cdot \bigl(1 + \sqrt{5}\bigr) \;\vee\; \lambda = \frac{1}{2} \cdot \bigl(1 - \sqrt{5}\bigr)$.
 \\[0.2cm]
 Let us therefore define 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
-$\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
+$\ds\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
+$\ds\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
 In order to solve the \blue{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
 \\[0.2cm]
@@ -771,7 +776,7 @@ Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
 \hspace*{1.3cm}
 $\ds \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
 \\[0.2cm]
-Solving this equation for  $h$ gives the result 
+Solving this equation for  $h$ yields the result 
 \\[0.4cm]
 \hspace*{1.3cm} 
 $
@@ -782,8 +787,13 @@ h & = & \ds \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} -
 \end{array} 
 $
 \\[0.2cm]
-However, the height $h$ is the maximal number of comparisons needed to find a given key.
-Hence, for \textsc{Avl} trees the complexity of $b.\texttt{find}(k)$ is logarithmic even in the worst case.
+Above we have used the fact that 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\log_2(n+1) - \log_2(n) \in \Oh(1)$. 
+\\[0.2cm]
+As the height $h$ is the maximal number of comparisons needed to find a given key
+the complexity of $b.\texttt{find}(k)$ for an \textsc{Avl} tree $b$ is logarithmic even in the worst case.
 Figure 
 \ref{fig:avl-worst-case} presents an  \textsc{Avl} tree of height 6 where the number of keys is minimal.
 
