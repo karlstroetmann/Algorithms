@@ -1522,7 +1522,7 @@ Solve the following exercises:
 It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \mytt{Key} \rightarrow \mytt{Value}$ \\[0.2cm]
 provided the set $\mytt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
-\hspace*{1.3cm} $\mytt{Key} = \{ 0, 1, 2, \cdots, n \}$. \\[0.2cm]
+\hspace*{1.3cm} $\mytt{Key} = \{ 0, 1, 2, \cdots, n-1 \}$. \\[0.2cm]
 In this case, we can implement the function $f$ via an array of size $n$.
 Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 
@@ -1539,7 +1539,7 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
                 ]{python3}
     class ArrayMap:
         def __init__(self, n):
-            self.mArray = [None] * (n + 1)
+            self.mArray = [None] * n
             
         def find(self, k):
             return self.mArray[k]
@@ -1566,8 +1566,8 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 \item The method \mytt{delete} removes the value stored at the index $k$ by overwriting it with the undefined
       value. 
 \end{enumerate}
-If the domain $D := \mytt{dom}(f)$ of the function $f$ is not a set of the form $\{0,1, \cdots, n\}$, 
-then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{0,1,\cdots,n\}$.
+If the domain $D := \mytt{dom}(f)$ of the function $f$ is not a set of the form $\{0,1, \cdots, n-1\}$, 
+then we can instead try to find a one-to-one mapping of $D$ onto a set of the form $\{0,1,\cdots,n-1\}$.
 Let us explain the idea with a simple example:  Suppose we want to implement a digital
 telephone book.
 To simplify things, let us assume first that all the names stored in our telephone dictionary
@@ -1658,7 +1658,7 @@ These problems can be solved as follows:
       $k$.
 \end{enumerate}
 
-\subsection{Computing the Hash Function Efficiently}
+\subsection{Computing the Hash Function Efficiently$^*$}
 In this section we discuss how to compute the function 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1687,7 +1687,7 @@ is bounded by $n$.  In order to be able to reorganize this computation we need t
   \item $a = q \cdot n + r$ \quad and
   \item $0 \leq r < n$.
   \end{enumerate}
-  The number $q$ is called the \blue{quotient} of $a$ divided $n$ and denoted as $a \;\mytt{//}\; n$, while
+  The number $q$ is called the \blue{quotient} of $a$ divided by $n$ and denoted as $a \;\mytt{//}\; n$, while
   $r$ is called the \blue{remainder} of $a$ divided by $n$ and denoted as $a \mmod n$.  \eox
 \end{Theorem}
 
@@ -1719,7 +1719,7 @@ subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementat
 \label{fig:Division-Naive.ipynb}
 \end{figure}
 \exercise
-Prove the uniqueness of the quotient and the remainder in the theorem on Euclidean division.
+Prove the \blue{uniqueness} of the quotient and the remainder in the theorem on Euclidean division.
 In order to do this, assume that
 \begin{enumerate}
 \item $a = q_1 \cdot n + r_1 = q_2 \cdot n + r_2$ and
@@ -1825,8 +1825,8 @@ induction on $m$.
              \hspace*{1.3cm}
              $
              \begin{array}{lcll}
-               s_{k+1} & = & (s_k \cdot x + a_{m - (k+1)} ) \mmod n \\[0.2cm]
-                      & \stackrel{IV}{=} & \ds\Biggl(\biggl(\Bigl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \mmod n\biggr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
+               s_{k+1} & = & \bigl(s_k \cdot x + a_{m - (k+1)} \bigr) \mmod n \\[0.2cm]
+                      & \stackrel{\mathrm{ih}}{=} & \ds\Biggl(\biggl(\Bigl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \mmod n\biggr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
                                          \\[0.5cm]
                       & = & \ds\Biggl(\biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
                             \\[0.5cm]
@@ -1839,11 +1839,11 @@ induction on $m$.
 Setting $k := m$ in Horner's method we arrive at the following formula:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds s_m = \biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\biggr) \mmod n = \biggl(\sum\limits_{i=0}^m a_{i} \cdot x^{i}\biggr) \mmod n = p(x)$.
+$\ds s_m = \Biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\Biggr) \mmod n = \Biggl(\sum\limits_{i=0}^m a_{i} \cdot x^{i}\Biggr) \mmod n = p(x)$.
 \\[0.2cm]
 This formula is used to implement the function \mytt{hash\_code} efficiently.
-Figure \ref{fig:hash_code.py} shows an implementation of this formula.  We have set 
-$x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
+Figure \ref{fig:hash_code.py} on page \pageref{fig:hash_code.py} shows an implementation of this formula.  We
+have set $x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
 
 \subsection{Implementing Hash Tables}
 In order to implement a has table we first need to implement three auxiliary classes:
@@ -1858,8 +1858,8 @@ We start by defining the class \mytt{ListNode}.
 The implementation is shown in Figure \ref{fig:ListNode.ipynb} on page \pageref{fig:ListNode.ipynb}.
 An object of class \mytt{ListNode} stores a key, a value, and a pointer to the next node.
 \begin{enumerate}[(a)]
-\item \mytt{mKey}     stores the \emph{key},
-\item \mytt{mValue}   stores the \emph{value} associated with this key, and
+\item \mytt{mKey}     stores the \blue{key},
+\item \mytt{mValue}   stores the \blue{value} associated with this key, and
 \item \mytt{mNextPtr} stores a reference to the next node.  If there is no next node, then 
       \mytt{mNextPtr} is \mytt{None}.
 \end{enumerate}
@@ -1918,7 +1918,8 @@ def find(self, key):
 Given the first node of a \blue{linked list} $L$, the function $L.\mytt{insert}(k, v)$ shown in Figure
 \ref{fig:ListNode.ipynb:insert} on page \pageref{fig:ListNode.ipynb:insert} inserts the key-value pair $(k, v)$
 into the list $L$.  If there is already a key value pair in $L$ that has the same key, then the old value is
-overwritten.  It returns a boolean that is true if a new node has been allocated.  This information is needed
+overwritten.  It returns a boolean that is \mytt{True} if a new node has been allocated.  If no new nodes needs
+to be allocated, \mytt{False} is returned instead.  This information is needed
 later in order to keep track of the number of nodes in a linked list.
 
 \begin{figure}[!ht]
@@ -2070,8 +2071,9 @@ linked list.  Figure \ref{fig:ListMap.ipynb} on page \pageref{fig:ListMap.ipynb}
       list pointed to by \mytt{mPtr}.  In this case, the value of \mytt{mPtr} will change.
 \item Furthermore, the class implements the function \mytt{\_\_iter\_\_} which returns a
       \mytt{MapIterator}.  Therefore, an object of class \mytt{ListMap} is \blue{iterable}: We can
-      use a \mytt{for}-loop to iterate over the list that is stored.  
+      use a \mytt{for}-loop to iterate over the list of key-value pairs that is stored.  
 \end{enumerate}
+    
 \subsubsection{The class \mytt{MapIterator}}
 Next, we discuss the class \mytt{MapIterator} which makes \mytt{ListMap} objects \blue{iterable}.
 This class is shown in Figure \ref{fig:MapIterator.ipynb} on page \pageref{fig:MapIterator.ipynb}.
@@ -2232,10 +2234,8 @@ Next, we discuss the implementation of the  methods of the class \mytt{HashTable
                 ]{python3}
     def find(self, key):
         index = self.mCode(key, self.mSize)
-        aList = self.mArray[index];
-        for k, v in aList:
-            if k == key:
-                return v
+        aList = self.mArray[index]
+        return aList.find(key)
 \end{minted}
 \vspace*{-0.3cm}
 \caption{Implementation of $\mytt{find}$.}
@@ -2248,8 +2248,6 @@ Figure \ref{fig:HashMap.ipynb-find} shows the implementation of the method $\myt
       $\mytt{key}$.
 \item Next, we retrieve this \mytt{ListMap} from the array $\mytt{mArray}$.
 \item Finally, we look up the information stored under the given $\mytt{key}$ in this key-value list.
-      Since the class \mytt{ListMap} is iterable we can use a \mytt{for}-loop to loop over the key-value
-      pairs and return the value associated with the given \mytt{key}.
 \end{enumerate}
 
 \begin{figure}[!ht]
