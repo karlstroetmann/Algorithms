@@ -92,18 +92,18 @@
 \indexentry{associate to the right|hyperpage}{82}
 \indexentry{ordered binary tree|hyperpage}{93}
 \indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{93}
-\indexentry{\texttt{Nil}, empty tree|hyperpage}{93}
+\indexentry{\mytt{Nil}, empty tree|hyperpage}{93}
 \indexentry{empty tree|hyperpage}{93}
-\indexentry{$\texttt{Node}(k, v, l, r)$|hyperpage}{93}
+\indexentry{$\mytt{Node}(k, v, l, r)$|hyperpage}{93}
 \indexentry{left subtree|hyperpage}{93}
 \indexentry{right subtree|hyperpage}{93}
 \indexentry{ordering conditions|hyperpage}{93}
 \indexentry{node of a binary tree|hyperpage}{93}
 \indexentry{root of a binary tree|hyperpage}{93}
-\indexentry{\texttt{find}, ordered binary tree|hyperpage}{93}
-\indexentry{\texttt{insert}, ordered binary tree|hyperpage}{94}
-\indexentry{\texttt{delete}, ordered binary tree|hyperpage}{95}
-\indexentry{\texttt{delMin}, ordered binary tree|hyperpage}{95}
+\indexentry{\mytt{find}, ordered binary tree|hyperpage}{93}
+\indexentry{\mytt{insert}, ordered binary tree|hyperpage}{94}
+\indexentry{\mytt{delete}, ordered binary tree|hyperpage}{95}
+\indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{95}
 \indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{104}
 \indexentry{Landis, Evgenii Mikhailovich|hyperpage}{104}
 \indexentry{\textsc{Avl} tree|hyperpage}{104}

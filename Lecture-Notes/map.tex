@@ -57,41 +57,41 @@ The most important functions provided by a telephone directory are the following
   \item The set of type parameters is $\{ \textsl{Key}, \textsl{Value} \}$.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
-       $\{ \texttt{map}, \texttt{find}, \texttt{insert}, \texttt{delete} \}$.
+       $\{ \mytt{map}, \mytt{find}, \mytt{insert}, \mytt{delete} \}$.
   \item The signatures of these function symbols are as follows:
         \begin{enumerate}
-        \item $\texttt{map}: \textsl{Map}$
+        \item $\mytt{map}: \textsl{Map}$
 
-              Calling $\texttt{map}()$ generates a new empty map.  Here, an empty map is a map that
+              Calling $\mytt{map}()$ generates a new empty map.  Here, an empty map is a map that
               does not store any keys.
-        \item $\texttt{find}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{\Omega\}$
+        \item $\mytt{find}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{\Omega\}$
 
               The function call
               \\[0.2cm]
               \hspace*{1.3cm}
-              $m.\texttt{find}(k)$ 
+              $m.\mytt{find}(k)$ 
               \\[0.2cm]
               checks whether the key $k$ is stored in the map $m$.  If this is the case, the
               value associated with this key is returned, otherwise the function call returns
               the undefined value $\Omega$.
-        \item $\texttt{insert}: \textsl{Map} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{Map}$
+        \item $\mytt{insert}: \textsl{Map} \times \textsl{Key} \times \textsl{Value} \rightarrow \textsl{Map}$
 
               The function call
               \\[0.2cm]
               \hspace*{1.3cm}
-              $m.\texttt{insert}(k,v)$ 
+              $m.\mytt{insert}(k,v)$ 
               \\[0.2cm]
               takes a key $k$ and an associated value $v$ and stores this information into the map
               $m$.  If the map $m$ already stores a value associated with the key $k$, this value
               is overwritten.  
 
               The function call returns the resulting map.
-        \item $\texttt{delete}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Map}$
+        \item $\mytt{delete}: \textsl{Map} \times \textsl{Key} \rightarrow \textsl{Map}$
 
               The function call
               \\[0.2cm]
               \hspace*{1.3cm}
-              $m.\texttt{delete}(k)$ 
+              $m.\mytt{delete}(k)$ 
               \\[0.2cm]
               removes the key $k$ and any value associated with $k$ from the map $m$.  If the map $m$ does not contain a value for the
               key $k$, then the map is returned unchanged.
@@ -100,23 +100,23 @@ The most important functions provided by a telephone directory are the following
         \end{enumerate}
   \item The behaviour of a map is specified via the following axioms.
         \begin{enumerate}
-        \item $\texttt{map}().\texttt{find}(k) = \Omega$.
+        \item $\mytt{map}().\mytt{find}(k) = \Omega$.
 
-              Calling $\texttt{map}()$ generates an empty map which does not have any keys stored.
+              Calling $\mytt{map}()$ generates an empty map which does not have any keys stored.
               Hence, looking up any key in the empty map will just return the undefined value.
-        \item $m.\texttt{insert}(k, v).\texttt{find}(k) = v$.
+        \item $m.\mytt{insert}(k, v).\mytt{find}(k) = v$.
 
               If a value $v$ is inserted for a key $k$, then when we look up this key $k$ the corresponding value
               $v$ will be returned.
-        \item $k_1 \not= k_2 \rightarrow m.\texttt{insert}(k_1, v).\texttt{find}(k_2) = m.\texttt{find}(k_2)$.
+        \item $k_1 \not= k_2 \rightarrow m.\mytt{insert}(k_1, v).\mytt{find}(k_2) = m.\mytt{find}(k_2)$.
 
               If a value $v$ is inserted for a key $k_1$, then this does not change the value that is stored
               for any key $k_2$  different from $k_1$.
-        \item $m.\texttt{delete}(k).\texttt{find}(k\bigr) = \Omega$.
+        \item $m.\mytt{delete}(k).\mytt{find}(k\bigr) = \Omega$.
 
               If the key $k$ is deleted, then afterwards we won't find this key anymore.
         \item $k_1 \not= k_2 \rightarrow 
-               m.\texttt{delete}(k_1).\texttt{find}(k_2) = m.\texttt{find}(k_2)$,
+               m.\mytt{delete}(k_1).\mytt{find}(k_2) = m.\mytt{find}(k_2)$,
 
               If  we delete a key $k_1$ and then try to look up the information stored under a key
               $k_2$ that is different from $k_1$, we will get the same result that we would have gotten
@@ -138,10 +138,10 @@ writing
 \hspace*{1.3cm}
 $d[k] = v$ 
 \\[0.2cm]
-and in order to delete the value stored for a key  $k$ we can use the \texttt{del} statement
+and in order to delete the value stored for a key  $k$ we can use the \mytt{del} statement
 as follows: \\[0.2cm]
-\hspace*{1.3cm} $\texttt{del}\ d[k]$. \\[0.2cm]
-Figure  \ref{fig:Map-Trivial.ipynb} presents an implementation of the class \texttt{Map} that proceeds along
+\hspace*{1.3cm} $\mytt{del}\ d[k]$. \\[0.2cm]
+Figure  \ref{fig:Map-Trivial.ipynb} presents an implementation of the class \mytt{Map} that proceeds along
 these lines.
 
 
@@ -175,8 +175,8 @@ these lines.
   \caption{A trivial implementation of the abstract data type \textsl{Map} in \textsl{Python}.}
   \label{fig:Map-Trivial.ipynb}
 \end{figure} 
-Note that the methods \texttt{insert} and \texttt{delete} do not return an object of type \texttt{Map}.  Rather, for
-efficiency reasons, the existing \texttt{Map} object is updated.
+Note that the methods \mytt{insert} and \mytt{delete} do not return an object of type \mytt{Map}.  Rather, for
+efficiency reasons, the existing \mytt{Map} object is updated.
 
 
 \section{Ordered Binary Trees}
@@ -188,8 +188,8 @@ order, then the abstract data type \textsl{Map} can be implemented via
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
 \begin{enumerate}
-\item In the average case, the complexity of the method \texttt{find} is \blue{logarithmic} in the number of entries.
-\item In the worst case, the complexity of the method \texttt{find} is \blue{linear} in the number of entries.
+\item In the average case, the complexity of the method \mytt{find} is \blue{logarithmic} in the number of entries.
+\item In the worst case, the complexity of the method \mytt{find} is \blue{linear} in the number of entries.
 
       Unfortunately, the worst case occurs when the keys are inserted in sorted order.
 \end{enumerate}
@@ -197,24 +197,24 @@ characteristics:
 \begin{Definition}[Ordered Binary Trees] \index{ordered binary tree} \hspace*{\fill} \\
   Assume a set $\textsl{Key}$ and a set $\textsl{Value}$ are given.
   The set $\Bin$ of \blue{ordered binary trees} \index{$\mathcal{B}$, set of ordered binary trees} is defined
-  inductively as the set of \blue{terms} that are constructed from the function symbols \texttt{Nil} and
-  \texttt{Node}, where the signatures of these function symbols are given as follows: \\[0.2cm]
+  inductively as the set of \blue{terms} that are constructed from the function symbols \mytt{Nil} and
+  \mytt{Node}, where the signatures of these function symbols are given as follows: \\[0.2cm]
   \hspace*{1.3cm} 
-  $\texttt{Nil}\!:\; \Bin$ \qquad and \qquad  $\texttt{Node}\!:\; \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
+  $\mytt{Nil}\!:\; \Bin$ \qquad and \qquad  $\mytt{Node}\!:\; \textsl{Key} \times \textsl{Value} \times \Bin \times \Bin \rightarrow \Bin$.
   \begin{enumerate}
-  \item $\texttt{Nil}$ is an ordered binary tree. \index{\texttt{Nil}, empty tree}
+  \item $\mytt{Nil}$ is an ordered binary tree. \index{\mytt{Nil}, empty tree}
 
         This tree is called the \blue{empty tree} \index{empty tree} since it does not store any information.
-  \item $\texttt{Node}(k, v, l, r) \in \Bin$ \quad iff the following conditions hold: \index{$\texttt{Node}(k, v, l, r)$}
+  \item $\mytt{Node}(k, v, l, r) \in \Bin$ \quad iff the following conditions hold: \index{$\mytt{Node}(k, v, l, r)$}
         \begin{enumerate}
         \item $k$ is a key from the set $\textsl{Key}$.
         \item $v$ is a value from the set $\textsl{Value}$.
         \item $l$ is an ordered binary tree.
 
-              $l$ is the  \blue{left subtree} \index{left subtree} of the tree $\texttt{Node}(k, v, l, r)$.
+              $l$ is the  \blue{left subtree} \index{left subtree} of the tree $\mytt{Node}(k, v, l, r)$.
         \item $r$ is a ordered binary tree.
 
-              $r$ is the \blue{right subtree} \index{right subtree} of the tree $\texttt{Node}(k, v, l, r)$.
+              $r$ is the \blue{right subtree} \index{right subtree} of the tree $\mytt{Node}(k, v, l, r)$.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
         \item All keys that occur in the right subtree $r$ are bigger than $k$.
         \end{enumerate}
@@ -226,8 +226,8 @@ characteristics:
 \noindent
 We will depict ordered binary trees graphically as follows:
 \begin{enumerate}
-\item The empty tree \texttt{Nil} is either shown as a black dot $\bullet$ or it is not shown at all.
-\item A binary tree of the form $\texttt{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
+\item The empty tree \mytt{Nil} is either shown as a black dot $\bullet$ or it is not shown at all.
+\item A binary tree of the form $\mytt{Node}(k,v,l,r)$ is represented by an oval.  Inside of this
       oval, both the key $k$ and the value $v$ are printed.  The key is printed above the value and
       both are separated by a horizontal line.  This oval is then called a
       \blue{node} \index{node of a binary tree} of the binary tree. 
@@ -254,76 +254,76 @@ is a path of length 3.
 
 
 Next, we show how ordered binary trees can be used to implement the ADT  \textsl{Map}.  We specify
-the different methods of this ADT via conditional equations.  The constructor $\texttt{map}()$
+the different methods of this ADT via conditional equations.  The constructor $\mytt{map}()$
 returns the empty tree:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{map}() = \texttt{Nil}$. 
+$\mytt{map}() = \mytt{Nil}$. 
 \\[0.2cm]
-The  method $\texttt{find}$ has the signature \index{\texttt{find}, ordered binary tree}
+The  method $\mytt{find}$ has the signature \index{\mytt{find}, ordered binary tree}
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{find}:\mathcal{B} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{ \Omega \}$
+$\mytt{find}:\mathcal{B} \times \textsl{Key} \rightarrow \textsl{Value} \cup \{ \Omega \}$
 \\[0.2cm]
 and is specified as follows:
 \begin{enumerate}
-\item $\texttt{Nil}.\texttt{find}(k) = \Omega$,
+\item $\mytt{Nil}.\mytt{find}(k) = \Omega$,
 
       because the empty tree is interpreted as the empty map.
-\item $\texttt{Node}(k, v, l, r).\texttt{find}(k) = v$,
+\item $\mytt{Node}(k, v, l, r).\mytt{find}(k) = v$,
 
-      because the node $\texttt{Node}(k,v,l,r)$ stores the assignment $k \mapsto v$.
-\item $k_1 < k_2 \rightarrow \texttt{Node}(k_2, v, l, r).\texttt{find}(k_1) = l.\texttt{find}(k_1)$,
+      because the node $\mytt{Node}(k,v,l,r)$ stores the assignment $k \mapsto v$.
+\item $k_1 < k_2 \rightarrow \mytt{Node}(k_2, v, l, r).\mytt{find}(k_1) = l.\mytt{find}(k_1)$,
 
       because if $k_1$ is less than $k_2$, then any mapping for $k_1$ has to be stored in the left
       subtree  $l$.
-\item $k_1 > k_2 \rightarrow \texttt{Node}(k_2, v, l, r).\texttt{find}(k_1) = r.\texttt{find}(k_1)$,
+\item $k_1 > k_2 \rightarrow \mytt{Node}(k_2, v, l, r).\mytt{find}(k_1) = r.\mytt{find}(k_1)$,
 
       because if $k_1$ is greater than $k_2$, then any mapping for $k_1$ has to be stored in the right
       subtree  $r$.
 \end{enumerate}
-Next, we specify the method  \texttt{insert}.  The signature of \texttt{insert} is
+Next, we specify the method  \mytt{insert}.  The signature of \mytt{insert} is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{insert}: \mathcal{B} \times \textsl{Key} \times \textsl{Value} \rightarrow \mathcal{B}$
+$\mytt{insert}: \mathcal{B} \times \textsl{Key} \times \textsl{Value} \rightarrow \mathcal{B}$
 \\[0.2cm]
-and the definition of \texttt{insert} is given by the following equations.
-\index{\texttt{insert}, ordered binary tree}
+and the definition of \mytt{insert} is given by the following equations.
+\index{\mytt{insert}, ordered binary tree}
 \begin{enumerate}
-\item $\texttt{Nil}.\texttt{insert}(k,v) = \texttt{Node}(k,v, \texttt{Nil}, \texttt{Nil})$,
+\item $\mytt{Nil}.\mytt{insert}(k,v) = \mytt{Node}(k,v, \mytt{Nil}, \mytt{Nil})$,
   
       If the tree is empty, the information to be stored is placed at the root.
-\item $\texttt{Node}(k,v_2,l,r).\texttt{insert}(k,v_1) = \texttt{Node}(k, v_1, l, r)$,
+\item $\mytt{Node}(k,v_2,l,r).\mytt{insert}(k,v_1) = \mytt{Node}(k, v_1, l, r)$,
 
       If the key $k$ is located at the root, we can just overwrite the old information. 
 \item $k_1 < k_2 \rightarrow 
-         \texttt{Node}(k_2, v_2, l, r).\texttt{insert}(k_1, v_1) = \texttt{Node}(k_2, v_2, l.\texttt{insert}(k_1, v_1), r)$,
+         \mytt{Node}(k_2, v_2, l, r).\mytt{insert}(k_1, v_1) = \mytt{Node}(k_2, v_2, l.\mytt{insert}(k_1, v_1), r)$,
 
       If the key $k_1$, which is the key for which we want to store a value, is less than the key
       $k_2$ at the root, then we have to insert the information in the left subtree.
 \item $k_1 > k_2 \rightarrow 
-         \texttt{Node}(k_2, v_2, l, r).\texttt{insert}(k_1, v_1) = 
-         \texttt{Node}(k_2, v_2, l, r.\texttt{insert}(k_1, v_1))$,
+         \mytt{Node}(k_2, v_2, l, r).\mytt{insert}(k_1, v_1) = 
+         \mytt{Node}(k_2, v_2, l, r.\mytt{insert}(k_1, v_1))$,
 
       If the key $k_1$, which is the key for which we want to store a value, is bigger than the key
       $k_2$ at the root, then we have to insert the information in the right subtree.
 \end{enumerate}
-Finally we specify the method  \texttt{delete}.  The signature is
+Finally we specify the method  \mytt{delete}.  The signature is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{delete}: \mathcal{B} \times \textsl{Key} \rightarrow \mathcal{B}$.
+$\mytt{delete}: \mathcal{B} \times \textsl{Key} \rightarrow \mathcal{B}$.
 \\[0.2cm]
-\index{\texttt{delete}, ordered binary tree}
-The specification of \texttt{delete} is more difficult than the specification of \texttt{find} and
-\texttt{insert}. If there is a tree of the form $t =\texttt{Node}(k,v,l,r)$ and we want to delete the key $k$,
+\index{\mytt{delete}, ordered binary tree}
+The specification of \mytt{delete} is more difficult than the specification of \mytt{find} and
+\mytt{insert}. If there is a tree of the form $t =\mytt{Node}(k,v,l,r)$ and we want to delete the key $k$,
 then we have to check first whether either of the subtrees  $l$ or $r$ is empty.  If $l$ is empty,
-$t.\texttt{delete}(k)$ can return the right subtree  $r$, while if $r$ is empty,
-$t.\texttt{delete}(k)$ can return the left subtree $l$.
+$t.\mytt{delete}(k)$ can return the right subtree  $r$, while if $r$ is empty,
+$t.\mytt{delete}(k)$ can return the left subtree $l$.
 Things get more difficult when both $l$ and $r$ are non-empty.  In this case,
 we look for the smallest key in the right subtree $r$.
 This key and its corresponding value are removed from $r$.  The resulting tree is called $r'$.
-Next, we take the node $t =\texttt{Node}(k,v,l,r)$ and transform it into the node
-$t'=\texttt{Node}(k_{min},v_{min},l,r')$.  Here $k_{min}$ denotes the smallest key found in $r$ while
+Next, we take the node $t =\mytt{Node}(k,v,l,r)$ and transform it into the node
+$t'=\mytt{Node}(k_{min},v_{min},l,r')$.  Here $k_{min}$ denotes the smallest key found in $r$ while
 $v_{min}$ denotes the corresponding value.  Note that $t'$ is again ordered:
 \begin{enumerate}
 \item The key $k_{min}$ is bigger than the key $k$ and hence it is bigger than all keys in the left
@@ -346,55 +346,55 @@ shown in Figure \ref{fig:graph2} on page \pageref{fig:graph2}.
   \label{fig:graph2}
 \end{figure}
 
-Next, we specify the  method \texttt{delMin}.  The signature is
+Next, we specify the  method \mytt{delMin}.  The signature is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{delMin}:\mathcal{B} \rightarrow \mathcal{B} \times \textsl{Key} \times \textsl{Value}$.
+$\mytt{delMin}:\mathcal{B} \rightarrow \mathcal{B} \times \textsl{Key} \times \textsl{Value}$.
 \\[0.2cm]
-\index{\texttt{delMin}, ordered binary tree}
-Hence, the call $t.\texttt{delMin}()$ returns a triple: If 
+\index{\mytt{delMin}, ordered binary tree}
+Hence, the call $t.\mytt{delMin}()$ returns a triple: If 
 \\[0.2cm]
 \hspace*{1.3cm}
-$t.\texttt{delMin}() = \langle r,k,v \rangle$,
+$t.\mytt{delMin}() = \langle r,k,v \rangle$,
 \\[0.2cm]
 then $r$ is the tree that  results from
 removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the associated value.
 \begin{enumerate}
-\item $\texttt{Node}(k, v, \texttt{Nil}, r).\texttt{delMin}() = \langle r, k, v\rangle$
+\item $\mytt{Node}(k, v, \mytt{Nil}, r).\mytt{delMin}() = \langle r, k, v\rangle$
 
       If the left subtree is empty, $k$ has to be the smallest key in the tree 
-      $\texttt{Node}(k, v, \texttt{Nil}, r)$.  If $k$ and its associated value $v$ are removed, we are left with the subtree $r$.
-\item $l\not= \texttt{Nil} \wedge l.\texttt{delMin}() = \langle l',k_{min}, v_{min}\rangle \;\rightarrow$ \\[0.2cm]
+      $\mytt{Node}(k, v, \mytt{Nil}, r)$.  If $k$ and its associated value $v$ are removed, we are left with the subtree $r$.
+\item $l\not= \mytt{Nil} \wedge l.\mytt{delMin}() = \langle l',k_{min}, v_{min}\rangle \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
-       $\texttt{Node}(k, v, l, r).\texttt{delMin}() = \bigl\langle\texttt{Node}(k, v, l', r), k_{min}, v_{min})\bigr\rangle$.
+       $\mytt{Node}(k, v, l, r).\mytt{delMin}() = \bigl\langle\mytt{Node}(k, v, l', r), k_{min}, v_{min})\bigr\rangle$.
 
-      If the left subtree $l$ in the binary tree $t = \texttt{Node}(k, v, l, r)$
+      If the left subtree $l$ in the binary tree $t = \mytt{Node}(k, v, l, r)$
       is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
       This smallest key is recursively removed from  $l$. This yields the tree 
       $l'$.  Next,  $l$ is replaced by $l'$ in $t$.  The resulting tree is
-      $t' = \texttt{Node}(k, v, l', r)$.
+      $t' = \mytt{Node}(k, v, l', r)$.
 \end{enumerate}
-Finally, we specify the method $\mathtt{delete}()$.
+Finally, we specify the method $\mytt{delete}()$.
 \begin{enumerate}
-\item $\texttt{Nil}.\texttt{delete}(k) = \texttt{Nil}$.
-\item $\texttt{Node}(k,v,\texttt{Nil},r).\texttt{delete}\bigl(k\bigr) = r$.
-\item $\texttt{Node}(k,v,l,\texttt{Nil}).\texttt{delete}(k) = l$.
-\item $l \not= \texttt{Nil} \,\wedge\, r \not= \texttt{Nil} \,\wedge\, \langle r',k_{min}, v_{min}\rangle := r.\texttt{delMin}() \;\rightarrow$ \\[0.2cm]
+\item $\mytt{Nil}.\mytt{delete}(k) = \mytt{Nil}$.
+\item $\mytt{Node}(k,v,\mytt{Nil},r).\mytt{delete}\bigl(k\bigr) = r$.
+\item $\mytt{Node}(k,v,l,\mytt{Nil}).\mytt{delete}(k) = l$.
+\item $l \not= \mytt{Nil} \,\wedge\, r \not= \mytt{Nil} \,\wedge\, \langle r',k_{min}, v_{min}\rangle := r.\mytt{delMin}() \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{Node}(k,v,l,r).\texttt{delete}(k) = \texttt{Node}(k_{min},v_{min},l,r')$.
+      $\mytt{Node}(k,v,l,r).\mytt{delete}(k) = \mytt{Node}(k_{min},v_{min},l,r')$.
       
       If the key $k$ to be removed is found at the root of the tree and neither of its subtrees is
-      empty, the call  $r\mathtt{.}\texttt{delMin}()$ removes the smallest key together with its
+      empty, the call  $r\mytt{.}\mytt{delMin}()$ removes the smallest key together with its
       associated value from the subtree $r$ yielding the subtree $r'$.
       The smallest key from $r$ is then stored at the root of the new tree.
 
-\item $k_1 < k_2 \rightarrow \texttt{Node}(k_2,v_2,l,r).\texttt{delete}\bigl(k_1) = 
-       \texttt{Node}(k_2,v_2,l.\texttt{delete}(k_1),r)$.
+\item $k_1 < k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}\bigl(k_1) = 
+       \mytt{Node}(k_2,v_2,l.\mytt{delete}(k_1),r)$.
 
        If the key $k_1$ that is to be removed is less than the key $k_2$ stored at the root, the key $k_1$ can only be
        located in the left subtree $l$.  Hence, $k_1$ is removed from the left subtree $l$ recursively.
-\item $k_1 > k_2 \rightarrow \texttt{Node}(k_2,v_2,l,r).\texttt{delete}(k_1) = 
-       \texttt{Node}(k_2,v_2,l,r.\texttt{delete}(k_1))$.
+\item $k_1 > k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}(k_1) = 
+       \mytt{Node}(k_2,v_2,l,r.\mytt{delete}(k_1))$.
 
        If the key $k_1$ that is to be removed is greater than the key stored at the root, the key $k_1$ can only be
        located in the right subtree $r$.  Hence, $k_1$ is removed from the right subtree $r$ recursively.
@@ -402,7 +402,7 @@ Finally, we specify the method $\mathtt{delete}()$.
 
 \subsection{Implementing Ordered Binary Trees in \textsl{Python}}
 Figure \ref{fig:binary-tree.py-1} and Figure \ref{fig:binary-tree.py-2} show how ordered binary
-trees can be implemented in \textsl{Python}.  Objects of class \texttt{OrderedBinaryTree} represent ordered
+trees can be implemented in \textsl{Python}.  Objects of class \mytt{OrderedBinaryTree} represent ordered
 binary trees.  We discuss the implementation of this class next.
 \begin{enumerate}
 \item The constructor is called without any argument.  The expression
@@ -482,7 +482,7 @@ binary trees.  We discuss the implementation of this class next.
                 self.mRight.insert(key, value)
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees in \textsl{Python}, part \texttt{I}.}
+  \caption{Implementation of ordered binary trees in \textsl{Python}, part \mytt{I}.}
   \label{fig:binary-tree.py-1}
 \end{figure}
 \item The implementation of \mytt{insert} is similar to the implementation of \mytt{find}.
@@ -543,7 +543,7 @@ binary trees.  We discuss the implementation of this class next.
             self.mRight = t.mRight
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Implementation of ordered binary trees in \textsl{Python}, part \texttt{II}.}
+  \caption{Implementation of ordered binary trees in \textsl{Python}, part \mytt{II}.}
   \label{fig:binary-tree.py-2}
 \end{figure}
 
@@ -576,18 +576,18 @@ binary trees.  We discuss the implementation of this class next.
 \subsection{Complexity Analysis}
 In this section we will first discuss the \blue{worst case complexity} of ordered binary trees.  Unfortunately,
 this complexity is quite bad.  In fact, in 
-the worst case, the call $b.\mathtt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
+the worst case, the call $b.\mytt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
 binary search tree containing $n$ key-value pairs.  After that, we investigate the \blue{average case complexity}.  We
 will show that the average case complexity is $\Oh\bigr(\ln(n)\bigr)$.
 
 \subsubsection{Worst Case Complexity}
-We begin our investigation of the complexity with an analysis of the complexity of $b.\texttt{find}(k)$ 
+We begin our investigation of the complexity with an analysis of the complexity of $b.\mytt{find}(k)$ 
 in the worst case.  The worst case happens if the binary tree $b$ degenerates into a list.
 Figure \ref{fig:degenerated} on page \pageref{fig:degenerated} shows an ordered binary tree that
 is generated by inserting the keys in increasing order.  If we then have to search for the
 biggest key, we have to traverse the complete tree in order to find this key.  Therefore, if the
 tree $b$ contains $n$ different keys, we have to compare the key $k$ that we are looking for to all
-of these $n$ keys in the tree.  Hence, in this case the complexity of $b.\texttt{find}(k)$ is 
+of these $n$ keys in the tree.  Hence, in this case the complexity of $b.\mytt{find}(k)$ is 
 $\Oh(n)$ and this is the same complexity that we would have gotten if we had used a linked list.
 
 
@@ -596,32 +596,32 @@ Fortunately, the worst case has a very small probability to occur if the keys ar
   In practice, keys are not generated randomly.  Therefore, in practice the worst case is not that unlikely to occur.
 }. On average, a randomly generated
 binary tree is quite well balanced.  We will show next that the number of comparisons necessary for
-the function call $b.\texttt{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.  
+the function call $b.\mytt{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.  
 
 
 %Dazu definieren wir auf bin\"aren B\"aumen zun\"achst eine Funktion 
-%\[ \texttt{height}: \Bin \rightarrow \N, \]
+%\[ \mytt{height}: \Bin \rightarrow \N, \]
 %die die H\"ohe eines bin\"aren Baums angibt.  Die Definition erfolgt induktiv.
 %\begin{enumerate}
-%\item $\texttt{Nil}.\texttt{height}() = 0$.
+%\item $\mytt{Nil}.\mytt{height}() = 0$.
 
 %      Der leere Baum hat die H\"ohe $0$.
-%\item $\texttt{Node}(k,v,l,r).\texttt{height}() = 
-%       1 + \max\bigl(l.\texttt{height}(),\, r.\texttt{height}()\bigr)$.
+%\item $\mytt{Node}(k,v,l,r).\mytt{height}() = 
+%       1 + \max\bigl(l.\mytt{height}(),\, r.\mytt{height}()\bigr)$.
 
-%      Die H\"ohe des Baums $\texttt{Node}(k,v,l,r)$ ist um eins gr\"o{\ss}er als die H\"ohe des
+%      Die H\"ohe des Baums $\mytt{Node}(k,v,l,r)$ ist um eins gr\"o{\ss}er als die H\"ohe des
 %      gr\"o{\ss}ten Teilbaums.
 %\end{enumerate}
-%Analog definieren wir f\"ur einen bin\"aren Baum $b$ die Anzahl $b.\texttt{count}()$ der Schl\"ussel, die
-%der Baum enth\"alt.   Die Definition von $b.\texttt{count}()$ erfolgt durch Induktion nach $b$.
+%Analog definieren wir f\"ur einen bin\"aren Baum $b$ die Anzahl $b.\mytt{count}()$ der Schl\"ussel, die
+%der Baum enth\"alt.   Die Definition von $b.\mytt{count}()$ erfolgt durch Induktion nach $b$.
 %\begin{enumerate}
-%\item $\texttt{Nil}.\texttt{count}() = 0$.
+%\item $\mytt{Nil}.\mytt{count}() = 0$.
 
 %      Der leere Baum enth\"alt keine Schl\"ussel.
-%\item $\texttt{Node}(k,v,l,r).\texttt{count}() = 
-%       1 + l.\texttt{count}() + r.\texttt{height}()\bigr)$.
+%\item $\mytt{Node}(k,v,l,r).\mytt{count}() = 
+%       1 + l.\mytt{count}() + r.\mytt{height}()\bigr)$.
 
-%      Der Baum $\texttt{Node}(k,v,l,r)$ enth\"alt zus\"atzlich zu dem Schl\"ussel $k$ die
+%      Der Baum $\mytt{Node}(k,v,l,r)$ enth\"alt zus\"atzlich zu dem Schl\"ussel $k$ die
 %      Schl\"ussel aus den Teilb\"aumen $l$ und $r$.
 %\end{enumerate}
 %Der folgende Satz zeigt, wieviel Schl\"ussel ein Baum der H\"ohe $h$ h\"ochstens enthalten
@@ -635,13 +635,13 @@ the function call $b.\texttt{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.
 %mit $c_h$.  Wir beweisen  durch Induktion nach $h$, dass gilt:
 %\[ c_h = 2^h - 1. \]
 %\begin{enumerate}
-%\item[I.A.] $h = 0$: Der einzige Baum der H\"ohe $0$ ist $\texttt{Nil}$.
+%\item[I.A.] $h = 0$: Der einzige Baum der H\"ohe $0$ ist $\mytt{Nil}$.
 %            Dieser enth\"alt $0$ Schl\"ussel.  Also gilt
 %            \\[0.2cm]
 %            \hspace*{1.3cm}
 %            $c_0 = 0 = 2^0 - 1$.
 %\item[I.S.] $h \mapsto h + 1$: Ein Baum der H\"ohe $h+1$, der die maximale Anzahl
-%            Schl\"ussel enth\"alt, hat die Form $\texttt{Node}(k,v,l,r)$, wobei dann $l$ und
+%            Schl\"ussel enth\"alt, hat die Form $\mytt{Node}(k,v,l,r)$, wobei dann $l$ und
 %            $r$  B\"aume der H\"ohe $h$ sind, die die maximale Anzahl Schl\"ussel enthalten.
 %            Folglich gilt:
 %            \begin{eqnarray*}
@@ -652,13 +652,13 @@ the function call $b.\texttt{find}(k)$ has the order $\Oh\bigl(\ln(n)\bigr)$.
 %            \end{eqnarray*}
 %\end{enumerate}
 
-%Die H\"ohe eines Baumes gibt ein Ma{\ss} f\"ur die Komplexit\"at der Methoden \texttt{find},
-%\texttt{insert} und \texttt{delete}, denn bei einem Baum der H\"ohe $h$ sind f\"ur jede dieser
+%Die H\"ohe eines Baumes gibt ein Ma{\ss} f\"ur die Komplexit\"at der Methoden \mytt{find},
+%\mytt{insert} und \mytt{delete}, denn bei einem Baum der H\"ohe $h$ sind f\"ur jede dieser
 %Operationen h\"ochstens $h$ Vergleiche von Schl\"usseln erforderlich.
 
 In order to prove this claim, we have to introduce some definitions.
 We define the \underline{avera}g\underline{e} number of comparisons that are needed for the function
-call $b.\texttt{find}(k)$ as  $d_n$, where $n$ is the number of keys stored in $b$.  We assume that
+call $b.\mytt{find}(k)$ as  $d_n$, where $n$ is the number of keys stored in $b$.  We assume that
 the key $k$ is indeed stored in $b$.  Our first goal is to derive a recurrence equation for 
 $d_n$.  First, we note that  
 \\[0.2cm]
@@ -669,7 +669,7 @@ Next, imagine a binary tree $b$ that contains $n+1$ keys.  Then $b$
 can be written as 
 \\[0.2cm]
 \hspace*{1.3cm}
-$b = \texttt{Node}\bigl(\bar{k},v,l,r\bigr)$,
+$b = \mytt{Node}\bigl(\bar{k},v,l,r\bigr)$,
 \\[0.2cm]
 where $\bar{k}$ is the key at the root of $b$.  If the keys of $b$ are ordered as a list, then this
 ordering looks something like the following:
@@ -694,18 +694,18 @@ of $\bar{k}$, as the number of keys in the left subtree $l$ is $i$ where
 \\[0.2cm]
 Of course, if the left subtree has $i$ keys, the right subtree will have $n-i$ keys.
 Let us denote the average number of comparisons that are done during the function call
-$b.\texttt{find}(k)$ provided the left subtree of $b$ has $i$ keys while $b$ itself has $n+1$ keys
+$b.\mytt{find}(k)$ provided the left subtree of $b$ has $i$ keys while $b$ itself has $n+1$ keys
 as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\texttt{numCmp}(i,\, n\!+\!1)$.
+$\mytt{numCmp}(i,\, n\!+\!1)$.
 \\[0.2cm]
 Then, since all values of $i$ are assumed to have the same probability, we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds d_{n+1} =  \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \texttt{numCmp}(i,\, n\!+\!1)$.
+$\ds d_{n+1} =  \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \mytt{numCmp}(i,\, n\!+\!1)$.
 \\[0.2cm]
-We proceed to compute $\texttt{numCmp}(i,n\!+\!1)$:
+We proceed to compute $\mytt{numCmp}(i,n\!+\!1)$:
 If  $l$ contains $i$ keys while $r$ contains the remaining $n-i$ keys,
 then there are three possibilities for the key $k$ that we want to find in $b$:
 \begin{enumerate}
@@ -733,10 +733,10 @@ then there are three possibilities for the key $k$ that we want to find in $b$:
       \hspace*{1.3cm} $\displaystyle d_{n-i} + 1$ \\[0.2cm]
       comparisons. 
 \end{enumerate}
-In order to compute  $\texttt{numCmp}(i, n\!+\!1)$ we have to multiply the probabilities in every
+In order to compute  $\mytt{numCmp}(i, n\!+\!1)$ we have to multiply the probabilities in every
 case with the number of comparisons and these three numbers have to added.  This yields
 \begin{eqnarray*}
-  \texttt{numCmp}(i, n\!+\!1) 
+  \mytt{numCmp}(i, n\!+\!1) 
 & = & \bruch{1}{\,n+1\,} \cdot 1 + \bruch{i}{n+1} \cdot (d_i + 1) + \bruch{n-i}{n+1} \cdot (d_{n-i} + 1) 
       \\[0.2cm]
 & = & \bruch{1}{\,n+1\,} \cdot \bigl(1 + i \cdot (d_i + 1) + (n-i) \cdot (d_{n-i} + 1)\bigr)      \\[0.2cm]
@@ -753,7 +753,7 @@ $
 \begin{array}{lcl}
 d_{n+1} 
 & = &  
-\ds\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \texttt{numCmp}(i,\,n\!+\!1)  \\[0.5cm]
+\ds\sum\limits_{i=0}^n \bruch{1}{\,n+1\,} \cdot \mytt{numCmp}(i,\,n\!+\!1)  \\[0.5cm]
 & = &  
 \ds\bruch{1}{n+1} \cdot \sum\limits_{i=0}^n  
            \left(1 + \bruch{1}{n+1} \cdot \bigl(i \cdot d_i + (n-i) \cdot d_{n-i} \bigr) \right)
@@ -853,19 +853,19 @@ Because of  $d_n = \frac{n+1}{n}\cdot c_n$ this implies \\[0.2cm]
 \hspace*{1.3cm}
  $\displaystyle d_n = 2 \cdot \ln(n) + \Oh\bigl(1\bigr)$.
 \\[0.2cm]
-This is our main result:  On average, the operation $b.\texttt{find}(k)$ uses
+This is our main result:  On average, the operation $b.\mytt{find}(k)$ uses
 \\[0.2cm]
 \hspace*{1.3cm}
 $2 \cdot \ln(n) = 2 \cdot \ln(2) \cdot \log_2(n) \approx 1.386 \cdot \log_2(n)$ 
 \\[0.2cm]
 comparisons.  Hence in the average case there are about  39 \% 
 more comparisons than there would be if the tree was optimally balanced.
-There are similar results for the operations \texttt{insert} and \texttt{delete}.
+There are similar results for the operations \mytt{insert} and \mytt{delete}.
 
 \exercise
-Use ordered binary trees to implement a function \texttt{treeSort} that takes a list of numbers \texttt{L} as
-its input and returns a sorted list \texttt{S} that contains every element of  \texttt{L} exactly once.  If
-$n$ is the length of \texttt{L}, the average complexity of your implementation should be $\Oh\bigl(n \cdot \log_2(n)\bigr)$. \eox
+Use ordered binary trees to implement a function \mytt{treeSort} that takes a list of numbers \mytt{L} as
+its input and returns a sorted list \mytt{S} that contains every element of  \mytt{L} exactly once.  If
+$n$ is the length of \mytt{L}, the average complexity of your implementation should be $\Oh\bigl(n \cdot \log_2(n)\bigr)$. \eox
 
 
 %%% Local Variables: 

@@ -45,7 +45,7 @@ where the meaning of the components is as follows:
       Here,  $T_1$, $\cdots$, $T_n$ and $S$ are names of data types.  There are three cases for
       these data types: 
       \begin{enumerate}
-      \item We can have predefined data types like, e.g.~``\texttt{int}'' or ``\texttt{str}''.
+      \item We can have predefined data types like, e.g.~``\mytt{int}'' or ``\mytt{str}''.
       \item Furthermore, $T_1$, $\cdots$, $T_n$ and $S$ can be the names of abstract data types.
       \item Finally,  $T_1$, $\cdots$, $T_n$ and $S$ can be type parameters from the set $P$.
       \end{enumerate}
@@ -77,43 +77,43 @@ Informally, a stack can be viewed as a pile of objects that are put on top of ea
 only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
 and only the plate on top is accessible.  Formally, we define the abstract data type
-\texttt{Stack}\index{Stack} as follows: 
+\mytt{Stack}\index{Stack} as follows: 
 \begin{enumerate}
-\item The name of this abstract data type is \texttt{Stack}.
-\item The set of type parameters is $\{ \texttt{Element} \}$.
+\item The name of this abstract data type is \mytt{Stack}.
+\item The set of type parameters is $\{ \mytt{Element} \}$.
 \item The set of function symbols is \\[0.2cm]
       \hspace*{1.3cm} 
-      $\bigl\{ \texttt{stack}, \texttt{push}, \texttt{pop}, \texttt{top}, \texttt{isEmpty} \bigr\}$.
+      $\bigl\{ \mytt{stack}, \mytt{push}, \mytt{pop}, \mytt{top}, \mytt{isEmpty} \bigr\}$.
 \item The type specifications for these function symbols are given as follows:
       \begin{enumerate}
-      \item $\texttt{stack}: \texttt{Stack}$
+      \item $\mytt{stack}: \mytt{Stack}$
 
-            The function $\texttt{stack}$ takes no arguments and produces an empty stack.
-            Therefore, this function is a \blue{constructor}.  Intuitively, the function call $\texttt{stack}()$ 
+            The function $\mytt{stack}$ takes no arguments and produces an empty stack.
+            Therefore, this function is a \blue{constructor}.  Intuitively, the function call $\mytt{stack}()$ 
             creates an empty stack.
-      \item $\texttt{push}: \texttt{Stack} \times \texttt{Element} \rightarrow \texttt{Stack}$
+      \item $\mytt{push}: \mytt{Stack} \times \mytt{Element} \rightarrow \mytt{Stack}$
 
-            The function call $\texttt{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
+            The function call $\mytt{push}(S,x)$ puts the element $x$ on top of the stack $S$.  In
             the following, we will use \blue{object oriented notation}\index{object oriented notation}
-            and write $S.\texttt{push}(x)$ instead of $\texttt{push}(S,x)$.
-      \item $\texttt{pop}: \texttt{Stack}  \rightarrow \texttt{Stack} \cup \{ \Omega \}$
+            and write $S.\mytt{push}(x)$ instead of $\mytt{push}(S,x)$.
+      \item $\mytt{pop}: \mytt{Stack}  \rightarrow \mytt{Stack} \cup \{ \Omega \}$
 
-            The function call $S.\texttt{pop}()$ removes the topmost element from the stack $S$ and returns the
+            The function call $S.\mytt{pop}()$ removes the topmost element from the stack $S$ and returns the
             resulting stack.  If the stack $S$ is empty, the return value is $\Omega$, i.e.~the implementation
             of this function will raise an exception in this case.
-      \item $\texttt{top}: \texttt{Stack} \rightarrow \texttt{Element} \cup \{ \Omega \}$
+      \item $\mytt{top}: \mytt{Stack} \rightarrow \mytt{Element} \cup \{ \Omega \}$
 
-            The function call $S.\texttt{top}()$ returns the element that is on top of the stack $S$. 
+            The function call $S.\mytt{top}()$ returns the element that is on top of the stack $S$. 
             The stack $S$ is left unchanged.  If $S$ is empty, then the result is undefined.
-     \item $\texttt{isEmpty}: \texttt{Stack} \rightarrow \mathbb{B}$
+     \item $\mytt{isEmpty}: \mytt{Stack} \rightarrow \mathbb{B}$
 
-           The Boolean function call $S.\texttt{isEmpty}()$ checks whether the stack $S$ is empty
-           and returns $\texttt{True}$ or $\texttt{False}$.
+           The Boolean function call $S.\mytt{isEmpty}()$ checks whether the stack $S$ is empty
+           and returns $\mytt{True}$ or $\mytt{False}$.
       \end{enumerate}
 \end{enumerate}
 The behaviour of a stack is specified by the following \blue{axioms}.
 \begin{enumerate}
-\item $\texttt{stack}().\texttt{top}() = \Omega$
+\item $\mytt{stack}().\mytt{top}() = \Omega$
 
       Here, $\Omega$ \index{$\Omega$} denotes the undefined value\footnote{
        Some philosophers are concerned that it is not possible to define an undefined value.
@@ -121,31 +121,31 @@ The behaviour of a stack is specified by the following \blue{axioms}.
        and hence it can not be defined.  However, that is precisely the point of the undefined 
        value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{\dChangey[1.5][yellow]{2}}}.
        \index{undefined value} \index{$\Omega$, undefined value}
-      In \textsl{Python}, $\Omega$ is represented as \texttt{None}. The expression $\texttt{stack}()$
+      In \textsl{Python}, $\Omega$ is represented as \mytt{None}. The expression $\mytt{stack}()$
       creates an empty stack.  Therefore, the given axiom expresses the fact that there is no
       element on top of the empty stack.
-\item $S.\texttt{push}(x).\texttt{top}() = x$
+\item $S.\mytt{push}(x).\mytt{top}() = x$
 
       If we have a stack $S$ and push an element $x$ on top of $S$, then the element on top
       of the resulting stack is, unsurprisingly, $x$.
-\item $\texttt{stack}().\texttt{pop}() = \Omega$
+\item $\mytt{stack}().\mytt{pop}() = \Omega$
 
       Trying to remove an element from the empty stack yields an undefined result.
-\item $S.\texttt{push}(x).\texttt{pop}() = S$
+\item $S.\mytt{push}(x).\mytt{pop}() = S$
 
       If we have a stack $S$, push an element $x$ of top of $S$, and finally remove the element
       on top of the resulting stack, then we are back at the original stack $S$.
     
-\item $\texttt{stack}().\texttt{isEmpty}() = \texttt{true}$
+\item $\mytt{stack}().\mytt{isEmpty}() = \mytt{true}$
 
-      This axiom expresses the fact that the stack created by the function call $\texttt{stack}()$
+      This axiom expresses the fact that the stack created by the function call $\mytt{stack}()$
       is empty.
-\item $S.\texttt{push}(x).\texttt{isEmpty}() = \texttt{false}$
+\item $S.\mytt{push}(x).\mytt{isEmpty}() = \mytt{false}$
 
       If we push an element $x$ on top of a stack $S$, then the resulting stack cannot be empty.
 \end{enumerate}
 When contemplating the axioms given above, we can recognize some structure.  If we denote the
-functions \texttt{stack} and \texttt{push} as \blue{generators},\index{generator}  then the axioms specify the
+functions \mytt{stack} and \mytt{push} as \blue{generators},\index{generator}  then the axioms specify the
 behaviour of the remaining functions on the stacks created by these generators.
 
 The data type of a stack has many applications in computer science.  To give just one example, the
@@ -232,39 +232,39 @@ lecture.  Further details can also be found in the \textsl{Python}
 Figure \ref{fig:stack-array.stlx} shows an implementation of the ADT \textsl{Stack} that is 
 discussed next.
 \begin{enumerate}
-\item The definition of the \textsc{Adt} \textsl{Stack} starts with the keyword \texttt{class}
+\item The definition of the \textsc{Adt} \textsl{Stack} starts with the keyword \mytt{class}
       in line 1.
-      After the keyword \texttt{class}, the name of the class has to be given.  In Figure
-      \ref{fig:stack-array.stlx} this name is \texttt{Stack}.
-\item In \textsl{Python}, the \blue{constructor} of a class has the name \texttt{\_\_init\_\_}.
+      After the keyword \mytt{class}, the name of the class has to be given.  In Figure
+      \ref{fig:stack-array.stlx} this name is \mytt{Stack}.
+\item In \textsl{Python}, the \blue{constructor} of a class has the name \mytt{\_\_init\_\_}.
       All methods defined in a class receive the object as their first argument.
-      The convention is to name this parameter \texttt{self}, but this is not mandatory.
-      The name \texttt{self} is similar to the keyword \texttt{this} in the programming language
-      \textsl{Java}.  However, technically the name \texttt{self} is not a keyword in \textsl{Python}.
+      The convention is to name this parameter \mytt{self}, but this is not mandatory.
+      The name \mytt{self} is similar to the keyword \mytt{this} in the programming language
+      \textsl{Java}.  However, technically the name \mytt{self} is not a keyword in \textsl{Python}.
       
       The constructor receives an \blue{uninitialized} object as its first argument and has the task
-      to initialize the \blue{member variables} of this object.  The class \texttt{Stack} uses only one member variable:
-      This member variable is called \texttt{mStackElements}.  My convention is to always start member
-      variables with the letter '\texttt{m}'.  Another convention is to use the underscore character
-      '\texttt{\_}'.  These conventions facilitates the distinction of member variables from local variables.
+      to initialize the \blue{member variables} of this object.  The class \mytt{Stack} uses only one member variable:
+      This member variable is called \mytt{mStackElements}.  My convention is to always start member
+      variables with the letter '\mytt{m}'.  Another convention is to use the underscore character
+      '\mytt{\_}'.  These conventions facilitates the distinction of member variables from local variables.
 
-      In order to create an object of class \texttt{Stack} we invoke the constructor as follows:
+      In order to create an object of class \mytt{Stack} we invoke the constructor as follows:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{s = Stack()}
+      \mytt{s = Stack()}
       \\[0.2cm]
-      This statement creates an uninitialized object (in other words: an empty object) of class \texttt{Stack}
-      and then invokes the constructor \texttt{\_\_init\_\_} to initialize the member variable
-      \texttt{mStackElements} as an empty list.  Next, object created is assigned to the variable \texttt{s}.
-\item Line 3 defines the first (and in this case only) member variable of the class \texttt{Stack}.
-      Therefore, every object $o$ of class \texttt{Stack} will have a \blue{member variable} \index{member variable}
+      This statement creates an uninitialized object (in other words: an empty object) of class \mytt{Stack}
+      and then invokes the constructor \mytt{\_\_init\_\_} to initialize the member variable
+      \mytt{mStackElements} as an empty list.  Next, object created is assigned to the variable \mytt{s}.
+\item Line 3 defines the first (and in this case only) member variable of the class \mytt{Stack}.
+      Therefore, every object $o$ of class \mytt{Stack} will have a \blue{member variable} \index{member variable}
       called
-      \texttt{mStackElements}. 
+      \mytt{mStackElements}. 
       We will use this list to store the elements of the stack.  To retrieve the member variable
-      \texttt{mStackElements} from an object $o$ we use the following expression:
+      \mytt{mStackElements} from an object $o$ we use the following expression:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $o$\texttt{.mStackElements}
+      $o$\mytt{.mStackElements}
       \\[0.2cm]
       The implementation of stacks shown
       in Figure \ref{fig:stack-array.stlx} is based on storing the elements of the stack in a
@@ -273,43 +273,43 @@ discussed next.
       We will see how to do this later.
 \item The rest of the class definition contains a number of function definitions.  Functions defined inside
       a class are called \blue{methods}. \index{method} These methods are available in the class
-      \texttt{Stack}.  For example, 
+      \mytt{Stack}.  For example, 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{stack.push}
+      \mytt{stack.push}
       \\[0.2cm]
-      refers to the method \texttt{push} defined in line 5 and 6. Every object of class
-      \texttt{Stack} has access to these 
-      methods.  For example, if $s$ is an object of class \texttt{Stack}, then we can invoke the
-      method \texttt{push} by writing:
+      refers to the method \mytt{push} defined in line 5 and 6. Every object of class
+      \mytt{Stack} has access to these 
+      methods.  For example, if $s$ is an object of class \mytt{Stack}, then we can invoke the
+      method \mytt{push} by writing:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $s$\texttt{.push($x$)}
-\item Line 5 starts the definition of the method \texttt{push}.  This method is called with two arguments:
+      $s$\mytt{.push($x$)}
+\item Line 5 starts the definition of the method \mytt{push}.  This method is called with two arguments:
       \begin{enumerate}[(a)]
-      \item \texttt{self} refers to the \texttt{Stack} object.
+      \item \mytt{self} refers to the \mytt{Stack} object.
       \item $e$ is the element that is to be pushed on the stack.  In the array based
-            implementation, this is achieved by appending $e$ to the list \texttt{mStackElements}.
+            implementation, this is achieved by appending $e$ to the list \mytt{mStackElements}.
       \end{enumerate} 
-      When invoking the method \texttt{push}, we have to specify the stack by prefixing it to the method
+      When invoking the method \mytt{push}, we have to specify the stack by prefixing it to the method
       invocation.  That is, if $s$ is a stack and we want to push $e$ onto this stack, then we can do this by
       writing: 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $s\texttt{.push}(e)$
-\item Line 8 starts the implementation of the method \texttt{pop}, which has the task to remove 
+      $s\mytt{.push}(e)$
+\item Line 8 starts the implementation of the method \mytt{pop}, which has the task to remove 
       one element from the stack.  Of course, it would not make sense to remove an element from the
-      stack if the stack is empty.  Therefore, the \texttt{assert} statement in line 9 checks
-      whether the number of elements of the list \texttt{mStackElements} is bigger than $0$.
-      If this condition is satisfied, the last element of the list \texttt{mStackElements} is removed.
-\item Line 12 starts the definition of the method \texttt{top}.  First, it is checked that the stack
-      is non-empty.  Then, the element at the end of the list \texttt{mStackElements} is returned.
-\item Line 16 defines the method \texttt{isEmpty}.  This method checks whether the list
-      \texttt{mStackElements} is empty.
-\item Line 19 defines the method \texttt{copy}.  The purpose of this method is to create an exact
-      copy of the given stack.  To this end the method creates a new object $C$ of class \texttt{Stack}.
-      Then the member variable \texttt{mStackElements} of the object \texttt{self} that was used to invoke
-      the method \texttt{copy} is copied into the member variable \texttt{mStackElements} of the object $C$.
+      stack if the stack is empty.  Therefore, the \mytt{assert} statement in line 9 checks
+      whether the number of elements of the list \mytt{mStackElements} is bigger than $0$.
+      If this condition is satisfied, the last element of the list \mytt{mStackElements} is removed.
+\item Line 12 starts the definition of the method \mytt{top}.  First, it is checked that the stack
+      is non-empty.  Then, the element at the end of the list \mytt{mStackElements} is returned.
+\item Line 16 defines the method \mytt{isEmpty}.  This method checks whether the list
+      \mytt{mStackElements} is empty.
+\item Line 19 defines the method \mytt{copy}.  The purpose of this method is to create an exact
+      copy of the given stack.  To this end the method creates a new object $C$ of class \mytt{Stack}.
+      Then the member variable \mytt{mStackElements} of the object \mytt{self} that was used to invoke
+      the method \mytt{copy} is copied into the member variable \mytt{mStackElements} of the object $C$.
 
       Note that in order to create a copy $C$ a stack object $S$ it is not sufficient to use the assignment statement
       \\[0.2cm]
@@ -320,33 +320,33 @@ discussed next.
       would also change $S$ and vice versa.  For example, the method call
       \\[0.2cm]
       \hspace*{1.3cm}
-      $C.\texttt{pop}()$
+      $C.\mytt{pop}()$
       \\[0.2cm]
       would then also pop the stack $S$ and similarly the statement
       \\[0.2cm]
       \hspace*{1.3cm}
-      $S.\texttt{push}(x)$
+      $S.\mytt{push}(x)$
       \\[0.2cm]
       would push $x$ onto the stack $C$.  Since this is usually not what we want, we have to invoke the method
-      \texttt{copy} as 
+      \mytt{copy} as 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $C = S.\texttt{copy}()$
+      $C = S.\mytt{copy}()$
       \\[0.2cm]
       in order to create a copy of the stack $S$.
-\item Line 24 defines the method \texttt{\_\_str\_\_}.  This method serves a similar purpose as the method
-      \texttt{toString} in a \textsl{Java} program:  If an object of class \texttt{Stack} needs to
-      be converted into a string, then the method \texttt{\_\_str\_\_} is invoked automatically to
+\item Line 24 defines the method \mytt{\_\_str\_\_}.  This method serves a similar purpose as the method
+      \mytt{toString} in a \textsl{Java} program:  If an object of class \mytt{Stack} needs to
+      be converted into a string, then the method \mytt{\_\_str\_\_} is invoked automatically to
       perform this conversion.
 
-      In order to understand the implementation of \texttt{\_\_str\_\_} we execute the following statements:
+      In order to understand the implementation of \mytt{\_\_str\_\_} we execute the following statements:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{s = stack(); s.push(1); s.push(2); s.push(3); print(s)}
+      \mytt{s = stack(); s.push(1); s.push(2); s.push(3); print(s)}
       \\[0.2cm]
       These statements create an empty stack and push the numbers 1, 2, and 3 
       onto this stack.  Finally, the resulting stack is printed.  The string that is then printed
-      is the result of calling \texttt{\_\_str\_\_} and has the following form:
+      is the result of calling \mytt{\_\_str\_\_} and has the following form:
       \begin{verbatim}
       -------------
       | 1 | 2 | 3 |
@@ -355,33 +355,33 @@ discussed next.
       \vspace*{-0.5cm}
       Hence, the topmost element of the stack is printed last.
 
-      The implementation of the method \texttt{\_\_str\_\_} works as follows.
+      The implementation of the method \mytt{\_\_str\_\_} works as follows.
       \begin{enumerate}
-      \item First, we use the auxiliary method \texttt{\_convert}.  This method computes a string of
+      \item First, we use the auxiliary method \mytt{\_convert}.  This method computes a string of
             the form \\[0.2cm]
-            \hspace*{1.3cm} \texttt{| 1 | 2 | 3 |}. 
+            \hspace*{1.3cm} \mytt{| 1 | 2 | 3 |}. 
             \\[0.2cm]
-            The implementation of \texttt{\_convert} is done via a case distinction:
-            If the given stack is empty, the result of \texttt{\_convert} will be the string ``\texttt{|}''.  
-            Otherwise we get the top element $t$ of the stack using the method \texttt{top()} and remove
-            it using \texttt{pop()}.  Next, the remaining stack is converted to a string 
+            The implementation of \mytt{\_convert} is done via a case distinction:
+            If the given stack is empty, the result of \mytt{\_convert} will be the string ``\mytt{|}''.  
+            Otherwise we get the top element $t$ of the stack using the method \mytt{top()} and remove
+            it using \mytt{pop()}.  Next, the remaining stack is converted to a string 
             recursively and finally the element $t$ is appended to this string.
 
-            The name of the method \texttt{\_convert} starts with an underscore because
-            \texttt{\_convert} is a \blue{private} method of the class \texttt{Stack}, i.e.~it should not be
-            used from outside of the class \texttt{Stack}: Only methods defined in the class \texttt{Stack} are
-            permitted to use the method \texttt{\_convert}.  However, this restriction is not enforced by the
+            The name of the method \mytt{\_convert} starts with an underscore because
+            \mytt{\_convert} is a \blue{private} method of the class \mytt{Stack}, i.e.~it should not be
+            used from outside of the class \mytt{Stack}: Only methods defined in the class \mytt{Stack} are
+            permitted to use the method \mytt{\_convert}.  However, this restriction is not enforced by the
             \textsl{Python} interpreter.
-      \item The method \texttt{\_\_str\_\_} creates a line of dashes in line 27.
-            This line has the same length as the string produced by \texttt{\_convert}.
-            The result of \texttt{\_convert} is then decorated with these dashes.
+      \item The method \mytt{\_\_str\_\_} creates a line of dashes in line 27.
+            This line has the same length as the string produced by \mytt{\_convert}.
+            The result of \mytt{\_convert} is then decorated with these dashes.
       \end{enumerate}
-\item The function $\texttt{createStack}(L)$ converts a list $L$ into a stack and returns the resulting
-      \texttt{Stack} object.
+\item The function $\mytt{createStack}(L)$ converts a list $L$ into a stack and returns the resulting
+      \mytt{Stack} object.
 \end{enumerate}
-You should note that we were able to implement  the method \texttt{\_\_str\_\_} without knowing anything
-about the internal representation of the stack.  In order to implement \texttt{\_\_str\_\_} we only used
-the methods \texttt{top}, \texttt{pop}, and \texttt{isEmpty}.  This is one of the main advantages of
+You should note that we were able to implement  the method \mytt{\_\_str\_\_} without knowing anything
+about the internal representation of the stack.  In order to implement \mytt{\_\_str\_\_} we only used
+the methods \mytt{top}, \mytt{pop}, and \mytt{isEmpty}.  This is one of the main advantages of
 an abstract data type: An abstract data type abstracts from the concrete data structures that
 implement it.  If an abstract data type is done right, it can be used without knowing how the data
 that are administered by the abstract data type are actually represented.
@@ -393,10 +393,10 @@ parsed and evaluated using stacks.  To this end, we present the
 \href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}
 \index{shunting-yard algorithm} for parsing arithmetic expressions.  
 For our purposes, an \blue{arithmetic expression} is a string that is made up of natural numbers and
-the operator symbols ``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'',
-``\texttt{\symbol{37}}'', and ``\texttt{**}''. Here, the operator ``\texttt{/}'' denotes integer division,
-while $x \;\texttt{\symbol{37}}\; y$ denotes the remainder of the integer division of $x$ by $y$.  The expression $x\;\texttt{**}\;y$ denotes the power $x^y$.
-Furthermore, arithmetic expressions can use the parentheses ``\texttt{(}'' and ``\texttt{)}''.
+the operator symbols ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'',
+``\mytt{\symbol{37}}'', and ``\mytt{**}''. Here, the operator ``\mytt{/}'' denotes integer division,
+while $x \;\mytt{\symbol{37}}\; y$ denotes the remainder of the integer division of $x$ by $y$.  The expression $x\;\mytt{**}\;y$ denotes the power $x^y$.
+Furthermore, arithmetic expressions can use the parentheses ``\mytt{(}'' and ``\mytt{)}''.
   
 Formally, the set of arithmetic expressions is defined by induction.
 \begin{enumerate}
@@ -404,47 +404,47 @@ Formally, the set of arithmetic expressions is defined by induction.
 \item If $s$ and $t$ are arithmetic expressions, then the string
       \\[0.2cm]
       \hspace*{1.3cm}
-      $s+\texttt{'*'}+t$
+      $s+\mytt{'*'}+t$
       \\[0.2cm]
       is an arithmetic expression.  In the expression given above, the first and the last plus symbol
-      denote string concatenation, while \texttt{'*'} denotes the string consisting of the multiplication
+      denote string concatenation, while \mytt{'*'} denotes the string consisting of the multiplication
       operator. 
 
       Similarly the strings  
       \\[0.2cm]
       \hspace*{1.3cm}
-      $s + \texttt{'+'} + t$, \quad $s + \texttt{'-'} + t$, \quad
-      $s + \texttt{'/'} + t$, \quad $s + \texttt{'\symbol{37}'} + t$, \quad and \quad $s +\texttt{'**'} + t$
+      $s + \mytt{'+'} + t$, \quad $s + \mytt{'-'} + t$, \quad
+      $s + \mytt{'/'} + t$, \quad $s + \mytt{'\symbol{37}'} + t$, \quad and \quad $s +\mytt{'**'} + t$
       \\[0.2cm]
-      are arithmetic expressions.  We interpret  $s + \texttt{'/'} + t$ as the \blue{integer division} of $s$
+      are arithmetic expressions.  We interpret  $s + \mytt{'/'} + t$ as the \blue{integer division} of $s$
       by $t$.
 \item If the string $s$ is an arithmetic expression, then the string
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{'('}+ s + \texttt{')'}$ 
+      $\mytt{'('}+ s + \mytt{')'}$ 
       \\[0.2cm]
       is an arithmetic expression.
 \end{enumerate}
 If we have been given a string that is an arithmetic expression, then in order to \blue{evaluate} this
 arithmetic expression we need to know the \blue{precedence}\index{precedence} and the
 \blue{associativity}\index{associativity} of the operators.
-In mathematics the operators ``\texttt{*}'', ``\texttt{/}'' and ``\texttt{\symbol{37}}'' have a
-higher precedence than the operators ``\texttt{+}'' and ``\texttt{-}'':  For example, the expression
+In mathematics the operators ``\mytt{*}'', ``\mytt{/}'' and ``\mytt{\symbol{37}}'' have a
+higher precedence than the operators ``\mytt{+}'' and ``\mytt{-}'':  For example, the expression
 $x+y*z$ is interpreted as $x + (y * z)$.
  Furthermore, the operator
-  ``\texttt{**}'' has a precedence that is higher than the precedence
+  ``\mytt{**}'' has a precedence that is higher than the precedence
  of any other operators.  The operators
-``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', and ``\texttt{\symbol{37}}''
+``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\symbol{37}}''
 \blue{associate to the left}:  An expression of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
-\texttt{1 - 2 - 3} \quad is interpreted as \quad \texttt{(1 - 2) - 3}.
+\mytt{1 - 2 - 3} \quad is interpreted as \quad \mytt{(1 - 2) - 3}.
  \\[0.2cm]
-Finally, the operator ``\texttt{**}'' \blue{associates to the right}:
+Finally, the operator ``\mytt{**}'' \blue{associates to the right}:
 The arithmetic expression \\[0.2cm]
 \hspace*{1.3cm} 
-\texttt{2 \texttt{**} 3 \texttt{**}  2} \quad is interpreted as \quad 
-\texttt{2 \texttt{**} (3 \texttt{**} 2)}. 
+\mytt{2 \mytt{**} 3 \mytt{**}  2} \quad is interpreted as \quad 
+\mytt{2 \mytt{**} (3 \mytt{**} 2)}. 
 \\[0.2cm]
 Our goal is to implement a program that reads and evaluates an arithmetic expression.
 
@@ -454,12 +454,12 @@ Before we dive into to the details of the shunting-yard algorithm, we present a
 simple example.  Consider the arithmetic expression 
 \\[0.2cm]
 \hspace*{1.3cm} 
-``\texttt{1 + 2 * 3 - 4}''. 
+``\mytt{1 + 2 * 3 - 4}''. 
 \\[0.2cm]
 First, this string is transformed into the list of \blue{tokens}
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
+\mytt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
 \\[0.2cm]
 A \blue{token} is either a number, an operator symbol, or a parenthesis.
 Notice that the space symbols that had been present in the original arithmetic expression string
@@ -475,92 +475,92 @@ have been discarded.  This list is then processed from left to right, one token
 \item The \blue{operator stack} contains only operator symbols and parentheses and is also initially
       empty.
 \end{enumerate}
-The evaluation of \texttt{1 + 2 * 3 - 4} proceeds as follows:
+The evaluation of \mytt{1 + 2 * 3 - 4} proceeds as follows:
 \begin{enumerate}
 \item In the beginning, the token stack contains the tokens of the arithmetic expression and the other two stacks
       are empty: \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
+      \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
         \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
       \\[0.2cm]
       Note that the number that is at the beginning of the arithmetic expression is on top of the
       stack, i.e.~it is the last element of the list.  \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = []}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = []}. 
-\item The number \texttt{1} is removed from the token stack and is put onto the argument stack
+      \hspace*{1.3cm} \mytt{mArguments = []}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = []}. 
+\item The number \mytt{1} is removed from the token stack and is put onto the argument stack
       instead.  The three stacks are now as follows: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = []}. 
-\item Next, the operator \texttt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = []}. 
+\item Next, the operator \mytt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
       onto the operator stack.  Then we have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1 ]} \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item Now, we remove the number \texttt{2} from the  token stack and put it onto the argument stack.
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]} \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item Now, we remove the number \mytt{2} from the  token stack and put it onto the argument stack.
       We have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item We remove the operator \texttt{\symbol{34}*\symbol{34}} from the  token stack and compare the
-      \blue{precedence} of the operator \texttt{\symbol{34}*\symbol{34}} with the precedence of the operator
-      \texttt{\symbol{34}+\symbol{34}}, which is on top of the operator stack.  Since the precedence of the operator 
-      \texttt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
-      \texttt{\symbol{34}+\symbol{34}}, the operator \texttt{\symbol{34}*\symbol{34}} is put onto
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item We remove the operator \mytt{\symbol{34}*\symbol{34}} from the  token stack and compare the
+      \blue{precedence} of the operator \mytt{\symbol{34}*\symbol{34}} with the precedence of the operator
+      \mytt{\symbol{34}+\symbol{34}}, which is on top of the operator stack.  Since the precedence of the operator 
+      \mytt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
+      \mytt{\symbol{34}+\symbol{34}}, the operator \mytt{\symbol{34}*\symbol{34}} is put onto
       the operator stack.  The reason is that we have to evaluate this operator before we can
-      evaluate the operator \texttt{\symbol{34}+\symbol{34}}.  Then we have: 
+      evaluate the operator \mytt{\symbol{34}+\symbol{34}}.  Then we have: 
       \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34}]}. 
-\item We remove the number \texttt{3} from the  token stack and put it onto the argument stack.
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34}]}. 
+\item We remove the number \mytt{3} from the  token stack and put it onto the argument stack.
       \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1, 2, 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
-\item We remove the operator \texttt{\symbol{34}-\symbol{34}} from the token stack and
-      compare this operator with the operator \texttt{\symbol{34}*\symbol{34}}, which is on top of
-      the operator stack.  As the precedence of the  operator \texttt{\symbol{34}*\symbol{34}} is
-      higher than the precedence of the operator \texttt{\symbol{34}-\symbol{34}},
-      we have to evaluate the operator \texttt{\symbol{34}*\symbol{34}}.  In order to do so, we
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2, 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
+\item We remove the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
+      compare this operator with the operator \mytt{\symbol{34}*\symbol{34}}, which is on top of
+      the operator stack.  As the precedence of the  operator \mytt{\symbol{34}*\symbol{34}} is
+      higher than the precedence of the operator \mytt{\symbol{34}-\symbol{34}},
+      we have to evaluate the operator \mytt{\symbol{34}*\symbol{34}}.  In order to do so, we
       remove the arguments 3 and 2 from the argument stack, remove the operator
-      \texttt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
+      \mytt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
       arguments.  This product is then put back on the 
-      argument stack.  The operator \texttt{\symbol{34}-\symbol{34}} is put back on the token stack
+      argument stack.  The operator \mytt{\symbol{34}-\symbol{34}} is put back on the token stack
       since it has not been used.  Hence, the stacks look as shown below: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 1, 6 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item Again, we take the operator \texttt{\symbol{34}-\symbol{34}} from the token stack and
-      compare it with the operator \texttt{\symbol{34}+\symbol{34}} that is now on top of the
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1, 6 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+\item Again, we take the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
+      compare it with the operator \mytt{\symbol{34}+\symbol{34}} that is now on top of the
       operator stack.  Since both operators have the same precedence, the operator
-      \texttt{\symbol{34}+\symbol{34}} is evaluated:  We remove two arguments from the argument
+      \mytt{\symbol{34}+\symbol{34}} is evaluated:  We remove two arguments from the argument
       stack, remove the operator
-      \texttt{\symbol{34}+\symbol{34}} from the operator stack  and compute the sum of the
+      \mytt{\symbol{34}+\symbol{34}} from the operator stack  and compute the sum of the
       arguments.  The result is put back on the argument stack.  Furthermore, the operator
-      \texttt{\symbol{34}-\symbol{34}} is put back on the token stack.
+      \mytt{\symbol{34}-\symbol{34}} is put back on the token stack.
       Then we have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 7 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = []}. 
-\item Next, the operator \texttt{\symbol{34}-\symbol{34}} is removed from the token stack and is now
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = []}. 
+\item Next, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the token stack and is now
       put on the operator stack.  We have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = [ 4 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 7 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
-\item The number \texttt{4} is removed from the token stack and put onto the argument stack. We have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 7, 4 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+\item The number \mytt{4} is removed from the token stack and put onto the argument stack. We have: \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 7, 4 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
 \item Now the input has been consumed completely.
-      Hence, the operator \texttt{\symbol{34}-\symbol{34}} is removed from the  operator stack and
+      Hence, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the  operator stack and
       furthermore, the arguments of this operator are removed from the argument stack.  Then, the
-      operator \texttt{\symbol{34}-\symbol{34}} is evaluated and the result is put onto the argument
+      operator \mytt{\symbol{34}-\symbol{34}} is evaluated and the result is put onto the argument
       stack.  We have: \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mTokens \ \ \ = []}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mArguments = [ 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \texttt{mOperators = []}. \\[0.2cm]
-      Therefore, the result of evaluating the arithmetic expression ``\texttt{1+2*3-4}'' is the
+      \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 3 ]}, \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mOperators = []}. \\[0.2cm]
+      Therefore, the result of evaluating the arithmetic expression ``\mytt{1+2*3-4}'' is the
       number 3.
 \end{enumerate}
 
@@ -575,11 +575,11 @@ The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijks
 (1930-2002) in 1961. \index{Dijkstra, Edsger}
 We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
 function that are needed to implement this algorithm.  The first of these functions is the function
-\texttt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
-natural number.  For example, the string \texttt{'123'} is converted into the natural number $123$, while the
-string \texttt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
-implementation of this function:  The function \texttt{int} converts $s$ into a number, provided $s$ the string
-$s$ represents an integer.  Otherwise, an Exception of type \texttt{ValueError} is raised.  This exception is
+\mytt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
+natural number.  For example, the string \mytt{'123'} is converted into the natural number $123$, while the
+string \mytt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
+implementation of this function:  The function \mytt{int} converts $s$ into a number, provided $s$ the string
+$s$ represents an integer.  Otherwise, an Exception of type \mytt{ValueError} is raised.  This exception is
 then caught and the string itself is returned.
 
 
@@ -601,15 +601,15 @@ then caught and the string itself is returned.
             return s                
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The function \texttt{toInt}.}
+\caption{The function \mytt{toInt}.}
 \label{fig:toInt.py}
 \end{figure}
 
-The function \texttt{tokenize} receives a string $s$ representing an arithmetic expression and splits this
-string into a list of numbers and operators. For example, the string \texttt{'1+2*3-4'} is transformed into the list
+The function \mytt{tokenize} receives a string $s$ representing an arithmetic expression and splits this
+string into a list of numbers and operators. For example, the string \mytt{'1+2*3-4'} is transformed into the list
 \\[0.2cm]
 \hspace*{1.3cm}
-$[4, \texttt{'-'}, 3, \texttt{'*'}, 2, \texttt{'+'}, 1]$.
+$[4, \mytt{'-'}, 3, \mytt{'*'}, 2, \mytt{'+'}, 1]$.
 \\[0.2cm]
 The \blue{tokenization} of the string $s$ is achieved by using the regular expression that is defined as
 \begin{verbatim}
@@ -617,27 +617,27 @@ The \blue{tokenization} of the string $s$ is achieved by using the regular expre
 \end{verbatim}
 This string is interpreted as follows:
 \begin{enumerate}[(a)]
-\item The ``\texttt{r}'' in front of the apostrophe ``\texttt{'}'' specifies that the regular expression is
+\item The ``\mytt{r}'' in front of the apostrophe ``\mytt{'}'' specifies that the regular expression is
       defined as a \blue{raw string}.  In a raw string the backslash does not have to be
       escaped because it is treated as a literal character.
 \item The regular expression itself is divided into three parts.
-      These parts are separated by the character ``\texttt{|}''.  This operator is interpreted as a logical or.
+      These parts are separated by the character ``\mytt{|}''.  This operator is interpreted as a logical or.
       Hence, the regular expression matches any of the following type of strings.
       \begin{enumerate}
-      \item ``\texttt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\texttt{0}'' or
-            ``\texttt{123}''.  It would also match a string like ``\texttt{007}''.
-            The postfix operator ``\texttt{+}'' at the end of the expression ``\texttt{[0-9]}'' is a
+      \item ``\mytt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\mytt{0}'' or
+            ``\mytt{123}''.  It would also match a string like ``\mytt{007}''.
+            The postfix operator ``\mytt{+}'' at the end of the expression ``\mytt{[0-9]}'' is a
             \blue{quantifier} that specifies that there may be any positive number of characters in the range
-            $\{0,\cdots,9\}$.  By itself, the expression ``\texttt{[0-9]}'' only specifies a single character.
-            Inside of the expression, the ``\texttt{-}'' serves as a \blue{range operator}.
-      \item ``\verb|\*\*|'' matches the operator ``\texttt{**}''.  The character ``\texttt{*}'' has to be
+            $\{0,\cdots,9\}$.  By itself, the expression ``\mytt{[0-9]}'' only specifies a single character.
+            Inside of the expression, the ``\mytt{-}'' serves as a \blue{range operator}.
+      \item ``\verb|\*\*|'' matches the operator ``\mytt{**}''.  The character ``\mytt{*}'' has to be
             escaped by a backslash character as this character is also used as a quantifier.
-      \item ``\texttt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
-            to put the symbol ``\texttt{-}'' last in this group as otherwise this symbol would be 
+      \item ``\mytt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
+            to put the symbol ``\mytt{-}'' last in this group as otherwise this symbol would be 
             interpreted as a \blue{range operator}.
      \end{enumerate}
 \end{enumerate}
-The method call \texttt{re.findall(regExp, s)} scans the string $s$ for every substring that matches the
+The method call \mytt{re.findall(regExp, s)} scans the string $s$ for every substring that matches the
 given regular expression and collects these substrings into a list.
 
 
@@ -660,38 +660,38 @@ given regular expression and collects these substrings into a list.
         return list(reversed(L))                 
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The function \texttt{tokenize}.}
+\caption{The function \mytt{tokenize}.}
 \label{fig:tokenize.py}
 \end{figure}
 
 Next we fix the data structures that are needed for this algorithm.  The class that we will define has three
 member variables.
 \begin{enumerate}
-\item \texttt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
-      represented as strings, while the numbers are represented as rational numbers.  Hence, \texttt{mTokens}
+\item \mytt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
+      represented as strings, while the numbers are represented as rational numbers.  Hence, \mytt{mTokens}
       represents the \blue{token stack}.
-\item \texttt{mArguments} is a stack of rational numbers.  Therefore, \texttt{mArguments} represents the
+\item \mytt{mArguments} is a stack of rational numbers.  Therefore, \mytt{mArguments} represents the
       \blue{argument stack}.
-\item \texttt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
+\item \mytt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
       are represented as strings.
 \end{enumerate}
 In order to implement the shunting-yard algorithm we need a number of auxiliary functions.
-We start with the function \texttt{precedence} shown in Figure \ref{fig:precedence}.
-Given an operator $o$, the expression $\texttt{precedence}(o)$ returns the \blue{precedence} of the operator
+We start with the function \mytt{precedence} shown in Figure \ref{fig:precedence}.
+Given an operator $o$, the expression $\mytt{precedence}(o)$ returns the \blue{precedence} of the operator
 $o$.  An example will illustrate the concept of \blue{operator precedence}:  The expression $1 + 2 * 3$
 is evaluated in the same way as the expression $1 + (2*3)$ and not as the expression $(1+2)*3$ because the
 precedence of the operator ``$*$'' is higher than the precedence of the operator ``$+$''.
 In general we have the following:
-If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\texttt{o}_1$ is at least as high than the 
-\emph{precedence} of $\texttt{o}_2$, then the expression
+If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\mytt{o}_1$ is at least as high than the 
+\emph{precedence} of $\mytt{o}_2$, then the expression
 \\[0.2cm]
 \hspace*{1.3cm}
-$a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$ \quad should be evaluated as \quad
-$(a \;\texttt{o}_1\; b) \;\texttt{o}_2\; c$.
+$a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ \quad should be evaluated as \quad
+$(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.
 \\[0.2cm]
 on the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
-expression $a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$ should be evaluated as  $a \;\texttt{o}_1\; (b
-\;\texttt{o}_2\; c)$.  
+expression $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ should be evaluated as  $a \;\mytt{o}_1\; (b
+\;\mytt{o}_2\; c)$.  
 The precedences of the arithmetical operators are shown in Table \ref{tab:precedence}.
 
 \begin{figure}[!ht]
@@ -710,7 +710,7 @@ The precedences of the arithmetical operators are shown in Table \ref{tab:preced
         return Precedence[o]
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The function \texttt{precedence}.}
+\caption{The function \mytt{precedence}.}
 \label{fig:precedence}
 \end{figure}
 
@@ -721,33 +721,33 @@ The precedences of the arithmetical operators are shown in Table \ref{tab:preced
     \hline
       Operator & Precedence \\
     \hline\hline
-      \texttt{+}, \texttt{-} & 1 \\
+      \mytt{+}, \mytt{-} & 1 \\
     \hline
-      \texttt{*}, \texttt{/} & 2 \\
+      \mytt{*}, \mytt{/} & 2 \\
     \hline
-      \texttt{**}           & 3 \\
+      \mytt{**}           & 3 \\
     \hline
     \end{tabular}
   \caption{The precedences of the arithmetical operators.}
   \label{tab:precedence}
 \end{table}
 
-The expression $\texttt{isLeftAssociative}(o)$ is \texttt{True} iff the operator $o$ 
-\blue{associates to the left}, \index{associate to the left} i.e.~an expression of the form $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
-is evaluated as  $(x \;\mathtt{o}\; y) \;\mathtt{o}\; z$.  If $o$ \blue{associates to the right},
-\index{associate to the right} then the expression  $x \;\mathtt{o}\; y \;\mathtt{o}\; z$
-is evaluated as  $x \;\mathtt{o}\; (y \;\mathtt{o}\; z)$ and $\texttt{isLeftAssociative}(o)$
-is \texttt{False}.  From the arithmetical operators that we consider, only the power operator ``\texttt{**}'' 
+The expression $\mytt{isLeftAssociative}(o)$ is \mytt{True} iff the operator $o$ 
+\blue{associates to the left}, \index{associate to the left} i.e.~an expression of the form $x \;\mytt{o}\; y \;\mytt{o}\; z$
+is evaluated as  $(x \;\mytt{o}\; y) \;\mytt{o}\; z$.  If $o$ \blue{associates to the right},
+\index{associate to the right} then the expression  $x \;\mytt{o}\; y \;\mytt{o}\; z$
+is evaluated as  $x \;\mytt{o}\; (y \;\mytt{o}\; z)$ and $\mytt{isLeftAssociative}(o)$
+is \mytt{False}.  From the arithmetical operators that we consider, only the power operator ``\mytt{**}'' 
 associates to the right, i.e.~the expression
 \\[0.2cm]
 \hspace*{1.3cm}
-$x \mathtt{**} y \mathtt{**} z$ \quad is evaluated as \quad $x \mathtt{**} (y \mathtt{**} z)$.
+$x \mytt{**} y \mytt{**} z$ \quad is evaluated as \quad $x \mytt{**} (y \mytt{**} z)$.
 \\[0.2cm]
 The operators 
-``\texttt{+}'', ``\texttt{-}'', ``\texttt{*}'', ``\texttt{/}'', and ``\texttt{\%}'' 
+``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\%}'' 
 all associate to the left.  For example, the expression
 $x - y - z$ is evaluated as $(x - y) - z$.
-Figure \ref{fig:isLeftAssociative} shows the implementation of the function \texttt{isLeftAssociative}.
+Figure \ref{fig:isLeftAssociative} shows the implementation of the function \mytt{isLeftAssociative}.
 
 \begin{figure}[!ht]
 \centering
@@ -767,26 +767,26 @@ Figure \ref{fig:isLeftAssociative} shows the implementation of the function \tex
             return False
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The function \texttt{isLeftAssociative}.}
+\caption{The function \mytt{isLeftAssociative}.}
 \label{fig:isLeftAssociative}
 \end{figure}
-The next auxiliary function we discuss is the function \texttt{evalBefore}.  This function is called with two
-operators as arguments.  The expression $\texttt{evalBefore}(o_1, o_2)$ is \texttt{True}
+The next auxiliary function we discuss is the function \mytt{evalBefore}.  This function is called with two
+operators as arguments.  The expression $\mytt{evalBefore}(o_1, o_2)$ is \mytt{True}
 if the operator $o_1$ should be evaluated before the operator $o_2$ in an arithmetical expression of the form
-$a \;\texttt{o}_1\; b \;\texttt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
-as the expression $(a \;\texttt{o}_1\; b) \;\texttt{o}_2\; c$.  In order to determine whether $o_1$ should be
+$a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
+as the expression $(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.  In order to determine whether $o_1$ should be
 evaluated before $o_2$ we have to take both the precedence and the associativity of the operators $o_1$ and $o_2$ into
-consideration.   The precise behaviour of the function \texttt{evalBefore} is specified by the following rules:
+consideration.   The precise behaviour of the function \mytt{evalBefore} is specified by the following rules:
 \begin{enumerate}
-\item $\texttt{precedence}(o_1) > \texttt{precedence}(o_2) \rightarrow 
-      \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{True}$,
-\item $o_1 = o_2 \rightarrow \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{isLeftAssociative}(o_1)$,
-\item $\texttt{precedence}(o_1) = \texttt{precedence}(o_2) \wedge o_1 \not= o_2 \rightarrow 
-       \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{True}$,
-\item $\texttt{precedence}(o_1) < \texttt{precedence}(o_2) \rightarrow 
-       \texttt{evalBefore}(\texttt{o}_1, \texttt{o}_2) = \texttt{False}$.
+\item $\mytt{precedence}(o_1) > \mytt{precedence}(o_2) \rightarrow 
+      \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
+\item $o_1 = o_2 \rightarrow \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{isLeftAssociative}(o_1)$,
+\item $\mytt{precedence}(o_1) = \mytt{precedence}(o_2) \wedge o_1 \not= o_2 \rightarrow 
+       \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
+\item $\mytt{precedence}(o_1) < \mytt{precedence}(o_2) \rightarrow 
+       \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{False}$.
 \end{enumerate}
-The implementation of \texttt{evalBefore} is shown in Figure \ref{fig:evalBefore}.
+The implementation of \mytt{evalBefore} is shown in Figure \ref{fig:evalBefore}.
 
 \begin{figure}[!ht]
 \centering
@@ -810,21 +810,21 @@ The implementation of \texttt{evalBefore} is shown in Figure \ref{fig:evalBefore
             return False
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The function \texttt{evalBefore}.}
+\caption{The function \mytt{evalBefore}.}
 \label{fig:evalBefore}
 \end{figure}
 
-Now we are ready to define the class \texttt{Calculator} that we will use to implement the shunting-yard
+Now we are ready to define the class \mytt{Calculator} that we will use to implement the shunting-yard
 algorithm.  The outline of this class is shown in Figure \ref{fig:Calculator.ipynb} on page
 \pageref{fig:Calculator.ipynb}.  The class contains three member variables:
 \begin{enumerate}
-\item \texttt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
+\item \mytt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
       read by the tokenizer onto this stack.  As the list of tokens is reversed in the method
-      \texttt{createStack}, the token that has been read first is on top of the stack.
-\item \texttt{mOperators} is the operator stack.  Initially this stack is empty.
-\item \texttt{mArguments} is the argument stack.  Initially this stack is empty.
+      \mytt{createStack}, the token that has been read first is on top of the stack.
+\item \mytt{mOperators} is the operator stack.  Initially this stack is empty.
+\item \mytt{mArguments} is the argument stack.  Initially this stack is empty.
 \end{enumerate}
-Furthermore, the class defines the method \texttt{evaluate} and the method \texttt{popAndEvaluate}.
+Furthermore, the class defines the method \mytt{evaluate} and the method \mytt{popAndEvaluate}.
 The implementation of these methods is given later.
 
 \begin{figure}[!ht]
@@ -848,12 +848,12 @@ The implementation of these methods is given later.
         def popAndEvaluate(self): ...
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{The class \texttt{Calculator}.}
+  \caption{The class \mytt{Calculator}.}
   \label{fig:Calculator.ipynb}
 \end{figure} 
 
 The heart of the shunting-yard algorithm is the method evaluate.
-The function $\texttt{evaluate}(\texttt{self})$ evaluates the expression that is given by the tokens on the
+The function $\mytt{evaluate}(\mytt{self})$ evaluates the expression that is given by the tokens on the
 token stack.  It proceeds in two phases:
 \begin{enumerate}
 \item The first phase is the \blue{reading phase}. In this phase
@@ -863,7 +863,7 @@ token stack.  It proceeds in two phases:
       the  operators on the operator stack are evaluated.  
 \end{enumerate}
 The easiest way to describe what happens in the \emph{reading phase} via
-\blue{rewrite rules} that describe how the three stacks \texttt{mTokens}, \texttt{mArguments} and \texttt{mOperators}
+\blue{rewrite rules} that describe how the three stacks \mytt{mTokens}, \mytt{mArguments} and \mytt{mOperators}
 are changed in each \blue{step} of the algorithm.  Here, a \emph{step} consists of those actions that happen
 once a single token has been removed from the token stack.
 The \blue{rewrite rules} listed below are executed until the token stack is empty.
@@ -872,70 +872,70 @@ The \blue{rewrite rules} listed below are executed until the token stack is empt
       the argument stack.  The operator stack remains unchanged in this case.
       This behaviour is captured by the following rewrite rule:
       $$\begin{array}{lcll}
-          \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{token} ] & \wedge & \\
-          \texttt{isInteger}(\texttt{token}) & \Rightarrow  \\[0.2cm]
-                   \texttt{mArguments}' = \texttt{mArguments} + [\texttt{token}] & \wedge \\
-                   \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
-                   \texttt{mOperators}' = \texttt{mOperators}
+          \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{token} ] & \wedge & \\
+          \mytt{isInteger}(\mytt{token}) & \Rightarrow  \\[0.2cm]
+                   \mytt{mArguments}' = \mytt{mArguments} + [\mytt{token}] & \wedge \\
+                   \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+                   \mytt{mOperators}' = \mytt{mOperators}
        \end{array} 
      $$
-      Here, the primed variable $\texttt{mArguments}'$ refers to the argument stack after \texttt{token} 
-      has been pushed onto it.  Similarly, $\mathtt{mTokens}'$ refers to the state of the token stack after the
-      rule has been executed and $\mathtt{mOperators}'$ refers to the operator stack after the rule has been executed.
+      Here, the primed variable $\mytt{mArguments}'$ refers to the argument stack after \mytt{token} 
+      has been pushed onto it.  Similarly, $\mytt{mTokens}'$ refers to the state of the token stack after the
+      rule has been executed and $\mytt{mOperators}'$ refers to the operator stack after the rule has been executed.
    
-      In the following rules we implicitly assume that the token $\texttt{nextOp}$ is not an integer but rather a parenthesis
+      In the following rules we implicitly assume that the token $\mytt{nextOp}$ is not an integer but rather a parenthesis
       or a proper operator.  In order to be more concise, we suppress this condition from the following rewrite rules.
 \item If the operator stack is empty, the next token is pushed onto the operator stack.
     $$\begin{array}{lc}
-        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{op} ] & \wedge \\
-        \texttt{mOperators} = []                                 & \Rightarrow \\[0.2cm]
-        \texttt{mOperators}' = \texttt{mOperators} + [\texttt{op}] & \wedge \\
-        \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
-        \texttt{mArguments}' = \texttt{mArguments} 
+        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op} ] & \wedge \\
+        \mytt{mOperators} = []                                 & \Rightarrow \\[0.2cm]
+        \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
+        \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+        \mytt{mArguments}' = \mytt{mArguments} 
         \end{array} 
       $$
 \item If the next token is an opening parenthesis, this parenthesis token is pushed onto the operator stack.
      $$\begin{array}{lcll}
-         \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{'('} ] & \Rightarrow \\[0.2cm]
-         \texttt{mOperators}' = \texttt{mOperators} + [\texttt{'('}] & \wedge \\
-         \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
-         \texttt{mArguments}' = \texttt{mArguments} 
+         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{'('} ] & \Rightarrow \\[0.2cm]
+         \mytt{mOperators}' = \mytt{mOperators} + [\mytt{'('}] & \wedge \\
+         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+         \mytt{mArguments}' = \mytt{mArguments} 
          \end{array} 
       $$
 \item If the next token is a closing parenthesis and the operator on top of the operator stack is an opening
       parenthesis, then both parentheses are removed from the stacks where they occur.
      $$\begin{array}{lc}
-         \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{')'}] & \wedge \\
-         \texttt{mOperators} = \texttt{mOperatorsRest} + [\texttt{'('}] & \Rightarrow \\[0.2cm]
-         \texttt{mOperators}' = \texttt{mOperatorsRest} & \wedge \\
-         \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
-         \texttt{mArguments}' = \texttt{mArguments} 
+         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'}] & \wedge \\
+         \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
+         \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
+         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+         \mytt{mArguments}' = \mytt{mArguments} 
          \end{array} 
       $$
 \item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
       opening parenthesis,  the operator on top of the operator stack is evaluated.  Note that the token stack
       is not changed in this case. 
     $$\begin{array}{lc}
-        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{')'} ] & \wedge \\
-        \texttt{mOperators} = \texttt{mOperatorsRest} + [\texttt{op}] & \wedge \\
-        \texttt{op} \not= \texttt{'('} & \wedge \\
-        \texttt{mArguments} = \texttt{mArgumentsRest} + [\texttt{lhs}, \texttt{rhs}] & \Rightarrow \\[0.2cm]
-        \texttt{mOperators}' = \texttt{mOperatorsRest} & \wedge \\
-        \texttt{mTokens}' = \texttt{mTokens} & \wedge \\
-        \texttt{mArguments}' = \texttt{mArgumentsRest} + [\texttt{lhs} \;\texttt{op}\; \texttt{rhs}]
+        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'} ] & \wedge \\
+        \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{op}] & \wedge \\
+        \mytt{op} \not= \mytt{'('} & \wedge \\
+        \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}] & \Rightarrow \\[0.2cm]
+        \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
+        \mytt{mTokens}' = \mytt{mTokens} & \wedge \\
+        \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;\mytt{op}\; \mytt{rhs}]
         \end{array} 
       $$
-      Here, the expression $\texttt{lhs} \;\texttt{op}\; \texttt{rhs}$ denotes evaluating the operator $\texttt{op}$ with the arguments
-      $\texttt{lhs}$ and $\texttt{rhs}$.
+      Here, the expression $\mytt{lhs} \;\mytt{op}\; \mytt{rhs}$ denotes evaluating the operator $\mytt{op}$ with the arguments
+      $\mytt{lhs}$ and $\mytt{rhs}$.
 \item If the token on top of the operator stack is an opening parenthesis, then the operator on top of the token stack
       is pushed onto the operator stack.
     $$\begin{array}{lc}
-        \texttt{mTokens} = \texttt{mTokensRest} + [\texttt{op}] & \wedge \\
-        \texttt{op} \not= \texttt{')'}                          & \wedge \\
-        \mathtt{mOperators} = \texttt{mOperatorsRest} + [\texttt{'('}] & \Rightarrow \\[0.2cm]
-        \texttt{mOperators}' = \texttt{mOperators} + [\texttt{op}] & \wedge \\
-        \texttt{mTokens}' = \texttt{mTokensRest} & \wedge \\
-        \texttt{mArguments}' = \texttt{mArguments}
+        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op}] & \wedge \\
+        \mytt{op} \not= \mytt{')'}                          & \wedge \\
+        \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
+        \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
+        \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+        \mytt{mArguments}' = \mytt{mArguments}
         \end{array} 
       $$
    
@@ -944,23 +944,23 @@ The \blue{rewrite rules} listed below are executed until the token stack is empt
 \item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
       the operator on top of the operator stack is evaluated.
     $$\begin{array}{lc}
-        \texttt{mTokens} = \texttt{mTokensRest} + [o_2]                                        & \wedge \\
-        \texttt{mOperators} = \texttt{mOperatorsRest} + [o_1]                                  & \wedge \\
-        \texttt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
-        \texttt{mArguments} = \texttt{mArgumentsRest} + [\texttt{lhs}, \texttt{rhs}]           & \Rightarrow \\[0.2cm]
-        \texttt{mOperators}' = \texttt{mOperatorRest}                                          & \wedge \\
-        \texttt{mTokens}' = \texttt{mTokens}                                                   & \wedge \\
-        \texttt{mArguments}' = \texttt{mArgumentsRest} + [\texttt{lhs} \;o_1\; \texttt{rhs}]
+        \mytt{mTokens} = \mytt{mTokensRest} + [o_2]                                        & \wedge \\
+        \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]                                  & \wedge \\
+        \mytt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
+        \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}]           & \Rightarrow \\[0.2cm]
+        \mytt{mOperators}' = \mytt{mOperatorRest}                                          & \wedge \\
+        \mytt{mTokens}' = \mytt{mTokens}                                                   & \wedge \\
+        \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;o_1\; \mytt{rhs}]
         \end{array} 
       $$
 \item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
      $$\begin{array}{lc}
-         \texttt{mTokens} = \texttt{mTokensRest} + [o_2]           & \wedge \\
-         \texttt{mOperators} = \texttt{mOperatorsRest} + [o_1]     & \wedge \\
-         \neg \texttt{evalBefore}(o_1, o_2)                        & \Rightarrow \\[0.2cm]
-        \texttt{mOperators}' = \texttt{mOperators} + [o_2]         & \wedge \\
-        \texttt{mTokens}' = \texttt{mTokensRest}                   & \wedge \\
-        \texttt{mArguments}' = \texttt{mArguments}
+         \mytt{mTokens} = \mytt{mTokensRest} + [o_2]           & \wedge \\
+         \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]     & \wedge \\
+         \neg \mytt{evalBefore}(o_1, o_2)                        & \Rightarrow \\[0.2cm]
+        \mytt{mOperators}' = \mytt{mOperators} + [o_2]         & \wedge \\
+        \mytt{mTokens}' = \mytt{mTokensRest}                   & \wedge \\
+        \mytt{mArguments}' = \mytt{mArguments}
         \end{array} 
       $$
 \end{enumerate}
@@ -971,7 +971,7 @@ After the reading phase, we evaluate the remaining operators.  In every step of 
 \item evaluate the operator, and 
 \item push the result back on the argument stack. 
 \end{enumerate}
-The implementation of the method \texttt{evaluate} is shown in Figure \ref{fig:evaluate} on page \pageref{fig:evaluate}.
+The implementation of the method \mytt{evaluate} is shown in Figure \ref{fig:evaluate} on page \pageref{fig:evaluate}.
 
 \begin{figure}[!ht]
   \centering
@@ -1016,7 +1016,7 @@ The implementation of the method \texttt{evaluate} is shown in Figure \ref{fig:e
         return self.mArguments.top()
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{The method \texttt{evaluate}.}
+  \caption{The method \mytt{evaluate}.}
   \label{fig:evaluate}
 \end{figure} 
 
@@ -1051,19 +1051,19 @@ The implementation of the method \texttt{evaluate} is shown in Figure \ref{fig:e
         self.mArguments.push(result)                
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The method \texttt{popAndEvaluate}.}
+\caption{The method \mytt{popAndEvaluate}.}
 \label{fig:popAndEvaluate}
 \end{figure}
 
 Finally, Figure \ref{fig:popAndEvaluate} on page \pageref{fig:popAndEvaluate} shows the implementation of the
-method \texttt{popAndEvaluate}.
-This method removes the two topmost numbers $\texttt{rhs}$ and $\texttt{lhs}$ from the argument stack and,
-furthermore, removes the topmost operator $\texttt{op}$ from the argument stack.  It applies the operator
-$\texttt{op}$ to these numbers 
+method \mytt{popAndEvaluate}.
+This method removes the two topmost numbers $\mytt{rhs}$ and $\mytt{lhs}$ from the argument stack and,
+furthermore, removes the topmost operator $\mytt{op}$ from the argument stack.  It applies the operator
+$\mytt{op}$ to these numbers 
 by computing the value 
 \\[0.2cm]
 \hspace*{1.3cm}
-$ \texttt{lhs} \;\texttt{op}\; \texttt{rhs} $
+$ \mytt{lhs} \;\mytt{op}\; \mytt{rhs} $
 \\[0.2cm]
 This value is then pushed onto the argument stack.
 
@@ -1074,21 +1074,21 @@ In the following exercise, your task is to extend the program for evaluating ari
       arithmetic expressions containing the function symbols
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{sqrt}, \texttt{exp}, and \texttt{log}.
+      \mytt{sqrt}, \mytt{exp}, and \mytt{log}.
 \item Extend the given program so that the arithmetic expressions may also contain 
-      the strings ``\texttt{e}'' and ``\texttt{pi}'', where ``\texttt{e}'' stands for 
+      the strings ``\mytt{e}'' and ``\mytt{pi}'', where ``\mytt{e}'' stands for 
       \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{Euler's number} 
-      while ``\texttt{pi}'' stands for the mathematical constant
+      while ``\mytt{pi}'' stands for the mathematical constant
       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
       circle to its diameter. 
 
-      Note that these constants can be accessed in \textsl{Python} via the expressions \texttt{math.e}
-      and \texttt{math.pi} provided the module \texttt{math} has been imported.
+      Note that these constants can be accessed in \textsl{Python} via the expressions \mytt{math.e}
+      and \mytt{math.pi} provided the module \mytt{math} has been imported.
 \item Extend the program so that it can be used to calculate a zero for a given function in a given
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
 \end{enumerate}
-In \textsl{Python} there is the predefined function \texttt{eval} which can be used to evaluate a string
-containing an expression.  Furthermore, \textsl{Python} has the predefined function \texttt{exec}, that can be
+In \textsl{Python} there is the predefined function \mytt{eval} which can be used to evaluate a string
+containing an expression.  Furthermore, \textsl{Python} has the predefined function \mytt{exec}, that can be
 used to execute a command given as a string.  Your program must not use either of these predefined functions,
 for otherwise the exercise would be next to trivial.
 \eox
@@ -1101,7 +1101,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        are used to implement this algorithm.
 
        When we implemented the algorithm to evaluate arithmetic expressions we did not need to know
-       how the data type \texttt{Stack} that we have used was implemented.  It was sufficient for us to know 
+       how the data type \mytt{Stack} that we have used was implemented.  It was sufficient for us to know 
        \begin{enumerate}
        \item the signatures of its functions and
        \item the axioms describing the behaviour of these functions.
@@ -1120,7 +1120,7 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        Our definition of stacks was very general.  Therefore, stacks can be used in many different
        places:  For example, we will see later how stacks can be used to traverse a directed graph.
 
-       Modern industrial strength programming languages like \texttt{C++} or \textsl{Java} contain
+       Modern industrial strength programming languages like \mytt{C++} or \textsl{Java} contain
        huge libraries containing the implementation of many abstract data types.  This fact reduces
        the cost of software development substantially.     
  \item Abstract data types are \blue{exchangeable}.

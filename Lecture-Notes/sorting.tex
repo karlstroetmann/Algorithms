@@ -114,9 +114,9 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
   \begin{enumerate}
   \item $S$ is sorted \blue{ascendingly}\index{sorted ascendingly}, i.e.~we have: \\[0.2cm]
         \hspace*{1.3cm} 
-        $\forall i \el \{ 0, \cdots, \texttt{len}(S)-2 \} \colon S[i] \preceq S[i+1]$ 
+        $\forall i \el \{ 0, \cdots, \mytt{len}(S)-2 \} \colon S[i] \preceq S[i+1]$ 
         \\[0.2cm]
-        Here, the length of the list $S$ is denoted as $\texttt{len}(S)$ and $S[i]$ is the element at position
+        Here, the length of the list $S$ is denoted as $\mytt{len}(S)$ and $S[i]$ is the element at position
         $i$ in $S$.  We assume here that the first position is indexed with index $0$.
   \item The elements of $M$ occur in $L$ and $S$ with the same frequency: \\[0.2cm]
         \hspace*{1.3cm} 
@@ -125,7 +125,7 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
         Here, the function $\textsl{count}(x,L)$ returns the number of occurrences of $x$ in $L$.
         Therefore,  \\[0.2cm]
         \hspace*{1.3cm}
-        $\textsl{count}(x,L) := \texttt{card}\bigl(\bigl\{ i \el \{0,\cdots,\texttt{len}(L)-1\} \mid L[i] = x \bigr\}\bigr)$.
+        $\textsl{count}(x,L) := \mytt{card}\bigl(\bigl\{ i \el \{0,\cdots,\mytt{len}(L)-1\} \mid L[i] = x \bigr\}\bigr)$.
         \\[0.2cm]
         Sometimes, this second requirement is changed as follows:
         \\[0.2cm]
@@ -158,28 +158,28 @@ We will describe this algorithm via a set of equations.
 \item If the list $L$ that has to be sorted is empty, then the result is the empty list: 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{sort}([]) = []$.
+      $\mytt{sort}([]) = []$.
 \item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
       and $R$ is the rest of $L$, i.~e.~everything of $L$ but the first element.  In order to sort
       $L$ we first sort the rest $R$ and then we \blue{insert} the element $x$ into the resulting list in a
       way that the resulting list remains sorted:
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}\bigl([x] + R\bigr) = \mathtt{insert}\bigl(x, \mathtt{sort}(R)\bigr)$.
+      \hspace*{1.3cm} $\mytt{sort}\bigl([x] + R\bigr) = \mytt{insert}\bigl(x, \mytt{sort}(R)\bigr)$.
 \end{enumerate}
 Inserting $x$ into an already sorted list $S$ is done according to the following specification:
 \begin{enumerate}
 \item If $S$ is empty, the result is the list $[x]$: \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{insert}(x,[]) = [x]$.
+      $\mytt{insert}(x,[]) = [x]$.
 \item Otherwise, $S$ must have the form $[y] + R$.  In order to know where to insert $x$ we have to
       compare $x$ and $y$.
       \begin{enumerate}
       \item If $x \preceq y$, then we can insert $x$ at the front of the list $S$: \\[0.2cm]
             \hspace*{1.3cm}
-            $x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
+            $x \preceq y \rightarrow \mytt{insert}\bigl(x, [y] + R\bigr) = [x,y] + R$. 
       \item Otherwise, $x$ has to be inserted recursively into the list $R$: \\[0.2cm]
             \hspace*{1.3cm}
-            $\neg x \preceq y \rightarrow \mathtt{insert}\bigl(x, [y] + R\bigr) = [y] + \mathtt{insert}(x,R)$. 
+            $\neg x \preceq y \rightarrow \mytt{insert}\bigl(x, [y] + R\bigr) = [y] + \mytt{insert}(x,R)$. 
       \end{enumerate}
 \end{enumerate}
 
@@ -217,38 +217,38 @@ Inserting $x$ into an already sorted list $S$ is done according to the following
 Figure \ref{fig:Insertion-Sort.ipynb} shows how the \blue{insertion-sort} algorithm can be implemented 
 in \textsl{Python}.
 \begin{enumerate}
-\item If $\texttt{L}$ is empty, we return the empty list.
+\item If $\mytt{L}$ is empty, we return the empty list.
 \item Otherwise, the assignment
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{x, *R = L}
+      \mytt{x, *R = L}
       \\[0.2cm]
-      splits $\mathtt{L}$ into two parts: $\texttt{x}$ is the first element of $\texttt{L}$ and $\texttt{R}$ is the rest of $\texttt{L}$,
-      i.e.~all elements of $\texttt{L}$ with the exception of the first element.  Next, the rest $\texttt{R}$
-      is sorted and $\texttt{x}$ is inserted into $\texttt{R}$.
-\item In order to insert $\texttt{x}$ into a list $\texttt{L}$ that is already sorted, we first check whether
-      $\texttt{L}$ is the empty list.  Inserting $\texttt{x}$ into the empty list yields the list $[\texttt{x}]$.
-\item Otherwise, $\texttt{L}$ is split into two parts: $\texttt{y}$ is the first element of $\texttt{L}$ and
-      $\texttt{R}$ is the rest of $\texttt{L}$. 
+      splits $\mytt{L}$ into two parts: $\mytt{x}$ is the first element of $\mytt{L}$ and $\mytt{R}$ is the rest of $\mytt{L}$,
+      i.e.~all elements of $\mytt{L}$ with the exception of the first element.  Next, the rest $\mytt{R}$
+      is sorted and $\mytt{x}$ is inserted into $\mytt{R}$.
+\item In order to insert $\mytt{x}$ into a list $\mytt{L}$ that is already sorted, we first check whether
+      $\mytt{L}$ is the empty list.  Inserting $\mytt{x}$ into the empty list yields the list $[\mytt{x}]$.
+\item Otherwise, $\mytt{L}$ is split into two parts: $\mytt{y}$ is the first element of $\mytt{L}$ and
+      $\mytt{R}$ is the rest of $\mytt{L}$. 
       Then, there are two cases:
       \begin{enumerate}[(a)]
-      \item If $\texttt{x}$ is less or equal than $\texttt{y}$, then, as $\texttt{L}$ is sorted,  $\texttt{x}$
-            is less or equal than all elements of $\texttt{L}$ and therefore $\texttt{x}$ is prepended in front
-            of $\texttt{L}$. 
-      \item Otherwise, we recursively insert $\texttt{x}$ into the rest $\texttt{R}$ and prepend $\texttt{y}$
+      \item If $\mytt{x}$ is less or equal than $\mytt{y}$, then, as $\mytt{L}$ is sorted,  $\mytt{x}$
+            is less or equal than all elements of $\mytt{L}$ and therefore $\mytt{x}$ is prepended in front
+            of $\mytt{L}$. 
+      \item Otherwise, we recursively insert $\mytt{x}$ into the rest $\mytt{R}$ and prepend $\mytt{y}$
             to the resulting list.     
       \end{enumerate}
 \end{enumerate}
 
 \subsection{Complexity of Insertion Sort}
-We will compute the number of comparisons that are done in the implementation of \texttt{insert}
-in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\texttt{sort}(\texttt{L})$ with a list
-$\texttt{L}$ of length $n$. In order to do that, 
-we have to compute the number of evaluations of the operator ``\texttt{<=}'' when 
- $\texttt{insert}(\texttt{x},\texttt{L})$ is evaluated for a list $\texttt{L}$ of length $n$.  Let us denote this number as 
-$a_n$.  The worst case happens if $\texttt{x}$ is bigger than every element of $\texttt{L}$ because in that case the
-test ``\texttt{x <= y}'' in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} will always evaluate to
-\texttt{False} and therefore \texttt{insert} will keep calling itself recursively.
+We will compute the number of comparisons that are done in the implementation of \mytt{insert}
+in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\mytt{sort}(\mytt{L})$ with a list
+$\mytt{L}$ of length $n$. In order to do that, 
+we have to compute the number of evaluations of the operator ``\mytt{<=}'' when 
+ $\mytt{insert}(\mytt{x},\mytt{L})$ is evaluated for a list $\mytt{L}$ of length $n$.  Let us denote this number as 
+$a_n$.  The worst case happens if $\mytt{x}$ is bigger than every element of $\mytt{L}$ because in that case the
+test ``\mytt{x <= y}'' in line 11 of Figure \ref{fig:Insertion-Sort.ipynb} will always evaluate to
+\mytt{False} and therefore \mytt{insert} will keep calling itself recursively.
 Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -259,24 +259,24 @@ A trivial induction shows that this recurrence relation has the solution
 \hspace*{1.3cm} 
 $a_n = n$.
 \\[0.2cm]
-Hence, in the worst case the evaluation of $\mathtt{insert}(\texttt{x},\texttt{L})$ will lead to $n$ comparisons for a list
-$\texttt{L}$ of length $n$.  The reason is simple:  If $\texttt{x}$ is bigger than any element of $L$, then we have to
-compare $\texttt{x}$ with every element of $\texttt{R}$ in order to insert $\texttt{x}$ into $\texttt{R}$.
+Hence, in the worst case the evaluation of $\mytt{insert}(\mytt{x},\mytt{L})$ will lead to $n$ comparisons for a list
+$\mytt{L}$ of length $n$.  The reason is simple:  If $\mytt{x}$ is bigger than any element of $L$, then we have to
+compare $\mytt{x}$ with every element of $\mytt{R}$ in order to insert $\mytt{x}$ into $\mytt{R}$.
 
 Next, let us compute the number of comparisons that have to be done when calling
-$\texttt{sort}(\texttt{L})$ in the worst case for a list  $\texttt{L}$ of length $n$.  Let us denote this number as
-$b_n$. The worst case happens if $\texttt{L}$ is already sorted in reverse order, i.e.~if $\texttt{L}$ is
-\blue{sorted descendingly}\index{sorted descendingly}, because then the element $\texttt{x}$ that is inserted in
-$\texttt{sort}(\texttt{R})$ is bigger than all elements 
-of $\texttt{R}$ and therefore also bigger than all elements of $\texttt{sort}(\texttt{R})$.  Then we have \\[0.2cm]
+$\mytt{sort}(\mytt{L})$ in the worst case for a list  $\mytt{L}$ of length $n$.  Let us denote this number as
+$b_n$. The worst case happens if $\mytt{L}$ is already sorted in reverse order, i.e.~if $\mytt{L}$ is
+\blue{sorted descendingly}\index{sorted descendingly}, because then the element $\mytt{x}$ that is inserted in
+$\mytt{sort}(\mytt{R})$ is bigger than all elements 
+of $\mytt{R}$ and therefore also bigger than all elements of $\mytt{sort}(\mytt{R})$.  Then we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_0 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
-because for a list of the form $\texttt{L} = [x] + \texttt{R}$ of length $n+1$ we first have to sort the list $\texttt{R}$
-recursively.  As $\texttt{R}$ has length $n$ this takes $b_n$ comparisons.  After that, the call
-$\mathtt{insert}(\texttt{x}, \mathtt{sort(\texttt{R})})$ 
-inserts the element $\texttt{x}$ into $\mathtt{sort}(\texttt{R})$.  We have previously seen that this takes $n$
-comparisons if $\texttt{x}$ is bigger than all elements of $\mathtt{sort}(\texttt{R})$ and if the list $\texttt{L}$ is sorted
+because for a list of the form $\mytt{L} = [x] + \mytt{R}$ of length $n+1$ we first have to sort the list $\mytt{R}$
+recursively.  As $\mytt{R}$ has length $n$ this takes $b_n$ comparisons.  After that, the call
+$\mytt{insert}(\mytt{x}, \mytt{sort(\mytt{R})})$ 
+inserts the element $\mytt{x}$ into $\mytt{sort}(\mytt{R})$.  We have previously seen that this takes $n$
+comparisons if $\mytt{x}$ is bigger than all elements of $\mytt{sort}(\mytt{R})$ and if the list $\mytt{L}$ is sorted
 descendingly this will indeed be the case.
 
 If we substitute $n$ by $n-1$ in equation $(1)$ we find
@@ -317,70 +317,70 @@ Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ an
 
 Next, let us consider the best case.  The best case happens if the list $L$ is already sorted
 ascendingly.  Then, the call of 
-$\mathtt{insert}(\texttt{x},\mathtt{sort}(\texttt{R}))$ needs a single comparison provided $\texttt{R}$ is non-empty.  This time, the recurrence
-equation for the number $b_l$ of comparisons when sorting $\texttt{L}$ satisfies
+$\mytt{insert}(\mytt{x},\mytt{sort}(\mytt{R}))$ needs a single comparison provided $\mytt{R}$ is non-empty.  This time, the recurrence
+equation for the number $b_l$ of comparisons when sorting $\mytt{L}$ satisfies
  \\[0.2cm]
 \hspace*{1.3cm}
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
 Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
 \blue{insertion sort} has a \blue{linear} complexity.  This is as good as it can possibly get because when
-sorting a list $\texttt{L}$ we must at least inspect all of the elements of $\texttt{L}$ and therefore we will
+sorting a list $\mytt{L}$ we must at least inspect all of the elements of $\mytt{L}$ and therefore we will
 always have at least a linear amount of work to do.
 
 
 \section{Selection Sort}
 Next, we discuss 
 \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
-given list $\texttt{L}$ this algorithm works as
+given list $\mytt{L}$ this algorithm works as
 follows:
 \begin{enumerate}
-\item If $\texttt{L}$ is empty, the result is the empty list: \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
-\item Otherwise, we compute the smallest element of the list $\texttt{L}$ and we remove this element from
-      $\texttt{L}$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
+\item If $\mytt{L}$ is empty, the result is the empty list: \\[0.2cm]
+      \hspace*{1.3cm} $\mytt{sort}\bigl([]\bigr) = []$.
+\item Otherwise, we compute the smallest element of the list $\mytt{L}$ and we remove this element from
+      $\mytt{L}$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
       to the front of the sorted list:
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\texttt{L} \not= [] \wedge \texttt{x} := \min(\texttt{L}) \rightarrow \mathtt{sort}\bigl(\texttt{L}\bigr) = [\texttt{x}] + \mathtt{sort}\bigl(\mathtt{delete}(\texttt{x}, \texttt{L})\bigr)$.
+      $\mytt{L} \not= [] \wedge \mytt{x} := \min(\mytt{L}) \rightarrow \mytt{sort}\bigl(\mytt{L}\bigr) = [\mytt{x}] + \mytt{sort}\bigl(\mytt{delete}(\mytt{x}, \mytt{L})\bigr)$.
 \end{enumerate}
-The algorithm to delete an element $\texttt{x}$ from a list $\texttt{L}$ is also formulated recursively.  There are three cases:
+The algorithm to delete an element $\mytt{x}$ from a list $\mytt{L}$ is also formulated recursively.  There are three cases:
 \begin{enumerate}
-\item If $\texttt{L}$ is empty, we have \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{delete}\bigl(\texttt{x}, []\bigr) = []$.
-\item If $\texttt{x}$ is equal to the first element of $\texttt{L}$, then the function \texttt{delete} returns the
-      rest of $\texttt{L}$: \\[0.2cm]
+\item If $\mytt{L}$ is empty, we have \\[0.2cm]
+      \hspace*{1.3cm} $\mytt{delete}\bigl(\mytt{x}, []\bigr) = []$.
+\item If $\mytt{x}$ is equal to the first element of $\mytt{L}$, then the function \mytt{delete} returns the
+      rest of $\mytt{L}$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{delete}\bigl(\texttt{x}, [\texttt{x}] + \texttt{R}\bigr) = \texttt{R}$.
-\item Otherwise, the element $\texttt{x}$ is removed recursively from the rest of the list: \\[0.2cm]
+      $\mytt{delete}\bigl(\mytt{x}, [\mytt{x}] + \mytt{R}\bigr) = \mytt{R}$.
+\item Otherwise, the element $\mytt{x}$ is removed recursively from the rest of the list: \\[0.2cm]
       \hspace*{1.3cm}   
-      $\texttt{x} \not = \texttt{y} \rightarrow \mathtt{delete}\bigl(\texttt{x}, [\texttt{y}] + \texttt{R}\bigr) = [\texttt{y}] + \mathtt{delete}(\texttt{x},\texttt{R})$.
+      $\mytt{x} \not = \mytt{y} \rightarrow \mytt{delete}\bigl(\mytt{x}, [\mytt{y}] + \mytt{R}\bigr) = [\mytt{y}] + \mytt{delete}(\mytt{x},\mytt{R})$.
 \end{enumerate}
-Finally, we have to specify the computation of the minimum of a list $\texttt{L}$:
+Finally, we have to specify the computation of the minimum of a list $\mytt{L}$:
 \begin{enumerate}
 \item The minimum of the empty list is bigger than any element.  Therefore we have 
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{min}\bigl([]\bigr) = \infty$.
-\item In order to compute the minimum of the list $[\texttt{x}] + \texttt{R}$ we compute the minimum of $\texttt{R}$ and
-      then use the binary function $\mathtt{min}$: \\[0.2cm]
+      \hspace*{1.3cm} $\mytt{min}\bigl([]\bigr) = \infty$.
+\item In order to compute the minimum of the list $[\mytt{x}] + \mytt{R}$ we compute the minimum of $\mytt{R}$ and
+      then use the binary function $\mytt{min}$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}\bigl([\texttt{x}] + \texttt{R}\bigr) = \mathtt{min}\bigl(\texttt{x}, \mathtt{min}(\texttt{R}) \bigr)$. 
+      $\mytt{min}\bigl([\mytt{x}] + \mytt{R}\bigr) = \mytt{min}\bigl(\mytt{x}, \mytt{min}(\mytt{R}) \bigr)$. 
 
-      Here, the binary function $\mathtt{min}$ is defined as follows: \\[0.2cm]
+      Here, the binary function $\mytt{min}$ is defined as follows: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{min}(\texttt{x},\texttt{y}) = \left\{
+      $\mytt{min}(\mytt{x},\mytt{y}) = \left\{
       \begin{array}{ll}
-        \texttt{x}  & \mbox{if $\texttt{x} \preceq \texttt{y}$;} \\
-        \texttt{y}  & \mbox{otherwise.} \\
+        \mytt{x}  & \mbox{if $\mytt{x} \preceq \mytt{y}$;} \\
+        \mytt{y}  & \mbox{otherwise.} \\
       \end{array}\right.
       $
 \end{enumerate}
 Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
 implementation of selection sort in \textsl{Python}.  There is no need to implement the function
-$\mathtt{min}$ as this function is already predefined in \textsl{Python}. 
-The implementation of $\mathtt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mathtt{delete}(x, L)$
+$\mytt{min}$ as this function is already predefined in \textsl{Python}. 
+The implementation of $\mytt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mytt{delete}(x, L)$
 should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
-to delete an element from the empty list, something must have gone wrong.  The \texttt{assert}
+to delete an element from the empty list, something must have gone wrong.  The \mytt{assert}
 statement will provide us with an error message in this case.  This error message is printed if $L$ is empty.
 
 If $L$ is not empty we check whether $x$ is the first element of $L$.  If it is, the rest of $L$ is
@@ -420,15 +420,15 @@ returned.  Otherwise, $x$ is deleted recursively from the rest of $L$.
 
 \subsection{Complexity of Selection Sort}
 In order to be able to analyse the complexity of \blue{selection sort} we have to count the number
-of comparisons that are performed when $\mathtt{min}(\texttt{L})$ is computed.  We have 
+of comparisons that are performed when $\mytt{min}(\mytt{L})$ is computed.  We have 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mathtt{min}(x_1, \mathtt{min}(x_2, \mathtt{min}(x_3, \cdots \mathtt{min}(x_{n-1},x_n) \cdots )))$. 
+$\mytt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mytt{min}(x_1, \mytt{min}(x_2, \mytt{min}(x_3, \cdots \mytt{min}(x_{n-1},x_n) \cdots )))$. 
 \\[0.2cm]
-Therefore, in order to compute $\mathtt{min}(\texttt{L})$ for a list $\texttt{L}$ of length $n$ the binary function $\mathtt{min}$
-is called $(n-1)$ times.  Each of these calls of $\mathtt{min}$ causes an evaluation of the comparison
+Therefore, in order to compute $\mytt{min}(\mytt{L})$ for a list $\mytt{L}$ of length $n$ the binary function $\mytt{min}$
+is called $(n-1)$ times.  Each of these calls of $\mytt{min}$ causes an evaluation of the comparison
 operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
-$\texttt{L}$ of length $n$ is written as $b_n$, we have \\[0.2cm]
+$\mytt{L}$ of length $n$ is written as $b_n$, we have \\[0.2cm]
 \hspace*{1.3cm}
 $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$. 
 \\[0.2cm]
@@ -436,7 +436,7 @@ The reasoning is as follows: In order to sort a list of $n+1$ elements using sel
 have to compute the minimum of this list.  We need $n$ comparisons for this.  Next, the minimum is
 removed from the list and the remaining list, which now contains only $n$ elements, is sorted
 recursively.  We need $b_n$ evaluations of the comparison operator for this recursive invocation of
-\texttt{sort}.
+\mytt{sort}.
 
 When investigating the complexity of \blue{insertion sort} we had arrived at the same recurrence
 relation. We had found the solution of this recurrence relation to be
@@ -475,24 +475,24 @@ The \blue{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945, who 
 was one of the most prominent mathematicians of the last century.  
 
-In order to sort a list $L$ of length $n := \mathtt{len}(L)$ the algorithm proceeds as follows:
+In order to sort a list $L$ of length $n := \mytt{len}(L)$ the algorithm proceeds as follows:
 \begin{enumerate}
 \item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $n < 2 \rightarrow \mathtt{sort}(L) = L$.
+      $n < 2 \rightarrow \mytt{sort}(L) = L$.
 \item Otherwise, the list $L$ is split into two lists that have approximately the same size.
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{1.3cm} 
-      $n \geq 2 \rightarrow \mathtt{sort}(L) =
-         \mathtt{merge}\Bigl(\mathtt{sort}\bigl(\mathtt{L[:n\dv 2]}\bigr),
-         \mathtt{sort}\bigl(\mathtt{L[n\dv 2:]}\bigr)\Bigr)
+      $n \geq 2 \rightarrow \mytt{sort}(L) =
+         \mytt{merge}\Bigl(\mytt{sort}\bigl(\mytt{L[:n\dv 2]}\bigr),
+         \mytt{sort}\bigl(\mytt{L[n\dv 2:]}\bigr)\Bigr)
      $
       \\[0.2cm]
-      Here,  $\mathtt{L[:n\dv 2]}$ is the first part of the list, while
-      $\mathtt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
-      elements, otherwise the second part has one element more than the first part.  The function \texttt{merge}
+      Here,  $\mytt{L[:n\dv 2]}$ is the first part of the list, while
+      $\mytt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
+      elements, otherwise the second part has one element more than the first part.  The function \mytt{merge}
       takes two sorted lists and combines their element in a way that the resulting list again is sorted.
 \end{enumerate}
 Next, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
@@ -500,10 +500,10 @@ is sorted.
 \begin{enumerate}
 \item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}\bigl([], L_2\bigr) = L_2$.
+      $\mytt{merge}\bigl([], L_2\bigr) = L_2$.
 \item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{merge}\bigl(L_1, []\bigr) = L_1$.
+      $\mytt{merge}\bigl(L_1, []\bigr) = L_1$.
 \item Otherwise, $L_1$ must have the form $[x] + R_1$ and $L_2$ has the form $[y] +R_2$.
       Then there is a case distinction with respect to the result of the comparison of $x$ and $y$:
       \begin{enumerate}
@@ -512,15 +512,15 @@ is sorted.
             In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[x\bigr] +
-               \mathtt{merge}\bigl(R_1,[y] + R_2\bigr)$.
+            $x \preceq y \rightarrow \mytt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[x\bigr] +
+               \mytt{merge}\bigl(R_1,[y] + R_2\bigr)$.
       \item $\neg x \preceq y$.
 
             Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
             \\[0.2cm]
             \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mathtt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[y \bigr] +
-             \mathtt{merge}\bigl([x] + R_1,R_2\bigr)$.
+            $\neg x \preceq y \rightarrow \mytt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[y \bigr] +
+             \mytt{merge}\bigl([x] + R_1,R_2\bigr)$.
       \end{enumerate}
 \end{enumerate}
 
@@ -566,30 +566,30 @@ program.
 \item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\dv 2$
       elements into the list $L_1$ and the remaining elements into the list $L_2$.
 \item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
-\item The implementation of the function \texttt{merge} is a straightforward translation of the equations
+\item The implementation of the function \mytt{merge} is a straightforward translation of the equations
       given above.
 \end{enumerate}
 
 \subsection{Complexity of Merge Sort}
 Next, we compute the number of comparisons that are needed to sort a list of $n$
 elements via merge sort.  To this end, we first analyse the number of comparisons that 
-are done in a call of $\mathtt{merge}(L_1, L_2)$.   In order to do this we define the function \\[0.2cm]
+are done in a call of $\mytt{merge}(L_1, L_2)$.   In order to do this we define the function \\[0.2cm]
 \hspace*{1.3cm} 
-$\mathtt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ 
+$\mytt{cmpCount}: \textsl{List}(M) \times \textsl{List}(M) \rightarrow \mathbb{N}$ 
 \\[0.2cm]
-such that, given two lists $L_1$ and $L_2$ of elements from some set $M$, the expression $\mathtt{cmpCount}(L_1, L_2)$ returns the
-number of comparisons needed to compute $\mathtt{merge}(L_1,L_2)$. 
+such that, given two lists $L_1$ and $L_2$ of elements from some set $M$, the expression $\mytt{cmpCount}(L_1, L_2)$ returns the
+number of comparisons needed to compute $\mytt{merge}(L_1,L_2)$. 
 Our claim is that, for any lists $L_1$ and $L_2$ we have  
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(L_1, L_2) \leq \mathtt{len}(L_1) + \mathtt{len}(L_2)$. 
+$\mytt{cmpCount}(L_1, L_2) \leq \mytt{len}(L_1) + \mytt{len}(L_2)$. 
 \\[0.2cm]
-The proof is done by computational induction w.r.t.~the definition of $\mathtt{merge}(L_1, L_2)$.  Hence there are four cases:
+The proof is done by computational induction w.r.t.~the definition of $\mytt{merge}(L_1, L_2)$.  Hence there are four cases:
 \begin{enumerate}
 \item $L_1 = []$:  Then we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{cmpCount}(L_1, L_2) = \mathtt{cmpCount}([], L_2) = 0 \leq  \mathtt{len}(L_1) + \mathtt{len}(L_2)$.
+      $\mytt{cmpCount}(L_1, L_2) = \mytt{cmpCount}([], L_2) = 0 \leq  \mytt{len}(L_1) + \mytt{len}(L_2)$.
 \item $L_2 = []$:  This case is analogous to the first case.
 
       In the remaining cases we have
@@ -600,16 +600,16 @@ The proof is done by computational induction w.r.t.~the definition of $\mathtt{m
       \\[0.2cm]
       \hspace*{1.3cm}
       $\begin{array}{lcl}
-       \mathtt{cmpCount}(L_1, L_2) & = & 1 + \mathtt{cmpCount}(R_1, L_2) \\[0.2cm]
-                                  & \stackrel{ih}{\leq} & 1 + \mathtt{len}(R_1) + \mathtt{len}(L_2) \\[0.2cm]
-                                 & = & \mathtt{len}(L_1) + \mathtt{len}(L_2),
+       \mytt{cmpCount}(L_1, L_2) & = & 1 + \mytt{cmpCount}(R_1, L_2) \\[0.2cm]
+                                  & \stackrel{ih}{\leq} & 1 + \mytt{len}(R_1) + \mytt{len}(L_2) \\[0.2cm]
+                                 & = & \mytt{len}(L_1) + \mytt{len}(L_2),
        \end{array}
       $
       \\[0.2cm]
       where we have used the fact that
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{cmpCount}(R_1, L_2) \leq \mathtt{len}(R_1) + \mathtt{len}(L_2)$
+      $\mytt{cmpCount}(R_1, L_2) \leq \mytt{len}(R_1) + \mytt{len}(L_2)$
       \\[0.2cm]
       holds by induction hypothesis.
     \item $\neg (x_1 \leq x_2)$: This case is similar to the previous case. \qed
@@ -619,16 +619,16 @@ The proof is done by computational induction w.r.t.~the definition of $\mathtt{m
 What is the form of the lists $L_1$ and $L_2$ that maximizes the value of 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{cmpCount}(L_1, L_2)$?
+$\mytt{cmpCount}(L_1, L_2)$?
 \\[0.2cm]
-What is the value of $\mathtt{cmpCount}(L_1, L_2)$ in this case? \eox
+What is the value of $\mytt{cmpCount}(L_1, L_2)$ in this case? \eox
 \vspace*{0.3cm}
 
 \noindent
 Now we are ready to compute the complexity of \blue{merge sort} in the worst case.  Define
 \\[0.2cm]
 \hspace*{1.3cm}
-$f(n)$  \texttt{:=} number of comparisons needed to sort a list $L$ of length $n$.
+$f(n)$  \mytt{:=} number of comparisons needed to sort a list $L$ of length $n$.
 \\[0.2cm]
 The algorithm \blue{merge sort} 
 splits the list $L$ into two lists that have the length of $n\dv 2$ or $n\dv 2+1$, then sorts
@@ -718,19 +718,19 @@ reason is that, in \textsl{Python}, lists are internally represented as arrays. 
 we evaluate an expression of the form 
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{[x] + R}
+\mytt{[x] + R}
 \\[0.2cm]
 the following happens:
 \begin{enumerate}
 \item A new array is allocated.  This array will later hold the resulting list.
-\item The element \texttt{x} is copied to the beginning of this array.
-\item The elements of the list \texttt{R} are copied to the positions following \texttt{x}.
+\item The element \mytt{x} is copied to the beginning of this array.
+\item The elements of the list \mytt{R} are copied to the positions following \mytt{x}.
 \end{enumerate}
-Therefore, evaluating \texttt{[x] + R} for a list \texttt{R} of length $n$ requires $\Oh(n)$ data
+Therefore, evaluating \mytt{[x] + R} for a list \mytt{R} of length $n$ requires $\Oh(n)$ data
 movements.  This is very wasteful.  In order to arrive at an
 implementation that is more efficient we have to take advantage of the fact that lists are represented as arrays.
 Figure \ref{fig:merge-sort-array.stlx} on page \pageref{fig:merge-sort-array.stlx} presents
-an implementation of \blue{merge sort} that treats the list $\texttt{L}$ that is to be sorted as an array.
+an implementation of \blue{merge sort} that treats the list $\mytt{L}$ that is to be sorted as an array.
 
 
 \begin{figure}[!ht]
@@ -779,80 +779,80 @@ an implementation of \blue{merge sort} that treats the list $\texttt{L}$ that is
 \end{figure}
 We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} line by line.
 \begin{enumerate}
-\item The list $\mathtt{L}$ is sorted in place. Hence, the procedure 
-      \texttt{sort} does not return a result.  Instead, the evaluation of the expression
-      $\mathtt{sort}(\mathtt{L})$ has the side effect of sorting the list $\mathtt{L}$.
-\item The purpose of the assignment ``\texttt{A = L[:]}'' in line 2 is to create an auxiliary array
-      $\texttt{A}$.  This auxiliary array is needed in the procedure
-      \texttt{mergeSort} called in line 3.
-\item The procedure \texttt{mergeSort} defined in line 5 is called with 4 arguments.
+\item The list $\mytt{L}$ is sorted in place. Hence, the procedure 
+      \mytt{sort} does not return a result.  Instead, the evaluation of the expression
+      $\mytt{sort}(\mytt{L})$ has the side effect of sorting the list $\mytt{L}$.
+\item The purpose of the assignment ``\mytt{A = L[:]}'' in line 2 is to create an auxiliary array
+      $\mytt{A}$.  This auxiliary array is needed in the procedure
+      \mytt{mergeSort} called in line 3.
+\item The procedure \mytt{mergeSort} defined in line 5 is called with 4 arguments.
       \begin{enumerate}
-      \item The first parameter $\texttt{L}$ is the list that is to be sorted.
-      \item However, the task of \texttt{mergeSort} is not to sort the entire list $\texttt{L}$ but only
-            the part of $\texttt{L}$ that is given as
+      \item The first parameter $\mytt{L}$ is the list that is to be sorted.
+      \item However, the task of \mytt{mergeSort} is not to sort the entire list $\mytt{L}$ but only
+            the part of $\mytt{L}$ that is given as
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[start:end]}. 
+            \mytt{L[start:end]}. 
             \\[0.2cm]
-            Hence, the parameters $\texttt{start}$ and $\texttt{end}$ are indices specifying the 
+            Hence, the parameters $\mytt{start}$ and $\mytt{end}$ are indices specifying the 
             subarray that needs to be sorted.
-      \item The final parameter $\texttt{A}$ is used as an auxiliary array.  This array is needed
-            as temporary storage and it needs to have the same size as the list $\texttt{L}$.
+      \item The final parameter $\mytt{A}$ is used as an auxiliary array.  This array is needed
+            as temporary storage and it needs to have the same size as the list $\mytt{L}$.
       \end{enumerate} 
-\item Line 6 deals with the case that the sublist of $\texttt{L}$ that needs to be sorted has at most one element.  
+\item Line 6 deals with the case that the sublist of $\mytt{L}$ that needs to be sorted has at most one element.  
       In this case, there is nothing to do as any such list is already sorted.
-\item In line 8 we compute the index pointing to the middle element of the list $\texttt{L}$ using the
+\item In line 8 we compute the index pointing to the middle element of the list $\mytt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
-      \texttt{middle = (start + end) \dv\  2;} 
+      \mytt{middle = (start + end) \dv\  2;} 
       \\[0.2cm]
-      This way, the list $\texttt{L}$ is split into the lists 
+      This way, the list $\mytt{L}$ is split into the lists 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{L[start:middle]} \quad and \quad \texttt{L[middle:end]}.
+      \mytt{L[start:middle]} \quad and \quad \mytt{L[middle:end]}.
       \\[0.2cm]
-      These two lists have approximately the same size which is about half the size of the list $\texttt{L}$.
-\item Next, the lists \texttt{L[start:middle]} and \texttt{L[middle:end]} are sorted
+      These two lists have approximately the same size which is about half the size of the list $\mytt{L}$.
+\item Next, the lists \mytt{L[start:middle]} and \mytt{L[middle:end]} are sorted
       recursively in line 9 and 10, respectively.
-\item The call to \texttt{merge} in line 11 merges these lists.
-\item The procedure \texttt{merge} defined in line 13 has 5 parameters: 
+\item The call to \mytt{merge} in line 11 merges these lists.
+\item The procedure \mytt{merge} defined in line 13 has 5 parameters: 
       \begin{enumerate}
-      \item The first parameter $\texttt{L}$ is the list that contains the two sublists that have to be merged.
-      \item The parameters \texttt{start}, \texttt{middle}, and \texttt{end} specify the sublists
+      \item The first parameter $\mytt{L}$ is the list that contains the two sublists that have to be merged.
+      \item The parameters \mytt{start}, \mytt{middle}, and \mytt{end} specify the sublists
             that have to be merged.  The first sublist is 
             \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[start:middle]}, 
+            \mytt{L[start:middle]}, 
             \\[0.2cm]
             while the second sublist is \\[0.2cm]
             \hspace*{1.3cm} 
-            \texttt{L[middle:end]}. 
-      \item The final parameter $\texttt{A}$ is used as an auxiliary array.  It needs to be a list of the
-            same size as the list $\texttt{L}$.
+            \mytt{L[middle:end]}. 
+      \item The final parameter $\mytt{A}$ is used as an auxiliary array.  It needs to be a list of the
+            same size as the list $\mytt{L}$.
       \end{enumerate}
-\item The function \texttt{merge} assumes that the sublists 
+\item The function \mytt{merge} assumes that the sublists 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{L[start:middle]} \quad and \quad \texttt{L[middle:end]} 
+      \mytt{L[start:middle]} \quad and \quad \mytt{L[middle:end]} 
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 14 copies these sublists into the auxiliary array $\texttt{A}$.
-      \item In order to merge the two sublists stored in $\texttt{A}$ into the list $\texttt{L}$ we define
+      \item First, line 14 copies these sublists into the auxiliary array $\mytt{A}$.
+      \item In order to merge the two sublists stored in $\mytt{A}$ into the list $\mytt{L}$ we define
             three indices: 
             \begin{itemize}
-            \item \texttt{idx1} points to the next element of the first sublist stored in $\texttt{A}$.
-            \item \texttt{idx2} points to the next element of the second sublist stored in $\texttt{A}$.
-            \item \texttt{i} points to the position in the list $\texttt{L}$ where we have to put the next
+            \item \mytt{idx1} points to the next element of the first sublist stored in $\mytt{A}$.
+            \item \mytt{idx2} points to the next element of the second sublist stored in $\mytt{A}$.
+            \item \mytt{i} points to the position in the list $\mytt{L}$ where we have to put the next
                   element.
             \end{itemize}
-      \item As long as neither the first nor the second sublist stored in $\texttt{A}$ have been exhausted
+      \item As long as neither the first nor the second sublist stored in $\mytt{A}$ have been exhausted
             we compare in line 19 the elements from these sublists and then copy the smaller of these
-            two elements into the list $\texttt{L}$ at position \texttt{i}.
-            In order to remove this element from the corresponding sublist in $\texttt{A}$ we just need to
+            two elements into the list $\mytt{L}$ at position \mytt{i}.
+            In order to remove this element from the corresponding sublist in $\mytt{A}$ we just need to
             increment the corresponding index pointing to the beginning of this sublist.
       \item If one of the two sublists gets empty while the other sublist still has elements, then we have
-            to copy the remaining elements of the non-empty sublist into the list $\texttt{L}$.
+            to copy the remaining elements of the non-empty sublist into the list $\mytt{L}$.
             The statement in line 27 covers the case that the second sublist is exhausted before 
             the first sublist, while the statement in line 29 covers the case that the first
             sublist is exhausted before the second sublist.
@@ -899,38 +899,38 @@ implementation has lots of function calls, it can be less efficient than an iter
 implementation.  Therefore, we present an iterative implementation of \blue{merge sort} in Figure
 \ref{fig:merge-sort-nr.stlx} on page \pageref{fig:merge-sort-nr.stlx}.
 
-Instead of recursive calls of the function \texttt{mergeSort}, this implementation has two nested 
-\texttt{while}-loops.  The idea is to first split the list $\texttt{L}$ into sublists of length 1.
+Instead of recursive calls of the function \mytt{mergeSort}, this implementation has two nested 
+\mytt{while}-loops.  The idea is to first split the list $\mytt{L}$ into sublists of length 1.
 Obviously, these sublists are already sorted.  Next, we merge pairs of these lists into lists of
 length 2.  After that, we take pairs of lists of length 2 and merge them into sorted lists of length
 4. Proceeding in this way we generate sorted lists of length
-$8$, $16$, $\cdots$.  This algorithm only stops when the list $\texttt{L}$ itself is sorted.
+$8$, $16$, $\cdots$.  This algorithm only stops when the list $\mytt{L}$ itself is sorted.
 
 The precise working of this implementation gets obvious if we formulate the \blue{invariants} of the
-\texttt{while}-loops.  The invariant of the outer loop states that all sublists of $\texttt{L}$ 
+\mytt{while}-loops.  The invariant of the outer loop states that all sublists of $\mytt{L}$ 
 that have the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[n*k:n*k+n]}
+\mytt{L[n*k:n*k+n]}
 \\[0.2cm]
 are already sorted.  These sublists have a length of $n$.  It is the task of the outer while loop to build
 pairs of sublists of this kind and to merge them into a sublist of length $2 \cdot n$.
 
-In the expression $\texttt{L[n*k:n*k+n]}$ the variable $k$ denotes a natural
+In the expression $\mytt{L[n*k:n*k+n]}$ the variable $k$ denotes a natural
 number that is used to numerate the sublists.  The index $k$ of the first sublists is $0$ and
 therefore this sublists has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[0:n]},
+\mytt{L[0:n]},
 \\[0.2cm]
 while the second sublist is given as
 \\[0.2cm]
 \hspace*{1.3cm}
-\texttt{L[n:2*n]}.
+\mytt{L[n:2*n]}.
 \\[0.2cm]
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
-of $\texttt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \texttt{merge}
-in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\texttt{len}(\texttt{L})$.
+of $\mytt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \mytt{merge}
+in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\mytt{len}(\mytt{L})$.
 
 \subsection{Further Improvements of Merge Sort}
 The implementation given above can still be improved in a number of ways.  
@@ -954,9 +954,9 @@ descending order.   For this reason, \blue{Timsort} uses the following tricks:
       want to merge the arrays
       \\[0.2cm]
       \hspace*{1.3cm}
-      $[x] + \mathtt{R}$ \quad and \quad $\mathtt{L}_1 + [y] + \mathtt{L}_2$
+      $[x] + \mytt{R}$ \quad and \quad $\mytt{L}_1 + [y] + \mytt{L}_2$
       \\[0.2cm]
-      and if $y$ is less than $x$, then all elements of the list $\mathtt{L}_1$ are also less than $x$.
+      and if $y$ is less than $x$, then all elements of the list $\mytt{L}_1$ are also less than $x$.
       Therefore, there is no need to compare these elements with $x$ one by one.  
 \end{enumerate}
 Timsort uses some more tricks, but unfortunately we don't have the time to discuss all of them.
@@ -964,7 +964,7 @@ Originally, Tim Peters developed Timsort for the programming language \textsl{Py
 \blue{Timsort} is also part of the \textsl{Java} library, the source code is available online at
 \\[0.2cm]
 \hspace*{0.3cm}
-\href{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/ComparableTimSort.java}{\texttt{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/\\
+\href{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/ComparableTimSort.java}{\mytt{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/\\
 \hspace*{1.5cm}
     src/java.base/share/classes/java/util/ComparableTimSort.java}}
 \\[0.2cm]
@@ -988,24 +988,24 @@ While merge sort splits the list $L$ that is to be sorted into two parts of roug
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the
 \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
-\item If the list $\mathtt{L}$ that is to be sorted is empty, we return  the empty list: 
+\item If the list $\mytt{L}$ that is to be sorted is empty, we return  the empty list: 
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
-\item Otherwise, $\mathtt{L}$ has the form $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
-      The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
-      or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
-      those elements of $\mathtt{R}$ that are bigger than $\mathtt{x}$.  These lists are computed as follows:
+      \hspace*{1.3cm} $\mytt{sort}\bigl([]\bigr) = []$.
+\item Otherwise, $\mytt{L}$ has the form $\mytt{L} = [\mytt{x}] + \mytt{R}$.  In this case, we split $\mytt{R}$ into two lists $\mytt{S}$ and $\mytt{B}$.
+      The list $\mytt{S}$ (the letter $\mytt{S}$ stands for \underline{s}mall) contains all those elements of $\mytt{R}$ that are less
+      or equal than $\mytt{x}$,     while $\mytt{B}$ (the letter $\mytt{B}$ stands for \underline{b}ig) contains
+      those elements of $\mytt{R}$ that are bigger than $\mytt{x}$.  These lists are computed as follows:
       \begin{enumerate}
-      \item $\mathtt{S} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} \leq \mathtt{x}]$,
-      \item $\mathtt{B} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} > \mathtt{x}]$.
+      \item $\mytt{S} := [\mytt{y} \in \mytt{R} \mid \mytt{y} \leq \mytt{x}]$,
+      \item $\mytt{B} := [\mytt{y} \in \mytt{R} \mid \mytt{y} > \mytt{x}]$.
       \end{enumerate}
-      The process of splitting the list $\mathtt{R}$ into the lists $\mathtt{S}$ and $\mathtt{B}$
-      is called \blue{partitioning}.\index{partitioning}  After partitioning the list $\mathtt{R}$ into the
-      lists $\mathtt{S}$ and $\mathtt{B}$, these lists are sorted 
-      recursively.  Then, the result is computed by placing $\mathtt{x}$ between the lists $\mathtt{sort}(\mathtt{S})$ and $\mathtt{sort}(\mathtt{B})$:
+      The process of splitting the list $\mytt{R}$ into the lists $\mytt{S}$ and $\mytt{B}$
+      is called \blue{partitioning}.\index{partitioning}  After partitioning the list $\mytt{R}$ into the
+      lists $\mytt{S}$ and $\mytt{B}$, these lists are sorted 
+      recursively.  Then, the result is computed by placing $\mytt{x}$ between the lists $\mytt{sort}(\mytt{S})$ and $\mytt{sort}(\mytt{B})$:
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\mathtt{sort}([\mathtt{x}]+\mathtt{R}) = \mathtt{sort}(\mathtt{S}) + [\mathtt{x}] + \mathtt{sort}(\mathtt{B})$.
+      $\mytt{sort}([\mytt{x}]+\mytt{R}) = \mytt{sort}(\mytt{S}) + [\mytt{x}] + \mytt{sort}(\mytt{B})$.
 \end{enumerate}
 Figure \ref{fig:quick-sort.stlx} on page \pageref{fig:quick-sort.stlx} shows how these equations can
 be implemented in \textsl{Python}.
@@ -1036,36 +1036,36 @@ be implemented in \textsl{Python}.
 \subsection{Complexity}
 Next, we investigate the computational complexity of \blue{quicksort}.
 Our goal is to compute the number of comparisons that are needed when
-$\mathtt{sort}(\mathtt{L})$ is computed for a list $\mathtt{L}$ of length $n$.  In order to compute this number we
-first investigate how many comparisons are needed in order to partition the list $\mathtt{R}$
-into the lists $\mathtt{S}$ and $\mathtt{B}$.  As these lists are defined as 
+$\mytt{sort}(\mytt{L})$ is computed for a list $\mytt{L}$ of length $n$.  In order to compute this number we
+first investigate how many comparisons are needed in order to partition the list $\mytt{R}$
+into the lists $\mytt{S}$ and $\mytt{B}$.  As these lists are defined as 
 \\[0.2cm]
 \hspace*{1.3cm}
- $\mathtt{S} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} \leq \mathtt{x}]$ \quad and \quad
- $\mathtt{B} := [\mathtt{y} \in \mathtt{R} \mid \mathtt{y} > \mathtt{x}]$,
+ $\mytt{S} := [\mytt{y} \in \mytt{R} \mid \mytt{y} \leq \mytt{x}]$ \quad and \quad
+ $\mytt{B} := [\mytt{y} \in \mytt{R} \mid \mytt{y} > \mytt{x}]$,
 \\[0.2cm]
-it is obvious that each element of $\mathtt{R}$ has to be compared with $\mathtt{x}$.
-Therefore, we need $n$ comparisons to compute $\mathtt{S}$ and $\mathtt{B}$.  Since $\mathtt{S}$ and
-$\mathtt{B}$ are computed independently, the implementation given above 
-would really need $2 \cdot n$ comparisons.  However, a moments thought reveals that we can compute $\mathtt{S}$ and $\mathtt{B}$
+it is obvious that each element of $\mytt{R}$ has to be compared with $\mytt{x}$.
+Therefore, we need $n$ comparisons to compute $\mytt{S}$ and $\mytt{B}$.  Since $\mytt{S}$ and
+$\mytt{B}$ are computed independently, the implementation given above 
+would really need $2 \cdot n$ comparisons.  However, a moments thought reveals that we can compute $\mytt{S}$ and $\mytt{B}$
 with just $n$ comparisons if the two lists are computed simultaneously.
 Next, we investigate the worst case complexity of quicksort.
 
 \subsubsection{Worst Case Complexity}
-Let us denote the number of comparisons needed to evaluate $\mathtt{sort}(\mathtt{L})$ for a list $\mathtt{L}$ of
+Let us denote the number of comparisons needed to evaluate $\mytt{sort}(\mytt{L})$ for a list $\mytt{L}$ of
 length $n$ in the worst case as $a_n$.  The worst case occurs if the partitioning
-returns a pair of lists $\mathtt{S}$ and $\mathtt{B}$ such that
+returns a pair of lists $\mytt{S}$ and $\mytt{B}$ such that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{S} = []$ \quad and \quad $\mathtt{B} = \mathtt{R}$,
+$\mytt{S} = []$ \quad and \quad $\mytt{B} = \mytt{R}$,
 \\[0.2cm]
-i.e.~all elements of $\mathtt{R}$ are bigger than $x$.  Then, we have
+i.e.~all elements of $\mytt{R}$ are bigger than $x$.  Then, we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n = a_{n-1} + n - 1$. 
 \\[0.2cm]
-The term $n-1$ is due to the $n-1$ comparisons needed for the partitioning of $\mathtt{R}$
-and the term $a_{n-1}$ is the number of comparisons needed for the recursive evaluation of $\mathtt{sort}(\mathtt{B})$.
+The term $n-1$ is due to the $n-1$ comparisons needed for the partitioning of $\mytt{R}$
+and the term $a_{n-1}$ is the number of comparisons needed for the recursive evaluation of $\mytt{sort}(\mytt{B})$.
 
 The initial condition is $a_1 = 0$, since we do not need any comparisons to sort a list
 containing only one element.
@@ -1088,9 +1088,9 @@ $
 \\[0.2cm]
 This shows that in the worst case, the number of comparisons is as big as it is in the worst case of 
 \blue{insertion sort}.  However, note that with quicksort the worst case occurs if we try to sort a list
-$\mathtt{L}$ that is already sorted.  It is important to realize that this is a common case in practical
+$\mytt{L}$ that is already sorted.  It is important to realize that this is a common case in practical
 applications of sorting.  In order to avoid the worst case behaviour for lists that are either sorted or nearly
-sorted we use the element at position $\texttt{len}(\texttt{L})\dv 2$ as the pivot element.
+sorted we use the element at position $\mytt{len}(\mytt{L})\dv 2$ as the pivot element.
 
 
 \subsubsection{Average Complexity}
@@ -1098,23 +1098,23 @@ By this time you probably wonder why the algorithm has been called \blue{quickso
 it is much slower than \blue{merge sort}.  To understand what is really going on, we define
 \\[0.2cm]
 \hspace*{1.3cm}
-$d_n$ \texttt{:=} \underline{avera}g\underline{e} number of comparisons to sort a list $L$ of $n$ elements via quicksort.
+$d_n$ \mytt{:=} \underline{avera}g\underline{e} number of comparisons to sort a list $L$ of $n$ elements via quicksort.
 \\[0.2cm]
-We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note the following: If $\mathtt{L}$
+We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note the following: If $\mytt{L}$
 is a list of $n+1$ elements, then the number of elements of the  
-list $\mathtt{S}$ that are smaller than or equal to the pivot element $\mathtt{x}$ is a member of the set 
-$\{0,1,2,\cdots,n\}$.  If the length of $\mathtt{S}$ is $i$ and the length of $\mathtt{L}$ is $n+1$, then the length
-of the list $\mathtt{B}$ of those elements that are bigger than $\mathtt{x}$ is $n-i$.  Therefore, if $\texttt{len}(\mathtt{S}) = i$, then on average we need
+list $\mytt{S}$ that are smaller than or equal to the pivot element $\mytt{x}$ is a member of the set 
+$\{0,1,2,\cdots,n\}$.  If the length of $\mytt{S}$ is $i$ and the length of $\mytt{L}$ is $n+1$, then the length
+of the list $\mytt{B}$ of those elements that are bigger than $\mytt{x}$ is $n-i$.  Therefore, if $\mytt{len}(\mytt{S}) = i$, then on average we need
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
-comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we take the average over all possible values of
- $i = \texttt{len}(S)$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
+comparisons to sort the lists $\mytt{S}$ and $\mytt{B}$ recursively.  If we take the average over all possible values of
+ $i = \mytt{len}(S)$ then, since $i \el\{0,1,\cdots,n\}$ and this set has $n+1$ elements, we get the following
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \bigl(d_i + d_{n-i}\bigr) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
-Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mathtt{R}$.
+Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mytt{R}$.
 In order to simplify the recurrence relation (1) we note that
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1338,42 +1338,42 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 \begin{enumerate}
 \item Contrary to the array based implementation of \blue{merge sort}, we do not need an auxiliary
       array.  This is one of the main advantages of \blue{quicksort} over \blue{merge sort}.
-\item The function $\mathtt{sort}$ is reduced to a call of $\mathtt{quickSort}$.  This function
-      takes the parameters $\mathtt{start}$, $\mathtt{end}$, and $\mathtt{L}$.  
+\item The function $\mytt{sort}$ is reduced to a call of $\mytt{quickSort}$.  This function
+      takes the parameters $\mytt{start}$, $\mytt{end}$, and $\mytt{L}$.  
       \begin{enumerate}
-      \item $\mathtt{start}$ specifies the index of the first element of the subarray that needs to be
+      \item $\mytt{start}$ specifies the index of the first element of the subarray that needs to be
             sorted.
-      \item $\mathtt{end}$ specifies the index of the last element of the subarray that needs to be
+      \item $\mytt{end}$ specifies the index of the last element of the subarray that needs to be
             sorted. 
-      \item $\mathtt{L}$ is the array that has to be sorted.
+      \item $\mytt{L}$ is the array that has to be sorted.
       \end{enumerate}
-      Calling $\mathtt{quickSort}(\mathtt{a}, \mathtt{b}, \mathtt{L})$ sorts the subarray \\[0.2cm]
+      Calling $\mytt{quickSort}(\mytt{a}, \mytt{b}, \mytt{L})$ sorts the subarray \\[0.2cm]
       \hspace*{1.3cm} 
-      $\bigl[\mathtt{L}[\mathtt{a}], L[\mathtt{a}+1], \cdots, L[\mathtt{b}]\bigr]$
+      $\bigl[\mytt{L}[\mytt{a}], L[\mytt{a}+1], \cdots, L[\mytt{b}]\bigr]$
       \\[0.2cm]
-      of the array $\mathtt{L}$, i.e.~after that call we expect to have\\[0.2cm]
+      of the array $\mytt{L}$, i.e.~after that call we expect to have\\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{L}[\mathtt{a}] \preceq \mathtt{L}[\mathtt{a}+1] \preceq \cdots \preceq \mathtt{L}[\mathtt{b}]$.
+      $\mytt{L}[\mytt{a}] \preceq \mytt{L}[\mytt{a}+1] \preceq \cdots \preceq \mytt{L}[\mytt{b}]$.
       \\[0.2cm]
-      The implementation of the function $\mathtt{quickSort}$
+      The implementation of the function $\mytt{quickSort}$
       is quite similar to the list based implementation.  The main difference is that the function
-      $\mathtt{partition}$, that is called in line 8, redistributes the elements of $\mathtt{L}$:
-      All elements that are less or equal than the \blue{pivot element} $\mathtt{L[m]}$
-      are stored at indexes that are smaller than the index $\mathtt{m}$, while the remaining elements will 
-      be stored at indexes that are bigger than $\mathtt{m}$.  The pivot element itself will be stored at the
-      index $\mathtt{m}$. 
+      $\mytt{partition}$, that is called in line 8, redistributes the elements of $\mytt{L}$:
+      All elements that are less or equal than the \blue{pivot element} $\mytt{L[m]}$
+      are stored at indexes that are smaller than the index $\mytt{m}$, while the remaining elements will 
+      be stored at indexes that are bigger than $\mytt{m}$.  The pivot element itself will be stored at the
+      index $\mytt{m}$. 
 \item The difficult part of the implementation of \blue{quicksort} is the implementation of the
-      function $\mathtt{partition}$ that is shown beginning in line 11.
-      The \texttt{for} loop in line 14 satisfies the following invariants.
+      function $\mytt{partition}$ that is shown beginning in line 11.
+      The \mytt{for} loop in line 14 satisfies the following invariants.
       \begin{enumerate}
-      \item $\forall i \in \{ \mathtt{start}, \cdots, \mathtt{left} \} : \mathtt{L}[i] \leq \mathtt{pivot}$.
+      \item $\forall i \in \{ \mytt{start}, \cdots, \mytt{left} \} : \mytt{L}[i] \leq \mytt{pivot}$.
 
-            All elements in the subarray $\mathtt{L[start:left+1]}$ are less or equal than the pivot element.
-      \item $\forall i \in \{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\}:\mathtt{pivot} < \mathtt{L}[i]$.
+            All elements in the subarray $\mytt{L[start:left+1]}$ are less or equal than the pivot element.
+      \item $\forall i \in \{ \mytt{left}+1,\cdots,\mytt{idx}-1\}:\mytt{pivot} < \mytt{L}[i]$.
 
-            All elements in the subarray $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ are greater than the pivot
+            All elements in the subarray $\mytt{L}[\mytt{left}+1:\mytt{idx}]$ are greater than the pivot
             element.
-      \item $\mathtt{pivot} = \mathtt{L[end]}$
+      \item $\mytt{pivot} = \mytt{L[end]}$
 
             The pivot element itself is at the end of the array.
       \end{enumerate}
@@ -1381,8 +1381,8 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=../Python/Chapter-04/lomuto.png, scale=0.40}} 
-  \caption{The invariants of the function \texttt{partition}.}
+  \framebox{\epsfig{file=Abbildungen/lomuto.png, scale=0.40}} 
+  \caption{The invariants of the function \mytt{partition}.}
   \label{fig:lomuto.png}
 \end{figure}
 
@@ -1390,33 +1390,33 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
       Observe how the invariants (a) and (b) are maintained:
       \begin{enumerate}
       \item Initially, the invariants are true because the corresponding sets are empty.
-            At the start of the \texttt{for}-loop we have
+            At the start of the \mytt{for}-loop we have
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\{ \mathtt{start}, \cdots, \mathtt{left} \} = \{ \mathtt{start}, \cdots, \mathtt{start} - 1\} = \{\}$
+            $\{ \mytt{start}, \cdots, \mytt{left} \} = \{ \mytt{start}, \cdots, \mytt{start} - 1\} = \{\}$
             \\
             and
             \\
             \hspace*{1.3cm}
-            $\{ \mathtt{left}+1,\cdots,\mathtt{idx}-1\} =  \{ \mathtt{start},\cdots,\mathtt{start}-1\}=\{\}$.
-      \item If the element $\mathtt{L[idx]}$ is less than the
-            pivot element, it need to become part of the subarray $\mathtt{L}[\mathtt{start}:\mathtt{left}+1]$.  In order to
-            achieve this, it is placed at the position $\mathtt{L}[\mathtt{left}+1]$.  The element that has been at
-            that position is part of the subarray $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ and therefore,
+            $\{ \mytt{left}+1,\cdots,\mytt{idx}-1\} =  \{ \mytt{start},\cdots,\mytt{start}-1\}=\{\}$.
+      \item If the element $\mytt{L[idx]}$ is less than the
+            pivot element, it need to become part of the subarray $\mytt{L}[\mytt{start}:\mytt{left}+1]$.  In order to
+            achieve this, it is placed at the position $\mytt{L}[\mytt{left}+1]$.  The element that has been at
+            that position is part of the subarray $\mytt{L}[\mytt{left}+1:\mytt{idx}]$ and therefore,
             most of the times,\footnote{
               It is not always greater than the pivot element
-              because the subarray $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$ might well be empty.}
+              because the subarray $\mytt{L}[\mytt{left}+1:\mytt{idx}]$ might well be empty.}
             it is greater than the pivot element.  
             Hence we append this element to the end of the subarray
-            $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}]$.  After incrementing the index $\mathtt{left}$,
-            both the placing of the element $\mathtt{L[idx]}$ at position $\mathtt{left}+1$ and the appending
-            of the element $\mathtt{L}[\mathtt{left}+1]$ to the end of the subarray
-            $\mathtt{L}[\mathtt{left}+1:\mathtt{idx}+1]$ is achieved by the statement
+            $\mytt{L}[\mytt{left}+1:\mytt{idx}]$.  After incrementing the index $\mytt{left}$,
+            both the placing of the element $\mytt{L[idx]}$ at position $\mytt{left}+1$ and the appending
+            of the element $\mytt{L}[\mytt{left}+1]$ to the end of the subarray
+            $\mytt{L}[\mytt{left}+1:\mytt{idx}+1]$ is achieved by the statement
             \\[0.2cm]
             \hspace*{1.3cm}
-            \texttt{swap(left, idx, L)}.            
+            \mytt{swap(left, idx, L)}.            
       \end{enumerate}
-      Once the \texttt{for} loop in line 14 terminates, the call to $\mathtt{swap}$ in line 18 moves
+      Once the \mytt{for} loop in line 14 terminates, the call to $\mytt{swap}$ in line 18 moves
       the pivot element into its correct position and returns the index where the pivot element has been
       placed. 
 \end{enumerate}
@@ -1426,7 +1426,7 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
 There are a number of tricks that can be used to increase the efficiency of \blue{quicksort}.
 \begin{enumerate}
 \item Instead of taking the first element as the pivot element, use three elements from the list
-      $\mathtt{L}$ that is to be sorted.  For example, take the first element, the last element, and an
+      $\mytt{L}$ that is to be sorted.  For example, take the first element, the last element, and an
       element from the middle of the list.  Now compare these three elements and take that element as
       a pivot that is the \blue{median} of these elements,  where the \blue{median} \index{median} of three
       elements is defined as the element that lies between the minimum and the maximum of these elements.
@@ -1443,31 +1443,31 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \item In order to be sure that the average case analysis of \blue{quicksort} holds we can randomly
       \blue{shuffle} the list $L$ that is to be sorted.  This approach is advocated by Sedgewick
       \cite{sedgewick:2011}.  In \textsl{Python} this is quite easy as
-      the module \texttt{random} provides a predefined function \texttt{shuffle} that takes a list and shuffles
+      the module \mytt{random} provides a predefined function \mytt{shuffle} that takes a list and shuffles
       it randomly in place.  For example, the code
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{L = list(range(10)); random.shuffle(L); print(L)}
+      \mytt{L = list(range(10)); random.shuffle(L); print(L)}
       \\[0.2cm]
       might print the result
       \\[0.2cm]
       \hspace*{1.3cm}
-      \texttt{[1, 9, 8, 5, 2, 0, 6, 3, 4, 7]}.
+      \mytt{[1, 9, 8, 5, 2, 0, 6, 3, 4, 7]}.
 \item In 2009, Vladimir Yaroslavskiy introduced \blue{dual pivot quicksort}
       \cite{yaroslavskiy:2009}.\index{dual pivot quicksort}
       His paper can be
       downloaded at the following address:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \href{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}{\texttt{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}}
+      \href{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}{\mytt{http://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf}}
       \\[0.2cm]
       The main idea of Yaroslavskiy is to use two pivot elements $p_1$ and $p_2$.  For example, we can
       define
       \\[0.2cm]
       \hspace*{1.3cm}
-      $x := \mathtt{L}[0]$, $y := \mathtt{L}[-1]$, \quad and then define \quad $p_1 :=\min(x, y)$, $p_2 := \max(x, y)$.
+      $x := \mytt{L}[0]$, $y := \mytt{L}[-1]$, \quad and then define \quad $p_1 :=\min(x, y)$, $p_2 := \max(x, y)$.
       \\[0.2cm]
-      Next, the list $\mathtt{L}$ is split into three parts:
+      Next, the list $\mytt{L}$ is split into three parts:
       \begin{enumerate}
       \item The first part contains those elements that are less than $p_1$.
       \item The second part contains those elements that are bigger or equal than $p_1$ but less or
@@ -1534,7 +1534,7 @@ use at least
 \\[0.2cm]
 comparisons.  The important caveat here is that the sorting algorithm is not permitted to make any assumptions
 on the elements of the list $L$ that is to be sorted.  The only operation that is allowed on these
-elements is the use of the comparison operator ``\texttt{<}''.  Furthermore, to simplify matters let
+elements is the use of the comparison operator ``\mytt{<}''.  Furthermore, to simplify matters let
 us assume that all elements of the list $L$ are distinct.
 
 Let us consider lists of two elements first, i.e.~assume we have
@@ -1587,7 +1587,7 @@ different permutations of $L$.
       elements in a list. \qed
 \end{enumerate}
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
-that only give $\mathtt{True}$ or $\mathtt{False}$ answers.  Tests of this kind are called \blue{binary tests}.
+that only give $\mytt{True}$ or $\mytt{False}$ answers.  Tests of this kind are called \blue{binary tests}.
 \begin{enumerate}
 \item If we restrict ourselves to binary tests, then one test can only distinguish between two cases.
 \item If we have $2$ tests, then we can distinguish between  $2 \cdot 2 = 2^2$ different cases.
@@ -1804,15 +1804,15 @@ We proceed to describe an algorithm that is capable of transforming Table \ref{t
 \item The second stage is the \blue{indexing stage}.  In this stage our goal is compute the indices of the
       sublists containing the different grades.  For example, since there are 3 students with a grade of $1$
       and $1$ is the smallest grade, we know that the students with grade $1$ will be found in the sublist
-      $\texttt{L[0:3]}$.  Similarly, as there are $8$ students that have a grade of $2$ and $3 + 8 = 11$,
-      the sublist $\texttt{L[3:11]}$ will contain the students with grade $2$.
+      $\mytt{L[0:3]}$.  Similarly, as there are $8$ students that have a grade of $2$ and $3 + 8 = 11$,
+      the sublist $\mytt{L[3:11]}$ will contain the students with grade $2$.
       All in all, we have the following:
       \begin{enumerate}[(a)]
-      \item The sublist $\texttt{L[0:3]}$ contains the students with grade 1.
-      \item The sublist $\texttt{L[3:11]}$ contains the students with grade 2.
-      \item The sublist $\texttt{L[11:17]}$ contains the students with grade 3.
-      \item The sublist $\texttt{L[17:20]}$ contains the students with grade 4.
-      \item The sublist $\texttt{L[20:22]}$ contains the losers.
+      \item The sublist $\mytt{L[0:3]}$ contains the students with grade 1.
+      \item The sublist $\mytt{L[3:11]}$ contains the students with grade 2.
+      \item The sublist $\mytt{L[11:17]}$ contains the students with grade 3.
+      \item The sublist $\mytt{L[17:20]}$ contains the students with grade 4.
+      \item The sublist $\mytt{L[20:22]}$ contains the losers.
       \end{enumerate}
       The indexing stage computes the \blue{starting indices} of these sublists.
       Of course,  the first sublist has to start at the index $0$.  Since there are 3 students with a grade of 1,
@@ -1865,58 +1865,58 @@ counting sort.  We proceed to discuss this algorithm line by line.
 \end{figure}
 
 \begin{enumerate}
-\item The procedure \texttt{countingSort} receives one argument.  The list $\texttt{Students}$
-      is a list of pairs of the form $\texttt{(name, grade)}$ where
+\item The procedure \mytt{countingSort} receives one argument.  The list $\mytt{Students}$
+      is a list of pairs of the form $\mytt{(name, grade)}$ where
       \begin{enumerate}
-      \item \texttt{name}  is the name of a student, while
-      \item \texttt{grade} is the grade that this student has achieved.
+      \item \mytt{name}  is the name of a student, while
+      \item \mytt{grade} is the grade that this student has achieved.
       \end{enumerate}
-      The list $\texttt{Students}$ is sorted alphabetically w.r.t.~the names of the students.
-      The purpose of the function \texttt{countingSort} is to sort this list according to their grades.
+      The list $\mytt{Students}$ is sorted alphabetically w.r.t.~the names of the students.
+      The purpose of the function \mytt{countingSort} is to sort this list according to their grades.
       Sublists of students with the same grade should still be sorted alphabetically.
 \item In order for our function to generalize to arbitrary numbers we will assume that all grades are elements
-      of the set $\{0,\cdots,255\}$.  Therefore we define $\mathtt{maxGrade}$ as $255$.
+      of the set $\{0,\cdots,255\}$.  Therefore we define $\mytt{maxGrade}$ as $255$.
       Of course, in the example discussed so far we know that the largest
-      grade is $5$.  However, we will use the function $\mathtt{countingSort}$ later as an auxiliary function
+      grade is $5$.  However, we will use the function $\mytt{countingSort}$ later as an auxiliary function
       when implementing \blue{radix sort}.  Then the grades will be bytes and hence be natural numbers less
       or equal than $255$.
-\item Next, we initialize the auxiliary array \texttt{Count} to be an array of length $\texttt{maxGrade}+1$.
-      Later, for a grade $g$ the number $\texttt{Counts}[g]$ will contain the number of students that have
-      attained the grade $g$.  Initially, all entries of the array \texttt{Count} are set to $0$.
-\item After the indexing stage, the array \texttt{Index} will contain the start indices of the different sublists.
-      For a grade $g$, $\texttt{Index}[g]$ is the first index of the sublist containing those students that
+\item Next, we initialize the auxiliary array \mytt{Count} to be an array of length $\mytt{maxGrade}+1$.
+      Later, for a grade $g$ the number $\mytt{Counts}[g]$ will contain the number of students that have
+      attained the grade $g$.  Initially, all entries of the array \mytt{Count} are set to $0$.
+\item After the indexing stage, the array \mytt{Index} will contain the start indices of the different sublists.
+      For a grade $g$, $\mytt{Index}[g]$ is the first index of the sublist containing those students that
       have achieved the grade $g$.
-\item The list \texttt{Sorted} is the list that will be returned as the result.
-      This list will contain pairs of the form \texttt{(name, grade)} where \texttt{name} is the name of a student
-      and \texttt{grade} is her grade.
-\item The \texttt{for}-loop in line 7-8 performs the \blue{counting stage}.  We iterate over all grades
-      in the list \texttt{Students} and increment the counter $\texttt{Counts}[\mathtt{grade}]$ that is associated with the given grade.
+\item The list \mytt{Sorted} is the list that will be returned as the result.
+      This list will contain pairs of the form \mytt{(name, grade)} where \mytt{name} is the name of a student
+      and \mytt{grade} is her grade.
+\item The \mytt{for}-loop in line 7-8 performs the \blue{counting stage}.  We iterate over all grades
+      in the list \mytt{Students} and increment the counter $\mytt{Counts}[\mytt{grade}]$ that is associated with the given grade.
 \item Next, the index for the start of the sublist containing those students that have achieved the grade $0$
       is initialized as $0$ in line 10. 
-\item Then, the \texttt{for}-loop in line 11-12 performs the \blue{indexing stage}. As the number
-      $\texttt{Index}[\mathtt{grade}]$ is the index of the start of the sublist for those students that have
-      achieved the grade  $\mathtt{grade}$ and the number of these
-      students is $\texttt{Counts}[\mathtt{grade}]$, the sublist of the students with grade $\mathtt{grade}+1$
+\item Then, the \mytt{for}-loop in line 11-12 performs the \blue{indexing stage}. As the number
+      $\mytt{Index}[\mytt{grade}]$ is the index of the start of the sublist for those students that have
+      achieved the grade  $\mytt{grade}$ and the number of these
+      students is $\mytt{Counts}[\mytt{grade}]$, the sublist of the students with grade $\mytt{grade}+1$
       has to start at index 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{Index}[\mathtt{grade}] + \texttt{Counts}[\mathtt{grade}]$.
-\item Finally, the \texttt{for}-loop in line 14-17 performs the \blue{distribution stage}.
+      $\mytt{Index}[\mytt{grade}] + \mytt{Counts}[\mytt{grade}]$.
+\item Finally, the \mytt{for}-loop in line 14-17 performs the \blue{distribution stage}.
       \begin{enumerate}
-      \item The \texttt{for}-loop iterates over all students. 
-      \item We need to find where to put a student with grade \texttt{grade}.
-            $\texttt{Index}[\mathtt{grade}]$ gives us the \texttt{index} of the next free entry in the
-            result list \texttt{Sorted} corresponding for this grade.
-      \item In line 16 the students name and her grade are stored in the result lists \texttt{Sorted}
-            at the index $\texttt{idx}$.
-      \item Finally, we need to increment the index stored at $\texttt{Index}[\mathtt{grade}]$ since we have
+      \item The \mytt{for}-loop iterates over all students. 
+      \item We need to find where to put a student with grade \mytt{grade}.
+            $\mytt{Index}[\mytt{grade}]$ gives us the \mytt{index} of the next free entry in the
+            result list \mytt{Sorted} corresponding for this grade.
+      \item In line 16 the students name and her grade are stored in the result lists \mytt{Sorted}
+            at the index $\mytt{idx}$.
+      \item Finally, we need to increment the index stored at $\mytt{Index}[\mytt{grade}]$ since we have
             just used this index and therefore the next student with the same grade needs to be
             stored at the subsequent location.  This is done in line 17.
       \end{enumerate}
 \end{enumerate}
-If the list \texttt{Students} has a length of $n$, then it is easy to
-see that counting sort has the complexity $\Oh(n)$.  The first \texttt{for}-loop iterates over the list \texttt{Students} so
-its body is executed $n$ times.  The second for loop iterates 255 times and the last \texttt{for}-loop again
+If the list \mytt{Students} has a length of $n$, then it is easy to
+see that counting sort has the complexity $\Oh(n)$.  The first \mytt{for}-loop iterates over the list \mytt{Students} so
+its body is executed $n$ times.  The second for loop iterates 255 times and the last \mytt{for}-loop again
 iterates $n$ times.  Hence, counting sort is a \blue{linear sorting algorithm}.  Note that we do not compare grades in
 order to sort them.
 
@@ -1987,31 +1987,31 @@ Then, radix sort works as follows:
 Figure \ref{fig:radix-sort.stlx} on page \pageref{fig:radix-sort.stlx} shows an implementation of radix
 sort that implements this idea.
 \begin{enumerate}
-\item The function \texttt{extractByte} is called with two arguments:
+\item The function \mytt{extractByte} is called with two arguments:
       \begin{enumerate}[(a)]
       \item $n$ is supposed to be an unsigned 32 bit number.  Hence $n$ is a integer satisfying $0 \leq n < 2^{32}$.
       \item $k$ is the index of the byte that is to be extracted.  It is supposed that the least significant
             byte has the index $1$.
       \end{enumerate}
-      Hence, $\texttt{extractByte}(n, k)$ extracts the $k$-th byte of the number $n$.
+      Hence, $\mytt{extractByte}(n, k)$ extracts the $k$-th byte of the number $n$.
 
-      \texttt{extractByte} works by shifting the number $x$ by $(k-1) \cdot 8$ bits to the right using the shift
-      operator ``\texttt{>>}''.  This shift removes all bytes with index less than $k$. Then, the least significant
-      byte of the remaining number is extracted using the  \blue{bitwise and operator} ``\texttt{\&}'' with the
+      \mytt{extractByte} works by shifting the number $x$ by $(k-1) \cdot 8$ bits to the right using the shift
+      operator ``\mytt{>>}''.  This shift removes all bytes with index less than $k$. Then, the least significant
+      byte of the remaining number is extracted using the  \blue{bitwise and operator} ``\mytt{\&}'' with the
       mask $255$.  Note that $255$ is written as $11111111_2$ in binary and hence can be used to extract the
       eight least significant bits of a number. 
-\item \texttt{radixSort} takes a list of unsigned 32 bit integers $L$ as its arguments.
+\item \mytt{radixSort} takes a list of unsigned 32 bit integers $L$ as its arguments.
 \item This list is extended to a list of pairs where the first component of each pair is the number.      
-\item Then \texttt{radixSort} iterates over the four bytes of the numbers of the list $L$ starting with the
+\item Then \mytt{radixSort} iterates over the four bytes of the numbers of the list $L$ starting with the
       least significant byte.
-\item In line 7 the $k^\mathrm{\scriptsize th}$ byte of the numbers of $L$ is written into the second component
+\item In line 7 the $k^\mathrm{th}$ byte of the numbers of $L$ is written into the second component
       of the pairs stored in the list.      
-\item With respect to \texttt{countingSort},  the elements of the list given to \texttt{countingSort} as its
+\item With respect to \mytt{countingSort},  the elements of the list given to \mytt{countingSort} as its
       first argument are 
       arbitrary objects.  Therefore, it does not matter whether the first argument to the function
-      \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.
+      \mytt{countingSort} is a list of strings interpreted as student names or a list of numbers.
       Therefore in line 8 this list
-      is sorted with respect to the $k^\mathrm{\scriptsize th}$ byte. 
+      is sorted with respect to the $k^\mathrm{th}$ byte. 
 \item When $L$ is returned, this list is sorted with respect to all of the four bytes making up its numbers and
       hence, it is sorted.
 \end{enumerate}
@@ -2126,85 +2126,85 @@ neighbours algorithm works as follows:
 Figure \ref{fig:Digit-Recognition.ipynb} on page \pageref{fig:Digit-Recognition.ipynb} shows a program that can
 be used to recognize a handwritten digit.
 \begin{enumerate}
-\item The images of the handwritten digits are stored in the file \texttt{mnist.pkl.gz}.  This file is compressed
-      using \texttt{gzip} and the images have been \blue{pickled} using the module
-      \texttt{pickle}\index{pickle}.  The module
-      \texttt{pickle} supports the reading and writing of \textsl{Python} data structures and is therefore
+\item The images of the handwritten digits are stored in the file \mytt{mnist.pkl.gz}.  This file is compressed
+      using \mytt{gzip} and the images have been \blue{pickled} using the module
+      \mytt{pickle}\index{pickle}.  The module
+      \mytt{pickle} supports the reading and writing of \textsl{Python} data structures and is therefore
       used to make data \blue{persistent}, i.e.~to store the data structures of a program in a file system.
-      The counterpart of the function \texttt{load} is the function \texttt{dump}.
+      The counterpart of the function \mytt{load} is the function \mytt{dump}.
 
       In order to read the images of the handwritten digits, we therefore have to import the modules
-      \texttt{gzip} and \texttt{pickle}.  The module \texttt{numpy} is needed as these images are stored as
-      \texttt{numpy} \blue{arrays}.  
-\item The function $\texttt{load\_data}()$ returns a tuple of the form
+      \mytt{gzip} and \mytt{pickle}.  The module \mytt{numpy} is needed as these images are stored as
+      \mytt{numpy} \blue{arrays}.  
+\item The function $\mytt{load\_data}()$ returns a tuple of the form
       \\[0.2cm]
       \hspace*{1.3cm}
-      $ \ds (\texttt{X\_train}, \texttt{X\_test}, \texttt{Y\_train}, \texttt{Y\_test}) $
+      $ \ds (\mytt{X\_train}, \mytt{X\_test}, \mytt{Y\_train}, \mytt{Y\_test}) $
       \\[0.2cm]
       where 
       \begin{enumerate}[(a)]
-      \item $\texttt{X\_train}$ is a matrix storing the 50,000 training images of handwritten digits.
-            For each $i \in \{0,\cdots,49\,999\}$ the row $\texttt{X\_train}[i, :]$ is an array of size $784$ storing a single image.
-      \item $\texttt{X\_test}$ is a matrix containing 10,000 images of handwritten digits that we will use to
+      \item $\mytt{X\_train}$ is a matrix storing the 50,000 training images of handwritten digits.
+            For each $i \in \{0,\cdots,49\,999\}$ the row $\mytt{X\_train}[i, :]$ is an array of size $784$ storing a single image.
+      \item $\mytt{X\_test}$ is a matrix containing 10,000 images of handwritten digits that we will use to
             test our implementation.
-      \item $\texttt{Y\_train}$ is an array of size 50,000. For each $i \in \{0,\cdots,49\,999\}$ the number $\texttt{Y\_train}[i]$
+      \item $\mytt{Y\_train}$ is an array of size 50,000. For each $i \in \{0,\cdots,49\,999\}$ the number $\mytt{Y\_train}[i]$
             specifies the digit shown in the $i$th training image.
-      \item $\texttt{Y\_test}$ is an array of size 10,000. For each $i \in \{0,\cdots,9\,999\}$ the number $\texttt{Y\_test}[i]$
+      \item $\mytt{Y\_test}$ is an array of size 10,000. For each $i \in \{0,\cdots,9\,999\}$ the number $\mytt{Y\_test}[i]$
             specifies the digit shown in the $i^{\mathrm{th}}$ test image.
       \end{enumerate}
-      The function \texttt{open} from the module \texttt{gzip} opens the specified file and automatically
-      decompresses it.  In the file \texttt{mnist.pkl.gz} the data is stored as a triple of pairs.
+      The function \mytt{open} from the module \mytt{gzip} opens the specified file and automatically
+      decompresses it.  In the file \mytt{mnist.pkl.gz} the data is stored as a triple of pairs.
       For our purposes, we only need the first and the last component of this triple.  Each of these components
       is a pair of the form $(\textsl{data}, \textsl{label})$, where \textsl{data} is an array of images and
       \textsl{labels} is an array specifying the digits represented in these images.
-      The function \texttt{load\_data} extracts the data stored in these pairs.
-\item The function $\mathtt{distance}(x, y)$ computes the Euclidean distance between the images $x$ and $y$.
-      Given a vector $x$, the expression $x \texttt{**} 2$ computes a vector containing the squares of the
-      components of $x$.  These squares can then be summed using the \texttt{numpy} function \texttt{sum}.
-\item Given a list $L$ of digits, the function $\texttt{maxCounts}(L)$ returns a pair $(d, p)$ where $d$ is the digit that occurs most frequently in $L$
+      The function \mytt{load\_data} extracts the data stored in these pairs.
+\item The function $\mytt{distance}(x, y)$ computes the Euclidean distance between the images $x$ and $y$.
+      Given a vector $x$, the expression $x \mytt{**} 2$ computes a vector containing the squares of the
+      components of $x$.  These squares can then be summed using the \mytt{numpy} function \mytt{sum}.
+\item Given a list $L$ of digits, the function $\mytt{maxCounts}(L)$ returns a pair $(d, p)$ where $d$ is the digit that occurs most frequently in $L$
       and $p$ is the fraction of occurrences of $d$ in $L$.  For example, we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{maxCounts}([5,2,3,5,2,5,6,5,7,8]) = (5, 0.4)$
+      $\mytt{maxCounts}([5,2,3,5,2,5,6,5,7,8]) = (5, 0.4)$
       \\[0.2cm]
       because the digit $5$ is the most frequent digit in the list $[5,2,3,5,2,5,6,5,7,8]$ and $40$\%
-      of the digits in this list are fives.  In detail, the function \texttt{maxCounts} works as follows:
+      of the digits in this list are fives.  In detail, the function \mytt{maxCounts} works as follows:
       \begin{enumerate}[(a)]
-      \item \texttt{Frequencies} is a dictionary that specifies how often a digit $d$ occurs in the list $L$.
-      \item \texttt{most\_frequent} is the digit that so far is known to be the most frequent digit in $L$.
+      \item \mytt{Frequencies} is a dictionary that specifies how often a digit $d$ occurs in the list $L$.
+      \item \mytt{most\_frequent} is the digit that so far is known to be the most frequent digit in $L$.
             Initially, this is assumed to be the first digit.  As we iterate over the list $L$, this variable
             is updated.
-      \item \texttt{most\_frequent\_count} is the number of occurrences of the digit \texttt{most\_frequent}.
+      \item \mytt{most\_frequent\_count} is the number of occurrences of the digit \mytt{most\_frequent}.
       \item As we iterate over the digits in $L$ we update their frequencies.  If we encounter a digit that is
-            more common than the digit stored in the variable \texttt{most\_frequent} we update this variable
-            and the associated value \texttt{most\_frequent\_count}.
+            more common than the digit stored in the variable \mytt{most\_frequent} we update this variable
+            and the associated value \mytt{most\_frequent\_count}.
       \end{enumerate}
 \item Given an image of a digit stored in the vector $\mathbf{x}$ and a number of neighbours $k$, the function
-      $\texttt{digit}(\mathbf{x}, k)$ computes those $k$ images in the training set \texttt{X\_train} that are
+      $\mytt{digit}(\mathbf{x}, k)$ computes those $k$ images in the training set \mytt{X\_train} that are
       \blue{closest} to the image $\mathbf{x}$, where \blue{closeness} of images is defined in terms of the
       \blue{Euclidean distance} of the vectors that store these images.  From these $k$ closest images of the training
       set the function chooses the digit that occurs most frequently.  It returns a pair $(d, p)$ where $d$
       is the digit that is most frequently occurring in the list of $k$ neighbours and $p$ is the percentage
       of images in the $k$ neighbours of $\mathbf{x}$ that show the digit $d$.  The implementation works as follows:
       \begin{enumerate}[(a)]
-      \item \texttt{n} is the number of training examples.  In our case, $n = 50,000$.
-      \item \texttt{Distances} is a list of pairs of the form $(d, i)$, where $d$ is the distance
+      \item \mytt{n} is the number of training examples.  In our case, $n = 50,000$.
+      \item \mytt{Distances} is a list of pairs of the form $(d, i)$, where $d$ is the distance
             of the $i$-th image in the training set from the given image $x$.
       \item These pairs are \blue{sorted} with respect to their distance and the labels corresponding to the
-            images are computed.  Therefore, \texttt{Neighbours} is a list of the labels of all $50,000$
+            images are computed.  Therefore, \mytt{Neighbours} is a list of the labels of all $50,000$
             training images sorted according to their distance to the given image $x$.
-      \item Finally, the function \texttt{maxCounts} takes the $k$ closest images and computes the digit that
+      \item Finally, the function \mytt{maxCounts} takes the $k$ closest images and computes the digit that
             is most frequently occurring.
       \end{enumerate}
-\item The last line shows how the function \texttt{digit} can be used to classify the first image from the test
+\item The last line shows how the function \mytt{digit} can be used to classify the first image from the test
       set using the 13 closest neighbours. 
 \end{enumerate}
 \pagebreak
 
 \exercise
 In the program shown in Figure \ref{fig:Digit-Recognition.ipynb} on page \pageref{fig:Digit-Recognition.ipynb}
-we have sorted the list \texttt{Distances} in line 32.  The only reason to do this was to be able to find the $k$ smallest
-distances in this list.  As $k$ is a small number and the list \texttt{Distances} is rather large, this seems wasteful.
+we have sorted the list \mytt{Distances} in line 32.  The only reason to do this was to be able to find the $k$ smallest
+distances in this list.  As $k$ is a small number and the list \mytt{Distances} is rather large, this seems wasteful.
 \begin{enumerate}[(a)]
 \item Devise an algorithm Quickselect that selects the $k$ smallest elements from a list $L$.
 

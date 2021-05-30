@@ -43,17 +43,17 @@ still denote different values if the variable occurs inside  a loop.  In this ca
 the variables in a way that the index includes a counter that counts the number of loop iterations.
 For concreteness, consider the  program shown in 
 Figure \ref{fig:power-iterative-annotated.stlx}.  
-Here, in line 5 the variable \texttt{r} has the index $n$ on the right side of the assignment,
+Here, in line 5 the variable \mytt{r} has the index $n$ on the right side of the assignment,
 while it has the index $r_{n+1}$ on the left side of the assignment in line 5.  The index $n$ denotes 
-the number of times that the test \texttt{y$_n$ > 0} of the \texttt{while} loop has been executed.
-After the loop finishes in line 10 the variable $\texttt{r}$ is indexed as
-$\texttt{r}_N$, where $N$ denotes the total number of times that the test \texttt{y > 0} has been executed.
+the number of times that the test \mytt{y$_n$ > 0} of the \mytt{while} loop has been executed.
+After the loop finishes in line 10 the variable $\mytt{r}$ is indexed as
+$\mytt{r}_N$, where $N$ denotes the total number of times that the test \mytt{y > 0} has been executed.
 We show the correctness of the given program next.  Let us define
 \\[0.2cm]
 \hspace*{1.3cm}
 $ a := x_1, \quad b := y_1$.
 \\[0.2cm]
-We will show that the \texttt{while} loop satisfies the invariant
+We will show that the \mytt{while} loop satisfies the invariant
 \begin{equation}
   \label{eq:powerInv}
    r_n \cdot x_n^{y_n} = a^b.
@@ -95,7 +95,7 @@ This claim is proven by induction on the number of loop iterations.
                   \end{eqnarray*}
             \end{enumerate}
 \end{enumerate}
-This shows the validity of equation (\ref{eq:powerInv}).   If the \texttt{while} loop
+This shows the validity of equation (\ref{eq:powerInv}).   If the \mytt{while} loop
 terminates, we must have $y_N = 0$.  If $n=N$, then equation (\ref{eq:powerInv}) yields:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -108,16 +108,16 @@ $$
 \end{array}
 $$
 \\[0.2cm]
-This shows $r_N = a^b$ and since it is obvious that the \texttt{while} loop terminates, we have proven that
-$\texttt{power}(a,b) =a^b$ holds. \qed
+This shows $r_N = a^b$ and since it is obvious that the \mytt{while} loop terminates, we have proven that
+$\mytt{power}(a,b) =a^b$ holds. \qed
 
 \exercise
 Use the method of symbolic program execution to prove the correctness of the implementation of the
-Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx}.  During the proof you should make
-use of the fact that for all positive natural numbers $x$ and $y$ the equation
+Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx}.  During the proof
+you should make use of the fact that for all positive natural numbers $x$ and $y$ the equation
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{gcd}(x, y) = \mathtt{gcd}(x \,\texttt{\%}\, y, y)$
+$\mytt{gcd}(x, y) = \mytt{gcd}(x \,\mytt{\%}\, y, y)$
 \\[0.2cm]
 is valid.  
 
@@ -141,6 +141,7 @@ is valid.
 \caption{The Euclidean algorithm.}
 \label{fig:gcd.stlx}
 \end{figure}
+
 \section{Check Your Understanding}
 If you were able solve the previous exercise, then you should have mastered the concepts
 introduced in this chapter.

@@ -713,7 +713,7 @@ Furthermore, for given functions $f$, $g$, and $h$ we write
 \hspace*{1.3cm}
 $f = g + \Oh(h)$
 \\[0.2cm]
-to express the fact that  $\mathtt{abs}(f - g) \in \Oh(h)$.  For example, we have 
+to express the fact that  $\mytt{abs}(f - g) \in \Oh(h)$.  For example, we have 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds n^2 + \log_2(n) + n = n^2 + \Oh\bigl(n \cdot \log_2(n)\bigr)$.
@@ -756,7 +756,7 @@ determining the complexity.
 \index{computation of powers}
 Let us study an example to clarify the notions introduced so far.  
 Consider the program shown in Figure \ref{fig:power-naive.stlx}.  Given an integer $m$ and a
-natural number $n$, $\mathtt{power}(m, n)$ computes $m^n$.
+natural number $n$, $\mytt{power}(m, n)$ computes $m^n$.
 The basic idea is to compute the value of $m^n$ according to the formula \\[0.2cm]
 \hspace*{1.3cm} 
 $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$. 
@@ -784,7 +784,7 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
 \end{figure} 
  
 This program is obviously correct.  The computation of $m^n$ requires $n$ multiplications if the
-function \texttt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
+function \mytt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
 Fortunately, there is an algorithm for computing $m^n$ that is much more efficient.
 Consider we have to evaluate $m^4$.  We have
  \\[0.2cm]
@@ -826,7 +826,7 @@ Furthermore, $q$ and $r$ are uniquely determined by the condition (ID).  Then, $
 of $a$ by $b$ and $r$ is called the \blue{remainder} of the integer division of $a$ by $b$ and we write
 \\[0.2cm]
 \hspace*{1.3cm}
-$q = a \mbox{\,\texttt{/}$\!$\texttt{/}\,} b$ \quad and \quad $r = a \;\texttt{\%}\; b$.
+$q = a \mbox{\,\mytt{/}$\!$\mytt{/}\,} b$ \quad and \quad $r = a \;\mytt{\%}\; b$.
 \ex
 
 \begin{figure}[!h]
@@ -877,28 +877,28 @@ The method of computational induction consists of three steps:
 Let us prove the claim 
 \\[0.2cm]
 \hspace*{1.3cm}
- $\mathtt{power}(m,n) = m^n$
+ $\mytt{power}(m,n) = m^n$
 \\[0.2cm] 
 by computational induction.
 \begin{enumerate}
 \item \textbf{Base case}:
 
-      The only case where \texttt{power} does not invoke itself recursively is the case $n = 0$.  
+      The only case where \mytt{power} does not invoke itself recursively is the case $n = 0$.  
       In this case, we have
       \\[0.2cm]
       \hspace*{1.3cm} 
-      $\mathtt{power}(m,0) = 1 =  m^0$. \mycheck
+      $\mytt{power}(m,0) = 1 =  m^0$. \mycheck
 \item \textbf{Induction step}:
 
-      The recursive invocation of $\mathtt{power}$ has the form
-      $\mathtt{power}(m,n \dv 2)$.  By the induction hypotheses we know that 
+      The recursive invocation of $\mytt{power}$ has the form
+      $\mytt{power}(m,n \dv 2)$.  By the induction hypotheses we know that 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\displaystyle \mathtt{power}(m,n \dv 2) = m^{n \dvv 2}$ 
+      $\displaystyle \mytt{power}(m,n \dv 2) = m^{n \dvv 2}$ 
       \\[0.2cm]
       holds.  After the recursive invocation there are two different cases:
       \begin{enumerate}
-      \item $n \;\texttt{\%}\; 2 = 0$, therefore $n$ is even.
+      \item $n \;\mytt{\%}\; 2 = 0$, therefore $n$ is even.
 
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k$ and therefore
             $n \dv 2 = k$.
@@ -907,13 +907,13 @@ by computational induction.
             \hspace*{1.3cm}
            $ 
             \begin{array}{lcl}
-            \mathtt{power}(m,n) & = & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \\[0.2cm]
+            \mytt{power}(m,n) & = & \mytt{power}(m,k) \cdot \mytt{power}(m,k) \\[0.2cm]
                                 & \stackrel{\mathrm{IV}}{=} & m^k \cdot m^k  \\[0.2cm]
                                 & = & m^{2\cdot k} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
             $            
-      \item $n \;\texttt{\%}\; 2 = 1$, therefore $n$ is odd.
+      \item $n \;\mytt{\%}\; 2 = 1$, therefore $n$ is odd.
 
             Then there exists a number $k \in \N$ such that $n = 2 \cdot k + 1$ and we have
             $n \dv 2 = k$.  In this case we have:
@@ -921,24 +921,24 @@ by computational induction.
             \hspace*{1.3cm}
             $ 
             \begin{array}{lcl}
-            \mathtt{power}(m,n) & = & \mathtt{power}(m,k) \cdot \mathtt{power}(m,k) \cdot m  \\[0.2cm]
+            \mytt{power}(m,n) & = & \mytt{power}(m,k) \cdot \mytt{power}(m,k) \cdot m  \\[0.2cm]
                                 & \stackrel{\mathrm{IV}}{=} & m^k \cdot m^k \cdot m  \\[0.2cm]
                                 & = & m^{2\cdot k+1} \\[0.2cm]
                                 & = & m^{n}.
             \end{array}
             $
       \end{enumerate}
-      As we have shown that $\mathtt{power}(m,n) = m^n$ in both cases, the induction step is finished. \mycheck
+      As we have shown that $\mytt{power}(m,n) = m^n$ in both cases, the induction step is finished. \mycheck
 \item \textbf{Termination proof}:
-      Every time the function \texttt{power} is invoked as $\mathtt{power}(m, n)$ and $n > 0$, the recursive
-      invocation has the form $\mathtt{power}(m,n \dv 2)$ and, since $n \dv 2 < n$ for all $n > 0$, the second
+      Every time the function \mytt{power} is invoked as $\mytt{power}(m, n)$ and $n > 0$, the recursive
+      invocation has the form $\mytt{power}(m,n \dv 2)$ and, since $n \dv 2 < n$ for all $n > 0$, the second
       argument is decreased.  As this argument is a natural number, it must eventually reach $0$.  But if the
-      second argument of the function $\mathtt{power}$ is $0$, the function terminates. \mycheck
+      second argument of the function $\mytt{power}$ is $0$, the function terminates. \mycheck
       \qed
 \end{enumerate}
-Next, we want to analyse the \blue{computational complexity} of our implementation of \texttt{power}.
+Next, we want to analyse the \blue{computational complexity} of our implementation of \mytt{power}.
 To this end, let us compute the number of multiplications that are performed when
-$\mathtt{power}(m,n)$ is called.  If the number $n$ is odd there will be more multiplications than
+$\mytt{power}(m,n)$ is called.  If the number $n$ is odd there will be more multiplications than
 in the case when $n$ is even.  Let us first investigate the \blue{worst case}.  
 The worst case happens if there is an $l\in \N$ such that 
 \\[0.2cm]
@@ -953,18 +953,18 @@ and hence $n \dv 2$ is of the same form as $n$ and, in particular, is odd again.
 for $n = 2^l - 1$ we have that
 \\[0.2cm]
 \hspace*{1.3cm}
-$2 \cdot(n \dv 2) + n \,\texttt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$,
+$2 \cdot(n \dv 2) + n \,\mytt{\symbol{37}}\, 2 = 2 \cdot (2^{l-1} - 1) + 1 = 2^l - 1 = n$,
 \\[0.2cm]
 showing that $(2^l -1 ) \dv 2 = 2^{l-1} -1$.
 Therefore, if $n = 2^l - 1$ the exponent $n$ will be odd on every recursive call until it finally reaches $0$.
 Let us assume $n = 2^l - 1$ and let us compute the number $a_n$ of multiplications that
-are done when $\mathtt{power}(m,n)$ is evaluated:
+are done when $\mytt{power}(m,n)$ is evaluated:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n := \mbox{number of multiplications to compute \texttt{power}}(m, n)$.
+$a_n := \mbox{number of multiplications to compute \mytt{power}}(m, n)$.
 \\[0.2cm]
 First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluation of 
-$\mathtt{power}(m, n)$ does not require a single multiplication.
+$\mytt{power}(m, n)$ does not require a single multiplication.
 Otherwise, we have two multiplications in line 8 that have to be added to those multiplications
 that are performed in the recursive call in line 4.  Therefore, we get the following
 \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}\footnote{
@@ -1002,24 +1002,24 @@ Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
 \vspace*{0.3cm}
 
 Next, we consider the best case.  The computation of
-$\mathtt{power}(m,n)$ needs the least number of multiplications if the test 
-\texttt{n \% 2 == 0}
+$\mytt{power}(m,n)$ needs the least number of multiplications if the test 
+\mytt{n \% 2 == 0}
 always evaluates as true.  In this case, $n$ has to be a power of $2$.  
 Hence there has to exist an $l\in \N$ such that we have
  \\[0.2cm]
 \hspace*{1.3cm} $n = 2^l$.
  \\[0.2cm]
 Therefore, let us now assume $n = 2^l$ and let us again compute the number $a_n$ of multiplications
-that are needed to compute $\mathtt{power}(m,n)$. 
+that are needed to compute $\mytt{power}(m,n)$. 
 
-First, we have $a_{2^0} = a_1 = 2$, because if $n = 1$, the test \texttt{n \% 2 == 0} fails and in
+First, we have $a_{2^0} = a_1 = 2$, because if $n = 1$, the test \mytt{n \% 2 == 0} fails and in
 this case line 8 yields two multiplications.  Furthermore, in this case
-line 4 does not add any multiplications since the call $\mathtt{power}(m,0)$ immediately returns its
+line 4 does not add any multiplications since the call $\mytt{power}(m,0)$ immediately returns its
 result.
 
 Now, if $n = 2^l$ and $n > 1$ then line 6 yields one multiplication that 
 has to be added to those multiplications that are done during the recursive invocation of
-\texttt{power} in line 4.  Therefore, we have the following recurrence relation:
+\mytt{power} in line 4.  Therefore, we have the following recurrence relation:
  \\[0.2cm]
 \hspace*{1.3cm} $a_n = a_{n \dvv 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N\right\}$\quad and
 $a_1 = 2$. 
@@ -1048,7 +1048,7 @@ If we solve the equation $n = 2^l$ for  $l$ we get $l =
 \vspace*{0.3cm}
 
 Since we have gotten the same result both in the worst case and in the best case we may conclude
-that in general the number $a_n$ of multiplications needed to compute $\mathtt{power}(m, n)$ satisfies 
+that in general the number $a_n$ of multiplications needed to compute $\mytt{power}(m, n)$ satisfies 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $a_n \in \Oh\bigl(\log_2(n)\bigr)$. \qed
@@ -1061,21 +1061,21 @@ that the time needed to multiply two numbers depends on the size of these number
 
 \exercise
 \begin{enumerate}[(a)]
-\item Implement a procedure $\mathtt{div\_mod}$ that takes two numbers $m$ and $n$ and that returns the pair
+\item Implement a procedure $\mytt{div\_mod}$ that takes two numbers $m$ and $n$ and that returns the pair
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\bigl(m \dv n, m \;\texttt{\%}\; n\bigr)$.
+      $\bigl(m \dv n, m \;\mytt{\%}\; n\bigr)$.
       \\[0.2cm]
-      Therefore, if $\mathtt{div\_mod}(m, n) = (q,r)$ we will have both
+      Therefore, if $\mytt{div\_mod}(m, n) = (q,r)$ we will have both
       \\[0.2cm]
       \hspace*{1.3cm}
       $m = n \cdot q + r$ \quad and \quad $0 \leq r < n$.
       \\[0.2cm]
       You should implement the function recursively and compute 
-      $\mathtt{div\_mod}(m, n)$ by recursively computing $\mathtt{div\_mod}(m \dv 2, n)$.
-      In your implementation of $\mathtt{div\_mod}$ you are only permitted to use the operators $\dv$ and
-      $\texttt{\%}$ when the second argument of these operators is $2$, i.e.~you are permitted to
-      use the expressions $m \dv 2$ and $m \;\texttt{\%}\; 2$ as these expressions can be implemented
+      $\mytt{div\_mod}(m, n)$ by recursively computing $\mytt{div\_mod}(m \dv 2, n)$.
+      In your implementation of $\mytt{div\_mod}$ you are only permitted to use the operators $\dv$ and
+      $\mytt{\%}$ when the second argument of these operators is $2$, i.e.~you are permitted to
+      use the expressions $m \dv 2$ and $m \;\mytt{\%}\; 2$ as these expressions can be implemented
       using bit operations.
 \item Prove that your implementation works correctly.
       \eoxs
@@ -1086,9 +1086,9 @@ Given a natural number $n$, the \blue{integer square root} \index{integer square
 number $r$ such that $r^2$ is less or equal than $n$, i.e. we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mathtt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
+$\mytt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
 \begin{enumerate}[(a)]
-\item Develop a recursive algorithm that computes $\mathtt{isqrt}(n)$ in terms of $\mathtt{isqrt}(n\dv4)$.
+\item Develop a recursive algorithm that computes $\mytt{isqrt}(n)$ in terms of $\mytt{isqrt}(n\dv4)$.
 \item Implement this algorithm in \textsl{Python}.
 \item Prove the correctness of your implementation by computational induction. \eoxs
 \end{enumerate}
@@ -1545,7 +1545,7 @@ algorithm, the growth rate is often defined via a
 \emph{recurrence relations} are also known as \blue{difference equations}\index{difference equation}.
 In this section we discuss a simple program whose complexity analysis leads to a recurrence relation for the 
 number of additions.  We will then see how this recurrence relation can be solved explicitly.  The program that
-we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\texttt{fib}(n)$ computes the
+we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\mytt{fib}(n)$ computes the
 \href{https://en.wikipedia.org/wiki/Fibonacci_number}{Fibonacci number} \index{Fibonacci number} $F_n$.  These
 numbers are defined inductively as follows:
 \begin{enumerate}
@@ -1579,16 +1579,16 @@ numbers are defined inductively as follows:
 
 If we run the program shown in Figure \ref{fig:Fibonacci.ipynb} , we will find that the runtimes grow very rapidly with
 growing input parameter $n$.  To analyse this phenomenon, we investigate the number of additions that are used in the
-calculation of $\texttt{fib}(n)$ for a given $n \in \mathbb{N}$.  If we call this number $a_n$, we find
+calculation of $\mytt{fib}(n)$ for a given $n \in \mathbb{N}$.  If we call this number $a_n$, we find
 the following:
 \begin{enumerate}
 \item $a_0 = 0$,
 \item $a_1 = 0$,
 \item $n \geq 2 \rightarrow a_n = a_{n-1} + a_{n-2} + 1$,
 
-      because in the recursive calls $\texttt{fib}(n-1)$ and $\texttt{fib}(n-2)$ we have, respectively, 
+      because in the recursive calls $\mytt{fib}(n-1)$ and $\mytt{fib}(n-2)$ we have, respectively, 
       $a_{n-1}$ and $a_{n-2}$ additions and, furthermore, the expression
-      \texttt{fib(n-1) + fib(n-2)} adds another addition.
+      \mytt{fib(n-1) + fib(n-2)} adds another addition.
 \end{enumerate}
 We take the equation $a_n = a_{n-1} + a_{n-2} + 1$ and substitute $i+2$ for $n$.  This yields
 \\[0.2cm]
