@@ -1,3 +1,6 @@
+% (TeX-save-document (TeX-master-file))
+% (TeX-command "LaTeX" `TeX-master-file -1)
+%(quote (TeX-master-file))
 \documentclass{report}
 
 \usepackage[utf8]{inputenc}
@@ -29,16 +32,15 @@
 	pdfborder  = {0 0 0} 
 }
 \usepackage{fancyhdr}
-\usepackage{lastpage} 
 
 \pagestyle{fancy}
 \renewcommand*{\familydefault}{\sfdefault}
 
-\fancyfoot[C]{--- \thepage/\pageref{LastPage}\ ---}
+\fancyfoot[C]{--- \thepage/\ ---}
 
 \fancypagestyle{plain}{%
 \fancyhf{}
-\fancyfoot[C]{--- \thepage/\pageref{LastPage}\ ---}
+\fancyfoot[C]{--- \thepage/\ ---}
 \renewcommand{\headrulewidth}{0pt}
 }
 
@@ -225,3 +227,8 @@ via \href{https://github.com}{GitHub}.
 \printindex
 
 \end{document}
+
+%%% Local Variables:                                                    
+%%% mode: latex                                                         
+%%% TeX-master: t                                                       
+%%% End:

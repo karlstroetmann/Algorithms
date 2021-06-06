@@ -12,141 +12,141 @@
 \indexentry{limit proposition|hyperpage}{15}
 \indexentry{computation of powers|hyperpage}{19}
 \indexentry{divide and conquer|hyperpage}{19}
-\indexentry{computational induction|hyperpage}{19}
+\indexentry{computational induction|hyperpage}{20}
 \indexentry{recurrence relation|hyperpage}{21}
 \indexentry{integer square root|hyperpage}{23}
 \indexentry{master theorem|hyperpage}{23}
 \indexentry{Master Theorem|hyperpage}{23}
-\indexentry{$\Omega(g)$|hyperpage}{28}
-\indexentry{$\Theta(g)$|hyperpage}{28}
-\indexentry{difference equation|hyperpage}{28}
-\indexentry{Fibonacci number|hyperpage}{28}
-\indexentry{linear inhomogeneous recurrence relation|hyperpage}{29}
-\indexentry{associated homogeneous recurrence relation|hyperpage}{29}
-\indexentry{special solution|hyperpage}{30}
-\indexentry{general solution|hyperpage}{30}
-\indexentry{linear inhomogeneous recurrence relation|hyperpage}{31}
-\indexentry{initial conditions|hyperpage}{31}
-\indexentry{degenerated case, recurrence relation|hyperpage}{32}
-\indexentry{special solution|hyperpage}{32}
-\indexentry{symbolic execution|hyperpage}{35}
-\indexentry{reflexive|hyperpage}{38}
-\indexentry{anti-symmetric|hyperpage}{38}
-\indexentry{transitive|hyperpage}{38}
-\indexentry{linear order|hyperpage}{38}
-\indexentry{partially ordered set|hyperpage}{38}
-\indexentry{linear order|hyperpage}{38}
-\indexentry{quasiorder|hyperpage}{39}
-\indexentry{linearity|hyperpage}{39}
-\indexentry{equivalence relation|hyperpage}{39}
-\indexentry{sorting problem|hyperpage}{39}
-\indexentry{sorted ascendingly|hyperpage}{39}
-\indexentry{duplicate elements|hyperpage}{40}
-\indexentry{insertion sort|hyperpage}{40}
-\indexentry{sorted descendingly|hyperpage}{41}
-\indexentry{selection sort|hyperpage}{42}
-\indexentry{merge sort|hyperpage}{44}
-\indexentry{Timsort|hyperpage}{50}
-\indexentry{Hoare, Charles Antony Richard|hyperpage}{51}
-\indexentry{partitioning|hyperpage}{52}
-\indexentry{telescoping recurrence equation|hyperpage}{55}
-\indexentry{harmonic number, $H_n$|hyperpage}{55}
-\indexentry{Euler, Leonhard|hyperpage}{55}
-\indexentry{Euler-Mascheroni constant|hyperpage}{55}
-\indexentry{Lomuto, Nico|hyperpage}{56}
-\indexentry{median|hyperpage}{58}
-\indexentry{dual pivot quicksort|hyperpage}{58}
-\indexentry{counting sort|hyperpage}{62}
-\indexentry{stable|hyperpage}{65}
-\indexentry{radix sort|hyperpage}{65}
-\indexentry{radix sort|hyperpage}{65}
-\indexentry{Hollerith, Herman|hyperpage}{65}
-\indexentry{digit recognition|hyperpage}{66}
-\indexentry{handwritten digit recognition|hyperpage}{66}
-\indexentry{$k$-nearest neighbours algorithm|hyperpage}{67}
-\indexentry{pickle|hyperpage}{67}
-\indexentry{Liskov, Barbara|hyperpage}{72}
-\indexentry{\textsc{Clu}|hyperpage}{72}
-\indexentry{abstract data type|hyperpage}{72}
-\indexentry{type parameter|hyperpage}{72}
-\indexentry{type specification|hyperpage}{72}
-\indexentry{constructor|hyperpage}{73}
-\indexentry{method|hyperpage}{73}
-\indexentry{ADT|hyperpage}{73}
-\indexentry{stack|hyperpage}{73}
-\indexentry{Stack|hyperpage}{73}
-\indexentry{object oriented notation|hyperpage}{73}
-\indexentry{$\Omega$|hyperpage}{74}
-\indexentry{undefined value|hyperpage}{74}
-\indexentry{$\Omega$, undefined value|hyperpage}{74}
-\indexentry{generator|hyperpage}{74}
-\indexentry{member variable|hyperpage}{76}
-\indexentry{method|hyperpage}{76}
-\indexentry{shunting-yard algorithm|hyperpage}{78}
-\indexentry{precedence|hyperpage}{78}
-\indexentry{associativity|hyperpage}{78}
-\indexentry{shunting-yard algorithm|hyperpage}{81}
-\indexentry{operator precedence parsing|hyperpage}{81}
-\indexentry{Dijkstra, Edsger|hyperpage}{81}
-\indexentry{associate to the left|hyperpage}{82}
-\indexentry{associate to the right|hyperpage}{82}
-\indexentry{ordered binary tree|hyperpage}{93}
-\indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{93}
-\indexentry{\mytt{Nil}, empty tree|hyperpage}{93}
-\indexentry{empty tree|hyperpage}{93}
-\indexentry{$\mytt{Node}(k, v, l, r)$|hyperpage}{93}
-\indexentry{left subtree|hyperpage}{93}
-\indexentry{right subtree|hyperpage}{93}
-\indexentry{ordering conditions|hyperpage}{93}
-\indexentry{node of a binary tree|hyperpage}{93}
-\indexentry{root of a binary tree|hyperpage}{93}
-\indexentry{\mytt{find}, ordered binary tree|hyperpage}{93}
-\indexentry{\mytt{insert}, ordered binary tree|hyperpage}{94}
-\indexentry{\mytt{delete}, ordered binary tree|hyperpage}{95}
-\indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{95}
-\indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{104}
-\indexentry{Landis, Evgenii Mikhailovich|hyperpage}{104}
-\indexentry{\textsc{Avl} tree|hyperpage}{104}
-\indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{104}
-\indexentry{balancing condition|hyperpage}{104}
-\indexentry{red-black tree|hyperpage}{115}
-\indexentry{2-3 tree|hyperpage}{116}
-\indexentry{trie|hyperpage}{118}
-\indexentry{$\mathbb{T}$|hyperpage}{118}
-\indexentry{string completion|hyperpage}{122}
-\indexentry{binary trie|hyperpage}{126}
-\indexentry{priority queue|hyperpage}{141}
-\indexentry{observer function|hyperpage}{143}
-\indexentry{mutator function|hyperpage}{143}
-\indexentry{heaps|hyperpage}{143}
-\indexentry{heap storage|hyperpage}{143}
-\indexentry{heap condition|hyperpage}{144}
-\indexentry{balancing condition|hyperpage}{144}
-\indexentry{Heapsort|hyperpage}{149}
-\indexentry{generated equivalence relation|hyperpage}{161}
-\indexentry{reflexive|hyperpage}{161}
-\indexentry{symmetric|hyperpage}{161}
-\indexentry{transitive|hyperpage}{161}
-\indexentry{partition|hyperpage}{162}
-\indexentry{union-find algorithm|hyperpage}{163}
-\indexentry{weighted undirected graph|hyperpage}{168}
-\indexentry{node|hyperpage}{168}
-\indexentry{edge|hyperpage}{168}
-\indexentry{weight of an edge|hyperpage}{168}
-\indexentry{path|hyperpage}{168}
-\indexentry{weight of an path|hyperpage}{168}
-\indexentry{connected graph|hyperpage}{168}
-\indexentry{connected graph|hyperpage}{168}
-\indexentry{tree (graph)|hyperpage}{168}
-\indexentry{weight of a tree|hyperpage}{169}
-\indexentry{Kruskal's algorithm|hyperpage}{169}
-\indexentry{weighted directed graph|hyperpage}{170}
-\indexentry{weighted digraph|hyperpage}{170}
-\indexentry{path|hyperpage}{171}
-\indexentry{shortest path problem|hyperpage}{171}
-\indexentry{Bellman-Ford algorithm|hyperpage}{171}
-\indexentry{Moore's algorithm|hyperpage}{171}
-\indexentry{Dijkstra's algorithm|hyperpage}{173}
-\indexentry{topological sorting|hyperpage}{176}
-\indexentry{topological sorting problem|hyperpage}{177}
-\indexentry{Kahn's algorithm|hyperpage}{177}
+\indexentry{$\Omega(g)$|hyperpage}{29}
+\indexentry{$\Theta(g)$|hyperpage}{29}
+\indexentry{difference equation|hyperpage}{29}
+\indexentry{Fibonacci number|hyperpage}{29}
+\indexentry{linear inhomogeneous recurrence relation|hyperpage}{30}
+\indexentry{associated homogeneous recurrence relation|hyperpage}{30}
+\indexentry{special solution|hyperpage}{31}
+\indexentry{general solution|hyperpage}{31}
+\indexentry{linear inhomogeneous recurrence relation|hyperpage}{32}
+\indexentry{initial conditions|hyperpage}{32}
+\indexentry{degenerated case, recurrence relation|hyperpage}{33}
+\indexentry{special solution|hyperpage}{33}
+\indexentry{symbolic execution|hyperpage}{36}
+\indexentry{reflexive|hyperpage}{39}
+\indexentry{anti-symmetric|hyperpage}{39}
+\indexentry{transitive|hyperpage}{39}
+\indexentry{linear order|hyperpage}{39}
+\indexentry{partially ordered set|hyperpage}{39}
+\indexentry{linear order|hyperpage}{39}
+\indexentry{quasiorder|hyperpage}{40}
+\indexentry{linearity|hyperpage}{40}
+\indexentry{equivalence relation|hyperpage}{40}
+\indexentry{sorting problem|hyperpage}{40}
+\indexentry{sorted ascendingly|hyperpage}{40}
+\indexentry{duplicate elements|hyperpage}{41}
+\indexentry{insertion sort|hyperpage}{41}
+\indexentry{sorted descendingly|hyperpage}{42}
+\indexentry{selection sort|hyperpage}{43}
+\indexentry{merge sort|hyperpage}{45}
+\indexentry{Timsort|hyperpage}{51}
+\indexentry{Hoare, Charles Antony Richard|hyperpage}{52}
+\indexentry{partitioning|hyperpage}{53}
+\indexentry{telescoping recurrence equation|hyperpage}{56}
+\indexentry{harmonic number, $H_n$|hyperpage}{56}
+\indexentry{Euler, Leonhard|hyperpage}{56}
+\indexentry{Euler-Mascheroni constant|hyperpage}{56}
+\indexentry{Lomuto, Nico|hyperpage}{57}
+\indexentry{median|hyperpage}{59}
+\indexentry{dual pivot quicksort|hyperpage}{59}
+\indexentry{counting sort|hyperpage}{63}
+\indexentry{stable|hyperpage}{66}
+\indexentry{radix sort|hyperpage}{66}
+\indexentry{radix sort|hyperpage}{66}
+\indexentry{Hollerith, Herman|hyperpage}{66}
+\indexentry{digit recognition|hyperpage}{67}
+\indexentry{handwritten digit recognition|hyperpage}{67}
+\indexentry{$k$-nearest neighbours algorithm|hyperpage}{68}
+\indexentry{pickle|hyperpage}{68}
+\indexentry{Liskov, Barbara|hyperpage}{73}
+\indexentry{\textsc{Clu}|hyperpage}{73}
+\indexentry{abstract data type|hyperpage}{73}
+\indexentry{type parameter|hyperpage}{73}
+\indexentry{type specification|hyperpage}{73}
+\indexentry{constructor|hyperpage}{74}
+\indexentry{method|hyperpage}{74}
+\indexentry{ADT|hyperpage}{74}
+\indexentry{stack|hyperpage}{74}
+\indexentry{Stack|hyperpage}{74}
+\indexentry{object oriented notation|hyperpage}{74}
+\indexentry{$\Omega$|hyperpage}{75}
+\indexentry{undefined value|hyperpage}{75}
+\indexentry{$\Omega$, undefined value|hyperpage}{75}
+\indexentry{generator|hyperpage}{75}
+\indexentry{member variable|hyperpage}{77}
+\indexentry{method|hyperpage}{77}
+\indexentry{shunting-yard algorithm|hyperpage}{79}
+\indexentry{precedence|hyperpage}{79}
+\indexentry{associativity|hyperpage}{79}
+\indexentry{shunting-yard algorithm|hyperpage}{82}
+\indexentry{operator precedence parsing|hyperpage}{82}
+\indexentry{Dijkstra, Edsger|hyperpage}{82}
+\indexentry{associate to the left|hyperpage}{83}
+\indexentry{associate to the right|hyperpage}{83}
+\indexentry{ordered binary tree|hyperpage}{94}
+\indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{94}
+\indexentry{\mytt{Nil}, empty tree|hyperpage}{94}
+\indexentry{empty tree|hyperpage}{94}
+\indexentry{$\mytt{Node}(k, v, l, r)$|hyperpage}{94}
+\indexentry{left subtree|hyperpage}{94}
+\indexentry{right subtree|hyperpage}{94}
+\indexentry{ordering conditions|hyperpage}{94}
+\indexentry{node of a binary tree|hyperpage}{94}
+\indexentry{root of a binary tree|hyperpage}{94}
+\indexentry{\mytt{find}, ordered binary tree|hyperpage}{94}
+\indexentry{\mytt{insert}, ordered binary tree|hyperpage}{95}
+\indexentry{\mytt{delete}, ordered binary tree|hyperpage}{96}
+\indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{96}
+\indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{105}
+\indexentry{Landis, Evgenii Mikhailovich|hyperpage}{105}
+\indexentry{\textsc{Avl} tree|hyperpage}{105}
+\indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{105}
+\indexentry{balancing condition|hyperpage}{105}
+\indexentry{red-black tree|hyperpage}{116}
+\indexentry{2-3 tree|hyperpage}{117}
+\indexentry{trie|hyperpage}{119}
+\indexentry{$\mathbb{T}$|hyperpage}{119}
+\indexentry{string completion|hyperpage}{123}
+\indexentry{binary trie|hyperpage}{127}
+\indexentry{priority queue|hyperpage}{142}
+\indexentry{observer function|hyperpage}{144}
+\indexentry{mutator function|hyperpage}{144}
+\indexentry{heaps|hyperpage}{144}
+\indexentry{heap storage|hyperpage}{144}
+\indexentry{heap condition|hyperpage}{145}
+\indexentry{balancing condition|hyperpage}{145}
+\indexentry{Heapsort|hyperpage}{150}
+\indexentry{generated equivalence relation|hyperpage}{162}
+\indexentry{reflexive|hyperpage}{162}
+\indexentry{symmetric|hyperpage}{162}
+\indexentry{transitive|hyperpage}{162}
+\indexentry{partition|hyperpage}{163}
+\indexentry{union-find algorithm|hyperpage}{164}
+\indexentry{weighted undirected graph|hyperpage}{169}
+\indexentry{node|hyperpage}{169}
+\indexentry{edge|hyperpage}{169}
+\indexentry{weight of an edge|hyperpage}{169}
+\indexentry{path|hyperpage}{169}
+\indexentry{weight of an path|hyperpage}{169}
+\indexentry{connected graph|hyperpage}{169}
+\indexentry{connected graph|hyperpage}{169}
+\indexentry{tree (graph)|hyperpage}{169}
+\indexentry{weight of a tree|hyperpage}{170}
+\indexentry{Kruskal's algorithm|hyperpage}{170}
+\indexentry{weighted directed graph|hyperpage}{171}
+\indexentry{weighted digraph|hyperpage}{171}
+\indexentry{path|hyperpage}{172}
+\indexentry{shortest path problem|hyperpage}{172}
+\indexentry{Bellman-Ford algorithm|hyperpage}{172}
+\indexentry{Moore's algorithm|hyperpage}{172}
+\indexentry{Dijkstra's algorithm|hyperpage}{174}
+\indexentry{topological sorting|hyperpage}{177}
+\indexentry{topological sorting problem|hyperpage}{178}
+\indexentry{Kahn's algorithm|hyperpage}{178}

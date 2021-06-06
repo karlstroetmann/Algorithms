@@ -345,7 +345,7 @@ $f \in \Oh(h) \wedge g \in \Oh(h) \,\rightarrow\, f + g \in \Oh(h)$.
 
 \proof
 The preconditions $f \in \Oh(h)$ and $g \in \Oh(h)$ imply that there are constants $k_1,k_2\in \N$
-and $c_1,c_2\in \R$ such that both \\[0.2cm]
+and $c_1,c_2\in \R_+$ such that both \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N \colon \bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot h(n)\bigr)$ 
 \quad and
@@ -389,13 +389,13 @@ Assume $f,g,h \colon \N \rightarrow {\R_+}$. Then we have \\[0.2cm]
 \end{Proposition}
 
 \proof
-The precondition $f \in \Oh(g)$ implies that there exists a $k_1 \in \N$ and a number $c_1 \in \R$
+The precondition $f \in \Oh(g)$ implies that there exists a $k_1 \in \N$ and a number $c_1 \in \R_+$
 such that 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N \colon\bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot g(n)\bigr)$ 
 \\[0.2cm]
-holds, while the precondition $g \in \Oh(h)$ implies the existence of $k_2 \in \N$ and $c_2 \in \R$
+holds, while the precondition $g \in \Oh(h)$ implies the existence of $k_2 \in \N$ and $c_2 \in \R_+$
 such that \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$ 

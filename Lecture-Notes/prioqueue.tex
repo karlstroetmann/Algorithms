@@ -150,10 +150,10 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             \index{observer function}
             \mytt{toList}.  We do not really care how the priority queue works internally.  We only care
             about the results that are observable via the function \mytt{toList}.  
-      \item The functions \mytt{top} and \mytt{isEmpty} are \blue{observers} of the \textsc{Adt}
-            \mytt{PrioQueue}:  They do not \blue{change} a priority queue, instead they return information
-            about a priority queue.  These observer function can be reduced to the more general observer
-            function \mytt{toList}. 
+      \item Furthermore, the functions \mytt{top} and \mytt{isEmpty} are also \blue{observer functions} of the
+            \textsc{Adt} \mytt{PrioQueue}:  They do not \blue{change} a priority queue, instead they return
+            information about a priority queue.  These observer function can be reduced to the more general
+            observer function \mytt{toList}. 
       \item The function \mytt{remove} is a \blue{mutator} function\index{mutator function}: It does
             \blue{change} a priority queue. 
             The \blue{behaviour} of this function is specified by describing the effects of these
@@ -161,7 +161,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
       \end{enumerate}
 \end{enumerate}
 \end{Definition}
-We could implement the ADT $\mytt{PrioQueue}$ as a list of pairs that is sorted ascendingly.
+We could implement the ADT $\mytt{PrioQueue}$ as a linked list of pairs that is sorted ascendingly.
 Then, the different methods of $\mytt{PrioQueue}$ would be implemented as follows:
 \begin{enumerate}
 \item $\mytt{prioQueue}()$ returns an empty list.
@@ -202,7 +202,7 @@ inductively.
             the heap. This condition is known as the \blue{heap condition}.\index{heap condition}
       \item $\mid l.\mytt{count}() - r.\mytt{count}() \mid \;\leq\, 1$
 
-            $l.\mytt{count}()$ computes the number of nodes of the heap $l$ and $r.\mytt{count}$ is
+            $l.\mytt{count}()$ computes the number of nodes of the heap $l$ and $r.\mytt{count}()$ is
             interpreted similarly.  A formal definition of the function \mytt{count} is given below.
             The condition 
             \\[0.2cm]
@@ -254,8 +254,8 @@ structure heap.  We start with the method $\mytt{top}$.
 \end{enumerate}
 Implementing the method $\mytt{isEmpty}$ is straightforward:
 \begin{enumerate}
-\item $\mytt{Nil}.\mytt{isEmpty}() = \mytt{true}$,
-\item $\mytt{Node}(p,v,l,r).\mytt{isEmpty}() = \mytt{false}$.
+\item $\mytt{Nil}.\mytt{isEmpty}() = \mytt{True}$,
+\item $\mytt{Node}(p,v,l,r).\mytt{isEmpty}() = \mytt{False}$.
 \end{enumerate}
 When  implementing the method $\mytt{insert}$ we have to make sure that both the balancing condition
 and the heap condition are maintained.
@@ -339,7 +339,7 @@ long as the heap grows in order to guarantee logarithmic  performance.  However,
 values from a priority queue, the height of the queue can only shrink.  Therefore, even if the heap
 would degenerate into a list during removal of values, this would not be a problem because the
 height of the tree would still be bounded by $\log_2(n)$, where $n$ is the maximal number of
-values that a stored in the heap at any moment in time.
+values that was stored in the heap at any moment in time.
 
 \exercise
 Change the equations for the method $\mytt{remove}$ so that the resulting heap satisfies the
