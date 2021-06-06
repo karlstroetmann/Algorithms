@@ -617,7 +617,7 @@ Here, the expression $\mytt{A}[i] \doteq \mytt{Node}(p, v, l, r)$ is to be read 
 ``The root of the heap $\mytt{Node}(p, v, l, r)$ is stored at index $i$ in the array $\mytt{A}$.''
 \\[0.2cm]
 If we store a heap in this manner, then, instead of using pointers that point to the left and right
-subtree of a node, we can use index arithmetic to retrieve the subtrees.  This results in memory savings as we
+subtree of a node, we can use \blue{index arithmetic} to retrieve the subtrees.  This results in memory savings as we
 no longer have to store the pointers.
 
 
@@ -693,7 +693,7 @@ We discuss this implementation line by line.
       $2 \cdot {k} + 1 \leq {n}$.
 \item The function $\mytt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
       \begin{enumerate}
-      \item In phase one our goal is to transform the array ${A}$ into a heap that is stored in ${A}$.
+      \item In \blue{phase one} our goal is to transform the array ${A}$ into a heap that is stored in ${A}$.
 
             In order to do so, we traverse the array ${A}$ in reverse using the
             \mytt{for}-loop starting in line 16.  The invariant of this loop is that before
@@ -735,7 +735,9 @@ We discuss this implementation line by line.
             establish the heap condition at index ${k}$.  If the element at the root has a
             priority that is too low, $\mytt{sink}$ ensures that this element sinks down in the tree
             as far as necessary.
-      \item In phase two we remove the elements from the heap one-by-one and insert them at the end of
+
+            This phase is also called the \blue{heapification} \index{heapification} of the array.
+      \item In \textbf{phase two} we remove the elements from the heap one-by-one and insert them at the end of
             the array.
 
             When the \mytt{while}-loop starts, the array ${A}$ contains a heap.  Therefore,
