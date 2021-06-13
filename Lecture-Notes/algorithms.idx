@@ -144,7 +144,10 @@
 \indexentry{weighted directed graph|hyperpage}{171}
 \indexentry{weighted digraph|hyperpage}{171}
 \indexentry{path|hyperpage}{172}
+\indexentry{connect, path|hyperpage}{172}
+\indexentry{$\paths(v,w)$|hyperpage}{172}
 \indexentry{shortest path problem|hyperpage}{172}
+\indexentry{$\spath(v)$|hyperpage}{172}
 \indexentry{Bellman-Ford algorithm|hyperpage}{172}
 \indexentry{Moore's algorithm|hyperpage}{172}
 \indexentry{Dijkstra's algorithm|hyperpage}{174}

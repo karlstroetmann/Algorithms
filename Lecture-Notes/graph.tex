@@ -602,7 +602,7 @@ In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Jo
 found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
 of the \blue{union-find algorithm} that we have shown in the previous section.  The basic idea is as
 follows.\index{Kruskal's algorithm}
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item In the first step, we create a union-find data structure that contains \blue{singleton trees}
       for all nodes in the graph.  Here, a singleton tree is a tree containing just a single node.
 \item Next, we iterate over all edges $\pair(x, y)$ in the graph in \blue{increasing order of their weight}.
@@ -610,9 +610,9 @@ follows.\index{Kruskal's algorithm}
       the edge $\pair(x, y)$ to the tree we are building.
 
       The fact that we investigate the edges in increasing order of their weight implies that we always choose
-      the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is a
-      \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
-\item We stop when the number of edges is 1 less than the number of nodes since, according to the
+      the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is
+      known as a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
+\item We stop when the number of edges is one less than the number of nodes since, according to the
       previous exercise, the tree must then connect all the nodes of the graph. 
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
@@ -631,7 +631,6 @@ discuss this program next.
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm,
               ]{python3}
-    import union_find_oo as uf
     import heapq         as hq
 
     def mst(V, E):
@@ -678,19 +677,19 @@ discuss this program next.
 \item Next, the set of weighted edges $\mytt{E}$ is turned into a priority queue.
       We use the weights of the edges as priorities. 
       To this end, we create an empty priority queue $\mytt{H}$ in line 7.
-      The \mytt{for}-loop in line 8-9 inserts all edges into this priority queue.
+      The \mytt{for}-loop in line 8-9 inserts all edges of the set \mytt{E} into this priority queue.
 \item The \mytt{while}-loop in line 10 checks for every edge $(\mytt{x},\mytt{y})$  whether $\mytt{x}$ and $\mytt{y}$ are already
       connected.  This is the case if both $\mytt{x}$ and $\mytt{y}$ are part of the same tree
       in the union-find data structure \mytt{UF}.  In order to
       check whether $\mytt{x}$ and $\mytt{y}$ are part of the same tree
       we have to compute the roots of these trees. 
       If these roots are identical, then \mytt{x} and \mytt{y} are part of the same tree and hence
-      connected. 
-\item If $\mytt{x}$ and $\mytt{y}$ are not connected, the  edge $(\mytt{w}, (\mytt{x}, \mytt{y}))$ is added to the
+      they are already connected. 
+\item If $\mytt{x}$ and $\mytt{y}$ are not yet connected, the  edge $(\mytt{w}, (\mytt{x}, \mytt{y}))$ is added to the
       spanning tree and the trees containing $\mytt{x}$ and $\mytt{y}$ are connected by calling the function
       \mytt{union}.
-\item The algorithm returns if the tree \mytt{MST} has $\mytt{\#V}-1$ edges, since we know from the previous
-      exercise that in this case all nodes have to be connected.
+\item The algorithm terminates once the tree \mytt{MST} has $\mytt{\#V-1}$ edges, since we know from the previous
+      exercise that in this case all nodes are connected by the edges in \mytt{MST}.
 \end{enumerate}
 
 
@@ -711,19 +710,19 @@ of a \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{weighted directed
   \item $\edges \subseteq \nodes \times \nodes$ is the set of \blue{edges}.
   \item $\weight{\cdot}: \edges \rightarrow \N$ is a function that assigns a positive \blue{length} 
         to every edge.  This length is also known as the \blue{weight} of the edge.
-        \eox
+        \eoxs
   \end{enumerate}
 \end{Definition}
 
 \remark
-The main difference between a graph and a digraph is that in a digraph the edges are 
+The main difference between a \blue{graph} and a \blue{digraph} is that in a digraph the edges are 
 \mbox{p\hspace{-0.15cm}\underline{\hspace{0.15cm}airs}} of two
 nodes while in a graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
 digraph can be viewed as one-way streets, while in a graph they represent streets that can be used in both
 directions.  Hence, if a digraph has an edge $\pair(a,b)$, then this edge enables us to get from $a$ to $b$ but
 this edge does not enable us to go from $b$ to $a$.  On the other hand, if a graph has an edge $\{a,b\}$, then
 this edge enables us to go from $a$ to $b$ as well as to go from $b$ to $a$.
-\eox
+\eoxs
 
 \begin{Definition}[Path, Path Length]
  A \blue{path} $P$ in a digraph \index{path} is a list of the form 
@@ -741,8 +740,9 @@ The length of a path is the sum of the length of all edges:
 \hspace*{1.3cm}
 $\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
 \\[0.2cm]
-If  $p = [x_1, x_2, \cdots, x_n]$ is a path then  $p$ \blue{connects} the node $x_1$ with the node
+If  $p = [x_1, x_2, \cdots, x_n]$ is a path then  $p$ \blue{connects} \index{connect, path} the node $x_1$ with the node
 $x_n$.  We denote the set of all paths that connect the node $v$ with the node $w$ as
+\index{$\paths(v,w)$}
 \\[0.2cm]
 \hspace*{1.3cm} 
  $\paths(v,w) \df \bigl\{ [x_0, x_1, \cdots, x_n] \in \paths \bigm| x_0 = v \,\wedge\, x_n = w \bigr\}$.
@@ -760,6 +760,7 @@ Now we are ready to state the shortest path problem.
   \hspace*{1.3cm} $\spath: \nodes \rightarrow \N$ \\[0.1cm]
   \hspace*{1.3cm} $\spath(v) \df \mytt{min}\bigl\{ \weight{p} \bigm| p \in \paths(\source,v) \bigr\}$.
   \\[0.2cm]
+  \index{$\spath(v)$}
   Furthermore, given that $\spath(v) = n$, we would like to be able to compute a path 
   $p \in \paths(\source,v)$ such that $\weight{p} = n$.
   \eox
@@ -771,7 +772,7 @@ The first algorithm we discuss is the
 \index{Bellman-Ford algorithm}
 It is named after the mathematicians 
 \href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
-\href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who found this algorithm
+\href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who discovered this algorithm
 independently and published their results in 1958 and 1956, respectively.  Figure
 \ref{fig:Moore.ipynb} on page \pageref{fig:Moore.ipynb} shows the implementation of a variant of this 
 algorithm in \textsl{Python}.  This variant of the algorithm was suggested by 
