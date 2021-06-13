@@ -768,7 +768,7 @@ Now we are ready to state the shortest path problem.
 
 \subsection{The Bellman-Ford Algorithm}
 The first algorithm we discuss is the
-\href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{\blue{Bellman-Ford algorithm}}.
+\href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{Bellman-Ford algorithm}.
 \index{Bellman-Ford algorithm}
 It is named after the mathematicians 
 \href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
@@ -822,12 +822,12 @@ in 1959.
             \hspace*{1.3cm}
             $\bigl[ (y_1, l_1), \cdots, (y_n, l_n) \bigr]$.
             \\[0.2cm]
-            This set is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
+            This list is interpreted as follows: For every $i = 1,\cdots,n$ there is an edge
             $(x, y_i)$ pointing from $x$ to $y_i$ and this edge has the length $l_i$.
 
             For example, the dictionary $\mytt{Edges}$ given below defines a simple digraph.
             In that digraph, there is an edge from node $\mytt{"a"}$ to node $\mytt{"c"}$ which has a
-            length of $2$ and there is another edge from node $\mytt{"a"}$ to the node $\mytt{"b"}$ that has a length of $8$.
+            length of $2$ and there is another edge from node $\mytt{"a"}$ to the node $\mytt{"b"}$ that has a length of $9$.
             \begin{verbatim}
     Edges = { 'a': [('c', 2), ('b', 9)], 
               'b': [('d', 1)],
@@ -857,7 +857,7 @@ in 1959.
       all we know.  Hence, the dictionary $\mytt{Distance}$ is initialized as $\bigl\{\mytt{source}:0 \bigr\}$.
 \item The variable $\mytt{Fringe}$ is a list of those nodes that already have an estimate of
       their distance from the  node \mytt{source}.  Furthermore, if a node is in \mytt{Fringe} then this
-      node has at least one neighbouring node whose distance from \mytt{source} hasn't been computed. 
+      node might have neighbouring node whose distance from \mytt{source} hasn't yet been computed. 
       Initially we only know that the node $\mytt{source}$ is connected to the node \mytt{source}.
       Therefore, we initialize the list $\mytt{Fringe}$ as the list
       \\[0.2cm]
