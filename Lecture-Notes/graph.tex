@@ -745,7 +745,7 @@ follows.\index{Kruskal's algorithm}
       the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is
       known as a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
 \item We stop when the number of edges is one less than the number of nodes since, according to the
-      previous exercise, the tree must then connect all the nodes of the graph. 
+      proposition in the previous section, the tree must then connect all the nodes of the graph. 
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
 resulting tree has a minimal weight.
@@ -1257,7 +1257,8 @@ of dressing up in the morning, the following schedule would work:
 Of course, the project of dressing up is trivial.
 However, complex projects can have ten thousands of tasks and even more dependencies between these tasks.  For
 example, the US-lead invasion in the second Irak war was a project consisting of more than $30\,000$ tasks.
-It is rumoured that the US invasion plan for the \href{https://en.wikipedia.org/wiki/China}{People's Republic of China} 
+It is rumoured that the plan for the US invasion of the
+\href{https://en.wikipedia.org/wiki/China}{People's Republic of China}  
 contains an excess of 2 million tasks!  Ordering the tasks for a project of this size is very difficult to do by
 hand.  Instead, a technique called \blue{topological sorting} is used. 
 
@@ -1298,7 +1299,7 @@ theoretical problem.
 \end{Definition}
 
 \subsection{Computing the Solution of a \textsc{Tsp}}
-Next, we present \blue{Kahn's algorithm}\index{Kahn's algorithm} \cite{kahn:1962} for solving a \textsc{Tsp}.
+Next, we present \href{https://en.wikipedia.org/wiki/Topological_sorting}{Kahn's algorithm}\index{Kahn's algorithm} \cite{kahn:1962} for solving a \textsc{Tsp}.
 The basic idea is very simple. Ask yourself:  How can a list $S$ that is supposed to be a solution to a
 \textsl{Tsp} $\pair(T, D)$ start? 
 Of course, it can only start with a task that does not depend on any other task.  Therefore, if we are
@@ -1329,15 +1330,15 @@ shown in Figure \ref{fig:Topologocal-Sorting.ipynb} on page \pageref{fig:Topolog
 
 \begin{figure}[!ht]
 \centering
-\begin{Verbatim}[ frame         = lines, 
-                  framesep      = 0.3cm, 
-                  firstnumber   = 1,
-                  labelposition = bottomline,
-                  numbers       = left,
-                  numbersep     = -0.2cm,
-                  xleftmargin   = 0.0cm,
-                  xrightmargin  = 0.0cm,
-                ]
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor       = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
+              ]{python3}
     def topo_sort(T, D):
         Parents  = { t: set() for t in T }  # dictionary of parents
         Children = { t: set() for t in T }  # dictionary of children
@@ -1357,7 +1358,7 @@ shown in Figure \ref{fig:Topologocal-Sorting.ipynb} on page \pageref{fig:Topolog
                 if Parents[s] == set():
                     Orphans.add(s)
         return Sorted
-\end{Verbatim}
+\end{minted}
 \vspace*{-0.3cm}
 \caption{Kahn's algorithm for topological sorting.}
 \label{fig:Topologocal-Sorting.ipynb}
