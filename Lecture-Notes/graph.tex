@@ -512,10 +512,14 @@ tree problem precisely.  Then, we present
 minimum spanning tree problem. 
 
 \subsection{Basic Definitions}
-\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph}\index{weighted undirected graph} is a triple 
-   $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
+We start with the definition of an \blue{undirected graph}, which is a set of vertices that are connected by
+undirected edges.  The formal definition follows.
+
+\begin{Definition}[Undirected Graph]
+  An \blue{undirected graph}\index{undirected graph} is a pair
+   $\mathcal{G} = \langle \nodes, \edges\rangle$ such that
   \begin{enumerate}
-  \item $\nodes$ is the set is a set of  \blue{nodes}.\index{node}
+  \item $\nodes$ is the set is a set of  \blue{nodes}.
   \item $\edges$ is the set of  \blue{edges}.\index{edge}  An edge $e$ has the form
         \\[0.2cm]
         \hspace*{1.3cm}
@@ -530,6 +534,16 @@ minimum spanning tree problem.
 
         We will further assume that if $\{x,y\}$ is an edge, then $x \not= y$, i.e.~we do not admit
         \href{https://en.wikipedia.org/wiki/Loop_(graph_theory)}{loops}. \index{loop}
+  \end{enumerate}
+\end{Definition}
+
+Sometimes, the edges of an undirected graph have an associated weight.  This leads to the notion of a
+\blue{weighted undirected graph} that is given next.
+
+\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph}\index{weighted undirected graph} is a triple 
+   $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
+  \begin{enumerate}
+  \item $\langle \nodes, \edges \rangle$ is an undirected graph.
   \item $\weight{\cdot}: \edges \rightarrow \N$ is a function assigning a \blue{weight}\index{weight of an edge} to every edge.
 
         In practical applications, the weight of an edge is often interpreted as the \blue{cost} or the
@@ -538,25 +552,9 @@ minimum spanning tree problem.
   \end{enumerate}
 \end{Definition}
 
-\begin{Definition}[Undirected Graph]
-  An \blue{undirected graph}\index{weighted undirected graph} is a pair
-   $\langle \nodes, \edges\rangle$ such that
-  \begin{enumerate}
-  \item $\nodes$ is the set is a set of  \blue{nodes}.
-  \item $\edges$ is the set of  \blue{edges}. An edge $e$ has the form
-        \\[0.2cm]
-        \hspace*{1.3cm}
-        $\{x, y\}$
-        \\[0.2cm]
-        and \blue{connects} $x$ and $y$.
-        \eoxs
-  \end{enumerate}
-\end{Definition}
-
-Obviously, every weighted undirected graph can be turned into an undirected graph by dropping the weights.
-
 \noindent
-A \blue{path}\index{path} $P$ is a list of the form 
+Given an undirected graph $\mathcal{G} = \langle \nodes, \edges \rangle$, a \blue{path}\index{path} $P$
+in $\mathcal{G}$ is a list of the form 
 \\[0.2cm]
 \hspace*{1.3cm} 
 $P = [ x_0, x_1, x_2, \cdots, x_n ]$ 
@@ -594,66 +592,61 @@ Then, a set of edges $\edges$ is called a \blue{tree}\index{tree (graph)} if and
 \item removing any edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
 These conditions can be restated: A tree is a connected graph that does not have a \blue{cycle}.
-Here, a \blue{cycle} is a path of the form $[x_0, x_1, \cdots, x_n]$ where $x_0 = x_n$.  
+Here, a \blue{cycle} is a path of the form $[x_0, x_1, \cdots, x_n]$ where $n > 0$ and $x_0 = x_n$.  
 
 \begin{Definition}[Weight of a Tree]
 We define the \blue{weight} of a tree \index{weight of a tree} as the sum of the weights of its edges,
-i.e.~if $T = (\mathbb{V},\mathbb{E}, \weight{\cdot})$ is a tree, then
+i.e.~if the Graph $\mathcal{G} = (\mathbb{V},\mathbb{E}, \weight{\cdot})$ is a tree, then
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds \mytt{weight}(T) := \sum\limits_{\{x,y\} \in \mathbb{E}} \Weight{\{x,y\}}$.  \eoxs
+$\ds \mytt{weight}(\mathcal{G}) := \sum\limits_{\{x,y\} \in \mathbb{E}} \Weight{\{x,y\}}$.  \eoxs
 \end{Definition}
 
 \begin{Proposition}
-  Assume that $T = (\mathbb{V},\mathbb{E})$ is an undirected graph that does not contain a
-  cycle.  Then $T$ is a tree if and only if $\#\mathbb{E} = \#\mathbb{V} - 1$ holds.  Here, $\#\mathbb{E}$ denotes the number of edges,
+  Assume that $\mathcal{T} = (\mathbb{V},\mathbb{E})$ is an undirected graph that does not contain a
+  cycle.  Then $\mathcal{T}$ is a tree if and only if $\#\mathbb{E} = \#\mathbb{V} - 1$ holds.  Here, $\#\mathbb{E}$ denotes the number of edges,
   while $\#\mathbb{V}$ denotes the number of vertices.  
 \end{Proposition}
 
 \proof
 We will show the following claims:
 \begin{enumerate}[(a)]
-\item If the number of edges is greater than $\#\mathbb{V}-1$, then $T$ has to contain a cycle.
-\item If the number of edges is smaller than  $\#\mathbb{V}-1$, then $T$ cannot be connected.
-\item If the number of edges is equal to $\#V - 1$, then $T$ is a tree.
+\item If the number of edges $\# \mathbb{E}$ is greater than $\#\mathbb{V}-1$, then $\mathcal{T}$ has to contain a cycle.
+\item If the number of edges $\# \mathbb{E}$ is smaller than  $\#\mathbb{V}-1$, then $\mathcal{T}$ cannot be connected.
+\item If the number of edges $\# \mathbb{E}$ is equal to $\#V - 1$, then $\mathcal{T}$ is a tree.
 \end{enumerate}
 We prove all of these claims simultaneously by induction on $n := \#V$.
 \begin{enumerate}
 \item[B.C.:] $n = 1$.
 
   If the graph contains only 1 vertex, we have $\mathbb{V} = \{x\}$ and hence the set of edges $\mathbb{E}$
-  must be empty.  Hence the first two claims are vacuously true because their precondition is never satisfied.
-  Furthermore, in that case the graph trivially is a tree.
-\item[B.C.:] $n = 2$.
-
-  If the graph contains only $2$ vertices, then $\mathbb{V} = \{ x, y \}$ and there can be at most one edge.
-  Hence the first claim is vacuously true, as the number of edges can never be greater than $n-1 = 2 -1 = 1$ in
-  this case. 
-  
-  Clearly, if the graph contains less than $n-1 = 1$ edges, it contains no edges at all and hence it is not
-  connected.
-
-  Finally, if the graph contains exactly $1$ edge, then it certainly is a tree.
+  must be empty. Therefore we have
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\#\mathbb{V} = 1$, \quad $\#\mathbb{E} = 0$, \quad and therefore \quad $\#\mathbb{E} = \#\mathbb{V}-1$.
+  \\[0.2cm]
+  Hence the first two claims are vacuously true because their precondition is never satisfied.
+  Furthermore, in that case the graph trivially is a tree and thus the third claim is true.
 \item[I.S.:] $1, 2, \cdots, n-1 \mapsto n$
 
-  In this case we pick any edge $\{x,y\}$ from $\mathbb{E}$ and define a new graph $T'$ that results from $T$
+  In this case we pick any edge $\{x,y\}$ from $\mathbb{E}$ and define a new graph $\mathcal{T}'$ that results from $\mathcal{T}$
   by removing the edge $\{x,y\}$ from $\mathbb{E}$:
   \\[0.2cm]
   \hspace*{1.3cm}
-  $T' := \bigl\langle \mathbb{V}, \mathbb{E} \backslash \bigl\{ \{x,y\} \bigr\}, \weight{\cdot} \bigr\rangle$ 
+  $\mathcal{T}' := \bigl\langle \mathbb{V}, \mathbb{E} \backslash \bigl\{ \{x,y\} \bigr\} \bigr\rangle$ 
   \\[0.2cm]
-  Next, we define $A$ to be the set of those vertices that are connected to $x$ in $T'$, $B$ to be the set
-  of vertices that are connected to $y$ in $T'$, and $C$ to contain those vertices that are connected to
-  neither $x$ nor $y$:
+  Next, we define $A$ to be the set of those vertices that are connected to $x$ in $\mathcal{T}'$, $B$ to be the set
+  of vertices that are connected to $y$ in $\mathcal{T}'$, and $C$ to contain those vertices that are neither connected to
+  $x$ nor to $y$:
   \begin{enumerate}[(a)]
-  \item $A := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $x$}\}$, \quad 
-  \item $B := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $y$}\}$, \quad and \quad
-  \item $C := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to neither $x$ nor $y$}\}$.
+  \item $A := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $x$ in $\mathcal{T}'$}\}$, \quad 
+  \item $B := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $y$ in $\mathcal{T}'$}\}$, \quad and \quad
+  \item $C := \{ z \in \mathbb{V} \mid \mbox{$z$ is neither connected to neither $x$ nor to $y$}\}$.
   \end{enumerate}
   The sets $A$ and $B$ have to be disjoint, for if there were a vertex $z$ such that $z$ were connected to both
-  $x$ and $y$, then the graph $T$ would contain a cycle.  If $\{u,v\}\in\mathbb{E}$ there can be three cases:
+  $x$ and $y$, then the graph $T$ would contain a cycle.  If $\{u,v\}\in\mathbb{E}$, then there are three cases:
   \begin{enumerate}[(a)]
-  \item $u$ is connected to $x$.  Because $\{x,y\}\in\mathbb{E}$ this implies that then $v$ is also connected
+  \item $u$ is connected to $x$.  Because $\{u,v\}\in\mathbb{E}$ this implies that then $v$ is also connected
         to $x$ and hence both $u$ and $v$ are in $A$.
   \item $u$ is connected to $y$.  Then $v$ is also connected to $y$ and hence $u$ and $v$ are in $B$.
   \item $u$ is neither connected to $x$ nor to $y$.  Then $v$ can't be connected to $x$ or $y$ either.
@@ -665,23 +658,23 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \item $\mathbb{E}_B := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\in B \wedge v\in B \bigr\}$,
   \item $\mathbb{E}_C := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\not\in A \cup B \wedge v\not\in A \cup B \bigr\}$.
   \end{enumerate}
-  Then, we can define three graphs $T_A$, $T_B$, and $T_C$ as follows:
+  Then, we can define three graphs $\mathcal{T}_A$, $\mathcal{T}_B$, and $\mathcal{T}_C$ as follows:
   \begin{enumerate}[(a)]
-  \item $T_A = \langle A, \mathbb{E}_A \rangle$,
-  \item $T_B = \langle B, \mathbb{E}_B \rangle$,
-  \item $T_C = \langle C, \mathbb{E}_C \rangle$,
+  \item $\mathcal{T}_A = \langle A, \mathbb{E}_A \rangle$,
+  \item $\mathcal{T}_B = \langle B, \mathbb{E}_B \rangle$,
+  \item $\mathcal{T}_C = \langle C, \mathbb{E}_C \rangle$,
   \end{enumerate}
-  As the graph $T$ does not contain a cycle, the graphs $T_A$, $T_B$, and $T_C$ can't contain a cycle either,
-  since they are subgraphs of $T$.  Next, we define $a := \# A$, $b := \# B$, and $c := \# C$.
-  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis the claim holds true for  $T_A$, $T_B$, and
-  $T_C$.  Let us assume that $\# \mathbb{E}_A > a - 1$.  By induction hypothesis we could then conclude that
-  $T_A$ contains a cycle.  This would imply that also $T$ contains a cycle and since this would contradict our
+  As the graph $\mathcal{T}$ does not contain a cycle, the graphs $\mathcal{T}_A$, $\mathcal{T}_B$, and $\mathcal{T}_C$ can't contain a cycle either,
+  since they are subgraphs of $\mathcal{T}$.  Next, we define $a := \# A$, $b := \# B$, and $c := \# C$.
+  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis the claim holds true for  $\mathcal{T}_A$, $\mathcal{T}_B$, and
+  $\mathcal{T}_C$.  Let us assume that $\# \mathbb{E}_A > a - 1$.  By induction hypothesis we could then conclude that
+  $\mathcal{T}_A$ contains a cycle.  This would imply that also $\mathcal{T}$ contains a cycle and since this would contradict our
   assumption, we can conclude that
   \\[0.2cm]
   \hspace*{1.3cm}
   $\# \mathbb{E}_A \leq a - 1$.
   \\[0.2cm]
-  In a similar way we can see that we must also have
+  In a similar way we must also have
   \\[0.2cm]
   \hspace*{1.3cm}
   $\# \mathbb{E}_B \leq b - 1$ \quad and \quad $\# \mathbb{E}_C \leq c - 1$.
@@ -690,21 +683,29 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \begin{enumerate}
   \item Case: $C = \emptyset$, $\mathbb{E}_A = a - 1$, and $\mathbb{E}_B = b - 1$.
     
-    Then by induction hypothesis $T_A$ and $T_B$ are trees.  In that case, $T$ is a tree also
-    and since $\mathbb{E} = \mathbb{E}_A + \mathbb{E}_B + 1$ and $n = a + b$ we have
+    Then by induction hypothesis $\mathcal{T}_A$ and $\mathcal{T}_B$ are trees.  In that case, $\mathcal{T}$ is
+    a tree also because the edge $\{x,y\}$ connects the nodes from $A$ and $B$.
+    Since $\mathbb{E} = \mathbb{E}_A + \mathbb{E}_B + 1$ and $n = a + b$ we have
     \\[0.2cm]
     \hspace*{1.3cm}
-    $\mathbb{E} = n -1$. \green{$\surd$}
+    $\mathbb{E} = (a - 1) + (b - 1) + 1 = n - 1 = \#\mathbb{V} - 1$.
+    \\[0.2cm]
+    Hence in this case the claims $(a)$ and $(b)$  are trivially true as their assumptions are not given,
+    while the last claim is true because $\mathcal{T}$ is a tree.
+    \green{$\surd$}
   \item Case: $C = \emptyset$, $\mathbb{E}_A < a - 1$, or $\mathbb{E}_B < b - 1$.
     
-    Then by induction hypothesis either $T_A$ or $T_B$ is not connected.  Of course, then $T$ is not connected either.
-    Furthermore we have 
+    Then by induction hypothesis either $\mathcal{T}_A$ or $\mathcal{T}_B$ is not connected.  Of course, then $\mathcal{T}$ is not connected either.
+    Furthermore, since we have $\# \mathbb{E}_A \leq a - 1$ and $\# \mathbb{E}_B \leq b - 1$ it follows that
     \\[0.2cm]
     \hspace*{1.3cm}
-    $\mathbb{E} < n - 1$. \green{$\surd$} 
+    $\mathbb{E} = \mathcal{E}_A + \mathbb{E}_B - 1 < (a - 1) + (b - 1) = n - 1 = \#\mathbb{V} - 1$.
+    \\[0.2cm]
+    Therefore in this case claim $(a)$ and $(c)$ are trivially true and $(b)$ is true because $\mathcal{T}$ is
+    not connected.  \green{$\surd$}
   \item Case $C \not= \emptyset$.
 
-    In that case the graph $T$ can't be connected since the vertices in $C$ are not connected to either $x$ or
+    In that case the graph $\mathcal{T}$ can't be connected since the vertices in $C$ are not connected to either $x$ or
     $y$.  Furthermore, we have
     \\[0.2cm]
     \hspace*{1.3cm}
@@ -720,9 +721,12 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \hspace*{1.3cm}
     $\#\mathbb{E} = \#\mathbb{E}_A + \#\mathbb{E}_B + \#\mathbb{E}_C + 1$.
     \\[0.2cm]
-    Therefore it follows that $\mathbb{E} \leq n - 2 < n - 1$. \green{$\surd$}
+    Therefore it follows that $\mathbb{E} \leq n - 2 < n - 1 = \#\mathbb{V} - 1$.
+    \\[0.2cm]
+    Therefore in this case claim $(a)$ and $(c)$ are trivially true and $(b)$ is true because $\mathcal{T}$ is
+    not connected.  \green{$\surd$}
   \end{enumerate}
-  Hence the claim has been shown in all three cases. \qed
+  Hence the claim has been established in all three cases. \qed
 \end{enumerate} 
 
 \subsection{Kruskal's Algorithm}
