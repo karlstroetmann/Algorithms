@@ -1,8 +1,8 @@
 \chapter{Sorting}
 In this chapter, we present various algorithms for solving the \blue{sorting problem}.
-After a precise definition of the sorting problem, we start with two algorithms
-that are very easy to implement: \blue{insertion sort} and \blue{selection sort}.  However, the
-efficiency of these algorithms is far from optimal.  Next, we present \blue{quick sort} and 
+After a precise definition of the sorting problem, we start with a simple algorithm
+that is very easy to implement: \blue{insertion sort}.  However, the
+efficiency of this algorithms is far from optimal.  Next, we present \blue{quick sort} and 
 \blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
 However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
@@ -329,142 +329,141 @@ sorting a list $\mytt{L}$ we must at least inspect all of the elements of $\mytt
 always have at least a linear amount of work to do.
 
 
-\section{Selection Sort$^*$}
-Next, we discuss 
-\href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
-given list $\mytt{L}$ this algorithm works as
-follows:
-\begin{enumerate}
-\item If $\mytt{L}$ is empty, the result is the empty list: \\[0.2cm]
-      \hspace*{1.3cm} $\mytt{sort}\bigl([]\bigr) = []$.
-\item Otherwise, we compute the smallest element of the list $\mytt{L}$ and we remove this element from
-      $\mytt{L}$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
-      to the front of the sorted list:
-      \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{L} \not= [] \wedge \mytt{x} := \min(\mytt{L}) \rightarrow \mytt{sort}\bigl(\mytt{L}\bigr) = [\mytt{x}] + \mytt{sort}\bigl(\mytt{delete}(\mytt{x}, \mytt{L})\bigr)$.
-\end{enumerate}
-The algorithm to delete an element $\mytt{x}$ from a list $\mytt{L}$ is also formulated recursively.  There are three cases:
-\begin{enumerate}
-\item If $\mytt{L}$ is empty, we have \\[0.2cm]
-      \hspace*{1.3cm} $\mytt{delete}\bigl(\mytt{x}, []\bigr) = []$.
-\item If $\mytt{x}$ is equal to the first element of $\mytt{L}$, then the function \mytt{delete} returns the
-      rest of $\mytt{L}$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{delete}\bigl(\mytt{x}, [\mytt{x}] + \mytt{R}\bigr) = \mytt{R}$.
-\item Otherwise, the element $\mytt{x}$ is removed recursively from the rest of the list: \\[0.2cm]
-      \hspace*{1.3cm}   
-      $\mytt{x} \not = \mytt{y} \rightarrow \mytt{delete}\bigl(\mytt{x}, [\mytt{y}] + \mytt{R}\bigr) = [\mytt{y}] + \mytt{delete}(\mytt{x},\mytt{R})$.
-\end{enumerate}
-Finally, we have to specify the computation of the minimum of a list $\mytt{L}$:
-\begin{enumerate}
-\item The minimum of the empty list is bigger than any element.  Therefore we have 
-      \\[0.2cm]
-      \hspace*{1.3cm} $\mytt{min}\bigl([]\bigr) = \infty$.
-\item In order to compute the minimum of the list $[\mytt{x}] + \mytt{R}$ we compute the minimum of $\mytt{R}$ and
-      then use the binary function $\mytt{min}$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{min}\bigl([\mytt{x}] + \mytt{R}\bigr) = \mytt{min}\bigl(\mytt{x}, \mytt{min}(\mytt{R}) \bigr)$. 
+% \section{Selection Sort$^*$}
+% Next, we discuss 
+% \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
+% given list $\mytt{L}$ this algorithm works as
+% follows:
+% \begin{enumerate}
+% \item If $\mytt{L}$ is empty, the result is the empty list: \\[0.2cm]
+%       \hspace*{1.3cm} $\mytt{sort}\bigl([]\bigr) = []$.
+% \item Otherwise, we compute the smallest element of the list $\mytt{L}$ and we remove this element from
+%       $\mytt{L}$.  Next, the remaining list is sorted recursively.  Finally, the smallest element is added
+%       to the front of the sorted list:
+%       \\[0.2cm]
+%       \hspace*{1.3cm} 
+%       $\mytt{L} \not= [] \wedge \mytt{x} := \min(\mytt{L}) \rightarrow \mytt{sort}\bigl(\mytt{L}\bigr) = [\mytt{x}] + \mytt{sort}\bigl(\mytt{delete}(\mytt{x}, \mytt{L})\bigr)$.
+% \end{enumerate}
+% The algorithm to delete an element $\mytt{x}$ from a list $\mytt{L}$ is also formulated recursively.  There are three cases:
+% \begin{enumerate}
+% \item If $\mytt{L}$ is empty, we have \\[0.2cm]
+%       \hspace*{1.3cm} $\mytt{delete}\bigl(\mytt{x}, []\bigr) = []$.
+% \item If $\mytt{x}$ is equal to the first element of $\mytt{L}$, then the function \mytt{delete} returns the
+%       rest of $\mytt{L}$: \\[0.2cm]
+%       \hspace*{1.3cm} 
+%       $\mytt{delete}\bigl(\mytt{x}, [\mytt{x}] + \mytt{R}\bigr) = \mytt{R}$.
+% \item Otherwise, the element $\mytt{x}$ is removed recursively from the rest of the list: \\[0.2cm]
+%       \hspace*{1.3cm}   
+%       $\mytt{x} \not = \mytt{y} \rightarrow \mytt{delete}\bigl(\mytt{x}, [\mytt{y}] + \mytt{R}\bigr) = [\mytt{y}] + \mytt{delete}(\mytt{x},\mytt{R})$.
+% \end{enumerate}
+% Finally, we have to specify the computation of the minimum of a list $\mytt{L}$:
+% \begin{enumerate}
+% \item The minimum of the empty list is bigger than any element.  Therefore we have 
+%       \\[0.2cm]
+%       \hspace*{1.3cm} $\mytt{min}\bigl([]\bigr) = \infty$.
+% \item In order to compute the minimum of the list $[\mytt{x}] + \mytt{R}$ we compute the minimum of $\mytt{R}$ and
+%       then use the binary function $\mytt{min}$: \\[0.2cm]
+%       \hspace*{1.3cm} 
+%       $\mytt{min}\bigl([\mytt{x}] + \mytt{R}\bigr) = \mytt{min}\bigl(\mytt{x}, \mytt{min}(\mytt{R}) \bigr)$. 
 
-      Here, the binary function $\mytt{min}$ is defined as follows: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{min}(\mytt{x},\mytt{y}) = \left\{
-      \begin{array}{ll}
-        \mytt{x}  & \mbox{if $\mytt{x} \preceq \mytt{y}$;} \\
-        \mytt{y}  & \mbox{otherwise.} \\
-      \end{array}\right.
-      $
-\end{enumerate}
-Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
-implementation of selection sort in \textsl{Python}.  There is no need to implement the function
-$\mytt{min}$ as this function is already predefined in \textsl{Python}. 
-The implementation of $\mytt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mytt{delete}(x, L)$
-should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
-to delete an element from the empty list, something must have gone wrong.  The \mytt{assert}
-statement will provide us with an error message in this case.  This error message is printed if $L$ is empty.
+%       Here, the binary function $\mytt{min}$ is defined as follows: \\[0.2cm]
+%       \hspace*{1.3cm} 
+%       $\mytt{min}(\mytt{x},\mytt{y}) = \left\{
+%       \begin{array}{ll}
+%         \mytt{x}  & \mbox{if $\mytt{x} \preceq \mytt{y}$;} \\
+%         \mytt{y}  & \mbox{otherwise.} \\
+%       \end{array}\right.
+%       $
+% \end{enumerate}
+% Figure \ref{fig:selection-sort.setlx} on page \pageref{fig:selection-sort.setlx} shows an
+% implementation of selection sort in \textsl{Python}.  There is no need to implement the function
+% $\mytt{min}$ as this function is already predefined in \textsl{Python}. 
+% The implementation of $\mytt{delete}(x,L)$ is \blue{defensive}:  Normally, $\mytt{delete}(x, L)$
+% should only be called if $x$ is indeed an element of the list $L$.   Therefore, if the algorithm tries 
+% to delete an element from the empty list, something must have gone wrong.  The \mytt{assert}
+% statement will provide us with an error message in this case.  This error message is printed if $L$ is empty.
 
-If $L$ is not empty we check whether $x$ is the first element of $L$.  If it is, the rest of $L$ is
-returned.  Otherwise, $x$ is deleted recursively from the rest of $L$.
+% If $L$ is not empty we check whether $x$ is the first element of $L$.  If it is, the rest of $L$ is
+% returned.  Otherwise, $x$ is deleted recursively from the rest of $L$.
 
 
 
-\begin{figure}[!ht]
-  \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                bgcolor = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.3cm,
-                xrightmargin  = 0.3cm
-              ]{python3}
-    def sort(L):
-        if L == []:
-            return []
-        x = min(L)
-        return [x] + sort(delete(x, L))
+% \begin{figure}[!ht]
+%   \centering
+% \begin{minted}[ frame         = lines, 
+%                 framesep      = 0.3cm, 
+%                 bgcolor = sepia,
+%                 numbers       = left,
+%                 numbersep     = -0.2cm,
+%                 xleftmargin   = 0.3cm,
+%                 xrightmargin  = 0.3cm
+%               ]{python3}
+%     def sort(L):
+%         if L == []:
+%             return []
+%         x = min(L)
+%         return [x] + sort(delete(x, L))
     
-    def delete(x, L):
-        if L == []:
-            assert L != [], f'delete({x}, [])'
-        y, *R = L
-        if y == x:
-            return R
-        return [y] + delete(x, R)    
-\end{minted}
-\vspace*{-0.3cm}
-  \caption{Implementing \blue{selection sort} in \textsl{Python}.}
-  \label{fig:selection-sort.setlx}
-\end{figure}
+%     def delete(x, L):
+%         if L == []:
+%             assert L != [], f'delete({x}, [])'
+%         y, *R = L
+%         if y == x:
+%             return R
+%         return [y] + delete(x, R)    
+% \end{minted}
+% \vspace*{-0.3cm}
+%   \caption{Implementing \blue{selection sort} in \textsl{Python}.}
+%   \label{fig:selection-sort.setlx}
+% \end{figure}
 
 
-\subsection{Complexity of Selection Sort}
-In order to be able to analyse the complexity of \blue{selection sort} we have to count the number
-of comparisons that are performed when $\mytt{min}(\mytt{L})$ is computed.  We have 
-\\[0.2cm]
-\hspace*{1.3cm} 
-$\mytt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mytt{min}(x_1, \mytt{min}(x_2, \mytt{min}(x_3, \cdots \mytt{min}(x_{n-1},x_n) \cdots )))$. 
-\\[0.2cm]
-Therefore, in order to compute $\mytt{min}(\mytt{L})$ for a list $\mytt{L}$ of length $n$ the binary function $\mytt{min}$
-is called $(n-1)$ times.  Each of these calls of $\mytt{min}$ causes an evaluation of the comparison
-operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
-$\mytt{L}$ of length $n$ is written as $b_n$, we have \\[0.2cm]
-\hspace*{1.3cm}
-$b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$. 
-\\[0.2cm]
-The reasoning is as follows: In order to sort a list of $n+1$ elements using selection sort we first
-have to compute the minimum of this list.  We need $n$ comparisons for this.  Next, the minimum is
-removed from the list and the remaining list, which now contains only $n$ elements, is sorted
-recursively.  We need $b_n$ evaluations of the comparison operator for this recursive invocation of
-\mytt{sort}.
+% \subsection{Complexity of Selection Sort}
+% In order to be able to analyse the complexity of \blue{selection sort} we have to count the number
+% of comparisons that are performed when $\mytt{min}(\mytt{L})$ is computed.  We have 
+% \\[0.2cm]
+% \hspace*{1.3cm} 
+% $\mytt{min}([x_1,x_2,x_3,\cdots,x_n]) = \mytt{min}(x_1, \mytt{min}(x_2, \mytt{min}(x_3, \cdots \mytt{min}(x_{n-1},x_n) \cdots )))$. 
+% \\[0.2cm]
+% Therefore, in order to compute $\mytt{min}(\mytt{L})$ for a list $\mytt{L}$ of length $n$ the binary function $\mytt{min}$
+% is called $(n-1)$ times.  Each of these calls of $\mytt{min}$ causes an evaluation of the comparison
+% operator ``$\preceq$''.  If the number of evaluations of the comparison operator used to sort a list
+% $\mytt{L}$ of length $n$ is written as $b_n$, we have \\[0.2cm]
+% \hspace*{1.3cm}
+% $b_0 = 0$ \quad und \quad $b_{n+1} = b_n + n$. 
+% \\[0.2cm]
+% The reasoning is as follows: In order to sort a list of $n+1$ elements using selection sort we first
+% have to compute the minimum of this list.  We need $n$ comparisons for this.  Next, the minimum is
+% removed from the list and the remaining list, which now contains only $n$ elements, is sorted
+% recursively.  We need $b_n$ evaluations of the comparison operator for this recursive invocation of
+% \mytt{sort}.
 
-When investigating the complexity of \blue{insertion sort} we had arrived at the same recurrence
-relation. We had found the solution of this recurrence relation to be
-\\[0.2cm]
-\hspace*{1.3cm} $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2}\cdot n = \frac{1}{2} \cdot n^2 +
-\Oh(n)$. 
-\\[0.2cm]
-It seems that the number of comparisons done by \blue{insertion sort} is the same as the number of
-comparisons needed for \blue{selection sort}.  However, let us not jump to conclusions.
-The algorithm \blue{insertion sort} needs
-$\frac{1}{2}\cdot n \cdot (n-1)$ comparisons only in the \underline{worst} case while \blue{selection sort}
-\underline{alwa}y$\!\!$\underline{$\;$s} uses $\frac{1}{2} \cdot n\cdot(n-1)$ comparisons.
-In order to compute the minimum of a list of length $n$ we always have to do $n-1$ comparisons.
-However, in order to insert an element into a list of $n$ elements, we expect to do about
-$\frac{1}{2} \cdot n$ comparisons on average.  The reason is that we expect about half the elements  to
-be less than the element to be inserted.  Hence, we only have to compare the element to be inserted
-with half of the remaining elements.  Therefore, the average number of comparisons used by
-insertion sort is only
-\\[0.2cm]
-\hspace*{1.3cm}
- $\ds \frac{1}{4} \cdot n^2 + \Oh(n)$
-\\[0.2cm]
-and this is half as much as the number of comparisons used by \blue{selection sort}.  Therefore, on
-average we expect \blue{selection sort} to need about twice as many comparisons as \blue{insertion sort}.
-Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
-partially sorted and have only a few elements that are out of place.  In these cases,
-\blue{insertion sort} is, in fact,  more efficient than \underline{an}y other sorting algorithm.
-
+% When investigating the complexity of \blue{insertion sort} we had arrived at the same recurrence
+% relation. We had found the solution of this recurrence relation to be
+% \\[0.2cm]
+% \hspace*{1.3cm} $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2}\cdot n = \frac{1}{2} \cdot n^2 +
+% \Oh(n)$. 
+% \\[0.2cm]
+% It seems that the number of comparisons done by \blue{insertion sort} is the same as the number of
+% comparisons needed for \blue{selection sort}.  However, let us not jump to conclusions.
+% The algorithm \blue{insertion sort} needs
+% $\frac{1}{2}\cdot n \cdot (n-1)$ comparisons only in the \underline{worst} case while \blue{selection sort}
+% \underline{alwa}y$\!\!$\underline{$\;$s} uses $\frac{1}{2} \cdot n\cdot(n-1)$ comparisons.
+% In order to compute the minimum of a list of length $n$ we always have to do $n-1$ comparisons.
+% However, in order to insert an element into a list of $n$ elements, we expect to do about
+% $\frac{1}{2} \cdot n$ comparisons on average.  The reason is that we expect about half the elements  to
+% be less than the element to be inserted.  Hence, we only have to compare the element to be inserted
+% with half of the remaining elements.  Therefore, the average number of comparisons used by
+% insertion sort is only
+% \\[0.2cm]
+% \hspace*{1.3cm}
+%  $\ds \frac{1}{4} \cdot n^2 + \Oh(n)$
+% \\[0.2cm]
+% and this is half as much as the number of comparisons used by \blue{selection sort}.  Therefore, on
+% average we expect \blue{selection sort} to need about twice as many comparisons as \blue{insertion sort}.
+% Furthermore,  in many practical applications of sorting the lists that have to be sorted are already
+% partially sorted and have only a few elements that are out of place.  In these cases,
+% \blue{insertion sort} is, in fact,  more efficient than \underline{an}y other sorting algorithm.
 
 \section{Merge Sort}
 Next, we discuss \href{https://en.wikipedia.org/wiki/Merge_sort}{merge sort}\index{merge sort}.  This algorithm
@@ -932,57 +931,57 @@ It is possible that the last sublist has a length that is less than $n$.  This h
 of $\mytt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \mytt{merge}
 in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\mytt{len}(\mytt{L})$.
 
-\subsection{Further Improvements of Merge Sort$^*$}
-The implementation given above can still be improved in a number of ways.  
-\href{https://en.wikipedia.org/wiki/Tim_Peters_(software_engineer)}{Tim Peters} has used a number of tricks to improve the
-practical performance of \blue{merge sort}.  The resulting algorithm is known as
-\href{http://en.wikipedia.org/wiki/Timsort}{Timsort}. \index{Timsort}
-The starting point of the development of \blue{Timsort} was the observation that the input arrays 
-given to a sorting procedure often contain subarrays that are already sorted, either in ascending or
-descending order.   For this reason, \blue{Timsort} uses the following tricks:
-\begin{enumerate}
-\item First, Timsort looks for subarrays that are already sorted.
-      If a subarray is sorted in descending order, this subarray is reversed.
-\item Sorted subarrays that are too small (i.e.~have less than 32 elements) are extended
-      to sorted subarrays to have a length that is at least 32.  In order to sort these subarrays,
-      \blue{insertion sort} is used.  The reason is that \blue{insertion sort} is very fast for
-      arrays that are already partially sorted.  The version of \blue{insertion sort} that is used is called
-      \blue{binary insertion sort} since it uses 
-      \href{http://en.wikipedia.org/wiki/Binary_search}{\blue{binary search}} to insert the elements
-      into the array.
-\item The algorithm to merge two sorted lists can be improved by the following observation: If we
-      want to merge the arrays
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $[x] + \mytt{R}$ \quad and \quad $\mytt{L}_1 + [y] + \mytt{L}_2$
-      \\[0.2cm]
-      and if $y$ is less than $x$, then all elements of the list $\mytt{L}_1$ are also less than $x$.
-      Therefore, there is no need to compare these elements with $x$ one by one.  
-\end{enumerate}
-Timsort uses some more tricks, but unfortunately we don't have the time to discuss all of them.
-Originally, Tim Peters developed Timsort for the programming language \textsl{Python}.  Today,
-\blue{Timsort} is also part of the \textsl{Java} library, the source code is available online at
-\\[0.2cm]
-\hspace*{0.3cm}
-\href{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/ComparableTimSort.java}{\mytt{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/\\
-\hspace*{1.5cm}
-    src/java.base/share/classes/java/util/ComparableTimSort.java}}
-\\[0.2cm]
-Timsort is also used on the Android platform.
+% \subsection{Further Improvements of Merge Sort$^*$}
+% The implementation given above can still be improved in a number of ways.  
+% \href{https://en.wikipedia.org/wiki/Tim_Peters_(software_engineer)}{Tim Peters} has used a number of tricks to improve the
+% practical performance of \blue{merge sort}.  The resulting algorithm is known as
+% \href{http://en.wikipedia.org/wiki/Timsort}{Timsort}. \index{Timsort}
+% The starting point of the development of \blue{Timsort} was the observation that the input arrays 
+% given to a sorting procedure often contain subarrays that are already sorted, either in ascending or
+% descending order.   For this reason, \blue{Timsort} uses the following tricks:
+% \begin{enumerate}
+% \item First, Timsort looks for subarrays that are already sorted.
+%       If a subarray is sorted in descending order, this subarray is reversed.
+% \item Sorted subarrays that are too small (i.e.~have less than 32 elements) are extended
+%       to sorted subarrays to have a length that is at least 32.  In order to sort these subarrays,
+%       \blue{insertion sort} is used.  The reason is that \blue{insertion sort} is very fast for
+%       arrays that are already partially sorted.  The version of \blue{insertion sort} that is used is called
+%       \blue{binary insertion sort} since it uses 
+%       \href{http://en.wikipedia.org/wiki/Binary_search}{\blue{binary search}} to insert the elements
+%       into the array.
+% \item The algorithm to merge two sorted lists can be improved by the following observation: If we
+%       want to merge the arrays
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $[x] + \mytt{R}$ \quad and \quad $\mytt{L}_1 + [y] + \mytt{L}_2$
+%       \\[0.2cm]
+%       and if $y$ is less than $x$, then all elements of the list $\mytt{L}_1$ are also less than $x$.
+%       Therefore, there is no need to compare these elements with $x$ one by one.  
+% \end{enumerate}
+% Timsort uses some more tricks, but unfortunately we don't have the time to discuss all of them.
+% Originally, Tim Peters developed Timsort for the programming language \textsl{Python}.  Today,
+% \blue{Timsort} is also part of the \textsl{Java} library, the source code is available online at
+% \\[0.2cm]
+% \hspace*{0.3cm}
+% \href{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/src/java.base/share/classes/java/util/ComparableTimSort.java}{\mytt{http://hg.openjdk.java.net/jdk10/jdk10/jdk/file/ffa11326afd5/\\
+% \hspace*{1.5cm}
+%     src/java.base/share/classes/java/util/ComparableTimSort.java}}
+% \\[0.2cm]
+% Timsort is also used on the Android platform.
 
-\exercise
-While merge sort splits the list $L$ that is to be sorted into two parts of roughly the same size, 
-\blue{3-way merge sort} splits the list $L$ into three parts of roughly the same size.
-\begin{enumerate}[(a)]
-\item Analyse the computational complexity of 3-way merge sort in the same way as we have analysed the
-      complexity of merge sort in this section.  To this end you should write down conditional equations
-      describing 3-way merge sort in a similar fashion as it has been done at the beginning of this
-      section for merge sort.
-\item Develop an array-based implementation of 3-way merge sort and compare its computation time with the 
-      time needed by the conventional version of merge sort.  It is easiest if you start your implementation
-      by copying the Jupyter notebook \href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Chapter-04/Merge-Sort-Array.ipynb}{Merge-Sort-Array.ipynb}.
-      \eox
-\end{enumerate}
+% \exercise
+% While merge sort splits the list $L$ that is to be sorted into two parts of roughly the same size, 
+% \blue{3-way merge sort} splits the list $L$ into three parts of roughly the same size.
+% \begin{enumerate}[(a)]
+% \item Analyse the computational complexity of 3-way merge sort in the same way as we have analysed the
+%       complexity of merge sort in this section.  To this end you should write down conditional equations
+%       describing 3-way merge sort in a similar fashion as it has been done at the beginning of this
+%       section for merge sort.
+% \item Develop an array-based implementation of 3-way merge sort and compare its computation time with the 
+%       time needed by the conventional version of merge sort.  It is easiest if you start your implementation
+%       by copying the Jupyter notebook \href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Chapter-04/Merge-Sort-Array.ipynb}{Merge-Sort-Array.ipynb}.
+%       \eox
+% \end{enumerate}
 
 \section{Quicksort}
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the

@@ -386,713 +386,711 @@ an abstract data type: An abstract data type abstracts from the concrete data st
 implement it.  If an abstract data type is done right, it can be used without knowing how the data
 that are administered by the abstract data type are actually represented.
 
-
-\section{Evaluation of Arithmetic Expressions}
-Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
-parsed and evaluated using stacks.  To this end, we present the
-\href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}
-\index{shunting-yard algorithm} for parsing arithmetic expressions.  
-For our purposes, an \blue{arithmetic expression} is a string that is made up of natural numbers and
-the operator symbols ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'',
-``\mytt{\symbol{37}}'', and ``\mytt{**}''. Here, the operator ``\mytt{/}'' denotes integer division,
-while $x \;\mytt{\symbol{37}}\; y$ denotes the remainder of the integer division of $x$ by $y$.  The expression $x\;\mytt{**}\;y$ denotes the power $x^y$.
-Furthermore, arithmetic expressions can use the parentheses ``\mytt{(}'' and ``\mytt{)}''.
+% \section{Evaluation of Arithmetic Expressions$^*$}
+% Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
+% parsed and evaluated using stacks.  To this end, we present the
+% \href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}
+% \index{shunting-yard algorithm} for parsing arithmetic expressions.  
+% For our purposes, an \blue{arithmetic expression} is a string that is made up of natural numbers and
+% the operator symbols ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'',
+% ``\mytt{\symbol{37}}'', and ``\mytt{**}''. Here, the operator ``\mytt{/}'' denotes integer division,
+% while $x \;\mytt{\symbol{37}}\; y$ denotes the remainder of the integer division of $x$ by $y$.  The expression $x\;\mytt{**}\;y$ denotes the power $x^y$.
+% Furthermore, arithmetic expressions can use the parentheses ``\mytt{(}'' and ``\mytt{)}''.
   
-Formally, the set of arithmetic expressions is defined by induction.
-\begin{enumerate}
-\item Every string that represents a number $n \in \mathbb{N}$ is an arithmetic expression.
-\item If $s$ and $t$ are arithmetic expressions, then the string
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $s+\mytt{'*'}+t$
-      \\[0.2cm]
-      is an arithmetic expression.  In the expression given above, the first and the last plus symbol
-      denote string concatenation, while \mytt{'*'} denotes the string consisting of the multiplication
-      operator. 
+% Formally, the set of arithmetic expressions is defined by induction.
+% \begin{enumerate}
+% \item Every string that represents a number $n \in \mathbb{N}$ is an arithmetic expression.
+% \item If $s$ and $t$ are arithmetic expressions, then the string
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $s+\mytt{'*'}+t$
+%       \\[0.2cm]
+%       is an arithmetic expression.  In the expression given above, the first and the last plus symbol
+%       denote string concatenation, while \mytt{'*'} denotes the string consisting of the multiplication
+%       operator. 
 
-      Similarly the strings  
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $s + \mytt{'+'} + t$, \quad $s + \mytt{'-'} + t$, \quad
-      $s + \mytt{'/'} + t$, \quad $s + \mytt{'\symbol{37}'} + t$, \quad and \quad $s +\mytt{'**'} + t$
-      \\[0.2cm]
-      are arithmetic expressions.  We interpret  $s + \mytt{'/'} + t$ as the \blue{integer division} of $s$
-      by $t$.
-\item If the string $s$ is an arithmetic expression, then the string
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\mytt{'('}+ s + \mytt{')'}$ 
-      \\[0.2cm]
-      is an arithmetic expression.
-\end{enumerate}
-If we have been given a string that is an arithmetic expression, then in order to \blue{evaluate} this
-arithmetic expression we need to know the \blue{precedence}\index{precedence} and the
-\blue{associativity}\index{associativity} of the operators.
-In mathematics the operators ``\mytt{*}'', ``\mytt{/}'' and ``\mytt{\symbol{37}}'' have a
-higher precedence than the operators ``\mytt{+}'' and ``\mytt{-}'':  For example, the expression
-$x+y*z$ is interpreted as $x + (y * z)$.
- Furthermore, the operator
-  ``\mytt{**}'' has a precedence that is higher than the precedence
- of any other operators.  The operators
-``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\symbol{37}}''
-\blue{associate to the left}:  An expression of the form 
-\\[0.2cm]
-\hspace*{1.3cm} 
-\mytt{1 - 2 - 3} \quad is interpreted as \quad \mytt{(1 - 2) - 3}.
- \\[0.2cm]
-Finally, the operator ``\mytt{**}'' \blue{associates to the right}:
-The arithmetic expression \\[0.2cm]
-\hspace*{1.3cm} 
-\mytt{2 \mytt{**} 3 \mytt{**}  2} \quad is interpreted as \quad 
-\mytt{2 \mytt{**} (3 \mytt{**} 2)}. 
-\\[0.2cm]
-Our goal is to implement a program that reads and evaluates an arithmetic expression.
-
-
-\subsection{A Simple Example}
-Before we dive into to the details of the shunting-yard algorithm, we present a
-simple example.  Consider the arithmetic expression 
-\\[0.2cm]
-\hspace*{1.3cm} 
-``\mytt{1 + 2 * 3 - 4}''. 
-\\[0.2cm]
-First, this string is transformed into the list of \blue{tokens}
-\\[0.2cm]
-\hspace*{1.3cm}
-\mytt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
-\\[0.2cm]
-A \blue{token} is either a number, an operator symbol, or a parenthesis.
-Notice that the space symbols that had been present in the original arithmetic expression string
-have been discarded.  This list is then processed from left to right, one token
- at a time.  In order to process this list, we use three stacks.
-\begin{enumerate}
-\item The  \blue{token list} contains all the tokens of the arithmetic expression.  It is
-      initialized with the list of tokens resulting from the input string.
-      Although the token list is really just a list we will represent this list as a stack and call
-      this list the \blue{token stack}.
-      The first token of the arithmetic expression is on top of this stack.
-\item The  \blue{argument stack} contains only numbers and is initially empty.
-\item The \blue{operator stack} contains only operator symbols and parentheses and is also initially
-      empty.
-\end{enumerate}
-The evaluation of \mytt{1 + 2 * 3 - 4} proceeds as follows:
-\begin{enumerate}
-\item In the beginning, the token stack contains the tokens of the arithmetic expression and the other two stacks
-      are empty: \\[0.2cm]
-      \hspace*{1.3cm} 
-      \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
-        \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
-      \\[0.2cm]
-      Note that the number that is at the beginning of the arithmetic expression is on top of the
-      stack, i.e.~it is the last element of the list.  \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = []}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = []}. 
-\item The number \mytt{1} is removed from the token stack and is put onto the argument stack
-      instead.  The three stacks are now as follows: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = []}. 
-\item Next, the operator \mytt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
-      onto the operator stack.  Then we have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]} \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item Now, we remove the number \mytt{2} from the  token stack and put it onto the argument stack.
-      We have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item We remove the operator \mytt{\symbol{34}*\symbol{34}} from the  token stack and compare the
-      \blue{precedence} of the operator \mytt{\symbol{34}*\symbol{34}} with the precedence of the operator
-      \mytt{\symbol{34}+\symbol{34}}, which is on top of the operator stack.  Since the precedence of the operator 
-      \mytt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
-      \mytt{\symbol{34}+\symbol{34}}, the operator \mytt{\symbol{34}*\symbol{34}} is put onto
-      the operator stack.  The reason is that we have to evaluate this operator before we can
-      evaluate the operator \mytt{\symbol{34}+\symbol{34}}.  Then we have: 
-      \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34}]}. 
-\item We remove the number \mytt{3} from the  token stack and put it onto the argument stack.
-      \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1, 2, 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
-\item We remove the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
-      compare this operator with the operator \mytt{\symbol{34}*\symbol{34}}, which is on top of
-      the operator stack.  As the precedence of the  operator \mytt{\symbol{34}*\symbol{34}} is
-      higher than the precedence of the operator \mytt{\symbol{34}-\symbol{34}},
-      we have to evaluate the operator \mytt{\symbol{34}*\symbol{34}}.  In order to do so, we
-      remove the arguments 3 and 2 from the argument stack, remove the operator
-      \mytt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
-      arguments.  This product is then put back on the 
-      argument stack.  The operator \mytt{\symbol{34}-\symbol{34}} is put back on the token stack
-      since it has not been used.  Hence, the stacks look as shown below: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1, 6 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
-\item Again, we take the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
-      compare it with the operator \mytt{\symbol{34}+\symbol{34}} that is now on top of the
-      operator stack.  Since both operators have the same precedence, the operator
-      \mytt{\symbol{34}+\symbol{34}} is evaluated:  We remove two arguments from the argument
-      stack, remove the operator
-      \mytt{\symbol{34}+\symbol{34}} from the operator stack  and compute the sum of the
-      arguments.  The result is put back on the argument stack.  Furthermore, the operator
-      \mytt{\symbol{34}-\symbol{34}} is put back on the token stack.
-      Then we have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = []}. 
-\item Next, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the token stack and is now
-      put on the operator stack.  We have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
-\item The number \mytt{4} is removed from the token stack and put onto the argument stack. We have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 7, 4 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
-\item Now the input has been consumed completely.
-      Hence, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the  operator stack and
-      furthermore, the arguments of this operator are removed from the argument stack.  Then, the
-      operator \mytt{\symbol{34}-\symbol{34}} is evaluated and the result is put onto the argument
-      stack.  We have: \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 3 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mOperators = []}. \\[0.2cm]
-      Therefore, the result of evaluating the arithmetic expression ``\mytt{1+2*3-4}'' is the
-      number 3.
-\end{enumerate}
-
-\subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
-The algorithm introduced in the last subsection via an example is known as the 
-\href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  
-\index{shunting-yard algorithm}
-This technique is also known as \blue{operator precedence parsing}.\index{operator precedence parsing}
-The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Wybe Dijkstra}\footnote{
-  Edsger Wybe Dijkstra received the 1972 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
-}
-(1930-2002) in 1961. \index{Dijkstra, Edsger}
-We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
-function that are needed to implement this algorithm.  The first of these functions is the function
-\mytt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
-natural number.  For example, the string \mytt{'123'} is converted into the natural number $123$, while the
-string \mytt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
-implementation of this function:  The function \mytt{int} converts $s$ into a number, provided $s$ the string
-$s$ represents an integer.  Otherwise, an Exception of type \mytt{ValueError} is raised.  This exception is
-then caught and the string itself is returned.
+%       Similarly the strings  
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $s + \mytt{'+'} + t$, \quad $s + \mytt{'-'} + t$, \quad
+%       $s + \mytt{'/'} + t$, \quad $s + \mytt{'\symbol{37}'} + t$, \quad and \quad $s +\mytt{'**'} + t$
+%       \\[0.2cm]
+%       are arithmetic expressions.  We interpret  $s + \mytt{'/'} + t$ as the \blue{integer division} of $s$
+%       by $t$.
+% \item If the string $s$ is an arithmetic expression, then the string
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $\mytt{'('}+ s + \mytt{')'}$ 
+%       \\[0.2cm]
+%       is an arithmetic expression.
+% \end{enumerate}
+% If we have been given a string that is an arithmetic expression, then in order to \blue{evaluate} this
+% arithmetic expression we need to know the \blue{precedence}\index{precedence} and the
+% \blue{associativity}\index{associativity} of the operators.
+% In mathematics the operators ``\mytt{*}'', ``\mytt{/}'' and ``\mytt{\symbol{37}}'' have a
+% higher precedence than the operators ``\mytt{+}'' and ``\mytt{-}'':  For example, the expression
+% $x+y*z$ is interpreted as $x + (y * z)$.
+%  Furthermore, the operator
+%   ``\mytt{**}'' has a precedence that is higher than the precedence
+%  of any other operators.  The operators
+% ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\symbol{37}}''
+% \blue{associate to the left}:  An expression of the form 
+% \\[0.2cm]
+% \hspace*{1.3cm} 
+% \mytt{1 - 2 - 3} \quad is interpreted as \quad \mytt{(1 - 2) - 3}.
+%  \\[0.2cm]
+% Finally, the operator ``\mytt{**}'' \blue{associates to the right}:
+% The arithmetic expression \\[0.2cm]
+% \hspace*{1.3cm} 
+% \mytt{2 \mytt{**} 3 \mytt{**}  2} \quad is interpreted as \quad 
+% \mytt{2 \mytt{**} (3 \mytt{**} 2)}. 
+% \\[0.2cm]
+% Our goal is to implement a program that reads and evaluates an arithmetic expression.
 
 
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                firstnumber   = 1,
-                bgcolor       = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
-              ]{python3}
-    def toInt(s):
-        try:
-            return int(s)   
-        except ValueError:
-            return s                
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function \mytt{toInt}.}
-\label{fig:toInt.py}
-\end{figure}
+% \subsection{A Simple Example}
+% Before we dive into to the details of the shunting-yard algorithm, we present a
+% simple example.  Consider the arithmetic expression 
+% \\[0.2cm]
+% \hspace*{1.3cm} 
+% ``\mytt{1 + 2 * 3 - 4}''. 
+% \\[0.2cm]
+% First, this string is transformed into the list of \blue{tokens}
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% \mytt{[1, \symbol{34}+\symbol{34}, 2, \symbol{34}*\symbol{34}, 3, \symbol{34}-\symbol{34}, 4]}.
+% \\[0.2cm]
+% A \blue{token} is either a number, an operator symbol, or a parenthesis.
+% Notice that the space symbols that had been present in the original arithmetic expression string
+% have been discarded.  This list is then processed from left to right, one token
+%  at a time.  In order to process this list, we use three stacks.
+% \begin{enumerate}
+% \item The  \blue{token list} contains all the tokens of the arithmetic expression.  It is
+%       initialized with the list of tokens resulting from the input string.
+%       Although the token list is really just a list we will represent this list as a stack and call
+%       this list the \blue{token stack}.
+%       The first token of the arithmetic expression is on top of this stack.
+% \item The  \blue{argument stack} contains only numbers and is initially empty.
+% \item The \blue{operator stack} contains only operator symbols and parentheses and is also initially
+%       empty.
+% \end{enumerate}
+% The evaluation of \mytt{1 + 2 * 3 - 4} proceeds as follows:
+% \begin{enumerate}
+% \item In the beginning, the token stack contains the tokens of the arithmetic expression and the other two stacks
+%       are empty: \\[0.2cm]
+%       \hspace*{1.3cm} 
+%       \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3,
+%         \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34}, 1 ]}, 
+%       \\[0.2cm]
+%       Note that the number that is at the beginning of the arithmetic expression is on top of the
+%       stack, i.e.~it is the last element of the list.  \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = []}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = []}. 
+% \item The number \mytt{1} is removed from the token stack and is put onto the argument stack
+%       instead.  The three stacks are now as follows: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2, \symbol{34}+\symbol{34} ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = []}. 
+% \item Next, the operator \mytt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
+%       onto the operator stack.  Then we have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1 ]} \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+% \item Now, we remove the number \mytt{2} from the  token stack and put it onto the argument stack.
+%       We have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34} ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+% \item We remove the operator \mytt{\symbol{34}*\symbol{34}} from the  token stack and compare the
+%       \blue{precedence} of the operator \mytt{\symbol{34}*\symbol{34}} with the precedence of the operator
+%       \mytt{\symbol{34}+\symbol{34}}, which is on top of the operator stack.  Since the precedence of the operator 
+%       \mytt{\symbol{34}*\symbol{34}} is greater than the precedence of the operator 
+%       \mytt{\symbol{34}+\symbol{34}}, the operator \mytt{\symbol{34}*\symbol{34}} is put onto
+%       the operator stack.  The reason is that we have to evaluate this operator before we can
+%       evaluate the operator \mytt{\symbol{34}+\symbol{34}}.  Then we have: 
+%       \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1, 2 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34}]}. 
+% \item We remove the number \mytt{3} from the  token stack and put it onto the argument stack.
+%       \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1, 2, 3 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34}, \symbol{34}*\symbol{34} ]}. 
+% \item We remove the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
+%       compare this operator with the operator \mytt{\symbol{34}*\symbol{34}}, which is on top of
+%       the operator stack.  As the precedence of the  operator \mytt{\symbol{34}*\symbol{34}} is
+%       higher than the precedence of the operator \mytt{\symbol{34}-\symbol{34}},
+%       we have to evaluate the operator \mytt{\symbol{34}*\symbol{34}}.  In order to do so, we
+%       remove the arguments 3 and 2 from the argument stack, remove the operator
+%       \mytt{\symbol{34}*\symbol{34}} from the operator stack and compute the product of the two
+%       arguments.  This product is then put back on the 
+%       argument stack.  The operator \mytt{\symbol{34}-\symbol{34}} is put back on the token stack
+%       since it has not been used.  Hence, the stacks look as shown below: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 1, 6 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
+% \item Again, we take the operator \mytt{\symbol{34}-\symbol{34}} from the token stack and
+%       compare it with the operator \mytt{\symbol{34}+\symbol{34}} that is now on top of the
+%       operator stack.  Since both operators have the same precedence, the operator
+%       \mytt{\symbol{34}+\symbol{34}} is evaluated:  We remove two arguments from the argument
+%       stack, remove the operator
+%       \mytt{\symbol{34}+\symbol{34}} from the operator stack  and compute the sum of the
+%       arguments.  The result is put back on the argument stack.  Furthermore, the operator
+%       \mytt{\symbol{34}-\symbol{34}} is put back on the token stack.
+%       Then we have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34} ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = []}. 
+% \item Next, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the token stack and is now
+%       put on the operator stack.  We have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 7 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+% \item The number \mytt{4} is removed from the token stack and put onto the argument stack. We have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 7, 4 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}-\symbol{34} ]}. 
+% \item Now the input has been consumed completely.
+%       Hence, the operator \mytt{\symbol{34}-\symbol{34}} is removed from the  operator stack and
+%       furthermore, the arguments of this operator are removed from the argument stack.  Then, the
+%       operator \mytt{\symbol{34}-\symbol{34}} is evaluated and the result is put onto the argument
+%       stack.  We have: \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mTokens \ \ \ = []}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mArguments = [ 3 ]}, \\[0.2cm]
+%       \hspace*{1.3cm} \mytt{mOperators = []}. \\[0.2cm]
+%       Therefore, the result of evaluating the arithmetic expression ``\mytt{1+2*3-4}'' is the
+%       number 3.
+% \end{enumerate}
 
-The function \mytt{tokenize} receives a string $s$ representing an arithmetic expression and splits this
-string into a list of numbers and operators. For example, the string \mytt{'1+2*3-4'} is transformed into the list
-\\[0.2cm]
-\hspace*{1.3cm}
-$[4, \mytt{'-'}, 3, \mytt{'*'}, 2, \mytt{'+'}, 1]$.
-\\[0.2cm]
-The \blue{tokenization} of the string $s$ is achieved by using the regular expression that is defined as
-\begin{verbatim}
-    r'([0-9]+|\*\*|[()+*%/-])'
-\end{verbatim}
-This string is interpreted as follows:
-\begin{enumerate}[(a)]
-\item The ``\mytt{r}'' in front of the apostrophe ``\mytt{'}'' specifies that the regular expression is
-      defined as a \blue{raw string}.  In a raw string the backslash does not have to be
-      escaped because it is treated as a literal character.
-\item The regular expression itself is divided into three parts.
-      These parts are separated by the character ``\mytt{|}''.  This operator is interpreted as a logical or.
-      Hence, the regular expression matches any of the following type of strings.
-      \begin{enumerate}
-      \item ``\mytt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\mytt{0}'' or
-            ``\mytt{123}''.  It would also match a string like ``\mytt{007}''.
-            The postfix operator ``\mytt{+}'' at the end of the expression ``\mytt{[0-9]}'' is a
-            \blue{quantifier} that specifies that there may be any positive number of characters in the range
-            $\{0,\cdots,9\}$.  By itself, the expression ``\mytt{[0-9]}'' only specifies a single character.
-            Inside of the expression, the ``\mytt{-}'' serves as a \blue{range operator}.
-      \item ``\verb|\*\*|'' matches the operator ``\mytt{**}''.  The character ``\mytt{*}'' has to be
-            escaped by a backslash character as this character is also used as a quantifier.
-      \item ``\mytt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
-            to put the symbol ``\mytt{-}'' last in this group as otherwise this symbol would be 
-            interpreted as a \blue{range operator}.
-     \end{enumerate}
-\end{enumerate}
-The method call \mytt{re.findall(regExp, s)} scans the string $s$ for every substring that matches the
-given regular expression and collects these substrings into a list.
+% \subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
+% The algorithm introduced in the last subsection via an example is known as the 
+% \href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  
+% \index{shunting-yard algorithm}
+% This technique is also known as \blue{operator precedence parsing}.\index{operator precedence parsing}
+% The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Wybe Dijkstra}\footnote{
+%   Edsger Wybe Dijkstra received the 1972 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
+% }
+% (1930-2002) in 1961. \index{Dijkstra, Edsger}
+% We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
+% function that are needed to implement this algorithm.  The first of these functions is the function
+% \mytt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
+% natural number.  For example, the string \mytt{'123'} is converted into the natural number $123$, while the
+% string \mytt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
+% implementation of this function:  The function \mytt{int} converts $s$ into a number, provided $s$ the string
+% $s$ represents an integer.  Otherwise, an Exception of type \mytt{ValueError} is raised.  This exception is
+% then caught and the string itself is returned.
 
 
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
-               ]{python3}
-    import re
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                 framesep      = 0.3cm, 
+%                 firstnumber   = 1,
+%                 bgcolor       = sepia,
+%                 numbers       = left,
+%                 numbersep     = -0.2cm,
+%                 xleftmargin   = 0.8cm,
+%                 xrightmargin  = 0.8cm,
+%               ]{python3}
+%     def toInt(s):
+%         try:
+%             return int(s)   
+%         except ValueError:
+%             return s                
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The function \mytt{toInt}.}
+% \label{fig:toInt.py}
+% \end{figure}
 
-    def tokenize(s):
-        regExp = r'([0-9]+|\*\*|[()+*%/-])'
-        L = [ toInt(t) for t in re.findall(regExp, s) ]
-        return list(reversed(L))                 
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function \mytt{tokenize}.}
-\label{fig:tokenize.py}
-\end{figure}
-
-Next we fix the data structures that are needed for this algorithm.  The class that we will define has three
-member variables.
-\begin{enumerate}
-\item \mytt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
-      represented as strings, while the numbers are represented as rational numbers.  Hence, \mytt{mTokens}
-      represents the \blue{token stack}.
-\item \mytt{mArguments} is a stack of rational numbers.  Therefore, \mytt{mArguments} represents the
-      \blue{argument stack}.
-\item \mytt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
-      are represented as strings.
-\end{enumerate}
-In order to implement the shunting-yard algorithm we need a number of auxiliary functions.
-We start with the function \mytt{precedence} shown in Figure \ref{fig:precedence}.
-Given an operator $o$, the expression $\mytt{precedence}(o)$ returns the \blue{precedence} of the operator
-$o$.  An example will illustrate the concept of \blue{operator precedence}:  The expression $1 + 2 * 3$
-is evaluated in the same way as the expression $1 + (2*3)$ and not as the expression $(1+2)*3$ because the
-precedence of the operator ``$*$'' is higher than the precedence of the operator ``$+$''.
-In general we have the following:
-If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\mytt{o}_1$ is at least as high than the 
-\emph{precedence} of $\mytt{o}_2$, then the expression
-\\[0.2cm]
-\hspace*{1.3cm}
-$a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ \quad should be evaluated as \quad
-$(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.
-\\[0.2cm]
-on the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
-expression $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ should be evaluated as  $a \;\mytt{o}_1\; (b
-\;\mytt{o}_2\; c)$.  
-The precedences of the arithmetical operators are shown in Table \ref{tab:precedence}.
-
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.3cm,
-                 xrightmargin  = 0.3cm,
-               ]{python3}
-    def precedence(o):
-        Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
-        return Precedence[o]
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function \mytt{precedence}.}
-\label{fig:precedence}
-\end{figure}
+% The function \mytt{tokenize} receives a string $s$ representing an arithmetic expression and splits this
+% string into a list of numbers and operators. For example, the string \mytt{'1+2*3-4'} is transformed into the list
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $[4, \mytt{'-'}, 3, \mytt{'*'}, 2, \mytt{'+'}, 1]$.
+% \\[0.2cm]
+% The \blue{tokenization} of the string $s$ is achieved by using the regular expression that is defined as
+% \begin{verbatim}
+%     r'([0-9]+|\*\*|[()+*%/-])'
+% \end{verbatim}
+% This string is interpreted as follows:
+% \begin{enumerate}[(a)]
+% \item The ``\mytt{r}'' in front of the apostrophe ``\mytt{'}'' specifies that the regular expression is
+%       defined as a \blue{raw string}.  In a raw string the backslash does not have to be
+%       escaped because it is treated as a literal character.
+% \item The regular expression itself is divided into three parts.
+%       These parts are separated by the character ``\mytt{|}''.  This operator is interpreted as a logical or.
+%       Hence, the regular expression matches any of the following type of strings.
+%       \begin{enumerate}
+%       \item ``\mytt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\mytt{0}'' or
+%             ``\mytt{123}''.  It would also match a string like ``\mytt{007}''.
+%             The postfix operator ``\mytt{+}'' at the end of the expression ``\mytt{[0-9]}'' is a
+%             \blue{quantifier} that specifies that there may be any positive number of characters in the range
+%             $\{0,\cdots,9\}$.  By itself, the expression ``\mytt{[0-9]}'' only specifies a single character.
+%             Inside of the expression, the ``\mytt{-}'' serves as a \blue{range operator}.
+%       \item ``\verb|\*\*|'' matches the operator ``\mytt{**}''.  The character ``\mytt{*}'' has to be
+%             escaped by a backslash character as this character is also used as a quantifier.
+%       \item ``\mytt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
+%             to put the symbol ``\mytt{-}'' last in this group as otherwise this symbol would be 
+%             interpreted as a \blue{range operator}.
+%      \end{enumerate}
+% \end{enumerate}
+% The method call \mytt{re.findall(regExp, s)} scans the string $s$ for every substring that matches the
+% given regular expression and collects these substrings into a list.
 
 
-\begin{table}[!ht]
-  \centering
-    \begin{tabular}{|c|c|}
-    \hline
-      Operator & Precedence \\
-    \hline\hline
-      \mytt{+}, \mytt{-} & 1 \\
-    \hline
-      \mytt{*}, \mytt{/} & 2 \\
-    \hline
-      \mytt{**}           & 3 \\
-    \hline
-    \end{tabular}
-  \caption{The precedences of the arithmetical operators.}
-  \label{tab:precedence}
-\end{table}
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                  framesep      = 0.3cm, 
+%                  firstnumber   = 1,
+%                  bgcolor       = sepia,
+%                  numbers       = left,
+%                  numbersep     = -0.2cm,
+%                  xleftmargin   = 0.8cm,
+%                  xrightmargin  = 0.8cm,
+%                ]{python3}
+%     import re
 
-The expression $\mytt{isLeftAssociative}(o)$ is \mytt{True} iff the operator $o$ 
-\blue{associates to the left}, \index{associate to the left} i.e.~an expression of the form $x \;\mytt{o}\; y \;\mytt{o}\; z$
-is evaluated as  $(x \;\mytt{o}\; y) \;\mytt{o}\; z$.  If $o$ \blue{associates to the right},
-\index{associate to the right} then the expression  $x \;\mytt{o}\; y \;\mytt{o}\; z$
-is evaluated as  $x \;\mytt{o}\; (y \;\mytt{o}\; z)$ and $\mytt{isLeftAssociative}(o)$
-is \mytt{False}.  From the arithmetical operators that we consider, only the power operator ``\mytt{**}'' 
-associates to the right, i.e.~the expression
-\\[0.2cm]
-\hspace*{1.3cm}
-$x \mytt{**} y \mytt{**} z$ \quad is evaluated as \quad $x \mytt{**} (y \mytt{**} z)$.
-\\[0.2cm]
-The operators 
-``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\%}'' 
-all associate to the left.  For example, the expression
-$x - y - z$ is evaluated as $(x - y) - z$.
-Figure \ref{fig:isLeftAssociative} shows the implementation of the function \mytt{isLeftAssociative}.
+%     def tokenize(s):
+%         regExp = r'([0-9]+|\*\*|[()+*%/-])'
+%         L = [ toInt(t) for t in re.findall(regExp, s) ]
+%         return list(reversed(L))                 
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The function \mytt{tokenize}.}
+% \label{fig:tokenize.py}
+% \end{figure}
 
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
-               ]{python3}
-    def isLeftAssociative(o):
-        if o in { '+', '-', '*', '/', '%' }:
-            return True
-        if o in { '**' }:
-            return False
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function \mytt{isLeftAssociative}.}
-\label{fig:isLeftAssociative}
-\end{figure}
-The next auxiliary function we discuss is the function \mytt{evalBefore}.  This function is called with two
-operators as arguments.  The expression $\mytt{evalBefore}(o_1, o_2)$ is \mytt{True}
-if the operator $o_1$ should be evaluated before the operator $o_2$ in an arithmetical expression of the form
-$a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
-as the expression $(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.  In order to determine whether $o_1$ should be
-evaluated before $o_2$ we have to take both the precedence and the associativity of the operators $o_1$ and $o_2$ into
-consideration.   The precise behaviour of the function \mytt{evalBefore} is specified by the following rules:
-\begin{enumerate}
-\item $\mytt{precedence}(o_1) > \mytt{precedence}(o_2) \rightarrow 
-      \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
-\item $o_1 = o_2 \rightarrow \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{isLeftAssociative}(o_1)$,
-\item $\mytt{precedence}(o_1) = \mytt{precedence}(o_2) \wedge o_1 \not= o_2 \rightarrow 
-       \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
-\item $\mytt{precedence}(o_1) < \mytt{precedence}(o_2) \rightarrow 
-       \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{False}$.
-\end{enumerate}
-The implementation of \mytt{evalBefore} is shown in Figure \ref{fig:evalBefore}.
+% Next we fix the data structures that are needed for this algorithm.  The class that we will define has three
+% member variables.
+% \begin{enumerate}
+% \item \mytt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
+%       represented as strings, while the numbers are represented as rational numbers.  Hence, \mytt{mTokens}
+%       represents the \blue{token stack}.
+% \item \mytt{mArguments} is a stack of rational numbers.  Therefore, \mytt{mArguments} represents the
+%       \blue{argument stack}.
+% \item \mytt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
+%       are represented as strings.
+% \end{enumerate}
+% In order to implement the shunting-yard algorithm we need a number of auxiliary functions.
+% We start with the function \mytt{precedence} shown in Figure \ref{fig:precedence}.
+% Given an operator $o$, the expression $\mytt{precedence}(o)$ returns the \blue{precedence} of the operator
+% $o$.  An example will illustrate the concept of \blue{operator precedence}:  The expression $1 + 2 * 3$
+% is evaluated in the same way as the expression $1 + (2*3)$ and not as the expression $(1+2)*3$ because the
+% precedence of the operator ``$*$'' is higher than the precedence of the operator ``$+$''.
+% In general we have the following:
+% If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\mytt{o}_1$ is at least as high than the 
+% \emph{precedence} of $\mytt{o}_2$, then the expression
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ \quad should be evaluated as \quad
+% $(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.
+% \\[0.2cm]
+% on the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
+% expression $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ should be evaluated as  $a \;\mytt{o}_1\; (b
+% \;\mytt{o}_2\; c)$.  
+% The precedences of the arithmetical operators are shown in Table \ref{tab:precedence}.
 
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.0cm,
-                 xrightmargin  = 0.0cm,
-               ]{python3}
-    def evalBefore(stackOp, nextOp):
-        if precedence(stackOp) > precedence(nextOp):
-            return True
-        if stackOp == nextOp:
-            return isLeftAssociative(stackOp)
-        if precedence(stackOp) == precedence(nextOp) and stackOp != nextOp:
-            return True
-        if precedence(stackOp) < precedence(nextOp):
-            return False
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The function \mytt{evalBefore}.}
-\label{fig:evalBefore}
-\end{figure}
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                  framesep      = 0.3cm, 
+%                  firstnumber   = 1,
+%                  bgcolor       = sepia,
+%                  numbers       = left,
+%                  numbersep     = -0.2cm,
+%                  xleftmargin   = 0.3cm,
+%                  xrightmargin  = 0.3cm,
+%                ]{python3}
+%     def precedence(o):
+%         Precedence = { '+': 1, '-': 1, '*': 2, '/': 2, '%': 2, '**' : 3 }
+%         return Precedence[o]
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The function \mytt{precedence}.}
+% \label{fig:precedence}
+% \end{figure}
 
-Now we are ready to define the class \mytt{Calculator} that we will use to implement the shunting-yard
-algorithm.  The outline of this class is shown in Figure \ref{fig:Calculator.ipynb} on page
-\pageref{fig:Calculator.ipynb}.  The class contains three member variables:
-\begin{enumerate}
-\item \mytt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
-      read by the tokenizer onto this stack.  As the list of tokens is reversed in the method
-      \mytt{createStack}, the token that has been read first is on top of the stack.
-\item \mytt{mOperators} is the operator stack.  Initially this stack is empty.
-\item \mytt{mArguments} is the argument stack.  Initially this stack is empty.
-\end{enumerate}
-Furthermore, the class defines the method \mytt{evaluate} and the method \mytt{popAndEvaluate}.
-The implementation of these methods is given later.
 
-\begin{figure}[!ht]
-  \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                bgcolor       = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.0cm,
-                xrightmargin  = 0.0cm,
-              ]{python3}
-    class Calculator:
-        def __init__(self, s):
-            self.mTokens    = stack.createStack(tokenize(s))
-            self.mOperators = stack.Stack()
-            self.mArguments = stack.Stack()
+% \begin{table}[!ht]
+%   \centering
+%     \begin{tabular}{|c|c|}
+%     \hline
+%       Operator & Precedence \\
+%     \hline\hline
+%       \mytt{+}, \mytt{-} & 1 \\
+%     \hline
+%       \mytt{*}, \mytt{/} & 2 \\
+%     \hline
+%       \mytt{**}           & 3 \\
+%     \hline
+%     \end{tabular}
+%   \caption{The precedences of the arithmetical operators.}
+%   \label{tab:precedence}
+% \end{table}
+
+% The expression $\mytt{isLeftAssociative}(o)$ is \mytt{True} iff the operator $o$ 
+% \blue{associates to the left}, \index{associate to the left} i.e.~an expression of the form $x \;\mytt{o}\; y \;\mytt{o}\; z$
+% is evaluated as  $(x \;\mytt{o}\; y) \;\mytt{o}\; z$.  If $o$ \blue{associates to the right},
+% \index{associate to the right} then the expression  $x \;\mytt{o}\; y \;\mytt{o}\; z$
+% is evaluated as  $x \;\mytt{o}\; (y \;\mytt{o}\; z)$ and $\mytt{isLeftAssociative}(o)$
+% is \mytt{False}.  From the arithmetical operators that we consider, only the power operator ``\mytt{**}'' 
+% associates to the right, i.e.~the expression
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $x \mytt{**} y \mytt{**} z$ \quad is evaluated as \quad $x \mytt{**} (y \mytt{**} z)$.
+% \\[0.2cm]
+% The operators 
+% ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\%}'' 
+% all associate to the left.  For example, the expression
+% $x - y - z$ is evaluated as $(x - y) - z$.
+% Figure \ref{fig:isLeftAssociative} shows the implementation of the function \mytt{isLeftAssociative}.
+
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                  framesep      = 0.3cm, 
+%                  firstnumber   = 1,
+%                  bgcolor       = sepia,
+%                  numbers       = left,
+%                  numbersep     = -0.2cm,
+%                  xleftmargin   = 0.8cm,
+%                  xrightmargin  = 0.8cm,
+%                ]{python3}
+%     def isLeftAssociative(o):
+%         if o in { '+', '-', '*', '/', '%' }:
+%             return True
+%         if o in { '**' }:
+%             return False
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The function \mytt{isLeftAssociative}.}
+% \label{fig:isLeftAssociative}
+% \end{figure}
+% The next auxiliary function we discuss is the function \mytt{evalBefore}.  This function is called with two
+% operators as arguments.  The expression $\mytt{evalBefore}(o_1, o_2)$ is \mytt{True}
+% if the operator $o_1$ should be evaluated before the operator $o_2$ in an arithmetical expression of the form
+% $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$, i.e.~whether this expression should be interpreted in the same way
+% as the expression $(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.  In order to determine whether $o_1$ should be
+% evaluated before $o_2$ we have to take both the precedence and the associativity of the operators $o_1$ and $o_2$ into
+% consideration.   The precise behaviour of the function \mytt{evalBefore} is specified by the following rules:
+% \begin{enumerate}
+% \item $\mytt{precedence}(o_1) > \mytt{precedence}(o_2) \rightarrow 
+%       \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
+% \item $o_1 = o_2 \rightarrow \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{isLeftAssociative}(o_1)$,
+% \item $\mytt{precedence}(o_1) = \mytt{precedence}(o_2) \wedge o_1 \not= o_2 \rightarrow 
+%        \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{True}$,
+% \item $\mytt{precedence}(o_1) < \mytt{precedence}(o_2) \rightarrow 
+%        \mytt{evalBefore}(\mytt{o}_1, \mytt{o}_2) = \mytt{False}$.
+% \end{enumerate}
+% The implementation of \mytt{evalBefore} is shown in Figure \ref{fig:evalBefore}.
+
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                  framesep      = 0.3cm, 
+%                  firstnumber   = 1,
+%                  bgcolor       = sepia,
+%                  numbers       = left,
+%                  numbersep     = -0.2cm,
+%                  xleftmargin   = 0.0cm,
+%                  xrightmargin  = 0.0cm,
+%                ]{python3}
+%     def evalBefore(stackOp, nextOp):
+%         if precedence(stackOp) > precedence(nextOp):
+%             return True
+%         if stackOp == nextOp:
+%             return isLeftAssociative(stackOp)
+%         if precedence(stackOp) == precedence(nextOp) and stackOp != nextOp:
+%             return True
+%         if precedence(stackOp) < precedence(nextOp):
+%             return False
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The function \mytt{evalBefore}.}
+% \label{fig:evalBefore}
+% \end{figure}
+
+% Now we are ready to define the class \mytt{Calculator} that we will use to implement the shunting-yard
+% algorithm.  The outline of this class is shown in Figure \ref{fig:Calculator.ipynb} on page
+% \pageref{fig:Calculator.ipynb}.  The class contains three member variables:
+% \begin{enumerate}
+% \item \mytt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
+%       read by the tokenizer onto this stack.  As the list of tokens is reversed in the method
+%       \mytt{createStack}, the token that has been read first is on top of the stack.
+% \item \mytt{mOperators} is the operator stack.  Initially this stack is empty.
+% \item \mytt{mArguments} is the argument stack.  Initially this stack is empty.
+% \end{enumerate}
+% Furthermore, the class defines the method \mytt{evaluate} and the method \mytt{popAndEvaluate}.
+% The implementation of these methods is given later.
+
+% \begin{figure}[!ht]
+%   \centering
+% \begin{minted}[ frame         = lines, 
+%                 framesep      = 0.3cm, 
+%                 bgcolor       = sepia,
+%                 numbers       = left,
+%                 numbersep     = -0.2cm,
+%                 xleftmargin   = 0.0cm,
+%                 xrightmargin  = 0.0cm,
+%               ]{python3}
+%     class Calculator:
+%         def __init__(self, s):
+%             self.mTokens    = stack.createStack(tokenize(s))
+%             self.mOperators = stack.Stack()
+%             self.mArguments = stack.Stack()
     
-        def evaluate(self): ...
+%         def evaluate(self): ...
 
-        def popAndEvaluate(self): ...
-\end{minted}
-\vspace*{-0.3cm}
-  \caption{The class \mytt{Calculator}.}
-  \label{fig:Calculator.ipynb}
-\end{figure} 
+%         def popAndEvaluate(self): ...
+% \end{minted}
+% \vspace*{-0.3cm}
+%   \caption{The class \mytt{Calculator}.}
+%   \label{fig:Calculator.ipynb}
+% \end{figure} 
 
-The heart of the shunting-yard algorithm is the method evaluate.
-The function $\mytt{evaluate}(\mytt{self})$ evaluates the expression that is given by the tokens on the
-token stack.  It proceeds in two phases:
-\begin{enumerate}
-\item The first phase is the \blue{reading phase}. In this phase
-      the tokens are removed from the token stack and distributed to both the argument stack and the operator
-      stack.  Furthermore, some operators are already evaluated in this phase.
-\item The second phase is the \blue{evaluation phase}.  In this phase,
-      the  operators on the operator stack are evaluated.  
-\end{enumerate}
-The easiest way to describe what happens in the \emph{reading phase} via
-\blue{rewrite rules} that describe how the three stacks \mytt{mTokens}, \mytt{mArguments} and \mytt{mOperators}
-are changed in each \blue{step} of the algorithm.  Here, a \emph{step} consists of those actions that happen
-once a single token has been removed from the token stack.
-The \blue{rewrite rules} listed below are executed until the token stack is empty.
-\begin{enumerate}
-\item If the token on top of the token stack is an integer, it is removed from the token stack and pushed onto
-      the argument stack.  The operator stack remains unchanged in this case.
-      This behaviour is captured by the following rewrite rule:
-      $$\begin{array}{lcll}
-          \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{token} ] & \wedge & \\
-          \mytt{isInteger}(\mytt{token}) & \Rightarrow  \\[0.2cm]
-                   \mytt{mArguments}' = \mytt{mArguments} + [\mytt{token}] & \wedge \\
-                   \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
-                   \mytt{mOperators}' = \mytt{mOperators}
-       \end{array} 
-     $$
-      Here, the primed variable $\mytt{mArguments}'$ refers to the argument stack after \mytt{token} 
-      has been pushed onto it.  Similarly, $\mytt{mTokens}'$ refers to the state of the token stack after the
-      rule has been executed and $\mytt{mOperators}'$ refers to the operator stack after the rule has been executed.
+% The heart of the shunting-yard algorithm is the method evaluate.
+% The function $\mytt{evaluate}(\mytt{self})$ evaluates the expression that is given by the tokens on the
+% token stack.  It proceeds in two phases:
+% \begin{enumerate}
+% \item The first phase is the \blue{reading phase}. In this phase
+%       the tokens are removed from the token stack and distributed to both the argument stack and the operator
+%       stack.  Furthermore, some operators are already evaluated in this phase.
+% \item The second phase is the \blue{evaluation phase}.  In this phase,
+%       the  operators on the operator stack are evaluated.  
+% \end{enumerate}
+% The easiest way to describe what happens in the \emph{reading phase} via
+% \blue{rewrite rules} that describe how the three stacks \mytt{mTokens}, \mytt{mArguments} and \mytt{mOperators}
+% are changed in each \blue{step} of the algorithm.  Here, a \emph{step} consists of those actions that happen
+% once a single token has been removed from the token stack.
+% The \blue{rewrite rules} listed below are executed until the token stack is empty.
+% \begin{enumerate}
+% \item If the token on top of the token stack is an integer, it is removed from the token stack and pushed onto
+%       the argument stack.  The operator stack remains unchanged in this case.
+%       This behaviour is captured by the following rewrite rule:
+%       $$\begin{array}{lcll}
+%           \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{token} ] & \wedge & \\
+%           \mytt{isInteger}(\mytt{token}) & \Rightarrow  \\[0.2cm]
+%                    \mytt{mArguments}' = \mytt{mArguments} + [\mytt{token}] & \wedge \\
+%                    \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+%                    \mytt{mOperators}' = \mytt{mOperators}
+%        \end{array} 
+%      $$
+%       Here, the primed variable $\mytt{mArguments}'$ refers to the argument stack after \mytt{token} 
+%       has been pushed onto it.  Similarly, $\mytt{mTokens}'$ refers to the state of the token stack after the
+%       rule has been executed and $\mytt{mOperators}'$ refers to the operator stack after the rule has been executed.
    
-      In the following rules we implicitly assume that the token $\mytt{nextOp}$ is not an integer but rather a parenthesis
-      or a proper operator.  In order to be more concise, we suppress this condition from the following rewrite rules.
-\item If the operator stack is empty, the next token is pushed onto the operator stack.
-    $$\begin{array}{lc}
-        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op} ] & \wedge \\
-        \mytt{mOperators} = []                                 & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
-        \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
-        \mytt{mArguments}' = \mytt{mArguments} 
-        \end{array} 
-      $$
-\item If the next token is an opening parenthesis, this parenthesis token is pushed onto the operator stack.
-     $$\begin{array}{lcll}
-         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{'('} ] & \Rightarrow \\[0.2cm]
-         \mytt{mOperators}' = \mytt{mOperators} + [\mytt{'('}] & \wedge \\
-         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
-         \mytt{mArguments}' = \mytt{mArguments} 
-         \end{array} 
-      $$
-\item If the next token is a closing parenthesis and the operator on top of the operator stack is an opening
-      parenthesis, then both parentheses are removed from the stacks where they occur.
-     $$\begin{array}{lc}
-         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'}] & \wedge \\
-         \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
-         \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
-         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
-         \mytt{mArguments}' = \mytt{mArguments} 
-         \end{array} 
-      $$
-\item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
-      opening parenthesis,  the operator on top of the operator stack is evaluated.  Note that the token stack
-      is not changed in this case. 
-    $$\begin{array}{lc}
-        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'} ] & \wedge \\
-        \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{op}] & \wedge \\
-        \mytt{op} \not= \mytt{'('} & \wedge \\
-        \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}] & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
-        \mytt{mTokens}' = \mytt{mTokens} & \wedge \\
-        \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;\mytt{op}\; \mytt{rhs}]
-        \end{array} 
-      $$
-      Here, the expression $\mytt{lhs} \;\mytt{op}\; \mytt{rhs}$ denotes evaluating the operator $\mytt{op}$ with the arguments
-      $\mytt{lhs}$ and $\mytt{rhs}$.
-\item If the token on top of the operator stack is an opening parenthesis, then the operator on top of the token stack
-      is pushed onto the operator stack.
-    $$\begin{array}{lc}
-        \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op}] & \wedge \\
-        \mytt{op} \not= \mytt{')'}                          & \wedge \\
-        \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
-        \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
-        \mytt{mArguments}' = \mytt{mArguments}
-        \end{array} 
-      $$
+%       In the following rules we implicitly assume that the token $\mytt{nextOp}$ is not an integer but rather a parenthesis
+%       or a proper operator.  In order to be more concise, we suppress this condition from the following rewrite rules.
+% \item If the operator stack is empty, the next token is pushed onto the operator stack.
+%     $$\begin{array}{lc}
+%         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op} ] & \wedge \\
+%         \mytt{mOperators} = []                                 & \Rightarrow \\[0.2cm]
+%         \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
+%         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+%         \mytt{mArguments}' = \mytt{mArguments} 
+%         \end{array} 
+%       $$
+% \item If the next token is an opening parenthesis, this parenthesis token is pushed onto the operator stack.
+%      $$\begin{array}{lcll}
+%          \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{'('} ] & \Rightarrow \\[0.2cm]
+%          \mytt{mOperators}' = \mytt{mOperators} + [\mytt{'('}] & \wedge \\
+%          \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+%          \mytt{mArguments}' = \mytt{mArguments} 
+%          \end{array} 
+%       $$
+% \item If the next token is a closing parenthesis and the operator on top of the operator stack is an opening
+%       parenthesis, then both parentheses are removed from the stacks where they occur.
+%      $$\begin{array}{lc}
+%          \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'}] & \wedge \\
+%          \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
+%          \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
+%          \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+%          \mytt{mArguments}' = \mytt{mArguments} 
+%          \end{array} 
+%       $$
+% \item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
+%       opening parenthesis,  the operator on top of the operator stack is evaluated.  Note that the token stack
+%       is not changed in this case. 
+%     $$\begin{array}{lc}
+%         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{')'} ] & \wedge \\
+%         \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{op}] & \wedge \\
+%         \mytt{op} \not= \mytt{'('} & \wedge \\
+%         \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}] & \Rightarrow \\[0.2cm]
+%         \mytt{mOperators}' = \mytt{mOperatorsRest} & \wedge \\
+%         \mytt{mTokens}' = \mytt{mTokens} & \wedge \\
+%         \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;\mytt{op}\; \mytt{rhs}]
+%         \end{array} 
+%       $$
+%       Here, the expression $\mytt{lhs} \;\mytt{op}\; \mytt{rhs}$ denotes evaluating the operator $\mytt{op}$ with the arguments
+%       $\mytt{lhs}$ and $\mytt{rhs}$.
+% \item If the token on top of the operator stack is an opening parenthesis, then the operator on top of the token stack
+%       is pushed onto the operator stack.
+%     $$\begin{array}{lc}
+%         \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{op}] & \wedge \\
+%         \mytt{op} \not= \mytt{')'}                          & \wedge \\
+%         \mytt{mOperators} = \mytt{mOperatorsRest} + [\mytt{'('}] & \Rightarrow \\[0.2cm]
+%         \mytt{mOperators}' = \mytt{mOperators} + [\mytt{op}] & \wedge \\
+%         \mytt{mTokens}' = \mytt{mTokensRest} & \wedge \\
+%         \mytt{mArguments}' = \mytt{mArguments}
+%         \end{array} 
+%       $$
    
-      In the remaining cases neither the token on top of the token stack nor the operator on top of the
-      operator stack can be a parenthesis.  The following rules will implicitly assume that this is the case.
-\item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
-      the operator on top of the operator stack is evaluated.
-    $$\begin{array}{lc}
-        \mytt{mTokens} = \mytt{mTokensRest} + [o_2]                                        & \wedge \\
-        \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]                                  & \wedge \\
-        \mytt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
-        \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}]           & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperatorRest}                                          & \wedge \\
-        \mytt{mTokens}' = \mytt{mTokens}                                                   & \wedge \\
-        \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;o_1\; \mytt{rhs}]
-        \end{array} 
-      $$
-\item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
-     $$\begin{array}{lc}
-         \mytt{mTokens} = \mytt{mTokensRest} + [o_2]           & \wedge \\
-         \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]     & \wedge \\
-         \neg \mytt{evalBefore}(o_1, o_2)                        & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperators} + [o_2]         & \wedge \\
-        \mytt{mTokens}' = \mytt{mTokensRest}                   & \wedge \\
-        \mytt{mArguments}' = \mytt{mArguments}
-        \end{array} 
-      $$
-\end{enumerate}
-After the reading phase, we evaluate the remaining operators.  In every step of this evaluation phase we   
-\begin{enumerate}
-\item remove one operator from the operator stack, 
-\item remove its arguments from the argument stack, 
-\item evaluate the operator, and 
-\item push the result back on the argument stack. 
-\end{enumerate}
-The implementation of the method \mytt{evaluate} is shown in Figure \ref{fig:evaluate} on page \pageref{fig:evaluate}.
+%       In the remaining cases neither the token on top of the token stack nor the operator on top of the
+%       operator stack can be a parenthesis.  The following rules will implicitly assume that this is the case.
+% \item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
+%       the operator on top of the operator stack is evaluated.
+%     $$\begin{array}{lc}
+%         \mytt{mTokens} = \mytt{mTokensRest} + [o_2]                                        & \wedge \\
+%         \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]                                  & \wedge \\
+%         \mytt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
+%         \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}]           & \Rightarrow \\[0.2cm]
+%         \mytt{mOperators}' = \mytt{mOperatorRest}                                          & \wedge \\
+%         \mytt{mTokens}' = \mytt{mTokens}                                                   & \wedge \\
+%         \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;o_1\; \mytt{rhs}]
+%         \end{array} 
+%       $$
+% \item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
+%      $$\begin{array}{lc}
+%          \mytt{mTokens} = \mytt{mTokensRest} + [o_2]           & \wedge \\
+%          \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]     & \wedge \\
+%          \neg \mytt{evalBefore}(o_1, o_2)                        & \Rightarrow \\[0.2cm]
+%         \mytt{mOperators}' = \mytt{mOperators} + [o_2]         & \wedge \\
+%         \mytt{mTokens}' = \mytt{mTokensRest}                   & \wedge \\
+%         \mytt{mArguments}' = \mytt{mArguments}
+%         \end{array} 
+%       $$
+% \end{enumerate}
+% After the reading phase, we evaluate the remaining operators.  In every step of this evaluation phase we   
+% \begin{enumerate}
+% \item remove one operator from the operator stack, 
+% \item remove its arguments from the argument stack, 
+% \item evaluate the operator, and 
+% \item push the result back on the argument stack. 
+% \end{enumerate}
+% The implementation of the method \mytt{evaluate} is shown in Figure \ref{fig:evaluate} on page \pageref{fig:evaluate}.
 
-\begin{figure}[!ht]
-  \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                bgcolor       = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.0cm,
-                xrightmargin  = 0.0cm,
-              ]{python3}
-    def evaluate(self):
-        while not self.mTokens.isEmpty():
-            nextOp = self.mTokens.top(); self.mTokens.pop()
-            if isinstance(nextOp, int):
-                self.mArguments.push(nextOp)
-                continue
-            if self.mOperators.isEmpty():
-                self.mOperators.push(nextOp)
-                continue
-            if nextOp == '(':
-                self.mOperators.push(nextOp)
-                continue
-            stackOp = self.mOperators.top()
-            if stackOp == '(' and nextOp == ')':
-                self.mOperators.pop()
-                continue
-            if nextOp == ')':
-                self.popAndEvaluate()
-                self.mTokens.push(nextOp)
-                continue
-            if stackOp == '(':
-                self.mOperators.push(nextOp)
-                continue
-            if evalBefore(stackOp, nextOp):
-                self.popAndEvaluate()
-                self.mTokens.push(nextOp)
-            else:
-                self.mOperators.push(nextOp)
-        while not self.mOperators.isEmpty():
-            self.popAndEvaluate()
-        return self.mArguments.top()
-\end{minted}
-\vspace*{-0.3cm}
-  \caption{The method \mytt{evaluate}.}
-  \label{fig:evaluate}
-\end{figure} 
+% \begin{figure}[!ht]
+%   \centering
+% \begin{minted}[ frame         = lines, 
+%                 framesep      = 0.3cm, 
+%                 bgcolor       = sepia,
+%                 numbers       = left,
+%                 numbersep     = -0.2cm,
+%                 xleftmargin   = 0.0cm,
+%                 xrightmargin  = 0.0cm,
+%               ]{python3}
+%     def evaluate(self):
+%         while not self.mTokens.isEmpty():
+%             nextOp = self.mTokens.top(); self.mTokens.pop()
+%             if isinstance(nextOp, int):
+%                 self.mArguments.push(nextOp)
+%                 continue
+%             if self.mOperators.isEmpty():
+%                 self.mOperators.push(nextOp)
+%                 continue
+%             if nextOp == '(':
+%                 self.mOperators.push(nextOp)
+%                 continue
+%             stackOp = self.mOperators.top()
+%             if stackOp == '(' and nextOp == ')':
+%                 self.mOperators.pop()
+%                 continue
+%             if nextOp == ')':
+%                 self.popAndEvaluate()
+%                 self.mTokens.push(nextOp)
+%                 continue
+%             if stackOp == '(':
+%                 self.mOperators.push(nextOp)
+%                 continue
+%             if evalBefore(stackOp, nextOp):
+%                 self.popAndEvaluate()
+%                 self.mTokens.push(nextOp)
+%             else:
+%                 self.mOperators.push(nextOp)
+%         while not self.mOperators.isEmpty():
+%             self.popAndEvaluate()
+%         return self.mArguments.top()
+% \end{minted}
+% \vspace*{-0.3cm}
+%   \caption{The method \mytt{evaluate}.}
+%   \label{fig:evaluate}
+% \end{figure} 
 
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                firstnumber   = 1,
-                bgcolor       = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
-              ]{python3}
-    def popAndEvaluate(self):
-        rhs = self.mArguments.top(); self.mArguments.pop()
-        lhs = self.mArguments.top(); self.mArguments.pop()
-        op  = self.mOperators.top(); self.mOperators.pop()
-        result = None
-        if op == '+':
-            result = lhs + rhs
-        if op == '-':
-            result = lhs - rhs
-        if op == '*':
-            result = lhs * rhs
-        if op == '/':
-            result = lhs // rhs
-        if op == '%':
-            result = lhs % rhs
-        if op == '**':
-            result = lhs ** rhs
-        self.mArguments.push(result)                
-\end{minted}
-\vspace*{-0.3cm}
-\caption{The method \mytt{popAndEvaluate}.}
-\label{fig:popAndEvaluate}
-\end{figure}
+% \begin{figure}[!ht]
+% \centering
+% \begin{minted}[ frame         = lines, 
+%                 framesep      = 0.3cm, 
+%                 firstnumber   = 1,
+%                 bgcolor       = sepia,
+%                 numbers       = left,
+%                 numbersep     = -0.2cm,
+%                 xleftmargin   = 0.8cm,
+%                 xrightmargin  = 0.8cm,
+%               ]{python3}
+%     def popAndEvaluate(self):
+%         rhs = self.mArguments.top(); self.mArguments.pop()
+%         lhs = self.mArguments.top(); self.mArguments.pop()
+%         op  = self.mOperators.top(); self.mOperators.pop()
+%         result = None
+%         if op == '+':
+%             result = lhs + rhs
+%         if op == '-':
+%             result = lhs - rhs
+%         if op == '*':
+%             result = lhs * rhs
+%         if op == '/':
+%             result = lhs // rhs
+%         if op == '%':
+%             result = lhs % rhs
+%         if op == '**':
+%             result = lhs ** rhs
+%         self.mArguments.push(result)                
+% \end{minted}
+% \vspace*{-0.3cm}
+% \caption{The method \mytt{popAndEvaluate}.}
+% \label{fig:popAndEvaluate}
+% \end{figure}
 
-Finally, Figure \ref{fig:popAndEvaluate} on page \pageref{fig:popAndEvaluate} shows the implementation of the
-method \mytt{popAndEvaluate}.
-This method removes the two topmost numbers $\mytt{rhs}$ and $\mytt{lhs}$ from the argument stack and,
-furthermore, removes the topmost operator $\mytt{op}$ from the argument stack.  It applies the operator
-$\mytt{op}$ to these numbers 
-by computing the value 
-\\[0.2cm]
-\hspace*{1.3cm}
-$ \mytt{lhs} \;\mytt{op}\; \mytt{rhs} $
-\\[0.2cm]
-This value is then pushed onto the argument stack.
+% Finally, Figure \ref{fig:popAndEvaluate} on page \pageref{fig:popAndEvaluate} shows the implementation of the
+% method \mytt{popAndEvaluate}.
+% This method removes the two topmost numbers $\mytt{rhs}$ and $\mytt{lhs}$ from the argument stack and,
+% furthermore, removes the topmost operator $\mytt{op}$ from the argument stack.  It applies the operator
+% $\mytt{op}$ to these numbers 
+% by computing the value 
+% \\[0.2cm]
+% \hspace*{1.3cm}
+% $ \mytt{lhs} \;\mytt{op}\; \mytt{rhs} $
+% \\[0.2cm]
+% This value is then pushed onto the argument stack.
 
-\exercise
-In the following exercise, your task is to extend the program for evaluating arithmetic expressions in three steps.
-\begin{enumerate}[(a)]
-\item Extend the program discussed in these lecture notes so that it can also be used to evaluate
-      arithmetic expressions containing the function symbols
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      \mytt{sqrt}, \mytt{exp}, and \mytt{log}.
-\item Extend the given program so that the arithmetic expressions may also contain 
-      the strings ``\mytt{e}'' and ``\mytt{pi}'', where ``\mytt{e}'' stands for 
-      \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{Euler's number} 
-      while ``\mytt{pi}'' stands for the mathematical constant
-      \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
-      circle to its diameter. 
+% \exercise
+% In the following exercise, your task is to extend the program for evaluating arithmetic expressions in three steps.
+% \begin{enumerate}[(a)]
+% \item Extend the program discussed in these lecture notes so that it can also be used to evaluate
+%       arithmetic expressions containing the function symbols
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       \mytt{sqrt}, \mytt{exp}, and \mytt{log}.
+% \item Extend the given program so that the arithmetic expressions may also contain 
+%       the strings ``\mytt{e}'' and ``\mytt{pi}'', where ``\mytt{e}'' stands for 
+%       \href{http://en.wikipedia.org/wiki/E_(mathematical_constant)}{Euler's number} 
+%       while ``\mytt{pi}'' stands for the mathematical constant
+%       \href{http://en.wikipedia.org/wiki/Pi}{$\pi$} defined as the ratio of the circumference of a
+%       circle to its diameter. 
 
-      Note that these constants can be accessed in \textsl{Python} via the expressions \mytt{math.e}
-      and \mytt{math.pi} provided the module \mytt{math} has been imported.
-\item Extend the program so that it can be used to calculate a zero for a given function in a given
-      interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
-\end{enumerate}
-In \textsl{Python} there is the predefined function \mytt{eval} which can be used to evaluate a string
-containing an expression.  Furthermore, \textsl{Python} has the predefined function \mytt{exec}, that can be
-used to execute a command given as a string.  Your program must not use either of these predefined functions,
-for otherwise the exercise would be next to trivial.
-\eox
-
+%       Note that these constants can be accessed in \textsl{Python} via the expressions \mytt{math.e}
+%       and \mytt{math.pi} provided the module \mytt{math} has been imported.
+% \item Extend the program so that it can be used to calculate a zero for a given function in a given
+%       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
+% \end{enumerate}
+% In \textsl{Python} there is the predefined function \mytt{eval} which can be used to evaluate a string
+% containing an expression.  Furthermore, \textsl{Python} has the predefined function \mytt{exec}, that can be
+% used to execute a command given as a string.  Your program must not use either of these predefined functions,
+% for otherwise the exercise would be next to trivial.
+% \eox
 
 \section[Benefits of Abstract Data Types]{Benefits of Using Abstract Data Types}
 We finish this chapter with a short discussion of the benefits of abstract data types.

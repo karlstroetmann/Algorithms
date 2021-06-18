@@ -45,27 +45,37 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       to develop \blue{efficient} algorithms.  In order to be able to discuss the concept of \blue{efficiency} 
       we discuss the \blue{growth rate} of functions.  This notation is useful to abstract from
       unimportant details when discussing the runtime of algorithms.  
-\item Recurrence Relations
+% \item Recurrence Relations
 
-      The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
-      \index{recurrence relation}
-      is the discrete analogue of the notion of a 
-      \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
-      For example, the equation
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $a_{n+2} = a_{n+1} + a_n$
-      \\[0.2cm]
-      is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
-      defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
-      the formula
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
-      \\[0.2cm]
-      Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
-      \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
-      be used to compute the growth of \blue{recursive} functions.
+%       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+%       \index{recurrence relation}
+%       is the discrete analogue of the notion of a 
+%       \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
+%       For example, the equation
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $a_{n+2} = a_{n+1} + a_n$
+%       \\[0.2cm]
+%       is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
+%       defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
+%       the formula
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
+%       \\[0.2cm]
+%       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
+%       \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
+%       be used to compute the growth of \blue{recursive} functions.
+\item \blue{Correctness} of algorithms
+      
+      An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
+      of an algorithm.
+      \begin{enumerate}
+      \item We first demonstrate the method of \blue{computational induction}.
+            This method can be used to prove the correctness of recursive functions.
+      \item Then we demonstrate the method of \blue{symbolic execution}, which can be used to verify functions
+            that are implemented with the help of loops.
+      \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
@@ -74,17 +84,16 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       sorting algorithms: 
       \begin{enumerate}
       \item \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort},
-      \item \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort},
       \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, 
       \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, 
       \item \href{http://en.wikipedia.org/wiki/Radix_sort}{radix sort}, and
       \item \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}.
-      \end{enumerate}
+      \end{enumerate}  
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}
 
       Abstract data types enable us to describe the behaviour of a data structure in a concise way.
       Furthermore, abstract data types are part of the foundations of 
-      \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented programming}. 
+      \href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented programming}.
 %\item \href{http://en.wikipedia.org/wiki/Hoare_logic}{Hoare logic}.
 %  
 %      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
@@ -102,6 +111,10 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       sorted when elements are inserted or removed.
       Some \blue{graph theoretical} algorithms use \blue{priority queues} as one of their basic building blocks.
       Therefore, our discussion of \blue{graph theory} is preceded by a chapter on priority queues.
+\item \blue{Data compression}
+
+      There are basically two algorithms for loss-less data compression: The algorithm of Lempel, Ziv, and
+      Welch and \blue{Huffman's} algorithm.  For reasons of space we will only discuss the latter algorithm.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
       This chapter discusses the following algorithms:
