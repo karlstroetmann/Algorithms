@@ -329,7 +329,7 @@ sorting a list $\mytt{L}$ we must at least inspect all of the elements of $\mytt
 always have at least a linear amount of work to do.
 
 
-\section{Selection Sort}
+\section{Selection Sort$^*$}
 Next, we discuss 
 \href{http://en.wikipedia.org/wiki/Selection_sort}{selection sort}\index{selection sort}.  In order to sort a
 given list $\mytt{L}$ this algorithm works as
@@ -932,7 +932,7 @@ It is possible that the last sublist has a length that is less than $n$.  This h
 of $\mytt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \mytt{merge}
 in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\mytt{len}(\mytt{L})$.
 
-\subsection{Further Improvements of Merge Sort}
+\subsection{Further Improvements of Merge Sort$^*$}
 The implementation given above can still be improved in a number of ways.  
 \href{https://en.wikipedia.org/wiki/Tim_Peters_(software_engineer)}{Tim Peters} has used a number of tricks to improve the
 practical performance of \blue{merge sort}.  The resulting algorithm is known as

@@ -681,25 +681,25 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \\[0.2cm]
   Now there are three cases.
   \begin{enumerate}
-  \item Case: $C = \emptyset$, $\mathbb{E}_A = a - 1$, and $\mathbb{E}_B = b - 1$.
+  \item Case: $C = \emptyset$, $\#\mathbb{E}_A = a - 1$, and $\#\mathbb{E}_B = b - 1$.
     
     Then by induction hypothesis $\mathcal{T}_A$ and $\mathcal{T}_B$ are trees.  In that case, $\mathcal{T}$ is
     a tree also because the edge $\{x,y\}$ connects the nodes from $A$ and $B$.
-    Since $\mathbb{E} = \mathbb{E}_A + \mathbb{E}_B + 1$ and $n = a + b$ we have
+    Since $\#\mathbb{E} = \#\mathbb{E}_A + \#\mathbb{E}_B + 1$ and $n = a + b$ we have
     \\[0.2cm]
     \hspace*{1.3cm}
-    $\mathbb{E} = (a - 1) + (b - 1) + 1 = n - 1 = \#\mathbb{V} - 1$.
+    $\#\mathbb{E} = (a - 1) + (b - 1) + 1 = n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
     Hence in this case the claims $(a)$ and $(b)$  are trivially true as their assumptions are not given,
     while the last claim is true because $\mathcal{T}$ is a tree.
     \green{$\surd$}
-  \item Case: $C = \emptyset$, $\mathbb{E}_A < a - 1$, or $\mathbb{E}_B < b - 1$.
+  \item Case: $C = \emptyset$, $\#\mathbb{E}_A < a - 1$, or $\#\mathbb{E}_B < b - 1$.
     
     Then by induction hypothesis either $\mathcal{T}_A$ or $\mathcal{T}_B$ is not connected.  Of course, then $\mathcal{T}$ is not connected either.
     Furthermore, since we have $\# \mathbb{E}_A \leq a - 1$ and $\# \mathbb{E}_B \leq b - 1$ it follows that
     \\[0.2cm]
     \hspace*{1.3cm}
-    $\mathbb{E} = \mathcal{E}_A + \mathbb{E}_B - 1 < (a - 1) + (b - 1) = n - 1 = \#\mathbb{V} - 1$.
+    $\#\mathbb{E} = \#\mathbb{E}_A + \#\mathbb{E}_B - 1 < (a - 1) + (b - 1) = n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
     Therefore in this case claim $(a)$ and $(c)$ are trivially true and $(b)$ is true because $\mathcal{T}$ is
     not connected.  \green{$\surd$}
