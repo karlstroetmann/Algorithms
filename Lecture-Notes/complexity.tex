@@ -11,13 +11,13 @@ powers efficiently, i.e.~we discuss how to evaluate the expression $a^b$ for giv
 is significantly faster than the naive approach.  After that, we discuss the \blue{master theorem}, which
 enables us to estimate the \blue{growth rate} of functions that are defined recursively.  Finally, we learn how to solve
 \blue{recurrence relations}.  These are recursive equations that arise from the complexity analysis of
-functions that are recursively defined.
+functions that are defined recursively.
 
 \section{Motivation}
 Sometimes it is necessary to have a precise understanding of the complexity of an algorithm.  
 In order to obtain this understanding we could proceed as follows:  
 \begin{enumerate}
-\item We implement the algorithm in a given programming language.
+\item We implement the algorithm in assembly language.
 \item We count how many additions, multiplications, assignments, etc.~are needed
       for an input of a given size.  Additionally, we have to count all storage accesses.
 \item We look up the amount of time that is needed for the different operations in the processor handbook.
@@ -26,7 +26,7 @@ In order to obtain this understanding we could proceed as follows:
 \end{enumerate}
 This approach is problematic for a number of reasons.
 \begin{enumerate}[(a)]
-\item It is both very time consuming and very complicated.
+\item It is very complicated and therefore far too time-consuming.
 \item The execution time of the basic operations is highly dependent on the memory hierarchy of the
       computer system:  For many modern computer architectures, adding two numbers that happen to be
       in a \blue{register} is more than ten times faster than adding two numbers that reside in
@@ -41,12 +41,21 @@ This final reason shows that the approach sketched above is not well suited to m
 an \blue{algorithm}: After all, the notion of an algorithm is more abstract than the notion of a program
 and we really need a notion measuring the complexity of an algorithm that is more abstract than the
 notion of the running time of a program.  This notion of complexity should satisfy the following
-specification: 
+specification:
+
+\begin{figure}[t]
+  \centering
+  \framebox{\epsfig{file=Abbildungen/moore.pdf, scale=0.133}} 
+  \caption{Moore's Law.} 
+  \label{fig:moore.eps}
+\end{figure}
+
 \begin{itemize}
 \item The notion of complexity should \blue{abstract from constant factors}.  After all, according to 
       \href{http://en.wikipedia.org/wiki/Moore's_law}{Moore's law}, 
       computers hitting the market two years from now will be about twice as powerful as today's computers.
-
+      Figure \ref{fig:moore.eps} on page \pageref{fig:moore.eps} shows Moore's law graphically.
+      \FloatBarrier
 \item The notion should abstract from \blue{insignificant terms}.
 
       Assume you have written a program that  multiplies two $n \times n$ matrices.  Assume,
@@ -81,9 +90,7 @@ specification:
       Therefore the notion of complexity should capture the relation between the input size and the running time.
 \end{itemize}
 Let us denote the set of all positive real numbers\footnote{
-  In the literature, the set of positive real numbers is usually denoted as $\mathbb{R}_{>0}$.  I prefer the
-  notation $\mathbb{R_+}$ because it is shorter.
-}
+  In the literature, the set of positive real numbers is often denoted as $\mathbb{R}_{>0}$.}
 as $\R_+$, i.e.~let us define 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -94,6 +101,7 @@ as:
 \\[0.2cm]
 \hspace*{1.3cm} 
 $\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \}$. \index{$\mathbb{R}_+^\mathbb{N}$}
+Now we are ready to introduce the \href{https://en.wikipedia.org/wiki/Big_O_notation}{big O notation}.
 
 \begin{Definition}[$\Oh(g)$] 
 Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that \blue{grow at most as fast}
@@ -103,6 +111,14 @@ Assume $g \in \R_+^{\N}$ is given.   Let us define the set of all functions that
   \colorbox{red}{\framebox{\colorbox{orange}{
   $ \Oh(g) \;:=\; \left\{ f \in \R_+^{\;\N} \mid \exists k \in \N \colon 
     \exists c \in \R_+\colon \forall n \in \N \colon \bigl(n \geq k \rightarrow f(n) \leq c \cdot g(n)\bigr) \right\}$}}}
+  \\[0.2cm]
+  Let us put this in words: A function $f:\mathbb{N} \rightarrow \mathbb{R}_+$ is an element of the set
+  $\Oh(g)$ iff there are constants $k \in \mathbb{N}$ and $c \in \mathbb{R}_+$ such that
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $f(n) \leq c \cdot g(n)$ \quad provided that $n \geq k$.
+  \\[0.2cm]
+  In this case we say that \blue{$f$ is $\mathcal{O}(g)$}.
   \eox
 \end{Definition}
 
@@ -187,7 +203,7 @@ holds and we have to show that this implies
   \label{eq:u2}
   3 \cdot n^3 + 2 \cdot n^2 + 7 \leq 12 \cdot n^3.
 \end{equation}
-If we take the third power of both sides of the inequality (\ref{eq:u1}) then we see that
+If we take the third power of both sides of the inequality (\ref{eq:u1}), then we see that
 \begin{equation}
   \label{eq:u3pre}
   1 \leq n^3.
@@ -249,7 +265,8 @@ We prove this claim by induction on $n$.
 \exercise
 \begin{enumerate}[(a)]
 \item Prove that $n^2 \in \Oh(2^n)$. 
-\item Prove that $n^3 \in \Oh(2^n)$. 
+\item Prove that $n^3 \in \Oh(2^n)$.
+      \eoxs
 % \item Prove that for every $\alpha \in \mathbb{N}$ we have  $n^\alpha \in \Oh(2^n)$. 
       
 %       \hint
@@ -289,9 +306,10 @@ We prove this claim by induction on $n$.
 %             in the induction step of the side induction.  \eox
 %       \end{enumerate}
 \end{enumerate}
+
 It would be very tedious if we would have to use induction every time we need to prove that 
-$f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a number of properties of
-the big $\Oh$ notation next.  These properties will later enable us to prove a claim of the form 
+$f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a number of properties of the
+big $\Oh$ notation next.  These properties will later enable us to prove claims of the form 
 $f \in \Oh(g)$ much quicker than by induction.
 
 \begin{Proposition}[Reflexivity of the Big $\Oh$ Notation] \index{reflexivity of big $\Oh$ notation}
@@ -332,8 +350,8 @@ and by definition this implies $d \cdot g \in \Oh(f)$. \qed
 \vspace*{0.2cm}
 
 \remark 
-The previous proposition shows that the big $\Oh$ notation does indeed abstract
-from constant factors. \eoxs
+The previous proposition shows that the big $\Oh$ notation abstracts
+from constant factors. 
 
 \begin{Proposition}[Stability of the Big $\Oh$ Notation under Addition]
 Assume that $f,g,h \colon \N \rightarrow {\R_+}$. Then we have 
@@ -366,19 +384,21 @@ holds for all $n \geq k$.
 \qed
 
 \exercise
-Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the claim that 
-\\[0.2cm]
-\hspace*{1.3cm}
-$f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 \cdot f_2 \in \Oh(h_1 \cdot h_2)$
-\quad holds.  \eoxs
-
-
-\exercise
-Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the claim that 
-\\[0.2cm]
-\hspace*{1.3cm}
-$f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 / f_2 \in \Oh(h_1 / h_2)$
-\quad holds.  \eoxs
+Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.
+\begin{enumerate}[(a)]
+\item Prove or refute the claim that 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 \cdot f_2 \in \Oh(h_1 \cdot h_2)$
+      \\[0.2cm]
+      holds.  
+\item Assume that $f_1,f_2,h_1,h_2 \colon \N \rightarrow {\R_+}$.  Prove or refute the claim that 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $f_1 \in \Oh(h_1) \wedge f_2 \in \Oh(h_2) \,\rightarrow\, f_1 / f_2 \in \Oh(h_1 / h_2)$
+      \\[0.2cm]
+      holds.  \eoxs
+\end{enumerate}
 
 \begin{Proposition}[Transitivity of Big $\mathcal{O}$ Notation] \index{transitivity of big $\mathcal{O}$ notation}
 Assume $f,g,h \colon \N \rightarrow {\R_+}$. Then we have \\[0.2cm]
@@ -414,9 +434,10 @@ The transitivity of the relation $\leq$ immediately implies $f(n) \leq c \cdot h
 \qed
 
 \begin{Proposition}[Limit Proposition] \index{limit proposition} \label{limit}
-  Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the \href{https://en.wikipedia.org/wiki/Limit_(mathematics)#Limit_of_a_sequence}{limit}
-  \\[0.3cm]
-  \hspace*{3.3cm}
+  Assume that $f,g \colon \N \rightarrow {\R_+}$.   Furthermore, assume that the
+  \href{https://en.wikipedia.org/wiki/Limit_of_a_sequence}{limit} 
+  \\[0.4cm]
+  \hspace*{1.3cm}
  $\lim\limits_{n \rightarrow \infty} \bruch{\,f(n)\,}{g(n)}$
   \\[0.2cm]
   exists.  Then we have $f \in \Oh(g)$. 
@@ -446,7 +467,9 @@ holds.  Let us multiply this inequality with $g(n)$.  As $g(n)$ is positive, thi
 \hspace*{1.3cm}
 $|f(n) - \lambda \cdot g(n)| \leq g(n)$. 
 \\[0.2cm]
-The triangle inequality $|a + b| \leq |a| + |b|$ for real numbers tells us that 
+The inequality $|a + b| \leq |a| + |b|$, which is a special case of the
+\href{https://en.wikipedia.org/wiki/Triangle_inequality}{triangle inequality} for
+real numbers, tells us that  
 \\[0.2cm]
 \hspace*{1.3cm}
 $f(n) =    \bigl|f(n)\bigr|
@@ -484,7 +507,7 @@ We have \\[0.2cm]
 \hspace*{1.3cm} 
 $\lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{n^{k+1}} = \lim\limits_{n \rightarrow   \infty} \bruch{1}{n} = 0$.
 \\[0.2cm]
-Therefore, the claim follows from the limit proposition. 
+The claim now follows from the limit proposition. 
 \qeds
 
 \example
@@ -499,7 +522,7 @@ Assume $k \in \N$ and $\lambda \in \R$ where $\lambda > 1$.  Then we have \\[0.2
   \lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{\lambda^n} = 0  
 \end{equation}
 is true.  Then the claim is an immediate consequence of the limit proposition. 
-According to \blue{L'H\^opital's rule}\footnote{Basically, L'H\^opital's rule states that provided the
+According to \href{https://de.wikipedia.org/wiki/Regel_von_de_L%27Hospital}{L'H\^opital's rule}\footnote{Basically, L'H\^opital's rule states that provided the
   limit $\ds \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$ exists and $g'(x) \not= 0$, we have
   \\
   \hspace*{1.3cm}
@@ -589,8 +612,9 @@ We have $2^n \in \Oh(3^n)$, but  $3^n \notin \Oh(2^n)$.
 $\displaystyle\lim\limits_{n \rightarrow \infty} \bruch{2^n}{3^n} = 
  \lim\limits_{n \rightarrow \infty} \left(\bruch{2}{3}\right)^n = 0$
 \\[0.2cm]
-and therefore we have $2^n \in \Oh\bigl(3^n\bigr)$.  The proof of $3^n \notin \Oh(2^n)$ is a 
-\blue{proof by contradiction}.  Assume that 
+and the limit proposition therefore shows that $2^n \in \Oh\bigl(3^n\bigr)$.  The proof that $3^n \notin
+\Oh(2^n)$ is a  proof\linebreak
+\href{https://en.wikipedia.org/wiki/Proof_by_contradiction}{by contradiction}.  Assume that 
 $3^n \in \Oh(2^n)$ holds.  Then, there have to be numbers $c$ and $k$ such that 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -658,23 +682,31 @@ $\bruch{\ln(c)}{\ln(3) - \ln(2)}$.
       Refute the claim that this implies 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
-\item Assume that $f, g \in \mathbb{R}_+^\mathbb{N}$ and that, furthermore, 
-      $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)} = 0$.  
-      holds.
-      Prove that this implies
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
-\item Prove that $n^n \in \mathcal{O}\bigl(2^{2^n}\bigr)$.
-      \eox
-\item Prove that we have that $n^k \in \Oh\bigl(n^{\ln(n)}\bigr)$ for all $k \in \mathbb{N}$. \eox
-\item Prove that $n^{\ln(n)} \in \Oh\bigl(b^n\bigr)$ for all $b > 1$.  \eox
-
-      \remark
-      The last two examples show that the function $n^{\ln(n)}$ grows faster than any polynomial function but
-      slower than any exponential function.
+      $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$. \eox
 \end{enumerate}
+% \item Assume that $f, g \in \mathbb{R}_+^\mathbb{N}$ and that, furthermore, 
+%       $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)} = 0$.  
+%       holds.
+%       Prove that this implies
+%       \\[0.2cm]
+%       \hspace*{1.3cm}
+%       $\displaystyle 2^{f(n)} \in \Oh\bigl(2^{g(n)}\bigr)$.
+% \item Prove that $n^n \in \mathcal{O}\bigl(2^{2^n}\bigr)$.
+    
+\remark      
+It is possible to show that
+\\[0.2cm]
+\hspace*{1.3cm}
+$n^k \in \Oh\bigl(n^{\ln(n)}\bigr)$ \quad for all $k \in \mathbb{N}$
+\\
+and that
+\\
+\hspace*{1.3cm}
+$n^{\ln(n)} \in \Oh\bigl(b^n\bigr)$ \quad for all $b > 1$.  
+\\[0.2cm]
+This shows that there are functions that grow faster than any polynomial
+function but slower than any exponential function. \eox
+
 
 \section{A Remark on Notation}
 Technically, for some function $g:\mathbb{N} \rightarrow \mathbb{R}_+$ the expression $\Oh(g)$
@@ -690,14 +722,14 @@ notation and write
 \hspace*{1.3cm}
 $f = \Oh(g)$ \quad instead of \quad $f \in \Oh(g)$.
 \\[0.2cm]
-Where convenient, we will use this notation, too.  However, you have to be aware of the fact that
-this is quite dangerous.  For example, if we have two different functions $f_1$ and
+You should be aware of the fact that
+this abuse of notation is quite dangerous.  For example, if we have two different functions $f_1$ and
 $f_2$ such that both
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 \in \Oh(g)$ \quad and \quad $f_2 \in \Oh(g)$
 \\[0.2cm]
-holds, when we write this as
+holds, when we would write this as
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 = \Oh(g)$ \quad and \quad $f_2 = \Oh(g)$,
@@ -705,9 +737,8 @@ $f_1 = \Oh(g)$ \quad and \quad $f_2 = \Oh(g)$,
 then we must not conclude that $f_1 = f_2$ as the functions $f_1$ and $f_2$ are merely members of
 the same set $\Oh(g)$ and are not necessarily equal.  For example, $n \in \Oh(n)$ and 
 $2 \cdot n \in \Oh(n)$,  but $n \not= 2 \cdot n$.
-\vspace*{0.3cm}
 
-Furthermore, for given functions $f$, $g$, and $h$ we write
+For given functions $f$, $g$, and $h$ we write
 \\[0.2cm]
 \hspace*{1.3cm}
 $f = g + \Oh(h)$
@@ -755,7 +786,7 @@ determining the complexity.
 \index{computation of powers}
 Let us study an example to clarify the notions introduced so far.  
 Consider the program shown in Figure \ref{fig:power-naive.stlx}.  Given an integer $m$ and a
-natural number $n$, $\mytt{power}(m, n)$ computes $m^n$.
+natural number $n$, $\mytt{power}(m, n)$ computes the value $m^n$.
 The basic idea is to compute the value of $m^n$ according to the formula \\[0.2cm]
 \hspace*{1.3cm} 
 $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$. 
@@ -785,13 +816,16 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
 This program is obviously correct.  The computation of $m^n$ requires $n$ multiplications if the
 function \mytt{power}  is implemented as shown in Figure \ref{fig:power-naive.stlx}.
 Fortunately, there is an algorithm for computing $m^n$ that is much more efficient.
+This algorithm is known as iterative squaring or as
+\href{https://en.wikipedia.org/wiki/Exponentiation_by_squaring}{exponentiation by squaring}.
+\index{iterative squaring} 
 Consider we have to evaluate $m^4$.  We have
  \\[0.2cm]
 \hspace*{1.3cm} 
 $m^4 = (m \cdot m) \cdot (m \cdot m)$.
 \\[0.2cm]
 If the expression $m\cdot m$ is computed just once, the computation of
-$m^4$ needs only two multiplications while the naive approach would already need 3 multiplications.
+$m^4$ requires only two multiplications while the naive approach would already use 3 multiplications.
 In order to compute $m^8$ we can proceed according to the following formula: \\[0.2cm]
 \hspace*{1.3cm} 
 $m^8 = \bigl( (m \cdot m) \cdot (m \cdot m) \bigr) \cdot \bigl( (m \cdot m) \cdot (m \cdot m)
@@ -899,7 +933,7 @@ $(b_l)_l$
 satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l-1} = a_{(2^l-1) \dvv 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$ with
+$\ds b_l = a_{2^l-1} = a_{(2^l-1) \dvv 2} + 2 = a_{2^{l-1}-1} + 2 = b_{l-1} +2$ \qquad for all $l\in\N$ with
 $l > 0$
 \\[0.2cm]
 and the initial term $b_0$ satisfies $b_0 = a_{2^0-1} = a_0 = 0$.  It is quite obvious that the
