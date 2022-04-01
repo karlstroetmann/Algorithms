@@ -1,14 +1,8 @@
 \chapter{Introduction}
 \section{Motivation}
-The previous course has shown us how interesting problems can be solved with the
-help of \blue{sets} and \blue{dictionaries}.  However, we did not discuss how these data structures can be
-implemented in an efficient way.  This course will answer this question:  We will develop a number of different data structures
-that can be used to implement both sets and dictionaries.  Furthermore, we will discuss a number of
-other data structures and algorithms that should be in the toolbox of every computer scientist.
-
-While the class in the last term has introduced the students to the theoretical foundations of
-computer science, this class is more practical.  Indeed, it may be one of the most 
-important classes for your future career: Five years after their students have graduated, Stanford University
+This is an introductory class about algorithms and their complexity.
+I intend this class to be quite practical as it may be one of the most important classes for your future
+career: Five years after their students have graduated, Stanford University 
 regularly asks their former students to rank those classes that were the most useful for their professional
 career.  Together with programming and databases, the class on algorithms consistently ranks highest.
 On \href{https://quora.com}{Quora}, the answers to the question
@@ -27,45 +21,35 @@ availability of book titles like
 \section{Overview}
 This lecture covers the design and the analysis of algorithms.  We will discuss the following topics.
 \begin{enumerate}
-% \item Undecidability of the \href{http://en.wikipedia.org/wiki/Halting_problem}{halting problem}.
-
-%       At the beginning of the lecture we discuss the limits of computability:  We will show that
-%       there is no \textsc{SetlX} function \texttt{doesTerminate} such that for a given function $f$
-%       of one argument and a string $s$ the expression
-%       \\[0.2cm]
-%       \hspace*{1.3cm}
-%       $\texttt{doesTerminate}(f, s)$ 
-%       \\[0.2cm]
-%       yields \texttt{true} if the evaluation of $f(s)$ terminates and yields \texttt{false} otherwise.
 \item \href{http://en.wikipedia.org/wiki/Computational_complexity_theory}{Complexity} \index{complexity} of algorithms
 
       In general, in order to solve a given problem it is not enough to develop an algorithm that
       implements a function $f$ computing the  value $f(x)$ for a given argument $x$.  It is also important  
-      that the computation of $f(x)$ does not consume too much \blue{time} or \blue{memory}.  Hence, we have
-      to develop \blue{efficient} algorithms.  In order to be able to discuss the concept of \blue{efficiency} 
-      we discuss the \blue{growth rate} of functions.  This notation is useful to abstract from
+      that the computation of $f(x)$ does not consume too much \blue{time}, or \blue{memory}, or \blue{energy}.
+      Hence, we have to develop \blue{efficient} algorithms.  In order to be able to discuss the concept of
+      \blue{efficiency} we discuss the \blue{growth rate} of functions.  This notation is useful to abstract from
       unimportant details when discussing the runtime of algorithms.  
-% \item Recurrence Relations
+\item Recurrence Relations
 
-%       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
-%       \index{recurrence relation}
-%       is the discrete analogue of the notion of a 
-%       \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
-%       For example, the equation
-%       \\[0.2cm]
-%       \hspace*{1.3cm}
-%       $a_{n+2} = a_{n+1} + a_n$
-%       \\[0.2cm]
-%       is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
-%       defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
-%       the formula
-%       \\[0.2cm]
-%       \hspace*{1.3cm}
-%       $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
-%       \\[0.2cm]
-%       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
-%       \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
-%       be used to compute the growth of \blue{recursive} functions.
+       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+       \index{recurrence relation}
+       is the discrete analogue of the notion of a 
+       \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
+       For example, the equation
+       \\[0.2cm]
+       \hspace*{1.3cm}
+       $a_{n+2} = a_{n+1} + a_n$
+       \\[0.2cm]
+       is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
+       defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
+       the formula
+       \\[0.2cm]
+       \hspace*{1.3cm}
+       $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
+       \\[0.2cm]
+       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
+       \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
+       be used to compute the growth of \blue{recursive} functions.
 \item \blue{Correctness} of algorithms
       
       An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
@@ -79,7 +63,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
-      these algorithms are easy to understand and easy to analyse.  Therefore, we start our discussion of
+      these algorithms are both easy to understand and easy to analyse.  Therefore, we start our discussion of
       algorithms and their complexity with these algorithms.  In this lecture, we discuss the following
       sorting algorithms: 
       \begin{enumerate}
@@ -99,7 +83,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
 %      is a method to investigate the correctness of an algorithm.  
 
-\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and sets
+\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and \blue{sets}
   
       A \blue{dictionary} is a data structures that can be used to implement a function on a finite domain.
       Most modern programming languages provide dictionaries as basic data structures.  We discuss various data
@@ -137,7 +121,6 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
 Instead, my goal is to enable you to \blue{think} algorithmically:  At the end of these
 lectures, you should have acquired the following capabilities:
-\pagebreak
 \begin{enumerate}
 \item You should be able to read and understand scientific literature describing algorithms.
 \item You should have acquired the skill to develop your own algorithms and to analyse their complexity.
@@ -186,9 +169,13 @@ algorithms in this lecture.
       our method of choice.
 
       However, after having presented an algorithm in the language of mathematics, it is often very
-      straightforward to implement this algorithm in the programming language \textsl{Python}.
-      Furthermore, this has the added benefit that we are able to test our algorithm.  For this reason we
-      present \textsl{Python} implementations of all the algorithms covered in this lecture.
+      straightforward to implement this algorithm in a high level programming language like \textsl{Python}
+      or \textsl{Julia}.  Furthermore, this has the added benefit that we are able to test our algorithm.  For
+      this reason we present \textsl{Python} implementations of all the algorithms covered in this lecture.
+      You can find these implementations on my GitHub repository for this lecture
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \href{https://github.com/karlstroetmann/Algorithms/tree/master/Python}{https://github.com/karlstroetmann/Algorithms/tree/master/Python}.
 \end{enumerate}
 
 \section{Desirable Properties of Algorithms}
@@ -196,7 +183,8 @@ Before we start with our discussion of algorithms we should think about our goal
 algorithms.  
 \begin{enumerate}[(a)]
 \item Algorithms have to be \blue{correct}.
-\item Algorithms should be \blue{efficient} with respect to both \blue{computing time} and \blue{memory}.
+\item Algorithms should be \blue{efficient} with respect to both \blue{computing time}, \blue{memory}, and,
+      last not least, \blue{energy consumption}.
 \item Algorithms should be \blue{simple}.
 \end{enumerate}
 The first goal in this list is so self-evident that it is often overlooked.  The
@@ -257,9 +245,10 @@ my answers will be some \blue{random rubbish} \dVomey[2][green!80!black][brown].
 
 \section{A Request}
 Computer science is a very active field of research.  Furthermore, my comprehension of the English
-language is improving steadily, or so I hope.  Therefore, these lecture notes are constantly
+language is improving steadily, at least that is what I hope.  Therefore, these lecture notes are constantly
 evolving and hence might contain typos or even mistakes.  If you find a problem,
-please take the time and either send me an email or a message on discord.  My email address is
+please take the time and either send me an email or a message on
+\href{https://discordapp.com/users/110511107520643072}{discord}.  My email address is 
 \\[0.2cm]
 \hspace*{1.3cm}
 \href{mailto:karl.stroetmann@dhbw-mannheim.de}{karl.stroetmann@dhbw-mannheim.de}.
@@ -274,6 +263,17 @@ have the same question, it is best if you ask your question via the \href{https:
 server that I am using as a discussion forum for this lecture.  All your questions are welcome since they give
 me valuable feedback  \blue{\st{how stupid you really are}} to improve my lecture. 
 
+\section{Check Your Understanding}
+After reading this chapter you should be able to answer the following questions.
+\begin{enumerate}[(a)]
+\item What reasons do I have to assume that this lecture is more important than other lectures that you will be
+      attending in this semester.
+\item What are the most important features of an algorithm?
+\item What is the difference between an algorithm and a program?
+\item Where can you find the programs discussed in this lecture?
+\item Which books do you need to read to be able to pass the exam on algorithms at the end of this term?
+\item Which algorithm is probably not the best choice if you have to sort a million 32-bit integers? 
+\end{enumerate}
 
 %%% local Variables: 
 %%% mode: latex
