@@ -794,21 +794,14 @@ $m^n = \underbrace{m \cdot {\dots} \cdot m}_n$.
 
 \begin{figure}[!h]
   \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                numbers       = left,
-                numbersep     = -0.2cm,
-                bgcolor       = sepia,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm
-              ]{python3}
+\begin{python3code}
     def power(m, n):
         r = 1
         for i in range(n):
             r = r * m
         return r
-\end{minted}
-\vspace*{-0.3cm}
+\end{python3code}
+\vspace*{-0.7cm}
   \caption{Naive computation of $m^n$ for  $m,n \in \N$.}
   \label{fig:power-naive.stlx}
 \end{figure} 
@@ -864,14 +857,7 @@ $q = a \mbox{\,\mytt{/}$\!$\mytt{/}\,} b$ \quad and \quad $r = a \;\mytt{\%}\; b
 
 \begin{figure}[!h]
   \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                numbers       = left,
-                numbersep     = -0.2cm,
-                bgcolor       = sepia,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm
-              ]{python3}
+\begin{python3code} 
     def power(m, n):
         if n == 0:
             return 1
@@ -880,8 +866,8 @@ $q = a \mbox{\,\mytt{/}$\!$\mytt{/}\,} b$ \quad and \quad $r = a \;\mytt{\%}\; b
             return p * p
         else:
             return p * p * m
-\end{minted}
-\vspace*{-0.3cm}
+\end{python3code}
+\vspace*{-0.7cm}
   \caption{Computation of $m^n$ for $m,n \in \N$.}
   \label{fig:power.stlx}
 \end{figure} 
@@ -1503,20 +1489,13 @@ numbers are defined inductively as follows:
 
 \begin{figure}[!h]
   \centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                bgcolor       = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm
-              ]{python3}
+\begin{python3code} 
     def fib(n):
         if n <= 1:
             return n
         return fib(n-1) + fib(n-2)
-\end{minted}
-\vspace*{-0.3cm}
+\end{python3code}
+\vspace*{-0.7cm}
   \caption{A \textsl{Python} program to compute the Fibonacci numbers.}
   \label{fig:Fibonacci.ipynb}
 \end{figure} 
