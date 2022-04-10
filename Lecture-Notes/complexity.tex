@@ -1661,7 +1661,7 @@ This explains the strong increase in computing time.
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
 and plays an important role in geometry and art. \eoxs
 
-\subsection{The General Case}
+\subsection{Second Order Recurrence Relations: The General Case}
 In the remainder of this section we will define the notion of a \blue{linear inhomogeneous recurrence relation}
 of the second order and describe a general method for solve this kind of recurrence equations.
 
@@ -1675,11 +1675,23 @@ of the second order and describe a general method for solve this kind of recurre
   \quad where $a, b, c, d, e \in \mathbb{Z}$.
   \\[0.2cm]
   Here, $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}  Taken together, the recurrence
-  relation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$.  \eox
+  relation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$ of integers.  \eox
 \end{Definition}
 
 \noindent
-The method to \blue{solve} a second order linear inhomogeneous recurrence relation consists of three steps.
+Our aim is to derive an expression $f(n)$ such that $f(n) = x_n$ for all $n\in\mathbb{N}$.  An expression of
+this kind is then called a \blue{solution} of the given recurrence in \blue{closed terms}.  For example, it can
+be shown, that the expression
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \bruch{1}{\sqrt{5}} \cdot \left(\biggl(\bruch{1+\sqrt{5}}{2}\biggr)^{n} - \biggl(\bruch{1-\sqrt{5}}{2}\biggr)^{n+1}\right)$ \quad
+\\[0.2cm]
+is a solution of the recurrence relation 
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_{n+2} = x_{n+1} + x_n$ \quad and \quad $x_0 = 0$, $x_1 = 0$.
+\\[0.2cm]
+Our method to \blue{solve} a second order linear inhomogeneous recurrence relation consists of three steps.
 \begin{enumerate}
 \item We use the ansatz $x_n = \lambda^n$ to solve the \blue{associated homogeneous recurrence relation}
       \\[0.2cm]
@@ -1764,12 +1776,17 @@ The method to \blue{solve} a second order linear inhomogeneous recurrence relati
             $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
       \item $a + b = 1$ and $a \not= 2$.
 
-            In this case, the ansatz $x_n = \gamma$ does not work.  Instead, we have to use the ansatz
+            In this case, the ansatz $x_n = \gamma$ does not work since we would have
             \\[0.2cm]
             \hspace*{1.3cm}
-            $x_n = \gamma \cdot n$.           
+            $\ds \gamma = \frac{c}{1 - a - b} = \frac{\;c\;}{0}$
             \\[0.2cm]
-            This leads to the equation
+            which is undefined.  Therefore, we have to use the ansatz
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \gamma \cdot n$           
+            \\[0.2cm]
+            instead of the ansatz $x_n = \gamma$.  The ansatz $x_n = \gamma \cdot n$ leads to the equation
             \\[0.2cm]
             \hspace*{1.3cm}
             $\gamma \cdot (n+2) = a \cdot \gamma \cdot (n+1) + b \cdot \gamma \cdot n + c$.
@@ -1799,21 +1816,95 @@ The method to \blue{solve} a second order linear inhomogeneous recurrence relati
             This leads to the following system of linear equations:
             \\[0.2cm]
             \hspace*{1.3cm}
-            $d = \alpha + \beta$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 + \gamma$.
+            $d = \alpha + \beta$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 +
+            \gamma$. \hspace*{\fill} $(*)$
             \\[0.2cm]
-            Again, these are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
-            $\beta$, the solution of the recurrence relation is
+            In order to check whether this system of linear equations has a solution, we rewrite it as follows:
+            $$
+            \left(
+              \begin{array}{c}
+                d          \\
+                e - \gamma
+              \end{array}
+            \right) =
+            \left(
+              \begin{array}{cc}
+                1         &  1        \\
+                \lambda_1 & \lambda_2 
+              \end{array}
+            \right) \cdot \left(
+              \begin{array}{c}
+                \alpha \\
+                \beta
+              \end{array}
+              \right)
+            $$
+            This system of linear equations has a solution if and only if the
+            \href{https://en.wikipedia.org/wiki/Determinant}{determinant} of the matrix on the right hand side
+            is different from $0$, i.e.~we need to check that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\texttt{det}\left(
+              \begin{array}{cc}
+                1         & 1        \\
+                \lambda_1 & \lambda_2  
+              \end{array}
+               \right) = 1 \cdot \lambda_1 - 1 \cdot \lambda_2
+            \not= 0$.
+            \\[0.2cm]
+            Fortunately, we have already made the assumption that $\lambda_1 \not= \lambda_2$ and this
+            guarantees that the given system of equations has a solution.
+            Therefore we can solve the equations $(*)$ for the unknowns $\alpha$ and $\beta$ and once we have
+            done this, the solution of the recurrence relation is
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma \cdot n$.
       \item $a = 2$ and $b = -1$.
 
-            In this case we have to use the ansatz
+            In this case we have to solve the recurrence relation
             \\[0.2cm]
             \hspace*{1.3cm}
-            $x_n = \gamma \cdot n^2 + \delta \cdot n + \varepsilon$.                       
-            \exercise
-            Find the values for $\gamma$, $\delta$ and $\varepsilon$ that turn this ansatz into a solution.
+            $x_{n+2} = 2 \cdot x_{n+1} - x_n + c$ \quad with $x_0 = d$, $x_1=e$.
+            \\[0.2cm]
+            By subtracting $x_{n+1}$ on both sides of this equation we arrive at the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_{n+2} - x_{n+1} = x_{n+1} - x_n + c$.
+            \\[0.2cm]
+            We define $y_{n} := x_{n+1} - x_n$.  Then we have to solve the recurrence relation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $y_{n+1} = y_n + c$, \quad where $y_0 = e - d$.
+            \\[0.2cm]
+            This recurrence relation is equation to 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $y_n = y_{n-1} + c$
+            \\[0.2cm]
+            and has the solution 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $y_n = n \cdot c + e - d$.
+            \\[0.2cm]
+            Then we have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $
+            \begin{array}{lcl}
+              x_{n+1} & = & x_n + y_n \\
+                     & = & x_{n-1} + y_{n-1} + y_n \\
+                     & \vdots & \\
+                     & = & \ds x_0 + \sum\limits_{k=0}^n y_k \\[0.2cm]
+                     & = & \ds d + \sum\limits_{k=0}^n \bigl(c \cdot k + e - d\bigr) \\[0.4cm]
+                     & = & \ds d + c \sum\limits_{k=0}^n \cdot k + (n+1) \cdot (e - d) \\[0.5cm]
+                     & = & \ds d + \frac{\;c\;}{2} \cdot (n+1) \cdot n + (n+1) \cdot (e - d) 
+            \end{array}
+            $
+            \\[0.2cm]
+            The formula for $x_n$ is found by substituting $n-1$ for $n$ in the formula above:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
       \end{enumerate}
 \end{enumerate}
 If $\lambda_1 = \lambda_2 =: \lambda$  the procedure given above is changed as then the \blue{general solution} of
@@ -1855,6 +1946,7 @@ Again, we need a case distinction:
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$. \qed
 \end{enumerate}
+\pagebreak
 
 \exercise
 Solve the following second order recurrence relations:
@@ -1872,7 +1964,7 @@ chapter 4 gives a more general version of the master theorem together with a det
 The book ``\blue{Calculus of Finite Differences and Difference Equations}'' by Murray R.~Spiegel
 \cite{spiegel:1971} covers difference equations in much more detail than I was able to cover in my lecture.
 Furthermore, this book contains a large number of both solved and unsolved exercises concerning
-\blue{difference equations}. 
+recurrence relations. 
 
 
 \section{Check Your Understanding}
