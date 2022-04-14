@@ -319,10 +319,15 @@ $f \in \Oh(g)$ much quicker than by induction.
 \end{Proposition}
 
 \proof
-Let us define $k:=0$ and $c:=1$.  Then our claim  follows immediately from the inequality 
+Since the relation $\leq$ is reflexive, we know that 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall n \in \N\colon f(n) \leq f(n)$. \qed
+$\forall n \in \N\colon f(n) \leq f(n)$.
+\\[0.2cm]
+holds.  We can therefore define $k:=0$ and $c:=1$ and conclude that
+\\[0.2cm]
+\hspace*{1.3cm}
+$\forall n \in \N\colon\bigl(n \geq k \rightarrow f(n) \leq c \cdot f(n)\bigr)$. \qed
 
 \begin{Proposition}[Stability of the Big $\Oh$ Notation under Multiplication with Constants] \hspace*{\fill} \linebreak
 Assume that we have functions  $f,g\colon \N \rightarrow {\R_+}$ and a number $d \in \R_+$.  Then we
@@ -567,6 +572,7 @@ $\lambda > 0$.
 \\[0.2cm] 
 Therefore the limit exists and the claim follows from the limit proposition.
 \qed
+\pagebreak
 
 \remark
 This example shows that any polynomial grows slower than any exponential function with a base greater than 1.
@@ -997,10 +1003,7 @@ that the time needed to multiply two numbers depends on the size of these number
 
 \exercise
 Implement a procedure $\mytt{divMod}$ that takes two numbers $m$ and $n$ and that returns the pair
-\\[0.2cm]
-\hspace*{1.3cm}
 $\bigl(m \dv n, m \;\mytt{\%}\; n\bigr)$.
-\\[0.2cm]
 Therefore, if $\mytt{divMod}(m, n) = (q,r)$ we will have both
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1012,6 +1015,8 @@ In your implementation of $\mytt{divMod}$ you are only permitted to use the oper
 $\mytt{\%}$ when the second argument of these operators is $2$, i.e.~you are permitted to
 use the expressions $m \dv 2$ and $m \;\mytt{\%}\; 2$ as these expressions can be implemented
 using bit operations.
+\eoxs
+
 
 \exercise
 Given a natural number $n$, the \blue{integer square root} \index{integer square root} of $n$ is the largest
@@ -1021,7 +1026,7 @@ number $r$ such that $r^2$ is less or equal than $n$, i.e. we have
 $\mytt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
 \begin{enumerate}[(a)]
 \item Develop a recursive algorithm that computes $\mytt{isqrt}(n)$ in terms of $\mytt{isqrt}(n\dv4)$.
-\item Implement this algorithm in \textsl{Python}.
+\item Implement this algorithm in \textsl{Python}. \eoxs
 \end{enumerate}
 
 \section{The Master Theorem}
@@ -1042,13 +1047,7 @@ We present a simplified version of the master theorem next.
   \item the function $f:\N \rightarrow \R_+$ satisfies the recurrence relation
         \\[0.2cm]
         \hspace*{1.3cm}
-        $f(n) = \alpha \cdot f\left(n \dv \beta\right) + \Oh(n^\delta)$,
-        \\[0.2cm]
-        where $n \dv \beta$ denotes \blue{integer division}\footnote{
-          For given integers $a, b \in \mathbb{N}$, the \blue{integer division} $a \dv b$
-          is defined as the biggest number $q \in \mathbb{N}$ such that $q \cdot b \leq a$.  
-        }  
-        of $n$ by $\beta$.
+        $f(n) = \alpha \cdot f\left(n \dv \beta\right) + \Oh(n^\delta)$.
   \end{enumerate}
   Then we have the following:
   \begin{enumerate}
@@ -1946,7 +1945,6 @@ Again, we need a case distinction:
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$. \qed
 \end{enumerate}
-\pagebreak
 
 \exercise
 Solve the following second order recurrence relations:
