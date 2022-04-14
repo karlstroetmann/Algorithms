@@ -832,7 +832,7 @@ $m^8 = \bigl( (m \cdot m) \cdot (m \cdot m) \bigr) \cdot \bigl( (m \cdot m) \cdo
 \\[0.2cm]
 If the expression $(m \cdot m) \cdot (m \cdot m)$ is computed only once, then we need just 3 multiplications
 in order to compute $m^8$.   On the other hand, the naive approach would take 7 multiplications to
-compute $m^8$.  The general case is implemented in the program shown in Figure \ref{fig:power.stlx}.  
+compute $m^8$.  The general case is implemented in the program shown in Figure \ref{fig:Power.ipynb}.  
 In this program, the value of $m^n$ is computed according to the 
 \href{http://en.wikipedia.org/wiki/Divide_and_conquer_algorithm}{divide and conquer} \index{divide and conquer}
 paradigm.  The basic idea that makes this program work is captured by the following formula: 
@@ -875,7 +875,7 @@ $q = a \mbox{\,\mytt{/}$\!$\mytt{/}\,} b$ \quad and \quad $r = a \;\mytt{\%}\; b
 \end{python3code}
 \vspace*{-0.7cm}
   \caption{Computation of $m^n$ for $m,n \in \N$.}
-  \label{fig:power.stlx}
+  \label{fig:Power.ipynb}
 \end{figure} 
 
 Next, we want to analyse the \blue{computational complexity} of our implementation of \mytt{power}.
@@ -1036,10 +1036,11 @@ we have approximated the result using the big $\Oh$ notation.  In many cases we 
 last approximation and in that case it is not necessary to actually solve the recurrence relation.  
 Instead, we can use the 
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem}\index{master theorem} to short 
-circuit the procedure for computing the complexity of an algorithm. 
+circuit the procedure for computing the complexity of an algorithm.   The master theorem was discovered by
+Bentley et.~al.~\cite{bentley:1980} in 1980.
 We present a simplified version of the master theorem next.
 
-\begin{Theorem}[\blue{Master Theorem} \index{Master Theorem}] 
+\begin{Theorem}[\blue{Master Theorem}] \index{Master Theorem}
   Assume that 
   \begin{enumerate}[(a)]
   \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$, $\delta \in \mathbb{R}$ such that $\delta \geq
@@ -1423,6 +1424,36 @@ growth of the function $f$.
 % Furthermore, you are told that $f(1) = 1$.  Try to solve the recurrence relation in this case.
 % \eox
 
+\subsection{An Application of the Master Theorem}
+Next, we show how the master theorem can be applied to derive a bound for the number of multiplications that
+are carried out in the function \texttt{power} that was shown in Figure \ref{fig:Power.ipynb} on page
+\pageref{fig:Power.ipynb}.  Define $f(n)$ as the number of multiplications that are performed, when the
+expression $\mathtt{power}(m,n)$ is evaluated.  In order to state the recurrence equation for $f(n)$, we need
+three observations:
+\begin{enumerate}
+\item The function $\texttt{power}$ calls itself once recursively with the arguments $m$ and $n\dv 2$.
+\item Besides the multiplications arising from the recursive calls of \texttt{power} there are either
+      $1$ or $2$ additional multiplications.
+\item Both $1 \in \Oh\bigl(n^0\bigr)$ and $2 \in \Oh\bigl(n^0\bigr)$.
+\end{enumerate}
+Therefore $f(n)$ satisfies the following recurrence equation:
+\\[0.2cm]
+\hspace*{1.3cm}
+$f(n) = 1 \cdot f(n \dv 2) + \Oh\bigl(n^0\bigr)$.
+\\[0.2cm]
+This shows that we have $\alpha = 1$, $\beta = 2$, and $\delta = 0$.  Since
+\\[0.2cm]
+\hspace*{1.3cm}
+$\beta^\delta = 2^0 = 1 = \alpha$, 
+\\[0.2cm]
+this is the second case of the master theorem and hence we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$f(n) \in \Oh\bigl(\log_2(n)\bigr)$.
+\\[0.2cm]
+It should be obvious that this derivation of the upper bound for the number of multiplications is much less
+tedious than our previous derivation of this upper bound.
+
 \section{Variants of Big $\Oh$ Notation$^*$}
 The big $\Oh$ notation is useful when we want to express that some function $f$ does not grow faster
 than another function $g$.  Therefore, when stating the running time of the worst case of some algorithm,
@@ -1658,7 +1689,7 @@ This explains the strong increase in computing time.
 
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
-and plays an important role in geometry and art. \eoxs
+and plays an important role in geometry, alchemy, and the dark arts. \eoxs
 
 \subsection{Second Order Recurrence Relations: The General Case}
 In the remainder of this section we will define the notion of a \blue{linear inhomogeneous recurrence relation}
