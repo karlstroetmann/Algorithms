@@ -5,7 +5,10 @@ algorithm, the growth rate is often defined via a
 \href{https://en.wikipedia.org/wiki/Recurrence_relation}{recurrence equation}.  In the literature,
 \emph{recurrence equations} are also known as \blue{recurrence relations} or
 \blue{difference equations}\index{difference equation}.  I will call them both recurrence relations and
-recurrence equations interchangeably.  In this section we discuss a simple program whose complexity analysis
+recurrence equations interchangeably.
+
+\section{The Fibonacci Numbers}
+In this section we discuss a simple program whose complexity analysis
 leads to a recurrence equation for the  
 number of additions.  We will then see how this recurrence equation can be solved explicitly.  The program that
 we will analyse is shown in Figure \ref{fig:Fibonacci.ipynb}.  The function $\mytt{fib}(n)$ computes the
@@ -306,7 +309,7 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
-      \item $a + b = 1$ and $a \not= 2$.
+      \item $a + b = 1$.
 
             In this case, the ansatz $x_n = \gamma$ does not work since we would have
             \\[0.2cm]
@@ -328,8 +331,11 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \hspace*{1.3cm}
             $2 \cdot \gamma = a \cdot \gamma + c$.
             \\[0.2cm]
-            If $a = 2$ and $c \not= 0$, then our ansatz fails.  This case is dealt with later.
-            As we have assumed that $a \not= 2$, we have 
+            If $a = 2$ and $c \not= 0$, then our ansatz fails.  Fortunately, this cannot happen as then
+            $b = -1$ (remember we have $a + b = 1$) and the we would have $4 \cdot b + a^2 = 0$,
+            which have already ruled out.
+
+            As we have that $a \not= 2$, we conclude
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds \gamma = \frac{c}{2 - a}$.
@@ -391,52 +397,6 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma \cdot n$.
-      \item $a = 2$ and $b = -1$.
-
-            In this case we have to solve the recurrence equation
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $x_{n+2} = 2 \cdot x_{n+1} - x_n + c$ \quad with $x_0 = d$, $x_1=e$.
-            \\[0.2cm]
-            By subtracting $x_{n+1}$ on both sides of this equation we arrive at the equation
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $x_{n+2} - x_{n+1} = x_{n+1} - x_n + c$.
-            \\[0.2cm]
-            We define $y_{n} := x_{n+1} - x_n$.  Then we have to solve the recurrence equation
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $y_{n+1} = y_n + c$, \quad where $y_0 = e - d$.
-            \\[0.2cm]
-            This recurrence equation is equation to 
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $y_n = y_{n-1} + c$
-            \\[0.2cm]
-            and has the solution 
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $y_n = n \cdot c + e - d$.
-            \\[0.2cm]
-            Then we have
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $
-            \begin{array}{lcl}
-              x_{n+1} & = & x_n + y_n \\
-                     & = & x_{n-1} + y_{n-1} + y_n \\
-                     & \vdots & \\
-                     & = & \ds x_0 + \sum\limits_{k=0}^n y_k \\[0.2cm]
-                     & = & \ds d + \sum\limits_{k=0}^n \bigl(c \cdot k + e - d\bigr) \\[0.4cm]
-                     & = & \ds d + c \sum\limits_{k=0}^n \cdot k + (n+1) \cdot (e - d) \\[0.5cm]
-                     & = & \ds d + \frac{\;c\;}{2} \cdot (n+1) \cdot n + (n+1) \cdot (e - d) 
-            \end{array}
-            $
-            \\[0.2cm]
-            The formula for $x_n$ is found by substituting $n-1$ for $n$ in the formula above:
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
       \end{enumerate}
 \end{enumerate}
 If $\lambda_1 = \lambda_2 =: \lambda$  the procedure given above is changed as then the \blue{general solution} of
@@ -466,7 +426,7 @@ Again, we need a case distinction:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
-\item $a + b = 1$
+\item $a + b = 1$ \quad and $a \not= 2$
     
       Now the system of linear equations is 
       \\[0.2cm]
@@ -477,12 +437,131 @@ Again, we need a case distinction:
       \\[0.2cm]
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$. \qed
+\item $a = 2$ and $b = -1$.
+
+      In this case we have to solve the recurrence equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_{n+2} = 2 \cdot x_{n+1} - x_n + c$ \quad with $x_0 = d$, $x_1=e$.
+      \\[0.2cm]
+      By subtracting $x_{n+1}$ on both sides of this equation we arrive at the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_{n+2} - x_{n+1} = x_{n+1} - x_n + c$.
+      \\[0.2cm]
+      We define $y_{n} := x_{n+1} - x_n$.  Then we have to solve the recurrence equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $y_{n+1} = y_n + c$, \quad where $y_0 = e - d$.
+      \\[0.2cm]
+      This recurrence equation is equation to 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $y_n = y_{n-1} + c$
+      \\[0.2cm]
+      and has the solution 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $y_n = n \cdot c + e - d$.
+      \\[0.2cm]
+      Then we have
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $
+      \begin{array}{lcl}
+        x_{n+1} & = & x_n + y_n \\
+               & = & x_{n-1} + y_{n-1} + y_n \\
+               & \vdots & \\
+               & = & \ds x_0 + \sum\limits_{k=0}^n y_k \\[0.2cm]
+               & = & \ds d + \sum\limits_{k=0}^n \bigl(c \cdot k + e - d\bigr) \\[0.4cm]
+               & = & \ds d + c \sum\limits_{k=0}^n \cdot k + (n+1) \cdot (e - d) \\[0.5cm]
+               & = & \ds d + \frac{\;c\;}{2} \cdot (n+1) \cdot n + (n+1) \cdot (e - d) 
+      \end{array}
+      $
+      \\[0.2cm]
+      The formula for $x_n$ is found by substituting $n-1$ for $n$ in the formula above:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
 \end{enumerate}
+
+\section{Summary}
+We summarize the different cases that occur when solving the inhomogeneous recurrence equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$ \quad with the initial  conditions \quad $x_0 = d$, $x_1 = e$.
+\\[0.2cm]
+We use the ansatz $x_n = \lambda^n$ to solve the homogeneous recurrence equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_{n+2} = a \cdot x_{n+1} + b \cdot x_n$.
+\\[0.2cm]
+There are two cases:
+\begin{enumerate}
+\item Case: $4 \cdot b + a^2 \not= 0$.
+
+      Then we define
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds\lambda_1 = \frac{a}{2} + \frac{1}{2} \cdot \sqrt{4 \cdot b + a^2}$ \quad and \quad
+      $\ds\lambda_2 = \frac{a}{2} - \frac{1}{2} \cdot \sqrt{4 \cdot b + a^2}$.
+      \\[0.2cm]
+      In order to solve the inhomogeneous recurrence equation, we need another case distinction:
+      \begin{enumerate}
+      \item $a + b \not= 1$.
+        
+            Then a special solution can be found using the  \blue{ansatz} $x_n = \gamma$.
+            and the general solution is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+      \item $a + b = 1$.
+
+            Then the special solution is found using the ansatz $x_n = \gamma \cdot n$ and the general
+            solution is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma \cdot n$.
+      \end{enumerate}
+\item Case: $4 \cdot b + a^2 = 0$.
+
+      Then we have 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds \lambda = \frac{a}{2}$.
+      \\[0.2cm]
+      Again, we need another case distinction.
+      \begin{enumerate}
+      \item $a + b \not= 1$.
+
+            Then the solution of the inhomogeneous recurrence equation has the form
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
+      \item $a + b = 1$.
+
+            In this case the solution of the inhomogeneous recurrence equation has the form
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$.
+      \item $a = 2$ and $b = -1$
+
+            In this case the solution is the quadratic function
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
+      \end{enumerate}
+\end{enumerate}
+In all of these cases the parameter $\gamma$ is chosen so that either $x_n = \gamma$ or $x_n = \gamma \cdot n$
+is a solution of the inhomogeneous recurrence equation, while the 
+parameters $\alpha$ and $\beta$ have to be determined in a way that the initial conditions
+are satisfied.
 
 \exercise
 Solve the following second order recurrence equations:
 \begin{enumerate}[(a)]
 \item $x_{n+2} = x_{n+1} + x_n$, \quad where $x_0 = 0$ and $x_1 = 1$.  
+\item $x_{n+2} = x_{n+1} + 2 \cdot x_n + 1$, \quad where $x_0 = 0$ and $x_1 = 0$.  
 \item $x_{n+2} = 4 \cdot x_{n+1} - 4 \cdot x_n + 1$, \quad where $x_0 = 1$ and $x_1 = 3$.  \eox
 \end{enumerate}
 
@@ -591,7 +670,7 @@ exhibits an oscillatory behaviour.
 It should be noted that recurrence equations that arise from the complexity analysis of an algorithm usually do
 not exhibit oscillatory behaviour.  The reason is that that in most cases the running time of an algorithm increases
 monotonely with the size of the input. \eoxs
-\pagebreak
+
 
 \section{WolframAlpha}
 In order to solve recurrence equations, the website \href{https://www.wolframalpha.com/}{WolframAlpha}
@@ -628,9 +707,13 @@ introduced in this chapter.
 \item How are the Fibonacci numbers defined?
 \item Can you derive an explicit formula for the Fibonacci numbers?
 \item How is a second order linear inhomogeneous recurrence equations defined?  
-\item What is the ansatz to solve a linear homogeneous recurrence equation?
-\item Describe the method to solve a linear inhomogeneous recurrence equation!
+\item What is the ansatz to solve a linear \blue{homogeneous} recurrence equation?
+\item Describe the method to solve a linear \blue{inhomogeneous} recurrence equation!
+\item Assume that we have to solve the recurrence equation $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n$
+      and we have $4 \cdot b + a^2 = 0$.  What is the general solution of the given homogeneous
+      recurrence equation in this case?
 \item Which special cases might occur when solving a linear recurrence equation?
+\item How can we solve a recurrence equation of the form $x_{n+2} = 2 \cdot x_n - x_n + c$?
 \item What happens if the numbers $\lambda_1$ and $\lambda_2$ that occur in the general solution
       of a recurrence equation are complex numbers?
 \item What is the easiest method to check if your solution to a given recurrence equation is correct?  
