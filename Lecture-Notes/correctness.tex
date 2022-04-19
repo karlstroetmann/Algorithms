@@ -1,5 +1,5 @@
 \chapter{Proving the Correctness of an Algorithm}
-In this chapter we will show two different methods that can be used to prove that an algorithm is correct.
+In this chapter we will show two different methods that can be used to prove the correctness of an algorithm.
 \begin{enumerate}[(a)]
 \item The method of \blue{computational induction} can be used to verify the correctness of an algorithm that
       is defined recursively.
@@ -10,7 +10,7 @@ In this chapter we will show two different methods that can be used to prove tha
 \section{Computational Induction}
 Figure \ref{fig:power.py} shows the definition of the function $\mytt{power}(m,n)$ that computes
 the value $m^n$.  We have already analyzed the computational complexity of this program in the last chapter.
-In this chapter we show how the correctness of this function can be verified.
+In this chapter we  verify the correctness of this function definition.
 
 \begin{figure}[!h]
   \centering
@@ -39,7 +39,7 @@ In this chapter we show how the correctness of this function can be verified.
 It is by no means obvious that the program shown in \ref{fig:power.py} does compute
 $m^n$.  We prove this claim by  \blue{computational induction}\index{computational induction}.
 Computational induction is an induction on the number of recursive invocations.
-This method is the method of choice to prove the correctness of a function that is defined recursively.
+This method is the method of choice to prove the correctness of a function if this function is defined recursively.
 The method of computational induction consists of three steps:
 \begin{enumerate}
 \item The \blue{base case}.
@@ -49,12 +49,12 @@ The method of computational induction consists of three steps:
 \item The \blue{induction step}.
 
       In the induction step we have to prove that the function definition works in all those cases where
-      the function does invoke itself recursively.  In order to prove the correctness of these cases we may
-      assume that the recursive invocations work correctly.  This assumption is called the
-      \blue{induction hypotheses}.
+      the function does invoke itself recursively.  In order to carry out this proof we may
+      assume that the results computed by the recursively invocations are correct.
+      This assumption is called the \blue{induction hypotheses}.
 \item The \blue{termination proof}.
 
-      In this final step we have to prove that the recursive definition of the function is \blue{well founded},
+      In this final step we have to show that the recursive definition of the function is \blue{well founded},
       i.e.~we have to prove that the recursive invocations terminate.
 \end{enumerate}
 Let us prove the claim 
@@ -74,12 +74,12 @@ by computational induction.
 \item \textbf{Induction step}:
 
       The recursive invocation of $\mytt{power}$ has the form
-      $\mytt{power}(m,n \dv 2)$.  By the induction hypotheses we know that 
+      $\mytt{power}(m,n \dv 2)$.  By the induction hypotheses we may assume that 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\displaystyle \mytt{power}(m,n \dv 2) = m^{n \dvv 2}$ 
       \\[0.2cm]
-      holds.  After the recursive invocation there are two different cases:
+      holds.  After the recursive invocation there are two cases that have to be dealt with separately.
       \begin{enumerate}
       \item $n \;\mytt{\%}\; 2 = 0$, therefore $n$ is even.
 
@@ -116,7 +116,7 @@ by computational induction.
       Every time the function \mytt{power} is invoked as $\mytt{power}(m, n)$ and $n > 0$, the recursive
       invocation has the form $\mytt{power}(m,n \dv 2)$ and, since $n \dv 2 < n$ for all $n > 0$, the second
       argument is decreased.  As this argument is a natural number, it must eventually reach $0$.  But if the
-      second argument of the function $\mytt{power}$ is $0$, the function terminates. \mycheck
+      second argument of the function $\mytt{power}$ is $0$, the function terminates immediately. \mycheck
       \qed
 \end{enumerate}
 
@@ -172,14 +172,14 @@ We will introduce this method via a simple example.  Consider the program shown 
                   codes         = {\catcode`_=8\catcode`$=3},
                   commandchars  = \\\{\},
                 ]
-    def power(x$_1$, y$_1$):
+    \green{def} \blue{power}(x$_1$, y$_1$):
         r$_1$ = 1
-        while y$_n$ > 0:
-            if y$_n$ % 2 == 1:
+        \green{while} y$_n$ > 0:
+            \green{if} y$_n$ % 2 == 1:
                 r$_{n+1}$ = r$_n$ * x$_n$
             x$_{n+1}$ = x$_n$ * x$_n$
-            y$_{n+1}$ = y$_n$ \symbol{92} 2
-        return r$_N$
+            y$_{n+1}$ = y$_n$ // 2
+        \green{return} r$_N$
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{An annotated programm to compute powers.}
@@ -206,7 +206,7 @@ We show the correctness of the given program next.  Let us define
 \hspace*{1.3cm}
 $ a := x_1, \quad b := y_1$.
 \\[0.2cm]
-We will show that the \mytt{while} loop satisfies the invariant
+We will show that the \mytt{while} loop satisfies the \blue{invariant}
 \begin{equation}
   \label{eq:powerInv}
    r_n \cdot x_n^{y_n} = a^b.
@@ -266,13 +266,14 @@ $\mytt{power}(a,b) =a^b$ holds. \qed
 
 \exercise
 Use the method of symbolic program execution to prove the correctness of the implementation of the
-Euclidean algorithm that is shown in Figure \ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx}.  During the proof
+\href{https://en.wikipedia.org/wiki/Euclidean_algorithm}{Euclidean algorithm} that is shown in Figure
+\ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx}.  During the proof 
 you should make use of the fact that for all positive natural numbers $x$ and $y$ the equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mytt{gcd}(x, y) = \mytt{gcd}(x \,\mytt{\%}\, y, y)$
 \\[0.2cm]
-is valid.  
+is valid.  \eox
 
 \begin{figure}[!ht]
 \centering
@@ -284,11 +285,13 @@ is valid.
                   numbersep     = -0.2cm,
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
+                  codes         = {\catcode`_=8\catcode`$=3},
+                  commandchars  = \\\{\},
                 ]
-    def gcd(x, y):
-        while y != 0:
-            x, y = y, x % y
-        return x
+\colorbox{sepia}{    \green{def} \blue{gcd}(x, y):                    }
+\colorbox{sepia}{        \green{while} y != 0:                 }
+\colorbox{sepia}{            x, y = y, x % y           }
+\colorbox{sepia}{        \green{return} x                      }
 \end{Verbatim}
 \vspace*{-0.3cm}
 \caption{The Euclidean algorithm.}
@@ -297,8 +300,13 @@ is valid.
 \pagebreak
 
 \section{Check Your Understanding}
-If you were able solve the  exercises given in this chapter, then you should have mastered the concepts
-that have been introduced in this chapter.
+\begin{enumerate}[(a)]
+\item Explain the method of \blue{computational induction}.
+\item Use the method of computational induction to prove the correctness of the function \texttt{div\_mod}.
+\item Explain the method of \blue{symbolic execution}.
+\item Use the method of symbolic execution to prove the correctness of Euklid's algorithm.
+\item When would you use computational induction and when would you choose symbolic execution instead?
+\end{enumerate}
 
 
 %%% Local Variables:

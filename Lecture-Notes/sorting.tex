@@ -8,7 +8,7 @@ However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
 perform $\Omega\bigl(n \cdot \log_2(n)\bigr)$ comparisons.  The last algorithm presented is \blue{radix sort}, which is an
 algorithm of linear complexity for sorting numbers of a fixed size.
-Finally, show how sorting is applied in the \blue{$k$-nearest-neighbour-algorithm}.
+Finally, show how sorting is used in the \blue{$k$-nearest-neighbour-algorithm}.
 
 \section{The Sorting Problem}
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
@@ -137,8 +137,8 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
         Of course, an object $x$ should only occur in $s$ if it also occurs in $L$.  If we change
         the second requirement in this way, then the main purpose of sorting is to remove duplicate
         elements from a list.  This is actually a common application of sorting in practice.  The
-        reason this application is so common is the following: A list that contains every element at
-        most once can be viewed as representing a set.
+        reason this application is so common is that a list that contains every element at
+        most once can be regarded as a set.
   \end{enumerate}
 \end{enumerate}
 
