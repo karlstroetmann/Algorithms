@@ -198,7 +198,7 @@ and plays an important role in geometry, alchemy, and the dark arts. \eoxs
 
 \section{Second Order Recurrence Equations: The General Case}
 In the remainder of this section we will define the notion of a \blue{linear inhomogeneous recurrence equation}
-of the second order and describe a general method for solve this kind of recurrence equations.
+of the second order and describe a general method to solve this kind of recurrence equations.
 
 \begin{Definition}[Second Order Linear Inhomogeneous Recurrence Equation] \hspace*{\fill} \\
   A \blue{second order linear inhomogeneous recurrence equation}
@@ -248,7 +248,8 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
       \hspace*{1.3cm}
       $\lambda^{2} - a \cdot \lambda^{1} = b$.
       \\[0.2cm]
-      We complete the squares by adding $(a/2)^2$ on both sides of this equation:
+      We \href{https://en.wikipedia.org/wiki/Completing_the_square}{complete the square} by adding $(a/2)^2$ on
+      both sides of this equation: 
       \\[0.2cm]
       \hspace*{1.3cm}
       $\ds \lambda^{2} - a \cdot \lambda^{1} + \Bigl(\frac{a}{2}\Bigr)^2 = b + \frac{a^2}{4}$.
@@ -262,8 +263,8 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
       There is an exceptional case when $\lambda_1 = \lambda_2$.  This is called the 
       \blue{degenerated case}\index{degenerated case, recurrence equation}.
       This happens when $4 \cdot b + a^2 = 0$.  We will deal with the degenerated case later.  In the
-      following, we assume that $\lambda_1 \not= \lambda_2$.
-\item In order to compute a \blue{special solution} \index{special solution} to the inhomogeneous recurrence equation
+      following, let us assume that $\lambda_1 \not= \lambda_2$.
+\item In order to compute a \blue{special solution} \index{special solution} of the \blue{inhomogeneous} recurrence equation
       \\[0.2cm]
       \hspace*{1.3cm}
       $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$
@@ -272,8 +273,8 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
       \begin{enumerate}
       \item $a + b \not= 1$.
 
-            In this case we can use the \blue{ansatz} $x_n = \gamma$.  Substituting this ansatz into the
-            inhomogeneous recurrence equation leads to the equation
+            In this case we can use the ansatz $x_n = \gamma$.  Substituting this ansatz into the
+            inhomogeneous recurrence equation yields the equation
             \\[0.2cm]
             \hspace*{1.3cm}
             $\gamma = a \cdot \gamma + b \cdot \gamma + c$,
@@ -293,6 +294,8 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \hspace*{1.3cm}
             $\ds \gamma = \frac{c}{1 - a - b}$.
             \\[0.2cm]
+            Of course, this only works out if $a + b \not= 1$.  This is the reason for our case distinction.
+            
             Now the \blue{general solution} of the inhomogeneous recurrence equation is given as follows:
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -304,8 +307,45 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \hspace*{1.3cm}
             $d = \alpha + \beta + \gamma$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 + \gamma$.
             \\[0.2cm]
-            These are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
-            $\beta$, the solution of the recurrence equation is
+            These are two linear equations for $\alpha$ and $\beta$.
+            In order to access whether these equations are solvable, we rewrite these equations in matrix form:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $
+            \left(\begin{array}{c}
+                   d - \gamma \\
+                   e - \gamma
+                  \end{array}
+            \right) =
+            \left(
+              \begin{array}{cc}
+                1 & 1 \\
+                \lambda_1 & \lambda_2
+              \end{array}
+            \right) \cdot
+            \left(
+              \begin{array}{c}
+                \alpha \\
+                \beta
+              \end{array}
+            \right)
+            $
+            \\[0.2cm]
+            This equation has a unique solution if and only if the determinant of the matrix is different from
+            $0$.  We have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $
+            \texttt{det} \left(
+              \begin{array}{cc}
+                1 & 1 \\
+                \lambda_1 & \lambda_2
+              \end{array}
+            \right) = \lambda_1 - \lambda_2 \not= 0 
+            $
+            \\[0.2cm]
+            because $\lambda_1 \not= \lambda_2$.  Therefore we can solve the equations for $\alpha$ and
+            $\beta$.  Then the solution of the recurrence equation is
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
@@ -331,11 +371,11 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \hspace*{1.3cm}
             $2 \cdot \gamma = a \cdot \gamma + c$.
             \\[0.2cm]
-            If $a = 2$ and $c \not= 0$, then our ansatz fails.  Fortunately, this cannot happen as then
-            $b = -1$ (remember we have $a + b = 1$) and the we would have $4 \cdot b + a^2 = 0$,
-            which have already ruled out.
+            If $a = 2$ and $c \not= 0$, then our ansatz would fail.  Fortunately, this cannot happen as then
+            $b = -1$ (remember we have $a + b = 1$) and then we would have $4 \cdot b + a^2 = 0$,
+            which we have already ruled out because this would imply $\lambda_1 = \lambda_2$.
 
-            As we have that $a \not= 2$, we conclude
+            As we have just seen that $a \not= 2$, we conclude
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds \gamma = \frac{c}{2 - a}$.
@@ -420,20 +460,97 @@ Again, we need a case distinction:
       \hspace*{1.3cm}
       $d = \alpha + \gamma$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$.
       \\[0.2cm]
-      These are again two linear equations for $\alpha$ and $\beta$.  
+      These are again two linear equations for $\alpha$ and $\beta$.
+      If we rewrite these equations in matrix form, we get:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $
+      \left(\begin{array}{c}
+             d - \gamma \\
+             e - \gamma
+            \end{array}
+      \right) =
+      \left(
+        \begin{array}{cc}
+          1 & 0 \\
+          \lambda & \lambda
+        \end{array}
+      \right) \cdot
+      \left(
+        \begin{array}{c}
+          \alpha \\
+          \beta
+        \end{array}
+      \right)
+      $
+      \\[0.2cm]
+      This system of equations has a unique solution if and only if
+      \\[0.2cm]
+      \hspace*{1.3cm}
+            $\texttt{det}\left(
+              \begin{array}{cc}
+                1       & 0        \\
+                \lambda & \lambda
+              \end{array}
+               \right) = \lambda \not= 0$.
+      \\[0.2cm]
+      The case $\lambda = 0$ would imply $a = 0$ (because $\lambda = a/2$) and $b = 0$ (because $4 \cdot b + a^2 = 0$)
+      and then the recurrence equations would have the form
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $x_{n+2} = c$,
+      \\[0.2cm]
+      which is not a recurrence equation.  Therefore, this case is ruled out.
+      
       Once we have solved these equations for $\alpha$ and
       $\beta$, the solution of the recurrence equation is now given as
       \\[0.2cm]
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
-\item $a + b = 1$ \quad and $a \not= 2$
+\item $a + b = 1$ \quad and $a \not= 2$.
     
       Now the system of linear equations is 
       \\[0.2cm]
       \hspace*{1.3cm}
       $d = \alpha$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$. 
       \\[0.2cm]
-      Once we have solved this system of equations for $\alpha$ and $\beta$, our solution is given as
+      If we rewrite these equations in matrix form, we get:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $
+      \left(\begin{array}{c}
+             d \\
+             e - \gamma
+            \end{array}
+      \right) =
+      \left(
+        \begin{array}{cc}
+          1 & 0 \\
+          \lambda & \lambda
+        \end{array}
+      \right) \cdot
+      \left(
+        \begin{array}{c}
+          \alpha \\
+          \beta
+        \end{array}
+      \right)
+      $
+      \\[0.2cm]      
+      This system of equations has a unique solution if and only if
+      \\[0.2cm]
+      \hspace*{1.3cm}
+            $\texttt{det}\left(
+              \begin{array}{cc}
+                1       & 0        \\
+                \lambda & \lambda
+              \end{array}
+               \right) = \lambda \not= 0$.
+      \\[0.2cm]
+      This time $\lambda = 0$ is impossible because it would imply $a = 0$ and $b = 0$
+      but then $a + b = 0 \not= 1$.  Hence we are sure that the system of equations has a solution.
+
+      Once we have solved the system of equations for $\alpha$ and $\beta$, our solution is given as
       \\[0.2cm]
       \hspace*{1.3cm}
       $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$. \qed
@@ -552,9 +669,7 @@ There are two cases:
             $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
       \end{enumerate}
 \end{enumerate}
-In all of these cases the parameter $\gamma$ is chosen so that either $x_n = \gamma$ or $x_n = \gamma \cdot n$
-is a solution of the inhomogeneous recurrence equation, while the 
-parameters $\alpha$ and $\beta$ have to be determined in a way that the initial conditions
+In all of these cases the parameters $\alpha$ and $\beta$ have to be determined so that the initial conditions
 are satisfied.
 
 \exercise

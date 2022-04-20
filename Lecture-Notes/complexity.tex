@@ -1014,7 +1014,8 @@ $\mytt{divMod}(m, n)$ by recursively computing $\mytt{divMod}(m \dv 2, n)$.
 In your implementation of $\mytt{divMod}$ you are only permitted to use the operators $\dv$ and
 $\mytt{\%}$ when the second argument of these operators is $2$, i.e.~you are permitted to
 use the expressions $m \dv 2$ and $m \;\mytt{\%}\; 2$ as these expressions can be implemented
-using bit operations.
+using bit operations as $m \dv 2$ is equivalent to $m \;\mytt{>>}\; 1$, while $m \;\mytt{\%}\; 2$
+is the same as $m \;\mytt{\&}\; 1$.
 \eoxs
 
 
@@ -1058,7 +1059,8 @@ We present a simplified version of the master theorem next.
   \end{enumerate}
 \end{Theorem}
 
-\proof
+\noindent
+\textbf{Proof sketch:}
 We will compute an upper bound for the expression $f(n)$, but in order to keep our exposition clear
 and simple we will only discuss the case where $n$ is a power of $\beta$, that is $n$ has the form
 \\[0.2cm]
@@ -1175,7 +1177,7 @@ In order to proceed, we have to perform a case distinction:
 \begin{enumerate}
 \item Case: $\alpha < \gamma$, i.e.~$\alpha < \beta^\delta$.
 
-      In this case, the series $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ is bounded 
+      In this case, the series $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ is bounded 
       by the value
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1214,7 +1216,7 @@ In order to proceed, we have to perform a case distinction:
       $\alpha < \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^\delta\bigr)$.
 \item Case: $\alpha = \gamma$, i.e.~$\alpha = \beta^\delta$.
 
-      In this case, all terms in the series $\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ 
+      In this case, all terms in the series $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ 
       have the value $1$ and therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
