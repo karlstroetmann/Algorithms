@@ -268,12 +268,12 @@ $\mytt{power}(a,b) =a^b$ holds. \qed
 Use the method of symbolic program execution to prove the correctness of the implementation of the
 \href{https://en.wikipedia.org/wiki/Euclidean_algorithm}{Euclidean algorithm} that is shown in Figure
 \ref{fig:gcd.stlx} on page \pageref{fig:gcd.stlx}.  During the proof 
-you should make use of the fact that for all positive natural numbers $x$ and $y$ the equation
+you should make use of the fact that for all positive natural numbers $x$ and $y$ the function $\mytt{ggt}$
+that computes the greatest common divisor of $m$ and $n$ satisfies the equation
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mytt{gcd}(x, y) = \mytt{gcd}(x \,\mytt{\%}\, y, y)$
-\\[0.2cm]
-is valid.  \eox
+$\mytt{ggt}(x, y) = \mytt{ggt}(x \,\mytt{\%}\, y, y)$.
+\eox
 
 \begin{figure}[!ht]
 \centering

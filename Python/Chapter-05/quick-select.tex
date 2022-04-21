@@ -1,0 +1,200 @@
+\documentclass{article}
+\usepackage[latin1]{inputenc}
+\usepackage{enumerate}
+\usepackage{a4wide}
+\usepackage{amssymb}
+\usepackage{theorem}
+\usepackage{fancyvrb}
+\usepackage{alltt}
+\usepackage{fleqn}
+\usepackage{xcolor}
+\usepackage{minted}
+
+\definecolor{darkgreen}{rgb}{0.0,0.5,0.0}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\green}[1]{{\color{darkgreen}#1}}
+
+
+\newcommand{\ds}{\displaystyle}
+\newcommand{\dv}{\mbox{\,\texttt{/}$\!$\texttt{/}\,}}
+\newcommand{\mmod}{\,\texttt{\%}\,}
+\newcommand{\qed}{\hspace*{\fill} $\Box$ \vspace*{0.2cm}}
+
+\setlength{\mathindent}{1.3cm}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{\arabic{enumii}.}
+{\theorembodyfont{\sf} \newtheorem{Theorem}{Theorem}}
+{\theorembodyfont{\sf} \newtheorem{Proposition}[Theorem]{Proposition}}
+{\theorembodyfont{\sf} \newtheorem{Lemma}[Theorem]{Lemma}}
+{\theorembodyfont{\sf} \newtheorem{Corollary}[Theorem]{Corollary}}
+
+\author{Karl Stroetmann}
+\title{Analyzing the Average Complexity of QuickSelect}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{The Algorithm \blue{QuickSelect}}
+The goal of QuickSelect is to compute the \texttt{k} smallest elements of a given list \texttt{L},
+i.e.~the function \texttt{quickSelect} takes two arguments:
+\begin{enumerate}[(a)]
+\item \texttt{L} is a list of numbers,
+\item \texttt{k} is a natural number such that $2 \leq \texttt{k} \leq \texttt{len}(\texttt{L})$.
+\end{enumerate}
+The function call \texttt{quickSelect(L, k)} returns a list of length \texttt{k} that contains the \texttt{k} smallest
+elements of \texttt{L}, i.e.~it satisfies the following specification:
+\begin{itemize}
+\item \texttt{len(quickSelect(L, k)) = k},
+\item \texttt{set(quickSelect(L, k)) = set(sorted(L)[:k])}.
+
+      Note that the list returned by \texttt{quickSelect(L, k)} is not required to be sorted.  It can contain
+      the \texttt{k} smallest elements of \texttt{L} in any order.
+\end{itemize}
+The function can be implemented recursively via the following equations:
+\begin{enumerate}[1.]
+\item $\texttt{len}(L) < k \rightarrow \texttt{quickSelect}(L,k) = \Omega$,
+
+      because if the length of \texttt{L} is less than \texttt{k}, then there is no way to select the
+      \texttt{k} smallest elements from \texttt{L}.
+\item $\texttt{len}(L) = k \rightarrow \texttt{quickSelect}(L,k) = L$,
+
+      because if the list \texttt{L} has exactly \texttt{k} elements, then \texttt{L} itself is a list
+      containing the \texttt{k} smallest elements of \texttt{L}.
+\item Otherwise we assume that \texttt{L = [x] + R} and partition \texttt{L} as in \blue{QuickSort}, i.e.~we define
+   $$ S := [y \in L \mid y \leq x] \quad \mbox{and} \quad B := [y \in L \mid y > x]. $$
+      Then there are three cases:
+      \begin{enumerate}[(a)]
+      \item $k \leq \texttt{len}(S) \rightarrow \texttt{quickSelect}(L, k) = \texttt{quickSelect}(S, k)$,
+      \item $k = \texttt{len}(S) + 1 \rightarrow \texttt{quickSelect}(L, k) = S + [x]$,
+      \item $k > \texttt{len}(S) + 1 \rightarrow 
+      \texttt{quickSelect}(L, k) = S + [x] + \texttt{quickSelect}(B, k - \texttt{len}(S) - 1)$.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Analysis of the Average Complexity of \texttt{quickSelect}}
+Let us define $d_{n,k}$ as the average number of comparisons of list elements that are performed when
+\texttt{quickSelect(L, k)} is evaluated with a list \texttt{L} of length \texttt{k}.  We proceed to construct a
+recurrence equation for $d_{n,k}$.
+\begin{enumerate}
+\item $\ds d_{k,k} = 0$,
+\item $\ds d_{n+1,k} = n + \frac{1}{n+1} \cdot \left(\sum\limits_{i=k}^{n} d_{i,k} + \sum\limits_{i=0}^{k-2} d_{n-i,k-i-1} \right)$.
+\end{enumerate}
+We will not be able to solve this recurrence equation exactly, but we will be able to establish an upper bound
+for $d_{n,k}$ that is independent of $k$.  To this end, we need the following Lemma.
+
+\begin{Lemma}
+Assume that $n\in \mathbb{N}$ and the function $f:\mathbb{R} \rightarrow \mathbb{R}$ is defined as
+\\[0.2cm]
+\hspace*{1.3cm}
+$f(x) = 4 \cdot (x - 1) \cdot (n + 1 - x)$
+\\[0.2cm]
+Then we have 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\forall x \in \mathbb{R}: f(x) \leq n^2$.
+\end{Lemma}
+
+\noindent
+\textbf{Proof}:  The function $f$ is quadratic in $x$ and the coefficient of $x^2$ is negative.  By
+\emph{completing the square} we find the following chain of equations and inequations:
+$$
+\begin{array}{lcl}
+  f(x) & = & 4 \cdot (x - 1) \cdot (n + 1 - x) \\[0.2cm]
+       & = & 4 \cdot \bigl(n \cdot x + x - x^2 - n - 1 + x \bigr) \\[0.2cm]
+       & = & - 4 \cdot \bigl(x^2 - (n + 2) \cdot x + n + 1 \bigr) \\[0.2cm]
+       & = & - 4 \cdot \Bigl(x^2 - (n + 2) \cdot x + \bigl(\frac{n+2}{2}\bigr)^2  +
+             n + 1 - \bigl(\frac{n+2}{2}\bigr)^2 \Bigr) \\[0.3cm]
+       & = & - 4 \cdot \Bigl(x - \bigl(\frac{n+2}{2}\bigr)\Bigr)^2 
+             - 4 \cdot\Bigl( n + 1 - \bigl(\frac{n+2}{2}\bigr)^2 \Bigr) \\[0.3cm]
+       & \leq & -4 \cdot \biggl( n + 1 - \bigl(\frac{n+2}{2}\bigr)^2 \biggr) \\[0.3cm]
+       & = & -4 \cdot n - 4 + (n + 2)^2  \\[0.2cm]
+       & = & -4 \cdot n - 4 + n^2 + 4 \cdot n + 4 \\[0.2cm]
+       & = & n^2
+\end{array}
+$$
+Hence we have shown that $f(x) \leq n^2$. \qed
+
+\begin{Theorem}
+  For all $k \in \mathbb{N}$ such $k \geq 2$ and all $n \in \mathbb{N}$ such that $k \leq n$ we have
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\ds d_{n, k} \leq 4 \cdot n$.
+  \\[0.2cm]
+  Hence the complexity of QuickSelect is linear in the length of the list and the constant of linearity is
+  independent of $k$. 
+\end{Theorem}
+
+\noindent
+\textbf{Proof}: We prove the claim by induction on $n$.
+\begin{enumerate}
+\item[] \textbf{Base case:} $n = k$.  In this case we have
+             \\[0.2cm]
+             \hspace*{1.3cm}
+             $d_{n,k} = d_{k,k} = 0 \leq 4 \cdot n$. \green{$\surd$}
+\item[] \textbf{Induction step:} $0,1,\cdots,n \mapsto n+1$. Then we have the following chain of equations and inequations:
+            $$
+            \begin{array}{{lcl}}
+              d_{n+1,k} & = & \ds n + \frac{1}{n+1} \cdot \left(\sum\limits_{i=k}^n d_{i,k} + \sum\limits_{i=0}^{k-2}
+                              d_{n-i,k-i-1}\right)  \\[0.5cm]
+                      & \stackrel{\mathrm{ih}}{\leq} & \ds
+                        n + \frac{1}{n+1} \cdot \left(\sum\limits_{i=k}^n 4 \cdot i + \sum\limits_{i=0}^{k-2}
+                                                       4 \cdot (n-i) \right)  \\[0.5cm]
+            \end{array}
+            $$
+            In order to prove our claim we proceed to show that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \sum\limits_{i=k}^n 4 \cdot i + \sum\limits_{i=0}^{k-2} 4 \cdot (n-i) \leq 3 \cdot (n+1)^2$
+            \\[0.2cm] 
+            This claim is shown as follows:
+            $$
+            \begin{array}{{lcl}}
+                  \ds \sum\limits_{i=k}^n 4 \cdot i + \sum\limits_{i=0}^{k-2} 4 \cdot (n-i)
+              &=& \ds 4\cdot \left(\sum\limits_{i=0}^n i - \sum\limits_{i=0}^{k-1} i + (k-1) \cdot n -
+                  \sum\limits_{i=0}^{k-2} i\right) \\[0.5cm] 
+              &=& \ds 4\cdot \left(\sum\limits_{i=0}^n i - 2 \cdot\sum\limits_{i=0}^{k-2} i - (k-1) + (k-1) \cdot n \right)
+                   \\[0.5cm]
+              &=& \ds 2 \cdot n \cdot (n+1) - 4 \cdot (k-2) \cdot (k-1) + 4 \cdot (k-1) \cdot (n-1) \\[0.2cm] 
+            \end{array}
+            $$
+            In order to show that this expression is less or equal than $3 \cdot (n+1)^2$ we use Lemma 1 where
+            we have shown that for $f(x) = 4 \cdot (x - 1) \cdot (n + 1 - x)$ the inequation $f(x) \leq n^2$
+            holds for all $x \in \mathbb{R}$.  We have
+            $$\begin{array}{crcl}
+                          & f(k) & \leq & n^2  \\[0.2cm]
+              \Rightarrow & 4 \cdot (k - 1) \cdot (n + 1 - k) & \leq & n^2 \\[0.2cm]
+              \Rightarrow & -4 \cdot (k - 1) \cdot (k - n - 1) & \leq & n^2 \\[0.2cm]
+              \Rightarrow & - 4 \cdot (k-1) \cdot \bigl((k-2) - (n-1) \bigr)
+                          & \leq &  n^2 \\[0.2cm]
+              \Rightarrow & - 4 \cdot (k-2) \cdot (k-1) + 4 \cdot (k-1) \cdot (n-1)
+                          & \leq &  n^2 \\[0.2cm]
+              \Rightarrow & - 4 \cdot (k-2) \cdot (k-1) + 4 \cdot (k-1) \cdot (n-1)
+                          & \leq &  (n+1)^2 \\[0.2cm]
+              \Rightarrow & \ds 2 \cdot n \cdot (n+1) - 4 \cdot (k-2) \cdot (k-1) + 4 \cdot (k-1) \cdot (n-1)
+                          & \leq & 3 \cdot (n+1)^2 \\[0.2cm]
+              \end{array}
+            $$  
+            Combining this with our previous result we now have
+            $$
+            \begin{array}{{lcl}}
+              d_{n+1,k} & = & \ds n + \frac{1}{n+1} \cdot \left(\sum\limits_{i=k}^n d_{i,k} + \sum\limits_{i=0}^{k-2}
+                              d_{n-i,k-i-1}\right)  \\[0.5cm]
+                      & \stackrel{\mathrm{ih}}{\leq} & \ds
+                        n + \frac{1}{n+1} \cdot \left(\sum\limits_{i=k}^n 4 \cdot i + \sum\limits_{i=0}^{k-2}
+                                                       4 \cdot (n-i) \right)  \\[0.5cm]
+                        & \leq & \ds n + \frac{1}{n+1} \cdot 3 \cdot (n+1)^2 \\[0.5cm]
+                        & \leq & n + 3 \cdot (n+1) \\[0.2cm]
+                        & <  & (n + 1) + 3 \cdot (n+1) \\[0.2cm]
+                        & =  & 4 \cdot (n+1)  \quad \mbox{\green{$\surd$}}
+            \end{array}
+            $$
+            Hence we have shown that $d_{n+1,k} \leq 4 \cdot (n+1)$ and the claim is proven by induction. \qed
+          \end{enumerate}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
