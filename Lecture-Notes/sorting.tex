@@ -8,7 +8,8 @@ However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
 perform $\Omega\bigl(n \cdot \log_2(n)\bigr)$ comparisons.  The last algorithm presented is \blue{radix sort}, which is an
 algorithm of linear complexity for sorting numbers of a fixed size.
-Finally, show how sorting is used in the \blue{$k$-nearest-neighbour-algorithm}.
+Finally, we show how sorting is used in the \blue{$k$-nearest-neighbour-algorithm}.
+This algorithm is then used for the recognition of hand written digits.
 
 \section{The Sorting Problem}
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
@@ -67,7 +68,7 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 
 \begin{Definition}[Quasiorder]  \hspace*{\fill} \\
 {\em
-  A pair $\langle S, \preceq\rangle$ is a \blue{quasiorder} \index{quasiorder}  iff $\preceq$ is a 
+  A pair $\langle S, \preceq\rangle$ is a \href{https://en.wikipedia.org/wiki/Preorder}{quasiorder} \index{quasiorder}  iff $\preceq$ is a 
   binary relation on $S$ such that we have the following:
   \begin{enumerate}
   \item $\forall x \el S\colon x \preceq x$. \hspace*{\fill} (reflexivity)
@@ -85,8 +86,8 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 \end{Definition}
 A quasiorder $\langle S, \preceq \rangle$ does not require the relation $\preceq$ to be
 anti-symmetric.  Nevertheless, the notion of a quasiorder is very closely related to the notion of a
-linear order.  The reason is as follows:  If $\langle S, \preceq \rangle$ is a quasiorder, then we
-can define an \blue{equivalence relation}\index{equivalence relation}\footnote{
+linear order.  The reason is as follows:  If $\langle S, \preceq \rangle$ is a quasiorder, then we can define an
+\href{https://en.wikipedia.org/wiki/Equivalence_relation}{equivalence relation}\index{equivalence relation}\footnote{
   A pair $\langle M, \approx \rangle$ where $M$ is a set and $\approx$ is a binary relation on $M$ called an
   \blue{equivalence relation on $M$} iff we have
   \begin{enumerate}[(a)]
@@ -134,8 +135,8 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
         \\[0.2cm]
         Hence, in this case we require that the sorted list $s$ does not contain
         \blue{duplicate elements}\index{duplicate elements}.
-        Of course, an object $x$ should only occur in $s$ if it also occurs in $L$.  If we change
-        the second requirement in this way, then the main purpose of sorting is to remove duplicate
+        Of course, an object $x$ should only occur in $S$ if it also occurs in $L$.  If we change
+        the second requirement in this way, then the main purpose of sorting is to remove \blue{duplicate}
         elements from a list.  This is actually a common application of sorting in practice.  The
         reason this application is so common is that a list that contains every element at
         most once can be regarded as a set.
@@ -160,7 +161,7 @@ We will describe this algorithm via a set of equations.
       \hspace*{1.3cm}
       $\mytt{sort}([]) = []$.
 \item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
-      and $R$ is the rest of $L$, i.~e.~everything of $L$ but the first element.  In order to sort
+      and $R$ is the rest of $L$, i.e.~everything of $L$ but the first element.  In order to sort
       $L$ we first sort the rest $R$ and then we \blue{insert} the element $x$ into the resulting list in a
       way that the resulting list remains sorted:
       \\[0.2cm]
@@ -562,7 +563,8 @@ program.
 \begin{enumerate}
 \item If the list $L$ has less than two elements, it is already sorted and, therefore, it
       can be returned as it is.
-\item If the List $L$ has $n$ elements, then splitting $L$ is achieved by putting the first $n\dv 2$
+\item If the list $L$ has $n$ elements and $n$ is at least two, then splitting $L$ is achieved by putting the
+      first $n\dv 2$ 
       elements into the list $L_1$ and the remaining elements into the list $L_2$.
 \item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
 \item The implementation of the function \mytt{merge} is a straightforward translation of the equations
@@ -649,7 +651,7 @@ and hence the master theorem tells us that we have
 $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$.
 \\[0.2cm]
 This result already shows that, for large inputs, \blue{merge sort} is considerably more efficient
-than both \blue{insertion sort} and \blue{selection sort}.  However, if we want to compare
+than \blue{insertion sort}.  However, if we want to compare
 \blue{merge sort} with \blue{quick sort} later, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
 not precise enough.  In order to arrive at a bound for the number of comparisons that is more precise,
 we need to solve the recurrence equation given above.  To simplify things,  define
@@ -714,13 +716,10 @@ $a_n = n \cdot \log_2(n)$.
 \subsection{Implementing Merge Sort for Arrays}
 All the implementations of the \textsl{Python} programs presented up to now are quite inefficient.  The
 reason is that, in \textsl{Python}, lists are internally represented as arrays.  Therefore, when
-we evaluate an expression of the form 
-\\[0.2cm]
-\hspace*{1.3cm}
-\mytt{[x] + R}
-\\[0.2cm]
+we evaluate an expression of the form
+\mytt{[x] + R} 
 the following happens:
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item A new array is allocated.  This array will later hold the resulting list.
 \item The element \mytt{x} is copied to the beginning of this array.
 \item The elements of the list \mytt{R} are copied to the positions following \mytt{x}.
@@ -753,38 +752,21 @@ an implementation of \blue{merge sort} that treats the list $\mytt{L}$ that is t
         mergeSort(L, start,  middle, A)
         mergeSort(L, middle, end   , A)
         merge(L, start, middle, end, A)
-    
-   def merge(L, start, middle, end, A):
-        A[start:end] = L[start:end]
-        idx1 = start
-        idx2 = middle
-        i    = start
-        while idx1 < middle and idx2 < end:
-            if A[idx1] <= A[idx2]:
-                L[i]  = A[idx1]
-                idx1 += 1
-            else:
-                L[i]  = A[idx2]
-                idx2 += 1
-            i += 1
-        if idx1 < middle:
-            L[i:end] = A[idx1:middle]
-        if idx2 < end:
-            L[i:end] = A[idx2:end]
 \end{minted}
 \vspace*{-0.3cm}
   \caption{An array based implementation of \blue{merge sort}.}
   \label{fig:merge-sort-array.stlx}
 \end{figure}
+
 We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} line by line.
 \begin{enumerate}
-\item The list $\mytt{L}$ is sorted in place. Hence, the procedure 
+\item The list $\mytt{L}$ is sorted in place. Hence, the function 
       \mytt{sort} does not return a result.  Instead, the evaluation of the expression
       $\mytt{sort}(\mytt{L})$ has the side effect of sorting the list $\mytt{L}$.
 \item The purpose of the assignment ``\mytt{A = L[:]}'' in line 2 is to create an auxiliary array
-      $\mytt{A}$.  This auxiliary array is needed in the procedure
-      \mytt{mergeSort} called in line 3.
-\item The procedure \mytt{mergeSort} defined in line 5 is called with 4 arguments.
+      $\mytt{A}$.  This auxiliary array is needed in the function \mytt{mergeSort} called in line 3.
+      The array \mytt{A} will be a copy of the array \mytt{L}.
+\item The function \mytt{mergeSort} defined in line 5 is called with 4 arguments.
       \begin{enumerate}
       \item The first parameter $\mytt{L}$ is the list that is to be sorted.
       \item However, the task of \mytt{mergeSort} is not to sort the entire list $\mytt{L}$ but only
@@ -814,7 +796,45 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 \item Next, the lists \mytt{L[start:middle]} and \mytt{L[middle:end]} are sorted
       recursively in line 9 and 10, respectively.
 \item The call to \mytt{merge} in line 11 merges these lists.
-\item The procedure \mytt{merge} defined in line 13 has 5 parameters: 
+\end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor       = sepia,
+                firstnumber   = last,
+                numbers       = left,
+                numbersep     = -0.4cm,
+                xleftmargin   = 1.3cm,
+                xrightmargin  = 1.3cm
+              ]{python3}
+   def merge(L, start, middle, end, A):
+        A[start:end] = L[start:end]
+        idx1 = start
+        idx2 = middle
+        i    = start
+        while idx1 < middle and idx2 < end:
+            if A[idx1] <= A[idx2]:
+                L[i]  = A[idx1]
+                idx1 += 1
+            else:
+                L[i]  = A[idx2]
+                idx2 += 1
+            i += 1
+        if idx1 < middle:
+            L[i:end] = A[idx1:middle]
+        if idx2 < end:
+            L[i:end] = A[idx2:end]
+\end{minted}
+\vspace*{-0.3cm}
+  \caption{An array based implementation of \blue{merge}.}
+  \label{fig:merge-sort-array.stlx-merge}
+\end{figure}
+
+Figure \ref{fig:merge-sort-array.stlx-merge} shows the implementation of the function \mytt{merge}.
+\begin{enumerate}
+\item The function \mytt{merge} defined in line 13 has 5 parameters: 
       \begin{enumerate}
       \item The first parameter $\mytt{L}$ is the list that contains the two sublists that have to be merged.
       \item The parameters \mytt{start}, \mytt{middle}, and \mytt{end} specify the sublists
@@ -836,15 +856,22 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       \\[0.2cm]
       are already sorted.  The merging of these sublists works as follows:
       \begin{enumerate}
-      \item First, line 14 copies these sublists into the auxiliary array $\mytt{A}$.
+      \item First, line 13 copies these sublists into the auxiliary array $\mytt{A}$.
       \item In order to merge the two sublists stored in $\mytt{A}$ into the list $\mytt{L}$ we define
             three indices: 
             \begin{itemize}
-            \item \mytt{idx1} points to the next element of the first sublist stored in $\mytt{A}$.
-            \item \mytt{idx2} points to the next element of the second sublist stored in $\mytt{A}$.
-            \item \mytt{i} points to the position in the list $\mytt{L}$ where we have to put the next
+            \item \mytt{idx1} points to the next element of the sublist \mytt{A[start:middle]}.
+            \item \mytt{idx2} points to the next element of the sublist \mytt{A[middle:end]}.
+            \item \mytt{i} points to the position in the list $\mytt{L}$ where we have to store the next
                   element.
             \end{itemize}
+            The \mytt{while} loop maintains the following invariants.
+            \begin{enumerate}[(i)]
+            \item The elements from \mytt{A[start:idx1]} and \mytt{A[middle:idx2]} have already been inserted
+                  into the array \mytt{L} and make up the part \mytt{L[start:i]} of \mytt{L}.
+            \item The elements from \mytt{A[idx1:middle]} and \mytt{A[idx2:end]} still need to be inserted into
+                  the subarray \mytt{L[i:end]}.
+            \end{enumerate}
       \item As long as neither the first nor the second sublist stored in $\mytt{A}$ have been exhausted
             we compare in line 19 the elements from these sublists and then copy the smaller of these
             two elements into the list $\mytt{L}$ at position \mytt{i}.
@@ -852,8 +879,8 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
             increment the corresponding index pointing to the beginning of this sublist.
       \item If one of the two sublists gets empty while the other sublist still has elements, then we have
             to copy the remaining elements of the non-empty sublist into the list $\mytt{L}$.
-            The statement in line 27 covers the case that the second sublist is exhausted before 
-            the first sublist, while the statement in line 29 covers the case that the first
+            The statement in line 26 covers the case that the second sublist is exhausted before 
+            the first sublist, while the statement in line 28 covers the case that the first
             sublist is exhausted before the second sublist.
       \end{enumerate}
 \end{enumerate}
@@ -916,7 +943,7 @@ are already sorted.  These sublists have a length of $n$.  It is the task of the
 pairs of sublists of this kind and to merge them into a sublist of length $2 \cdot n$.
 
 In the expression $\mytt{L[n*k:n*k+n]}$ the variable $k$ denotes a natural
-number that is used to numerate the sublists.  The index $k$ of the first sublists is $0$ and
+number that is used to enumerate the sublists.  The index $k$ of the first sublists is $0$ and
 therefore this sublists has the form
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -930,6 +957,9 @@ while the second sublist is given as
 It is possible that the last sublist has a length that is less than $n$.  This happens if the length
 of $\mytt{L}$ is not a multiple of $n$.  Therefore, the third argument of the call to \mytt{merge}
 in line 11 is the minimum of $n\cdot k + 2\cdot n$ and $\mytt{len}(\mytt{L})$.
+
+Finally, the condition \mytt{n * (k + 1) + 1 <= len(L)} of the \mytt{while} loop ensures that the second sublist
+\mytt{L[n*k+n,top]} is not empty.
 
 % \subsection{Further Improvements of Merge Sort$^*$}
 % The implementation given above can still be improved in a number of ways.  
@@ -1864,7 +1894,7 @@ counting sort.  We proceed to discuss this algorithm line by line.
 \end{figure}
 
 \begin{enumerate}
-\item The procedure \mytt{countingSort} receives one argument.  The list $\mytt{Students}$
+\item The function \mytt{countingSort} receives one argument.  The list $\mytt{Students}$
       is a list of pairs of the form $\mytt{(name, grade)}$ where
       \begin{enumerate}
       \item \mytt{name}  is the name of a student, while
