@@ -1029,8 +1029,9 @@ In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoa
       \item $\mytt{B} := [\mytt{y} \in \mytt{R} \mid \mytt{y} > \mytt{x}]$.
       \end{enumerate}
       The process of splitting the list $\mytt{R}$ into the lists $\mytt{S}$ and $\mytt{B}$
-      is called \blue{partitioning}.\index{partitioning}  After partitioning the list $\mytt{R}$ into the
-      lists $\mytt{S}$ and $\mytt{B}$, these lists are sorted 
+      is called \blue{partitioning}.\index{partitioning}  The element \mytt{x} which is used to partition
+      the list is called the \blue{pivot element}.\index{pivot element}
+      After partitioning the list $\mytt{R}$ into the lists $\mytt{S}$ and $\mytt{B}$, these lists are sorted 
       recursively.  Then, the result is computed by placing $\mytt{x}$ between the lists $\mytt{sort}(\mytt{S})$ and $\mytt{sort}(\mytt{B})$:
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1119,7 +1120,9 @@ This shows that in the worst case, the number of comparisons is as big as it is 
 \blue{insertion sort}.  However, note that with quicksort the worst case occurs if we try to sort a list
 $\mytt{L}$ that is already sorted.  It is important to realize that this is a common case in practical
 applications of sorting.  In order to avoid the worst case behaviour for lists that are either sorted or nearly
-sorted we use the element at position $\mytt{len}(\mytt{L})\dv 2$ as the pivot element.
+sorted we can use the element at position $\mytt{len}(\mytt{L})\dv 2$ as the pivot element.  For example, this
+could be implemented by first swapping the element at this position with the first list element and then
+running the quicksort algorithm as described previously.
 
 
 \subsubsection{Average Complexity}
@@ -1131,9 +1134,11 @@ $d_n$ \mytt{:=} \underline{avera}g\underline{e} number of comparisons to sort a 
 \\[0.2cm]
 We will show that $d_n \in \Oh\bigl(n \cdot \log_2(n)\bigr)$.  Let us first note the following: If $\mytt{L}$
 is a list of $n+1$ elements, then the number of elements of the  
-list $\mytt{S}$ that are smaller than or equal to the pivot element $\mytt{x}$ is a member of the set 
+list $\mytt{S}$ that are smaller than or equal to the pivot element $\mytt{x}$ is at least $0$ and at most $n$
+and hence it is a member of the set 
 $\{0,1,2,\cdots,n\}$.  If the length of $\mytt{S}$ is $i$ and the length of $\mytt{L}$ is $n+1$, then the length
-of the list $\mytt{B}$ of those elements that are bigger than $\mytt{x}$ is $n-i$.  Therefore, if $\mytt{len}(\mytt{S}) = i$, then on average we need
+of the list $\mytt{B}$ of those elements that are bigger than $\mytt{x}$ is $n-i$.  Therefore, if
+$\mytt{len}(\mytt{S}) = i$, then we need on average 
 \\[0.2cm]
 \hspace*{1.3cm} $d_i + d_{n-i}$ \\[0.2cm]
 comparisons to sort the lists $\mytt{S}$ and $\mytt{B}$ recursively.  If we take the average over all possible values of
@@ -1143,16 +1148,16 @@ comparisons to sort the lists $\mytt{S}$ and $\mytt{B}$ recursively.  If we take
 \hspace*{1.3cm}
 $\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \bigl(d_i + d_{n-i}\bigr) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
-Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mytt{R}$.
+Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mytt{R}$ into \mytt{S}
+and \mytt{B}.
 In order to simplify the recurrence relation (1) we note that
 \\[0.2cm]
 \hspace*{1.3cm}
 $
-\begin{array}[t]{lcl}
+\begin{array}[t]{lclcl}
  \ds
- \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0 \\[0.2cm]
-                    & = & a_0 + a_1 + \cdots + a_{n-1} + a_n \\[0.2cm]
-                    & = & \ds \sum\limits_{i=0}^n a_i 
+ \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0                                  \\[0.2cm]
+                    & = & a_0 + a_1 + \cdots + a_{n-1} + a_n        & = & \ds \sum\limits_{i=0}^n a_i 
 \end{array}
 $
 \\[0.2cm]
