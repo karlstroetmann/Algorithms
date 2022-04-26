@@ -475,17 +475,17 @@ The \blue{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945, who 
 was one of the most prominent mathematicians of the last century.  
 
-In order to sort a list $L$ of length $n := \mytt{len}(L)$ the algorithm proceeds as follows:
+In order to sort a list $L$ the algorithm proceeds as follows:
 \begin{enumerate}
 \item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
       \\[0.2cm]
-      \hspace*{1.3cm}
-      $n < 2 \rightarrow \mytt{sort}(L) = L$.
+      \hspace*{0.3cm}
+      $\mytt{len}(L) < 2 \rightarrow \mytt{sort}(L) = L$.
 \item Otherwise, the list $L$ is split into two lists that have approximately the same size.
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $n \geq 2 \rightarrow \mytt{sort}(L) =
+      \hspace*{0.3cm} 
+      $\mytt{len}(L) \geq 2 \wedge n = \mytt{len}(L) \rightarrow \mytt{sort}(L) =
          \mytt{merge}\Bigl(\mytt{sort}\bigl(\mytt{L[:n\dv 2]}\bigr),
          \mytt{sort}\bigl(\mytt{L[n\dv 2:]}\bigr)\Bigr)
      $
