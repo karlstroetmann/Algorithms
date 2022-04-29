@@ -1,4 +1,4 @@
-\chapter{Recurrence Equations}
+\chapter{Recurrence Equations and Sums}
 In some cases knowing the growth rate of a function is not sufficient.  Rather, we want to be able to compute
 the growth rate exactly.  If the growth rate to be computed results from the complexity analysis of a recursive
 algorithm, the growth rate is often defined via a
@@ -6,6 +6,15 @@ algorithm, the growth rate is often defined via a
 \emph{recurrence equations} are also known as \blue{recurrence relations} or
 \blue{difference equations}\index{difference equation}.  I will call them both recurrence relations and
 recurrence equations interchangeably.
+
+Besides recurrence equations we also need to know certain sums like 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds\sum\limits_{i=1}^n i$,  \quad $\ds\sum\limits_{i=1}^n i^2$, \quad and in general \quad
+$\ds \sum\limits_{i=1}^n i^k$ \quad for $k \in \mathbb{N}$.
+\\[0.2cm]
+in order to evaluate the complexity of iterative algorithms.  We will show how formulas for these sums can be
+derived. 
 
 \section{The Fibonacci Numbers}
 In this section we discuss a simple program whose complexity analysis
@@ -173,11 +182,8 @@ $\alpha = \bruch{\lambda_1}{\sqrt{5}} $.
 As we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\beta =  \bruch{1 - \lambda_1}{\lambda_2 - \lambda_1}$
-\\[0.2cm]
-we conclude that
-\\[0.2cm]
-\hspace*{1.3cm}
+$\beta =  \bruch{1 - \lambda_1}{\lambda_2 - \lambda_1}$ \quad 
+we conclude that \quad
 $\beta = -\bruch{\lambda_2}{\sqrt{5}}$. 
 \\[0.2cm]
 Therefore the \blue{solution} of our recurrence equation is: \\[0.2cm]
@@ -190,7 +196,7 @@ Therefore the \blue{solution} of our recurrence equation is: \\[0.2cm]
 Because of $\lambda_1\approx 1.61803$ and $\lambda_2 \approx - 0.61803$ the first term
 of this sum dominates the second term and the number of additions increases exponentially with the factor $\lambda_1$.
 This explains the strong increase in computing time.
-\vspace*{0.1cm}
+\pagebreak
 
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
@@ -786,6 +792,87 @@ It should be noted that recurrence equations that arise from the complexity anal
 not exhibit oscillatory behaviour.  The reason is that that in most cases the running time of an algorithm increases
 monotonely with the size of the input. \eoxs
 
+\section{Finite Sums of Integer Powers}
+When analyzing the complexity of iterative programs, we often encounter the sum
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds S := \sum\limits_{i=0}^n i$.
+\\[0.2cm]
+In order to derive a formula for this sum we proceed as follows:
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}{lrcccccccccc}
+    & S & = & 1 & + &   2   & + & \cdots & + & (n-1)& + & n  \\
+  + & S & = & n & + & (n-1) & + & \cdots & + &   2  & + & 1  \\[0.2cm]
+  \hline\\[-0.2cm]
+    & 2\cdot S & = & (n+1) & + & (n+1) & + & \cdots & + & (n+1) & + & (n+1)
+\end{array}
+$
+\\[0.2cm]
+As the last line contains the number $n+1$ for a total of $n$ times we have found that
+\\[0.2cm]
+\hspace*{1.3cm}
+$2 \cdot S = n \cdot (n+1)$
+\\[0.2cm]
+holds.  Dividing both sides of this equation by $2$ and substituting the sum for $S$ yields the result
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds\sum\limits_{i=1}^n i = \frac{1}{2} \cdot n \cdot (n+1)$.
+\\[0.2cm]
+Next, let us show how to derive a formula for the sum of all squares.  To this end, consider the following sum
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds T := \sum\limits_{i=1}^n \bigl(i^3 - (i-1)^3\bigr)$.
+\\[0.2cm]
+There are two ways to compute this sum.  First, observe that 
+\\[0.2cm]
+\hspace*{1.3cm}
+$T = \bigl(n^3 - (n-1)^3\bigr) + \bigl((n-1)^3 - (n-2)^3\bigr) + \cdots
+    \bigl(2^3 - 1^3\bigr) + \bigl(1^3 - 0^3\bigr) = n^3$,
+\\[0.2cm]
+since all other terms cancel each other out.  On the other hand we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$ \bigl(i^3 - (i-1)^3\bigr) = i^3 - \bigl(i^3 - 3 \cdot i^2 + 3 \cdot i - 1) = 3 \cdot i^2 - 3 \cdot i + 1$.
+\\[0.2cm]
+Hence we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}{lclcl}
+  T & = & \ds \sum\limits_{i=1}^n \bigl(3 \cdot i^2 - 3 \cdot i + 1\bigr) \\[0.2cm]
+    & = & \ds 3 \cdot \sum\limits_{i=1}^n i^2 \; -\;  3 \cdot \sum\limits_{i=1}^n i \;+\; \sum\limits_{i=1}^n 1
+\end{array}
+$
+\\[0.2cm]
+Substituting $n^3$ for $T$ and realizing that $\ds\sum\limits_{i=1}^n i = \frac{1}{2} \cdot n \cdot (n+1)$ and
+$\ds\sum\limits_{i=1}^n 1 = n$ we have that
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds n^3 = 3 \cdot \sum\limits_{i=1}^n i^2 - \frac{3}{2} \cdot n \cdot (n+1) + n$.
+\\[0.2cm]
+Therefore, we have found that
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}{lcl}
+\ds \sum\limits_{i=1}^n i^2 & = &  \ds\frac{1}{3} \cdot n^3 + \frac{1}{2} \cdot n^2 + \frac{1}{2} \cdot n -
+                                  \frac{1}{3} \cdot n  \\[0.4cm]
+                          & = &   \ds\frac{1}{3} \cdot n^3 + \frac{1}{2} \cdot n^2 + \frac{1}{6} \cdot n
+  \\[0.4cm]
+                         & = &   \ds\frac{1}{6} \cdot n \cdot \bigl(2 \cdot n^2 + 3 \cdot n + 1 \bigr)
+  \\[0.4cm]
+                         & = &   \ds\frac{1}{6} \cdot n \cdot (2 \cdot n + 1) \cdot (n + 1)  \\[0.2cm]
+\end{array}
+$
+
+\exercise
+Derive a formula for $\ds\sum\limits_{i=1}^n i$ by evaluating the sum \\
+\hspace*{1.3cm}
+$\ds T = \sum\limits_{i=1}^n \bigl(i^2 - (i-1)^2\bigr)$
+\\[0.2cm]
+in two different ways.  \eoxs
 
 \section{WolframAlpha}
 In order to solve recurrence equations, the website \href{https://www.wolframalpha.com/}{WolframAlpha}
@@ -808,13 +895,22 @@ $\ds x(n) = i \cdot \frac{\left(\frac{1}{2} - i \cdot\frac{\sqrt{7}}{2}\right)^n
 You can test this for yourself by clicking the following                        
 \href{https://www.wolframalpha.com/input?i=solve+x%28n%2B2%29+%3D+x%28n%2B1%29+-+2+*+x%28n%29%2C+x%280%29+%3D+0%2C+x%281%29+%3D+1}{link}.
 
+In order to compute the sum $\ds\sum\limits_{i=1}^n i^3$ you can use the query
+\\[0.2cm]
+\hspace*{1.3cm}
+\texttt{sum(i\^{ }3, i=1, n)}
+\\[0.2cm]
+or click on the next \href{https://www.wolframalpha.com/input?i=sum%28i%5E3%2C+i%3D1%2C+n%29}{link}.
+
+
+
 
 \section{Further Reading}
 The book ``\blue{Calculus of Finite Differences and Difference Equations}'' by Murray R.~Spiegel
 \cite{spiegel:1971} covers difference equations in much more detail than I was able to cover in my lecture.
 Furthermore, this book contains a large number of both solved and unsolved exercises concerning
 recurrence equations. 
-\pagebreak
+
 
 \section{Check Your Understanding}
 If you are able to answer the questions below confidently, then you should have mastered the concepts
@@ -833,6 +929,7 @@ introduced in this chapter.
 \item What happens if the numbers $\lambda_1$ and $\lambda_2$ that occur in the general solution
       of a recurrence equation are complex numbers?
 \item What is the easiest method to check if your solution to a given recurrence equation is correct?  
+\item Derive the formula for $\sum\limits_{i=0}^n i$.
 \end{enumerate}
 
 
