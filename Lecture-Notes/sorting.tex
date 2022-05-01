@@ -1252,8 +1252,14 @@ parameters $\alpha$ and $\beta$:
   0 & = & 2 \cdot \alpha + \beta.
 \end{eqnarray*}
 If we subtract the first equation from the second equation we arrive at
- $\alpha = -2$.  Substituting this into the first equation gives $\beta = 4$.
-Hence,  equation (7) is simplified to
+$\alpha = -2$.  Substituting this into the first equation gives $\beta = 4$.
+Note that we could have found this partial fraction decomposition with the help of
+\href{wolframalpha.com}{\texttt{WolframAlpha}} by using
+\\[0.2cm]
+\hspace*{1.3cm}
+\href{https://www.wolframalpha.com/input?i=partial+fraction+decomposition+of+2%2F%28%28n%2B1%29*%28n%2B2%29%29}{\texttt{partial fraction decomposition of 2/((n+1)*(n+2))}}
+\\[0.2cm]
+as our search query.  Using the partial fraction decomposition,  equation (7) is simplified to
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds a_{n+1} = a_{n} - \frac{2}{n+1} + \frac{4}{n+2}$.
@@ -1310,26 +1316,36 @@ $\ds a_n = - \frac{4 \cdot n}{n+1}  + 2 \cdot \ln(n) + \Oh(1) =  2 \cdot \ln(n) 
 \quad as \quad $\ds \frac{4 \cdot n}{n+1} \in \Oh(1)$.
 \\[0.2cm]
 Since we have $d_n = (n+1) \cdot a_{n}$ we can conclude that
-\begin{eqnarray*}  
- d_n & = &  2 \cdot(n+1) \cdot H_n + \Oh(n) \\
-     & = & 2 \cdot n \cdot \ln(n) + \Oh(n)
-\end{eqnarray*}
+\\[0.2cm]
+\hspace*{1.3cm}
+$\begin{array}{lclr}
+ d_n & = &  2 \cdot(n+1) \cdot H_n + \Oh(n) \\[0.2cm]
+     & = & 2 \cdot n \cdot \ln(n) + \Oh(n) & \mbox{(since $H_n \in \Oh\bigl(\ln(n)\bigr)$)}
+ \end{array}
+$
+\\[0.2cm]
 holds.  Let us compare this result with the number of comparisons needed for \blue{merge sort}.
 We have seen previously that \blue{merge sort} needs
 \\[0.2cm]
 \hspace*{1.3cm} $n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
-comparisons in order to sort a list of $n$ elements.  Since we have $\ln(n) = \ln(2) \cdot \log_2(n)$
+comparisons in order to sort a list of $n$ elements.  Since we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ln(n) = \ln\bigl(2^{\log_2(n)}\bigr) =  \log_2(n) \cdot \ln(2)$
+\\[0.2cm]
 we conclude that the average case of \blue{quicksort} needs
  \\[0.2cm]
 \hspace*{1.3cm} $2 \cdot \ln(2) \cdot n \cdot \log_2(n) + \Oh(n)$ \\[0.2cm]
-comparisons and hence on average \blue{quicksort} needs  $2 \cdot \ln(2) \approx 1.39$ times as many comparisons as
+comparisons and hence on average \blue{quicksort} needs  $2 \cdot \ln(2) \approx 1.39$ times more comparisons than
 \blue{merge sort}.  
 
 
 \subsection{Implementing Quicksort for Arrays}
 Next, we show how \blue{quicksort}  is implemented using arrays instead of lists.  We are following the scheme
-of Nico Lomuto \cite{cormen:09} \index{Lomuto, Nico}.
-Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows this implementation. 
+devised by Nico Lomuto \cite{cormen:09}. \index{Lomuto, Nico}  This scheme is less efficient than the original
+scheme for partitioning that was given by Tony Hoare, but it is easier to understand.
+Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows the first part of this
+implementation.  
 
 \begin{figure}[!ht]
   \centering
@@ -1346,23 +1362,10 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
     
     def quickSort(start, end, L):
         if end <= start:
-            return  # at most one element, nothing to do
+            return                    # at most one element, nothing to do
         m = partition(start, end, L)  # m is the split index
         quickSort(start, m - 1, L)
         quickSort(m + 1, end  , L)
-        
-    def partition(start, end, L):
-        pivot = L[end]
-        left  = start - 1
-        for idx in range(start, end):
-            if L[idx] <= pivot:
-                left += 1
-                swap(left, idx, L)
-        swap(left + 1, end, L)
-        return left + 1
-    
-    def swap(x, y, L):
-        L[x], L[y] = L[y], L[x]    
 \end{minted}
 \vspace*{-0.3cm}
   \caption{An implementation of \blue{quicksort} based on arrays.}
@@ -1396,8 +1399,42 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
       are stored at indexes that are smaller than the index $\mytt{m}$, while the remaining elements will 
       be stored at indexes that are bigger than $\mytt{m}$.  The pivot element itself will be stored at the
       index $\mytt{m}$. 
-\item The difficult part of the implementation of \blue{quicksort} is the implementation of the
-      function $\mytt{partition}$ that is shown beginning in line 11.
+\end{enumerate}
+\pagebreak
+
+\vspace*{-1.6cm}
+\begin{figure}[!ht]
+  \centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                firstnumber   = 11,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
+    def partition(start, end, L):
+        pivot = L[end]
+        left  = start - 1
+        for idx in range(start, end):
+            if L[idx] <= pivot:
+                left += 1
+                swap(left, idx, L)
+        swap(left + 1, end, L)
+        return left + 1
+\end{minted}
+\vspace*{-0.7cm}
+  \caption{The implementation of the function \blue{partition}.}
+  \label{fig:quick-sort-array.stlx-partition}
+\end{figure}
+\FloatBarrier
+
+\noindent
+The difficult part of the implementation of \blue{quicksort} is the implementation of the
+function $\mytt{partition}$ that is shown beginning in line 11 of Figure \ref{fig:quick-sort-array.stlx-partition}.
+\begin{enumerate}
+\item
       The \mytt{for} loop in line 14 satisfies the following invariants.
       \begin{enumerate}
       \item $\forall i \in \{ \mytt{start}, \cdots, \mytt{left} \} : \mytt{L}[i] \leq \mytt{pivot}$.
@@ -1408,10 +1445,7 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
             All elements in the subarray $\mytt{L}[\mytt{left}+1:\mytt{idx}]$ are greater than the pivot
             element.
       \item $\mytt{pivot} = \mytt{L[end]}$
-
-            The pivot element itself is at the end of the array.
       \end{enumerate}
-      Figure \ref{fig:lomuto.png} shows these invariants.
 
 \begin{figure}[!ht]
   \centering
@@ -1427,14 +1461,12 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
             At the start of the \mytt{for}-loop we have
             \\[0.2cm]
             \hspace*{1.3cm}
-            $\{ \mytt{start}, \cdots, \mytt{left} \} = \{ \mytt{start}, \cdots, \mytt{start} - 1\} = \{\}$
-            \\
-            and
-            \\
+            $\{ \mytt{start}, \cdots, \mytt{left} \} = \{ \mytt{start}, \cdots, \mytt{start} - 1\} = \{\}$\quad and
+            \\[0.2cm]
             \hspace*{1.3cm}
             $\{ \mytt{left}+1,\cdots,\mytt{idx}-1\} =  \{ \mytt{start},\cdots,\mytt{start}-1\}=\{\}$.
       \item If the element $\mytt{L[idx]}$ is less than the
-            pivot element, it need to become part of the subarray $\mytt{L}[\mytt{start}:\mytt{left}+1]$.  In order to
+            pivot element, it needs to become part of the subarray $\mytt{L}[\mytt{start}:\mytt{left}+1]$.  In order to
             achieve this, it is placed at the position $\mytt{L}[\mytt{left}+1]$.  The element that has been at
             that position is part of the subarray $\mytt{L}[\mytt{left}+1:\mytt{idx}]$ and therefore,
             most of the times,\footnote{
@@ -1454,6 +1486,31 @@ Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stl
       the pivot element into its correct position and returns the index where the pivot element has been
       placed. 
 \end{enumerate}
+\pagebreak
+
+\noindent
+Finally, Figure \ref{fig:quick-sort-array.stlx-swap} shows the
+implementation of the function \mytt{swap} that swaps the elements in the list \mytt{L} at the indices \mytt{x}
+and \mytt{y}. 
+
+\begin{figure}[!ht]
+  \centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                bgcolor = sepia,
+                firstnumber   = 21,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm
+              ]{python3}
+    def swap(x, y, L):
+        L[x], L[y] = L[y], L[x]    
+\end{minted}
+\vspace*{-0.7cm}
+  \caption{The implementation of the function \mytt{swap}.}
+  \label{fig:quick-sort-array.stlx-swap}
+\end{figure}
 
 
 \subsection{Improvements for Quicksort}
@@ -1603,9 +1660,12 @@ four different possibilities.  Next, we generalize this observation.
 Given a list $L$ of $n$ different elements, there are 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds n! = 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=1}^n i$ 
+$\ds n! := 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=1}^n i$ 
 \\[0.2cm]
-different permutations of $L$. 
+different \blue{permutations} of the list $L$, where a \blue{permutation} \index{permutation} of $L$ is any
+list that contains the same elements as the list $L$, but possibly in a different order.
+The expression $n!$ is called the
+\href{https://en.wikipedia.org/wiki/Factorial}{factorial} of $n$. \index{factorial}
 \end{Theorem}
 \proof The claim is proven by induction on $n$. 
 \begin{enumerate}
@@ -1615,9 +1675,9 @@ different permutations of $L$.
 \item[I.S.:] $n \mapsto n+1$:
   
       If we have $n+1$ different elements and want to arrange these elements in a list, then there
-      are $n+1$ possibilities for the first element.  In each of these cases the induction
+      are $n+1$ ways to choose the first element.  In each of these cases the induction
       hypothesis tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
-      Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different arrangements of $n+1$
+      Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different permutations of $n+1$
       elements in a list. \qed
 \end{enumerate}
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
@@ -1628,8 +1688,9 @@ that only give $\mytt{True}$ or $\mytt{False}$ answers.  Tests of this kind are 
 \item In general, an easy induction shows that $k$ tests can choose from at most $2^k$ different cases.
 \end{enumerate}
 The last claim can also be argued as follows:  If the results of the tests are represented as
-$0$ and $1$, then $k$ binary tests correspond to a binary string of length
-$k$.  However, binary strings of length $k$ can be used to code the numbers from $0$ up to
+$0$ and $1$, then the results of $k$ binary tests can be represented as a binary string of length
+$k$ where a $1$ encodes a positive test result, while a $0$ encodes a negative test result.
+However, binary strings of length $k$ can be used to encode the numbers from $0$ up to
 $2^{k}-1$.  We have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1704,7 +1765,7 @@ size $(n-1)/\ln(2)$.
 In the last section of this chapter we introduce a sorting algorithm that has only a \blue{linear} complexity.
 According to the result of the previous section this algorithm can not work by comparing the elements of the
 list that is to be sorted.  This algorithm only works if the elements of the list that is to be sorted are
-natural numbers of a fixed size.  The algorithm is called
+either natural numbers or strings of a fixed size.  The algorithm is called
 \href{https://en.wikipedia.org/wiki/Counting_sort}{counting sort}. We 
 explain this algorithm via an example.  Table \ref{tab:marks} on page \pageref{tab:marks} shows a table showing
 students and their grades.  As it stands, the names of the students are ordered alphabetically.  However, the
