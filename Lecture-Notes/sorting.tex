@@ -2,7 +2,7 @@
 In this chapter, we present various algorithms for solving the \blue{sorting problem}.
 After a precise definition of the sorting problem, we start with a simple algorithm
 that is very easy to implement: \blue{insertion sort}.  However, the
-efficiency of this algorithms is far from optimal.  Next, we present \blue{quick sort} and 
+efficiency of this algorithms is far from optimal.  Next, we present \blue{quicksort} and 
 \blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
 However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
@@ -652,7 +652,7 @@ $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$.
 \\[0.2cm]
 This result already shows that, for large inputs, \blue{merge sort} is considerably more efficient
 than \blue{insertion sort}.  However, if we want to compare
-\blue{merge sort} with \blue{quick sort} later, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
+\blue{merge sort} with \blue{quicksort} later, the result $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$ is
 not precise enough.  In order to arrive at a bound for the number of comparisons that is more precise,
 we need to solve the recurrence equation given above.  To simplify things,  define
 \\[0.2cm]
@@ -1015,7 +1015,8 @@ Finally, the condition \mytt{n * (k + 1) + 1 <= len(L)} of the \mytt{while} loop
 
 \section{Quicksort}
 In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the
-\href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
+\href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  \index{quicksort}
+The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mytt{L}$ that is to be sorted is empty, we return  the empty list: 
       \\[0.2cm]
@@ -1295,15 +1296,17 @@ In order to finalize our computation we have to compute an approximation for the
 $H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{\,i\,}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
-\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}. \index{harmonic number, $H_n$}
+\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}.
+\index{harmonic number, $H_n = \sum\limits_{i=1}^n\frac{1}{i}$}
 \href{http://en.wikipedia.org/wiki/Leonhard_Euler}{Leonhard Euler} (1707 -- 1783) \index{Euler, Leonhard}
 was able to prove that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds H_n = \ln(n) + \gamma + \Oh\biggl(\frac{1}{\,n\,}\biggr)$. 
 \\[0.2cm] 
-The number $\gamma$ in this formula is the
-\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni constant}
+The number $\gamma$ \index{$\gamma$, Euler-Mascheroni constant} in this formula is the
+\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni
+  constant, $\gamma$}
 constant and has the value
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -2133,7 +2136,7 @@ of this test set as digits, i.e.~for each image of the test set we want to recog
 
 \subsection{The $k$-Nearest Neighbour Algorithm}
 We will use the \href{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}{$k$-nearest neighbours algorithm} 
-\index{$k$-nearest neighbours algorithm}
+\index{k-nearest neighbours algorithm}
 to solve this task.  Given an image $x$ that is to be classified as a digit, we look at those images in the
 training set that are somehow \blue{close} to $x$.  If these images are all labelled with the same digit $d$,
 we conclude that $x$ shows the digit $d$.  In order to implement this algorithm, we have to specify what it
@@ -2313,19 +2316,16 @@ distances in this list.  As $k$ is a small number and the list \mytt{Distances} 
       the $k$ smallest elements.
       \eox
 \end{enumerate}   
-\pagebreak
 
 \section{Check Your Understanding}
 If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
 introduced in this chapter.
 \begin{enumerate}
-\item How have we defined the concept of a \blue{total quasi order}?
+\item Define the concept of a \blue{total quasi order}?
 \item What type of order do we need if we have to sort a list?
 \item Describe the algorithm \blue{insertion sort} on an abstract mathematical level.
 \item What is the complexity of \blue{insertion sort}?
 \item Is there a case where \blue{insertion sort}  has only a linear complexity?
-\item What is the complexity of \blue{selection sort}?
-\item Compare the complexity of \blue{selection sort} with the complexity of \blue{insertion sort}.
 \item Describe the algorithm \blue{merge sort} on an abstract mathematical level.
 \item Describe an array-based, non-recursive implementation of \blue{merge sort}.
 \item Describe the algorithm \blue{quicksort} on an abstract mathematical level.
