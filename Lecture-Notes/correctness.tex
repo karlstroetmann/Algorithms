@@ -273,6 +273,14 @@ that computes the greatest common divisor of $m$ and $n$ satisfies the equation
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mytt{ggt}(x, y) = \mytt{ggt}(x \,\mytt{\%}\, y, y)$.
+\\[0.2cm]
+Furthermore, the invariant of the \mytt{while} loop is
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mytt{ggt}(x_n, y_n) = \mytt{ggt}(a, b)$ \quad where $a := x_1$ and $b := y_1$.
+\\[0.2cm]
+Using this invariant you should be able to prove that $\mytt{gcd}(a, b) = \mytt{ggt}(a, b)$ for all
+$a, b \in \mathbb{N}$ such that $a > 0$.
 \eox
 
 \begin{figure}[!ht]
