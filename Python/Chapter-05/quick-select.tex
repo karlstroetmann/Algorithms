@@ -75,7 +75,7 @@ The function can be implemented recursively via the following equations:
 
 \section{Analysis of the Average Complexity of \texttt{quickSelect}}
 Let us define $d_{n,k}$ as the average number of comparisons of list elements that are performed when
-\texttt{quickSelect(L, k)} is evaluated with a list \texttt{L} of length \texttt{k}.  We proceed to construct a
+\texttt{quickSelect(L, k)} is evaluated with a list \texttt{L} of length $n$.  We proceed to construct a
 recurrence equation for $d_{n,k}$.
 \begin{enumerate}
 \item $\ds d_{k,k} = 0$,
@@ -98,7 +98,7 @@ $\forall x \in \mathbb{R}: f(x) \leq n^2$.
 
 \noindent
 \textbf{Proof}:  The function $f$ is quadratic in $x$ and the coefficient of $x^2$ is negative.  By
-\emph{completing the square} we find the following chain of equations and inequations:
+\blue{completing the square} we find the following chain of equations and inequations:
 $$
 \begin{array}{lcl}
   f(x) & = & 4 \cdot (x - 1) \cdot (n + 1 - x) \\[0.2cm]
