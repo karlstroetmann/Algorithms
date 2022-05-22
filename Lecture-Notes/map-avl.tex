@@ -8,11 +8,17 @@ named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-V
 \index{Adelson-Velsky, Georgy Maximovich} 
 (1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).
 \index{Landis, Evgenii Mikhailovich}
-In order to define these trees we need to define the \blue{height} of a binary tree formally:
+In order to define these trees we need to define the \blue{height} of an ordered binary tree $b$ formally.  To this
+end, we define the function
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mytt{height}: \mathcal{B} \rightarrow \mathbb{N}$
+\\[0.2cm]
+by induction on the tree $b$.
 \begin{enumerate}
 \item $\mytt{Nil}.\mytt{height}() = 0$.
 \item $\mytt{Node}(k,v,l,r).\mytt{height}() = 
-       \max\bigl( l.\mytt{height}(), r.\mytt{height}() \bigr) + 1$. \eox
+       \max\bigl( l.\mytt{height}(), r.\mytt{height}() \bigr) + 1$. 
 \end{enumerate}
 
 \begin{Definition}[\textsc{Avl}-Tree] \hspace*{\fill} \\
@@ -30,14 +36,14 @@ In order to define these trees we need to define the \blue{height} of a binary t
         \end{enumerate}
         According to this definition, an \textsc{Avl} tree is an ordered binary tree such that for every node
         $\mytt{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
-        subtree  $r$ differ at most by one.  \qed
+        subtree  $r$ differ at most by one.  \eox
   \end{enumerate}
 }  
 \end{Definition}
 
 In order to specify the methods \emph{$\mytt{find}$}, \emph{$\mytt{insert}$}, and \emph{$\mytt{delete}$} for \textsc{Avl} trees we
 adapt the recursive equations that we have used to define these functions for ordered binary trees.
-In addition to those methods that we have already seen in the class $\mytt{Map}$ we will need the method
+In addition to those methods that we have already seen in the class $\mytt{OrderedBinaryTree}$ we will need the method
 \\[0.2cm]
 \hspace*{1.3cm} $\mytt{restore}: \Bin \rightarrow \AVL$. 
 \\[0.2cm]
@@ -61,7 +67,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
 \item $|l.\mytt{height}() - r.\mytt{height}()| \leq 1 \rightarrow 
        \mytt{Node}(k,v,l,r).\mytt{restore}() = \mytt{Node}(k,v,l,r)$.
 
-      If the balancing condition is satisfied, then nothing needs to be done. 
+      If the balancing condition is already satisfied, then there is nothing to be done. 
 \item $\begin{array}[t]{cl}
               & l_1.\mytt{height}() = r_1.\mytt{height}() + 2    \\ 
        \wedge & l_1 = \mytt{Node}(k_2,v_2,l_2,r_2)                 \\
@@ -84,8 +90,8 @@ The method $\mytt{restore}$ is specified via conditional equations.
       \hspace*{1.3cm}
       $\mytt{Node}\bigl(k_2,v_2,l_2,\mytt{Node}(k_1,v_1,r_2,r_1)\bigr)$.
       \\[0.2cm]
-      In Figure \ref{fig:casell} the label below the horizontal line of each node shows the height
-      of the tree corresponding to this node and not the value, because the values are irrelevant when it comes
+      In Figure \ref{fig:casell} the labels below the horizontal line of each node show the heights
+      of the trees corresponding to these node and not their values, because the values are irrelevant when it comes
       to rebalancing the trees.  For subtrees, the height is given below the name of
       the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
@@ -102,10 +108,15 @@ The method $\mytt{restore}$ is specified via conditional equations.
       \end{figure}
       We have to make sure that the tree shown in the right part of Figure
       \ref{fig:casell} is indeed an  \textsc{Avl} tree. With respect to the balancing condition this is
-      easily verified.  The fact that the node containing the key $k_1$ has either the height
-      $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ while the height of $r_2$ is
-      either $h$ or $h-1$.
-
+      easily verified:
+      \begin{enumerate}[(a)]
+      \item First, consider the node containing the key $k_2$.
+            The left subtree $l_2$ of this node has the height $h$ and the right subtree
+            that has the key $k_1$ at its root either has the height $h$ or $h+1$.
+            This height is $h+1$ if $r_2$ has the height $h$.  It is $h$ if the height of $r_2$ is $h-1$.
+      \item Second, the node containing the key $k_1$ is balanced because the heights of $r_2$ and $r_1$ differ
+            at most by one.
+      \end{enumerate}
       In order to verify that the tree is ordered we can use the following inequation: 
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -178,7 +189,7 @@ equations by drawing diagrams that are analogous to the diagrams shown Figure \r
 \eox
 
 Next, we specify the method  $\mytt{insert}()$ via recursive equations.
-If we compare these equations to the equations we had given for unbalanced ordered binary trees we
+If we compare these equations to the equations we had given for unbalanced ordered binary trees, we
 notice that we only have to call the method $\mytt{restore}$ if the balancing condition might have
 been violated.
 \begin{enumerate}
@@ -194,11 +205,11 @@ been violated.
 The equations for  $\mytt{delMin}()$ change as follows:
 \begin{enumerate}
 \item $\mytt{Node}(k, v, \mytt{Nil}, r).\mytt{delMin}() = \langle r, k, v \rangle$.
-\item $l\not= \mytt{Nil} \wedge \langle l',k_{min}, v_{min}\rangle := l.\mytt{delMin}() 
+\item $l\not= \mytt{Nil} \wedge \langle l',k_{\textrm{min}}, v_{\textrm{min}}\rangle := l.\mytt{delMin}() 
        \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
        $\mytt{Node}(k, v, l, r).\mytt{delMin}() = 
-        \langle \mytt{Node}(k, v, l', r).\mytt{restore}(), k_{min}, v_{min} \rangle$.
+        \langle \mytt{Node}(k, v, l', r).\mytt{restore}(), k_{\textrm{min}}, v_{\textrm{min}} \rangle$.
 \end{enumerate}
 Finally, the equations for $\mytt{delete}$ are as follows:
 \begin{enumerate}
@@ -206,9 +217,9 @@ Finally, the equations for $\mytt{delete}$ are as follows:
 \item $\mytt{Node}(k,v,\mytt{Nil},r).\mytt{delete}(k) = r$.
 \item $\mytt{Node}(k,v,l,\mytt{Nil}).\mytt{delete}(k) = l$.
 \item $l \not= \mytt{Nil} \,\wedge\, r \not= \mytt{Nil} \,\wedge\, 
-       \langle r',k_{min}, v_{min} \rangle := r.\mytt{delMin}()  \;\rightarrow$ \\[0.2cm]
+       \langle r',k_{\textrm{min}}, v_{\textrm{min}} \rangle := r.\mytt{delMin}()  \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
-      $\mytt{Node}(k,v,l,r).\mytt{delete}(k) = \mytt{Node}(k_{min},v_{min},l,r').\mytt{restore}()$.
+      $\mytt{Node}(k,v,l,r).\mytt{delete}(k) = \mytt{Node}(k_{\textrm{min}},v_{\textrm{min}},l,r').\mytt{restore}()$.
 \item $k_1 < k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}(k_1) = 
        \mytt{Node}\bigl(k_2,v_2,l.\mytt{delete}(k_1),r\bigr).\mytt{restore}()$.
 \item $k_1 > k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}(k_1) = 
@@ -220,7 +231,7 @@ Finally, the equations for $\mytt{delete}$ are as follows:
 If we want to implement \textsc{Avl}-trees in \textsl{Python}, then we have to decide how to compute the height
 of the trees.  The idea is to store the height of every subtree in the corresponding node since it
 would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
-member variable \mytt{mHeight} to our class map.
+member variable \mytt{mHeight} to our class \mytt{AvlTree}.
 Figure \ref{fig:avl-tree.ipython:init} shows the constructor of the class \mytt{AvlTree}.  The variable
 \mytt{mHeight} is defined in line 7.  It is initialised as $0$ since the constructor \mytt{\_\_init\_\_}
 constructs an empty tree.  
@@ -269,11 +280,12 @@ A tree is empty iff its height is $0$.
 \caption{Implementation of the method $\mytt{isEmpyty}$.}
 \label{fig:avl-tree.ipython:isEmpty}
 \end{figure}
+\pagebreak
 
 Figure \ref{fig:avl-tree.ipython:find} shows the implementation of the function $\mytt{find}$.
 Actually, this implementation is the same as the implementation that we have given earlier in Figure
 \ref{fig:binary-tree.py-1} for ordered binary trees.  The reason is that every \textsc{Avl} tree is also an
-ordered binary tree and since searching for a key does not change the underlying tree there is no need to
+ordered binary tree and, since searching for a key does not change the underlying tree, there is no need to
 restore anything. 
 
 \begin{figure}[!ht]
@@ -377,23 +389,6 @@ smallest element in the left subtree.
 \end{figure}
 
 
-Figure \ref{fig:avl-tree.ipython:delete} shows the implementation of the method $\mytt{delete}$ and the
-implementation of the auxiliary method \mytt{update}.  Compared with Figure
-\ref{fig:binary-tree.py-2} there are only three differences:
-\begin{enumerate}
-\item If we delete the key at the root of the tree, we replace this key with the smallest key in the
-      right subtree. Since this key is deleted in the right subtree, the height of the right
-      subtree might shrink and hence the balancing condition at the root might be violated.
-      Therefore, we have to restore the balancing condition.  This is done in line 11.
-\item If we delete a key in the left subtree, the height of the left subtree might shrink.
-      Hence we have to rebalance the tree at the root in line 14.
-\item Similarly, if we delete a key in the right subtree, we have to restore the balancing
-      condition.  This is done in line 17.
-\end{enumerate}
-Since the method \mytt{update} replaces the current tree with either its left or right subtree and this
-subtree is assumed to satisfy the balancing condition, there is no need for a call to \mytt{restore} in this
-method. 
-
 \begin{figure}[!ht]
 \centering
 \begin{minted}[ frame         = lines, 
@@ -422,7 +417,39 @@ method.
         else:
             self.mRight.delete(key)
             self._restore() 
+\end{minted}
+\vspace*{-0.3cm}
+\caption{The method $\mytt{delete}$ for \textsc{Avl} trees.}
+\label{fig:avl-tree.ipython:delete}
+\end{figure}
 
+Figure \ref{fig:avl-tree.ipython:delete} shows the implementation of the method $\mytt{delete}$.
+Compared with Figure
+\ref{fig:binary-tree.py-2} there are only three differences:
+\begin{enumerate}
+\item If we delete the key at the root of the tree, we replace this key with the smallest key in the
+      right subtree. Since this key is deleted in the right subtree, the height of the right
+      subtree might shrink and hence the balancing condition at the root might be violated.
+      Therefore, we have to restore the balancing condition.  This is done in line 11.
+\item If we delete a key in the left subtree, the height of the left subtree might shrink.
+      Hence we have to rebalance the tree at the root in line 14.
+\item Similarly, if we delete a key in the right subtree, we have to restore the balancing
+      condition.  This is done in line 17.
+\end{enumerate}
+\FloatBarrier
+\pagebreak
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
+              ]{python3}
     def _update(self, t):
         self.mKey    = t.mKey
         self.mValue  = t.mValue
@@ -431,9 +458,16 @@ method.
         self.mHeight = t.mHeight            
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The methods $\mytt{delete}$ and \mytt{update}.}
-\label{fig:avl-tree.ipython:delete}
+\caption{The method $\mytt{update}$ for \textsc{Avl} trees.}
+\label{fig:avl-tree.ipython:update}
 \end{figure}
+
+Figure \ref{fig:avl-tree.ipython:update} shows the implementation of the method $\mytt{update}$.
+Since the method \mytt{update} replaces the current tree with either its left or right subtree and this
+subtree is assumed to satisfy the balancing condition, there is no need for a call to \mytt{restore} in this
+method. 
+\FloatBarrier
+
 \begin{figure}[!ht]
 \centering
 \begin{minted}[ frame         = lines, 
@@ -495,7 +529,7 @@ us discuss this method line by line.
       initially has a height that is bigger by one than the height of the right subtree.  Assume
       further that we have deleted a node in the left subtree so that its height shrinks.  Then the
       balancing condition is still satisfied, as now the left subtree and the right subtree have the
-      same height.  However, the height of the complete tree has also shrunk by one and therefore, 
+      same height.  However, the height of the complete tree has shrunk by one and therefore, 
       the variable \mytt{mHeight} needs to be decremented.  This is done via the auxiliary method
       \mytt{restoreHeight}.  This method is defined in line 31 and it recomputes \mytt{mHeight}
       according to the definition of the height of a binary tree.
@@ -1460,7 +1494,6 @@ In order to check whether a given trie is empty it suffices to check that no val
 and that the list $\mytt{mChars}$ is empty, since then the list $\mytt{mTries}$ will also be empty.  Hence,
 there is no need to recursively check whether all tries in $\mytt{mTries}$ are empty.  
 The implementation is shown in Figure \ref{fig:trie.ipython-isEmpty}.
-\pagebreak
 
 \exercise
 (\textbf{Binary Tries})  Let us assume that our alphabet is the \blue{binary alphabet}, i.e.~the alphabet

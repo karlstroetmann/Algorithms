@@ -323,12 +323,12 @@ Things get more difficult when both $l$ and $r$ are non-empty.  In this case,
 we look for the smallest key in the right subtree $r$.
 This key and its corresponding value are removed from $r$.  The resulting tree is called $r'$.
 Next, we take the node $t =\mytt{Node}(k,v,l,r)$ and transform it into the node
-$t'=\mytt{Node}(k_{min},v_{min},l,r')$.  Here $k_{min}$ denotes the smallest key found in $r$ while
-$v_{min}$ denotes the corresponding value.  Note that $t'$ is again ordered:
+$t'=\mytt{Node}(k_{\textrm{min}},v_{\textrm{min}},l,r')$.  Here $k_{\textrm{min}}$ denotes the smallest key found in $r$ while
+$v_{\textrm{min}}$ denotes the corresponding value.  Note that $t'$ is again ordered:
 \begin{enumerate}
-\item The key $k_{min}$ is bigger than the key $k$ and hence it is bigger than all keys in the left
+\item The key $k_{\textrm{min}}$ is bigger than the key $k$ and hence it is bigger than all keys in the left
       subtree $l$.
-\item The key $k_{min}$ is smaller than all keys in the subtree  $r'$, because $k_{min}$ is the
+\item The key $k_{\textrm{min}}$ is smaller than all keys in the subtree  $r'$, because $k_{\textrm{min}}$ is the
       smallest key from the subtree $r$.
 \end{enumerate}
 In order to illustrate the idea, let us consider the following example: 
@@ -364,9 +364,9 @@ removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the 
 
       If the left subtree is empty, $k$ has to be the smallest key in the tree 
       $\mytt{Node}(k, v, \mytt{Nil}, r)$.  If $k$ and its associated value $v$ are removed, we are left with the subtree $r$.
-\item $l\not= \mytt{Nil} \wedge l.\mytt{delMin}() = \langle l',k_{min}, v_{min}\rangle \;\rightarrow$ \\[0.2cm]
+\item $l\not= \mytt{Nil} \wedge l.\mytt{delMin}() = \langle l',k_{\textrm{min}}, v_{\textrm{min}}\rangle \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
-       $\mytt{Node}(k, v, l, r).\mytt{delMin}() = \bigl\langle\mytt{Node}(k, v, l', r), k_{min}, v_{min})\bigr\rangle$.
+       $\mytt{Node}(k, v, l, r).\mytt{delMin}() = \bigl\langle\mytt{Node}(k, v, l', r), k_{\textrm{min}}, v_{\textrm{min}})\bigr\rangle$.
 
       If the left subtree $l$ in the binary tree $t = \mytt{Node}(k, v, l, r)$
       is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
@@ -379,9 +379,9 @@ Finally, we specify the method $\mytt{delete}()$.
 \item $\mytt{Nil}.\mytt{delete}(k) = \mytt{Nil}$.
 \item $\mytt{Node}(k,v,\mytt{Nil},r).\mytt{delete}\bigl(k\bigr) = r$.
 \item $\mytt{Node}(k,v,l,\mytt{Nil}).\mytt{delete}(k) = l$.
-\item $l \not= \mytt{Nil} \,\wedge\, r \not= \mytt{Nil} \,\wedge\, \langle r',k_{min}, v_{min}\rangle := r.\mytt{delMin}() \;\rightarrow$ \\[0.2cm]
+\item $l \not= \mytt{Nil} \,\wedge\, r \not= \mytt{Nil} \,\wedge\, \langle r',k_{\textrm{min}}, v_{\textrm{min}}\rangle := r.\mytt{delMin}() \;\rightarrow$ \\[0.2cm]
       \hspace*{1.3cm}
-      $\mytt{Node}(k,v,l,r).\mytt{delete}(k) = \mytt{Node}(k_{min},v_{min},l,r')$.
+      $\mytt{Node}(k,v,l,r).\mytt{delete}(k) = \mytt{Node}(k_{\textrm{min}},v_{\textrm{min}},l,r')$.
       
       If the key $k$ to be removed is found at the root of the tree and neither of its subtrees is
       empty, the call  $r\mytt{.}\mytt{delMin}()$ removes the smallest key together with its
