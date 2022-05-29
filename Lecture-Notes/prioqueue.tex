@@ -10,8 +10,8 @@ Basically, a \blue{queue} can be viewed as a list with the following restriction
 This is similar to the queue at a cinema box office.  There, a queue is a line of people
 waiting to buy a ticket.  The person at the front of the queue is served and thereby removed from
 the queue.  New persons entering the cinema have to line up at the end of the queue.  In contrast, a
-\blue{priority queue} is more like a dentist's waiting room.  If you have an appointment at 10:00 and you
-have already waited for an hour, suddenly a patient with no appointment but a private insurance
+\blue{priority queue} is more like a dentist's waiting room: You have an appointment at 10:00 and you
+have already waited for an hour, but then suddenly a patient with no appointment but a private insurance
 shows up.  Since this patient has a higher \blue{priority}, she will be attended next while you have
 to wait for another hour. 
 
@@ -24,7 +24,16 @@ queues are used in \href{https://en.wikipedia.org/wiki/Discrete_event_simulation
 and in \href{https://en.wikipedia.org/wiki/Operating_system}{operating systems} for the
 \href{https://en.wikipedia.org/wiki/Scheduling_(computing)}{scheduling} of 
 processes. Finally, the sorting algorithm \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort} uses a
-priority queue. We will discuss heapsort in Section \ref{sec:heapsort}.
+priority queue. 
+
+The rest of this chapter is structured as follows:
+\begin{enumerate}[(a)]
+\item We formally define the abstract data type \mytt{PrioQueue} that describes priority queues.
+\item We present the data structure of a \blue{heap}.  This data structure is one way to implement
+      priority queues.
+\item Next, we implement \blue{heaps} in \textsl{Python}.
+\item Finally, we present \blue{HeapSort}, which is a sorting algorithm that is based on heaps.
+\end{enumerate}
 
 \section[Formal Definition]{Formal Definition of the ADT \textsl{PrioQueue}}
 Next, we give a formal definition of the ADT \blue{$\mytt{PrioQueue}$}.  Since the data type
@@ -40,13 +49,17 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
   \item The set of type parameters is \\[0.1cm]
         \hspace*{1.3cm} $\{ \mytt{Priority}, \mytt{Value} \}$.
 
-        Furthermore, there has to exist a binary relation $\leq$ on the set $\mytt{Priority}$ such that
-        the pair $\langle \mytt{Priority}, \leq \rangle$ is a \hyperref[def:linear_order]{linear order}.
+        Furthermore, we assume that there is a binary relation $\leq$ on the set $\mytt{Priority}$ such that
+        \\[0.2cm]
+        \hspace*{1.3cm}
+        $\langle \mytt{Priority}, \leq \rangle$ 
+        \\[0.2cm]
+        is a \hyperref[def:linear_order]{linear order}.
         This is needed since we want to compare the priority of different elements.
   \item The set of function symbols is \\[0.1cm]
        \hspace*{1.3cm} 
        $\{ \mytt{prioQueue}, \mytt{insert}, \mytt{remove}, \mytt{top}, \mytt{isEmpty} \}$.
-  \item The signatures of these function symbols is given as follows:
+  \item The signatures of these function symbols are given as follows:
         \begin{enumerate}
         \item $\mytt{prioQueue}: \mytt{PrioQueue}$
 
@@ -57,7 +70,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
               Furthermore, the priority of $v$ is set to be $p$.
         \item $\mytt{remove}: \mytt{PrioQueue} \rightarrow \mytt{PrioQueue}$
 
-              The expression $Q.\mytt{remove}()$ removes from $Q$ that element that is returned by
+              The expression $Q.\mytt{remove}()$ removes from $Q$ the element that is returned by
               $Q.\mytt{top}()$.
         \item $\mytt{top}: \mytt{PrioQueue}  \rightarrow (\mytt{Priority} \times \mytt{Value}) \cup \{\Omega\}$
 
@@ -72,7 +85,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
       given above, we have to discuss the notion of the \blue{priority}.  We assume that the pair
       $\langle \mytt{Priority}, \leq \rangle$  is a linear order.
       If  $p_1 < p_2$, then we say that the priority $p_1$ is \blue{higher} than the priority $p_2$.  This
-      nomenclature might seem counter intuitive.  It is motivated by 
+      nomenclature might seem counter-intuitive.  It is motivated by 
       Dijkstra's algorithm which is discussed later.  In Dijkstra's algorithm, the priorities are
       distances in a graph and the priority of a node is higher if the node is nearer to the source
       node and in that case the distance to the source is smaller.
@@ -110,7 +123,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             Conceptually, this function is the same as the function $\mytt{insert}$ that we had defined when
             discussing the algorithm \hyperref[sec:insertionSort]{insertion sort}.
       \end{enumerate}
-      Now we can specify the behaviour of the abstract data type $\mytt{PrioQueue}$.
+      Now we are ready to specify the behaviour of the abstract data type $\mytt{PrioQueue}$.
       \begin{enumerate}
       \item $\mytt{prioQueue}().\mytt{toList}() = \mytt{[]}$
 
@@ -266,7 +279,8 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\mytt{insert}(p,v), r\bigr)$.
                  
-      If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
+      If the value $v$ to be inserted has a priority $p$ that is lower (or the same) than the priority
+      $p_{\mathrm{top}}$ of
       the value at the root of the heap, we have to insert the value $v$ either in the left or right
       subtree.  In order to maintain the balancing condition, we insert the value $v$ in the left
       subtree if that subtree stores at most as many values as the right subtree.
@@ -275,7 +289,8 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\mytt{insert}(p,v)\bigr)$.
 
-      If the value $v$ to be inserted has a priority that is lower (or the same) than the priority of
+      If the value $v$ to be inserted has a priority $p$ that is lower (or the same) than the priority
+      $p_{\mathrm{top}}$ of
       the value at the root of the heap, we have to insert the value $v$ in the right
       subtree if the right subtree  stores fewer values than the left subtree.
 \item $p_{\mathrm{top}} > p \;\wedge\; l.\mytt{count}() \leq r.\mytt{count}() \;\rightarrow $ \\[0.1cm]
@@ -283,7 +298,8 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p,v,l.\mytt{insert}(p_\mathrm{top},v_\mathrm{top}), r\bigr)$.
 
-      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
+      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority
+      $p_{\mathrm{top}}$ of
       the value stored at the root of the heap, then we have to store the value $v$ at the root.
       The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to either
       the left or right subtree.  If the number of nodes in the left subtree is as most as big as
@@ -293,7 +309,8 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p,v,l,r.\mytt{insert}(p_\mathrm{top},v_\mathrm{top})\bigr)$.
 
-      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority of
+      If the value $v$ to be inserted is associated with a priority $p$ that is higher than the priority
+      $p_{\mathrm{top}}$ of
       the value stored at the root of the heap, then we have to store the value $v$ at the root.
       The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to 
       the right subtree provided the number of nodes in the left subtree is bigger than
@@ -773,16 +790,17 @@ to run merge sort \cite{sedgewick:2011}.
 Develop an algorithm for sorting a list of $n$ numbers that makes use of \textsc{Avl}-trees.  Your algorithm
 should have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$.  Specify the algorithm via recursive equations.
 \eox
+\pagebreak
 
 \section{Check Your Understanding}
-\begin{enumerate}
-\item Which methods are provided by a priority queue?
+\begin{enumerate}[(a)]
+\item What are the methods that are provided by a priority queue?
 \item Given these methods, how can we transform a priority queue into an ordered list?
 \item Assume that we have a method $\mytt{toList}$ that transforms a priority queue into
       an ordered list.  How can this method be used to specify the behaviour of the methods
       provided by a priority queue?
 \item How is the set $\mathcal{H}$ of heaps defined?
-\item How can we define the methods $\mytt{insert}$ and \mytt{remove} if we implement a priority queue as a
+\item How can we implement the methods $\mytt{insert}$ and \mytt{remove} if we implement a priority queue as a
       heap? 
 \item How can we represent a heap as an array?  What are the benefits of this representation.
 \item Try to implement the algorithm \blue{heap sort} in a language of your choice without consulting the text.
