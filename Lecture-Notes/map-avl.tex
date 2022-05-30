@@ -1103,18 +1103,18 @@ The result of evaluating \\[0.2cm]
 \hspace*{1.3cm} 
 $\mytt{Trie}(v_1, [c_1, \cdots, c_n], [t_1, \cdots, t_n]).\mytt{insert}(w, v_2)$
 \\[0.2cm]
-for a string $w\in \Sigma^*$ and a value $v_2 \in \mytt{Value}$ is defined by induction on the
+for a string $w\in \Sigma^*$ and the value $v_2 \in \mytt{Value}$ is defined by induction on the
 length of $w$.
 \begin{enumerate}
 \item $\mytt{Trie}(v_1,L,T).\mytt{insert}(\varepsilon, v_2) = \mytt{Trie}(v_2,L,T)$,
   
-      If a new value $v_2$ is associated with the empty string $\varepsilon$, then the old value
+      If the new value $v_2$ is associated with the empty string $\varepsilon$, then the old value
       $v_1$, which had been stored at the root before, is overwritten.
 \item $\mytt{Trie}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr).\mytt{insert}(c_ir,v_2) =$ \\[0.2cm]
       \hspace*{1.3cm}  
       $\mytt{Trie}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i.\mytt{insert}(r,v_2),\cdots,t_n]\bigr)$.
 
-      In order to associate a value $v_2$ with the string $c_ir$ in the trie
+      In order to associate the value $v_2$ with the string $c_ir$ in the trie
       \\[0.2cm]
       \hspace*{1.3cm}
       $\mytt{Trie}\bigl(v_1,[c_1,\cdots,c_i,\cdots,c_n], [t_1,\cdots,t_i,\cdots,t_n]\bigr)$ 
@@ -1124,7 +1124,7 @@ length of $w$.
       \hspace*{1.3cm}  
       $\mytt{Trie}\bigl(v_1,[c_1,\cdots,c_n,c], [t_1,\cdots,t_n,\mytt{Trie}(\Omega,[],[]).\mytt{insert}(r,v_2)]\bigr)$.
       
-      If we want to associate a value $v$ with the key $cr$ in the trie
+      If we want to associate the value $v_2$ with the key $cr$ in the trie
       $\mytt{Trie}\bigl(v_1,[c_1,\cdots,c_n], [t_1,\cdots,t_n]\bigr)$ then, if the character $c$
       does not already occur in the list $[c_1,\cdots,c_n]$, we first have to create a new empty trie.
       This trie has the form \\[0.2cm]
@@ -1202,7 +1202,7 @@ is defined by induction on the length of  $w$.
 \end{enumerate}
 
 \subsection{String Completion}
-In addition to the functions specified in the abstract data type map, tries supports 
+In addition to the functions specified in the abstract data type map, tries support
 \blue{string completion}\index{string completion}:  Given the prefix $p$ of a string $s$ that is known to be a
 member of some set $S$ of strings, we can efficiently find all strings in $S$ that start with the prefix $p$, provided we
 store the set $S$ as a trie.  Most modern programming environments offer some kind of string completion in
