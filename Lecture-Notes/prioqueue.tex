@@ -530,9 +530,10 @@ stored at the index $2 \cdot (i + 1)$.  Develop an implementation of heaps that 
 
 \section{Heapsort \label{sec:heapsort}}
 Heaps can be used to implement a sorting algorithm that is efficient in terms of both time and
-memory. While merge sort needs only $n \cdot \log_2(n)$ comparisons to get the job done, the
-algorithm uses an auxiliary array and is therefore not optimally efficient with regard to its memory
-consumption.  The algorithm we describe next, \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}, has
+memory. While \blue{merge sort} needs only $n \cdot \log_2(n)$ comparisons to get the job done, it
+needs an auxiliary array and is therefore not optimally efficient with regard
+to its memory consumption.  The algorithm we describe next is called
+\href{https://en.wikipedia.org/wiki/Heapsort}{heapsort} and has 
 a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not require an auxiliary
 array.  Heapsort \index{Heapsort} was invented in 1964 by
 \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} \cite{williams:1964}
@@ -696,7 +697,8 @@ We discuss this implementation line by line.
       When calling $\mytt{sink}$, the assumption is that $A[{k:n+1}]$ should represent a heap 
       that possibly has its heap condition violated at its root, i.e.~at index ${k}$.  The
       purpose of the procedure $\mytt{sink}$ is to restore the heap condition at index ${k}$.
-      To this end, we first compute the index ${j}$ of the left subtree below index ${k}$.
+      To this end, we first compute the index ${j}$ of the left subtree below index ${k}$,
+      i.e.~we have $j = 2 \cdot k + 1$.
       Then we check whether there also is a right subtree at position ${j}+1$, which is the
       case if $j + 1$ is less than or equal to  ${n}$.  Now if the heap condition is violated at index
       ${k}$, we have to exchange the element at  position ${k}$ with the child that has
@@ -705,7 +707,7 @@ We discuss this implementation line by line.
       condition is violated at index ${k}$.  If the heap condition is satisfied, there is
       nothing left to do and the procedure returns.  Otherwise, the element at position ${k}$ is swapped with
       the element at position ${j}$.  Of course, after this swap it is possible that the heap condition is
-      violated at position ${j}$.  Therefore,  ${k}$ is set to ${j}$ and the \mytt{while}-loop continues
+      violated at position ${j}$.  Therefore,  ${k}$ is set to ${j}$ and the \mytt{while}-loop repeats
       as long as the node at position ${k}$ has at least one child, i.e.~as long as 
       $2 \cdot {k} + 1 \leq {n}$.
 \item The function $\mytt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
@@ -716,8 +718,9 @@ We discuss this implementation line by line.
             \mytt{for}-loop starting in line 16.  The invariant of this loop is that before
             $\mytt{sink}$ is called, all trees rooted at an index greater than 
             ${k}$ satisfy the heap condition.  Initially this is true because the trees that
-            are rooted at indices greater than  $(n + 1) // 2 - 1$ are trivial, i.e.~they only
-            consist of their root node.  This can be seen as follows:  If $k = (n + 1)//2$, which is the first
+            are rooted at indices greater than  $(n + 1) // 2 - 1$  only
+            consist of a single node therefore satisfy the heap condition vacuously.  This can be seen as
+            follows:  If $k = (n + 1)//2$, which is the first 
             natural number that is greater than $(n + 1) // 2 - 1$, then there are two cases:
             Either $n$ is even or $n$ is odd.
             \begin{enumerate}
@@ -730,8 +733,8 @@ We discuss this implementation line by line.
                   $2 \cdot k + 1 = 2 \cdot m + 1 = n + 1 > n$.
                   \\[0.2cm]
                   As $2 \cdot k  + 1$ is greater than $n$ and $n$ is the last index in an array of length $n+1$, the
-                  node at position $k = (n+1)//2$ does not have a left subtree.  As $2 \cdot k + 2$ is even 
-                  bigger than $2 \cdot k + 1$ there can be no right subtree either.
+                  node at position $k = (n+1)//2$ does not have a left subtree.
+                  Of course, if there is no left subtree, then there is no right subtree either.
             \item Case: $n$ is odd, i.e.~there is an $m \in \mathbb{N}$ such that $n = 2 \cdot m + 1$.
 
                   Then $k = (n + 1)//2 = (2 \cdot m + 1 + 1) // 2 = m + 1$.  Therefore, the left subtree
@@ -762,7 +765,7 @@ We discuss this implementation line by line.
             array ${A}$ \blue{descendingly}, we move this element to the end of the array ${A}$ and in
             return move the element from the end of the array ${A}$ to the front.
             After this exchange, the sublist $A[0:n-1]$ represents a heap, except that the
-            heap condition might now be violated at the root.  Next, we decrement ${n}$ in line 20, since the
+            heap condition might now be violated at the root.  Therefore, we decrement ${n}$ in line 20, since the
             last element of the array ${A}$ is already in its correct position in the list that is to be
             returned in the end.  In order to reestablish the heap condition at the root, we call $\mytt{sink}$ with index
             \mytt{0} in line 21.

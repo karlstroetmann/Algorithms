@@ -18,7 +18,7 @@ holds.  Here, $\mytt{ceil}(x)$ denotes the
 the expression $\mytt{ceil}(x)$ returns the smallest integer $k$ that is as least as big as $x$, i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mytt{ceil}(x) = \min \{ k \in \mathbb{Z} \mid x \leq k \}$. 
+$\mytt{ceil}(x) = \min\bigl( \{ k \in \mathbb{Z} \mid x \leq k \}\bigr)$. 
 \\[0.2cm]
 If the string $s$ has a length of $m$ characters, then we have to use $m \cdot b$ bits in order to code $s$. 
 There are two options to improve on this number.
@@ -209,7 +209,7 @@ The idea is to combine those nodes $a$ and $b$ such that the cost of the set
 $M \symbol{92} \{a,b\} + \{ \mytt{Node}(a,b) \}$
 \\[0.2cm]
 is as small as possible.
-In order to choose $a$ and $b$ let us investigate how much the cost increases if we combine the two nodes
+In order to choose $a$ and $b$ let us investigate how much the cost increases if we combine these two nodes
 into the new node $\mytt{Node}(a,b)$:
 \begin{eqnarray*}
 & & \mytt{cost}\bigl(N \cup \{ \mytt{Node}(a,b) \}\bigr) - \mytt{cost}\bigl(N \cup \{ a,b \}\bigr) \\
@@ -305,6 +305,8 @@ The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb}
             returns the object from $H$ that has the highest priority and removes this object from the heap
             $H$.
       \item As heaps are represented as lists, the empty heap is represented by the empty list.
+      \item If \mytt{H} is a list representing a heap, then the object with the highest priority is at the
+            beginning of this list.  Therefore \mytt{H[0]} is the object with the highest priority in \mytt{H}.
       \end{enumerate}
 \item We define a superclass \mytt{CodingTree} and two derived classes \mytt{Leaf} and \mytt{Node}.
       As we want to place objects of these classes onto a priority queue, we have to make them comparable.
