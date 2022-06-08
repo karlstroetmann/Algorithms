@@ -615,8 +615,8 @@ $\ds \mytt{weight}(\mathcal{G}) := \sum\limits_{\{x,y\} \in \mathbb{E}} \Weight{
 \proof
 We will show the following claims:
 \begin{enumerate}[(a)]
-\item If the number of edges $\# \mathbb{E}$ is greater than $\#\mathbb{V}-1$, then $\mathcal{T}$ has to contain a cycle.
-\item If the number of edges $\# \mathbb{E}$ is smaller than  $\#\mathbb{V}-1$, then $\mathcal{T}$ cannot be connected.
+\item The number of edges $\# \mathbb{E}$ must be less or equal than $\#\mathbb{V}-1$, because otherwise $\mathcal{T}$ would contain a cycle.
+\item If the number of edges $\# \mathbb{E}$ is less than  $\#\mathbb{V}-1$, then $\mathcal{T}$ cannot be connected.
 \item If the number of edges $\# \mathbb{E}$ is equal to $\#V - 1$, then $\mathcal{T}$ is a tree.
 \end{enumerate}
 We prove all of these claims simultaneously by induction on $n := \#V$.
@@ -648,7 +648,8 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \item $C := \{ z \in \mathbb{V} \mid \mbox{$z$ is neither connected to neither $x$ nor to $y$}\}$.
   \end{enumerate}
   The sets $A$ and $B$ have to be disjoint, for if there were a vertex $z$ such that $z$ were connected to both
-  $x$ and $y$, then the graph $T$ would contain a cycle.  If $\{u,v\}\in\mathbb{E}$, then there are three cases:
+  $x$ and $y$, then the graph $T$ would contain a cycle, which contradicts our assumption.
+  If $\{u,v\}\in\mathbb{E}$, then there are three cases:
   \begin{enumerate}[(a)]
   \item $u$ is connected to $x$.  Because $\{u,v\}\in\mathbb{E}$ this implies that then $v$ is also connected
         to $x$ and hence both $u$ and $v$ are in $A$.
@@ -670,18 +671,12 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \end{enumerate}
   As the graph $\mathcal{T}$ does not contain a cycle, the graphs $\mathcal{T}_A$, $\mathcal{T}_B$, and $\mathcal{T}_C$ can't contain a cycle either,
   since they are subgraphs of $\mathcal{T}$.  Next, we define $a := \# A$, $b := \# B$, and $c := \# C$.
-  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis the claim holds true for  $\mathcal{T}_A$, $\mathcal{T}_B$, and
-  $\mathcal{T}_C$.  Let us assume that $\# \mathbb{E}_A > a - 1$.  By induction hypothesis we could then conclude that
-  $\mathcal{T}_A$ contains a cycle.  This would imply that also $\mathcal{T}$ contains a cycle and since this would contradict our
-  assumption, we can conclude that
-  \\[0.2cm]
+  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis our claim holds true for the graphs  $\mathcal{T}_A$, $\mathcal{T}_B$, and
+  $\mathcal{T}_C$.  By part (a) of our induction hypothesis this implies
+    \\[0.2cm]
   \hspace*{1.3cm}
-  $\# \mathbb{E}_A \leq a - 1$.
-  \\[0.2cm]
-  In a similar way we must also have
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $\# \mathbb{E}_B \leq b - 1$ \quad and \quad $\# \mathbb{E}_C \leq c - 1$.
+  $\# \mathbb{E}_A \leq a - 1$, \quad
+  $\# \mathbb{E}_B \leq b - 1$, \quad and \quad $\# \mathbb{E}_C \leq c - 1$.
   \\[0.2cm]
   Now there are three cases.
   \begin{enumerate}
@@ -694,19 +689,15 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \hspace*{1.3cm}
     $\#\mathbb{E} = (a - 1) + (b - 1) + 1 = n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
-    Hence in this case the claims $(a)$ and $(b)$  are trivially true as their assumptions are not true,
-    while the last claim is true because $\mathcal{T}$ is a tree.
+    Hence in this case the claims $(a)$ is true because $\# \mathbb{E} = \# \mathbb{V} - 1$, $(b)$  is true as
+    its assumption is false,  while the last claim is true because $\mathcal{T}$ is a tree.
     \green{$\surd$}
   \item Case: $C = \emptyset$, $\#\mathbb{E}_A < a - 1$, or $\#\mathbb{E}_B < b - 1$.
     
-    Then by induction hypothesis either $\mathcal{T}_A$ or $\mathcal{T}_B$ is not connected.  Of course, then $\mathcal{T}$ is not connected either.
-    Furthermore, since we have $\# \mathbb{E}_A \leq a - 1$ and $\# \mathbb{E}_B \leq b - 1$ it follows that
-    \\[0.2cm]
-    \hspace*{1.3cm}
-    $\#\mathbb{E} = \#\mathbb{E}_A + \#\mathbb{E}_B - 1 < (a - 1) + (b - 1) = n - 1 = \#\mathbb{V} - 1$.
-    \\[0.2cm]
-    Therefore in this case claim $(a)$ and $(c)$ are trivially true and $(b)$ is true because $\mathcal{T}$ is
-    not connected.  \green{$\surd$}
+    Then by induction hypothesis either $\mathcal{T}_A$ or $\mathcal{T}_B$ would not be connected.  But this is
+    not possible because all nodes in $\mathcal{T}_A$ are connected to $x$, while all nodes in
+    $\mathcal{T}_B$ are connected to $y$.  Hence this case can't occur.
+    \green{$\surd$}
   \item Case $C \not= \emptyset$.
 
     In that case the graph $\mathcal{T}$ can't be connected since the vertices in $C$ are not connected to either $x$ or
@@ -727,8 +718,9 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \\[0.2cm]
     Therefore it follows that $\mathbb{E} \leq n - 2 < n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
-    Therefore in this case claim $(a)$ and $(c)$ are trivially true and $(b)$ is true because $\mathcal{T}$ is
-    not connected.  \green{$\surd$}
+    Therefore in this case claim $(a)$ is obviously true, $(b)$ is true because $\mathcal{T}$ is not a tree,
+    and $(c)$ is true because its precondition is false.
+     \green{$\surd$}
   \end{enumerate}
   Hence the claim has been established in all three cases. \qed
 \end{enumerate} 
