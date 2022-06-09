@@ -27,7 +27,7 @@ In this chapter we are going to discuss four problems from \blue{graph theory}.
       implies that $x < y$ holds.
 \end{enumerate}
 
-\section{The Union-Find Problem}
+\section{The Union-Find Problem \label{sec:union-find}}
 Assume that we are given a set $M$ together with a relation $R \subseteq M \times M$.  The relation
 $R$ is not yet an  \href{https://en.wikipedia.org/wiki/Equivalence_relation}{equivalence relation} on $M$, but
 this relation \blue{generates} an equivalence relation $\approx_R$ on $M$.  This
@@ -404,10 +404,9 @@ $c_h$ and solve this equation. \eox
 
 
 \subsection{Packaging the  Union-Find Algorithm as a Class \label{sec:union-find-oo}}
-Later, when we discus the problem of constructing a \blue{minimum spanning tree}, we will need the union-find algorithm as an
-auxiliary data structure.  To this end we present a class that encapsulates the union-find
-algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
-\pageref{fig:Union-Find-OO.ipynb}.
+Later, when we discus the problem of constructing a \blue{minimum spanning tree}, we will need the union-find
+algorithm as an auxiliary data structure.  Figure \ref{fig:Union-Find-OO.ipynb} on page
+\pageref{fig:Union-Find-OO.ipynb} shows how this is done.
 
 \begin{figure}[!ht]
 \centering
@@ -420,53 +419,46 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
                 xleftmargin   = 0.0cm,
                 xrightmargin  = 0.0cm,
               ]{python3}
-    class UnionFind:
-        def __init__(self, M):
-            self.mParent = { x: x for x in M }
-            self.mHeight = { x: 1 for x in M }
-            
-        def find(self, x):
-            p = self.mParent[x]
-            if p == x:
-                return x
-            return self.find(p)
-
-        def union(self, x, y):
-            root_x = self.find(x)
-            root_y = self.find(y)
-            if root_x != root_y:
-                if self.mHeight[root_x] < self.mHeight[root_y]:
-                    self.mParent[root_x] = root_y
-                elif self.mHeight[root_x] > self.mHeight[root_y]:
-                    self.mParent[root_y] = root_x
-                else:
-                    self.mParent[root_y]  = root_x
-                    self.mHeight[root_x] += 1
-                    
-    def partition(M, R):
-        UF = UnionFind(M)
-        for x, y in R:
-            UF.union(x, y)
-        Roots = { x for x in M if UF.find(x) == x }
-        return [{y for y in M if UF.find(y) == r} for r in Roots]
+    class Node(object):
+        def __init__(self, value):
+            self.mValue  = value
+            self.mParent = None
+            self.mHeight = 1
+    
+        def find(self):
+            node = self
+            while node.mParent != None:
+                node = node.mParent
+            return node
+    
+    def union(node_x, node_y):
+        root_x = node_x.find()
+        root_y = node_y.find()
+        if root_x != root_y:
+            if root_x.mHeight < root_y.mHeight:
+                root_x.mParent = root_y
+            elif root_x.mHeight > root_y.mHeight:
+                root_y.mParent = root_x
+            else:
+                root_y.mParent  = root_x
+                root_x.mHeight += 1       
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The class \mytt{unionFind}.}
+\caption{The class \mytt{Node} and the function \mytt{union}.}
 \label{fig:Union-Find-OO.ipynb}
 \end{figure}
 
 \begin{enumerate}
-\item The constructor $\mytt{unionFind}$ receives a set $\mytt{M}$ as arguments.  The class
-      $\mytt{unionFind}$ maintains two variables:
+\item The class $\mytt{Node}$ represents a single element $x$ of some set $M$.  This
+      class maintains three member variables:
       \begin{enumerate}
+      \item \mytt{mValue} is the element $x$.
       \item $\mytt{mParent}$ is the dictionary implementing the pointers that point to the parents
              of each node.  If a node $\mytt{n}$ has no parent, then we have
              \\[0.2cm]
              \hspace*{1.3cm}
-             \mytt{mParent[n] = n},
-             \\[0.2cm]
-             i.e.~the roots of the trees point to themselves.  Initially, all nodes are roots, so
-             all parent pointers point to themselves.
+             \mytt{mParent[n] = None}.
+             Initially, all nodes are roots, so all parent pointers are \mytt{None}.
       \item $\mytt{mHeight}$ is a dictionary containing the heights of the trees.  If $\mytt{n}$ is
             a node, then
             \\[0.2cm]
@@ -476,24 +468,13 @@ algorithm.  This class is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page
             gives the height of the subtree rooted at $\mytt{n}$. As initially all trees contain but
             a single node, these trees all have height $1$.
       \end{enumerate}
-\item The method $\mytt{union}$ takes two nodes $\mytt{x}$ and $\mytt{y}$ and joins the trees that
-      contain these nodes.  This is achieved by finding their parents $\mytt{parentX}$ and
-      $\mytt{parentY}$.  Then, the root of the smaller of the two trees is redirected to point to
-      the root of the bigger tree.
 \item The method $\mytt{find}$ takes a node $\mytt{x}$ as its argument and computes the root of the
       tree containing $\mytt{x}$. 
-\item The function $\mytt{partition}$ is a client of the class $\mytt{unionFind}$.  It takes a set
-      $\mytt{M}$ and a relation $\mytt{R}$ on $\mytt{M}$ and computes a partition that corresponds
-      to the equivalence relation generated by $\mytt{R}$ on $\mytt{M}$. 
-      \begin{enumerate}
-      \item First, the function constructs a union-find object $\mytt{UF}$ for the set $\mytt{M}$.
-      \item Then the method iterates over all pairs $(\mytt{x},\mytt{y})$ in the relation $\mytt{R}$ and
-            joins the equivalence classes corresponding to $\mytt{x}$ and $\mytt{y}$.
-      \item Next, the method collects all nodes $\mytt{x}$ that are at the root of a tree.
-      \item Finally, for every root $\mytt{R}$ the method collects those nodes $\mytt{x}$ that are
-            part of the tree rooted at $\mytt{R}$.
-      \end{enumerate}
-      This method is only needed to test the implementation of the class \mytt{UnionFind}.
+\item The function $\mytt{union}$ takes two nodes $\mytt{node\_x}$ and $\mytt{node\_y}$ and joins the trees that
+      contain these nodes.  This is achieved by finding the roots of the trees containing $\mytt{node\_x}$ and
+      $\mytt{node\_y}$.
+      Then, the root of the smaller of the two trees is redirected to point to
+      the root of the bigger tree.
 \end{enumerate}
 
 
@@ -740,7 +721,7 @@ follows.\index{Kruskal's algorithm}
       The fact that we investigate the edges in increasing order of their weight implies that we always choose
       the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is
       known as a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
-\item We stop when the number of edges is one less than the number of nodes since, according to the
+\item We stop when the number of edges is one less than the number of nodes since, because according to the
       proposition in the previous section, the tree must then connect all the nodes of the graph. 
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
@@ -759,31 +740,34 @@ discuss this program next.
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm,
               ]{python3}
-    import heapq         as hq
-
+    %run Union-Find-OO.ipynb
+    import heapq as hq     
+                
     def mst(V, E):
-        UF  = UnionFind(V)
-        MST = set()         # minimum spaning tree
-        H   = []            # empty priority queue for edges
+        Nodes = { x: Node(x) for x in V }
+        MST = set() # minimum spanning tree, set of weighted edges
+        H   = []    # empty priority queue for weighted edges
         for edge in E:
             hq.heappush(H, edge)
         while True:
+            if H == []:
+                return None # the graph is not connected
             w, (x, y) = hq.heappop(H)
-            root_x = UF.find(x)
-            root_y = UF.find(y)
+            root_x = Node[x].find()
+            root_y = Node[y].find()
             if root_x != root_y:
                 MST.add((w, (x, y)))
-                UF.union(x, y)
+                union(Node[x], Node[y])
                 if len(MST) == len(V) - 1:
                     return MST
 \end{minted}
 \vspace*{-0.3cm}
-\caption{Kruskal's algorithm.}
+\caption{Kruskal's algorithm for computing the minimum spanning tree.}
 \label{fig:Kruskal.ipynb}
 \end{figure}
 
 \begin{enumerate}
-\item Initially, we import the module \mytt{union\_find\_oo}, which is the object oriented 
+\item Initially, we load the notebook \mytt{Union-Find-OO.ipynb}, which is the object oriented 
       implementation of the union-find algorithm that has been presented in Section \ref{sec:union-find-oo}.
 \item Furthermore, we import the module \mytt{heapq} as it provides us with a priority queue.
 \item The main function is the function $\mytt{mst}$, which is short for \underline{m}inimum
@@ -797,9 +781,10 @@ discuss this program next.
       Here, $\mytt{x}$ and $\mytt{y}$ are the nodes connected by the edge and $\mytt{w}$ is the
       weight of the edge.  The function $\mytt{mst}$ computes a minimum spanning tree of  the
       graph  $\pair(\mytt{V},\mytt{E})$.  It is assumed that this graph is connected.
-\item The function $\mytt{mst}$ first creates the union-find data structure $\mytt{UF}$ in line 5.
-      Initially, every node in $\mytt{UF}$ is  an equivalence class all by itself, i.e.~no nodes
-      are connected.
+\item The function $\mytt{mst}$ first creates a dictionary of \mytt{Node} objects that map the nodes $x$ to
+      objects of the class \mytt{Node}.  This class has been defined in section \ref{sec:union-find} and its
+      implementation is shown in Figure \ref{fig:Union-Find-OO.ipynb} on page \pageref{fig:Union-Find-OO.ipynb}.
+
 \item The spanning tree constructed by the algorithm is stored in the variable $\mytt{MST}$.
       The spanning tree is represented by the set of its weighted edges.  
 \item Next, the set of weighted edges $\mytt{E}$ is turned into a priority queue.
@@ -808,7 +793,7 @@ discuss this program next.
       The \mytt{for}-loop in line 8-9 inserts all edges of the set \mytt{E} into this priority queue.
 \item The \mytt{while}-loop in line 10 checks for every edge $(\mytt{x},\mytt{y})$  whether $\mytt{x}$ and $\mytt{y}$ are already
       connected.  This is the case if both $\mytt{x}$ and $\mytt{y}$ are part of the same tree
-      in the union-find data structure \mytt{UF}.  In order to
+      in the union-find data structure.  In order to
       check whether $\mytt{x}$ and $\mytt{y}$ are part of the same tree
       we have to compute the roots of these trees. 
       If these roots are identical, then \mytt{x} and \mytt{y} are part of the same tree and hence
@@ -817,7 +802,7 @@ discuss this program next.
       spanning tree and the trees containing $\mytt{x}$ and $\mytt{y}$ are connected by calling the function
       \mytt{union}.
 \item The algorithm terminates once the tree \mytt{MST} has $\mytt{\#V-1}$ edges, since we know from the previous
-      exercise that in this case all nodes are connected by the edges in \mytt{MST}.
+      exercise that in this case all nodes are connected by the edges in \mytt{MST}. 
 \end{enumerate}
 
 
