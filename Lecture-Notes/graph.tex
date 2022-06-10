@@ -479,13 +479,27 @@ algorithm as an auxiliary data structure.  Figure \ref{fig:Union-Find-OO.ipynb} 
 
 
 \section{Minimum Spanning Trees}
-Imagine a telecommunication company that intends to supply internet access to a developing country.
-The capital of the country is located at the coast line and is already connected to the internet via
+Imagine a telecommunication company that intends to supply internet access to a new emerging market, i.e.~a
+developing country.  The capital of the country is located at the coast line and is already connected to the internet via
 a submarine cable. It is the company's task to connect all of the towns and villages to the capital.
 Since most parts of the country are covered by a dense jungle, it is cheapest to build the connecting lines
 alongside existing roads.  However, it is not necessary to have connection lines at every road.  The task is to
 compute the set of roads that have to be equipped with connection lines so that all cities are connected and
-the overall cost of the connection is minimal.
+the overall cost of connecting all towns and villages is minimal.  Figure \ref{fig:tiny-graph.pdf} shows an
+abstract representation of 9 towns that are numbered from $0$ to $8$.  Some of these towns are connected by
+roads.  These roads are depicted as lines connecting the towns.  The cost for building a telephone along each of
+the roads is written next to these line.  For example, the town that is labelled with the number $0$ is connected to the
+town labelled with the number $2$ via a road.  The cost of building a telephone line along this road is $3$ units.
+
+
+\begin{figure}[!ht]
+  \centering
+  \hspace*{-0.8cm}
+  \epsfig{file=Abbildungen/tiny-graph.pdf,scale=0.5}
+  \caption{An undirected graph showing connections between towns and villages.}
+  \label{fig:tiny-graph.pdf}
+\end{figure}
+
 
 Mathematically, this kind of problem can be formulated as the problem of
 constructing a \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} for
@@ -518,14 +532,16 @@ undirected edges.  The formal definition follows.
         Hence, if $x$ is connected to $y$ then $y$ is also connected to $x$.
 
         We will further assume that if $\{x,y\}$ is an edge, then $x \not= y$, i.e.~we do not admit
-        \href{https://en.wikipedia.org/wiki/Loop_(graph_theory)}{loops}. \index{loop}
+        \href{https://en.wikipedia.org/wiki/Loop_(graph_theory)}{loops}. \index{loop} \eox
   \end{enumerate}
 \end{Definition}
 
-Sometimes, the edges of an undirected graph have an associated weight.  This leads to the notion of a
-\blue{weighted undirected graph} that is given next.
+\noindent
+Sometimes, the edges of an undirected graph have an associated cost.  Often, the cost of an edge is referred to as
+its \blue{weight}.  This leads to the notion of a \blue{weighted undirected graph}.
 
-\begin{Definition}[Weighted Graph] A \blue{weighted undirected graph}\index{weighted undirected graph} is a triple 
+\begin{Definition}[Weighted Undirected Graph] \hspace*{\fill} \\
+  A \blue{weighted undirected graph}\index{weighted undirected graph} is a triple 
    $\langle \nodes, \edges, \weight{\cdot} \rangle$ such that
   \begin{enumerate}
   \item $\langle \nodes, \edges \rangle$ is an undirected graph.
@@ -548,14 +564,14 @@ such that we have : \\[0.2cm]
 \hspace*{1.3cm}
 $\{x_i,x_{i+1}\} \in \edges$  \quad for all $i = 0, \cdots, n-1$.
 \\[0.2cm]
-The set of all paths is denoted as $\mathbb{P}$, i.e.~we define
+The set of all paths of a given graph $\mathcal{G}$ is denoted as $\mathbb{P}$, i.e.~we define
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds \mathbb{P}  := \bigl\{ P \mid \mbox{$P$ is a path} \bigr\}$.
+$\ds \mathbb{P}  := \bigl\{ P \mid \mbox{$P$ is a path in $\mathcal{G}$} \bigr\}$.
 \\[0.2cm]
-A path $P = [ x_0, x_1, \cdots, x_n]$ \blue{connects} the nodes $x_0$ and $x_n$.  The \blue{weight} of a
+A path $P = [ x_0, x_1, \cdots, x_n]$ \blue{connects}\index{path connects nodes $a$ and $b$} the nodes $x_0$ and $x_n$.  The \blue{weight} of a
 path\index{weight of an path} is defined as
-the sum of the weights of all of its edges.  
+the sum of the weights of all of its edges.  The \blue{length} of this path is $n$ as it consists of $n$ edges.
 \\[0.2cm]
 \hspace*{1.3cm}
  $\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\{x_i,x_{i+1}\}}$. 
@@ -569,15 +585,16 @@ A set of edges can be interpreted as graph since the set of nodes can be compute
 follows: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\}$.
+$\ds\nodes = \bigcup \bigl\{\{x,y\} \,\big|\, \{x,y\} \in \edges \bigr\} = \bigcup \edges$.
 \\[0.2cm]
 Then, a set of edges $\edges$ is called a \blue{tree}\index{tree (graph)} if and only if
 \begin{enumerate}[(a)]
-\item the corresponding graph is connected \quad \textbf{and}
+\item the corresponding graph $\bigl\langle \bigcup \edges, \edges\bigr\rangle$ is connected \quad \textbf{and}
 \item removing any edge from $\edges$ would result in a graph that is no longer connected.
 \end{enumerate}
 These conditions can be restated: A tree is a connected graph that does not have a \blue{cycle}.
-Here, a \blue{cycle} is a path of the form $[x_0, x_1, \cdots, x_n]$ where $n > 0$ and $x_0 = x_n$.  
+Here, a \blue{cycle} is a path of the form $[x_0, x_1, \cdots, x_n]$ where $n \geq 2$ and $x_0 = x_n$, i.e.~a
+cycle is a path such that the first node and the last node are identical.
 
 \begin{Definition}[Weight of a Tree]
 We define the \blue{weight} of a tree \index{weight of a tree} as the sum of the weights of its edges,
@@ -588,14 +605,14 @@ $\ds \mytt{weight}(\mathcal{G}) := \sum\limits_{\{x,y\} \in \mathbb{E}} \Weight{
 \end{Definition}
 
 \begin{Proposition}
-  Assume that $\mathcal{T} = (\mathbb{V},\mathbb{E})$ is an undirected graph that does not contain a
-  cycle.  Then $\mathcal{T}$ is a tree if and only if $\#\mathbb{E} = \#\mathbb{V} - 1$ holds.  Here, $\#\mathbb{E}$ denotes the number of edges,
+  Assume that $\mathcal{T} = (\mathbb{V},\mathbb{E})$ is an undirected graph that \textbf{does not contain a cycle}.
+  Then $\mathcal{T}$ is a tree if and only if $\#\mathbb{E} = \#\mathbb{V} - 1$ holds.  Here, $\#\mathbb{E}$ denotes the number of edges,
   while $\#\mathbb{V}$ denotes the number of vertices.  
 \end{Proposition}
 
 \proof
 We will show the following claims:
-\begin{enumerate}[(a)]
+\begin{enumerate}[(i)]
 \item The number of edges $\# \mathbb{E}$ must be less or equal than $\#\mathbb{V}-1$, because otherwise $\mathcal{T}$ would contain a cycle.
 \item If the number of edges $\# \mathbb{E}$ is less than  $\#\mathbb{V}-1$, then $\mathcal{T}$ cannot be connected.
 \item If the number of edges $\# \mathbb{E}$ is equal to $\#V - 1$, then $\mathcal{T}$ is a tree.
@@ -605,31 +622,32 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
 \item[B.C.:] $n = 1$.
 
   If the graph contains only 1 vertex, we have $\mathbb{V} = \{x\}$ and hence the set of edges $\mathbb{E}$
-  must be empty. Therefore we have
+  must be empty, because in our definition of a graph an edge always connects to different nodes. Therefore we
+  have 
   \\[0.2cm]
   \hspace*{1.3cm}
   $\#\mathbb{V} = 1$, \quad $\#\mathbb{E} = 0$, \quad and therefore \quad $\#\mathbb{E} = \#\mathbb{V}-1$.
   \\[0.2cm]
-  Hence the first two claims are vacuously true because their precondition is never satisfied.
+  Hence the first two claims are vacuously true because their preconditions are never satisfied.
   Furthermore, in that case the graph trivially is a tree and thus the third claim is true.
 \item[I.S.:] $1, 2, \cdots, n-1 \mapsto n$
 
-  In this case we pick any edge $\{x,y\}$ from $\mathbb{E}$ and define a new graph $\mathcal{T}'$ that results from $\mathcal{T}$
+  In this case we pick any edge $\{x,y\}$ from $\mathbb{E}$ and define a new graph $\mathcal{T}^*$ that results from $\mathcal{T}$
   by removing the edge $\{x,y\}$ from $\mathbb{E}$:
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\mathcal{T}' := \bigl\langle \mathbb{V}, \mathbb{E} \backslash \bigl\{ \{x,y\} \bigr\} \bigr\rangle$ 
+  $\mathcal{T}^* := \bigl\langle \mathbb{V}, \mathbb{E} \backslash \bigl\{ \{x,y\} \bigr\} \bigr\rangle$ 
   \\[0.2cm]
-  Next, we define $A$ to be the set of those vertices that are connected to $x$ in $\mathcal{T}'$, $B$ to be the set
-  of vertices that are connected to $y$ in $\mathcal{T}'$, and $C$ to contain those vertices that are neither connected to
+  Next, we define $A$ to be the set of those vertices that are connected to $x$ in $\mathcal{T}^*$, $B$ to be the set
+  of vertices that are connected to $y$ in $\mathcal{T}^*$, and $C$ to contain those vertices that are neither connected to
   $x$ nor to $y$:
   \begin{enumerate}[(a)]
-  \item $A := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $x$ in $\mathcal{T}'$}\}$, \quad 
-  \item $B := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $y$ in $\mathcal{T}'$}\}$, \quad and \quad
+  \item $A := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $x$ in $\mathcal{T}^*$}\}$, \quad 
+  \item $B := \{ z \in \mathbb{V} \mid \mbox{$z$ is connected to $y$ in $\mathcal{T}^*$}\}$, \quad and \quad
   \item $C := \{ z \in \mathbb{V} \mid \mbox{$z$ is neither connected to neither $x$ nor to $y$}\}$.
   \end{enumerate}
   The sets $A$ and $B$ have to be disjoint, for if there were a vertex $z$ such that $z$ were connected to both
-  $x$ and $y$, then the graph $T$ would contain a cycle, which contradicts our assumption.
+  $x$ and $y$, then the graph $\mathcal{T}$ would contain a cycle, which contradicts our assumption.
   If $\{u,v\}\in\mathbb{E}$, then there are three cases:
   \begin{enumerate}[(a)]
   \item $u$ is connected to $x$.  Because $\{u,v\}\in\mathbb{E}$ this implies that then $v$ is also connected
@@ -642,7 +660,7 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \begin{enumerate}[(a)]
   \item $\mathbb{E}_A := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\in A \wedge v\in A \bigr\}$,
   \item $\mathbb{E}_B := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\in B \wedge v\in B \bigr\}$,
-  \item $\mathbb{E}_C := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\not\in A \cup B \wedge v\not\in A \cup B \bigr\}$.
+  \item $\mathbb{E}_C := \bigl\{ \{u,v\}\in\mathbb{E} \mid u\in C \wedge v\in C \bigr\}$.
   \end{enumerate}
   Then, we can define three graphs $\mathcal{T}_A$, $\mathcal{T}_B$, and $\mathcal{T}_C$ as follows:
   \begin{enumerate}[(a)]
@@ -652,8 +670,8 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \end{enumerate}
   As the graph $\mathcal{T}$ does not contain a cycle, the graphs $\mathcal{T}_A$, $\mathcal{T}_B$, and $\mathcal{T}_C$ can't contain a cycle either,
   since they are subgraphs of $\mathcal{T}$.  Next, we define $a := \# A$, $b := \# B$, and $c := \# C$.
-  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis our claim holds true for the graphs  $\mathcal{T}_A$, $\mathcal{T}_B$, and
-  $\mathcal{T}_C$.  By part (a) of our induction hypothesis this implies
+  Since $a < n$, $b < n$, and $c < n$ by induction hypothesis our claims holds true for the graphs  $\mathcal{T}_A$, $\mathcal{T}_B$, and
+  $\mathcal{T}_C$.  By part (i) of our induction hypothesis this implies
     \\[0.2cm]
   \hspace*{1.3cm}
   $\# \mathbb{E}_A \leq a - 1$, \quad
@@ -670,14 +688,14 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \hspace*{1.3cm}
     $\#\mathbb{E} = (a - 1) + (b - 1) + 1 = n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
-    Hence in this case the claims $(a)$ is true because $\# \mathbb{E} = \# \mathbb{V} - 1$, $(b)$  is true as
+    Hence in this case the claim (i) is true because $\# \mathbb{E} = \# \mathbb{V} - 1$, (ii)  is true as
     its assumption is false,  while the last claim is true because $\mathcal{T}$ is a tree.
     \green{$\surd$}
   \item Case: $C = \emptyset$, $\#\mathbb{E}_A < a - 1$, or $\#\mathbb{E}_B < b - 1$.
     
     Then by induction hypothesis either $\mathcal{T}_A$ or $\mathcal{T}_B$ would not be connected.  But this is
     not possible because all nodes in $\mathcal{T}_A$ are connected to $x$, while all nodes in
-    $\mathcal{T}_B$ are connected to $y$.  Hence this case can't occur.
+    $\mathcal{T}_B$ are connected to $y$.  Hence this case is impossible.
     \green{$\surd$}
   \item Case $C \not= \emptyset$.
 
@@ -699,8 +717,9 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \\[0.2cm]
     Therefore it follows that $\mathbb{E} \leq n - 2 < n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
-    Therefore in this case claim $(a)$ is obviously true, $(b)$ is true because $\mathcal{T}$ is not a tree,
-    and $(c)$ is true because its precondition is false.
+    Therefore in this case claim (i) is obviously true, (ii) is true because $\mathcal{T}$ is not a tree as
+    it is not connected,
+    and (iii) is true because its precondition is false.
      \green{$\surd$}
   \end{enumerate}
   Hence the claim has been established in all three cases. \qed
@@ -708,8 +727,9 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
 
 \subsection{Kruskal's Algorithm}
 In 1956 the mathematician \href{https://en.wikipedia.org/wiki/Joseph_Kruskal}{Joseph Bernard Kruskal} (1928 -- 2010) 
+\index{Kruskal, Joseph Bernard}
 found a very elegant algorithm for solving the minimum spanning tree problem.   This algorithm makes use
-of the \blue{union-find algorithm} that we have shown in the previous section.  The basic idea is as
+of the \blue{union-find algorithm} that we have discussed in the previous section.  The basic idea is as
 follows.\index{Kruskal's algorithm}
 \begin{enumerate}[(a)]
 \item In the first step, we create a union-find data structure that contains \blue{singleton trees}
@@ -722,7 +742,9 @@ follows.\index{Kruskal's algorithm}
       the \blue{cheapest} edge to connect two nodes that are not yet connected.  Hence, Kruskal's algorithm is
       known as a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy algorithm}.
 \item We stop when the number of edges is one less than the number of nodes since, because according to the
-      proposition in the previous section, the tree must then connect all the nodes of the graph. 
+      proposition in the previous section, the tree must then connect all the nodes of the graph.
+
+      If, instead, we run out of edges to test, the graph is not connected.
 \end{enumerate}
 The fact that we iterate over the edges in increasing order of their weight guarantees that the
 resulting tree has a minimal weight.
@@ -769,7 +791,8 @@ discuss this program next.
 \begin{enumerate}
 \item Initially, we load the notebook \mytt{Union-Find-OO.ipynb}, which is the object oriented 
       implementation of the union-find algorithm that has been presented in Section \ref{sec:union-find-oo}.
-\item Furthermore, we import the module \mytt{heapq} as it provides us with a priority queue.
+\item Furthermore, we import the module \mytt{heapq} as it provides us with a priority queue.  This priority
+      queue will be used to store the edges.
 \item The main function is the function $\mytt{mst}$, which is short for \underline{m}inimum
       \underline{s}panning \underline{t}ree.  This function takes two arguments:
       $\mytt{V}$ is the set of nodes and $\mytt{E}$ is the set of edges of a given graph.  The edges are represented as
@@ -799,10 +822,13 @@ discuss this program next.
       If these roots are identical, then \mytt{x} and \mytt{y} are part of the same tree and hence
       they are already connected. 
 \item If $\mytt{x}$ and $\mytt{y}$ are not yet connected, the  edge $(\mytt{w}, (\mytt{x}, \mytt{y}))$ is added to the
-      spanning tree and the trees containing $\mytt{x}$ and $\mytt{y}$ are connected by calling the function
+      spanning tree and the roots of the trees containing $\mytt{x}$ and $\mytt{y}$ are joined by calling the function
       \mytt{union}.
 \item The algorithm terminates once the tree \mytt{MST} has $\mytt{\#V-1}$ edges, since we know from the previous
-      exercise that in this case all nodes are connected by the edges in \mytt{MST}. 
+      proposition that in this case all nodes are connected by the edges in \mytt{MST}.
+\item Should we ever run out of edges in line 11 because the priority queue \mytt{H} is empty, then the graph
+      $\langle \mytt{V}, \mytt{E} \rangle$ is not connected and hence there can be no spanning tree.
+      In this case,  \mytt{None} is returned to signal failure.
 \end{enumerate}
 
 
@@ -828,12 +854,12 @@ of a \href{https://en.wikipedia.org/wiki/Directed_graph}{\blue{weighted directed
 \end{Definition}
 
 \remark
-The main difference between a \blue{graph} and a \blue{digraph} is that in a digraph the edges are 
+The main difference between an undirected \blue{graph} and a \blue{digraph} is that in a digraph the edges are 
 \mbox{p\hspace{-0.15cm}\underline{\hspace{0.15cm}airs}} of two
-nodes while in a graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
-digraph can be viewed as one-way streets, while in a graph they represent streets that can be used in both
+nodes while in an undirected graph the edges are \underline{sets} of two nodes.  Informally, the edges in a
+digraph can be viewed as one-way streets, while in an undirected graph they represent streets that can be used in both
 directions.  Hence, if a digraph has an edge $\pair(a,b)$, then this edge enables us to get from $a$ to $b$ but
-this edge does not enable us to go from $b$ to $a$.  On the other hand, if a graph has an edge $\{a,b\}$, then
+this edge does not enable us to go from $b$ to $a$.  On the other hand, if an undirected graph has an edge $\{a,b\}$, then
 this edge enables us to go from $a$ to $b$ as well as to go from $b$ to $a$.
 \eoxs
 
@@ -848,7 +874,8 @@ such that
 \hspace*{1.3cm} $\pair(x_i,x_{i+1}) \in \edges$ \quad holds for all $i = 0, 1, \cdots, n-1$. 
 \\[0.2cm]
 The set of all paths is denoted as $\paths$.
-The length of a path is the sum of the length of all edges:
+The \blue{length}\footnote{In an undirected graph the associated notion is called the \blue{weight} or the
+  \blue{cost} of the path, while in a directed graph we call it the length.} of a path \index{length of a path} is the sum of the length of all edges:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\Weight{[x_0,x_1, \cdots, x_n]} \df \sum\limits_{i=0}^{n-1} \Weight{\pair(x_i,x_{i+1})}$. 
@@ -884,13 +911,16 @@ The first algorithm we discuss is the
 \href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{Bellman-Ford algorithm}.
 \index{Bellman-Ford algorithm}
 It is named after the mathematicians 
-\href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} \cite{bellman:58} and 
-\href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} \cite{ford:56} who discovered this algorithm
+\href{https://en.wikipedia.org/wiki/Richard_E._Bellman}{Richard E.~Bellman} (1920-1984) \cite{bellman:58} and
+\index{Richard E.~Bellman}
+\href{https://en.wikipedia.org/wiki/L._R._Ford_Jr.}{Lester R.~Ford Jr.} (1927-2017) \cite{ford:56}
+\index{Lester R.~Ford Jr.}
+who discovered this algorithm
 independently and published their results in 1958 and 1956, respectively.  Figure
 \ref{fig:Moore.ipynb} on page \pageref{fig:Moore.ipynb} shows the implementation of a variant of this 
 algorithm in \textsl{Python}.  This variant of the algorithm was suggested by 
-\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} \cite{moore:59} \index{Moore's algorithm}
-in 1959.
+\href{https://en.wikipedia.org/wiki/Edward_F._Moore}{Edward F.~Moore} (1925-2003) \index{Edward F.~Moore}
+\cite{moore:59} \index{Moore's algorithm} in 1959.
 
 
 \begin{figure}[!ht]
@@ -973,10 +1003,10 @@ in 1959.
       node might have neighbouring node whose distance from \mytt{source} hasn't yet been computed. 
       Initially we only know that the node $\mytt{source}$ is connected to the node \mytt{source}.
       Therefore, we initialize the list $\mytt{Fringe}$ as the list
-      \\[0.2cm]
+      \\[-0.2cm]
       \hspace*{1.3cm}
       $[ \mytt{source} ]$.
-\item Every iteration of the \mytt{while}-loop takes the first node \mytt{u} from the \mytt{Fringe}.
+\item Every iteration of the \mytt{while}-loop takes the first node \mytt{u} from the list \mytt{Fringe}.
 \item Next, we compute all nodes $\mytt{v}$ that can be reached from $\mytt{u}$. For every node \mytt{v}
       that can be reached from $\mytt{u}$ by an edge $(u, v)$ we check whether 
       reaching \mytt{v} from \mytt{u} results in a shorter path than previously known.
@@ -1001,12 +1031,13 @@ This results in non-optimal behaviour of the algorithm:  A node can be picked fr
 removed from the $\mytt{Fringe}$ only to be reinserted into the $\mytt{Fringe}$ later.  In 1959
 \href{https://en.wikipedia.org/wiki/Edsger_W._Dijkstra}{Edsger W.~Dijkstra}\footnote{
   Edsger Wybe Dijkstra received the 1972 Turing Award.}(1930 -- 2002) \cite{dijkstra:59}
+\index{Edsger W.~Dijkstra}
 published an algorithm that was more careful in picking the nodes from the \mytt{Fringe}.  Dijkstra's algorithm guarantees that it
 is never necessary to reinsert a node back into the set $\mytt{Fringe}$.  Dijkstra had the idea to always choose
 that node from the \mytt{Fringe} that has the smallest distance to the node $\mytt{source}$.  This has the effect that the algorithm
 visits nodes in increasing order of their distance from the node source.  
 To implement this, we have to
-represent the variable $\mytt{Fringe}$ as a priority queue where the priority of a node $x$ is given by the
+represent the variable $\mytt{Fringe}$ by a priority queue where the priority of a node $x$ is given by the
 distance of $x$ to the node $\mytt{source}$.  Figure \ref{fig:Dijkstra.ipynb} on page
 \pageref{fig:Dijkstra.ipynb} shows an implementation of Dijkstra's algorithm 
 \index{Dijkstra's algorithm}
@@ -1048,7 +1079,7 @@ in \textsl{Python}.
 Since the priority queue that is implemented in \textsl{Python} as the module \mytt{heapq} does not provide a
 method to change the priority of an object that is already part of the queue, I have instead used the class
 \href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Set.ipynb}{Set}, which I have implemented
-myself.  The notebook \mytt{Set,ipynb} implements sets via \textsc{Avl} trees.  In addition to the methods
+myself.  The notebook \mytt{Set.ipynb} implements sets via \textsc{Avl} trees.  In addition to the methods
 \mytt{insert}, \mytt{delete}, and \mytt{isEmpty}, the module \mytt{Set} provides the method
 $\mytt{pop}$.  Given a set $S$, the call
 \\[0.2cm]
