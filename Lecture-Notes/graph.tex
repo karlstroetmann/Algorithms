@@ -628,8 +628,14 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
   \hspace*{1.3cm}
   $\#\mathbb{V} = 1$, \quad $\#\mathbb{E} = 0$, \quad and therefore \quad $\#\mathbb{E} = \#\mathbb{V}-1$.
   \\[0.2cm]
-  Hence the first two claims are vacuously true because their preconditions are never satisfied.
-  Furthermore, in that case the graph trivially is a tree and thus the third claim is true.
+  Hence the first claim is true because
+  \\[0.2cm]
+  \hspace*{1.3cm}
+  $\#\mathbb{E} = 0 = 1 - 1 = \#\mathbb{V} - 1$.
+  \\[0.2cm]
+  The second claim is true because its precondition is false.
+  Furthermore, if $\mathbb{V} = \{x\}$  the graph is trivially a tree, as all its node are connected and there
+  can be no cycle.   Thus the third claim is also true.
 \item[I.S.:] $1, 2, \cdots, n-1 \mapsto n$
 
   In this case we pick any edge $\{x,y\}$ from $\mathbb{E}$ and define a new graph $\mathcal{T}^*$ that results from $\mathcal{T}$
@@ -699,8 +705,8 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \green{$\surd$}
   \item Case $C \not= \emptyset$.
 
-    In that case the graph $\mathcal{T}$ can't be connected since the vertices in $C$ are not connected to either $x$ or
-    $y$.  Furthermore, we have
+    In that case the graph $\mathcal{T}$ can't be connected since the vertices in $C$ are neither connected to
+    either $x$ nor to $y$.  Furthermore, we have
     \\[0.2cm]
     \hspace*{1.3cm}
     $\# \mathbb{E}_A + \# \mathbb{E}_B + \# \mathbb{E}_C \leq a + b + c - 3$.
@@ -715,7 +721,7 @@ We prove all of these claims simultaneously by induction on $n := \#V$.
     \hspace*{1.3cm}
     $\#\mathbb{E} = \#\mathbb{E}_A + \#\mathbb{E}_B + \#\mathbb{E}_C + 1$.
     \\[0.2cm]
-    Therefore it follows that $\mathbb{E} \leq n - 2 < n - 1 = \#\mathbb{V} - 1$.
+    Therefore it follows that $\mathbb{E} \leq a + b + c - 3 + 1 = n - 2 < n - 1 = \#\mathbb{V} - 1$.
     \\[0.2cm]
     Therefore in this case claim (i) is obviously true, (ii) is true because $\mathcal{T}$ is not a tree as
     it is not connected,

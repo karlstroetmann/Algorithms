@@ -577,7 +577,7 @@ Again, we need a case distinction:
       \hspace*{1.3cm}
       $y_{n+1} = y_n + c$, \quad where $y_0 = e - d$.
       \\[0.2cm]
-      This recurrence equation is equation to 
+      This recurrence equation is equal to 
       \\[0.2cm]
       \hspace*{1.3cm}
       $y_n = y_{n-1} + c$
@@ -597,7 +597,7 @@ Again, we need a case distinction:
                & \vdots & \\
                & = & \ds x_0 + \sum\limits_{k=0}^n y_k \\[0.2cm]
                & = & \ds d + \sum\limits_{k=0}^n \bigl(c \cdot k + e - d\bigr) \\[0.4cm]
-               & = & \ds d + c \sum\limits_{k=0}^n \cdot k + (n+1) \cdot (e - d) \\[0.5cm]
+               & = & \ds d + c \cdot\sum\limits_{k=0}^n  k + (n+1) \cdot (e - d) \\[0.5cm]
                & = & \ds d + \frac{\;c\;}{2} \cdot (n+1) \cdot n + (n+1) \cdot (e - d) 
       \end{array}
       $
@@ -925,7 +925,7 @@ introduced in this chapter.
       and we have $4 \cdot b + a^2 = 0$.  What is the general solution of the given homogeneous
       recurrence equation in this case?
 \item Which special cases might occur when solving a linear recurrence equation?
-\item How can we solve a recurrence equation of the form $x_{n+2} = 2 \cdot x_n - x_n + c$?
+\item How can we solve a recurrence equation of the form $x_{n+2} = 2 \cdot x_{n+1} - x_n + c$?
 \item What happens if the numbers $\lambda_1$ and $\lambda_2$ that occur in the general solution
       of a recurrence equation are complex numbers?
 \item What is the easiest method to check if your solution to a given recurrence equation is correct?  
