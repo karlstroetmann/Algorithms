@@ -1042,9 +1042,8 @@ published an algorithm that was more careful in picking the nodes from the \mytt
 is never necessary to reinsert a node back into the set $\mytt{Fringe}$.  Dijkstra had the idea to always choose
 that node from the \mytt{Fringe} that has the smallest distance to the node $\mytt{source}$.  This has the effect that the algorithm
 visits nodes in increasing order of their distance from the node source.  
-To implement this, we have to
-represent the variable $\mytt{Fringe}$ by a priority queue where the priority of a node $x$ is given by the
-distance of $x$ to the node $\mytt{source}$.  Figure \ref{fig:Dijkstra.ipynb} on page
+To implement this,  the $\mytt{Fringe}$ is implemented as a priority queue where the priority of a node $x$ is
+given by the distance of $x$ to the node $\mytt{source}$.  Figure \ref{fig:Dijkstra.ipynb} on page
 \pageref{fig:Dijkstra.ipynb} shows an implementation of Dijkstra's algorithm 
 \index{Dijkstra's algorithm}
 in \textsl{Python}.
@@ -1122,7 +1121,7 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
       shorter path from \mytt{source} to $v$.  This path leads from \mytt{source} to $u$ and then proceeds
       to $v$ via the edge $(u,v)$.
 \item If \mytt{v} had already been visited before and hence $\mytt{dv}=\mytt{Distance}[v]$ is defined, we
-      have to update the priority of the $v$ in the \mytt{Fringe}.  The easiest way to do this is to remove
+      have to update the priority of the node $v$ in the \mytt{Fringe}.  The easiest way to do this is to remove
       the old pair $(\mytt{dv}, v)$ from the \mytt{Fringe} and replace this pair by the new pair
       $(d+l, v)$, because $d+l$ is the new estimate of the distance between \mytt{source} and $v$ and
       $d+l$ is the new priority of $v$.
@@ -1132,8 +1131,8 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
       every node that is reachable from the node \mytt{source}.  
 \end{enumerate}
 
-\begin{Theorem}[Distance Property of Dijkstra's Algorithm]
-  If a node $u$ is removed from the \mytt{Fringe} in line 7, then we have
+\begin{Theorem}[Distance Property of Dijkstra's Algorithm] \hspace*{\fill} \\
+  If a node $u$ is removed from the \mytt{Fringe} by calling \mytt{d, u = Fringe.pop()} in line 7, then we have
   \\[0.2cm]
   \hspace*{1.3cm}
   $\mytt{sp}(u) = d = \mytt{Distance}[u]$
@@ -1144,46 +1143,43 @@ We proceed to discuss the program shown in Figure \ref{fig:Dijkstra.ipynb} line 
   $\mytt{Distance}[w] = \mytt{sp}(w)$.
 \end{Theorem}
 
-\proof The claim is proven by induction on $n := \mytt{sp}(u)$.
-\begin{description}
-\item[Base case:] $n = 0$.
+\proof
+We will show the following claim:  If $[x_0, x_1, \cdots, x_n]$ is a shortest path from $\mytt{source}$
+to the node $u$, i.e.~$x_0 = \mytt{source}$ and $x_n = u$, then we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mytt{sp}(x_i) = \mytt{Distance}[x_i]$ \quad for all $i = 1, \cdots, n$.
+\\[0.2cm]
+We prove this claim by induction on $n$.  As $x_n = u$ this claim then entails the claim of the theorem.
+\begin{enumerate}
+\item[B.C.:] $n = 0$.
 
-  The only node $u$ satisfying $\mytt{sp}(u) = 0$ is the node $u = \mytt{source}$.
-  Initially, the pair $(0, \mytt{source})$ is put onto the \mytt{Fringe} in line 5.
-  The only way a pair on the \mytt{Fringe} could be changed is when a pair is removed in line 12 and then
-  reinserted in line 14 with a smaller distance.  As there is no smaller distance than $0$, the pair
-  $(0, \mytt{source})$ can not be altered.  Therefore, when \mytt{source} is removed from the
-  \mytt{Fringe} in line 8, we must have $d = 0$ and hence we have $\mytt{sp}(u) = d$.
-  As all of our edges are assumed to be positive natural numbers, there can be no node $w$ such that
-  $\mytt{sp}[w] < 0$. Hence the second part of the claim is trivially true in this case.
-\item[Induction step:]  We assume that the claim holds for $\mytt{sp}[u] \in \{0,1,\cdots,n-1\}$
-  and we prove that this implies that the claim also holds in case that $\mytt{sp}(u) = n$.
+  We have $x_0 = \mytt{source}$ and hence $\mathtt{sp}(x_0) = 0$.
+  Furthermore, we also have $\mytt{Distance}[\mytt{source}] = 0$ as this is the way that the dictionary
+  \mytt{Distance} is initialized and for any node $v$ the value $\mytt{Distance}[v]$ can only decrease.
+  However, it can not decrease to a value less than $0$ since all distances in our
+  graph are positive numbers. 
+\item[I.S.:] $n \mapsto n+1$.
 
-  As $\mytt{sp}(u) = n$ there has to be a shortest path
+  By induction hypothesis we already know that
   \\[0.2cm]
   \hspace*{1.3cm}
-  $P = [x_0, x_1, \cdots, x_{k-1}, x_k]$
+  $\mytt{sp}(x_n) = \mytt{Distance}[x_n]$.
   \\[0.2cm]
-  such that $x_0 = \mytt{source}$, $x_k = u$, and $\weight{P} = n$.  Since the lengths of all edges are
-  positive natural numbers, this implies that the path $P' = [x_0,x_1, \cdots, x_{k-1}]$ has a length $d'$ such
-  that $d' < \mytt{sp}(u) = n$.  By induction hypothesis this implies that
+  Therefore, when the node $u = x_{n+1}$ is removed from the priority queue \mytt{Fringe}, the node
+  $x_n$ must have already been removed earlier as the priority of $x_n$ is higher than the priority of
+  $x_{n+1}$.  However, when $x_n$ is removed from the \mytt{Fringe}, all edges starting in $x_n$ are examined.  In
+  particular, the edge $\langle x_n, x_{n+1} \rangle$ is examined.  As this edge is part of the shortest path
+  we have that
   \\[0.2cm]
-  \hspace*{1.3cm}
-  $d' = \mytt{Distance}[x_{k-1}] = \mytt{sp}(x_{k-1})$.
+  \hspace*{0.8cm}
+  $\mytt{sp}(x_{n+1}) = \mytt{sp}(x_n) + \weight{\langle x_n, x_{n+1} \rangle} \stackrel{\mathrm{ih}}{=}
+    \mytt{Distance}[x_n] + \weight{\langle x_n, x_{n+1} \rangle} = \mytt{Distance}[x_{n+1}]$
   \\[0.2cm]
-  Immediately after $\mytt{Distance}[x_{k-1}]$ is computed in line 13, the pair
-  $(d', x_{k-1})$ is put on the \mytt{Fringe} in line 14.  Since $d' < d$, this pair is removed from the
-  \mytt{Fringe} prior to the pair $(d, u)$.  After the pair $(d',x_{k-1})$ is removed from the
-  \mytt{Fringe} in line 7, all edges starting in $x_{k-1}$ are checked in line 8.
-  Hence, the edge $(x_{k-1}, x_k)$ has also been checked and, if $\mytt{Distance}[x_k]$ had been greater than
-  $d$, it has been reduced to $d$ at that time.  Therefore,
-  \\[0.2cm]
-  \hspace*{1.3cm}
-  $\mytt{Distance}[u] = d = \mytt{sp}(u)$.
-  \\[0.2cm]
-  A similar argument shows that for all nodes $w$ such that  
-  $\mytt{sp}(w) \leq \mytt{sp}(u)$ we must have $\mytt{Distance}[w] = \mytt{sp}(w)$.  \qed
-\end{description}
+  and therefore $\mytt{Distance}[x_{n+1}]$ is set to $\mytt{sp}(x_{n+1})$ when the edge $\langle x_n, x_{n+1}
+  \rangle$ is examined. \qed
+\end{enumerate}
+
 
 \exercise
 Improve the implementation of Dijkstra's algorithm given above so that the algorithm also computes
@@ -1245,7 +1241,8 @@ $T := \{t_1,\cdots,t_n\}$.
 Furthermore, there are \blue{dependencies} between the task: These dependencies take the form $s \prec t$, where $s$ and
 $t$ are tasks.  A dependency of the form $s \prec t$ means that the task $s$ has to be finished before the task $t$
 can start.  For example, if the overall project is to get dressed in the morning\footnote{
-  In order to keep things manageable, I have made the assumption that the person that needs to get dressed is male.
+  In order to keep things manageable, I have made the simplifying assumption that the person that needs to get
+  dressed is male. 
 }, the set $T$ of task is given
 as follows:
 \\[0.2cm]
@@ -1291,7 +1288,7 @@ theoretical problem.
   A \href{https://en.wikipedia.org/wiki/Topological_sorting}{topological sorting problem} is a finite directed graph
   $\pair(T, D)$ where
   \begin{itemize}
-  \item $T$ is a finte set that is called the set of \blue{tasks} and 
+  \item $T$ is a finite set that is called the set of \blue{tasks} and 
   \item $D \subseteq T \times T$ is called the set of \blue{dependencies}.
 
         If $\pair(s, t) \in D$, then this is written as 
@@ -1329,8 +1326,8 @@ $\pair(T, D)$ works as follows:
 \item Initialize the list $\mytt{S}$ of tasks to the empty list.
 \item Pick a task $t \in T$ that does not depend on any other task and append this task to $\mytt{S}$.
 
-      If there is no such task, the \textsc{Tsp} is not solvable and the algorithm terminates with failure.
-\item Remove the task $t$ from both $T$ and $D$, i.e.~if there is a pair $\pair(t, s) \in T$ for some $s$, then
+      If there is no such task, then the given \textsc{Tsp} is not solvable and the algorithm terminates with failure.
+\item Remove the task $t$ from both $T$ and $D$, i.e.~if there is a pair $\pair(t, s) \in D$ for some $s$, then
       this pair is removed from $D$.
 \item If $T$ is not yet empty, go back to step 1.  
 \end{enumerate}
@@ -1343,7 +1340,7 @@ set of \blue{orphans}, since in graph theory, if we have an edge $\pair(s, t)$, 
 $t$ and, therefore, a node with no parents is called an \blue{orphan}.  In order to maintain the set of
 orphans, we need to be able to compute the \blue{parents} of each node.  Furthermore, when we remove a node $t$
 from the graph after inserting it into the list \mytt{S}, we have to compute the set of children of that
-node.  The reason is that we have to update the set of parents of the children of $t$.  This leads to the algorithm
+node.  The reason is that we have to update the set of parents of these children.  This leads to the algorithm
 shown in Figure \ref{fig:Topologocal-Sorting.ipynb} on page \pageref{fig:Topologocal-Sorting.ipynb}.
 
 \begin{figure}[!ht]
