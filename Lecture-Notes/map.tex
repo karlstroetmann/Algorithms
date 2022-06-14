@@ -349,7 +349,7 @@ shown in Figure \ref{fig:graph2} on page \pageref{fig:graph2}.
 Next, we specify the  method \mytt{delMin}.  The signature is
 \\[0.2cm]
 \hspace*{1.3cm}
-$\mytt{delMin}:\mathcal{B} \rightarrow \mathcal{B} \times \textsl{Key} \times \textsl{Value}$.
+$\mytt{delMin}:\mathcal{B} \backslash \{ \mathtt{Nil} \} \rightarrow \mathcal{B} \times \textsl{Key} \times \textsl{Value}$.
 \\[0.2cm]
 \index{\mytt{delMin}, ordered binary tree}
 Hence, the call $t.\mytt{delMin}()$ returns a triple: If 
