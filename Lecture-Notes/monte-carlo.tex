@@ -294,10 +294,21 @@ player had chosen the door with the car, Monty Hall would have randomly chosen a
 goat.  If, instead, the player had chosen a door leading to a goat, Monty Hall would have opened the
 door showing the other goat.  In either case, after opening the door  Monty Hall would ask the
 player whether she wanted to stick with her first choice or whether, instead, she wanted to pick the
-remaining closed door.  In order to better understand the problem you can try the animation at:
+remaining closed door.  Figure \ref{fig:monty-hall} on page \pageref{fig:monty-hall} shows what happens if we
+open the wrong door.
+
+\begin{figure}[!t]
+  \centering
+  \framebox{\epsfig{file=Abbildungen/monty-hall,scale=0.3}} 
+  \caption{Opening the wrong door.}
+  \label{fig:monty-hall}
+\end{figure}
+
+
+In order to better understand the problem you can try the animation at:
 \\[0.2cm]
 \hspace*{1.3cm}
-\href{http://math.ucsd.edu/~crypto/Monty/monty.html}{\texttt{http://math.ucsd.edu/\symbol{126}crypto/Monty/monty.html}}
+\href{https://www.mathwarehouse.com/monty-hall-simulation-online/}{\texttt{https://www.mathwarehouse.com/monty-hall-simulation-online/}}
 \\[0.2cm]
 The question now is whether it is a good strategy to stick with the door chosen first or whether it
 is a better idea to switch doors.  Mathematically, the reasoning is quite simple: As there are three doors
@@ -314,10 +325,44 @@ on page
 different strategies.  
 \begin{enumerate}
 \item The first strategy is the strategy that does not switch doors.
-      For obvious reasons, this strategy is called the \emph{persistent strategy}.
+      This strategy is called the \blue{persistent strategy}.
 \item The second strategy will always switch to the other door.
-      This strategy is called the \emph{wavering strategy}.
+      This strategy is called the \blue{wavering strategy}.
 \end{enumerate}
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                framesep      = 0.3cm, 
+                firstnumber   = 1,
+                bgcolor = sepia,
+                numbers       = left,
+                numbersep     = -0.2cm,
+                xleftmargin   = 0.8cm,
+                xrightmargin  = 0.8cm,
+              ]{python3}
+    def calculate_chances(n):
+        success_persistent = 0
+        success_wavering   = 0
+        for _ in range(n):
+            car    = rnd.randint(1, 3)
+            choice = rnd.randint(1, 3) 
+            opened = rnd.choice(list({1, 2, 3} - {choice, car}))
+            last   = arb({ 1, 2, 3 } - { choice, opened })
+            if car == choice:
+                success_persistent += 1
+            if car == last:
+                success_wavering  += 1
+        print(f'The persistent strategy wins {success_persistent} cars.')
+        print(f'The wavering   strategy wins {success_wavering  } cars.')
+\end{minted}
+\vspace*{-0.3cm}
+\caption{A program to solve the Monty Hall problem.}
+\label{fig:Monty-Hall-Problem.ipynb}
+\end{figure}
+\FloatBarrier
+
+    
 We discuss the implementation of the function \mytt{calculate\_chances} line by line.
 \begin{enumerate}
 \item In order to compare the two strategies, the idea is to play the game offered by Monty Hall
@@ -354,42 +399,6 @@ We discuss the implementation of the function \mytt{calculate\_chances} line by 
       payoff from the persistent strategy.  This is just what we expect since $\frac{2}{3} = 2 \cdot \frac{1}{3}$.
 \end{enumerate}
 
-
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                framesep      = 0.3cm, 
-                firstnumber   = 1,
-                bgcolor = sepia,
-                numbers       = left,
-                numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
-              ]{python3}
-    def calculate_chances(n):
-        success_persistent = 0
-        success_wavering   = 0
-        for _ in range(n):
-            car    = rnd.randint(1, 3)
-            choice = rnd.randint(1, 3) 
-            opened = rnd.choice(list({1,2,3} - {choice,car}))
-            last   = arb({ 1, 2, 3 } - { choice, opened })
-            if car == choice:
-                success_persistent += 1
-            if car == last:
-                success_wavering  += 1
-        print(f'The persistent strategy wins {success_persistent} cars.')
-        print(f'The wavering   strategy wins {success_wavering  } cars.')
-\end{minted}
-\vspace*{-0.3cm}
-\caption{A program to solve the Monty Hall problem.}
-\label{fig:Monty-Hall-Problem.ipynb}
-\end{figure}
-
-
-
-
-
 \section[Permutations]{Generation of Random Permutations}
 In this section we present an algorithm that can randomly permute a given list.
 Such a procedure can be likened to the shuffling of cards. The process is actually used for this purpose: When
@@ -406,7 +415,7 @@ In order to permute a list $L = [x_1,x_2, \cdots, x_n]$ of length $n$ we disting
 \item The length of  $L$ is bigger than  $1$.  In this case, we randomly select an element to be the last in
       the permutation to be created.  We remove this element from the list and then permute the remaining list.  
       We append the initially selected element to the resulting permutation.
-      Given two natural numbers $a$ and $b$ such that $a < b$ the \textsl{Python} Funktion
+      Given two natural numbers $a$ and $b$ such that $a < b$ the \textsl{Python} function
       \\[0.2cm]
       \hspace*{1.3cm}
       $\mytt{rnd.randint}(a,b)$
