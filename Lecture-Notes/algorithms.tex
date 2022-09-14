@@ -71,8 +71,8 @@
 {\theorembodyfont{\sf} \newtheorem{Proposition}[Definition]{Proposition}}
 {\theorembodyfont{\sf} \newtheorem{Theorem}[Definition]{Theorem}}
 \title{\epsfig{file=Abbildungen/dhbw-logo.eps, scale=1.2}\\[0.3cm]  
-       Algorithms  \\[0.5cm]
-      --- Lecture Notes for the Summer Term 2022 ---}
+       An Introduction to Algorithms  \\[0.5cm]
+      --- Lecture Notes for the Winter Term 2022 ---}
 \author{Prof.~Dr.~Karl Stroetmann}
 
 
@@ -111,9 +111,8 @@ Once you have cloned the repository, the command
 can be used to load the current version of these lecture notes from \href{https://github.com}{\texttt{github}}.
 If you find any errors or typos in these lecture notes I would be grateful if you could report these errors via
 email or, if you are one of my students, via discord.  Alternatively, you are welcome to send a pull request
-via \href{https://github.com}{GitHub}.
-\vspace*{0.3cm}
-
+via \href{https://github.com}{GitHub}. \\[0.2cm]
+\hspace*{0.5cm}
 We will be using \href{https://deepnote.com}{Deepnote} as a Cloudservice.  This service provides free computing
 resources for students.
 \end{minipage}
@@ -201,6 +200,7 @@ resources for students.
 \newcommand{\eoxs}{\hspace*{\fill} $\diamond$}
 \newcommand{\lb}{\hspace*{\fill} \linebreak}
 \newcommand{\mytt}[1]{{\color{violet}\texttt{#1}}}
+\newcommand{\squote}[1]{\symbol{34}\texttt{#1}\symbol{34}}
 
 \newminted{python3}{
     frame         = lines,
@@ -214,6 +214,7 @@ resources for students.
 }
 
 \hyphenation{stra-te-gy}
+%\includeonly{python}
 
 \makeindex
 
@@ -221,6 +222,7 @@ resources for students.
 \maketitle
 \tableofcontents
 \include{introduction}
+\include{python}
 \include{complexity}
 \include{recurrence-equations}
 \include{correctness}
@@ -244,4 +246,5 @@ resources for students.
 %%% Local Variables:                                                    
 %%% mode: latex                                                         
 %%% TeX-master: t                                                       
+%%% TeX-master: "algorithms"
 %%% End:
