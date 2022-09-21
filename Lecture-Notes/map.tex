@@ -366,7 +366,7 @@ removing the smallest key in $t$, $k$ is the key that is removed and $v$ is the 
       $\mytt{Node}(k, v, \mytt{Nil}, r)$.  If $k$ and its associated value $v$ are removed, we are left with the subtree $r$.
 \item $l\not= \mytt{Nil} \wedge l.\mytt{delMin}() = \langle l',k_{\textrm{min}}, v_{\textrm{min}}\rangle \;\rightarrow$ \\[0.2cm]
        \hspace*{1.3cm} 
-       $\mytt{Node}(k, v, l, r).\mytt{delMin}() = \bigl\langle\mytt{Node}(k, v, l', r), k_{\textrm{min}}, v_{\textrm{min}})\bigr\rangle$.
+       $\mytt{Node}(k, v, l, r).\mytt{delMin}() = \bigl\langle\mytt{Node}(k, v, l', r), k_{\textrm{min}}, v_{\textrm{min}}\bigr\rangle$.
 
       If the left subtree $l$ in the binary tree $t = \mytt{Node}(k, v, l, r)$
       is not empty, then the smallest key of  $t$ is located inside the left subtree $l$.
