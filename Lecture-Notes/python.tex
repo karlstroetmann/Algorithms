@@ -1,0 +1,131 @@
+\chapter{The Programming Language \textsl{Python}}
+\section{Motivation}
+In order to present algorithms and actually test them, we need a programming language.  I have chosen
+\href{http://www.python.org}{\textsl{Python}} for this purpose for the following reasons:
+\begin{enumerate}
+\item \textsl{Python} is easy to learn.
+\item Usage of \textsl{Python} is widespread.  The \href{https://www.tiobe.com/tiobe-index/}{Tiobe index}
+      of September 2022 lists it as the programming language that is currently most wide spread.
+\item It has a number of advanced features like garbage collection and matching that make it very easy to
+      to implement the algorithms that we are going to discuss in these lectures.
+\item Furthermore, \textsl{Python} has a huge number of openly available libraries for almost anything.
+      As of September 2022, the \textsl{Python} package index \href{https://pypi.org}{PyPi} contains over
+      $400,000$ packages.  Other indices also rank \textsl{Python} very high.  For example,
+      the \href{https://redmonk.com/sogrady/2022/03/28/language-rankings-1-22/}{RedMonk programming language ranking}
+      ranks \textsl{Python} on the second place.  The first place is taken by
+      \href{https://www.javascript.com}{\textsl{JavaScript}}.
+\item According to a report
+      \href{https://cacm.acm.org/blogs/blog-cacm/176450-python-is-now-the-most-popular-introductory-teaching-language-at-top-u-s-universities/fulltext}{report} 
+      of 2014, 8 of the top 10 US universities teach \textsl{Python} in their introductory computer science courses.
+\end{enumerate}
+The rest of this chapter is structured as follows:
+\begin{enumerate}[(a)]
+\item We begin by discussing the installation of \textsl{Python}.
+\item After that, I present a \textsl{Jupyter notebook} that introduces those features of \textsl{Python} that
+      we will use in this lecture.
+\item Finally, I discuss books and tutorials that can be used to learn \textsl{Python}.  
+\end{enumerate}
+
+\section{Installation}
+Although most operating systems in current use, i.e.~Windows, MacOs, and Linux all have a \textsl{Python}
+interpreter included, we should install \textsl{Python}, since we need som additional libraries and it is best
+not to mess with the \textsl{Python} interpreter that is used by the operating systems, because adding
+libraries to it might lead to inconsistencies.
+
+The easiest way to install python and its libraries is via \href{https://www.anaconda.com/download/}{Anaconda}.
+\index{Anaconda}
+The installation proceeds in the following steps.
+\begin{enumerate}[(a)]
+\item We download the appropriate version of the Anaconda software from
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \href{https://www.anaconda.com/products/distribution}{https://www.anaconda.com/products/distribution}.
+\item Next, we double-click the downloaded file to start the installation.  During the installation we have to
+      agree to the end user license and a choose a directory where the software is installed.
+      questions.  
+\item Then we open a terminal to create a \blue{virtual environment} that we will use for this lecture.
+      In order to create this virtual environment, we enter the following commands:
+      \begin{enumerate}
+      \item \texttt{conda create -n algo python=3.10 jupyter notebook}
+
+            This command creates a virtual environment with the name \texttt{algo}.  Furthermore, we specify
+            that we are going to use \textsl{Python} version \texttt{3.10} and thatwe want to install
+            jupyter notebooks.
+      \item \texttt{conda activate algo}
+
+            Every time we want to use the newly created virtual environment that we have just created we have
+            activate it with this command.
+      \item \texttt{conda install -c anaconda graphviz}
+
+            This command installs the package \texttt{graphviz}.  This package contains a program that
+            can be used to visualize graphs.
+      \item \texttt{conda install -c conda-forge python-graphviz ipycanvas matplotlib seaborn}
+
+            This command installs additional libraries that will be needed later.
+      \item In order to test whether everything has been installed correctly, we run the following command:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            \texttt{jupyter notebook}
+            \\[0.2cm]
+            This command should open a browser window.  We can start to write \textsl{Python} programs in this window.
+      \end{enumerate}
+\end{enumerate}
+You do not have to install \textsl{Python} on your own computer to be able to program in \textsl{Python},
+because you can use the cloud service \href{https://deepnote.com}{\texttt{deepnote.com}} instead.  
+In this lecture, we will be using the version 3.10 of \textsl{Python}.
+
+\section{An Introduction to \textsl{Python}}
+For technical reasons\footnote{\textsl{Jupyter} notebooks can be exported in {\LaTeX} format.  However, the 
+{\LaTeX} that is produced by \textsl{Jupyter} notebooks needs a number of packages that conflict with other
+packages that are needed for these lecture notes.}
+I have outsourced the introduction to \textsl{Python} into a separate document, which can be found
+here.
+
+\section{Other References}
+For reasons of time and space, this lecture has just scratched the surface of what is possible with
+\textsl{Python}.  If you want to obtain a deeper understanding of \textsl{Python}, here are three places that 
+I would recommend:
+\begin{enumerate}
+\item First, there is the official \textsl{Python} tutorial, which is available at
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \href{https://docs.python.org/3.10/tutorial/index.html}{\texttt{https://docs.python.org/3.10/tutorial/index.html}}.
+
+      Furthermore, there are a number of good books available.  I would like to suggest the following 
+      book, which is available electronically in our library:
+\item \emph{The Quick Python Book} written by Naomi R.~Ceder \cite{ceder:2018} is up to date and gives a
+      concise introduction to \textsl{Python}.  The book assumes that the reader has some prior programming
+      experience.  I would assume that most of our students have the necessary background to feel comfortable
+      with this book.
+\item The website
+      \href{https://www.w3schools.com/python/default.asp}{https://www.w3schools.com/python/default.asp}
+      offers an interactive \textsl{Python} course, which is free.
+      The \textsl{Python} course offered by \href{https://programiz.com}{https://programiz.com} 
+      can also be recommended.  
+\end{enumerate}
+Since \textsl{Python} is \textbf{not} the primary objective of these lecture notes, there is no requirement to read
+either the \textsl{Python} tutorial or the book mentioned above.  The primary objective of these
+lecture notes is to introduce a number of algorithms.
+\textsl{Python} is merely used to implement these algorithms.  You should
+be able to pick up enough knowledge of \textsl{Python} by closely inspecting the \textsl{Python} programs
+discussed in these lecture notes.  
+\pagebreak
+
+\section{Reflection}
+After having studied the notebook
+\href{https://github.com/karlstroetmann/Algorithms}{\texttt{Introduction.ipynb}}, you should be able to answer the following questions.
+\begin{enumerate}[(a)]
+\item Which \textsl{Python} data types have been introduced in this notebook?
+\item How can you build lists via \emph{compressions}? 
+\item How can lists be defined in \textsl{Python}?
+\item How does \emph{list indexing} work?
+\item What type of control structures are supported in \textsl{Python}?
+\item How do we invoke mathematical functions in \textsl{Python}?
+\item How does the algorithm of Eratosthenes work?  
+\end{enumerate}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "algorithms"
+%%% End: 
+
