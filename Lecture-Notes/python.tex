@@ -4,16 +4,20 @@ In order to present algorithms and actually test them, we need a programming lan
 \href{http://www.python.org}{\textsl{Python}} for this purpose for the following reasons:
 \begin{enumerate}
 \item \textsl{Python} is easy to learn.
-\item Usage of \textsl{Python} is widespread.  The \href{https://www.tiobe.com/tiobe-index/}{Tiobe index}
-      of September 2022 lists it as the programming language that is currently most wide spread.
-\item It has a number of advanced features like garbage collection and matching that make it very easy to
-      to implement the algorithms that we are going to discuss in these lectures.
+\item Usage of \textsl{Python} is widespread.
+  \begin{enumerate}
+  \item The \href{https://www.tiobe.com/tiobe-index/}{Tiobe index}
+        of September 2022 lists it as the programming language that is currently most wide spread.
+  \item The \href{https://redmonk.com/sogrady/2022/03/28/language-rankings-1-22/}{RedMonk} index of programming
+        languages lists \textsl{Python} on the second place.
+  \item The \href{https://pypl.github.io/PYPL.html}{\textsc{Pypl}} (\blue{PopularitY of programming languages})
+        index list \textsl{Python} on the first place.
+  \end{enumerate}
+\item It has a number of advanced features like \blue{garbage collection} and \blue{matching} that make it very easy to
+      implement the algorithms that we are going to discuss in these lectures.
 \item Furthermore, \textsl{Python} has a huge number of openly available libraries for almost anything.
       As of September 2022, the \textsl{Python} package index \href{https://pypi.org}{PyPi} contains over
-      $400,000$ packages.  Other indices also rank \textsl{Python} very high.  For example,
-      the \href{https://redmonk.com/sogrady/2022/03/28/language-rankings-1-22/}{RedMonk programming language ranking}
-      ranks \textsl{Python} on the second place.  The first place is taken by
-      \href{https://www.javascript.com}{\textsl{JavaScript}}.
+      $400,000$ packages.
 \item According to a report
       \href{https://cacm.acm.org/blogs/blog-cacm/176450-python-is-now-the-most-popular-introductory-teaching-language-at-top-u-s-universities/fulltext}{report} 
       of 2014, 8 of the top 10 US universities teach \textsl{Python} in their introductory computer science courses.
@@ -21,14 +25,14 @@ In order to present algorithms and actually test them, we need a programming lan
 The rest of this chapter is structured as follows:
 \begin{enumerate}[(a)]
 \item We begin by discussing the installation of \textsl{Python}.
-\item After that, I present a \textsl{Jupyter notebook} that introduces those features of \textsl{Python} that
-      we will use in this lecture.
+\item After that, I present a \textsl{\blue{Jupyter notebook}} that introduces most of the features of
+      \textsl{Python} that we will use in this lecture.
 \item Finally, I discuss books and tutorials that can be used to learn \textsl{Python}.  
 \end{enumerate}
 
 \section{Installation}
 Although most operating systems in current use, i.e.~Windows, MacOs, and Linux all have a \textsl{Python}
-interpreter included, we should install \textsl{Python}, since we need som additional libraries and it is best
+interpreter included, we should install \textsl{Python} ourselves, since we need some additional libraries and it is best
 not to mess with the \textsl{Python} interpreter that is used by the operating systems, because adding
 libraries to it might lead to inconsistencies.
 
@@ -49,7 +53,7 @@ The installation proceeds in the following steps.
       \item \texttt{conda create -n algo python=3.10 jupyter notebook}
 
             This command creates a virtual environment with the name \texttt{algo}.  Furthermore, we specify
-            that we are going to use \textsl{Python} version \texttt{3.10} and thatwe want to install
+            that we are going to use \textsl{Python} version \texttt{3.10} and that we want to install
             jupyter notebooks.
       \item \texttt{conda activate algo}
 

@@ -2,21 +2,24 @@
 \section{Motivation}
 This is an introductory class about algorithms and their complexity.
 I intend this class to be quite practical as it may be one of the most important classes for your future
-career: Five years after their students have graduated, Stanford University 
-regularly asks their former students to rank those classes that were the most useful for their professional
-career.  Together with programming and databases, the class on algorithms consistently ranks highest.
-On \href{https://quora.com}{Quora}, the answers to the question
-\\[0.1cm]
-\hspace*{0.8cm}
-``\href{https://www.quora.com/What-are-the-5-most-important-CS-courses-that-every-computer-science-student-must-take}{
-  What are the 5 most important CS courses that every computer science student must take?}''
-\\[0.1cm]
-consistently list the class \blue{algorithms and data structures} among those courses that are most valuable
-for a professional career.  The practical importance of the topic of this class can also be seen by the
-availability of book titles like
-``\href{https://www.amazon.com/Algorithms-Interviews-Adnan-Aziz/dp/1453792996}{Algorithms for Interviews}''  
-\cite{aziz:10} or the \href{http://www.youtube.com/watch?v=k4RRi_ntQc8}{Google job interview questions}.
- 
+career.  I would like to give three arguments to substantiate this claim.
+\begin{enumerate}
+\item Five years after their students have graduated, Stanford University 
+      regularly asks their former students to rank those classes that were the most useful for their professional
+      career.  Together with programming and databases, the class on algorithms consistently ranks highest.
+\item On \href{https://quora.com}{Quora}, the answers to the question
+      \\[0.1cm]
+      \hspace*{0.0cm}
+      ``\href{https://www.quora.com/What-are-the-5-most-important-CS-courses-that-every-computer-science-student-must-take}{
+        What are the 5 most important CS courses that every computer science student must take?}''
+      \\[0.1cm]
+      consistently list the class \blue{algorithms and data structures} among those courses that are most valuable
+      for a professional career.  
+\item The practical importance of the topic of this class can also be seen by the
+      availability of book titles like
+      ``\href{https://www.amazon.com/Algorithms-Interviews-Adnan-Aziz/dp/1453792996}{Algorithms for Interviews}''  
+      \cite{aziz:10} or the \href{http://www.youtube.com/watch?v=k4RRi_ntQc8}{Google job interview questions}.
+\end{enumerate} 
  
 \section{Overview}
 This lecture covers the design and the analysis of algorithms.  We will discuss the following topics.
@@ -35,35 +38,40 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       unimportant details when discussing the runtime of algorithms.  
 \item Recurrence Relations
 
-       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
-       \index{recurrence relation}
-       is the discrete analogue of the notion of a 
-       \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
-       For example, the equation
-       \\[0.2cm]
-       \hspace*{1.3cm}
-       $a_{n+2} = a_{n+1} + a_n$
-       \\[0.2cm]
-       is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
-       defines a sequence of natural numbers.  Later, we will see that this sequence can also be computed by
-       the formula
-       \\[0.2cm]
-       \hspace*{1.3cm}
-       $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
-       \\[0.2cm]
-       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
-       \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
-       be used to compute the growth of \blue{recursive} functions.
-\item \blue{Correctness} of algorithms
+      The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
+      \index{recurrence relation}
+      is the discrete analogue of the notion of a 
+      \href{http://en.wikipedia.org/wiki/Differential_equation}{differential equation}.
+      For example, the equation
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $a_{n+2} = a_{n+1} + a_n$
+      \\[0.2cm]
+      is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
+      defines a sequence of natural numbers.  The numbers $a_n$ for $n = 1,\cdots,8$ are given as follows:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $a_0 = 0$, $a_1 = 1$, $a_2 = 1$, $a_3 = 2$, $a_4 = 3$, $a_5 = 5$, $a_6 = 8$, $a_7 = 13$, $a_8 = 21$. 
+      \\[0.2cm]
+      Later, we will see that this sequence can also be computed by
+      \href{https://en.wikipedia.org/wiki/Fibonacci_number#Closed-form_expression}{Binet's formula}:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds a_{n} = \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1+\sqrt{5}}{2}\biggr)^n - \frac{1}{\sqrt{5}} \cdot \biggl(\frac{1-\sqrt{5}}{2}\biggr)^n$.
+      \\[0.2cm]
+      Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
+      \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
+      be used to compute the growth of \blue{recursive} functions.
+% \item \blue{Correctness} of algorithms
       
-      An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
-      of an algorithm.
-      \begin{enumerate}
-      \item We first demonstrate the method of \blue{computational induction}.
-            This method can be used to prove the correctness of recursive functions.
-      \item Then we demonstrate the method of \blue{symbolic execution}, which can be used to verify functions
-            that are implemented with the help of loops.
-      \end{enumerate}
+%       An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
+%       of an algorithm.
+%       \begin{enumerate}
+%       \item We first demonstrate the method of \blue{computational induction}.
+%             This method can be used to prove the correctness of recursive functions.
+%       \item Then we demonstrate the method of \blue{symbolic execution}, which can be used to verify functions
+%             that are implemented with the help of loops.
+%       \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
       Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
@@ -74,7 +82,8 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       \item \href{http://en.wikipedia.org/wiki/Insertion_sort}{insertion sort},
       \item \href{http://en.wikipedia.org/wiki/Merge_sort}{merge sort}, 
       \item \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort}, 
-      \item \href{http://en.wikipedia.org/wiki/Radix_sort}{radix sort}, and
+      \item \href{http://en.wikipedia.org/wiki/Radix_sort}{radix sort}, 
+      \item \href{https://en.wikipedia.org/wiki/Tree_sort}{tree sort}, and
       \item \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort}.
       \end{enumerate}  
 \item \href{http://en.wikipedia.org/wiki/Abstract_data_types}{Abstract data types}
@@ -87,10 +96,11 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 %      The most important property of an algorithm is its correctness.  The \blue{Hoare calculus}
 %      is a method to investigate the correctness of an algorithm.  
 
-\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and \blue{sets}
+\item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and \href{https://en.wikipedia.org/wiki/Set_(mathematics)}{sets}
   
       A \blue{dictionary} is a data structures that can be used to implement a function on a finite domain.
-      Most modern programming languages provide dictionaries as basic data structures.  We discuss various data
+      For example, a telephone book can be viewed as a function mapping names to telephone numbers.
+      Most high level programming languages provide dictionaries as basic data structures.  We discuss various data
       structures that can be used to implement dictionaries efficiently.   
       These data structures can also be used to implement sets.
 \item \href{http://en.wikipedia.org/wiki/Priority_queue}{Priority queues}
@@ -105,14 +115,20 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       Welch and \blue{Huffman's} algorithm.  For reasons of space we will only discuss the latter algorithm.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
-      This chapter discusses the following algorithms:
+      This chapter discusses the following graph algorithms:
       \begin{enumerate}
       \item \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
-            for computing the shortest path in a graph,
+            for computing all shortest paths in a graph that start at a given node,
+      \item \href{http://en.wikipedia.org/wiki/breadth_first_search}{breadth first search} for computing
+            the shortest path between two nodes of a graph,           
+      \item an algorithm to solve the \blue{union-find problem}\footnote{
+              The \blue{union-find problem} is the problem to compute the smallest \blue{equivalence relation}
+              that is generated by a given binary relation. We need to solve this problem in order to be able
+              to implement Kruskal's algorithm.
+            },
       \item \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
-            \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph,
-      \item \blue{topological sorting}, and 
-      \item the \blue{union-find problem}.
+            \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph, and
+      \item \blue{topological sorting}.
       \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
  
@@ -149,11 +165,11 @@ Syntactically, pseudo code looks
 similar to a program, but in contrast to a program, pseudo code can also contain parts that are only
 described in natural language.   However, it is important to realize that a piece of pseudo code is
 \underline{not} an algorithm but is only a \blue{representation} of an algorithm.  The
-advantage of pseudo code is that we are not confined by the arbitrariness of the syntax of a
+advantage of pseudo code is that we are not confined by the arbitrariness of the syntax of a given
 programming language.
 
 Conceptually, the difference between an algorithm and a program is similar to the difference between
-a \blue{philosophical idea} and a \blue{text} that describes the idea.  If you have an philosophical idea, you
+a \blue{philosophical idea} and a \blue{text} that describes the idea.  If you have a philosophical idea, you
 can write it down to make it concrete.  As you can write down the idea in English, or French or, preferably, in
 ancient Greek, the textual descriptions of the idea might be quite different.  This is the same with an algorithm:
 We can code it in \href{https://en.wikipedia.org/wiki/C_(programming_language)}{\texttt{C}} or
@@ -237,7 +253,7 @@ to mention those books that have inspired me the most.
       from \href{http://theory.stanford.edu/~tim/}{Professor Roughgarden}
       available at \href{https://www.coursera.org/}{coursera.org}.
 \end{enumerate}
-
+However, none of these books is required.  You should be able to pass the exam just fine if you read my lecture notes.
 
 \section{A Final Remark}
 There is one final remark I would like to make at this point:  Frequently, I get questions from
@@ -274,7 +290,7 @@ After reading this chapter you should be able to answer the following questions.
 \item What are the most important features of an algorithm?
 \item What is the difference between an algorithm and a program?
 \item Where can you find the programs discussed in this lecture?
-\item Which books do you need to read to be able to pass the exam on algorithms at the end of this term?
+\item Which books do you need to read to be able to pass the exam?
 \item Which algorithm is probably not the best choice if you have to sort a million 32-bit integers? 
 \end{enumerate}
 
