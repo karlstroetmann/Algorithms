@@ -537,16 +537,16 @@ The claim now follows from the limit proposition.
 In order to use the limit proposition, we need 
 \href{https://de.wikipedia.org/wiki/Regel_von_de_L%27Hospital}{L'H\^opital's rule}, which is presented next.
 
-\begin{Theorem}[L'H\^opital's rule] \hspace*{\fill} \\
+\begin{Theorem}[L'H\^opital's Rule] \hspace*{\fill} \index{L'H\^opital's Rule} \\
 Assume that we have two functions $f:\mathbb{R} \rightarrow \mathbb{R}$ and $g:\mathbb{R} \rightarrow \mathbb{R}$
 such that
 \begin{enumerate}
 \item $\ds \lim\limits_{x \rightarrow \infty} f(x) = \infty$,
 \item $\ds \lim\limits_{x \rightarrow \infty} g(x) = \infty$, 
 \item the derivatives $f'$ and $g'$ of both $f$ and $g$ exist, and
-\item the limit $\ds \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$ exists,
+\item the limit $\ds \lim\limits_{x \rightarrow \infty} \frac{f'(x)}{g'(x)}$ exists.
 \end{enumerate}
-then we have that 
+Then we have 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\lim\limits_{x \rightarrow \infty} \frac{f(x)}{g(x)} = \lim\limits_{x \rightarrow \infty}
@@ -1136,30 +1136,31 @@ $\gamma := \beta^{\delta}$.
 Then, the recurrence relation for the sequence $a_k$ can be written as
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_k = \alpha \cdot a_{k-1} + \gamma^k$.
+$a_k = \alpha \cdot a_{k-1} + \gamma^k$. \hspace*{\fill} ($\star$)
 \\[0.2cm]
 Let us substitute $k-1$ for $k$ in this equation.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{k-1} = \alpha \cdot a_{k-2} + \gamma^{k-1}$.
 \\[0.2cm]
-Next, we plug the value of $a_{k-1}$ into the equation for $a_k$.  This yields
+Next, we plug the value of $a_{k-1}$ into the equation $(\star)$ for $a_k$.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $
-\begin{array}[t]{lcl}
+\begin{array}[b]{lcl}
   a_k & = & \alpha \cdot a_{k-1} + \gamma^k  \\[0.2cm]
       & = & \alpha \cdot \bigl(\alpha \cdot a_{k-2} + \gamma^{k-1}\bigr) + \gamma^k \\[0.2cm]
-      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k. \\[0.2cm]
+      & = & \alpha^2 \cdot a_{k-2} + \alpha \cdot \gamma^{k-1} + \gamma^k. 
+     \\[0.2cm]
 \end{array}
-$
+$ \hspace*{\fill} ($+$)
 \\[0.2cm]
-We observe that 
+Substituting $k-2$ for $k$ in equation $(\star$) shows that 
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{k-2} = \alpha \cdot a_{k-3} + \gamma^{k-2}$
 \\[0.2cm]
-holds and substitute the right hand side of this equation into the previous equation.  This yields
+holds.  We substitute the right hand side of this equation into the previous equation $(+)$.  This yields
 \\[0.2cm]
 \hspace*{1.3cm}
 $
@@ -1196,7 +1197,8 @@ a_k & = & \ds\alpha^{k} \cdot a_{0} + \sum\limits_{j=0}^{k-1} \alpha^{j} \cdot \
 $
 \\[0.2cm]
 At this point we have to remember the formula for the
-\href{https://en.wikipedia.org/wiki/Geometric_series}{geometric series}.  This formula reads 
+\href{https://en.wikipedia.org/wiki/Geometric_series}{geometric series}.  \index{geometric series}
+This formula reads 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle\sum\limits_{j=0}^n q^j = \bruch{q^{n+1} - 1}{q - 1}$ \quad provided $q \not= 1$, while
@@ -1209,7 +1211,7 @@ In order to proceed, we have to perform a case distinction:
 \begin{enumerate}
 \item Case: $\alpha < \gamma$, i.e.~$\alpha < \beta^\delta$.
 
-      In this case, the series $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ is bounded 
+      In this case, the series $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j$ is bounded 
       by the value
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1305,7 +1307,8 @@ In order to proceed, we have to perform a case distinction:
       \hspace*{1.3cm}
       $f(n) \in \Oh\Bigl(\alpha^{\log_{\beta}(n)}\Bigr)$.
       \\[0.2cm] 
-      Next, we observe the following:
+      Next, we prove that $\ds\alpha^{\log_{\beta}(n)} = n^{\log_{\beta}(\alpha)}$ holds via a sequence of
+      equivalence transformations:
       \\[0.2cm]
       \hspace*{1.3cm}
       $
@@ -1316,7 +1319,7 @@ In order to proceed, we have to perform a case distinction:
       \end{array}
       $
       \\[0.2cm]
-      Using the first of these equations we conclude that
+      Therefore we conclude that
       \\[0.2cm]
       \hspace*{1.3cm}
       $\alpha > \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^{\log_{\beta}(\alpha)}\bigr)$
@@ -1488,7 +1491,7 @@ $f(n) \in \Oh\bigl(\log_2(n)\bigr)$.
 It should be obvious that this derivation of the upper bound for the number of multiplications is much less
 tedious than our previous derivation of this upper bound.
 
-\section{Variants of the Big $\Oh$ Notation$^*$}
+\section{Variants of the Big $\Oh$ Notation}
 The big $\Oh$ notation is useful when we want to express that some function $f$ does not grow faster
 than another function $g$.  Therefore, when stating the running time of the worst case of some algorithm,
 big $\Oh$ notation is the right tool to use.  However, sometimes we want to state a lower bound for
@@ -1511,7 +1514,7 @@ It is not difficult to show that
 \hspace*{1.3cm}
  $f \in \Omega(g)$ \quad if and only if \quad $g \in \Oh(f)$.
 \\[0.2cm]
-Finally, we introduce big $\Theta$ notation.  The idea is that $f \in \Theta(g)$ if 
+Finally, we introduce the big $\Theta$ notation.  The idea is that $f \in \Theta(g)$ if 
 $f$ and $g$ have the \blue{same} asymptotic growth rate. 
 
 \begin{Definition}[$\Theta(g)$] \index{$\Theta(g)$}
@@ -1537,7 +1540,6 @@ exists and is greater than $0$.
 Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
 contains a detailed description of several variants of the big $\Oh$ notation, while
 chapter 4 gives a more general version of the master theorem together with a detailed proof.
-\pagebreak
 
 
 \section{Check Your Understanding}
