@@ -71,7 +71,8 @@ results from dropping this term in equation $(1)$ and has the form
 \hspace*{1.3cm}
 $a_{i+2} = a_{i+1} + a_i$. \hspace*{\fill} $(2)$
 \\[0.2cm]
-We solve this equation with the following \href{https://en.oxforddictionaries.com/definition/ansatz}{ansatz}:
+A homogeneous recurrence equation can be solved with the following
+\href{https://en.oxforddictionaries.com/definition/ansatz}{ansatz}:
 \\[0.2cm]
 \hspace*{1.3cm} $a_i = \lambda^i$. \\[0.2cm]
 Substituting this ansatz into equation $(2)$ leads to the equation 
@@ -131,7 +132,10 @@ it does not satisfy the initial conditions $a_0 = 0$ and $a_1 = 0$.
 The \blue{general solution} \index{general solution} of the recurrence equation (1) 
 is the sum of the general solution of the homogeneous recurrence equation and the special
 solution and therefore reads 
-\[ a_i = \alpha \cdot \lambda_1^i + \beta \cdot \lambda_2^i - 1 \]
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds a_i = \alpha \cdot \lambda_1^i + \beta \cdot \lambda_2^i - 1$
+\\[0.2cm]
 where $\lambda_1 = \frac{1}{2}\cdot (1 + \sqrt{5})$ and $\lambda_2 = \frac{1}{2}\cdot (1 - \sqrt{5})$.
 The coefficients $\alpha$ and $\beta$ have to be determined so that the
 initial conditions $a_0 = 0$ and $a_1 = 0$ are met.  This leads to the following
@@ -215,7 +219,7 @@ of the second order and describe a general method to solve this kind of recurren
   $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$ \quad and \quad $x_0 = d$, $x_1 = e$
   \quad where $a, b, c, d, e \in \mathbb{R}$.
   \\[0.2cm]
-  Here, $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}  Taken together, the recurrence
+  Here, $c$ is inhomogeneity and $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}  Taken together, the recurrence
   equation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$ of real numbers.  \eox
 \end{Definition}
 
@@ -337,7 +341,10 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
             \right)
             $
             \\[0.2cm]
-            This equation has a unique solution if and only if the determinant of the matrix is different from
+            This equation has a unique solution if and only if the
+            \href{https://en.wikipedia.org/wiki/Determinant}{determinant}\footnote{
+              The notion of a determinant is discussed in the lecture on \textsl{Linear Algebra}.}
+              of the matrix is different from 
             $0$.  We have
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -347,7 +354,7 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
                 1 & 1 \\
                 \lambda_1 & \lambda_2
               \end{array}
-            \right) = \lambda_1 - \lambda_2 \not= 0 
+            \right) = \lambda_2 - \lambda_1 \not= 0 
             $
             \\[0.2cm]
             because $\lambda_1 \not= \lambda_2$.  Therefore we can solve the equations for $\alpha$ and
@@ -433,7 +440,7 @@ Our method to \blue{solve} a second order linear inhomogeneous recurrence equati
                 1         & 1        \\
                 \lambda_1 & \lambda_2  
               \end{array}
-               \right) = 1 \cdot \lambda_1 - 1 \cdot \lambda_2
+               \right) = 1 \cdot \lambda_2 - 1 \cdot \lambda_1
             \not= 0$.
             \\[0.2cm]
             Fortunately, we have already made the assumption that $\lambda_1 \not= \lambda_2$ and this

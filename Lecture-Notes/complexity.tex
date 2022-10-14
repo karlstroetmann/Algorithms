@@ -1064,10 +1064,10 @@ $\mytt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
 
 \section{The Master Theorem}
 In order to analyse the complexity of  the procedure $\textsl{power}()$,
-we have first computed a  recurrence relation, then we have solved this recurrence and, finally,  
-we have approximated the result using the big $\Oh$ notation.  In many cases we are only interested in this
-last approximation and in that case it is not necessary to actually solve the recurrence relation.  
-Instead, we can use the 
+we first computed a  recurrence relation, then we solved this recurrence relation and, finally,  
+we approximated the result obtained from solving the recurrence relation using the big $\Oh$ notation.  In many
+cases we are only interested in this last approximation and in that case it is not necessary to actually solve
+the recurrence relation.   Instead, we can use the 
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem}\index{master theorem} to short 
 circuit the procedure for computing the complexity of an algorithm.   The master theorem was discovered by
 Bentley et.~al.~\cite{bentley:1980} in 1980.
@@ -1123,7 +1123,7 @@ $
 a_k & = & f\bigl(\beta^{k}\bigr)                                             \\[0.2cm]
     & = & \alpha \cdot f\bigl(\beta^{k} \dv \beta\bigr) + \bigl(\beta^{k}\bigr)^\delta    \\[0.2cm]
     & = & \alpha \cdot f\bigl(\beta^{k-1}\bigr) + \beta^{k \cdot \delta}    \\[0.2cm]
-    & = & \alpha \cdot a_{k-1} + \beta^{k \cdot \delta}    \\[0.2cm]
+    & = & \alpha \cdot a_{k-1} + \beta^{\delta \cdot k}    \\[0.2cm]
     & = & \alpha \cdot a_{k-1} + \bigl(\beta^{\delta}\bigr)^k    \\[0.2cm]
 \end{array}
 $
@@ -1186,7 +1186,7 @@ a_k & = & \alpha^{i} \cdot a_{k-i} + \alpha^{i-1} \cdot \gamma^{k-(i-1)} + \alph
 \end{array}
 $
 \\[0.2cm]
-If we substitute $i := k$ into this formula, then we can conclude
+If we substitute $i := k$ into this formula, we can conclude that
 \\[0.2cm]
 \hspace*{1.3cm}
 $\displaystyle 
@@ -1250,7 +1250,7 @@ In order to proceed, we have to perform a case distinction:
       $\alpha < \beta^\delta \rightarrow f(n) \in \Oh\bigl(n^\delta\bigr)$.
 \item Case: $\alpha = \gamma$, i.e.~$\alpha = \beta^\delta$.
 
-      In this case, all terms in the series $\ds\sum\limits_{j=0}^{k-1} \bigl(\frac{\,\alpha\,}{\gamma}\bigr)^j$ 
+      In this case, all terms in the series $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j$ 
       have the value $1$ and therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
@@ -1546,7 +1546,6 @@ chapter 4 gives a more general version of the master theorem together with a det
 If you are able to answer the questions below confidently, then you should have mastered the concepts
 introduced in this chapter.
 \begin{enumerate}[(a)]
-\item What is the difference between a program and an algorithm?
 \item Why do we need an abstract notion to describe the complexity of an algorithm?  
 \item Assume that $g:\mathbb{N} \rightarrow \mathbb{R}_+$.  How is the notion $\Oh(g)$ defined?
 \item Why does the big $\Oh$ notation abstract from constant factors?  
