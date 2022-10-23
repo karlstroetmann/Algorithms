@@ -219,8 +219,10 @@ of the second order and describe a general method to solve this kind of recurren
   $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$ \quad and \quad $x_0 = d$, $x_1 = e$
   \quad where $a, b, c, d, e \in \mathbb{R}$.
   \\[0.2cm]
-  Here, $c$ is the \blue{inhomogeneity} and $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}  Taken together, the recurrence
-  equation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$ of real numbers.  \eox
+  Here, $c$ is the \blue{inhomogeneity} and $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}
+  We will assume that $b \not= 0$, for otherwise the recurrence equation would not be of second order since it
+  would then only relate $x_{n+2}$ to $x_{n+1}$ and not also to $x_n$.
+  Taken together, the recurrence equation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$ of real numbers.  \eox
 \end{Definition}
 
 \noindent
@@ -693,6 +695,15 @@ Solve the following second order recurrence equations:
 \item $x_{n+2} = 4 \cdot x_{n+1} - 4 \cdot x_n + 1$, \quad where $x_0 = 1$ and $x_1 = 3$.  \eox
 \end{enumerate}
 
+\exercise
+Assume that $a$, $b$, and $c$ are real numbers.  Compute the solution of the recurrence equation
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_{n+1} = a \cdot x_n + b$, \quad where $x_0 = c$.
+\\[0.2cm]
+You should note that the case a = 1 has to be treated separately. 
+\eox
+
 \section{Dealing with Complex Numbers$^*$}
 It is interesting to consider those recurrence equations 
 \\[0.2cm]
@@ -875,14 +886,17 @@ $
 $
 
 \exercise
-Derive a formula for $\ds\sum\limits_{i=1}^n i$ by evaluating the sum \\
-\hspace*{1.3cm}
-$\ds T = \sum\limits_{i=1}^n \bigl(i^2 - (i-1)^2\bigr)$
-\\[0.2cm]
-in two different ways.  \eoxs
+\begin{enumerate}[(a)]
+\item Derive a formula for $\ds\sum\limits_{i=1}^n i$ by evaluating the sum \\
+      \hspace*{1.3cm}
+      $\ds T = \sum\limits_{i=1}^n \bigl(i^2 - (i-1)^2\bigr)$
+      \\[0.2cm]
+      in two different ways.  
+\item Derive a formula for $\ds\sum\limits_{i=1}^n i^3$.   \eoxs
+\end{enumerate}
 
 \section{WolframAlpha}
-In order to solve recurrence equations, the website \href{https://www.wolframalpha.com/}{WolframAlpha}
+In order to solve recurrence equations (and many other equations), the website \href{https://www.wolframalpha.com/}{WolframAlpha}
 \index{WolframAlpha} is very useful.  For example, to solve the recurrence equation
 \\[0.2cm]
 \hspace*{1.3cm}

@@ -3,7 +3,7 @@ In this chapter, we present various algorithms for solving the \blue{sorting pro
 After a precise definition of the sorting problem, we start with a simple algorithm
 that is very easy to implement: \blue{insertion sort}.  However, the
 efficiency of this algorithms is far from optimal.  Next, we present \blue{quicksort} and 
-\blue{merge sort}.  Both of these algorithms are very efficient when implemented carefully.
+\blue{merge sort}.  In the average case, both of these algorithms are very efficient when implemented carefully.
 However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
 perform $\Omega\bigl(n \cdot \log_2(n)\bigr)$ comparisons.  The last algorithm presented is \blue{radix sort}, which is an
@@ -14,27 +14,31 @@ This algorithm is then used for the recognition of hand written digits.
 \section{The Sorting Problem}
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
 some set $S$.  If we want to \blue{sort} the list $L$ we have to be able to compare these elements
-to each other.   Therefore, we assume that $S$ is equipped with a binary relation $\leq$ which is
-\blue{reflexive}\index{reflexive}, \blue{anti-symmetric}\index{anti-symmetric}, and
-\blue{transitive}\index{transitive}, i.~e.~we have   
-\begin{enumerate}
-\item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is reflexive)
-\item $\forall x, y \el S \colon \bigl(x \leq y \wedge y \leq x
+to each other.  To this end we review some of the definitions concerning \href{https://en.wikipedia.org/wiki/Order_theory}{order theory}.  
+
+\begin{Definition}[Partial Order] \index{partial order}
+  A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation  on $S$ is is called a
+  \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}\index{partially ordered set}  
+  iff we have the following:
+  \begin{enumerate}
+  \item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is reflexive)
+  \item $\forall x, y \el S \colon \bigl(x \leq y \wedge y \leq x
   \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is anti-symmetric)
-\item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
-\end{enumerate}
+  \item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
+  \end{enumerate}
+  The relation $\leq$ is then called a \blue{partial order}. \eox
+\end{Definition}
+
 \begin{Definition}[Linear Order\label{def:linear_order}] \index{linear order}
-  A pair $\langle S, \leq \rangle$ where $S$ is a set and $\leq \;\subseteq S \times S$ is a relation
-  on $S$ that is \blue{reflexive}, \blue{anti-symmetric} and \blue{transitive} is called a
-  \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}\index{partially ordered set}.  
-  If, furthermore
+  A pair $\langle S, \leq \rangle$ is called a   \href{http://en.wikipedia.org/wiki/Totally_ordered_set}{totally ordered set} 
+  iff  $\langle S, \leq \rangle$ is a partially ordered set
+  and, furthermore, we have
   \\[0.2cm]
   \hspace*{1.3cm}
-  $\forall x, y \el S \colon\bigl( x \leq y \vee y \leq x\bigr)$
+  $\forall x, y \el S \colon\bigl( x \leq y \vee y \leq x\bigr)$.
   \\[0.2cm]
-  holds, then the pair $\langle S, \leq \rangle$ is called a 
-  \href{http://en.wikipedia.org/wiki/Totally_ordered_set}{totally ordered set} and
-  the relation $\leq$ is called a \blue{total order} or a \blue{linear order}\index{linear order}. \eox
+  The relation $\leq$ is then called a \blue{linear order}. \eox
+  \eox
 \end{Definition}
 
 \examples
@@ -68,20 +72,20 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 
 \begin{Definition}[Quasiorder]  \hspace*{\fill} \\
 {\em
-  A pair $\langle S, \preceq\rangle$ is a \href{https://en.wikipedia.org/wiki/Preorder}{quasiorder} \index{quasiorder}  iff $\preceq$ is a 
+  A pair $\langle S, \preceq\rangle$ is a \href{https://en.wikipedia.org/wiki/Preorder}{quasiordered set} \index{quasiorder}  iff $\preceq$ is a 
   binary relation on $S$ such that we have the following:
   \begin{enumerate}
   \item $\forall x \el S\colon x \preceq x$. \hspace*{\fill} (reflexivity)
   \item $\forall x, y, z \el S \colon \bigl(x \preceq y \wedge y \preceq z \rightarrow x \preceq z\bigr)$. 
          \hspace*{\fill} (transitivity)
   \end{enumerate}
-  If, furthermore,
+  The relation $\preceq$ is then called a \blue{quasiorder}.  If, furthermore,
   \\[0.2cm]
   \hspace*{1.3cm}
   $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$ \hspace*{\fill} (linearity) \index{linearity}
   \\[0.2cm]
-  holds, then $\langle S, \preceq \rangle$ is called a \blue{total quasiorder}.  This will be
-  abbreviated as \textsc{TQO}.
+  holds, then $\langle S, \preceq \rangle$ is called a \blue{total quasiordered set} and $\preceq$ is then
+  called a \blue{total quasiorder}.  This notion will be abbreviated as \textsc{TQO}.
 }
 \end{Definition}
 A quasiorder $\langle S, \preceq \rangle$ does not require the relation $\preceq$ to be
@@ -139,7 +143,7 @@ Then the \blue{sorting problem}\index{sorting problem} is defined as follows:
         the second requirement in this way, then the main purpose of sorting is to remove \blue{duplicate}
         elements from a list.  This is actually a common application of sorting in practice.  The
         reason this application is so common is that a list that contains every element at
-        most once can be regarded as a set.
+        most once can be regarded as a \href{https://en.wikipedia.org/wiki/Set_(mathematics)}{set}.
   \end{enumerate}
 \end{enumerate}
 
@@ -161,9 +165,9 @@ We will describe this algorithm via a set of equations.
       \hspace*{1.3cm}
       $\mytt{sort}([]) = []$.
 \item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
-      and $R$ is the rest of $L$, i.e.~everything of $L$ but the first element.  In order to sort
+      and $R$ is the rest of $L$, that is $R$ contains all elements of $L$ but the first element.  In order to sort
       $L$ we first sort the rest $R$ and then we \blue{insert} the element $x$ into the resulting list in a
-      way that the resulting list remains sorted:
+      way such that the resulting list remains sorted:
       \\[0.2cm]
       \hspace*{1.3cm} $\mytt{sort}\bigl([x] + R\bigr) = \mytt{insert}\bigl(x, \mytt{sort}(R)\bigr)$.
 \end{enumerate}
@@ -261,7 +265,7 @@ A trivial induction shows that this recurrence relation has the solution
 $a_n = n$.
 \\[0.2cm]
 Hence, in the worst case the evaluation of $\mytt{insert}(\mytt{x},\mytt{L})$ will lead to $n$ comparisons for a list
-$\mytt{L}$ of length $n$.  The reason is simple:  If $\mytt{x}$ is bigger than any element of $L$, then we have to
+$\mytt{L}$ of length $n$.  The reason is this:  If $\mytt{x}$ is bigger than any element of $L$, then we have to
 compare $\mytt{x}$ with every element of $\mytt{R}$ in order to insert $\mytt{x}$ into $\mytt{R}$.
 
 Next, let us compute the number of comparisons that have to be done when calling
@@ -297,17 +301,11 @@ $
         & \vdots &                                  \\
         & = & b_{0} + 0 + \cdots + (n - 1)      \\[0.2cm] 
         & = & \ds b_{0} + \sum\limits_{i = 0}^{n - 1} i \\[0.4cm]
-        & = & \frac{1}{2} \cdot n \cdot (n - 1),
+        & = & \ds \frac{1}{2} \cdot n \cdot (n - 1).
 \end{array}
 $
 \\[0.2cm]
-because the sum of all natural numbers from 0 up to  $n - 1$ is given as
-\\[0.2cm]
-\hspace*{1.3cm}
-$\ds\sum\limits_{i = 0}^{n - 1} i  = \frac{1}{2} \cdot n \cdot (n - 1)$.
-\\[0.2cm]
-This last formula can be shown by a straightforward induction.  Therefore, in the worst case the number $b_n$ of
-comparisons needed for sorting a list of length $n$  satisfies 
+Therefore, in the worst case the number $b_n$ of comparisons needed for sorting a list of length $n$ satisfies 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$.
@@ -477,7 +475,7 @@ was one of the most prominent mathematicians of the last century.
 
 In order to sort a list $L$ the algorithm proceeds as follows:
 \begin{enumerate}
-\item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: 
+\item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: what
       \\[0.2cm]
       \hspace*{0.3cm}
       $\mytt{len}(L) < 2 \rightarrow \mytt{sort}(L) = L$.
@@ -485,15 +483,17 @@ In order to sort a list $L$ the algorithm proceeds as follows:
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{0.3cm} 
-      $\mytt{len}(L) \geq 2 \wedge n = \mytt{len}(L) \rightarrow \mytt{sort}(L) =
+      $n := \mytt{len}(L) \wedge n \geq 2 \rightarrow \mytt{sort}(L) =
          \mytt{merge}\Bigl(\mytt{sort}\bigl(\mytt{L[:n\dv 2]}\bigr),
          \mytt{sort}\bigl(\mytt{L[n\dv 2:]}\bigr)\Bigr)
      $
       \\[0.2cm]
-      Here,  $\mytt{L[:n\dv 2]}$ is the first part of the list, while
-      $\mytt{L[n\dv 2:]}$ is the second part.  If the length of $L$ is even, both part have the same number of
-      elements, otherwise the second part has one element more than the first part.  The function \mytt{merge}
-      takes two sorted lists and combines their element in a way that the resulting list again is sorted.
+      Here,  $\mytt{L[:n\dv 2]}$ is the first part of the list and contains the elements from $\mytt{L[0]}$ up
+      to the element $\mytt{L[n\dv 2-1]}$, while
+      $\mytt{L[n\dv 2:]}$ is the second part that contains the remaining elements.  If the length of $L$ is
+      even, both part have the same number of elements, otherwise the second part has one element more than the
+      first part.  The function \mytt{merge} takes two sorted lists and combines their elements in a way that
+      the resulting list is sorted. 
 \end{enumerate}
 Next, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
 is sorted.
