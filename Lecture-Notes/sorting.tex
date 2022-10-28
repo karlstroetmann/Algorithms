@@ -2,14 +2,14 @@
 In this chapter, we present various algorithms for solving the \blue{sorting problem}.
 After a precise definition of the sorting problem, we start with a simple algorithm
 that is very easy to implement: \blue{insertion sort}.  However, the
-efficiency of this algorithms is far from optimal.  Next, we present \blue{quicksort} and 
-\blue{merge sort}.  In the average case, both of these algorithms are very efficient when implemented carefully.
+efficiency of this algorithms is far from optimal.  Next, we present 
+\blue{merge sort} and \blue{quicksort}.  In the average case, both of these algorithms are very efficient when implemented carefully.
 However, the implementation of these algorithms is considerably more involved.
 After that we show that any sorting algorithm that needs to compare the elements in order to sort them will
 perform $\Omega\bigl(n \cdot \log_2(n)\bigr)$ comparisons.  The last algorithm presented is \blue{radix sort}, which is an
 algorithm of linear complexity for sorting numbers of a fixed size.
 Finally, we show how sorting is used in the \blue{$k$-nearest-neighbour-algorithm}.
-This algorithm is then used for the recognition of hand written digits.
+This algorithm is then applied to recognize hand written digits.
 
 \section{The Sorting Problem}
 In this chapter, we assume that we have been given a list $L$.  The elements of $L$ are members of
@@ -21,10 +21,10 @@ to each other.  To this end we review some of the definitions concerning \href{h
   \href{http://en.wikipedia.org/wiki/Partially_ordered_set}{partially ordered set}\index{partially ordered set}  
   iff we have the following:
   \begin{enumerate}
-  \item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is reflexive)
+  \item $\forall x \el S \colon x \leq x$,                      \hspace*{\fill} ($\leq$ is \blue{reflexive})\index{reflexive}
   \item $\forall x, y \el S \colon \bigl(x \leq y \wedge y \leq x
-  \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is anti-symmetric)
-  \item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is transitive)
+  \rightarrow x = y\bigr)$,   \hspace*{\fill} ($\leq$ is \blue{anti-symmetric})\index{anti-symmetric}
+  \item $\forall x, y, z \el S \colon \bigl(x \leq y \wedge y \leq z \rightarrow x \leq z\bigr)$.  \hspace*{\fill} ($\leq$ is \blue{transitive})\index{transitive}
   \end{enumerate}
   The relation $\leq$ is then called a \blue{partial order}. \eox
 \end{Definition}
@@ -37,12 +37,12 @@ to each other.  To this end we review some of the definitions concerning \href{h
   \hspace*{1.3cm}
   $\forall x, y \el S \colon\bigl( x \leq y \vee y \leq x\bigr)$.
   \\[0.2cm]
-  The relation $\leq$ is then called a \blue{linear order}. \eox
+  The relation $\leq$ is then called a \blue{linear order} or a \blue{total order}.\index{total order} \eox
   \eox
 \end{Definition}
 
 \examples
-\begin{enumerate}
+\begin{enumerate}[(a)]
 \item $\langle\mathbb{N}, \leq \rangle$ is a totally ordered set.
 \item $\langle 2^{\mathbb{N}}, \subseteq \rangle$ is a partially ordered set, but it is not a totally
       ordered set.  For example, the sets $\{1\}$ and $\{2\}$ are not comparable since we have
@@ -55,7 +55,7 @@ to each other.  To this end we review some of the definitions concerning \href{h
       \hspace*{1.3cm}
       $a \preceq b$ \quad iff \quad  $a$ does not earn more money than $b$, 
       \\[0.2cm]
-      then the pair $\langle P, \leq \rangle$ is not a partially ordered set.  The reason is that
+      then the pair $\langle P, \preceq \rangle$ is not a partially ordered set.  The reason is that
       the relation $\preceq$ is not anti-symmetric:  If Mr.~Smith earns as much as
       Mrs.~Robinson, then we have both
       \\[0.2cm]
@@ -64,13 +64,13 @@ to each other.  To this end we review some of the definitions concerning \href{h
       \\[0.2cm]
       but obviously $\mathrm{Smith} \not= \mathrm{Robinson}$.
 \end{enumerate}
-In the example given above we see that it does not make much sense to sort subsets of $\mathbb{N}$.
+In the example (b) given above we see that it does not make much sense to sort subsets of $\mathbb{N}$.
 However, we can sort natural numbers with respect to their size and we can also sort employees with
 respect to their income.  This shows that, in order to sort,  we do not necessarily need a totally
 ordered set.  In order to capture the requirements that are needed to be able to sort we introduce
 the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
 
-\begin{Definition}[Quasiorder]  \hspace*{\fill} \\
+\begin{Definition}[Quasiorder] \index{quasiorder} \hspace*{\fill} \\
 {\em
   A pair $\langle S, \preceq\rangle$ is a \href{https://en.wikipedia.org/wiki/Preorder}{quasiordered set} \index{quasiorder}  iff $\preceq$ is a 
   binary relation on $S$ such that we have the following:
@@ -85,7 +85,7 @@ the notion of a \href{http://en.wikipedia.org/wiki/Preorder}{quasiorder}.
   $\forall x, y \el S \colon \bigl(x \preceq y \vee y \preceq x\bigr)$ \hspace*{\fill} (linearity) \index{linearity}
   \\[0.2cm]
   holds, then $\langle S, \preceq \rangle$ is called a \blue{total quasiordered set} and $\preceq$ is then
-  called a \blue{total quasiorder}.  This notion will be abbreviated as \textsc{TQO}.
+  called a \blue{total quasiorder}.  This notion will be abbreviated as \textsc{TQO}.\index{TQO}
 }
 \end{Definition}
 A quasiorder $\langle S, \preceq \rangle$ does not require the relation $\preceq$ to be
@@ -165,7 +165,8 @@ We will describe this algorithm via a set of equations.
       \hspace*{1.3cm}
       $\mytt{sort}([]) = []$.
 \item Otherwise, the list $L$ must have the form $[x] + R$. Here, $x$ is the first element of $L$
-      and $R$ is the rest of $L$, that is $R$ contains all elements of $L$ but the first element.  In order to sort
+      and $R$ is the rest of $L$, that is $R$ contains all elements of $L$ with the exception of the first
+      element.  In order to sort 
       $L$ we first sort the rest $R$ and then we \blue{insert} the element $x$ into the resulting list in a
       way such that the resulting list remains sorted:
       \\[0.2cm]
@@ -238,15 +239,15 @@ in \textsl{Python}.
       Then, there are two cases:
       \begin{enumerate}[(a)]
       \item If $\mytt{x}$ is less or equal than $\mytt{y}$, then, as $\mytt{L}$ is sorted,  $\mytt{x}$
-            is less or equal than all elements of $\mytt{L}$ and therefore $\mytt{x}$ is prepended in front
+            is less or equal than all the elements of $\mytt{L}$ and therefore $\mytt{x}$ is prepended in front
             of $\mytt{L}$. 
       \item Otherwise, we recursively insert $\mytt{x}$ into the rest $\mytt{R}$ and prepend $\mytt{y}$
             to the resulting list.     
       \end{enumerate}
 \end{enumerate}
 
-\subsection{Complexity of Insertion Sort}
-We will compute the number of comparisons that are done in the implementation of \mytt{insert}
+\subsection{Complexity of Insertion Sort: Worst Case}
+Next, we will compute the number of comparisons that are done in the implementation of \mytt{insert}
 in line 7 of Figure \ref{fig:Insertion-Sort.ipynb} in the worst case if we call $\mytt{sort}(\mytt{L})$ with a list
 $\mytt{L}$ of length $n$. In order to do that, 
 we have to compute the number of evaluations of the operator ``\mytt{<=}'' when 
@@ -264,20 +265,20 @@ A trivial induction shows that this recurrence relation has the solution
 \hspace*{1.3cm} 
 $a_n = n$.
 \\[0.2cm]
-Hence, in the worst case the evaluation of $\mytt{insert}(\mytt{x},\mytt{L})$ will lead to $n$ comparisons for a list
-$\mytt{L}$ of length $n$.  The reason is this:  If $\mytt{x}$ is bigger than any element of $L$, then we have to
+This result is easy to understand:  If $\mytt{x}$ is bigger than any element of $\mytt{L}$, then we have to
 compare $\mytt{x}$ with every element of $\mytt{R}$ in order to insert $\mytt{x}$ into $\mytt{R}$.
+Hence, in the worst case the evaluation of $\mytt{insert}(\mytt{x},\mytt{L})$ will lead to $n$ comparisons for a list $\mytt{L}$ of length $n$.
 
 Next, let us compute the number of comparisons that have to be done when calling
 $\mytt{sort}(\mytt{L})$ in the worst case for a list  $\mytt{L}$ of length $n$.  Let us denote this number as
 $b_n$. The worst case happens if $\mytt{L}$ is already sorted in reverse order, i.e.~if $\mytt{L}$ is
 \blue{sorted descendingly}\index{sorted descendingly}, because then the element $\mytt{x}$ that is inserted in
 $\mytt{sort}(\mytt{R})$ is bigger than all elements 
-of $\mytt{R}$ and therefore also bigger than all elements of $\mytt{sort}(\mytt{R})$.  Then we have \\[0.2cm]
+of $\mytt{R}$ and therefore also bigger than all the elements of $\mytt{sort}(\mytt{R})$.  Therefore we have \\[0.2cm]
 \hspace*{1.3cm}
  $b_0 = 0$ \quad and \quad $b_{n+1} = b_n + n$, \hspace*{\fill} (1)
 \\[0.2cm]
-because for a list of the form $\mytt{L} = [x] + \mytt{R}$ of length $n+1$ we first have to sort the list $\mytt{R}$
+because for a list of the form $\mytt{L} = [\mytt{x}] + \mytt{R}$ of length $n+1$ we first have to sort the list $\mytt{R}$
 recursively.  As $\mytt{R}$ has length $n$ this takes $b_n$ comparisons.  After that, the call
 $\mytt{insert}(\mytt{x}, \mytt{sort(\mytt{R})})$ 
 inserts the element $\mytt{x}$ into $\mytt{sort}(\mytt{R})$.  We have previously seen that this takes $n$
@@ -310,10 +311,10 @@ Therefore, in the worst case the number $b_n$ of comparisons needed for sorting 
 \hspace*{1.3cm}
 $\ds b_n = \frac{1}{2} \cdot n^2 - \frac{1}{2} \cdot n = \frac{1}{2} \cdot n^2 + \Oh(n)$.
 \\[0.2cm]
-Therefore, in the worst case the number of comparisons is given as $\Oh(n^2)$ and hence
+This shows that in the worst case the number of comparisons is given as $\Oh(n^2)$ and hence
 \blue{insertion sort} has a \blue{quadratic} complexity.
 
-
+\subsection{Complexity of Insertion Sort: Best Case}
 Next, let us consider the best case.  The best case happens if the list $L$ is already sorted
 ascendingly.  Then, the call of 
 $\mytt{insert}(\mytt{x},\mytt{sort}(\mytt{R}))$ needs a single comparison provided $\mytt{R}$ is non-empty.  This time, the recurrence
@@ -322,10 +323,12 @@ equation for the number $b_l$ of comparisons when sorting $\mytt{L}$ satisfies
 \hspace*{1.3cm}
 $b_1 = 0$ \quad and \quad $b_{n+1} = b_n + 1$. 
 \\[0.2cm]
-Obviously, the solution of this recurrence equation is $b_n = n-1$.  Therefore, in the best case
+Obviously, the solution of this recurrence equation is $b_n = n-1 \in \Oh(n)$.  Therefore, in the best case
 \blue{insertion sort} has a \blue{linear} complexity.  This is as good as it can possibly get because when
 sorting a list $\mytt{L}$ we must at least inspect all of the elements of $\mytt{L}$ and therefore we will
-always have at least a linear amount of work to do.
+always have at least a linear amount of work to do.  It is important to note that the best case occurs when the
+list is already sorted.  In practice, a list that has to be sorted is often already partially sorted with only
+a few elements out of place.  In these cases, insertion sort can be a reasonable choice.
 
 
 % \section{Selection Sort$^*$}
@@ -473,59 +476,29 @@ The \blue{merge sort} algorithm was discovered by
 \href{http://en.wikipedia.org/wiki/John_von_Neumann}{John von Neumann} in 1945, who 
 was one of the most prominent mathematicians of the last century.  
 
-In order to sort a list $L$ the algorithm proceeds as follows:
+In order to sort a list $\mytt{L}$ the algorithm proceeds as follows:
 \begin{enumerate}
-\item If $L$ has less than two elements, then $L$ is already sorted.  Therefore we have: what
+\item If $\mytt{L}$ has less than two elements, then $\mytt{L}$ is already sorted.  Therefore we have: 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\mytt{len}(L) < 2 \rightarrow \mytt{sort}(L) = L$.
-\item Otherwise, the list $L$ is split into two lists that have approximately the same size.
+      $\mytt{len}(\mytt{L}) < 2 \rightarrow \mytt{sort}(\mytt{L}) = \mytt{L}$.
+\item Otherwise, the list $\mytt{L}$ is split into two lists that have approximately the same size.
       These lists are sorted recursively.  Then, the sorted lists are merged in a way that the
       resulting list is sorted: \\[0.2cm]
       \hspace*{0.3cm} 
-      $n := \mytt{len}(L) \wedge n \geq 2 \rightarrow \mytt{sort}(L) =
-         \mytt{merge}\Bigl(\mytt{sort}\bigl(\mytt{L[:n\dv 2]}\bigr),
-         \mytt{sort}\bigl(\mytt{L[n\dv 2:]}\bigr)\Bigr)
+      $n := \mytt{len}(\mytt{L}) \wedge n \geq 2 \rightarrow \mytt{sort}(\mytt{L}) =
+         \mytt{merge}\Bigl(\mytt{sort}\bigl(\mytt{L}[:n\dv 2]\bigr),
+         \mytt{sort}\bigl(\mytt{L}[n\dv 2:]\bigr)\Bigr)
      $
       \\[0.2cm]
-      Here,  $\mytt{L[:n\dv 2]}$ is the first part of the list and contains the elements from $\mytt{L[0]}$ up
-      to the element $\mytt{L[n\dv 2-1]}$, while
-      $\mytt{L[n\dv 2:]}$ is the second part that contains the remaining elements.  If the length of $L$ is
+      Here,  $\mytt{L}[:n\dv 2]$ is the first part of the list and contains the elements from $\mytt{L}[0]$ up
+      to the element $\mytt{L}[n\dv 2-1]$, while
+      $\mytt{L}[n\dv 2:]$ is the second part that contains the remaining elements.  If the length of $\mytt{L}$ is
       even, both part have the same number of elements, otherwise the second part has one element more than the
-      first part.  The function \mytt{merge} takes two sorted lists and combines their elements in a way that
+      first part.  The function \mytt{merge} takes two sorted lists and combines their elements in a way such that
       the resulting list is sorted. 
 \end{enumerate}
-Next, we need to specify how two sorted lists $L_1$ and $L_2$ are merged in a way that the resulting list
-is sorted.
-\begin{enumerate}
-\item If the list $L_1$ is empty, the result is $L_2$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{merge}\bigl([], L_2\bigr) = L_2$.
-\item If the list $L_2$  is empty, the result is $L_1$: \\[0.2cm]
-      \hspace*{1.3cm} 
-      $\mytt{merge}\bigl(L_1, []\bigr) = L_1$.
-\item Otherwise, $L_1$ must have the form $[x] + R_1$ and $L_2$ has the form $[y] +R_2$.
-      Then there is a case distinction with respect to the result of the comparison of $x$ and $y$:
-      \begin{enumerate}
-      \item $x \preceq y$.
 
-            In this case, we merge $R_1$ and $L_2$ and put $x$ at the beginning of this list:
-            \\[0.2cm]
-            \hspace*{1.3cm} 
-            $x \preceq y \rightarrow \mytt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[x\bigr] +
-               \mytt{merge}\bigl(R_1,[y] + R_2\bigr)$.
-      \item $\neg x \preceq y$.
-
-            Now we merge $L_1$ and $R_2$ and put $y$ at the beginning of this list:
-            \\[0.2cm]
-            \hspace*{1.3cm} 
-            $\neg x \preceq y \rightarrow \mytt{merge}\bigl([x] + R_1, [y] + R_2\bigr) = \bigl[y \bigr] +
-             \mytt{merge}\bigl([x] + R_1,R_2\bigr)$.
-      \end{enumerate}
-\end{enumerate}
-
-Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsl{Python}
-program.  
 
 \begin{figure}[!ht]
   \centering
@@ -560,12 +533,45 @@ program.
   \caption{The \blue{merge sort} algorithm implemented in \textsl{Python}.}
   \label{fig:merge-sort.stlx}
 \end{figure}
+
+
+Next, we need to specify how two sorted lists $\mytt{L}_1$ and $\mytt{L}_2$ are merged in a way that the resulting list
+is sorted.
 \begin{enumerate}
-\item If the list $L$ has less than two elements, it is already sorted and, therefore, it
+\item If the list $\mytt{L}_1$ is empty, the result is $\mytt{L}_2$: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\mytt{merge}\bigl([], \mytt{L}_2\bigr) = \mytt{L}_2$.
+\item If the list $\mytt{L}_2$  is empty, the result is $\mytt{L}_1$: \\[0.2cm]
+      \hspace*{1.3cm} 
+      $\mytt{merge}\bigl(\mytt{L}_1, []\bigr) = \mytt{L}_1$.
+\item Otherwise, $\mytt{L}_1$ must have the form $[\mytt{x}] + \mytt{R}_1$ and $\mytt{L}_2$ has the form $[\mytt{y}] +\mytt{R}_2$.
+      Then there is a case distinction with respect to the result of the comparison of $\mytt{x}$ and $\mytt{y}$:
+      \begin{enumerate}
+      \item $\mytt{x} \preceq \mytt{y}$.
+
+            In this case, we merge $\mytt{R}_1$ and $\mytt{L}_2$ and put $x$ at the beginning of this list:
+            \\[0.2cm]
+            \hspace*{1.3cm} 
+            $\mytt{x} \preceq \mytt{y} \rightarrow \mytt{merge}\bigl([\mytt{x}] + \mytt{R}_1, [\mytt{y}] + \mytt{R}_2\bigr) = \bigl[\mytt{x}\bigr] +
+            \mytt{merge}\bigl(\mytt{R}_1,[\mytt{y}] + \mytt{R}_2\bigr)$.
+      \item $\neg \mytt{x} \preceq \mytt{y}$.
+
+            Now we merge $\mytt{L}_1$ and $\mytt{R}_2$ and put $\mytt{y}$ at the beginning of this list:
+            \\[0.2cm]
+            \hspace*{1.3cm} 
+            $\neg \mytt{x} \preceq \mytt{y} \rightarrow \mytt{merge}\bigl([\mytt{x}] + \mytt{R}_1, [\mytt{y}] + \mytt{R}_2\bigr) = \bigl[\mytt{y} \bigr] +
+             \mytt{merge}\bigl([\mytt{x}] + \mytt{R}_1,\mytt{R}_2\bigr)$.
+      \end{enumerate}
+\end{enumerate}
+
+Figure \ref{fig:merge-sort.stlx} shows how these equations can be implemented as a \textsl{Python}
+program.  
+\begin{enumerate}
+\item If the list $\mytt{L}$ has less than two elements, it is already sorted and, therefore, it
       can be returned as it is.
-\item If the list $L$ has $n$ elements and $n$ is at least two, then splitting $L$ is achieved by putting the
+\item If the list $\mytt{L}$ has $n$ elements and $n$ is at least two, then splitting $\mytt{L}$ is achieved by putting the
       first $n\dv 2$ 
-      elements into the list $L_1$ and the remaining elements into the list $L_2$.
+      elements into the list $\mytt{L}_1$ and the remaining elements into the list $\mytt{L}_2$.
 \item These lists are sorted recursively and the resulting sorted lists are then \blue{merged}.
 \item The implementation of the function \mytt{merge} is a straightforward translation of the equations
       given above.
@@ -639,13 +645,13 @@ at most $n$ comparisons.  Therefore, the function $f$ satisfies the recurrence r
 \hspace*{1.3cm}
 $f(n) = 2 \cdot f(n \dv  2) + \Oh(n)$,
 \\[0.2cm]
-We can use the master theorem to get an upper bound for $f(n)$.  In the master theorem, we have
+We can use the master theorem to get an upper bound for $f(n)$.  Using the notation of the master theorem we have
 $\alpha = 2$, $\beta = 2$, and $\delta = 1$. Therefore,
 \\[0.2cm]
 \hspace*{1.3cm}
-$\beta^\delta = 2^1 = 2 = \alpha$
+$\beta^\delta = 2^1 = 2 = \alpha$.
 \\[0.2cm]
-and hence the master theorem tells us that we have
+This is the second case of the master theorem and hence we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $f(n) \in \Oh\bigl(n \cdot \log_2(n) \bigr)$.
@@ -680,7 +686,7 @@ length $2^k$ needs less than  $2^k + 2^k = 2^{k+1}$ comparisons, $b_{k+1}$ can b
 \hspace*{1.3cm}
 $b_{k+1} = 2 \cdot b_k + 2^{k+1}$. 
 \\[0.2cm]
-In order to solve this recurrence equation, we divide the equation by $2^{k+1}$.
+In order to solve this recurrence equation, we divide this equation by $2^{k+1}$.
 This yields
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -766,6 +772,10 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 \item The purpose of the assignment ``\mytt{A = L[:]}'' in line 2 is to create an auxiliary array
       $\mytt{A}$.  This auxiliary array is needed in the function \mytt{mergeSort} called in line 3.
       The array \mytt{A} will be a copy of the array \mytt{L}.
+
+      Note that it is not sufficient to write $\mytt{A = L}$ since in that case $\mytt{A}$ would just
+      be another \href{https://www.oreilly.com/library/view/python-in-a/0596001886/ch04s03.html}{reference} to
+      the array $\mytt{L}$.  Hence changing $\mytt{A}$ would also change $\mytt{L}$. 
 \item The function \mytt{mergeSort} defined in line 5 is called with 4 arguments.
       \begin{enumerate}
       \item The first parameter $\mytt{L}$ is the list that is to be sorted.
@@ -785,7 +795,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
 \item In line 8 we compute the index pointing to the middle element of the list $\mytt{L}$ using the
       formula \\[0.2cm]
       \hspace*{1.3cm} 
-      \mytt{middle = (start + end) \dv\  2;} 
+      \mytt{middle = (start + end) \dv\  2} 
       \\[0.2cm]
       This way, the list $\mytt{L}$ is split into the lists 
       \\[0.2cm]
@@ -795,7 +805,7 @@ We discuss the implementation shown in Figure \ref{fig:merge-sort-array.stlx} li
       These two lists have approximately the same size which is about half the size of the list $\mytt{L}$.
 \item Next, the lists \mytt{L[start:middle]} and \mytt{L[middle:end]} are sorted
       recursively in line 9 and 10, respectively.
-\item The call to \mytt{merge} in line 11 merges these lists.
+\item Finally, these sorted lists are merged in line 11.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -873,11 +883,11 @@ Figure \ref{fig:merge-sort-array.stlx-merge} shows the implementation of the fun
                   the subarray \mytt{L[i:end]}.
             \end{enumerate}
       \item As long as neither the first nor the second sublist stored in $\mytt{A}$ have been exhausted
-            we compare in line 19 the elements from these sublists and then copy the smaller of these
+            we compare in line 18 the elements from these sublists and then copy the smaller of these
             two elements into the list $\mytt{L}$ at position \mytt{i}.
             In order to remove this element from the corresponding sublist in $\mytt{A}$ we just need to
             increment the corresponding index pointing to the beginning of this sublist.
-      \item If one of the two sublists gets empty while the other sublist still has elements, then we have
+      \item If one of these two sublists gets empty while the other sublist still has elements, then we have
             to copy the remaining elements of the non-empty sublist into the list $\mytt{L}$.
             The statement in line 26 covers the case that the second sublist is exhausted before 
             the first sublist, while the statement in line 28 covers the case that the first

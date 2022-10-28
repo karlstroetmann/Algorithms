@@ -40,9 +40,15 @@
 \indexentry{symbolic execution|hyperpage}{46}
 \indexentry{partial order|hyperpage}{49}
 \indexentry{partially ordered set|hyperpage}{49}
+\indexentry{reflexive|hyperpage}{49}
+\indexentry{anti-symmetric|hyperpage}{49}
+\indexentry{transitive|hyperpage}{49}
 \indexentry{linear order|hyperpage}{49}
+\indexentry{total order|hyperpage}{49}
+\indexentry{quasiorder|hyperpage}{50}
 \indexentry{quasiorder|hyperpage}{50}
 \indexentry{linearity|hyperpage}{50}
+\indexentry{TQO|hyperpage}{50}
 \indexentry{equivalence relation|hyperpage}{50}
 \indexentry{sorting problem|hyperpage}{50}
 \indexentry{sorted ascendingly|hyperpage}{50}
@@ -74,7 +80,7 @@
 \indexentry{k-nearest neighbours algorithm|hyperpage}{76}
 \indexentry{pickle|hyperpage}{77}
 \indexentry{Liskov, Barbara|hyperpage}{80}
-\indexentry{\textsc{Clu}|hyperpage}{80}
+\indexentry{Clu|hyperpage}{80}
 \indexentry{abstract data type|hyperpage}{80}
 \indexentry{type parameter|hyperpage}{80}
 \indexentry{type specification|hyperpage}{80}
@@ -114,7 +120,7 @@
 \indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{103}
 \indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{112}
 \indexentry{Landis, Evgenii Mikhailovich|hyperpage}{112}
-\indexentry{\textsc{Avl} tree|hyperpage}{112}
+\indexentry{AVL tree|hyperpage}{112}
 \indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{112}
 \indexentry{balancing condition|hyperpage}{112}
 \indexentry{red-black tree|hyperpage}{124}
