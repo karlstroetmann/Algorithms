@@ -1133,7 +1133,8 @@ $\mytt{L}$ that is already sorted.  It is important to realize that this is a co
 applications of sorting.  In order to avoid the worst case behaviour for lists that are either sorted or nearly
 sorted we can use the element at position $\mytt{len}(\mytt{L})\dv 2$ as the pivot element.  For example, this
 could be implemented by first swapping the element at this position with the first list element and then
-running the quicksort algorithm as described previously.
+running the quicksort algorithm as described previously.  More effective methods to prevent the worst case will
+be discussed later.
 
 
 \subsubsection{Average Complexity}
@@ -1167,12 +1168,12 @@ In order to simplify the recurrence relation (1) we note that
 $
 \begin{array}[t]{lclcl}
  \ds
- \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0                                  \\[0.2cm]
+ \sum\limits_{i=0}^n a_{n-i} & = & a_n + a_{n-1} + \cdots + a_1 + a_0                                  \\[-0.5cm]
                     & = & a_0 + a_1 + \cdots + a_{n-1} + a_n        & = & \ds \sum\limits_{i=0}^n a_i 
 \end{array}
 $
 \\[0.2cm]
-holds for any sequence $(a_n)_{n\in\mathbb{N}}$.
+holds for any sequence of numbers $(a_n)_{n\in\mathbb{N}}$.
 This observation can be used to simplify the recurrence relation (1) as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1183,12 +1184,13 @@ In order to solve this recurrence relation we substitute $n \mapsto n-1$ and arr
 \hspace*{1.3cm}
 $\ds d_{n} = n-1 + \frac{2}{n} \cdot \sum\limits_{i=0}^{n-1} d_i$.  \hspace*{\fill} (3)
 \\[0.2cm]
-Next, we multiply equation (3) with $n$ and equation (2) with $n+1$.  This yields the equations
+In order to get rid of the sum, we multiply equation (3) with $n$ and equation (2) with $n+1$.  This yields the
+equations 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds n \cdot d_{n} = n\cdot(n-1) + 2 \cdot \sum\limits_{i=0}^{n-1} d_i$,            \hspace*{\fill}
 (4) 
-\\[0.2cm]
+\\
 \hspace*{1.3cm}
 $\ds (n+1)\cdot d_{n+1}  =  (n+1)\cdot n + 2 \cdot \sum\limits_{i=0}^n d_i$.   \hspace*{\fill} (5) 
 \\[0.2cm]
@@ -1203,7 +1205,7 @@ This equation can be simplified as
 \hspace*{1.3cm}
 $(n+1)\cdot d_{n+1} = (n+2) \cdot \ds d_{n} + 2 \cdot n$.
 \\[0.2cm] 
-In order to exhibit the true structure of this equation we divide it by the number $(n+1) \cdot(n+2)$ and
+In order to exhibit the underlying structure of this equation we divide it by  $(n+1) \cdot(n+2)$ and
 are left with the equation
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1221,12 +1223,12 @@ $\ds a_{n+1} = a_{n} + \frac{2\cdot n}{(n+1)\cdot(n+2)}$.  \hspace*{\fill} (7)
 \\[0.2cm]
 We proceed by computing the 
 \href{http://en.wikipedia.org/wiki/Partial_fraction}{partial fraction decomposition}
-of the fraction
+of 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\frac{2\cdot n}{(n+1)\cdot(n+2)}$.
 \\[0.2cm] 
-In order to so, we use the \href{http://en.wikipedia.org/wiki/Ansatz}{ansatz}
+To so, we use the \href{http://en.wikipedia.org/wiki/Ansatz}{ansatz}
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\frac{2\cdot n}{(n+1)\cdot(n+2)} = \frac{\alpha}{n+1} + \frac{\beta}{n+2}$.
@@ -1285,11 +1287,6 @@ Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds a_{n} = 4 \cdot \sum\limits_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum\limits_{i=1}^n \frac{1}{\,i\,}$.  
-\\[0.2cm]
-Let us simplify this sum:
-\\[0.2cm]
-\hspace*{1.3cm}
 $
 \begin{array}{lcl}
  a_{n} & = & \ds 4 \cdot \sum_{i=1}^n \frac{1}{i+1} - 2 \cdot \sum_{i=1}^n \frac{1}{\,i\,} \\[0.5cm]
@@ -1312,16 +1309,8 @@ The number $H_n$ is known in mathematics as the $n$-th
 was able to prove that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds H_n = \ln(n) + \gamma + \Oh\biggl(\frac{1}{\,n\,}\biggr)$. 
+$\ds H_n = \ln(n) + \Oh(1)$. 
 \\[0.2cm] 
-The number $\gamma$ \index{$\gamma$, Euler-Mascheroni constant} in this formula is the
-\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni
-  constant, $\gamma$}
-constant and has the value
-\\[0.2cm]
-\hspace*{1.3cm}
-$\gamma = 0.5772156649 \cdots$.
-\\[0.2cm]
 Therefore, we have found the following approximation for $a_n$:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1544,7 +1533,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 
       The paper ``\blue{Engineering a Sort Function}'' by Jon L.~Bentley and M.~Douglas McIlroy
       \cite{bentley:93} describes the previous two improvements.
-\item In order to be sure that the average case analysis of \blue{quicksort} holds we can randomly
+\item In order to be sure that the average case analysis of \blue{quicksort} holds, we can randomly
       \blue{shuffle} the list $L$ that is to be sorted.  This approach is advocated by Sedgewick
       \cite{sedgewick:2011}.  In \textsl{Python} this is quite easy as
       the module \mytt{random} provides a predefined function \mytt{shuffle} that takes a list and shuffles
@@ -1682,18 +1671,18 @@ The expression $n!$ is called the
 \href{https://en.wikipedia.org/wiki/Factorial}{factorial} of $n$. \index{factorial}
 \end{Theorem}
 \proof The claim is proven by induction on $n$. 
-\begin{enumerate}
-\item[B.C.:] $n=1$:  
+\begin{description}
+\item[Base case:] $n=1$:  
 
       There is only $1$ way to arrange one element in a list.  As $1! = 1$ the claim is true in this case.
-\item[I.S.:] $n \mapsto n+1$:
+\item[Induction step:] $n \mapsto n+1$:
   
       If we have $n+1$ different elements and want to arrange these elements in a list, then there
       are $n+1$ ways to choose the first element.  In each of these cases the induction
       hypothesis tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
       Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different permutations of $n+1$
       elements in a list. \qed
-\end{enumerate}
+\end{description}
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
 that only give $\mytt{True}$ or $\mytt{False}$ answers.  Tests of this kind are called \blue{binary tests}.
 \begin{enumerate}
@@ -1755,7 +1744,7 @@ $
   k & \geq & \ds\log_2(n!) \\[0.2cm]
     & =    & \ds\sum\limits_{i=1}^n \log_2(i) \\[0.5cm]
     & \geq & \ds\int\limits_{1}^n \log_2(x)\, \mathrm{d}x \\[0.2cm]
-    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \int\limits_{1}^n \ln(x)\, \mathrm{d}x  \\[0.2cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \int\limits_{1}^n \ln(x)\, \mathrm{d}x  \\[0.6cm]
     & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl[x \cdot \ln(x) - x \bigr]_{1}^n   \\[0.4cm]
     & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl(n \cdot \ln(n) - n + 1\bigr)     \\[0.2cm]
     & =    & \ds n \cdot \log_2(n) - \frac{\,n-1\,}{\,\ln(2)\,}                       
