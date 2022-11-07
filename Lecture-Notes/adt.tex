@@ -19,7 +19,8 @@ Abstract data types were proposed by
 and Stephen Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main ingredients of
 \blue{object oriented programming}.  They were first implemented in the programming language
 \href{https://en.wikipedia.org/wiki/CLU_(programming_language)}{\textsc{Clu}}. \index{Clu}
-The other ingredient of object oriented programming is \blue{inheritance}.
+The other ingredient of object oriented programming is \blue{inheritance}.  However, the notion of inheritance
+is not covered in this lecture.  Instead, it is discussed in the second part of the lecture on programming.
 
 \section[Formal Definition]{A Formal Definition of Abstract Data Types}
 We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of the form \index{abstract data type}
@@ -74,7 +75,7 @@ Next, we provide a simple example of an abstract data type.
 We proceed to discuss the \textsc{Adt} \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack} 
 \index{stack}. 
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
-only the element on top of the pile is accessible.  An ostensive example of a stack is a pile of
+only the element that is on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
 and only the plate on top is accessible.  Formally, we define the abstract data type
 \mytt{Stack}\index{Stack} as follows: 

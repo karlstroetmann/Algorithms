@@ -2069,7 +2069,7 @@ Then, radix sort works as follows:
                   xrightmargin  = 0.8cm,
                   ]{python3}
     def extractByte(n, k):
-        return n >> (8 * (k-1)) & 0b11111111
+        return n >> (8 * (k-1)) & 0b1111_1111
     
     def radixSort(L):
         L = [(n, 0) for n in L]
@@ -2246,7 +2246,7 @@ be used to recognize a handwritten digit.
       \item $\mytt{X\_test}$ is a matrix containing 10,000 images of handwritten digits that we will use to
             test our implementation.
       \item $\mytt{Y\_train}$ is an array of size 50,000. For each $i \in \{0,\cdots,49\,999\}$ the number $\mytt{Y\_train}[i]$
-            specifies the digit shown in the $i$th training image.
+            specifies the digit shown in the $i^\mathrm{th}$ training image.
       \item $\mytt{Y\_test}$ is an array of size 10,000. For each $i \in \{0,\cdots,9\,999\}$ the number $\mytt{Y\_test}[i]$
             specifies the digit shown in the $i^{\mathrm{th}}$ test image.
       \end{enumerate}
@@ -2258,7 +2258,7 @@ be used to recognize a handwritten digit.
       The function \mytt{load\_data} extracts the data stored in these pairs.
 \item The function $\mytt{distance}(x, y)$ computes the Euclidean distance between the images $x$ and $y$.
       Given a vector $x$, the expression $x \mytt{**} 2$ computes a vector containing the squares of the
-      components of $x$.  These squares can then be summed using the \mytt{numpy} function \mytt{sum}.
+      components of $x$.  We compute the sum of these squares using the \mytt{numpy} function \mytt{sum}.
 \item Given a list $L$ of digits, the function $\mytt{maxCounts}(L)$ returns a pair $(d, p)$ where $d$ is the digit that occurs most frequently in $L$
       and $p$ is the fraction of occurrences of $d$ in $L$.  For example, we have
       \\[0.2cm]
@@ -2287,7 +2287,7 @@ be used to recognize a handwritten digit.
       \begin{enumerate}[(a)]
       \item \mytt{n} is the number of training examples.  In our case, $n = 50,000$.
       \item \mytt{Distances} is a list of pairs of the form $(d, i)$, where $d$ is the distance
-            of the $i$-th image in the training set from the given image $x$.
+            of the $i^\mathrm{th}$ image in the training set from the given image $x$.
       \item These pairs are \blue{sorted} with respect to their distance and the labels corresponding to the
             images are computed.  Therefore, \mytt{Neighbours} is a list of the labels of all $50,000$
             training images sorted according to their distance to the given image $x$.
@@ -2303,10 +2303,10 @@ In the program shown in Figure \ref{fig:Digit-Recognition.ipynb} on page \pagere
 we have sorted the list \mytt{Distances} in line 32.  The only reason to do this was to be able to find the $k$ smallest
 distances in this list.  As $k$ is a small number and the list \mytt{Distances} is rather large, this seems wasteful.
 \begin{enumerate}[(a)]
-\item Devise an algorithm Quickselect that selects the $k$ smallest elements from a list $L$.
+\item Devise an algorithm \blue{QuickSelect} that selects the $k$ smallest elements from a list $L$.
 
       \hint
-      Try to adapt the algorithm Quicksort so that instead of sorting the list it finds the $k$ smallest elements.      
+      Try to adapt the algorithm QuickSort so that instead of sorting the list it finds the $k$ smallest elements.      
 \item Analyse the average complexity of your algorithm.
 
       \hint
@@ -2321,7 +2321,7 @@ distances in this list.  As $k$ is a small number and the list \mytt{Distances} 
 If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
 introduced in this chapter.
 \begin{enumerate}
-\item Define the concept of a \blue{total quasi order}?
+\item Define the concept of a \blue{total quasi order}.
 \item What type of order do we need if we have to sort a list?
 \item Describe the algorithm \blue{insertion sort} on an abstract mathematical level.
 \item What is the complexity of \blue{insertion sort}?
