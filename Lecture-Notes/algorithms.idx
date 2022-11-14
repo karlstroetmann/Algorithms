@@ -100,77 +100,78 @@
 \indexentry{shunting-yard algorithm|hyperpage}{89}
 \indexentry{operator precedence parsing|hyperpage}{89}
 \indexentry{Dijkstra, Edsger|hyperpage}{89}
-\indexentry{associate to the left|hyperpage}{90}
-\indexentry{associate to the right|hyperpage}{90}
-\indexentry{ordered binary tree|hyperpage}{101}
-\indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{101}
-\indexentry{\mytt{Nil}, empty tree|hyperpage}{101}
-\indexentry{empty tree|hyperpage}{101}
-\indexentry{$\mytt{Node}(k, v, l, r)$|hyperpage}{101}
-\indexentry{left subtree|hyperpage}{101}
-\indexentry{right subtree|hyperpage}{101}
-\indexentry{ordering conditions|hyperpage}{101}
-\indexentry{node of a binary tree|hyperpage}{101}
-\indexentry{root of a binary tree|hyperpage}{101}
-\indexentry{\mytt{find}, ordered binary tree|hyperpage}{101}
-\indexentry{\mytt{insert}, ordered binary tree|hyperpage}{102}
-\indexentry{\mytt{delete}, ordered binary tree|hyperpage}{103}
-\indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{103}
-\indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{112}
-\indexentry{Landis, Evgenii Mikhailovich|hyperpage}{112}
-\indexentry{AVL tree|hyperpage}{112}
-\indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{112}
-\indexentry{balancing condition|hyperpage}{112}
-\indexentry{red-black tree|hyperpage}{124}
-\indexentry{2-3 tree|hyperpage}{124}
-\indexentry{trie|hyperpage}{127}
-\indexentry{$\mathbb{T}$|hyperpage}{127}
-\indexentry{string completion|hyperpage}{130}
-\indexentry{binary trie|hyperpage}{134}
-\indexentry{priority queue|hyperpage}{149}
-\indexentry{observer function|hyperpage}{151}
-\indexentry{mutator function|hyperpage}{151}
-\indexentry{heaps|hyperpage}{152}
-\indexentry{heap condition|hyperpage}{152}
-\indexentry{balancing condition|hyperpage}{152}
-\indexentry{heap storage|hyperpage}{152}
-\indexentry{Heapsort|hyperpage}{157}
-\indexentry{heapification|hyperpage}{160}
-\indexentry{generated equivalence relation|hyperpage}{170}
-\indexentry{reflexive|hyperpage}{170}
-\indexentry{symmetric|hyperpage}{170}
-\indexentry{transitive|hyperpage}{170}
-\indexentry{partition|hyperpage}{171}
-\indexentry{union-find algorithm|hyperpage}{172}
-\indexentry{undirected graph|hyperpage}{177}
-\indexentry{edge|hyperpage}{177}
-\indexentry{loop|hyperpage}{177}
-\indexentry{weighted undirected graph|hyperpage}{177}
-\indexentry{weight of an edge|hyperpage}{177}
-\indexentry{path|hyperpage}{178}
-\indexentry{path connects nodes $a$ and $b$|hyperpage}{178}
-\indexentry{weight of an path|hyperpage}{178}
-\indexentry{connected graph|hyperpage}{178}
-\indexentry{connected graph|hyperpage}{178}
-\indexentry{tree (graph)|hyperpage}{178}
-\indexentry{weight of a tree|hyperpage}{178}
-\indexentry{Kruskal, Joseph Bernard|hyperpage}{180}
-\indexentry{Kruskal's algorithm|hyperpage}{180}
-\indexentry{weighted directed graph|hyperpage}{182}
-\indexentry{weighted digraph|hyperpage}{182}
-\indexentry{path|hyperpage}{182}
-\indexentry{length of a path|hyperpage}{182}
-\indexentry{connect, path|hyperpage}{182}
-\indexentry{$\paths(v,w)$|hyperpage}{182}
-\indexentry{shortest path problem|hyperpage}{182}
-\indexentry{$\spath(v)$|hyperpage}{183}
-\indexentry{Bellman-Ford algorithm|hyperpage}{183}
-\indexentry{Richard E.~Bellman|hyperpage}{183}
-\indexentry{Lester R.~Ford Jr.|hyperpage}{183}
-\indexentry{Edward F.~Moore|hyperpage}{183}
-\indexentry{Moore's algorithm|hyperpage}{183}
-\indexentry{Edsger W.~Dijkstra|hyperpage}{184}
-\indexentry{Dijkstra's algorithm|hyperpage}{185}
-\indexentry{topological sorting|hyperpage}{187}
-\indexentry{topological sorting problem|hyperpage}{188}
-\indexentry{Kahn's algorithm|hyperpage}{189}
+\indexentry{associate to the left|hyperpage}{91}
+\indexentry{associate to the right|hyperpage}{91}
+\indexentry{map|hyperpage}{99}
+\indexentry{ordered binary tree|hyperpage}{102}
+\indexentry{$\mathcal{B}$, set of ordered binary trees|hyperpage}{102}
+\indexentry{\mytt{Nil}, empty tree|hyperpage}{102}
+\indexentry{empty tree|hyperpage}{102}
+\indexentry{$\mytt{Node}(k, v, l, r)$|hyperpage}{102}
+\indexentry{left subtree|hyperpage}{102}
+\indexentry{right subtree|hyperpage}{102}
+\indexentry{ordering conditions|hyperpage}{102}
+\indexentry{node of a binary tree|hyperpage}{102}
+\indexentry{root of a binary tree|hyperpage}{102}
+\indexentry{\mytt{find}, ordered binary tree|hyperpage}{102}
+\indexentry{\mytt{insert}, ordered binary tree|hyperpage}{103}
+\indexentry{\mytt{delete}, ordered binary tree|hyperpage}{104}
+\indexentry{\mytt{delMin}, ordered binary tree|hyperpage}{104}
+\indexentry{Adelson-Velsky, Georgy Maximovich|hyperpage}{113}
+\indexentry{Landis, Evgenii Mikhailovich|hyperpage}{113}
+\indexentry{AVL tree|hyperpage}{113}
+\indexentry{$\mathcal{A}$, \textsc{Avl} tree|hyperpage}{113}
+\indexentry{balancing condition|hyperpage}{113}
+\indexentry{red-black tree|hyperpage}{125}
+\indexentry{2-3 tree|hyperpage}{125}
+\indexentry{trie|hyperpage}{128}
+\indexentry{$\mathbb{T}$|hyperpage}{128}
+\indexentry{string completion|hyperpage}{131}
+\indexentry{binary trie|hyperpage}{135}
+\indexentry{priority queue|hyperpage}{150}
+\indexentry{observer function|hyperpage}{152}
+\indexentry{mutator function|hyperpage}{152}
+\indexentry{heaps|hyperpage}{153}
+\indexentry{heap condition|hyperpage}{153}
+\indexentry{balancing condition|hyperpage}{153}
+\indexentry{heap storage|hyperpage}{153}
+\indexentry{Heapsort|hyperpage}{158}
+\indexentry{heapification|hyperpage}{161}
+\indexentry{generated equivalence relation|hyperpage}{171}
+\indexentry{reflexive|hyperpage}{171}
+\indexentry{symmetric|hyperpage}{171}
+\indexentry{transitive|hyperpage}{171}
+\indexentry{partition|hyperpage}{172}
+\indexentry{union-find algorithm|hyperpage}{173}
+\indexentry{undirected graph|hyperpage}{178}
+\indexentry{edge|hyperpage}{178}
+\indexentry{loop|hyperpage}{178}
+\indexentry{weighted undirected graph|hyperpage}{178}
+\indexentry{weight of an edge|hyperpage}{178}
+\indexentry{path|hyperpage}{179}
+\indexentry{path connects nodes $a$ and $b$|hyperpage}{179}
+\indexentry{weight of an path|hyperpage}{179}
+\indexentry{connected graph|hyperpage}{179}
+\indexentry{connected graph|hyperpage}{179}
+\indexentry{tree (graph)|hyperpage}{179}
+\indexentry{weight of a tree|hyperpage}{179}
+\indexentry{Kruskal, Joseph Bernard|hyperpage}{181}
+\indexentry{Kruskal's algorithm|hyperpage}{181}
+\indexentry{weighted directed graph|hyperpage}{183}
+\indexentry{weighted digraph|hyperpage}{183}
+\indexentry{path|hyperpage}{183}
+\indexentry{length of a path|hyperpage}{183}
+\indexentry{connect, path|hyperpage}{183}
+\indexentry{$\paths(v,w)$|hyperpage}{183}
+\indexentry{shortest path problem|hyperpage}{183}
+\indexentry{$\spath(v)$|hyperpage}{184}
+\indexentry{Bellman-Ford algorithm|hyperpage}{184}
+\indexentry{Richard E.~Bellman|hyperpage}{184}
+\indexentry{Lester R.~Ford Jr.|hyperpage}{184}
+\indexentry{Edward F.~Moore|hyperpage}{184}
+\indexentry{Moore's algorithm|hyperpage}{184}
+\indexentry{Edsger W.~Dijkstra|hyperpage}{185}
+\indexentry{Dijkstra's algorithm|hyperpage}{186}
+\indexentry{topological sorting|hyperpage}{188}
+\indexentry{topological sorting problem|hyperpage}{189}
+\indexentry{Kahn's algorithm|hyperpage}{190}

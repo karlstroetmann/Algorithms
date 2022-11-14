@@ -387,7 +387,7 @@ an abstract data type: An abstract data type abstracts from the concrete data st
 implement it.  If an abstract data type is done right, it can be used without knowing how the data
 that are administered by the abstract data type are actually represented.
 
-\section{Evaluation of Arithmetic Expressions}
+\section{The Shunting Yard Algorithm}
 Next, in order to demonstrate the usefulness of stacks, we show how \blue{arithmetic expressions} can be
 parsed and evaluated using stacks.  To this end, we present the
 \href{https://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}
@@ -564,7 +564,7 @@ The evaluation of \mytt{1 + 2 * 3 - 4} proceeds as follows:
       number 3.
 \end{enumerate}
 
-\subsection{The Shunting-Yard-Algorithm \label{algo-arith}}
+\subsection{The Algorithm \label{algo-arith}}
 The algorithm introduced in the last subsection via an example is known as the 
 \href{http://en.wikipedia.org/wiki/Shunting-yard_algorithm}{shunting-yard algorithm}.  
 \index{shunting-yard algorithm}
@@ -572,8 +572,41 @@ This technique is also known as \blue{operator precedence parsing}.\index{operat
 The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Wybe Dijkstra}\footnote{
   Edsger Wybe Dijkstra received the 1972 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
 }
-(1930-2002) in 1961. \index{Dijkstra, Edsger}
-We give a detailed presentation of this algorithm next.  To begin with, we discuss a couple of auxiliary
+(1930-2002) in 1961. \index{Dijkstra, Edsger}  The algorithm uses three stacks:
+\begin{enumerate}
+\item The \blue{token stack} contains the tokens that are to be parsed.  For example,
+      if the goal is to evaluate the string \texttt{'1+2*3'}, then the token stack has the form:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      \texttt{[3, '*', 2, '+', 1]}
+      \\[0.2cm]
+      Note that the number \texttt{1} is on top of this stack.
+\item The \blue{operator stack} contains the operators that have to be evaluated.
+\item The \blue{argument stack} contains the arguments for these operators.
+\end{enumerate}
+The algorithm then proceeds be iterating over the items of the token stack and executing the following rules.
+\begin{enumerate}
+\item If the token on top of the token stack is an integer, it is removed from the token stack and pushed onto
+      the argument stack.
+\item If the operator stack is empty, the next token is pushed onto the operator stack.
+\item If the next token is an opening parenthesis, this token is pushed onto the operator stack.
+\item If the next token is a closing parenthesis and the operator on top of the operator stack is an opening
+      parenthesis, then both parentheses are removed from the stacks where they occur.
+\item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
+      opening parenthesis,  the operator on top of the operator stack is evaluated.
+ 
+      In the remaining cases neither the token on top of the token stack nor the operator on top of the
+      operator stack can be a parenthesis.  The following rules will implicitly assume that this is the case.
+\item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
+      the operator on top of the operator stack is evaluated.
+\item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
+\end{enumerate}
+We will discuss these rules in more detail when we discuss the implementation in the next section.
+
+
+\subsection{Implementation}
+We give a detailed presentation of an implementation of the shunting-yard algorithm next.  To begin with, we
+discuss a couple of auxiliary 
 function that are needed to implement this algorithm.  The first of these functions is the function
 \mytt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
 natural number.  For example, the string \mytt{'123'} is converted into the natural number $123$, while the
@@ -894,7 +927,7 @@ The \blue{rewrite rules} listed below are executed until the token stack is empt
         \mytt{mArguments}' = \mytt{mArguments} 
         \end{array} 
       $$
-\item If the next token is an opening parenthesis, this parenthesis token is pushed onto the operator stack.
+\item If the next token is an opening parenthesis, this parenthesis is pushed onto the operator stack.
      $$\begin{array}{lcll}
          \mytt{mTokens} = \mytt{mTokensRest} + [\mytt{'('} ] & \Rightarrow \\[0.2cm]
          \mytt{mOperators}' = \mytt{mOperators} + [\mytt{'('}] & \wedge \\
