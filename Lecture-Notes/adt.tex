@@ -595,14 +595,19 @@ The algorithm then proceeds be iterating over the items of the token stack and e
 \item If the next token is a closing parenthesis but the operator on top of the operator stack is not an
       opening parenthesis,  the operator on top of the operator stack is evaluated.
  
-      In the remaining cases neither the token on top of the token stack nor the operator on top of the
-      operator stack can be a parenthesis.  The following rules will implicitly assume that this is the case.
+      In the remaining case neither the token on top of the token stack nor the operator on top of the
+      operator stack can be a parenthesis.  
 \item If the operator on top of the operator stack needs to be evaluated before the operator on top of the token stack,
-      the operator on top of the operator stack is evaluated.
-\item Otherwise, the operator on top of the token stack is pushed onto the operator stack.
+      the operator on top of the operator stack is evaluated.  Otherwise, the operator on top of the token
+      stack is pushed onto the operator stack.
+\item Once the token stack is empty, the remaining operators of the operator stack are evaluated one by one.    
 \end{enumerate}
-We will discuss these rules in more detail when we discuss the implementation in the next section.
-
+The algorithm finishes when both the token stack and the operator stack are empty.  If the arithmetical
+expression that is evaluated is syntactically correct, there should be exactly one number left on the
+argument stack.  This number is the result of the evaluation.
+      
+We give a more detailed representation of the shunting-yard algorithm when we discuss the implementation in the
+next section. 
 
 \subsection{Implementation}
 We give a detailed presentation of an implementation of the shunting-yard algorithm next.  To begin with, we
