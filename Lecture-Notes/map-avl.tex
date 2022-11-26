@@ -938,9 +938,8 @@ lifted up recursively to its parent.
       $t$.  You should use three auxiliary functions to implement \mytt{insert}:
       \begin{enumerate}
       \item $t.\mytt{ins}(k)$ takes a 2-3 tree $t$ and a key $k$ and inserts the key $k$ into $t$.
-            It returns a 2-3-4 tree that has at most one 4-node.  Unless the tree $t$ has a height of $1$, this
-            4-node has to be a child of the root node.  The function \mytt{ins} is recursive and uses the
-            function \mytt{restore} that is described next.
+            It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
+            The function \mytt{ins} is recursive and uses the function \mytt{restore} that is described next.
             Furthermore, the height of the tree $t.\mytt{ins}(k)$ has to be the same as the height of the tree $t$.
       \item $t.\mytt{restore}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be a child
             of the root.  It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
@@ -968,6 +967,9 @@ lifted up recursively to its parent.
 Prof. Lyn Turbak has written a helpful
 \href{http://www.cs.princeton.edu/~dpw/courses/cos326-12/ass/2-3-trees.pdf}{paper} describing 2-3 trees in more
 depth.  This paper gives a graphical presentation of the \mytt{insert} and \mytt{delete} operations.
+The Jupyter notebook
+\href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Chapter-08/2-3-Trees-Visualization.ipynb}{2-3-Trees-Visualization.ipynb}
+provides a visualization of the algorithms involved.
 
 \paragraph{History:}
 According to \cite{cormen:09}, 2-3 trees have been invented by
