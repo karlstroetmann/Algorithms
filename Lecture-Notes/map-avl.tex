@@ -1,5 +1,5 @@
 \section{AVL Trees}
-If a binary tree is approximately \blue{balanced}, i.e.~if the left and right subtree of a binary tree $b$  have
+If a binary tree is approximately \blue{balanced}, that is~if the left and right subtree of a binary tree $b$  have
 roughly the same height, then the complexity of $b.\mytt{find}(k)$ will always be of the order
 $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
@@ -866,7 +866,7 @@ of implementing maps, these trees implement sets. They are built using the follo
       \item $k$ is a key,
       \item $r$ is a 2-3 tree,
       \item all keys stored in $l$ are less than k and all keys stored in $r$ are bigger than $k$,
-            i.e.~we have
+            that is~we have
             \\[0.2cm]
             \hspace*{1.3cm}
             $l < k < r$.
@@ -998,7 +998,7 @@ strings.  In order to define tries formally we assume that the following is give
       \blue{alphabet}. 
 \item $\Sigma^*$ is the set of all \blue{strings} that are built from the characters of $\Sigma$.
       Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
-      if $c$ is the first character of $w$ and if $r$ the string that remains if we remove the first
+      if $c$ is the first character of $w$ and if $r$ is the string that remains if we remove the first
       character from $w$.
 \item $\varepsilon$ denotes the empty string.
 \item $\mytt{Value}$ is the set of all the values that can be associated with the keys.  
@@ -1053,6 +1053,9 @@ $t.\mytt{find}(s)$ is defined by induction on the length of the  string $s$:
       If $c$ does not occur in the list $C\!s$, then the trie $\mytt{Trie}(v, C\!s, T\!s)$ does not store a value for
       the key $cr$.
 \end{enumerate}
+In order to increase the efficiency of searching we could require that the lists of characters are sorted.
+However, this would result in a more complicated implementation.
+
 
 \begin{figure}[!ht]
   \centering
@@ -1072,7 +1075,7 @@ written in the lower part of the rectangle.  The label that we put in the upper 
 depends on the parent of the node.  We will explain how this label is computed in a moment.
 The node itself has $n$ different children.  These $n$ children are the tries
 $t_1$, $\cdots$, $t_n$.  The node at the root of the trie $t_i$ is labelled with the character $c_i$,
-i.e.~the rectangle that represents this node carries the label $c_i$ in its upper half.
+that is the rectangle that represents this node carries the label $c_i$ in its upper half.
 
 In order to clarify these ideas, Figure  \ref{fig:trie} on page \pageref{fig:trie} shows a trie
 mapping some strings to numbers.  The mapping depicted in this tree can be written as a \textsl{Python}
@@ -1096,7 +1099,7 @@ This trie has three children that are labelled with the characters  \mytt{'t'}, 
 
 \subsection{Insertion in Tries}
 Next, we present formulas that describe how new values can be inserted into existing tries,
-i.e.~we specify the method $\mytt{insert}$.  The signature of $\mytt{insert}$ is given as follows:
+that is we specify the method $\mytt{insert}$.  The signature of $\mytt{insert}$ is given as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mytt{insert}: \mathbb{T} \times \Sigma^* \times \mytt{Value} \rightarrow \mathbb{T}$.
@@ -1208,7 +1211,15 @@ In addition to the functions specified in the abstract data type map, tries supp
 \blue{string completion}\index{string completion}:  Given the prefix $p$ of a string $s$ that is known to be a
 member of some set $S$ of strings, we can efficiently find all strings in $S$ that start with the prefix $p$, provided we
 store the set $S$ as a trie.  Most modern programming environments offer some kind of string completion in
-their editors.  In order to implement string completion we first define the function \mytt{allKeys}, which
+their editors.  This is accomplished via a function
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mytt{findPrefix}:\mathbb{T} \times \Sigma^* \rightarrow \mytt{Set}(\Sigma^*)$
+\\[0.2cm]
+that takes a trie $t$ and a prefix $p$ as input.  The expression $t.\mytt{findPrefix}(p)$ finds all
+strings $s$ that are stored in $t$ that have the prefix $p$.
+
+In order to implement string completion we first define the function \mytt{allKeys}, which
 has the following signature:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1251,7 +1262,7 @@ we have
 \hspace*{1.3cm}
 $t.\mytt{replacePrefix}(s, p) = \bigl\{ p+r \mid s + r \in t \bigr\}$.
 \\[0.2cm]
-The second argument $p$ is needed in order to make the inductive definition of the function
+The argument $p$ is needed in order to make the inductive definition of the function
 \mytt{replacePrefix} work out.  The recursive definition of $t.\mytt{replacePrefix}(s, p)$ is given next:
 \begin{enumerate}[(a)]
 \item $t.\mytt{replacePrefix}(\varepsilon, p) = t.\mytt{allKeys}(p)$,
@@ -1266,7 +1277,7 @@ Finally, we specify the function
 $\mytt{findPrefix}:\mathbb{T} \times \Sigma^* \rightarrow \mytt{Set}(\Sigma^*)$
 \\[0.2cm]
 so that given a trie $t$ and a prefix $p$, the expression $t.\mytt{findPrefix}(p)$ finds all
-strings $s \in t$ that have the prefix $p$, i.e.~that can be written in the form $s=p+r$:
+strings $s \in t$ that have the prefix $p$, that is that can be written in the form $s=p+r$:
 \\[0.2cm]
 \hspace*{1.3cm}
 $t.\mytt{findPrefix}(p) = \bigl\{ p+r \mid p+r \in t \bigr\}$.
@@ -1321,7 +1332,7 @@ $\mytt{Trie}(v, C, T)$
 where $v$ is the value stored at the root, $C$ is the list of characters, and $T$ is a list of
 tries.  Therefore, the member variables have the following semantics:
 \begin{enumerate}
-\item $\mytt{mValue}$ represent the value $v$ stored at the root of this trie,  
+\item $\mytt{mValue}$ represent the value $v$ stored at the root of this trie.
 \item $\mytt{mChars}$ represent the list  $C$ of characters.  If there is a string $cr$ such that
       the trie stores a value associated with this string, then the character $c$ will be an element of
       the list $C$.
@@ -1498,7 +1509,7 @@ there is no need to recursively check whether all tries in $\mytt{mTries}$ are e
 The implementation is shown in Figure \ref{fig:trie.ipython-isEmpty}.
 
 \exercise
-(\textbf{Binary Tries})  Let us assume that our alphabet is the \blue{binary alphabet}, i.e.~the alphabet
+(\textbf{Binary Tries})  Let us assume that our alphabet is the \blue{binary alphabet}, that is the alphabet
 only contains the two digits $0$ and $1$.  Therefore we have $\Sigma = \{0,1\}$.  Every natural
 number can be regarded as a string from the alphabet $\Sigma$, so that numbers are effectively
 elements of $\Sigma^*$.  The set $\BT$ of \blue{binary tries}\index{binary trie} is defined by induction:
@@ -1618,7 +1629,7 @@ Let us assume that the function  $\mytt{ord}$ takes a character from the set
 \hspace*{1.3cm}
 $\Sigma = \{ \mytt{' '}, \mytt{'a'}, \mytt{'b'}, \mytt{'c'}, \cdots, \mytt{'x'}, \mytt{'y'}, \mytt{'z'} \}$ 
 \\[0.2cm]
-and assigns a number from the set $\{0,\cdots,26\}$ to this character, i.e.~we have \\[0.2cm]
+and assigns a number from the set $\{0,\cdots,26\}$ to this character, that is we have \\[0.2cm]
 \hspace*{1.3cm} 
 $\mytt{ord}: \{ \mytt{' '}, \mytt{'a'}, \mytt{'b'}, \mytt{'c'}, \cdots, \mytt{'x'}, \mytt{'y'},
 \mytt{'z'} \} \rightarrow \{0,\cdots, 26\}$, \quad where
@@ -2100,7 +2111,7 @@ linked list.  Figure \ref{fig:ListMap.ipynb} on page \pageref{fig:ListMap.ipynb}
       Otherwise, a new \mytt{ListNode} is created that stores the given  \mytt{key}-\mytt{value}.
       In this case, the method has to return \mytt{True} since a new key has been inserted.
 \item Similarly, the method \mytt{delete} is a wrapper of the method \mytt{delete} from the class
-      \mytt{ListNode}.  If the given list is not empty, i.e. \mytt{mPtr} is not \mytt{None},
+      \mytt{ListNode}.  If the given list is not empty, that is \mytt{mPtr} is not \mytt{None},
       the implementation tries to delete the given \mytt{key} in the list pointed to by \mytt{self.mPtr}.
       Care has to be taken for the case that the \mytt{key} to be deleted is the first node of the
       list pointed to by \mytt{mPtr}.  In this case, the value of \mytt{mPtr} will change.
