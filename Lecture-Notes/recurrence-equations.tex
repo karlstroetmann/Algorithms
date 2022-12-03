@@ -643,13 +643,23 @@ There are two cases:
       \item $a + b \not= 1$.
         
             Then a special solution can be found using the  \blue{ansatz} $x_n = \gamma$.
+            We have that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{1 - a - b}$.
+            \\[0.2cm]
             and the general solution is
             \\[0.2cm]
             \hspace*{1.3cm}
             $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
       \item $a + b = 1$.
 
-            Then the special solution is found using the ansatz $x_n = \gamma \cdot n$ and the general
+            Then the special solution is found using the ansatz $x_n = \gamma \cdot n$ where we have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{2 - a}$.
+            \\[0.2cm]
+            and the general
             solution is
             \\[0.2cm]
             \hspace*{1.3cm}
@@ -666,17 +676,32 @@ There are two cases:
       \begin{enumerate}
       \item $a + b \not= 1$.
 
-            Then the solution of the inhomogeneous recurrence equation has the form
+            Then a special solution can be found using the  \blue{ansatz} $x_n = \gamma$.
+            We have that
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{1 - a - b}$.
+            \\[0.2cm]
+            and the general solution is
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
       \item $a + b = 1$.
 
-            In this case the solution of the inhomogeneous recurrence equation has the form
+            Then the special solution is found using the ansatz $x_n = \gamma \cdot n$ where we find
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{2 - a}$.
+            \\[0.2cm]
+            The general solution is 
             \\[0.2cm]
             \hspace*{1.3cm}
             $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$.
-      \item $a = 2$ and $b = -1$
+            
+            In all of the cases discussed so far the parameters $\alpha$ and $\beta$ have to be determined so
+            that the initial conditions are satisfied.
+
+       \item $a = 2$ and $b = -1$
 
             In this case the solution is the quadratic function
             \\[0.2cm]
@@ -684,8 +709,7 @@ There are two cases:
             $x_n = \ds \frac{\;c\;}{2} \cdot n \cdot (n-1) + n \cdot (e - d) + d$.
       \end{enumerate}
 \end{enumerate}
-In all of these cases the parameters $\alpha$ and $\beta$ have to be determined so that the initial conditions
-are satisfied.
+
 
 \exercise
 Solve the following second order recurrence equations:

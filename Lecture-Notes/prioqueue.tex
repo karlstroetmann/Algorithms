@@ -348,7 +348,7 @@ Finally, we specify our implementation of the method $\mytt{remove}$.
       This case is similar to the previous case, but now the value from the right subtree moves to
       the root.
 \end{enumerate}
-The hawk-eyed reader will have noticed that the specification of the method $\mytt{delete}$ that is given
+The hawk-eyed reader will have noticed that the specification of the method $\mytt{remove}$ that is given
 above violates the balancing condition.  It is not difficult to change the implementation so that
 the balancing condition is maintained.  However, it is not really necessary to maintain the
 balancing condition when deleting values.  The reason is that the balancing condition is needed as
@@ -563,7 +563,7 @@ Furthermore, we need an auxiliary function $\mytt{toList}$ that has the signatur
 \hspace*{1.3cm}
 $\mytt{toList}: \mathcal{H} \rightarrow \mytt{List}(\mathbb{N})$.
 \\[0.2cm]
-This function transforms a heap in a list of numbers that is sorted ascendingly.  This function is specified as
+This function transforms a heap into a list of numbers that is sorted ascendingly.  This function is specified as
 follows:
 \begin{enumerate}
 \item $\mytt{Nil}.\mytt{toList}() = []$,
