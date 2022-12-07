@@ -312,7 +312,7 @@ The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb}
       As we want to place objects of these classes onto a priority queue, we have to make them comparable.
       This is done by defining the method \mytt{\_\_lt\_\_} in these classes.  This method is automatically 
       called whenever two objects of class \mytt{CodingTree} are compared using the operator $<$.
-      As this only happens when the corresponding counts are different, the precise implementation of this
+      As this only happens when the corresponding counts are equal, the precise implementation of this
       method does not matter as long as we take care to ensure that $<$ is a linear order.
 \item The function $\mytt{codingTree}$ is called with a set  $M$ of pairs.  This set has the form
       \\[0.2cm]
@@ -527,6 +527,4 @@ Frequency &          1 &          1 &          2 &          3 &          5 &    
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "algorithms"
-%%% TeX-master: "algorithms"
-%%% TeX-master: "../algorithms"
 %%% End: 
