@@ -1740,9 +1740,10 @@ Therefore we have the following chain of inequations:
 \\[0.2cm]
 \hspace*{1.3cm}
 $
-\begin{array}[t]{lcl}
+\begin{array}[t]{lcll}
   k & \geq & \ds\log_2(n!) \\[0.2cm]
     & =    & \ds\sum\limits_{i=1}^n \log_2(i) \\[0.5cm]
+    & =    & \ds\sum\limits_{i=2}^n \log_2(i) & \mbox{(since $\log_2(1) = 0$)} \\[0.5cm]
     & \geq & \ds\int\limits_{1}^n \log_2(x)\, \mathrm{d}x \\[0.2cm]
     & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \int\limits_{1}^n \ln(x)\, \mathrm{d}x  \\[0.6cm]
     & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl[x \cdot \ln(x) - x \bigr]_{1}^n   \\[0.4cm]
