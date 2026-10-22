@@ -105,8 +105,9 @@ passages removed, 2-3 tree exercise removed, Dijkstra proof rewritten,
 big-o figure redrawn as a vector graphic (Abbildungen/big-o.py),
 Kruskal.ipynb fixed, EPUB built (ebook/make-epub.sh).
 
-1. ISBN (copyright page) and cover (paperback and EPUB, see
-   ebook/metadata.yaml).
+1. ISBN 979-8164406141 (paperback) is on the copyright page.  The cover
+   algorithms-python-cover.jpg is in the EPUB; for the paperback it needs a
+   higher resolution (896x1200 px now).
 2. Relicensing: the repository was GPL v2 and a few people contributed via
    pull requests (typo fixes in the notes, small notebook changes).  Decide
    whether their consent is needed for CC BY-NC-SA 4.0 / MIT.
