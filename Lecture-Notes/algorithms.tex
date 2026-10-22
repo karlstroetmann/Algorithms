@@ -64,6 +64,11 @@
 
 
 \setlength{\mathindent}{1.3cm}
+% The hardcover (make-hardcover.sh) is 8.25" wide, KDP's maximum; only the outer margin gets smaller.
+\ifdefined\hardcover
+  \setlength{\paperwidth}{8.25in}
+  \setlength{\pdfpagewidth}{\paperwidth}
+\fi
 % Two-sided layout for print: the wider margin is always on the binding side.
 \setlength{\oddsidemargin}{\dimexpr 3.5cm - 1in\relax}
 \setlength{\evensidemargin}{\dimexpr \paperwidth - \textwidth - 3.5cm - 1in\relax}
@@ -224,6 +229,8 @@ The sources of these lecture notes and the programs are available at
 \hspace*{\fill}
 \\[0.3cm]
 ISBN 979-8164406141 (paperback)
+\\
+ISBN 979-8164413262 (hardcover)
 \tableofcontents
 \include{introduction}
 \include{python}

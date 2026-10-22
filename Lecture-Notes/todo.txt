@@ -105,7 +105,9 @@ passages removed, 2-3 tree exercise removed, Dijkstra proof rewritten,
 big-o figure redrawn as a vector graphic (Abbildungen/big-o.py),
 Kruskal.ipynb fixed, EPUB built (ebook/make-epub.sh).
 
-1. ISBN 979-8164406141 (paperback) is on the copyright page.  Covers:
+1. ISBNs 979-8164406141 (paperback) and 979-8164413262 (hardcover) are on the
+   copyright page; the hardcover interior is algorithms-hardcover.pdf (8.25 x 11,
+   built by make-hardcover.sh).  Covers:
    algorithms-python-cover.jpg (1792x2400, e-book) and
    algorithms-python-cover-print.jpg (2588x3375, 300 dpi, paperback front).
 2. Relicensing: decided, the earlier contributors need not agree.
