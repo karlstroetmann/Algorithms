@@ -15,7 +15,7 @@ $b \geq \mytt{ceil}\bigl(\log_2(k)\bigr)$
 \\[0.2cm]
 holds.  Here, $\mytt{ceil}(x)$ denotes the
 \href{https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}{ceiling function}.  Given a real number $x$,
-the expression $\mytt{ceil}(x)$ returns the smallest integer $k$ that is as least as big as $x$, i.e.~we have
+the expression $\mytt{ceil}(x)$ returns the smallest integer $k$ that is at least as big as $x$, i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mytt{ceil}(x) = \min\bigl( \{ k \in \mathbb{Z} \mid x \leq k \}\bigr)$. 
@@ -26,7 +26,7 @@ There are two options to improve on this number.
 \item If we drop the requirement to store all characters with the same amount of bits, then we can save some space.
       The idea is to code characters occurring very frequently with fewer than $b$ bits while those characters
       that are very rare are encoded using more than $b$ bits.  This approach leads to 
-      \href{https://en.wikipedia.org/wiki/Huffman_coding}{Huffman's algorithm} that was discovered 1952 by 
+      \href{https://en.wikipedia.org/wiki/Huffman_coding}{Huffman's algorithm} that was discovered in 1952 by 
       \href{https://en.wikipedia.org/wiki/David_A._Huffman}{David A.~Huffman (1925 -- 1999)} \cite{huffman:52}.
 \item Alternatively we can try to extend the alphabet by interpreting substrings that occur very frequently as
       new letters.  For example, given an English text $s$, it is quite likely that the substring 
@@ -51,8 +51,8 @@ The string $s \in \Sigma^*$ that is to be encoded is assumed to contain the lett
 ``\mytt{a}'' $990$ times, the letter ``\mytt{b}'' occurs $8$ times and the letters ``\mytt{c}'' and
 ``\mytt{d}'' each occur once.  Therefore, the string $s$ has a length of $1\,000$ characters.
 If we encode each letter with $2 = \log_2(4)$ bits, then we need a total of $2\,000$ bits to store the string $s$.
-We will now see that it is possible the store the string $s$ with less than $2\,000$ bits.
-In our example, the character ``\mytt{a}'' occurs much more frequently that the other characters.  Therefore, we
+We will now see that it is possible to store the string $s$ with fewer than $2\,000$ bits.
+In our example, the character ``\mytt{a}'' occurs much more frequently than the other characters.  Therefore, we
 encode ``\mytt{a}'' with a single bit.  On the other hand, the characters ``\mytt{c}'' and ``\mytt{d}''
 each occur only once.  Therefore, it does no harm if we need more than two bits to encode these characters.
 Table \ref{tab:coding} shows an encoding of the characters in $\Sigma$ that is based on these considerations.
@@ -76,14 +76,14 @@ In order to understand how this encoding works we represent this encoding in Fig
  \ref{fig:coding-tree} as a  \blue{coding tree}:  The inner nodes of this tree do not contain any attributes
  and are therefore shown as empty circles.  The leaves of this tree are labelled with characters.
 The encoding of a character is given by the labelling of the edges that lead from the root of the tree to the
-leaf containing that character.  For example, there is an edge from the root of this tree to the leaf labelled
-with the digit ``\mytt{0}''.  Hence, the character ``\mytt{a}'' is encoded by the bit string ``\mytt{0}''.
+leaf containing that character.  For example, the edge that leads from the root of this tree to the leaf labelled with ``\mytt{a}''
+is labelled with the digit ``\mytt{0}''.  Hence, the character ``\mytt{a}'' is encoded by the bit string ``\mytt{0}''.
 To give another example we take the character ``\mytt{c}''.   The path that starts at the root and leads to
 the leaf labelled with ``\mytt{c}'' consists of three edges.  The first two of these edges are labelled with
 the bit ``\mytt{1}'', while the last edge is labelled with the bit ``\mytt{0}''.  Therefore, the character
  ``\mytt{c}'' is encoded by the bit string ``\mytt{110}''.
 
-If we now encode the string $s$ that is made up from  $990$ occurrences of the character
+If we now encode the string $s$ that is made up of  $990$ occurrences of the character
 ``\mytt{a}'', $8$ occurrences of the character ``\mytt{b}'' and a single occurrence of both ``\mytt{c}''
 and ``\mytt{d}'', then we need
 \\[0.2cm]
@@ -92,12 +92,12 @@ $990 \cdot 1 + 8 \cdot 2 + 1 \cdot 3 + 1 \cdot 3 = 1\,012$
 \\[0.2cm]
 bits if we use the variable length encoding shown in Figure \ref{fig:coding-tree}.  Comparing this to the fixed
 width encoding that uses 2 bits per character and therefore uses $2\,000$ bits to store $s$, we see that we can
-save $49,4\%$ of the bits with the variable length encoding shown in Table \ref{tab:coding}.
+save $49.4\%$ of the bits with the variable length encoding shown in Table \ref{tab:coding}.
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/coding-tree.eps, scale=0.5}} 
-  \caption{Tree representation of the encoding shown in Figure \ref{tab:coding}.}
+  \caption{Tree representation of the encoding shown in Table \ref{tab:coding}.}
   \label{fig:coding-tree}
 \end{figure}
 In order to see how a bit string can be decoded using the encoding shown in Figure \ref{fig:coding-tree}
@@ -121,7 +121,7 @@ to present this algorithm, we first define the set $\mathcal{K}$ of \blue{coding
 \begin{enumerate}
 \item $\mytt{Leaf}(c,f) \in \mathcal{K} \quad \mbox{if $c \in \Sigma$ and $f \in \N$}$.
 
-      An expression of the form $\mytt{Leaf}(c,f)$ represent a leaf in a coding tree.  Here  $c$ is a letter
+      An expression of the form $\mytt{Leaf}(c,f)$ represents a leaf in a coding tree.  Here  $c$ is a letter
       from the alphabet $\Sigma$ and $f$ is the number of times that the letter $c$ occurs in the string $s$
       that is to be encoded.
 
@@ -154,7 +154,7 @@ Next we define the function
 $\mytt{cost}: \mathcal{K} \rightarrow \N$.
 \\[0.2cm]
 The function $\mytt{cost}$ computes the number of bits that are necessary to encode a string $s$ if 
-all letters occurring in $s$ occur in the the coding tree and if, furthermore, the frequencies of the letters
+all letters occurring in $s$ occur in the coding tree and if, furthermore, the frequencies of the letters
 in $s$ are given by the frequencies stored in the coding tree.
 The definition of $\mytt{cost}(t)$ is given by induction on the coding tree $t$.
 \begin{enumerate}
@@ -182,14 +182,14 @@ define
 $\mytt{cost}(M) := \sum\limits_{n\in M} n.\mytt{cost}()$. 
 \\[0.2cm]
 The algorithm that was published by David A.~Huffman in 1952 \cite{huffman:52} starts with a set of pairs of
-the form $\langle c, f\rangle$ where $c$ is a letter and $f$ is the frequency of this letter on a given string
+the form $\langle c, f\rangle$ where $c$ is a letter and $f$ is the frequency of this letter in a given string
 $s$ that is to be encoded.  In the first step of this algorithm, these pairs are turned into leaves of a coding tree.
 Assume that the string $s$ is built from the  letters
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_1$, $c_2$, $\cdots$, $c_k$
 \\[0.2cm]
-and that the frequencies of theses letters are givens as
+and that the frequencies of these letters are given as
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1$, $f_2$, $\cdots$, $f_k$.
@@ -199,18 +199,18 @@ Then the set of coding trees is given as
   \label{eq:huffmann1}
  M = \bigl\{  \mytt{Leaf}(c_1, f_1), \cdots, \mytt{Leaf}(c_k, f_k) \bigr\}.   
 \end{equation}
-Huffmann's algorithm combines two nodes $a$ and $b$ from $M$ into a new node
+Huffman's algorithm combines two nodes $a$ and $b$ from $M$ into a new node
 $\mytt{Node}(a,b)$ until the set $M$ contains just a single node.  When combining the nodes of $M$ into a single
 tree we have to take care that the cost of the resulting tree should be minimal.
 Huffman's algorithm takes a \href{https://en.wikipedia.org/wiki/Greedy_algorithm}{greedy} approach: 
 The idea is to combine those nodes $a$ and $b$ such that the cost of the set
 \\[0.2cm]
 \hspace*{1.3cm}
-$M \symbol{92} \{a,b\} + \{ \mytt{Node}(a,b) \}$
+$M \backslash \{a,b\} \cup \{ \mytt{Node}(a,b) \}$
 \\[0.2cm]
 is as small as possible.
 In order to choose $a$ and $b$ let us investigate how much the cost increases if we combine these two nodes
-into the new node $\mytt{Node}(a,b)$:
+into the new node $\mytt{Node}(a,b)$.  If we define $N := M \backslash \{a,b\}$, we have
 \begin{eqnarray*}
 & & \mytt{cost}\bigl(N \cup \{ \mytt{Node}(a,b) \}\bigr) - \mytt{cost}\bigl(N \cup \{ a,b \}\bigr) \\
 &=& \mytt{cost}\bigl( \{ \mytt{Node}(a,b) \}\bigr) - \mytt{cost}\bigl(\{ a,b \}\bigr)              \\
@@ -281,7 +281,7 @@ of bits.
 \end{figure} 
 
 \noindent
-The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb} implements this algorithm.
+The function $\mytt{codingTree}$ shown in Figure \ref{fig:Huffman.ipynb} implements this algorithm.
 \begin{enumerate}
 \item \textsl{Python} has a module called \mytt{heapq}.  This module implements a heap via a list.
       This module offers the following functions:
@@ -319,7 +319,7 @@ The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb}
       \hspace*{1.3cm}
       $M = \bigl\{ (c_1, f_1), \cdots, (c_k, f_k) \bigr\}$.
       \\[0.2cm]
-      Here, $c_1$, $\cdots$, $c_k$ are the different character that occur in the string $s$ that is to be encoded. 
+      Here, $c_1$, $\cdots$, $c_k$ are the different characters that occur in the string $s$ that is to be encoded. 
       For every character $c_i$, the number $f_i$ counts the number of times that $c_i$ occurs in the string
       $s$.
 \item Line 27 creates the empty heap.
@@ -330,7 +330,7 @@ The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb}
       \\[0.2cm]
       In the pairs $\bigl(f, \mytt{Leaf}(c, f)\bigr)$ the frequency $f$ is stored first because
       when \textsl{Python} compares two pairs $(x_1, y_1)$ and $(x_2, y_2)$, the comparison is done
-      \blue{lexicograhically}, i.e.~we have
+      \blue{lexicographically}, i.e.~we have
       \\[0.2cm]
       \hspace*{1.3cm}
       $(x_1, y_1) < (x_2, y_2)$ \quad iff \quad $x_1 < x_2 \vee (x_1 = x_2 \wedge y_1 < y_2)$.
@@ -341,8 +341,8 @@ The function $\mytt{codingTree}$ program shown in Figure \ref{fig:Huffman.ipynb}
       $\mytt{Leaf}(c_2, f_2)$.  For the purpose of string compression the order does not matter in this case.
 
       The pairs  $\bigl(f, \mytt{Leaf}(c, f)\bigr)$ are inserted into the heap $H$.
-\item The \mytt{while} loop in line 2 reduces the number of nodes of the set $M$ in every step by one.
-      This is done by combining the nodes $a$ and $b$ into a single node $\mytt{Node}(a, b)$
+\item The \mytt{while} loop in line 30 reduces the number of nodes of the set $M$ in every step by one.
+      This is done by combining the nodes $a$ and $b$ into a single node $\mytt{Node}(a, b)$.
       \begin{enumerate}
       \item Using the function $\mytt{heappop}$ we compute those nodes $a$ and $b$ that have the lowest 
             character count and remove them from the heap $H$.
@@ -372,8 +372,8 @@ Frequency &          1 &          2 &          3 &          4 &          5 \\
 \end{table}
 
 We demonstrate Huffman's algorithm by computing  the coding tree that results from a string $s$ containing the
-letters ``\mytt{a}'', ``\mytt{b}'', ``\mytt{c}'', ``\mytt{d}'', and ``\mytt{e}'' where the number of
-occurrence of these letters are given in table \ref{tab:frequency} on page \pageref{tab:frequency}.
+letters ``\mytt{a}'', ``\mytt{b}'', ``\mytt{c}'', ``\mytt{d}'', and ``\mytt{e}'' where the numbers of
+occurrences of these letters are given in Table \ref{tab:frequency} on page \pageref{tab:frequency}.
 \begin{enumerate}
 \item Initially, the set $M$ has the form
       \\[0.2cm]
@@ -393,7 +393,7 @@ occurrence of these letters are given in table \ref{tab:frequency} on page \page
       characters ``\mytt{a}'' and ``\mytt{b}''.   Hence, the pair 
       \\[0.2cm]
       \hspace*{0.3cm}
-      $\langle 3, \mytt{Node}\bigl(\mytt{Leaf}(\mytt{a}) \rangle, \mytt{Leaf}(\mytt{b}) \bigr) \rangle$
+      $\langle 3, \mytt{Node}\bigl(\mytt{Leaf}(\mytt{a}), \mytt{Leaf}(\mytt{b}) \bigr) \rangle$
       \\[0.2cm]
       is inserted into the set  $M$.  The resulting form of $M$ is
       \\[0.2cm]
@@ -407,11 +407,11 @@ occurrence of these letters are given in table \ref{tab:frequency} on page \page
       \hspace*{0.3cm}
       $ \langle 3, \mytt{Node}(\mytt{Leaf}(\mytt{a}), \mytt{Leaf}(\mytt{b})) \rangle \quad \mathrm{and} \quad \langle 3, \mytt{Leaf}(\mytt{c})\rangle$.
       \\[0.2cm]
-      These pairs are removed form $M$ and replaced by 
+      These pairs are removed from $M$ and replaced by 
       \\[0.2cm]
       \hspace*{0.3cm}
       $ \langle 6, \mytt{Node}(
-           \mytt{Node}((\mytt{Leaf}(\mytt{a}), \mytt{Leaf}(\mytt{b})),\; 
+           \mytt{Node}(\mytt{Leaf}(\mytt{a}), \mytt{Leaf}(\mytt{b})),\; 
            \mytt{Leaf}(\mytt{c}))\rangle$. 
       \\[0.2cm]
       Then $M$ is given as
@@ -438,9 +438,9 @@ occurrence of these letters are given in table \ref{tab:frequency} on page \page
       $ \Bigl\{ 
         \langle 6, \mytt{Node}(
            \mytt{Node}(\mytt{Leaf}(\mytt{a}),
-           \mytt{Leaf}(\mytt{b})),\,\mytt{Leaf}(\mytt{c},3))
+           \mytt{Leaf}(\mytt{b})),\,\mytt{Leaf}(\mytt{c}))
         \rangle,\;
-        \langle 9,\mytt{Node}(\mytt{Leaf}(\mytt{d},4), \mytt{Leaf}(\mytt{e},5)) \rangle
+        \langle 9,\mytt{Node}(\mytt{Leaf}(\mytt{d}), \mytt{Leaf}(\mytt{e})) \rangle
         \Bigr\}
            $.      
 \item Now the set $M$ has just two elements.  These are combined into the single node 
@@ -456,7 +456,7 @@ occurrence of these letters are given in table \ref{tab:frequency} on page \page
       \\[0.2cm]
       This node is our result.  Figure 
       \ref{fig:coding-tree2} shows the corresponding coding tree.  Here every node $n$ is labelled with its
-      count.  The resulting encoding is shown in table  \ref{tab:coding2}.
+      count.  The resulting encoding is shown in Table  \ref{tab:coding2}.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -502,7 +502,7 @@ Frequency &          1 &          1 &          2 &          3 &          5 &    
   \label{tab:aufgabe-huffman}
 \end{table}
 
-\item How many bits do we save when we use the Huffman encoding compared to a fixed with encoding?
+\item How many bits do we save when we use the Huffman encoding compared to a fixed width encoding?
       \eox
 \end{enumerate}
 

@@ -4,8 +4,8 @@ implementation of this algorithm, the notion of an \href{https://en.wikipedia.or
 details of concrete data structures.  Therefore, this notion enables us to separate algorithms from the data
 structures used in these algorithms.  This chapter is structured as follows:
 \begin{enumerate}[(a)]
-\item We start with the formal definition of an abstract data types.  
-\item As an example of an abstract data types we introduce
+\item We start with the formal definition of an abstract data type.  
+\item As an example of an abstract data type we introduce
       \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stacks}. 
 \item Then we show how abstract data types are supported in \textsl{Python} via \blue{classes}.  
 \item Next, we demonstrate how stacks can be used to evaluate \blue{arithmetic expressions}.  To this end we build an
@@ -16,14 +16,14 @@ Abstract data types were proposed by
 \href{https://en.wikipedia.org/wiki/Barbara_Liskov}{Barbara Liskov}\footnote{
   Barbara Liskov received the 2008 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
 } \index{Liskov, Barbara}
-and Stephen Zilles in 1974 \cite{liskov:1974}.  Abstract data type are one of the two main ingredients of
+and Stephen Zilles in 1974 \cite{liskov:1974}.  Abstract data types are one of the two main ingredients of
 \blue{object oriented programming}.  They were first implemented in the programming language
-\href{https://en.wikipedia.org/wiki/CLU_(programming_language)}{\textsc{Clu}}. \index{Clu}
+\href{https://en.wikipedia.org/wiki/CLU_(programming_language)}{\textsc{Clu}}. \index{CLU}
 The other ingredient of object oriented programming is \blue{inheritance}.  However, the notion of inheritance
-is not covered in this lecture.  Instead, it is discussed in the second part of the lecture on programming.
+is not covered in this lecture.
 
 \section[Formal Definition]{A Formal Definition of Abstract Data Types}
-We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tupel of the form \index{abstract data type}
+We define an \blue{abstract data type} $\mathcal{D}$ formally as a 5-tuple of the form \index{abstract data type}
 \\[0.2cm]
 \hspace*{1.3cm}
  $\mathcal{D} = \langle N, P, \textsl{Fs}, \textsl{Ts}, \textsl{Ax} \rangle$,
@@ -35,7 +35,7 @@ where the meaning of the components is as follows:
       This string is interpreted as a type variable.  The idea is that we can later substitute 
       a data type for this string. \index{type parameter}
 \item $\textsl{Fs}$ is the set of \blue{function symbols}.  These function symbols denote the 
-      operations that are supported by this abstract data type. The function symbols itself are strings.
+      operations that are supported by this abstract data type. The function symbols themselves are strings.
 \item $\textsl{Ts}$ is a set of \blue{type specifications}.  For every function symbol
       $f \in \textsl{Fs}$
       the set $\textsl{Ts}$ contains a \blue{type specification}\index{type specification} of the form 
@@ -60,25 +60,25 @@ where the meaning of the components is as follows:
 
       Additionally, we must have either $T_1 = N$ or $S = N$.  Therefore, either
       the first argument of $f$ has to be of type $N$ or the result of $f$ has to be of type 
-      $N$, where $N$ is the name of the abstract data types $\mathcal{D}$.  If we have  $T_1 \not= N$ and, therefore,
+      $N$, where $N$ is the name of the abstract data type $\mathcal{D}$.  If we have  $T_1 \not= N$ and, therefore,
       $S = N$, then $f$ is called a \blue{constructor}\index{constructor} of the abstract data type $N$.  
       Otherwise,  $f$ is called a  \blue{method}.\index{method}
-\item $Ax$ is a set of mathematical formulas.   These formulas 
+\item $\textsl{Ax}$ is a set of mathematical formulas.   These formulas 
       specify the behaviour of the abstract data type and are therefore called
       the \blue{axioms} of $\mathcal{D}$.
 \end{enumerate}
-The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \textsc{\blue{Adt}}.
+The notion of an \underline{a}bstract \underline{d}ata \underline{t}ype is often abbreviated as \blue{\textsc{Adt}}.
 \index{ADT}
 Next, we provide a simple example of an abstract data type.
 
 \section{The Abstract Data Type Stack}
-We proceed to discuss the \textsc{Adt} \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack} 
-\index{stack}. 
+We proceed to discuss the \textsc{Adt} \href{https://en.wikipedia.org/wiki/Stack_(abstract_data_type)}{stack}.
+\index{stack}
 Informally, a stack can be viewed as a pile of objects that are put on top of each other, so that
 only the element that is on top of the pile is accessible.  An ostensive example of a stack is a pile of
 plates that can be found in a cafeteria.  Usually, the clean plates are placed on top of each other
 and only the plate on top is accessible.  Formally, we define the abstract data type
-\mytt{Stack}\index{Stack} as follows: 
+\mytt{Stack} as follows: 
 \begin{enumerate}
 \item The name of this abstract data type is \mytt{Stack}.
 \item The set of type parameters is $\{ \mytt{Element} \}$.
@@ -119,7 +119,7 @@ The behaviour of a stack is specified by the following \blue{axioms}.
       Here, $\Omega$ \index{$\Omega$} denotes the undefined value\footnote{
        Some philosophers are concerned that it is not possible to define an undefined value.
        They argue that if an undefined value could be defined, it would be no longer undefined
-       and hence it can not be defined.  However, that is precisely the point of the undefined 
+       and hence it cannot be defined.  However, that is precisely the point of the undefined 
        value: As it cannot be defined, it is undefined. \raisebox{-0.1cm}{\dChangey[1.5][yellow]{2}}}.
        \index{undefined value} \index{$\Omega$, undefined value}
       In \textsl{Python}, $\Omega$ is represented as \mytt{None}. The expression $\mytt{stack}()$
@@ -134,14 +134,14 @@ The behaviour of a stack is specified by the following \blue{axioms}.
       Trying to remove an element from the empty stack yields an undefined result.
 \item $S.\mytt{push}(x).\mytt{pop}() = S$
 
-      If we have a stack $S$, push an element $x$ of top of $S$, and finally remove the element
+      If we have a stack $S$, push an element $x$ on top of $S$, and finally remove the element
       on top of the resulting stack, then we are back at the original stack $S$.
     
-\item $\mytt{stack}().\mytt{isEmpty}() = \mytt{true}$
+\item $\mytt{stack}().\mytt{isEmpty}() = \mytt{True}$
 
       This axiom expresses the fact that the stack created by the function call $\mytt{stack}()$
       is empty.
-\item $S.\mytt{push}(x).\mytt{isEmpty}() = \mytt{false}$
+\item $S.\mytt{push}(x).\mytt{isEmpty}() = \mytt{False}$
 
       If we push an element $x$ on top of a stack $S$, then the resulting stack cannot be empty.
 \end{enumerate}
@@ -247,7 +247,7 @@ discussed next.
       to initialize the \blue{member variables} of this object.  The class \mytt{Stack} uses only one member variable:
       This member variable is called \mytt{mStackElements}.  My convention is to always start member
       variables with the letter '\mytt{m}'.  Another convention is to use the underscore character
-      '\mytt{\_}'.  These conventions facilitates the distinction of member variables from local variables.
+      '\mytt{\_}'.  These conventions facilitate the distinction of member variables from local variables.
 
       In order to create an object of class \mytt{Stack} we invoke the constructor as follows:
       \\[0.2cm]
@@ -256,7 +256,7 @@ discussed next.
       \\[0.2cm]
       This statement creates an uninitialized object (in other words: an empty object) of class \mytt{Stack}
       and then invokes the constructor \mytt{\_\_init\_\_} to initialize the member variable
-      \mytt{mStackElements} as an empty list.  Next, object created is assigned to the variable \mytt{s}.
+      \mytt{mStackElements} as an empty list.  Next, the object created is assigned to the variable \mytt{s}.
 \item Line 3 defines the first (and in this case only) member variable of the class \mytt{Stack}.
       Therefore, every object $o$ of class \mytt{Stack} will have a \blue{member variable} \index{member variable}
       called
@@ -277,9 +277,9 @@ discussed next.
       \mytt{Stack}.  For example, 
       \\[0.2cm]
       \hspace*{1.3cm}
-      \mytt{stack.push}
+      \mytt{Stack.push}
       \\[0.2cm]
-      refers to the method \mytt{push} defined in line 5 and 6. Every object of class
+      refers to the method \mytt{push} defined in lines 5 and 6. Every object of class
       \mytt{Stack} has access to these 
       methods.  For example, if $s$ is an object of class \mytt{Stack}, then we can invoke the
       method \mytt{push} by writing:
@@ -312,7 +312,7 @@ discussed next.
       Then the member variable \mytt{mStackElements} of the object \mytt{self} that was used to invoke
       the method \mytt{copy} is copied into the member variable \mytt{mStackElements} of the object $C$.
 
-      Note that in order to create a copy $C$ a stack object $S$ it is not sufficient to use the assignment statement
+      Note that in order to create a copy $C$ of a stack object $S$ it is not sufficient to use the assignment statement
       \\[0.2cm]
       \hspace*{1.3cm}
       $C = S$
@@ -343,7 +343,7 @@ discussed next.
       In order to understand the implementation of \mytt{\_\_str\_\_} we execute the following statements:
       \\[0.2cm]
       \hspace*{1.3cm}
-      \mytt{s = stack(); s.push(1); s.push(2); s.push(3); print(s)}
+      \mytt{s = Stack(); s.push(1); s.push(2); s.push(3); print(s)}
       \\[0.2cm]
       These statements create an empty stack and push the numbers 1, 2, and 3 
       onto this stack.  Finally, the resulting stack is printed.  The string that is then printed
@@ -433,7 +433,7 @@ higher precedence than the operators ``\mytt{+}'' and ``\mytt{-}'':  For example
 $x+y*z$ is interpreted as $x + (y * z)$.
  Furthermore, the operator
   ``\mytt{**}'' has a precedence that is higher than the precedence
- of any other operators.  The operators
+ of any other operator.  The operators
 ``\mytt{+}'', ``\mytt{-}'', ``\mytt{*}'', ``\mytt{/}'', and ``\mytt{\symbol{37}}''
 \blue{associate to the left}:  An expression of the form 
 \\[0.2cm]
@@ -450,7 +450,7 @@ Our goal is to implement a program that reads and evaluates an arithmetic expres
 
 
 \subsection{A Simple Example}
-Before we dive into to the details of the shunting-yard algorithm, we present a
+Before we dive into the details of the shunting-yard algorithm, we present a
 simple example.  Consider the arithmetic expression 
 \\[0.2cm]
 \hspace*{1.3cm} 
@@ -495,7 +495,7 @@ The evaluation of \mytt{1 + 2 * 3 - 4} proceeds as follows:
 \item Next, the operator \mytt{\symbol{34}+\symbol{34}} is removed from the token stack and is put
       onto the operator stack.  Then we have: \\[0.2cm]
       \hspace*{1.3cm} \mytt{mTokens \ \ \ = [ 4, \symbol{34}-\symbol{34}, 3, \symbol{34}*\symbol{34}, 2 ]}, \\[0.2cm]
-      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]} \\[0.2cm]
+      \hspace*{1.3cm} \mytt{mArguments = [ 1 ]}, \\[0.2cm]
       \hspace*{1.3cm} \mytt{mOperators = [ \symbol{34}+\symbol{34} ]}. 
 \item Now, we remove the number \mytt{2} from the  token stack and put it onto the argument stack.
       We have: \\[0.2cm]
@@ -572,7 +572,7 @@ This technique is also known as \blue{operator precedence parsing}.\index{operat
 The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijkstra}{Edsger Wybe Dijkstra}\footnote{
   Edsger Wybe Dijkstra received the 1972 \href{https://en.wikipedia.org/wiki/Turing_Award}{Turing Award}.
 }
-(1930-2002) in 1961. \index{Dijkstra, Edsger}  The algorithm uses three stacks:
+(1930--2002) in 1961. \index{Dijkstra, Edsger}  The algorithm uses three stacks:
 \begin{enumerate}
 \item The \blue{token stack} contains the tokens that are to be parsed.  For example,
       if the goal is to evaluate the string \texttt{'1+2*3'}, then the token stack has the form:
@@ -584,7 +584,7 @@ The algorithm was discovered by  \href{http://en.wikipedia.org/wiki/Edsger_Dijks
 \item The \blue{operator stack} contains the operators that have to be evaluated.
 \item The \blue{argument stack} contains the arguments for these operators.
 \end{enumerate}
-The algorithm then proceeds be iterating over the items of the token stack and executing the following rules.
+The algorithm then proceeds by iterating over the items of the token stack and executing the following rules.
 \begin{enumerate}
 \item If the token on top of the token stack is an integer, it is removed from the token stack and pushed onto
       the argument stack.
@@ -612,12 +612,12 @@ next section.
 \subsection{Implementation}
 We give a detailed presentation of an implementation of the shunting-yard algorithm next.  To begin with, we
 discuss a couple of auxiliary 
-function that are needed to implement this algorithm.  The first of these functions is the function
-\mytt{toInt}, that is used to convert a string into a natural number, provided the string can be interpreted as a
+functions that are needed to implement this algorithm.  The first of these functions is the function
+\mytt{toInt}, which is used to convert a string into a natural number, provided the string can be interpreted as a
 natural number.  For example, the string \mytt{'123'} is converted into the natural number $123$, while the
 string \mytt{'**'} is returned unchanged.  Figure \ref{fig:toInt.py} on page \pageref{fig:toInt.py} shows the
-implementation of this function:  The function \mytt{int} converts $s$ into a number, provided $s$ the string
-$s$ represents an integer.  Otherwise, an Exception of type \mytt{ValueError} is raised.  This exception is
+implementation of this function:  The function \mytt{int} converts $s$ into a number, provided the string
+$s$ represents an integer.  Otherwise, an exception of type \mytt{ValueError} is raised.  This exception is
 then caught and the string itself is returned.
 
 
@@ -660,7 +660,7 @@ This string is interpreted as follows:
       escaped because it is treated as a literal character.
 \item The regular expression itself is divided into three parts.
       These parts are separated by the character ``\mytt{|}''.  This operator is interpreted as a logical or.
-      Hence, the regular expression matches any of the following type of strings.
+      Hence, the regular expression matches any of the following types of strings.
       \begin{enumerate}
       \item ``\mytt{[0-9]+}'' matches a sequence of digits.  For example, it matches ``\mytt{0}'' or
             ``\mytt{123}''.  It would also match a string like ``\mytt{007}''.
@@ -670,7 +670,7 @@ This string is interpreted as follows:
             Inside of the expression, the ``\mytt{-}'' serves as a \blue{range operator}.
       \item ``\verb|\*\*|'' matches the operator ``\mytt{**}''.  The character ``\mytt{*}'' has to be
             escaped by a backslash character as this character is also used as a quantifier.
-      \item ``\mytt{[()+*/\%-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
+      \item ``\mytt{[()+*\%/-]}'' matches a parenthesis or an arithmetical operator. Note that we have 
             to put the symbol ``\mytt{-}'' last in this group as otherwise this symbol would be 
             interpreted as a \blue{range operator}.
      \end{enumerate}
@@ -706,9 +706,9 @@ Next we fix the data structures that are needed for this algorithm.  The class t
 member variables.
 \begin{enumerate}
 \item \mytt{mTokens} is a stack of input tokens.  The operator symbols and parentheses are
-      represented as strings, while the numbers are represented as rational numbers.  Hence, \mytt{mTokens}
+      represented as strings, while the numbers are represented as integers.  Hence, \mytt{mTokens}
       represents the \blue{token stack}.
-\item \mytt{mArguments} is a stack of rational numbers.  Therefore, \mytt{mArguments} represents the
+\item \mytt{mArguments} is a stack of integers.  Therefore, \mytt{mArguments} represents the
       \blue{argument stack}.
 \item \mytt{mOperators} is the \blue{operator stack} containing arithmetic operators.  These operators
       are represented as strings.
@@ -720,14 +720,14 @@ $o$.  An example will illustrate the concept of \blue{operator precedence}:  The
 is evaluated in the same way as the expression $1 + (2*3)$ and not as the expression $(1+2)*3$ because the
 precedence of the operator ``$*$'' is higher than the precedence of the operator ``$+$''.
 In general we have the following:
-If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\mytt{o}_1$ is at least as high than the 
+If $o_1$ and $o_2$ are different operators and the \emph{precedence} of $\mytt{o}_1$ is at least as high as the 
 \emph{precedence} of $\mytt{o}_2$, then the expression
 \\[0.2cm]
 \hspace*{1.3cm}
 $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ \quad should be evaluated as \quad
 $(a \;\mytt{o}_1\; b) \;\mytt{o}_2\; c$.
 \\[0.2cm]
-on the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
+On the other hand, if the \emph{precedence} of $o_1$ is smaller than the precedence of $o_2$, then the
 expression $a \;\mytt{o}_1\; b \;\mytt{o}_2\; c$ should be evaluated as  $a \;\mytt{o}_1\; (b
 \;\mytt{o}_2\; c)$.  
 The precedences of the arithmetical operators are shown in Table \ref{tab:precedence}.
@@ -761,7 +761,7 @@ The precedences of the arithmetical operators are shown in Table \ref{tab:preced
     \hline\hline
       \mytt{+}, \mytt{-} & 1 \\
     \hline
-      \mytt{*}, \mytt{/} & 2 \\
+      \mytt{*}, \mytt{/}, \mytt{\%} & 2 \\
     \hline
       \mytt{**}           & 3 \\
     \hline
@@ -775,7 +775,7 @@ The expression $\mytt{isLeftAssociative}(o)$ is \mytt{True} iff the operator $o$
 is evaluated as  $(x \;\mytt{o}\; y) \;\mytt{o}\; z$.  If $o$ \blue{associates to the right},
 \index{associate to the right} then the expression  $x \;\mytt{o}\; y \;\mytt{o}\; z$
 is evaluated as  $x \;\mytt{o}\; (y \;\mytt{o}\; z)$ and $\mytt{isLeftAssociative}(o)$
-is \mytt{False}.  From the arithmetical operators that we consider, only the power operator ``\mytt{**}'' 
+is \mytt{False}.  Of the arithmetical operators that we consider, only the power operator ``\mytt{**}'' 
 associates to the right, i.e.~the expression
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -857,8 +857,8 @@ algorithm.  The outline of this class is shown in Figure \ref{fig:Calculator.ipy
 \pageref{fig:Calculator.ipynb}.  The class contains three member variables:
 \begin{enumerate}
 \item \mytt{mTokens} is the token stack.  The constructor initializes this stack by pushing all the tokens
-      read by the tokenizer onto this stack.  As the list of tokens is reversed in the method
-      \mytt{createStack}, the token that has been read first is on top of the stack.
+      read by the tokenizer onto this stack.  As the list of tokens is reversed in the function
+      \mytt{tokenize}, the token that has been read first is on top of the stack.
 \item \mytt{mOperators} is the operator stack.  Initially this stack is empty.
 \item \mytt{mArguments} is the argument stack.  Initially this stack is empty.
 \end{enumerate}
@@ -890,7 +890,7 @@ The implementation of these methods is given later.
   \label{fig:Calculator.ipynb}
 \end{figure} 
 
-The heart of the shunting-yard algorithm is the method evaluate.
+The heart of the shunting-yard algorithm is the method \mytt{evaluate}.
 The function $\mytt{evaluate}(\mytt{self})$ evaluates the expression that is given by the tokens on the
 token stack.  It proceeds in two phases:
 \begin{enumerate}
@@ -900,7 +900,7 @@ token stack.  It proceeds in two phases:
 \item The second phase is the \blue{evaluation phase}.  In this phase,
       the  operators on the operator stack are evaluated.  
 \end{enumerate}
-The easiest way to describe what happens in the \emph{reading phase} via
+The easiest way to describe what happens in the \emph{reading phase} is via
 \blue{rewrite rules} that describe how the three stacks \mytt{mTokens}, \mytt{mArguments} and \mytt{mOperators}
 are changed in each \blue{step} of the algorithm.  Here, a \emph{step} consists of those actions that happen
 once a single token has been removed from the token stack.
@@ -986,7 +986,7 @@ The \blue{rewrite rules} listed below are executed until the token stack is empt
         \mytt{mOperators} = \mytt{mOperatorsRest} + [o_1]                                  & \wedge \\
         \mytt{evalBefore}(o_1, o_2)                                                          & \wedge \\ 
         \mytt{mArguments} = \mytt{mArgumentsRest} + [\mytt{lhs}, \mytt{rhs}]           & \Rightarrow \\[0.2cm]
-        \mytt{mOperators}' = \mytt{mOperatorRest}                                          & \wedge \\
+        \mytt{mOperators}' = \mytt{mOperatorsRest}                                         & \wedge \\
         \mytt{mTokens}' = \mytt{mTokens}                                                   & \wedge \\
         \mytt{mArguments}' = \mytt{mArgumentsRest} + [\mytt{lhs} \;o_1\; \mytt{rhs}]
         \end{array} 
@@ -1096,7 +1096,7 @@ The implementation of the method \mytt{evaluate} is shown in Figure \ref{fig:eva
 Finally, Figure \ref{fig:popAndEvaluate} on page \pageref{fig:popAndEvaluate} shows the implementation of the
 method \mytt{popAndEvaluate}.
 This method removes the two topmost numbers $\mytt{rhs}$ and $\mytt{lhs}$ from the argument stack and,
-furthermore, removes the topmost operator $\mytt{op}$ from the argument stack.  It applies the operator
+furthermore, removes the topmost operator $\mytt{op}$ from the operator stack.  It applies the operator
 $\mytt{op}$ to these numbers 
 by computing the value 
 \\[0.2cm]
@@ -1126,7 +1126,7 @@ In the following exercise, your task is to extend the program for evaluating ari
       interval $[a,b]$ provided that $f(a) < 0$ and $f(b) > 0$.  
 \end{enumerate}
 In \textsl{Python} there is the predefined function \mytt{eval} which can be used to evaluate a string
-containing an expression.  Furthermore, \textsl{Python} has the predefined function \mytt{exec}, that can be
+containing an expression.  Furthermore, \textsl{Python} has the predefined function \mytt{exec}, which can be
 used to execute a command given as a string.  Your program must not use either of these predefined functions,
 for otherwise the exercise would be next to trivial.
 \eox
@@ -1162,14 +1162,14 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        the cost of software development substantially.     
  \item Abstract data types are \blue{exchangeable}.
 
-       In our program for evaluating  arithmetic expressions it is trivial to substitute the given
-       implementation with an array based implementation of stacks that is more efficient.  In general,
+       In our program for evaluating  arithmetic expressions it is trivial to replace the given
+       implementation of stacks by a more efficient one.  In general,
        this enables the following methodology for developing software:  
        \begin{enumerate}
        \item First, an algorithm is implemented using abstract data types.
-       \item The initial implementation of these abstract data may be quite crude and inefficient.
+       \item The initial implementation of these abstract data types may be quite crude and inefficient.
        \item Next, detailed performance tests (known as 
-             \href{http://en.wikipedia.org/wiki/Profiling_(computer_programming)}{profiling)}
+             \href{http://en.wikipedia.org/wiki/Profiling_(computer_programming)}{profiling})
              spot those data types that are performance bottlenecks.
        \item Finally, the implementations of those data types that have been identified as bottlenecks are optimized.
        \end{enumerate}
@@ -1178,9 +1178,9 @@ We finish this chapter with a short discussion of the benefits of abstract data 
        80 percent of the running time of most programs is spent in 20 percent of the code.  It is
        therefore sufficient to optimize the 
        implementation of those data structures that really are performance bottlenecks.  If,
-       instead, we would try to optimize everything we would only achieve the following:
+       instead, we tried to optimize everything we would only achieve the following:
        \begin{enumerate}
-       \item We would waste our time.  There is no point optimizing some function to make it 10 times
+       \item We would waste our time.  There is no point in optimizing some function to make it 10 times
              faster if the program spends less than a millisecond in this function anyway but the
              overall running time is several minutes.
        \item The resulting program would be considerably bigger and therefore more difficult to 
@@ -1196,7 +1196,7 @@ introduced in this chapter.
 \item How have we defined the concept of an \emph{abstract data type} formally?
 \item Can you give the formal definition of the abstract data type \textsl{Stack}?
 \item What are the main benefits of using abstract data types?
-\item Are you able to implement the \blue{shunting yard algorithm} in a language like \mytt{C} or \textsl{Java}.
+\item Are you able to implement the \blue{shunting-yard algorithm} in a language like \mytt{C} or \textsl{Java}?
 \end{enumerate}
 
 

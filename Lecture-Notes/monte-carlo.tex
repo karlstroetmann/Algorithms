@@ -1,5 +1,5 @@
 \chapter{The Monte-Carlo Method}
-Some problems are just too complex to be solved exactly.  Often, these problem can be solved approximately via simulation.
+Some problems are just too complex to be solved exactly.  Often, these problems can be solved approximately via simulation.
 \begin{enumerate}
 \item The computation of the volume of a three-dimensional object can be reduced to the computation of a
       \href{https://en.wikipedia.org/wiki/Multiple_integral}{multiple integral}.
@@ -31,7 +31,7 @@ The \href{https://en.wikipedia.org/wiki/Unit_circle}{unit circle} $U$ is defined
 \hspace*{1.3cm}
 $U := \bigl\{ \pair(x,y) \in \mathbb{R}^2 \mid x^2 + y^2 \leq 1 \bigr\}$.
 \\[0.2cm]
-The set $U$ contains those points $\pair(x,y)$ that have distance of $1$ or less from the origin
+The set $U$ contains those points $\pair(x,y)$ that have a distance of $1$ or less from the origin
 $\pair(0,0)$.  The unit circle is a subset of the square $Q$ that is defined as 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -88,15 +88,14 @@ Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:Mo
       \hspace*{1.3cm}
       $t \mapsto 2 \cdot t - 1$
       \\[0.2cm]
-      maps the interval $[0,1]$ into the interval $[-1, 1]$.  Hence, the coordinates $\mytt{x}$ und
-      $\mytt{y}$ that are computed in the lines 5 and 6 represent a random point $\pair(\mytt{x}, \mytt{y})$ 
+      maps the interval $[0,1]$ into the interval $[-1, 1]$.  Hence, the coordinates $\mytt{x}$ and
+      $\mytt{y}$ that are computed in the lines 4 and 5 represent a random point $\pair(\mytt{x}, \mytt{y})$ 
       in the square $Q$.
-\item Line  7 computes the square of the distance between $\pair(x,y)$ and $\pair(0,0)$.  If this distance is
-      less or equal than 1, then the point $\pair(x,y)$ is inside the unit circle $U$.  In this case, the counter $k$ is incremented.
+\item Line 6 computes the square of the distance between $\pair(x,y)$ and $\pair(0,0)$.  If this distance is
+      less than or equal to 1, then the point $\pair(x,y)$ is inside the unit circle $U$.  In this case, the counter $k$ is incremented.
 \end{enumerate}
 
 \begin{table}[htbp]
-  \label{tab:pi}
   \centering
   \begin{tabular}[t]{|r|r|r|}
   \hline
@@ -123,21 +122,22 @@ Now instead of using grains of sand we can run a simulation.  Figure \ref{fig:Mo
 \hline
   \end{tabular}
   \caption{Results for the approximate computation of $\pi$ using a Monte-Carlo simulation.}
+  \label{tab:pi}
 \end{table}
 
-If we run this program, we get the results shown in table \ref{tab:pi} on page \pageref{tab:pi}.
+If we run this program, we get the results shown in Table \ref{tab:pi} on page \pageref{tab:pi}.
 In order to compute $\pi$ with a precision of $10^{-3}$ we need about $10\,000\,000$ trials.  Given the
 computational power of modern computers this number can be achieved within seconds.  However,  if we need more
 precision, things get harder:  In order to achieve an error less than  $10^{-4}$ we already need
-$1\,000\,000\,000$ trials.  Every time that we want to increase the precision by a factor of ten, we need to
-increase the number of trial by a hundred times!
+$100\,000\,000$ trials.  Every time that we want to increase the precision by a factor of ten, we need to
+increase the number of trials by a factor of a hundred!
 
 
 \begin{center}
 \colorbox{red}{\framebox{\colorbox{orange}{
   \begin{minipage}[t]{12cm}
   Monte-Carlo simulations are efficient as long as only rough estimates are needed.  However, if we need high
-  precision results, the Monte-Carlo method gets inefficient.
+  precision results, the Monte-Carlo method becomes inefficient.
   \end{minipage}
   }}}
 \end{center}
@@ -388,7 +388,7 @@ We discuss the implementation of the function \mytt{calculate\_chances} line by 
             the wavering strategy wins the car.  Hence, the variable \mytt{success\_wavering} has to be incremented.
       \end{enumerate}
 \item The function concludes by printing the results.  Running the function for \mytt{n} equal to
-      $1000\,000$ has yielded the following result:
+      $1\,000\,000$ has yielded the following result:
       \\[0.2cm]
       \hspace*{1.3cm}
       \mytt{The persistent strategy wins 333525 cars.} \\ 
@@ -452,13 +452,13 @@ In order to permute a list $L = [x_1,x_2, \cdots, x_n]$ of length $n$ we disting
 \label{fig:Permutation.ipynb}
 \end{figure}
 
-Figure \ref{fig:Permutation.ipynb} shows the implementation of this idea in Python. The method \texttt{permute} shown
+Figure \ref{fig:Permutation.ipynb} shows the implementation of this idea in \textsl{Python}. The function \mytt{permute} shown
 there creates a random permutation of the list $L$, which is passed as argument. The implementation directly
 implements the equations described above. 
 
 It can be shown that the algorithm presented above actually generates all permutations of a given list with the
 same probability. A proof of this claim can be found, for example, in 
-Cormen et.~al.~\cite{cormen:01}.
+Cormen et al.~\cite{cormen:09}.
 
 
 

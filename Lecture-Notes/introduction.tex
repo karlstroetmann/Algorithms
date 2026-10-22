@@ -4,8 +4,8 @@ This is an introductory class about algorithms and their complexity.
 I intend this class to be quite practical as it may be one of the most important classes for your future
 career.  I would like to give three arguments to substantiate this claim.
 \begin{enumerate}
-\item Five years after their students have graduated, Stanford University 
-      regularly asks their former students to rank those classes that were the most useful for their professional
+\item Five years after its students have graduated, Stanford University
+      regularly asks its former students to rank those classes that were the most useful for their professional
       career.  Together with programming and databases, the class on algorithms consistently ranks highest.
 \item On \href{https://quora.com}{Quora}, the answers to the question
       \\[0.1cm]
@@ -34,8 +34,9 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       implements a function $f$ computing the  value $f(x)$ for a given argument $x$.  It is also important  
       that the computation of $f(x)$ does not consume too much \blue{time}, \blue{memory}, or \blue{energy}.
       Hence, we have to develop \blue{efficient} algorithms.  In order to be able to discuss the concept of
-      \blue{efficiency} we need to discuss the \blue{growth rate} of functions.  This notation is useful to abstract from
-      unimportant details when discussing the runtime of algorithms.  
+      \blue{efficiency} we need to discuss the \blue{growth rate} of functions.  The big $\Oh$ notation, which
+      describes the growth rate of a function, is useful to abstract from unimportant details when discussing the
+      runtime of algorithms.
 \item Recurrence Relations
 
       The notion of a \href{http://en.wikipedia.org/wiki/Recurrence_relation}{recurrence relation}
@@ -48,7 +49,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       $a_{n+2} = a_{n+1} + a_n$
       \\[0.2cm]
       is a recurrence relation.  Together with the initial values $a_0 = 0$ and $a_1 = 1$, this equation
-      defines a sequence of natural numbers.  The numbers $a_n$ for $n = 1,\cdots,8$ are given as follows:
+      defines a sequence of natural numbers.  The numbers $a_n$ for $n = 0,\cdots,8$ are given as follows:
       \\[0.2cm]
       \hspace*{1.3cm}
       $a_0 = 0$, $a_1 = 1$, $a_2 = 1$, $a_3 = 2$, $a_4 = 3$, $a_5 = 5$, $a_6 = 8$, $a_7 = 13$, $a_8 = 21$. 
@@ -62,19 +63,19 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       Recurrence relations occur naturally when analysing the runtime of algorithms.  We present the 
       \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem} that can
       be used to compute the growth of \blue{recursive} functions.
-% \item \blue{Correctness} of algorithms
-      
-%       An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
-%       of an algorithm.
-%       \begin{enumerate}
-%       \item We first demonstrate the method of \blue{computational induction}.
-%             This method can be used to prove the correctness of recursive functions.
-%       \item Then we demonstrate the method of \blue{symbolic execution}, which can be used to verify functions
-%             that are implemented with the help of loops.
-%       \end{enumerate}
+\item \blue{Correctness} of algorithms
+
+      An algorithm is useless unless it is correct.  We discuss two methods to verify the correctness
+      of an algorithm.
+      \begin{enumerate}
+      \item We first demonstrate the method of \blue{computational induction}.
+            This method can be used to prove the correctness of recursive functions.
+      \item Then we demonstrate the method of \blue{symbolic execution}, which can be used to verify functions
+            that are implemented with the help of loops.
+      \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Sorting_algorithm}{Sorting algorithms}
 
-      Sorting algorithm are among those algorithms that are most frequently used in practice.  Furthermore,
+      Sorting algorithms are among those algorithms that are most frequently used in practice.  Furthermore,
       these algorithms are both easy to understand and easy to analyse.  Therefore, we start our discussion of
       algorithms and their complexity with these algorithms.  In this lecture, we discuss the following
       sorting algorithms: 
@@ -98,7 +99,7 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
 
 \item \href{http://en.wikipedia.org/wiki/Map_(computer_science)}{Dictionaries} and \href{https://en.wikipedia.org/wiki/Set_(mathematics)}{sets}
   
-      A \blue{dictionary} is a data structures that can be used to implement a function on a finite domain.
+      A \blue{dictionary} is a data structure that can be used to implement a function on a finite domain.
       For example, a telephone book can be viewed as a function mapping names to telephone numbers.
       Most high level programming languages provide dictionaries as basic data structures.  We discuss various data
       structures that can be used to implement dictionaries efficiently.   
@@ -111,32 +112,33 @@ This lecture covers the design and the analysis of algorithms.  We will discuss 
       Therefore, our discussion of \blue{graph theory} is preceded by a chapter on priority queues.
 \item \blue{Data compression}
 
-      There are basically two algorithms for loss-less data compression: The algorithm of Lempel, Ziv, and
+      There are basically two algorithms for lossless data compression: The algorithm of Lempel, Ziv, and
       Welch and \blue{Huffman's} algorithm.  For reasons of space we will only discuss the latter algorithm.
 \item \href{http://en.wikipedia.org/wiki/Graph_theory}{Graph theory}
   
       This chapter discusses the following graph algorithms:
       \begin{enumerate}
-      \item \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
-            for computing all shortest paths in a graph that start at a given node,
-      \item \href{http://en.wikipedia.org/wiki/breadth_first_search}{breadth first search} for computing
-            the shortest path between two nodes of a graph,           
       \item an algorithm to solve the \blue{union-find problem}\footnote{
               The \blue{union-find problem} is the problem to compute the smallest \blue{equivalence relation}
               that is generated by a given binary relation. We need to solve this problem in order to be able
               to implement Kruskal's algorithm.
             },
       \item \href{https://en.wikipedia.org/wiki/Kruskal%27s_algorithm}{Kruskal's algorithm} for finding the
-            \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph, and
+            \href{https://en.wikipedia.org/wiki/Minimum_spanning_tree}{minimum spanning tree} of a graph,
+      \item the \href{https://en.wikipedia.org/wiki/Bellman-Ford_algorithm}{Bellman-Ford algorithm} and
+            \href{http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{Dijkstra's algorithm}
+            for computing all shortest paths in a graph that start at a given node, and
       \item \blue{topological sorting}.
       \end{enumerate}
 \item \href{http://en.wikipedia.org/wiki/Monte_Carlo_method}{Monte Carlo Method} 
  
       Many important problems either do not have an exact solution at all or the computation of an
       exact solution would be prohibitively expensive.  In these cases it is often possible to use 
-      \blue{random simulations} in order to get an approximate solution.  As a concrete example we will show
-      how certain probabilities in \href{http://en.wikipedia.org/wiki/Texas_hold_%27em}{Texas hold 'em} 
-      poker can be determined approximately with the help of the \blue{Monte Carlo method}.
+      \blue{random simulations} in order to get an approximate solution.  As concrete examples we will use the
+      \blue{Monte Carlo method} to approximate the number $\pi$ and to solve the
+      \href{https://en.wikipedia.org/wiki/Monty_Hall_problem}{Monty Hall problem}.  Furthermore, we show how a
+      list can be permuted randomly.  This is needed when computing probabilities in card games like
+      \href{http://en.wikipedia.org/wiki/Texas_hold_%27em}{Texas hold 'em} poker via simulation.
 \end{enumerate}
 The primary goal of these lectures on algorithms is not to teach as many algorithms as possible.
 Instead, my goal is to enable you to \blue{think} algorithmically:  At the end of these
@@ -203,21 +205,20 @@ Before we start with our discussion of algorithms we should think about our goal
 algorithms.  
 \begin{enumerate}[(a)]
 \item Algorithms have to be \blue{correct}.
-\item Algorithms should be \blue{efficient} with respect to both \blue{computing time}, \blue{memory}, and,
-      last not least, \blue{energy consumption}.
+\item Algorithms should be \blue{efficient} with respect to \blue{computing time}, \blue{memory}, and,
+      last but not least, \blue{energy consumption}.
 \item Algorithms should be \blue{simple}.
 \end{enumerate}
 The first goal in this list is so self-evident that it is often overlooked.  The
 importance of the last goal might not be as obvious as the other goals.
 However, the reason for the last goal is \blue{economical}:  If it takes very long to code an algorithm, the
 cost of the implementation might well be unaffordable.  Furthermore, even if the time budget to implement an
-algorithm is next to unlimited,  there is another reasons to strife for simple algorithms:  If the conceptual
+algorithm is next to unlimited,  there is another reason to strive for simple algorithms:  If the conceptual
 complexity of an algorithm is too high, maintenance might become a nightmare and it might be impossible to
 guarantee the correctness of the implementation.  Therefore, the third goal is strongly related to the first goal.  
 
 \section{Literature}
-These lecture notes are intended to be the main source for my lecture.  Additionally, I want
-to mention those books that have inspired me the most.
+In this section I want to mention those books on algorithms that have inspired me the most.
 \begin{enumerate}
 \item \textsl{Robert Sedgewick}: \href{https://www.amazon.com/Algorithms-4th-Robert-Sedgewick/dp/032157351X}{Algorithms}, 
       fourth edition, Pearson, 2011, \cite{sedgewick:11}.
@@ -229,7 +230,7 @@ to mention those books that have inspired me the most.
       \href{https://www.coursera.org/}{coursera.org}.  This course is based on this book.  Furthermore, all
       the algorithms discussed in this book are implemented in \textsl{Java}, so reading this book
       also strengthens your knowledge of \textsl{Java}.
-\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcraft}, and \textsl{Jeffrey D.~Ullman}:
+\item \textsl{Alfred V.~Aho}, \textsl{John E.~Hopcroft}, and \textsl{Jeffrey D.~Ullman}:
       \blue{Data Structures and Algorithms}, Addison-Wesley, 1987, \cite{aho:87}.
       
       This book is a bit dated now but it is one of the classics on algorithms.  It discusses algorithms at an
@@ -237,7 +238,7 @@ to mention those books that have inspired me the most.
 \item \textsl{Thomas H.~Cormen}, \textsl{Charles E.~Leiserson}, 
       \textsl{Ronald L.~Rivest}, and \textsl{Clifford Stein}:
       \href{https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844}{Introduction to Algorithms}, 
-      third edition, MIT Press, 2009, \cite{cormen:09}
+      third edition, MIT Press, 2009, \cite{cormen:09}.
 
       Due to the level of detail and the number of algorithms given, this
       \href{https://en.wikipedia.org/wiki/Introduction_to_Algorithms}{book} can be viewed as a reference work. 
@@ -253,44 +254,15 @@ to mention those books that have inspired me the most.
       from \href{http://theory.stanford.edu/~tim/}{Professor Roughgarden}
       available at \href{https://www.coursera.org/}{coursera.org}.
 \end{enumerate}
-However, none of these books is required.  You should be able to pass the exam just fine if you read my lecture notes.
-
-\section{A Final Remark}
-There is one final remark I would like to make at this point:  Frequently, I get questions from
-students concerning the exam. \index{exam} While I will most gladly \dChangey[1.5][yellow]{2} answer these questions, I should warn you
-that, unfortunately 50\%
-of the time, my answers will be flat out \red{lies} \dChangey[1.5][red]{-2}.  The other 50\%,
-my answers will be some \blue{random rubbish} \dVomey[2][green!80!black][brown].  Please bear that in mind when evaluating my answers. 
-
-\section{A Request}
-Computer science is a very active field of research.  Furthermore, my comprehension of the English
-language is improving steadily, at least that is what I hope.  Therefore, these lecture notes are constantly
-evolving and hence might contain typos or even mistakes.  If you find a problem,
-please take the time and either send me an email or a message on
-\href{https://discordapp.com/users/110511107520643072}{discord}.  My email address is 
-\\[0.2cm]
-\hspace*{1.3cm}
-\href{mailto:karl.stroetmann@dhbw-mannheim.de}{karl.stroetmann@dhbw-mannheim.de}.
-\\[0.2cm]
-If you are familiar with \href{http://github.com}{\texttt{github}}, you might even consider
-sending me a \href{https://help.github.com/articles/using-pull-requests}{pull request}.
-
-Finally, if you have any questions regarding the material presented in this course, you are
-welcome to ask questions either by \href{mailto:karl.stroetmann@dhbw-mannheim.de}{email} or
-\href{https://discordapp.com}{discord}.  If you think that others might
-have the same question, it is best if you ask your question via the \href{https://discordapp.com}{discord}
-server that I am using as a discussion forum for this lecture.  All your questions are welcome since they give
-me valuable feedback  \blue{\st{how stupid you really are}} to improve my lecture. 
+However, none of these books is required in order to understand these lecture notes.
 
 \section{Check Your Understanding}
 After reading this chapter you should be able to answer the following questions.
 \begin{enumerate}[(a)]
-\item What reasons do I have to assume that this lecture is more important than other lectures that you will be
-      attending in this semester.
+\item Why is the study of algorithms important for your professional career?
 \item What are the most important features of an algorithm?
 \item What is the difference between an algorithm and a program?
 \item Where can you find the programs discussed in this lecture?
-\item Which books do you need to read to be able to pass the exam?
 \item Which algorithm is probably not the best choice if you have to sort a million 32-bit integers? 
 \end{enumerate}
 

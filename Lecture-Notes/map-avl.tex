@@ -1,5 +1,5 @@
 \section{AVL Trees}
-If a binary tree is approximately \blue{balanced}, that is~if the left and right subtree of a binary tree $b$  have
+If a binary tree is approximately \blue{balanced}, that is, if the left and right subtree of a binary tree $b$  have
 roughly the same height, then the complexity of $b.\mytt{find}(k)$ will always be of the order
 $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
@@ -91,7 +91,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
       $\mytt{Node}\bigl(k_2,v_2,l_2,\mytt{Node}(k_1,v_1,r_2,r_1)\bigr)$.
       \\[0.2cm]
       In Figure \ref{fig:casell} the labels below the horizontal line of each node show the heights
-      of the trees corresponding to these node and not their values, because the values are irrelevant when it comes
+      of the trees corresponding to these nodes and not their values, because the values are irrelevant when it comes
       to rebalancing the trees.  For subtrees, the height is given below the name of
       the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
@@ -102,7 +102,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
 
       \begin{figure}[!ht]
         \centering
-        \framebox{\epsfig{file=Abbildungen/casell.eps,scale=0.63}} 
+        \framebox{\epsfig{file=Abbildungen/casell.eps,scale=0.59}} 
         \caption{An unbalanced tree and the corresponding rebalanced tree.}
         \label{fig:casell}
       \end{figure}
@@ -117,7 +117,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
       \item Second, the node containing the key $k_1$ is balanced because the heights of $r_2$ and $r_1$ differ
             at most by one.
       \end{enumerate}
-      In order to verify that the tree is ordered we can use the following inequation: 
+      In order to verify that the tree is ordered we can use the following chain of inequalities:
       \\[0.2cm]
       \hspace*{1.3cm}
       $l_2 < k_2 < r_2 < k_1 < r_1$. 
@@ -127,7 +127,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
       \hspace*{1.3cm} $k < b$ \\[0.2cm]
       in order to express that  $k$ is smaller than all keys that occur in the tree  $b$.
       Similarly,  $b < k$ denotes the fact that all keys occurring in $b$ are less than the key
-      $k$.  The inequation  $(\star)$ describes both the ordering of keys in the left part of Figure
+      $k$.  The chain of inequalities $(\star)$ describes both the ordering of keys in the left part of Figure
       \ref{fig:casell} and in the right part of this figure.  Hence, the tree shown in the right
       part of Figure \ref{fig:casell} is ordered provided the tree in the left part is ordered to begin with.
 \item $\begin{array}[t]{cl}
@@ -144,7 +144,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
        \pageref{fig:caselr}.  This tree can be written as
        \\[0.2cm]
        \hspace*{1.3cm} 
-       $\mytt{Node}\bigl(k_1,v_1,\mytt{Node}(k_2,v_2,l_2,\mytt{Node}\bigl(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$. 
+       $\mytt{Node}\bigl(k_1,v_1,\mytt{Node}\bigl(k_2,v_2,l_2,\mytt{Node}(k_3,v_3,l_3,r_3)\bigr),r_1\bigr)$. 
        \\[0.2cm]
        The subtrees $l_3$ and $r_3$ have either the height  $h$ or $h-1$.  Furthermore, at least one
        of these subtrees must have the height  $h$ for otherwise the subtree
@@ -166,17 +166,17 @@ The method $\mytt{restore}$ is specified via conditional equations.
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/caselr-nach.eps,scale=0.7}} 
+  \framebox{\epsfig{file=Abbildungen/caselr-nach.eps,scale=0.66}} 
   \caption{The rebalanced tree in the second case.}
   \label{fig:caselr-nach}
 \end{figure}
 
-      The inequation describing the ordering of the keys both in the tree in Figure \ref{fig:caselr} and the
+      The chain of inequalities describing the ordering of the keys both in the tree in Figure \ref{fig:caselr} and the
       tree in Figure \ref{fig:caselr-nach} is given as
       \\[0.2cm]
       \hspace*{1.3cm} $l_2 < k_2 < l_3 < k_3 < r_3 < k_1 < r_1$.
 
-      There are two more cases where the height of the right subtree is bigger by more than 
+      There are two more cases where the height of the right subtree is bigger than 
       the height of the left subtree plus one.  These two cases are completely analogous to the two
       cases discussed previously.  The derivation of the corresponding equations is left as an exercise.
 \end{enumerate}
@@ -184,7 +184,7 @@ The method $\mytt{restore}$ is specified via conditional equations.
 \exercise
 Derive the two equations to compute $\mytt{Node}(k_1,v_1,l_1,r_1).\mytt{restore}()$ that have the
 precondition $r_1.\mytt{height}() = l_1.\mytt{height}() + 2$.  You should start your derivation of these
-equations by drawing diagrams that are analogous to the diagrams shown Figure \ref{fig:casell}, Figure
+equations by drawing diagrams that are analogous to the diagrams shown in Figure \ref{fig:casell}, Figure
 \ref{fig:caselr}, and Figure \ref{fig:caselr-nach}. 
 \eox
 
@@ -230,7 +230,7 @@ Finally, the equations for $\mytt{delete}$ are as follows:
 \subsection{Implementing AVL-Trees in \textsl{Python}}
 If we want to implement \textsc{Avl}-trees in \textsl{Python}, then we have to decide how to compute the height
 of the trees.  The idea is to store the height of every subtree in the corresponding node since it
-would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
+would be inefficient if we had to recompute this height every time we need it.  Therefore, we add a
 member variable \mytt{mHeight} to our class \mytt{AvlTree}.
 Figure \ref{fig:avl-tree.ipython:init} shows the constructor of the class \mytt{AvlTree}.  The variable
 \mytt{mHeight} is defined in line 7.  It is initialised as $0$ since the constructor \mytt{\_\_init\_\_}
@@ -255,7 +255,7 @@ constructs an empty tree.
             self.mHeight = 0 
 \end{minted}
 \vspace*{-0.3cm}
-  \caption{Outline of the class \mytt{map}.}
+  \caption{Outline of the class \mytt{AvlTree}.}
   \label{fig:avl-tree.ipython:init}
 \end{figure}
 
@@ -277,7 +277,7 @@ A tree is empty iff its height is $0$.
         return self.mHeight == 0
 \end{minted}
 \vspace*{-0.3cm}
-\caption{Implementation of the method $\mytt{isEmpyty}$.}
+\caption{Implementation of the method $\mytt{isEmpty}$.}
 \label{fig:avl-tree.ipython:isEmpty}
 \end{figure}
 \pagebreak
@@ -458,12 +458,12 @@ Compared with Figure
         self.mHeight = t.mHeight            
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The method $\mytt{update}$ for \textsc{Avl} trees.}
+\caption{The method $\mytt{\_update}$ for \textsc{Avl} trees.}
 \label{fig:avl-tree.ipython:update}
 \end{figure}
 
-Figure \ref{fig:avl-tree.ipython:update} shows the implementation of the method $\mytt{update}$.
-Since the method \mytt{update} replaces the current tree with either its left or right subtree and this
+Figure \ref{fig:avl-tree.ipython:update} shows the implementation of the method $\mytt{\_update}$.
+Since the method \mytt{\_update} replaces the current tree with either its left or right subtree and this
 subtree is assumed to satisfy the balancing condition, there is no need for a call to \mytt{restore} in this
 method. 
 \FloatBarrier
@@ -540,7 +540,7 @@ us discuss this method line by line.
       two than the height of the right subtree.  In order to be able to use the same variable names 
       as the variable names given in the equations discussed in the previous subsection, we define
       the variables \mytt{k1}, \mytt{v1}, \mytt{l1}, \mytt{r1}, \mytt{k2}, \mytt{v2}, \mytt{l2},
-      and \mytt{r2} in line 6 and 7 so that these variable names correspond exactly to the variable names
+      and \mytt{r2} in lines 6 and 7 so that these variable names correspond exactly to the variable names
       used in the Figures \ref{fig:casell} and \ref{fig:caselr}.
 \item Next, the test in line 8 checks whether we have the case that is depicted in Figure
       \ref{fig:casell}.  In this case, Figure \ref{fig:casell} tells us that the key \mytt{k2}
@@ -548,14 +548,14 @@ us discuss this method line by line.
       new node that has the key \mytt{k1} at its root.  This new node is created by the call
       of the function \mytt{createNode} in line 9.  The function \mytt{createNode} is shown in
       Figure \ref{fig:avl-tree.ipython:createNode} on page \pageref{fig:avl-tree.ipython:createNode}.
-\item If the test in line 8 fails, the right subtree is bigger than the left subtree and we are in 
+\item If the test in line 8 fails, the subtree \mytt{r2} is higher than the subtree \mytt{l2} and we are in
       the case that is depicted in Figure \ref{fig:caselr}.  We have to create the tree that is
       shown in Figure \ref{fig:caselr-nach}.  To this end we first define the variables 
       \mytt{k3}, \mytt{v3}, \mytt{l3}, and \mytt{r3} in a way that these variables
       correspond to the variables shown in Figure \ref{fig:caselr}.  Next, we create the tree
       that is shown in Figure \ref{fig:caselr-nach}.
 \item Line 14 deals with the case that the right subtree is bigger than the left subtree. 
-      As this case is analogous to the case covered in line 5 to line 13, we won't discuss this case
+      As this case is analogous to the case covered in lines 5 to 13, we won't discuss this case
       any further.
 \item Finally, we recompute the variable \mytt{mHeight} since it is possible that the old value is
       no longer correct.
@@ -589,7 +589,7 @@ us discuss this method line by line.
 
 The function \mytt{createNode} shown in Figure \ref{fig:avl-tree.ipython:createNode}
 constructs a node with given left and right subtrees.  In fact, this method serves as a second
-constructor for the class \mytt{map}.  The implementation should be obvious.
+constructor for the class \mytt{AvlTree}.  The implementation should be obvious.
 
 
 \subsection{Analysis of the Complexity of AVL Trees}
@@ -602,8 +602,8 @@ possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an \tex
 properties:
 \begin{enumerate}[(a)]
 \item The height of $b_h(k)$ is $h$.
-\item The number of keys stored in $b_h(k)$ is minimal among all other \textsc{Avl} trees of height $h$.  
-\item All keys stored in  $b_h(k)$ are natural number that are bigger than  $k$.
+\item The number of keys stored in $b_h(k)$ is minimal among all \textsc{Avl} trees of height $h$.  
+\item All keys stored in  $b_h(k)$ are natural numbers that are bigger than  $k$.
 
       In order for the expression $b_h(k)$ to be unambiguously defined we demand that the keys
       in $b_h(k)$ are natural numbers that are as small as possible.  Furthermore, as the values do
@@ -640,10 +640,10 @@ Now we are ready to define the tree $b_h(k)$ by induction on  $h$.
 
       In order to construct an \textsc{Avl} tree of height $h+2$ that contains the minimal number of keys 
       we first construct the \textsc{Avl} tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
-      key as possible given its height.  Next, we determine the biggest key $l$ in this tree. 
+      keys as possible given its height.  Next, we determine the biggest key $l$ in this tree. 
       Now to construct $b_{h+2}(k)$ we take a node with the key $l+1$ as the root.
-      The left subtree $b_{h+2}(k)$ is $b_{h+1}(k)$, while its right subtree is $b_h(l+1)$.
-      Since $l$ is the biggest key in $b_{h+1}(k)$, all key in the left subtree of
+      The left subtree of $b_{h+2}(k)$ is $b_{h+1}(k)$, while its right subtree is $b_h(l+1)$.
+      Since $l$ is the biggest key in $b_{h+1}(k)$, all keys in the left subtree of
       $b_{h+2}(k)$ are indeed smaller than the key $l+1$ at the root.  Since all keys in
       $b_h(l+1)$ are bigger than $l+1$, the keys in the right subtree are bigger than the key at the
       root.  Therefore, $b_{h+2}(k)$ is an \textsc{Avl} tree.
@@ -795,7 +795,7 @@ As we have  $|\lambda_2| < 1$, the value of  $\ds\lambda_2^{h+2}$ isn't importan
 values of $h$.  Therefore, for big values of $h$, the minimal number  $n$ of keys in a tree of
 height  $h$ is approximately given by the formula \\[0.2cm]
 \hspace*{1.3cm} $n \approx \ds \frac{1}{\sqrt{5}} \cdot \lambda_1^{h+2} - 1$. \\[0.2cm]
-In order to solve this equation for  $h$ we take the logarithm of both side.  Then we have
+In order to solve this equation for  $h$ we take the logarithm of both sides.  Then we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\log_2(n+1) = (h+2) \cdot \log_2(\lambda_1) - \frac{1}{2}\cdot \log_2(5)$.
@@ -805,7 +805,7 @@ Adding  $\frac{1}{2}\cdot \log_2(5)$ gives
 \hspace*{1.3cm}
 $\log_2(n+1) + \frac{1}{2}\cdot \log_2(5) = (h+2) \cdot \log_2(\lambda_1)$.
 \\[0.2cm]
-Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
+Let us divide this equation by  $\log_2(\lambda_1)$.  Then we get
 \\[0.4cm]
 \hspace*{1.3cm}
 $\ds \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
@@ -817,7 +817,7 @@ $
 \begin{array}[t]{lcl}
 h & = & \ds \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} - 2 \\[0.4cm]
   & = & \ds \frac{1}{\log_2(\lambda_1)}\cdot \log_2(n) + \Oh(1) \\[0.5cm]
-  & \approx & 1,44 \cdot \log_2(n) + \Oh(1).
+  & \approx & 1.44 \cdot \log_2(n) + \Oh(1).
 \end{array} 
 $
 \\[0.2cm]
@@ -843,158 +843,33 @@ Figure
 \subsection{Improvements}
 In practice, 
 \href{https://en.wikipedia.org/wiki/Red-black_trees}{red-black trees} \index{red-black tree}
-are slightly faster than \textsc{\textsc{Avl}} trees.  Similar to
-\textsc{\textsc{Avl}} trees, a  red-black tree
+are slightly faster than \textsc{Avl} trees.  Similar to
+\textsc{Avl} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red node have to be black.  In order to keep red-black trees approximately
 balanced, a \blue{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
 height of a tree.  The left and right subtree of every node of a red-black tree are required to have the same 
 relaxed height.  A detailed and very readable exposition of red-black trees is given by Sedgewick
-\cite{sedgewick:2011}.  Red-black trees have been invented by Leonidas L.~Guibas and 
+\cite{sedgewick:11}.  Red-black trees were invented by Leonidas L.~Guibas and 
 \href{https://en.wikipedia.org/wiki/Robert_Sedgewick_(computer_scientist)}{Robert Sedgewick} \cite{guibas:78}.
-
-\exercise
-Instead of using \textsc{Avl} trees, another alternative to implement a map is to use 
-\href{https://en.wikipedia.org/wiki/2-3_tree}{2-3 trees}.  \index{2-3 tree}
-Below we describe a simplified version of these trees.  These trees do not store any values.  Hence, instead
-of implementing maps, these trees implement sets. They are built using the following constructors:
-\begin{enumerate}
-\item $\mytt{Nil}$ is a 2-3 tree that represents the empty set.
-\item $\mytt{Two}(l, k, r)$ is a 2-3 tree provided
-      \begin{enumerate}[(a)]
-      \item $l$ is a 2-3 tree,
-      \item $k$ is a key,
-      \item $r$ is a 2-3 tree,
-      \item all keys stored in $l$ are less than k and all keys stored in $r$ are bigger than $k$,
-            that is~we have
-            \\[0.2cm]
-            \hspace*{1.3cm}
-            $l < k < r$.
-      \item $l$ and $r$ have the same height.
-      \end{enumerate}
-      A node of the form  $\mytt{Two}(l, k, r)$ is called a \blue{2-node}.  Except for the fact
-      that there is no value, a 2-node is
-      interpreted in the same way as we have interpreted the term $\mytt{Node}(k, v, l, r)$.
-\item $\mytt{Three}(l, k_1, m, k_2, r)$ is a 2-3 tree provided
-      \begin{enumerate}[(a)]
-      \item $l$, $m$, and $r$ are 2-3 trees,
-      \item $k_1$ and $k_2$ are keys,
-      \item $l < k_1 < m < k_2 < r$,
-      \item $l$, $m$, and $r$ have the same height.
-      \end{enumerate}
-      A node of the form  $\mytt{Three}(l, k_1, m, k_2, r)$ is called a \blue{3-node}.
-\end{enumerate}
-In order to keep 2-3 trees balanced when inserting new keys, we use a fourth constructor of the form
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$.
-\\[0.2cm]
-A term of the form $\mytt{Four}(l,k_1,m_l, k_2, m_r, k_3, r)$ is a \blue{2-3-4} tree iff
-\begin{enumerate}
-\item $l$, $m_l$, $m_r$, and $r$ are 2-3 trees,
-\item $k_1$, $k_2$, and $k_3$ are keys,
-\item $l < k_1 < m_l < k_2 < m_r < k_3 < r$,
-\item $l$, $m_l$, $m_r$, and $r$ all have the same height.
-\end{enumerate}
-Nodes of this form are called 4-nodes and the key $k_2$ is called the \blue{middle key}.
-Trees containing 4-nodes are called \blue{2-3-4} trees.
-When a new key is inserted into a 2-3 tree, the challenge is to keep the tree balanced.  The easiest
-case is the case where the tree has the form
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Two}(\mytt{Nil}, k, \mytt{Nil})$.
-\\[0.2cm]
-In this case, the 2-node is converted into a 3-node.  If the tree has the form 
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Three}(\mytt{Nil}, k_1, \mytt{Nil}, k_2, \mytt{Nil})$,
-\\[0.2cm]
-the 3-node is temporarily transformed into a 4-node.  Next, the middle key of this node is lifted up
-to its parent node.  For example, suppose we insert the key 3 into the tree
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Two}(\mytt{Two}(\mytt{Nil}, 1, \mytt{Nil}), 2, \mytt{Three}(\mytt{Nil}, 4, \mytt{Nil}, 5, \mytt{Nil}))$.
-\\[0.2cm]
-In this case, the key 3 needs to be inserted to the left of the key 4.  This yields the temporary tree 
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Two}(\mytt{Two}(\mytt{Nil}, 1, \mytt{Nil}), 2, \mytt{Four}(\mytt{Nil}, 3, \mytt{Nil}, 4, \mytt{Nil}, 5, \mytt{Nil}))$,
-\\[0.2cm]
-where the right subtree is the 4-node $\mytt{Four}(\mytt{Nil}, 3, \mytt{Nil}, 4, \mytt{Nil}, 5, \mytt{Nil})$.
-Since this is not a 2-3 tree, we need to lift the middle key 4 to its parent node.  This results in
-the new tree
-\\[0.2cm]
-\hspace*{1.3cm}
-$\mytt{Three}(\mytt{Two}(\mytt{Nil}, 1, \mytt{Nil}), 2, \mytt{Two}(\mytt{Nil}, 3, \mytt{Nil}), 4, \mytt{Two}(\mytt{Nil}, 5, \mytt{Nil}))$.
-\\[0.2cm]
-This tree is a 2-3 tree.  In this example we have been lucky since the parent of the 4-node was
-a 2 node and therefore we could transform it into a 3-node.  If the parent node instead is a 3-node,
-it has to be transformed into a temporary 4-node.  Then, the middle key of this 4-node has to be
-lifted up recursively to its parent.  
-\begin{enumerate}[(a)]
-\item Specify a method $t.\mytt{member}(k)$ that checks whether the key $k$ occurs in the 2-3 tree
-      $t$.  You should use recursive equations to specify  $t.\mytt{member}(k)$.
-\item Specify a method $t.\mytt{insert}(k)$ that inserts the key $k$ into the 2-3 tree
-      $t$.  You should use three auxiliary functions to implement \mytt{insert}:
-      \begin{enumerate}
-      \item $t.\mytt{ins}(k)$ takes a 2-3 tree $t$ and a key $k$ and inserts the key $k$ into $t$.
-            It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
-            The function \mytt{ins} is recursive and uses the function \mytt{restore} that is described next.
-            Furthermore, the height of the tree $t.\mytt{ins}(k)$ has to be the same as the height of the tree $t$.
-      \item $t.\mytt{restore}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be a child
-            of the root.  It returns a 2-3-4 tree that has at most one 4-node.  This 4-node has to be the root node.
-            Furthermore, the height of the tree $t.\mytt{restore}()$ has to be the same as the height of the tree $t$.
-      \item $t.\mytt{grow}()$ takes a 2-3-4 tree $t$ that has at most one 4-node, which has to be the root
-            node of the tree.  It returns an equivalent 2-3 tree.  The height of this tree is either the same
-            as the height of $t$ or it is the height of $t$ plus $1$.
-      \end{enumerate}
-      Having defined these auxiliary functions, the function \mytt{insert} can then be computed as follows:
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $t.\mytt{insert}(k) = t.\mytt{ins}(k).\mytt{restore}().\mytt{grow}()$.
-\item Implement 2-3 trees in \textsl{Python}.
-\item \textbf{Optional}: Specify a method $t.\mytt{delete}(k)$ that deletes the key $k$ in the tree $t$.
-
-      In order to implement the function \mytt{delete}, it is necessary to define 1-2-3 trees.
-      In addition to both 2-nodes and 3-nodes, these trees also have 1-nodes.  These nodes come into existence
-      when a key is deleted from a 2-node:  Deleting the key $k$ from the node
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\mytt{Two}(\mytt{Nil}, k, \mytt{Nil})$
-      \\[0.2cm]
-      creates the 1-node $\mytt{One}(\mytt{Nil})$.
-\end{enumerate}
-Prof. Lyn Turbak has written a helpful
-\href{http://www.cs.princeton.edu/~dpw/courses/cos326-12/ass/2-3-trees.pdf}{paper} describing 2-3 trees in more
-depth.  This paper gives a graphical presentation of the \mytt{insert} and \mytt{delete} operations.
-The Jupyter notebook
-\href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Chapter-08/2-3-Trees-Visualization.ipynb}{2-3-Trees-Visualization.ipynb}
-provides a visualization of the algorithms involved.
-
-\paragraph{History:}
-According to \cite{cormen:09}, 2-3 trees have been invented by
-\href{https://en.wikipedia.org/wiki/John_Hopcroft}{John Hopcroft} in 1970.  John Hopcroft received the 1986
-Turing Award. 
-
-
 
 \section{Tries}
 Often, the keys of a map are strings.  For example, when you search with 
 \href{https://www.google.com}{\blue{G}\red{o}\orange{o}\blue{g}\green{l}\red{e}}, you are using
-a string as a key to lookup information that is stored in a gigantic map provided by Google.
+a string as a key to look up information that is stored in a gigantic map provided by Google.
 As another example, in an electronic phone book the keys are names and therefore strings.  
 There is a species of search trees that is particularly well adapted to the case that the keys are
 strings.  These search trees are known as \href{https://en.wikipedia.org/?title=Trie}{tries}.  
 The name is derived from the word
 \blue{re\underline{trie}val}.  In order to be able to distinguish between \blue{tries} and
 \blue{trees} we have to pronounce  \blue{trie}  so that it rhymes with \blue{pie}.   The data
-structure of tries has been proposed 1959 by Ren\'e de la Briandais \cite{briandais:59}.
+structure of tries was proposed in 1959 by Ren\'e de la Briandais \cite{briandais:59}.
 
 Tries are also trees, but in contrast to a binary tree where every node has two children, in a trie a
 node can have as many children as there are characters in the alphabet that is used to represent the
 strings.  In order to define tries formally we assume that the following is given:
 \begin{itemize}
-\item $\Sigma$ is finite set of \blue{characters}. $\Sigma$ is called the
+\item $\Sigma$ is a finite set of \blue{characters}. $\Sigma$ is called the
       \blue{alphabet}. 
 \item $\Sigma^*$ is the set of all \blue{strings} that are built from the characters of $\Sigma$.
       Formally, a string is just a list of characters.  If we have $w \in \Sigma^*$, then we write $w = cr$
@@ -1202,7 +1077,7 @@ is defined by induction on the length of  $w$.
        \mytt{Trie}(v, C\!s, T\!s)$. 
        
        If  the key that is to be deleted starts with the character $c$ and $c$ does not occur in
-       the list of characters $C$, then the trie does not contain the key $cr$ and therefore there
+       the list of characters $C\!s$, then the trie does not contain the key $cr$ and therefore there
        is nothing to do:  The trie is left unchanged.
 \end{enumerate}
 
@@ -1226,7 +1101,7 @@ has the following signature:
 $\mytt{allKeys}: \mathbb{T} \times \Sigma^* \rightarrow \mytt{Set}(\Sigma^*)$
 \\[0.2cm]
 Given a trie $t$ and a string $p$, the function $t.\mytt{allKeys}(p)$ computes the set of all strings that
-are stored as keys in the trie $t$.  Furthermore, the string $p$ is added as a prefix to all these string.
+are stored as keys in the trie $t$.  Furthermore, the string $p$ is added as a prefix to all these strings.
 Therefore we specify the semantics of the function $\mytt{allKeys}$ as follows:
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1292,7 +1167,7 @@ $t.\mytt{findPrefix}(s) = t.\mytt{replacePrefix}(s, s)$.
 
 \subsection{Complexity}
 It is straightforward to see that the complexity of looking up the value associated with a string
-$s$ of length $k$ is $\Oh(k)$.  In particular, it is independent on the number of strings $n$ that are stored in
+$s$ of length $k$ is $\Oh(k)$.  In particular, it is independent of the number of strings $n$ that are stored in
 the trie.
 As it is obvious that we have to check all $k$ characters of the string $s$, this bound cannot be
 improved.   Another advantage of tries is the fact that they use very little storage to store the
@@ -1332,11 +1207,11 @@ $\mytt{Trie}(v, C, T)$
 where $v$ is the value stored at the root, $C$ is the list of characters, and $T$ is a list of
 tries.  Therefore, the member variables have the following semantics:
 \begin{enumerate}
-\item $\mytt{mValue}$ represent the value $v$ stored at the root of this trie.
-\item $\mytt{mChars}$ represent the list  $C$ of characters.  If there is a string $cr$ such that
+\item $\mytt{mValue}$ represents the value $v$ stored at the root of this trie.
+\item $\mytt{mChars}$ represents the list  $C$ of characters.  If there is a string $cr$ such that
       the trie stores a value associated with this string, then the character $c$ will be an element of
       the list $C$.
-\item $\mytt{mTries}$ represent the list of subtries $T$.  
+\item $\mytt{mTries}$ represents the list of subtries $T$.  
 \end{enumerate}
 The class $\mytt{Trie}$ implements the abstract data type $\mytt{map}$ and therefore provides the
 methods $\mytt{find}$, $\mytt{insert}$, and $\mytt{delete}$.  Furthermore, the method
@@ -1369,7 +1244,7 @@ implementation of all these methods is given below.
 \end{figure}
 
 The method $\mytt{find}$ takes a string $s$ as its sole argument and checks whether the given trie
-contains a value associated with the string $s$.  Essentially, the are two cases:
+contains a value associated with the string $s$.  Essentially, there are two cases:
 \begin{enumerate}
 \item If $s$ is the empty string, the value associated with $s$ is stored in the member variable
       $\mytt{mValue}$ at the root of this trie.
@@ -1418,7 +1293,7 @@ contains a value associated with the string $s$.  Essentially, the are two cases
 
 
 The method $\mytt{insert}$ takes a string $s$ and an associated value $v$ that is to be inserted
-into the given trie.  The implementation of $\mytt{insert}$ works somewhat similar to the
+into the given trie.  The implementation of $\mytt{insert}$ works somewhat similarly to the
 implementation of $\mytt{find}$.
 \begin{enumerate}
 \item If the string $s$ is empty, then the value $v$ has to be positioned at the root of this trie.
@@ -1478,7 +1353,7 @@ value is deleted.
       If $c$ is the $i^\textrm{th}$ character of $\mytt{mChars}$, then we have to recursively
       delete the value associated with $r$ in the trie $\mytt{mTries}[i]$.  
       After this deletion, the subtrie  $\mytt{mTries}[i]$ might well be empty.  In this case,
-      we remove the $i^\textrm{th}$ character form $\mytt{mChars}$ and also remove the $i^\textrm{th}$ trie from the list
+      we remove the $i^\textrm{th}$ character from $\mytt{mChars}$ and also remove the $i^\textrm{th}$ trie from the list
       $\mytt{mTries}$.  This is done with the help of the function $\mytt{pop}$.
       Given a list $L$ and an integer $i$, the statement $L.\mytt{pop}(i)$ removes the $i^\textrm{th}$ element from
       the list $L$.
@@ -1532,7 +1407,7 @@ Given a binary trie $b$ and a natural number $n$, the expression
 $b.\mytt{find}(n)$ 
 \\[0.2cm]
 returns the value in $b$ that is associated with the number $n$.  If there is no value associated
-with $b$, then the expression evaluates to $\Omega$.  Formally, the value of the expression
+with $n$, then the expression evaluates to $\Omega$.  Formally, the value of the expression
  $b.\mytt{find}(n)$ is defined by induction on $b$.  The induction step requires a side induction
  with respect to the natural number $n$.
 \begin{enumerate}
@@ -1564,7 +1439,7 @@ Solve the following exercises:
 \end{enumerate}
 \textbf{Remark}: Binary tries are known as \blue{digital search trees}.  \eox
 
-\section{Hash Tables*}
+\section{Hash Tables$^*$}
 It is very simple to implement a function of the form \\[0.2cm]
 \hspace*{1.3cm} $f: \mytt{Key} \rightarrow \mytt{Value}$ \\[0.2cm]
 provided the set $\mytt{Key}$ is a set of natural numbers of the form  \\[0.2cm]
@@ -1604,7 +1479,7 @@ Figure \ref{fig:map-array.ipython} shows how a map can be realized in this case.
 \begin{enumerate}
 \item The constructor takes a second argument $n$.  This argument specifies the
       maximum size that a key is allowed to have.  Therefore, it is assumed that
-      the keys are elements of the set $\{0,1, \cdots, n\}$.
+      the keys are elements of the set $\{0,1, \cdots, n-1\}$.
 \item The member variable maintained by the class \mytt{ArrayMap} is the array \mytt{mArray}.
       Initially, all entries of this array are \mytt{None}.
 \item The method \mytt{find} looks up the value stored at the index $k$.
@@ -1648,7 +1523,7 @@ as follows: \\[0.2cm]
 $\ds \mytt{code}(c_0c_1\cdots c_7) = \sum\limits_{i=0}^7 \mytt{ord}(c_i) \cdot 27^i$.
 \\[0.2cm]
 The function $\mytt{code}$ maps the set of all non-empty strings with at most eight characters in a
-one-to-one way to the set of numbers $\{0,1,\cdots, 282\,429\,536\,481 \}$.
+one-to-one way to the set of numbers $\{0,1,\cdots, 282\,429\,536\,480 \}$.
 
 
 \begin{figure}[!ht]
@@ -1664,16 +1539,16 @@ Unfortunately, this naive implementation has several problems:
 \item The array needed to store the telephone dictionary has a size of 
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds 1 + \sum\limits_{i=0}^7 26 \cdot 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 27^8 = 282,429,536,481$ 
+      $\ds 1 + \sum\limits_{i=0}^7 26 \cdot 27^i = 1 + 26 \cdot \frac{27^{7+1} - 1}{27 - 1} = 27^8 = 282\,429\,536\,481$ 
       \\[0.2cm]
-      entries.  If every entry needs 8 bytes, we would need more than two terabyte to store this array.
+      entries.  If every entry needs 8 bytes, we would need more than two terabytes to store this array.
 \item If two names happen to differ only after their eighth character, then we would not be able to
       store both of these names as we would not be able to distinguish between them.
 \end{enumerate}
 These problems can be solved as follows:
 \begin{enumerate}
 \item We have to change the function  $\mytt{code}$ so that the result of this function is always
-      less than or equal to some given number $\mytt{size}$.  Here, the number $\mytt{size}$ specifies
+      less than some given number $\mytt{size}$.  Here, the number $\mytt{size}$ specifies
       the number of entries of the array that we intend to use.  This number will be in the same
       order of magnitude as the number of key-value pairs that we want to store in our dictionary.
 
@@ -1719,7 +1594,7 @@ Given an \textsc{Ascii} string $s = c_0 c_1 c_2 \cdots c_{k-1}$ of length $k$ th
 However, a naive implementation of equation (\ref{eq:hash1}) is inefficient because the computation of $128^i$
 produces very big numbers.  In the programming language \mytt{C}, computing $128^i$ causes an overflow for a
 string that has more than five characters.  In \textsl{Python}, integers are only bounded by the size of the
-available memory and therefore overflow ist not a problem.  However, a computation
+available memory and therefore overflow is not a problem.  However, a computation
 involving numbers with hundreds of places is considerably slower than a computation that uses numbers that fit
 into a single memory word. Hence we should try to reorganize the computation that takes place in equation
 (\ref{eq:hash1}).  This should be possible as the final result of $\mytt{hash\_code}(c_0c_1\cdots c_{k-1}, n)$
@@ -1738,7 +1613,7 @@ is bounded by $n$.  In order to be able to reorganize this computation we need t
 \end{Theorem}
 
 The existential claim of this theorem can be established by providing a program that computes $a \dv n$ and $a \mmod n$.  
-A trivial way to do compute $a \dv n$ is to successively subtract
+A trivial way to compute $a \dv n$ is to successively subtract
 $n$ from $a$ as long as the result of the subtraction is non-negative.  Then $a \dv n$ is the number of times $n$ can be
 subtracted from $a$.  Figure \ref{fig:Division-Naive.ipynb} shows an implementation of this idea.
 
@@ -1829,7 +1704,7 @@ holds.  \qed
 \exercise
 Prove the last theorem. \eox
 
-Next, we assume to have been given a finite sequence of numbers $a_0$, $a_1$, $a_2$, $\cdots$, $a_m$  and we want to compute the expression
+Next, we assume that we have been given a finite sequence of numbers $a_0$, $a_1$, $a_2$, $\cdots$, $a_m$  and we want to compute the expression
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds p(x) := \biggl(\sum\limits_{i=0}^m a_i \cdot x^i\biggr) \mmod n$.
@@ -1858,8 +1733,8 @@ for modular arithmetic is an efficient way to do this.  This method is introduce
 \end{Theorem}
 
 \proof
-As the numbers $s_m$ are defined by induction, the proof of this theorem is by
-induction on $m$.
+As the numbers $s_k$ are defined by induction, the proof of this theorem is by
+induction on $k$.
 \begin{enumerate}
 \item[B.C.:] $k = 0$
              \\[0.2cm]
@@ -1874,7 +1749,7 @@ induction on $m$.
                s_{k+1} & = & \bigl(s_k \cdot x + a_{m - (k+1)} \bigr) \mmod n \\[0.2cm]
                       & \stackrel{\mathrm{ih}}{=} & \ds\Biggl(\biggl(\Bigl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \mmod n\biggr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
                                          \\[0.5cm]
-                      & = & \ds\Biggl(\biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \Bigr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
+                      & = & \ds\Biggl(\biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k-i} \biggr) \cdot x + a_{m - (k+1)}\Biggr) \mmod n
                             \\[0.5cm]
                       & = & \ds\Biggl(\sum\limits_{i=0}^k a_{m-i} \cdot x^{k+1-i}  + a_{m - (k+1)} \cdot x^{k+1-(k+1)}\Biggr) \mmod n
                             \\[0.5cm]
@@ -1892,7 +1767,7 @@ Figure \ref{fig:hash_code.py} on page \pageref{fig:hash_code.py} shows an implem
 have set $x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
 
 \subsection{Implementing Hash Tables}
-In order to implement a has table we first need to implement three auxiliary classes:
+In order to implement a hash table we first need to implement three auxiliary classes:
 \begin{enumerate}
 \item We implement the class \mytt{ListNode} that represents the node of a linked list.
 \item We implement the class \mytt{ListMap} that turns a linked list into a \blue{Map}.
@@ -1917,7 +1792,7 @@ An object of class \mytt{ListNode} stores a key, a value, and a pointer to the n
                 firstnumber   = 1,
                 bgcolor       = sepia,
                 numbers       = left,
-                numbersep     = 0.2cm,
+                numbersep     = -0.2cm,
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm,
               ]{python3}
@@ -1947,14 +1822,14 @@ given \mytt{key}.  In this case, it returns the associated value.  Otherwise, \m
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm,
               ]{python3}
-def find(self, key):
-    while True:
-        if self.mKey == key:
-            return self.mValue
-        if self.mNextPtr != None:
-            self = self.mNextPtr
-        else:
-            return
+    def find(self, key):
+        while True:
+            if self.mKey == key:
+                return self.mValue
+            if self.mNextPtr != None:
+                self = self.mNextPtr
+            else:
+                return
 \end{minted}
 \vspace*{-0.3cm}
 \caption{The method \mytt{find} of the class \mytt{ListNode}.}
@@ -1963,8 +1838,8 @@ def find(self, key):
 
 Given the first node of a \blue{linked list} $L$, the function $L.\mytt{insert}(k, v)$ shown in Figure
 \ref{fig:ListNode.ipynb:insert} on page \pageref{fig:ListNode.ipynb:insert} inserts the key-value pair $(k, v)$
-into the list $L$.  If there is already a key value pair in $L$ that has the same key, then the old value is
-overwritten.  It returns a boolean that is \mytt{True} if a new node has been allocated.  If no new nodes needs
+into the list $L$.  If there is already a key-value pair in $L$ that has the same key, then the old value is
+overwritten.  It returns a Boolean that is \mytt{True} if a new node has been allocated.  If no new node needs
 to be allocated, \mytt{False} is returned instead.  This information is needed
 later in order to keep track of the number of nodes in a linked list.
 
@@ -2036,7 +1911,7 @@ The expression  $L.\mytt{delete}(k)$ returns a pair:
 \item The second component is a Boolean that is \mytt{True} if a node has been deleted.
 \end{enumerate}
 In the implementation, the variable \mytt{previous} is a pointer to the object of class \mytt{ListNode}
-that points to the node \mytt{self}.  For the first node, this pointer is \mytt{None}, but when we step
+that points to the node \mytt{ptr}.  For the first node, this pointer is \mytt{None}, but when we step
 from one node to the next, this pointer is updated.  When we find the \mytt{key} that is to be deleted, there are
 essentially two cases:
 \begin{enumerate}
@@ -2082,7 +1957,7 @@ $(\mytt{self}, \mytt{False})$ is returned.
                 
         def delete(self, key):
             if self.mPtr != None:
-                self.Ptr, flag = self.mPtr.delete(key)
+                self.mPtr, flag = self.mPtr.delete(key)
                 return flag
             return False
                 
@@ -2108,7 +1983,7 @@ linked list.  Figure \ref{fig:ListMap.ipynb} on page \pageref{fig:ListMap.ipynb}
 \item The method \mytt{insert} is a wrapper of the method \mytt{insert} from the class \mytt{ListNode}.
       If \mytt{mPtr} is set, then the given \mytt{key}-\mytt{value} pair is inserted into the
       linked list specified by \mytt{mPtr}.
-      Otherwise, a new \mytt{ListNode} is created that stores the given  \mytt{key}-\mytt{value}.
+      Otherwise, a new \mytt{ListNode} is created that stores the given  \mytt{key}-\mytt{value} pair.
       In this case, the method has to return \mytt{True} since a new key has been inserted.
 \item Similarly, the method \mytt{delete} is a wrapper of the method \mytt{delete} from the class
       \mytt{ListNode}.  If the given list is not empty, that is \mytt{mPtr} is not \mytt{None},
@@ -2158,7 +2033,7 @@ list has been exhausted.
 \end{figure}
 
 
-\subsubsection{The class \mytt{HashMap}}
+\subsubsection{The class \mytt{HashTable}}
 In order to implement a hash table we need a hash function.  Figure \ref{fig:hash_code.py} on page
 \pageref{fig:hash_code.py} shows the function \mytt{hash\_code}.
 Given a string $w$ and the size $n$ of the hash table, the function $\mytt{hash\_code}(w, n)$ calculates the
@@ -2169,7 +2044,7 @@ In order to prevent overflows when computing the numbers $128^i$ we can define t
 $k=0,1,\cdots,m-1$ by induction:
 \begin{enumerate}[(a)]
 \item $s_{0} = \mytt{ord}(c_{m-1}) \;\mytt{\symbol{37}}\; n$,
-\item $s_{k+1} = \bigl(s_k \cdot 128 + \mytt{ord}(c_{k}) \bigr) \;\mytt{\symbol{37}}\; n$.
+\item $s_{k+1} = \bigl(s_k \cdot 128 + \mytt{ord}(c_{m-k-2}) \bigr) \;\mytt{\symbol{37}}\; n$.
 \end{enumerate}
 Then we have
 \\[0.2cm]
@@ -2201,7 +2076,7 @@ $s_{m-1} = \left(\sum\limits_{i=0}^{m-1} \mytt{ord}(c_i) \cdot 128^i\right) \;\m
 
 
 \noindent
-Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the class \mytt{HashMap}
+Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the class \mytt{HashTable}.
 
 \begin{figure}[!ht]
   \centering
@@ -2236,7 +2111,7 @@ Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the cla
 \begin{enumerate}
 \item The constructor \mytt{\_\_init\_\_} is called with two arguments.
       \begin{enumerate}[(a)]
-      \item This argument $n$ is the initial size of the array storing the \mytt{ListMaps} of key-value
+      \item The argument $n$ is the initial size of the array storing the \mytt{ListMaps} of key-value
             pairs.  The constructor constructs an empty hash table of size $n$.
       \item \mytt{code} is a function that takes an object and returns the hash code of this object.
             The default is to use the function \mytt{hash\_code} defined above.
@@ -2246,7 +2121,7 @@ Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the cla
       if the hash table becomes \blue{overcrowded}.
 \item $\mytt{mEntries}$ is the number of key-value pairs that are stored in this hash map.
       Since, initially, this map is empty, $\mytt{mEntries}$ is  initialized as $0$.
-\item $\mytt{mArray}$ is the array containing the list of key value pairs.
+\item $\mytt{mArray}$ is the array containing the lists of key-value pairs.
       As the hash map is initially empty, all entries of $\mytt{mArray}$ are initialized as empty \mytt{ListMap}s.
 \item $\mytt{mAlpha}$ is the \blue{load factor} of our hash table.  If at any point in time we have that
       \\[0.2cm]
@@ -2255,15 +2130,15 @@ Figure \ref{fig:HashMap.ipynb} on page \pageref{fig:HashMap.ipynb} shows the cla
       \\[0.2cm]
       then we consider our hash table to be \blue{overcrowded}.  In that case, we increase the size
       of the array $\mytt{mArray}$.  To determine the best value for $\mytt{mAlpha}$, we have to
-      make a tradeoff:  If $\mytt{mAlpha}$ is too big, many entries in the array $\mytt{mArray}$
+      make a tradeoff:  If $\mytt{mAlpha}$ is too small, many entries in the array $\mytt{mArray}$
       will be empty and thus we will waste space.  On the other hand, if $\mytt{mAlpha}$ is too
-      small, the key-value lists will become very long and hence it will take too much time to
+      big, the key-value lists will become very long and hence it will take too much time to
       search for a given key in one of these lists.
 \item Our implementation maintains the static variable $\mytt{Primes}$.  This is a list of prime numbers.
       Roughly, these prime numbers double in size.   
       The reason is that the performance of a hash table is best if the size of $\mytt{mArray}$ is a
       prime number.  When the hash table gets overcrowded, the idea is to, more or less, double
-      the size of $\mytt{mArray}$.  To achieve this, the variable $\mytt{sPrimes}$ is needed.
+      the size of $\mytt{mArray}$.  To achieve this, the variable $\mytt{Primes}$ is needed.
 \end{enumerate}
 Next, we discuss the implementation of the  methods of the class \mytt{HashTable}.
 
@@ -2326,7 +2201,7 @@ The implementation works as follows.
       In this case, we \blue{rehash}, which means we roughly double the size of $\mytt{mArray}$.
       How the method $\mytt{rehash}$ works in detail is explained later.
 \item Next, we compute the index of the \mytt{ListMap} that has to store
-      $\mytt{mKey}$, retrieve the associated \mytt{ListMap}, and finally insert the \mytt{key} and the
+      $\mytt{key}$, retrieve the associated \mytt{ListMap}, and finally insert the \mytt{key} and the
       \mytt{value} into this \mytt{ListMap}.
       When doing this we take care to maintain the correct number of entries.
 \end{enumerate}
@@ -2372,7 +2247,7 @@ list is less than the load factor $\mytt{mAlpha}$.  After we have determined $\m
 proceed as follows: 
 \begin{enumerate}
 \item We create a new empty hash table of size $\mytt{prime}$.
-\item Next, we insert the key-value pairs from the given hash table in our newly created new hash table
+\item Next, we insert the key-value pairs from the given hash table in our newly created hash table
       \mytt{biggerTable}.
 \item Finally, the array stored in the new hash table is moved to the given hash table
       and the size is adjusted correspondingly.
@@ -2397,14 +2272,14 @@ proceed as follows:
         self.mEntries -= aList.delete(key)
 \end{minted}
 \vspace*{-0.3cm}
-\caption{Implementation of the procedure $\mytt{delete}(\mytt{map}, \mytt{key})$.}
+\caption{Implementation of the method $\mytt{delete}$.}
 \label{fig:HashMap.ipynb-delete}
 \end{figure}
 
 Finally, we discuss the implementation of the method $\mytt{delete}$ that is shown in Figure
 \ref{fig:HashMap.ipynb-delete}.  The implementation of this method is similar to the implementation
 of the method $\mytt{insert}$.  When the number of elements drops below a threshold that is dependent on the
-site of \mytt{mArray}, the table shrinks in order to not use too much memory.
+size of \mytt{mArray}, the table shrinks in order to not use too much memory.
 
 In the worst case, the complexity of
 the methods  $\mytt{find}$, $\mytt{insert}$, and $\mytt{delete}$ can grow \blue{linearly} with the number
@@ -2438,12 +2313,12 @@ therefore is to use hashing only if you are sure that your hash function distrib
 \section{Applications}
 Both \mytt{C++} and \textsl{Java} provide maps.  In \mytt{C++}, maps are part of the standard
 template library, while \textsl{Java} offers the interface \mytt{Map} that is implemented both by
-the class $\mytt{TreeMap}$ and the class $\mytt{HashMap}$. Furthermore, all modern script languages provide maps.
+the class $\mytt{TreeMap}$ and the class $\mytt{HashMap}$. Furthermore, all modern scripting languages provide maps.
 For example, in \textsl{Perl} \cite{Wall92}, maps are known as \blue{associative arrays}, in \textsl{Lua} 
 \cite{ierusalimschy:2006,Ieru96a} maps are called \blue{tables}, and in \textsl{Python} 
 \cite{vanRossum:95,lutz:09} maps are called \blue{dictionaries}.  
 
-Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see an
+Later, when we discuss Dijkstra's algorithm for finding the shortest path in a graph we will see
 another application of maps.
 \pagebreak
 

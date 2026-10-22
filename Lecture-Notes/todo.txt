@@ -1,3 +1,114 @@
 1. randomize quicksort
 2. array based heap
 3. Hibbard deletion leads to tree of size sqrt(n)
+
+
+Preparing the lecture notes for Kindle Direct Publishing (October 9, 2026)
+==========================================================================
+
+What has been done (not yet committed)
+--------------------------------------
+
+Spelling and errors:
+All 13 chapters and the bibliography were read completely (aspell only finds
+misspelled words).  About 500 slips were fixed: typos, grammar, doubled words
+("the the", "is is"), German leftovers ("und", "Irak", "ggt"), and wrong line
+references to the listings.
+
+The following fixes change the content and should be reviewed:
+- Formulas:
+  - recurrence-equations.tex: the closed form of the Fibonacci numbers had the
+    exponent n+1 on the second term instead of n.
+  - recurrence-equations.tex: the WolframAlpha result has the denominator
+    sqrt(7), not sqrt(3).
+  - complexity.tex: "because lambda > 0" is now "lambda > 1"; in the proof of
+    the limit proposition "exists k in R" is now "exists k in N".
+  - map-avl.tex: Horner's recurrence for hash_code used the wrong character
+    index (now c_{m-k-2}).
+- Code listings:
+  - map-avl.tex: ListMap.delete assigned self.Ptr instead of self.mPtr.
+  - graph.tex: Kruskal's mst used Node[x] instead of Nodes[x].
+- Text that contradicted the code or the facts:
+  - map-avl.tex: the load-factor trade-off of hash tables was stated the
+    wrong way round.
+  - graph.tex: Bellman-Ford takes the LAST node from Fringe (Fringe.pop()).
+  - prioqueue.tex: with heaps, remove is also O(log n), not O(1).
+  - monte-carlo.tex: the table shows that 10^8 trials already give an error
+    below 10^-4 (the text said 10^9).
+  - graph.tex: the union-find class was described as using dictionaries; it
+    uses pointers (mParent, mHeight).
+  - sorting.tex: partitioning a list of length n needs n-1 comparisons; the
+    WolframAlpha query now decomposes 2*n/((n+1)*(n+2)); the first sentences
+    of radix sort were rewritten.
+  - adt.tex: the precedence table now includes "%"; the tokens are reversed in
+    tokenize, not in createStack; numbers are integers, not rational numbers.
+- Bibliography: "Hopcraft" -> Hopcroft, "Ronal" -> Ronald, "Hans-Peter" ->
+  Heinz-Peter Gumm.  The duplicate citations sedgewick:2011 and cormen:01 now
+  point to sedgewick:11 and cormen:09.
+
+Formatting:
+- Two-sided layout: chapter title in the header of even pages, section title
+  on odd pages, 3.5 cm margin on the binding side (well above KDP's minimum).
+  The text width is unchanged, so the listings stay as they were.
+- The background of the code boxes is slightly darker (as in the Logic notes).
+- The sans-serif font has no small caps, so \textsc{Avl}, \textsc{Tsp}, ...
+  were printed as "Avl", "Tsp".  They are now printed as AVL, TSP, ASCII.
+- All overfull and underfull boxes were removed (six figures were too wide),
+  as well as two manual \pagebreak commands in sorting.tex that left
+  half-empty pages.  The index entries were made consistent.
+- Result: 205 pages, no errors, no overfull or underfull boxes, no undefined
+  references, all fonts embedded.
+
+Second proofreading pass (October 22, 2026, not yet committed)
+--------------------------------------------------------------
+
+All 13 chapters were read again.  About 65 further slips were fixed.  The
+following fixes change the content and should be reviewed:
+- recurrence-equations.tex: in the degenerate case (4*b + a^2 = 0), a + b = 1
+  forces (a-2)^2 = 0, i.e. a = 2 and b = -1.  The sub-case "a + b = 1 and
+  a != 2" was therefore empty, and the summary used gamma = c/(2-a) = c/0.
+  The case is now merged into the case a = 2, b = -1 (main text and summary).
+- graph.tex: a cycle was defined as any closed path of length >= 2, so [x,y,x]
+  was a cycle and no graph with an edge could be a tree.  Now: n >= 3 and
+  x_0, ..., x_{n-1} pairwise different.  In the proof of the tree proposition
+  the edges are split as E \ {{x,y}}, and the second case reads
+  "C empty and either #E_A < a-1 or #E_B < b-1".
+- graph.tex: Dijkstra proof "for all i = 0, ..., n" (was 1); a path
+  [x_0,...,x_n] connects x_0 with x_n (was x_1); topological sorting: the
+  solution must also satisfy len(S) = #T, indices are 0..len(S)-1.
+- complexity.tex: "f in Theta(g) if and only if the limit exists" was wrong
+  (the limit need not exist); now "if".  The recurrences for power hold for
+  l > 0 only (for l = 0 they contradicted the initial values).  A comparison
+  sort needs "about" n*log2(n) comparisons, not "at least".
+- sorting.tex: counting sort was announced as the last section of the chapter;
+  dual pivot quicksort: y := L[1] (as in the code, was L[-1]); average case of
+  quicksort uses H_n = ln(n) + O(1); quicksort needs "1.39 times as many"
+  comparisons as merge sort.
+- prioqueue.tex: after the swap in heapsort the heap is A[0:n], not A[0:n-1].
+- monte-carlo.tex: wrong line numbers (x, y are computed in lines 4 and 5,
+  r in line 6).
+- correctness.tex: power was analysed in the complexity chapter, not in "the
+  last chapter".
+- introduction.tex: the overview now lists the correctness chapter (it had
+  been commented out), lists Bellman-Ford instead of breadth first search
+  (which is not in the book), and describes the Monte Carlo chapter as it is
+  (pi, Monty Hall, random permutations; the poker example is not in the book).
+
+
+What still needs to be done (updated October 22, 2026)
+------------------------------------------------------
+
+Done on October 22, 2026: title page (Theoretical Computer Science /
+Algorithms and Complexity / Python Edition, no DHBW logo, fixed date),
+copyright page and root LICENSE as for the Logic notes, course-specific
+passages removed, 2-3 tree exercise removed, Dijkstra proof rewritten,
+big-o figure redrawn as a vector graphic (Abbildungen/big-o.py),
+Kruskal.ipynb fixed, EPUB built (ebook/make-epub.sh).
+
+1. ISBN (copyright page) and cover (paperback and EPUB, see
+   ebook/metadata.yaml).
+2. Relicensing: the repository was GPL v2 and a few people contributed via
+   pull requests (typo fixes in the notes, small notebook changes).  Decide
+   whether their consent is needed for CC BY-NC-SA 4.0 / MIT.
+3. Check the EPUB in Kindle Previewer (MathML) and with epubcheck.
+4. Finally: review the diff, commit, and order a proof copy.

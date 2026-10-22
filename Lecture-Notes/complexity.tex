@@ -6,7 +6,7 @@ This  notation is needed when analysing the running time of algorithms.  Further
 notation is part of the technical language of computer science and hence you need to understand this notation
 when conversing with your colleagues.
 
-In order to illustrate the application of these notations, we will show how to implement the computation of
+In order to illustrate the application of this notation, we will show how to implement the computation of
 powers efficiently, i.e.~we discuss how to evaluate the expression $a^b$ for given $a,b \in \mathbb{N}$ in a way that
 is significantly faster than the naive approach.  After that, we discuss the \blue{master theorem}, which
 enables us to estimate the \blue{growth rate} of functions that are defined recursively.
@@ -99,7 +99,7 @@ Furthermore, the set of all functions defined on  $\N$ yielding a positive real 
 as: 
 \\[0.2cm]
 \hspace*{1.3cm} 
-$\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \}$. \index{$\mathbb{R}_+^\mathbb{N}$}
+$\R_+^{\;\N} = \bigl\{ f \mid \mbox{$f$ is a function of the form $f: \N \rightarrow \R_+$} \bigr\}$. \index{$\mathbb{R}_+^\mathbb{N}$}
 Now we are ready to introduce the \href{https://en.wikipedia.org/wiki/Big_O_notation}{big O notation}.
 
 \begin{Definition}[$\Oh(g)$] 
@@ -142,7 +142,7 @@ We proceed to explain the definition of $\Oh(g)$ in more detail.
       $k$ can be \underline{an}y\hspace*{-0.1cm}\underline{\ } suitable natural number.
 
       This property shows that the big $\Oh$ notation captures the \blue{growth rate} of functions.
-\item Furthermore, $f(n)$ can be bigger than $g(n)$ even for arbitrary values of $n$ 
+\item Furthermore, $f(n)$ can be bigger than $g(n)$ even for arbitrarily large values of $n$
       but it can only be bigger by a constant factor:  There must be some fixed constant $c$
       such that 
       \\[0.2cm]
@@ -154,10 +154,10 @@ We proceed to explain the definition of $\Oh(g)$ in more detail.
 
       This last property shows that the big $\Oh$ notation \blue{abstracts from constant factors}.
 \end{enumerate}
-I have borrowed Figure \ref{fig:big-o.eps} below from the \href{http://www.wikipedia.org}{Wikipedia} article on 
-\href{http://en.wikipedia.org/wiki/Asymptotic_notation}{asymptotic notation}.  It shows two functions 
+Figure \ref{fig:big-o.eps} below follows a figure from the \href{http://www.wikipedia.org}{Wikipedia} article on
+\href{http://en.wikipedia.org/wiki/Asymptotic_notation}{asymptotic notation}.  It shows two functions
 $f(x)$ and $c \cdot g(x)$ such that $f \in \Oh(g)$.  Note that the function $f(x)$, which is drawn
-in red, is less or equal than $c \cdot g(x)$ for all values of $x$ such that $x \geq k$.  In the
+in red, is less than or equal to $c \cdot g(x)$ for all values of $x$ such that $x \geq k$.  In the
 figure, we have $k=5$, since the condition $f(x) \leq c \cdot g(x)$ is satisfied for $x \geq 5$. For
 values of $x$ that are less than $k = 5$, sometimes $f(x)$ is bigger than $c \cdot g(x)$ but that does
 not matter.  In Figure \ref{fig:big-o.eps} the functions $f(x)$ and $c \cdot g(x)$ are drawn as if they were
@@ -168,7 +168,7 @@ natural numbers.
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/big-o.eps, scale=0.50}} 
+  \framebox{\epsfig{file=Abbildungen/big-o.pdf, scale=1.0}}
   \caption{Example for $f \in \Oh(g)$.} 
   \label{fig:big-o.eps}
 \end{figure}
@@ -205,7 +205,7 @@ holds and we have to show that this implies
 If we take the third power of both sides of the inequality (\ref{eq:u1}), then we see that
 \begin{equation}
   \label{eq:u3pre}
-  1 \leq n^3.
+  1 \leq n^3
 \end{equation}
 holds.  Let us multiply both sides of this inequality with $7$.  We get: 
 \begin{equation}
@@ -307,7 +307,7 @@ We prove this claim by induction on $n$.
 %       \end{enumerate}
 \end{enumerate}
 
-It would be very tedious if we would have to use induction every time we need to prove that 
+It would be very tedious if we had to use induction every time we need to prove that 
 $f \in \Oh(g)$ holds for some functions $f$ and $g$.   Therefore, we show a number of properties of the
 big $\Oh$ notation next.  These properties will later enable us to prove claims of the form 
 $f \in \Oh(g)$ much quicker than by induction.
@@ -322,7 +322,7 @@ $f \in \Oh(g)$ much quicker than by induction.
 Since the relation $\leq$ is reflexive, we know that 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\forall n \in \N\colon f(n) \leq f(n)$.
+$\forall n \in \N\colon f(n) \leq f(n)$
 \\[0.2cm]
 holds.  We can therefore define $k:=0$ and $c:=1$ and conclude that
 \\[0.2cm]
@@ -338,7 +338,7 @@ have
 \end{Proposition}
 
 \proof
-The premiss $g \in \Oh(f)$ implies that there are constants $c'\in \R_+$ and $k'\in \N$ 
+The premise $g \in \Oh(f)$ implies that there are constants $c'\in \R_+$ and $k'\in \N$ 
 such that \\[0.2cm]
 \hspace*{1.3cm} 
 $\forall n \in \N \colon \bigl(n \geq k'  \rightarrow g(n) \leq c' \cdot f(n)\bigr)$ 
@@ -375,13 +375,13 @@ $\forall n \in \N \colon \bigl( n \geq k_1 \rightarrow f(n) \leq c_1 \cdot h(n)\
 \hspace*{1.3cm} 
 $\forall n \in \N \colon\bigl( n \geq k_2 \rightarrow g(n) \leq c_2 \cdot h(n)\bigr)$
 \\[0.2cm]
-holds.  Let us define $k := \max(k_1,k_2)$ and $c:= c_1 + c_2$.  For all $n \in \mathbb{N}$ such
+hold.  Let us define $k := \max(k_1,k_2)$ and $c:= c_1 + c_2$.  For all $n \in \mathbb{N}$ such
 that $n \geq k$ it then follows that both
 \\[0.2cm]
 \hspace*{1.3cm}
  $f(n) \leq c_1 \cdot h(n)$ \quad and \quad  $g(n) \leq c_2 \cdot h(n)$
 \\[0.2cm]
-holds.  Adding these inequalities we conclude that 
+hold.  Adding these inequalities we conclude that 
 \\[0.2cm]
 \hspace*{1.3cm} $f(n) + g(n) \leq (c_1 + c_2) \cdot h(n) = c \cdot h(n)$
 \\[0.2cm]
@@ -475,7 +475,7 @@ $\lambda := \lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}$.
 By the definition of a limit, we know that
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds\forall \varepsilon \in \mathbb{R}_+:\exists k \in \mathbb{R}: \forall n \in \mathbb{N}: 
+$\ds\forall \varepsilon \in \mathbb{R}_+:\exists k \in \mathbb{N}: \forall n \in \mathbb{N}: 
  \biggl(n \geq k \rightarrow \Bigl| \frac{f(n)}{g(n)} - \lambda \Bigr| < \varepsilon \biggr)
 $.
 \\[0.2cm]
@@ -534,10 +534,10 @@ $\lim\limits_{n \rightarrow \infty} \bruch{n^{k}}{n^{k+1}} = \lim\limits_{n \rig
 The claim now follows from the limit proposition. 
 \qeds
 
-In order to use the limit proposition, we need 
-\href{https://de.wikipedia.org/wiki/Regel_von_de_L%27Hospital}{L'H\^opital's rule}, which is presented next.
+In order to compute the limits needed for the limit proposition, we often need
+\href{https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule}{L'H\^opital's rule}, which is presented next.
 
-\begin{Theorem}[L'H\^opital's Rule] \hspace*{\fill} \index{L'H\^opital's Rule} \\
+\begin{Theorem}[L'H\^opital's Rule] \hspace*{\fill} \index{L'H\^opital's rule} \\
 Assume that we have two functions $f:\mathbb{R} \rightarrow \mathbb{R}$ and $g:\mathbb{R} \rightarrow \mathbb{R}$
 such that
 \begin{enumerate}
@@ -599,7 +599,7 @@ $\ds =
 \lim\limits_{x \rightarrow \infty} \frac{\ds\;\frac{\mathrm{d}^k\,x^{k}}{\mathrm{d}x^k}\;}{\ds\frac{\mathrm{d}^k\,\lambda^x}{\mathrm{d}x^k}} =
 \lim\limits_{x \rightarrow \infty} \frac{k!}{\ln(\lambda)^k \lambda^x} =
 \frac{k!}{\ln(\lambda)^k} \cdot \lim\limits_{x \rightarrow \infty} \frac{1}{\lambda^x} = 0$ \quad because
-$\lambda > 0$.
+$\lambda > 1$.
 \\[0.2cm] 
 Therefore the limit exists and the claim follows from the limit proposition.
 \qed
@@ -619,8 +619,7 @@ to show that we have
 \hspace*{1.3cm} 
 $\lim\limits_{n \rightarrow \infty} \bruch{\;\ln(n)\;}{n} = 0$.
 \\[0.2cm]
-In the \href{https://github.com/karlstroetmann/Analysis/blob/master/Skript/analysis.pdf}{lecture on analysis}
-it is shown that \\[0.2cm] 
+From calculus we know that \\[0.2cm] 
 \hspace*{1.3cm} $\displaystyle \frac{\mathrm{d} \ln(x)}{\mathrm{d}x} = \frac{1}{x}$ 
 \quad and \quad
  $\displaystyle \frac{\mathrm{d} x}{\mathrm{d}x} = 1$. \\[0.2cm]
@@ -668,7 +667,7 @@ $
 \end{array}
 $
 \\[0.2cm]
-The last inequality would have to hold for all natural numbers $n$ that are bigger than $k$.  Obviously,
+The last inequality would have to hold for all natural numbers $n$ that are bigger than or equal to $k$.  Obviously,
 this is not possible as, no matter what value $c$ takes, there are natural numbers $n$ that are bigger than 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -768,7 +767,7 @@ $f_2$ such that both
 \hspace*{1.3cm}
 $f_1 \in \Oh(g)$ \quad and \quad $f_2 \in \Oh(g)$
 \\[0.2cm]
-holds, when we would write this as
+hold and we write this as
 \\[0.2cm]
 \hspace*{1.3cm}
 $f_1 = \Oh(g)$ \quad and \quad $f_2 = \Oh(g)$,
@@ -851,7 +850,7 @@ Fortunately, there is an algorithm for computing $m^n$ that is much more efficie
 This algorithm is known as \blue{iterative squaring} or as
 \href{https://en.wikipedia.org/wiki/Exponentiation_by_squaring}{exponentiation by squaring}.
 \index{iterative squaring} 
-Consider we have to evaluate $m^4$.  We have
+Suppose we have to evaluate $m^4$.  We have
  \\[0.2cm]
 \hspace*{1.3cm} 
 $m^4 = (m \cdot m) \cdot (m \cdot m)$.
@@ -935,7 +934,7 @@ Let us assume $n = 2^l - 1$ and let us compute the number $a_n$ of multiplicatio
 are done when $\mytt{power}(m,n)$ is evaluated:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n := \mbox{number of multiplications to compute \mytt{power}}(m, n)$.
+$a_n := \mbox{number of multiplications to compute } \mytt{power}(m, n)$.
 \\[0.2cm]
 First, we have $a_0 = 0$, because if we have $n = 2^0 - 1 = 0$, then the evaluation of 
 $\mytt{power}(m, n)$ does not require a single multiplication.
@@ -950,7 +949,7 @@ that are performed in the recursive call in line 4.  Therefore, we get the follo
 }:
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_n = a_{n \dvv 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N\right\}$\quad and $a_0 = 0$. 
+$a_n = a_{n \dvv 2} + 2$ \qquad for all $n \in \left\{2^l - 1 \mid l \in \N \wedge l > 0\right\}$\quad and $a_0 = 0$.
 \\[0.2cm]
 In order to solve this recurrence relation, let us define $b_l := a_{2^l-1}$.  Then, the sequence
 $(b_l)_l$ 
@@ -973,7 +972,7 @@ Let us solve the equation $n = 2^l - 1$ for $l$.  This yields
  $l =
 \log_2(n+1)$.  Substituting this expression in the formula above gives \\[0.2cm]
 \hspace*{1.3cm} $a_n = 2 \cdot \log_2(n+1) \in \Oh\bigl(\log_2(n)\bigr)$.
-\vspace*{0.3cm}
+\vspace*{0.2cm}
 
 Next, we consider the best case.  The computation of
 $\mytt{power}(m,n)$ needs the least number of multiplications if the test 
@@ -995,13 +994,13 @@ Now, if $n = 2^l$ and $n > 1$ then line 6 yields one multiplication that
 has to be added to those multiplications that are done during the recursive invocation of
 \mytt{power} in line 4.  Therefore, we have the following recurrence relation:
  \\[0.2cm]
-\hspace*{1.3cm} $a_n = a_{n \dvv 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N\right\}$\quad and
+\hspace*{1.3cm} $a_n = a_{n \dvv 2} + 1$ \qquad for all $n \in \left\{2^l \mid l \in \N \wedge l > 0\right\}$\quad and
 $a_1 = 2$. 
 \\[0.2cm]
 Let us define $b_l := a_{2^l}$.  Then the sequence $(b_l)_l$ satisfies the recurrence relation
  \\[0.2cm]
 \hspace*{1.3cm} 
-$b_l = a_{2^l} = a_{2^l \dvv 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N$, \\[0.2cm]
+$b_l = a_{2^l} = a_{2^l \dvv 2} + 1 = a_{2^{l-1}} + 1 = b_{l-1} + 1$ \qquad for all $l\in\N$ with $l > 0$, \\[0.2cm]
 and the initial value is given as $b_0 = a_{2^0} = a_1 = 2$.
 Therefore, we have to solve the recurrence relation 
 \\[0.2cm]
@@ -1053,7 +1052,7 @@ is the same as $m \;\mytt{\&}\; 1$.
 
 \exercise
 Given a natural number $n$, the \blue{integer square root} \index{integer square root} of $n$ is the largest
-number $r$ such that $r^2$ is less or equal than $n$, i.e. we have
+number $r$ such that $r^2$ is less than or equal to $n$, i.e.~we have
 \\[0.2cm]
 \hspace*{1.3cm}
 $\mytt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
@@ -1070,7 +1069,7 @@ cases we are only interested in this last approximation and in that case it is n
 the recurrence relation.   Instead, we can use the 
 \href{http://en.wikipedia.org/wiki/Master_theorem#Generic_form}{master theorem}\index{master theorem} to short 
 circuit the procedure for computing the complexity of an algorithm.   The master theorem was discovered by
-Bentley et.~al.~\cite{bentley:1980} in 1980.
+Bentley et al.~\cite{bentley:1980} in 1980.
 We present a simplified version of the master theorem next.
 
 \begin{Theorem}[\blue{Master Theorem}] \index{master theorem}
@@ -1155,7 +1154,7 @@ $
 \end{array}
 $ \hspace*{\fill} ($+$)
 \\[0.2cm]
-Substituting $k-2$ for $k$ in equation $(\star$) shows that 
+Substituting $k-2$ for $k$ in equation $(\star)$ shows that
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_{k-2} = \alpha \cdot a_{k-3} + \gamma^{k-2}$
@@ -1215,7 +1214,7 @@ In order to proceed, we have to perform a case distinction:
       by the value
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\displaystyle \sum\limits_{j=0}^{\infty} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{1}{1 - \frac{\,\alpha\,}{\gamma}.}$
+      $\displaystyle \sum\limits_{j=0}^{\infty} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{1}{1 - \frac{\,\alpha\,}{\gamma}}$.
       \\[0.2cm]
       Since this value does not depend on $k$ and the big $\Oh$ notation abstracts from constant factors,
       we are able to drop the sum.  Therefore, we have
@@ -1286,12 +1285,12 @@ In order to proceed, we have to perform a case distinction:
       In this case we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\biggl(\Bigl(\frac{\alpha}{\gamma}\Bigr)^k\biggr)$.
+      $\ds\sum\limits_{j=0}^{k-1} \Bigl(\frac{\,\alpha\,}{\gamma}\Bigr)^j = \bruch{\bigl(\frac{\alpha}{\gamma}\bigr)^k - 1}{\frac{\alpha}{\gamma} - 1} \in \Oh\biggl(\Bigl(\frac{\alpha}{\gamma}\Bigr)^k\biggr)$.
       \\[0.2cm]
       Therefore we have
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\ds a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \bruch{\bigl(\frac{\alpha}{\gamma})^k - 1}{\frac{\alpha}{\gamma} - 1} =
+      $\ds a_k = \alpha^k\cdot a_0 + \gamma^k \cdot \bruch{\bigl(\frac{\alpha}{\gamma}\bigr)^k - 1}{\frac{\alpha}{\gamma} - 1} =
                    \alpha^k\cdot a_0 + \gamma \cdot \bruch{\alpha^k -\gamma^k}{\alpha - \gamma} =
                    \alpha^k\cdot a_0 + \Oh\bigl(\alpha^k\bigr)
       $,
@@ -1495,7 +1494,7 @@ tedious than our previous derivation of this upper bound.
 The big $\Oh$ notation is useful when we want to express that some function $f$ does not grow faster
 than another function $g$.  Therefore, when stating the running time of the worst case of some algorithm,
 big $\Oh$ notation is the right tool to use.  However, sometimes we want to state a lower bound for
-the complexity of a problem.  For example, it can be shown that every comparison based sort algorithm needs at least
+the complexity of a problem.  For example, it can be shown that every comparison based sort algorithm needs, in the worst case, about
 $n \cdot \log_2(n)$ comparisons to sort a list of length $n$.  In order to be able to express lower
 bounds concisely, we introduce the big $\Omega$ notation next.
 
@@ -1524,11 +1523,11 @@ $f$ and $g$ have the \blue{same} asymptotic growth rate.
   \hspace*{0.5cm} 
   \colorbox{red}{\framebox{\colorbox{orange}{
   $\Theta(g) \;:=\; \Oh(g) \cap \Omega(g)$.}}}
-  \qed 
+  \eox 
 \end{Definition}
 
 \noindent
-It can be shown that $f \in \Theta(g)$ if and only if the limit
+It can be shown that $f \in \Theta(g)$ holds if the limit
 \\[0.4cm]
 \hspace*{1.3cm}
 $\lim\limits_{n \rightarrow \infty} \bruch{f(n)}{g(n)}$
@@ -1537,7 +1536,7 @@ exists and is greater than $0$.
 
 
 \section{Further Reading}
-Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et.~al.~\cite{cormen:09}
+Chapter 3 of the book ``\blue{Introduction to Algorithms}'' by Cormen et al.~\cite{cormen:09}
 contains a detailed description of several variants of the big $\Oh$ notation, while
 chapter 4 gives a more general version of the master theorem together with a detailed proof.
 
@@ -1550,7 +1549,7 @@ introduced in this chapter.
 \item Assume that $g:\mathbb{N} \rightarrow \mathbb{R}_+$.  How is the notion $\Oh(g)$ defined?
 \item Why does the big $\Oh$ notation abstract from constant factors?  
 \item State the limit proposition.
-\item How would you prove $\ln^2(n) \in \Oh\bigl(\sqrt{n}\bigr)$?.
+\item How would you prove $\ln^2(n) \in \Oh\bigl(\sqrt{n}\bigr)$?
 \item How can we compute $m^n$ without performing $\Oh(n)$ multiplications?
 \item Are you able to recite the master theorem?
 \item Why is the master theorem useful?

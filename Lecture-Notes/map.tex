@@ -26,12 +26,12 @@ The rest of this chapter is organized as follows:
 \item Next, we discuss \blue{balanced ordered trees}.  In the case of balanced ordered trees the
       complexity of finding the value associated with a given key is g\underline{uaranteed} to be
       \blue{logarithmic} in the number of keys, i.e.~it is $\Oh\bigl(\log_2(n)\bigr)$.
-      There are many different kinds of balanced ordered trees.  In this lecture notes we will discuss
-      \blue{AVL trees} and \blue{2-3 trees}. 
+      There are many different kinds of balanced ordered trees.  In these lecture notes we will discuss
+      \blue{AVL trees}. 
 \item After that, we explore a data structure that is known as a \blue{trie}.  This kind of data structure can
       be used if the keys of the map are \blue{strings}. 
 \item Finally, we discuss \blue{hash tables}.  Hash tables provide another way to implement a map.
-      Hash tables are in wide spread use.  For example, in \textsl{Python} sets and dictionaries are
+      Hash tables are in widespread use.  For example, in \textsl{Python} sets and dictionaries are
       implemented via hash tables.  Therefore, every computer scientist should have a good understanding of
       their inner workings. 
 \end{enumerate}
@@ -114,11 +114,11 @@ The most important functions provided by a telephone directory are the following
 
               If a value $v$ is inserted for a key $k_1$, then this does not change the value that is stored
               for any key $k_2$  different from $k_1$.
-        \item $m.\mytt{delete}(k).\mytt{find}(k\bigr) = \Omega$.
+        \item $m.\mytt{delete}(k).\mytt{find}(k) = \Omega$.
 
               If the key $k$ is deleted, then afterwards we won't find this key anymore.
         \item $k_1 \not= k_2 \rightarrow 
-               m.\mytt{delete}(k_1).\mytt{find}(k_2) = m.\mytt{find}(k_2)$,
+               m.\mytt{delete}(k_1).\mytt{find}(k_2) = m.\mytt{find}(k_2)$.
 
               If  we delete a key $k_1$ and then try to look up the information stored under a key
               $k_2$ that is different from $k_1$, we will get the same result that we would have gotten
@@ -185,7 +185,7 @@ efficiency reasons, the existing \mytt{Map} object is updated.
 If the set \textsl{Key} is linearly ordered, i.e.~if there exists a binary relation
 $\leq \;\subseteq\textsl{Key}\times\textsl{Key}$ such that the pair $\langle \textsl{Key}, \leq \rangle$ is a linear
 order, then the abstract data type \textsl{Map} can be implemented via  
-\href{https://en.wikipedia.org/wiki/Binary_search_tree}{\blue{ordered binary trees}} also known as
+\href{https://en.wikipedia.org/wiki/Binary_search_tree}{\blue{ordered binary trees}}, also known as
 \blue{binary search trees}. 
 The implementation of the ADT map that is based on ordered binary trees has the following performance
 characteristics: 
@@ -214,7 +214,7 @@ characteristics:
         \item $l$ is an ordered binary tree.
 
               $l$ is the  \blue{left subtree} \index{left subtree} of the tree $\mytt{Node}(k, v, l, r)$.
-        \item $r$ is a ordered binary tree.
+        \item $r$ is an ordered binary tree.
 
               $r$ is the \blue{right subtree} \index{right subtree} of the tree $\mytt{Node}(k, v, l, r)$.
         \item All keys that occur in the left subtree $l$ are smaller than $k$.
@@ -239,7 +239,7 @@ We will depict ordered binary trees graphically as follows:
       subtree.
 \end{enumerate}
 Figure \ref{fig:graph1} shows an example of an ordered binary tree.  The topmost node, that is the
-node that has the key $8$ and the value $22$ is called the \blue{root} \index{root of a binary tree} of the binary tree.
+node that has the key $8$ and the value $22$, is called the \blue{root} \index{root of a binary tree} of the binary tree.
 A \blue{path of length} $k$ in the tree is a list $[n_0,n_1, \cdots, n_k]$ of
 $k+1$ nodes that are connected via arrows.  If we identify nodes with their labels, we have that
 \\[0.2cm]
@@ -390,7 +390,7 @@ Finally, we specify the method $\mytt{delete}()$.
       associated value from the subtree $r$ yielding the subtree $r'$.
       The smallest key from $r$ is then stored at the root of the new tree.
 
-\item $k_1 < k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}\bigl(k_1) = 
+\item $k_1 < k_2 \rightarrow \mytt{Node}(k_2,v_2,l,r).\mytt{delete}(k_1) = 
        \mytt{Node}(k_2,v_2,l.\mytt{delete}(k_1),r)$.
 
        If the key $k_1$ that is to be removed is less than the key $k_2$ stored at the root, the key $k_1$ can only be
@@ -494,7 +494,7 @@ binary trees.  We discuss the implementation of this class next.
             \mytt{mRight} are initialized as empty trees.
       \item If the key \mytt{key}, for which the value \mytt{value} is to be inserted, is identical
             to the key \mytt{mKey} stored at this node, then we have found the node where we need
-            to insert \mytt{value}.  In this case, the current value of the variables \mytt{mValue} is
+            to insert \mytt{value}.  In this case, the current value of the variable \mytt{mValue} is
             overwritten with \mytt{value}. 
       \item Otherwise, \mytt{key} is compared with \mytt{mKey} and the insertion is recursively continued in the
             appropriate subtree.
@@ -553,8 +553,8 @@ binary trees.  We discuss the implementation of this class next.
       implementation of \mytt{insert}.  It should be noted that the implementation follows directly from the
       equations derived  previously. 
       
-      There is however one caveat that should be mentioned.  Line 59 show the implementation of the
-      function \mytt{update}.  When we delete the key at the root of the tree and either of the
+      There is however one caveat that should be mentioned.  Line 59 shows the implementation of the
+      method \mytt{\_update}.  When we delete the key at the root of the tree and either of the
       subtrees is empty, we would like to overwrite the current tree with the non-empty
       subtree, i.e.~we would like to write something like
       \\[0.2cm]
@@ -562,15 +562,15 @@ binary trees.  We discuss the implementation of this class next.
       \mytt{self = mLeft}
       \\[0.2cm]
       However, we cannot replace the object \mytt{self} with another object.  The only thing we can do is
-      change the attributes of the object \mytt{self}.  This is done in the method \mytt{update}.
-      The expression \mytt{self.update(t)} overwrites the member variables of the object \mytt{self} with the
+      change the attributes of the object \mytt{self}.  This is done in the method \mytt{\_update}.
+      The expression \mytt{self.\_update(t)} overwrites the member variables of the object \mytt{self} with the
       corresponding member variables of the ordered binary tree \mytt{t}. 
 \end{enumerate}
 
 \begin{figure}[!th]
   \centering 
   \framebox{\epsfig{file=Abbildungen/degenerated-bin-tree}} 
-  \caption{A degenerated binary tree.}
+  \caption{A degenerate binary tree.}
   \label{fig:degenerated}
 \end{figure}
 
@@ -580,7 +580,7 @@ In this section we will first discuss the \blue{worst case complexity} of ordere
 this complexity is quite bad.  In fact, in 
 the worst case, the call $b.\mytt{find}(k)$ will perform $\Oh(n)$ key comparisons if $b$ is an ordered
 binary search tree containing $n$ key-value pairs.  After that, we investigate the \blue{average case complexity}.  We
-will show that the average case complexity is $\Oh\bigr(\ln(n)\bigr)$.
+will show that the average case complexity is $\Oh\bigl(\ln(n)\bigr)$.
 
 \subsubsection{Worst Case Complexity}
 We begin our investigation of the complexity with an analysis of the complexity of $b.\mytt{find}(k)$ 
@@ -686,7 +686,7 @@ contains the remaining  $n-i$ keys:
 \hspace*{1.3cm}
 $\underbrace{k_0 < k_1 < \cdots < k_{i-1}}_{\mbox{keys in $l$}} < 
  \underbrace{k_{i}}_{\displaystyle \bar{k}} < 
- \underbrace{k_{i+1} < \cdots < k_{n-1} < k_n}_{\mbox{keys in $r$}}$,
+ \underbrace{k_{i+1} < \cdots < k_{n-1} < k_n}_{\mbox{keys in $r$}}$.
 \\[0.2cm]
 As  $b$ contains $n+1$ keys all together, there are  $n+1$ different possibilities for the position
 of $\bar{k}$, as the number of keys in the left subtree $l$ is $i$ where
@@ -728,7 +728,7 @@ then there are three possibilities for the key $k$ that we want to find in $b$:
       comparisons because in addition to the  $d_i$ comparisons in the left subtree we have to
       compare the key $k$ we are looking for with the key $\bar{k}$ at the root of the tree.
 \item $k$ might be a key in the right subtree $r$.  As there are  $n-i$ keys in the right subtree
-      and the total of keys is $n+1$, the probability that the key  $k$ occurs in the right subtree $r$
+      and the total number of keys is $n+1$, the probability that the key  $k$ occurs in the right subtree $r$
       is \\[0.2cm]
       \hspace*{1.3cm} $\displaystyle \bruch{n-i}{n+1}$. \\[0.2cm]
       In this case there are  \\[0.2cm]
@@ -736,7 +736,7 @@ then there are three possibilities for the key $k$ that we want to find in $b$:
       comparisons. 
 \end{enumerate}
 In order to compute  $\mytt{numCmp}(i, n\!+\!1)$ we have to multiply the probabilities in every
-case with the number of comparisons and these three numbers have to added.  This yields
+case with the number of comparisons and these three numbers have to be added.  This yields
 \begin{eqnarray*}
   \mytt{numCmp}(i, n\!+\!1) 
 & = & \bruch{1}{\,n+1\,} \cdot 1 + \bruch{i}{n+1} \cdot (d_i + 1) + \bruch{n-i}{n+1} \cdot (d_{n-i} + 1) 
@@ -776,7 +776,7 @@ Here we have used the fact that the identity  \\[0.2cm]
 \hspace*{1.3cm}
 $\ds\sum\limits_{i=0}^n a_{n-i} = \sum\limits_{i=0}^n a_i$ \\[0.2cm]
 is valid for any sequence $(a_n)_{n}$.
-We had verified this equation already when discussing the complexity of \blue{QuickSort} in the average
+We had verified this equation already when discussing the complexity of \blue{quicksort} in the average
 case.  Next, we solve the recurrence equation 
 \begin{equation}
   \label{eq:bin1}

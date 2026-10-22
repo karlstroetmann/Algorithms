@@ -79,7 +79,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
               the priority associated with $v$. 
         \item $\mytt{isEmpty}: \mytt{PrioQueue} \rightarrow \mathbb{B}$
 
-              The expression $Q.\mytt{isEmpty}$ checks whether the priority queue $Q$ is empty.
+              The expression $Q.\mytt{isEmpty}()$ checks whether the priority queue $Q$ is empty.
         \end{enumerate}
 \item Before we are able to specify the behaviour of the functions implementing the function symbols
       given above, we have to discuss the notion of the \blue{priority}.  We assume that the pair
@@ -103,10 +103,10 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             implement the function \mytt{toList} via the following conditional equations: 
             \begin{enumerate}
             \item $Q.\mytt{isEmpty}() \rightarrow Q.\mytt{toList}() = []$,
-            \item $\neg Q.\mytt{isEmpty}() \rightarrow Q.\mytt{toList} = [Q.\mytt{top}()] + Q.\mytt{remove}().\mytt{toList}()$.
+            \item $\neg Q.\mytt{isEmpty}() \rightarrow Q.\mytt{toList}() = [Q.\mytt{top}()] + Q.\mytt{remove}().\mytt{toList}()$.
             \end{enumerate}
       \item The function $\mytt{insertList}$ takes a pair consisting of a priority and a value and inserts it
-            into an ascendingly sorted list of priority-values-pairs such that the resulting list remains
+            into an ascendingly sorted list of priority-value pairs such that the resulting list remains
             sorted.  This function has the signature
             \\[0.2cm]
             \hspace*{-0.5cm}
@@ -118,7 +118,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             \begin{enumerate}
             \item $\mytt{insertList}(p,v,[]) = [\langle p,v\rangle ]$,
             \item $p_1 <    p_2 \rightarrow \mytt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_1,v_1), \pair(p_2,v_2)] + R$,
-            \item $p_1 \geq p_2 \rightarrow \mytt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_2,v_2)] + \mytt{insertList}\bigl(\pair(p_1,v_1), R\bigr)$.
+            \item $p_1 \geq p_2 \rightarrow \mytt{insertList}\bigl(p_1,v_1,[\pair(p_2,v_2)] + R\bigr) = [\pair(p_2,v_2)] + \mytt{insertList}(p_1,v_1, R)$.
             \end{enumerate}
             Conceptually, this function is the same as the function $\mytt{insert}$ that we had defined when
             discussing the algorithm \hyperref[sec:insertionSort]{insertion sort}.
@@ -142,7 +142,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             undefined value $\Omega$ is returned instead.
       \item $Q.\mytt{toList}() \not= \mytt{[]} \rightarrow Q.\mytt{top}() = Q.\mytt{toList}()[0]$
 
-            If we retrieve the  pair with the highest priority from an non-empty priority queue $Q$,
+            If we retrieve the  pair with the highest priority from a non-empty priority queue $Q$,
             we get the pair that is the first element of the list $Q.\mytt{toList}()$.
 
       \item $Q.\mytt{toList}() = \mytt{[]} \rightarrow Q.\mytt{remove}().\mytt{toList}() = \mytt{[]}$
@@ -165,7 +165,7 @@ the \hyperref[sec:dijkstra]{shortest path algorithm of Dijkstra} and the
             about the results that are observable via the function \mytt{toList}.  
       \item Furthermore, the functions \mytt{top} and \mytt{isEmpty} are also \blue{observer functions} of the
             \textsc{Adt} \mytt{PrioQueue}:  They do not \blue{change} a priority queue, instead they return
-            information about a priority queue.  These observer function can be reduced to the more general
+            information about a priority queue.  These observer functions can be reduced to the more general
             observer function \mytt{toList}. 
       \item The function \mytt{remove} is a \blue{mutator} function\index{mutator function}: It does
             \blue{change} a priority queue. 
@@ -185,7 +185,7 @@ Then, the different methods of $\mytt{PrioQueue}$ would be implemented as follow
 The worst case complexity of this approach would be linear for the method $\mytt{insert}()$,
 i.e.~it would have complexity $\Oh(n)$ where $n$ is the number of elements in $Q$. 
 All other operations would have the complexity $\Oh(1)$.  
-Next, we introduce a more efficient implementation.  In this implementation the complexity of $\mytt{insert}()$ 
+Next, we introduce a more efficient implementation.  In this implementation the complexity of both $\mytt{insert}()$ and $\mytt{remove}()$
 is only $\Oh\bigl(\log(n)\bigr)$, while the other operations still have the complexity $\Oh(1)$.
 To this end, we introduce a new data structure: \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{Heaps}. 
 
@@ -279,7 +279,7 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l.\mytt{insert}(p,v), r\bigr)$.
                  
-      If the value $v$ to be inserted has a priority $p$ that is lower (or the same) than the priority
+      If the value $v$ to be inserted has a priority $p$ that is lower than (or the same as) the priority
       $p_{\mathrm{top}}$ of
       the value at the root of the heap, we have to insert the value $v$ either in the left or right
       subtree.  In order to maintain the balancing condition, we insert the value $v$ in the left
@@ -289,7 +289,7 @@ and the heap condition are maintained.
       $\mytt{Node}(p_{\mathrm{top}},v_\mathrm{top},l,r).\mytt{insert}(p,v) =
                  \mytt{Node}\bigl(p_\mathrm{top},v_\mathrm{top},l,r.\mytt{insert}(p,v)\bigr)$.
 
-      If the value $v$ to be inserted has a priority $p$ that is lower (or the same) than the priority
+      If the value $v$ to be inserted has a priority $p$ that is lower than (or the same as) the priority
       $p_{\mathrm{top}}$ of
       the value at the root of the heap, we have to insert the value $v$ in the right
       subtree if the right subtree  stores fewer values than the left subtree.
@@ -302,7 +302,7 @@ and the heap condition are maintained.
       $p_{\mathrm{top}}$ of
       the value stored at the root of the heap, then we have to store the value $v$ at the root.
       The value $v_\mathrm{top}$ that was stored previously at the root has to be moved to either
-      the left or right subtree.  If the number of nodes in the left subtree is as most as big as
+      the left or right subtree.  If the number of nodes in the left subtree is at most as big as
       the number of nodes in the right subtree, $v_\mathrm{top}$ is inserted into the left subtree.
 \item $p_{\mathrm{top}} > p \;\wedge\; l.\mytt{count}() > r.\mytt{count}() \;\rightarrow $ \\[0.1cm] 
       \hspace*{1.3cm} 
@@ -368,7 +368,7 @@ balancing condition.
 Next, we present an implementation of heaps in \textsl{Python}.  Figure \ref{fig:Heap.ipynb:Heap} on page
 \pageref{fig:Heap.ipynb:Heap} shows the implementation of the class  \mytt{Heap}.  This class is a superclass
 of both the class \mytt{Nil} and the class \mytt{Node} which are used to represent heaps of the form
-\mytt{Nil} and $\mytt{Node}(p, v, l, r)$, respectively.  These classes are presented later in Figure
+\mytt{Nil} and $\mytt{Node}(p, v, l, r)$, respectively.  These classes are presented later in Figures
 \ref{fig:Heap.ipynb:Nil} and \ref{fig:Heap.ipynb:Node}.
 
 
@@ -394,14 +394,14 @@ of both the class \mytt{Nil} and the class \mytt{Node} which are used to represe
             return self.mID                 
 \end{minted}
 \vspace*{-0.3cm}
-\caption{The super class \mytt{Heap}.}
+\caption{The superclass \mytt{Heap}.}
 \label{fig:Heap.ipynb:Heap}
 \end{figure}
 
 The class \mytt{Heap} maintains the static variable \mytt{sNodeCount}.  This variable is used to attach a
 unique identifier to each node of a tree.  The constructor of the class \mytt{Heap} increments this variable
 every time a new heap is constructed.  Furthermore, the constructor initializes the member variable
-\mytt{mId}, which represents the unique identifier that is associated which each node.  This member variable
+\mytt{mID}, which represents the unique identifier that is associated with each node.  This member variable
 is later used by \mytt{graphviz} to present heaps as trees.  However, we will not discuss the graphical
 presentation of heaps.
 
@@ -522,7 +522,7 @@ Modify the implementation of $\mytt{remove}$ so that the balancing condition rem
 
 \exercise
 Instead of defining a class with member variables $\mytt{mLeft}$ and $\mytt{mRight}$, a binary tree
-can be stored as a list $L$.  In that case, for every index $i \in \bigl\{0, \cdots, \mytt{len}(L)-1 \bigl\}$,
+can be stored as a list $L$.  In that case, for every index $i \in \bigl\{0, \cdots, \mytt{len}(L)-1 \bigr\}$,
 the expression $L[i]$ stores a node of the tree.  The crucial idea is that the left subtree of the
 subtree stored at the index $i$ is stored at the index $2 \cdot i + 1$, while the right subtree is
 stored at the index $2 \cdot (i + 1)$.  Develop an implementation of heaps that is based on this idea.
@@ -535,10 +535,10 @@ needs an auxiliary array and is therefore not optimally efficient with regard
 to its memory consumption.  The algorithm we describe next is called
 \href{https://en.wikipedia.org/wiki/Heapsort}{heapsort} and has 
 a time complexity that is $\Oh\bigl(n \cdot \log_2(n)\bigr)$ and does not require an auxiliary
-array.  Heapsort \index{Heapsort} was invented in 1964 by
+array.  Heapsort \index{heapsort} was invented in 1964 by
 \href{https://en.wikipedia.org/wiki/J._W._J._Williams}{J.W.J.~Williams} \cite{williams:1964}
 and improved by \href{https://en.wikipedia.org/wiki/Robert_W._Floyd}{Robert W.~Floyd} \cite{floyd:1964} in the
-same year.  Robert Floyd received the Turing award 1978.
+same year.  Robert Floyd received the Turing Award in 1978.
 
 The basic version of heapsort that was given by Williams takes an array $\mytt{A}$ of keys to be sorted and
 then proceeds as follows:
@@ -580,16 +580,16 @@ use of the class $\mytt{Heap}$ that had been presented in the previous section.
 \begin{enumerate}
 \item In order to sort the list $L$ that is given as argument to $\mytt{heap\_sort}$, we first
       create the empty heap $H$ in line 2 and then proceed to insert all elements of the list
-      $A$ into $H$ in line 4.  
-\item Next we create an empty list $S$ in line 5. When the procedure $\mytt{heapSort}$
+      $L$ into $H$ in line 4.  
+\item Next we create an empty list $S$ in line 5. When the procedure $\mytt{heap\_sort}$
       finishes, this list will be a sorted version of the list $L$.
 \item As long as the heap $H$ is not empty, we take its top element and append it to
-      $S$.  We can test whether the heap is empty by checking that it has the type \mytt{Node}.
+      $S$.  We can test whether the heap is non-empty by checking that it has the type \mytt{Node}.
       Since the method $\mytt{top}$ returns a pair of the form $\langle p, \mytt{None}\rangle$,
       we just add the first element of this pair to the
       end of the list $S$.  After we have appended $p$ to the list $S$, the pair
       $\langle p, \mytt{None}\rangle$ is removed from the heap ${H}$.
-\item Once the heap ${H}$ has become empty, ${S}$ contains all of the elements of the list ${A}$
+\item Once the heap ${H}$ has become empty, ${S}$ contains all of the elements of the list ${L}$
       and is sorted ascendingly.
 \end{enumerate}
 
@@ -710,7 +710,7 @@ We discuss this implementation line by line.
       violated at position ${j}$.  Therefore,  ${k}$ is set to ${j}$ and the \mytt{while}-loop repeats
       as long as the node at position ${k}$ has at least one child, i.e.~as long as 
       $2 \cdot {k} + 1 \leq {n}$.
-\item The function $\mytt{heapSort}$ has the task to sort the array ${A}$ and proceeds in two phases.
+\item The function $\mytt{heap\_sort}$ has the task to sort the array ${A}$ and proceeds in two phases.
       \begin{enumerate}
       \item In \blue{phase one} our goal is to transform the array ${A}$ into a heap that is stored in ${A}$.
 
@@ -719,7 +719,7 @@ We discuss this implementation line by line.
             $\mytt{sink}$ is called, all trees rooted at an index greater than 
             ${k}$ satisfy the heap condition.  Initially this is true because the trees that
             are rooted at indices greater than  $(n + 1) // 2 - 1$  only
-            consist of a single node therefore satisfy the heap condition vacuously.  This can be seen as
+            consist of a single node and therefore satisfy the heap condition vacuously.  This can be seen as
             follows:  If $k = (n + 1)//2$, which is the first 
             natural number that is greater than $(n + 1) // 2 - 1$, then there are two cases:
             Either $n$ is even or $n$ is odd.
@@ -757,14 +757,14 @@ We discuss this implementation line by line.
             as far as necessary.
 
             This phase is also called the \blue{heapification} \index{heapification} of the array.
-      \item In \textbf{phase two} we remove the elements from the heap one-by-one and insert them at the end of
+      \item In \blue{phase two} we remove the elements from the heap one-by-one and insert them at the end of
             the array.
 
             When the \mytt{while}-loop starts, the array ${A}$ contains a heap.  Therefore,
             the smallest element is found at the root of the heap.  Since we want to sort the
             array ${A}$ \blue{descendingly}, we move this element to the end of the array ${A}$ and in
             return move the element from the end of the array ${A}$ to the front.
-            After this exchange, the sublist $A[0:n-1]$ represents a heap, except that the
+            After this exchange, the sublist $A[0:n]$ represents a heap, except that the
             heap condition might now be violated at the root.  Therefore, we decrement ${n}$ in line 20, since the
             last element of the array ${A}$ is already in its correct position in the list that is to be
             returned in the end.  In order to reestablish the heap condition at the root, we call $\mytt{sink}$ with index
@@ -787,7 +787,7 @@ $\mytt{Node}(p, v, l, r)$ is a heap if $p$ is bigger than all priorities occurri
 \subsection{Complexity}
 Heapsort uses fewer than $2 \cdot n \cdot \log_2(n)$ comparisons to sort a list of $n$ elements.  Since it does
 not need an auxiliary array, it is the algorithm that is to be chosen if there is not enough memory available
-to run merge sort \cite{sedgewick:2011}.  
+to run merge sort \cite{sedgewick:11}.  
 
 \exercise
 Develop an algorithm for sorting a list of $n$ numbers that makes use of \textsc{Avl}-trees.  Your algorithm
@@ -805,9 +805,9 @@ should have the complexity $\Oh\bigl(n \cdot \log_2(n)\bigr)$.  Specify the algo
 \item How is the set $\mathcal{H}$ of heaps defined?
 \item How can we implement the methods $\mytt{insert}$ and \mytt{remove} if we implement a priority queue as a
       heap? 
-\item How can we represent a heap as an array?  What are the benefits of this representation.
-\item Try to implement the algorithm \blue{heap sort} in a language of your choice without consulting the text.
-\item Compare \blue{heap sort} and \blue{merge sort}. 
+\item How can we represent a heap as an array?  What are the benefits of this representation?
+\item Try to implement the algorithm \blue{heapsort} in a language of your choice without consulting the text.
+\item Compare \blue{heapsort} and \blue{merge sort}. 
 \end{enumerate}
 
 %%% Local Variables: 

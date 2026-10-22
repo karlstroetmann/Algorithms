@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[twoside]{report}
 
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp}
@@ -35,6 +35,8 @@
 
 \pagestyle{fancy}
 \renewcommand*{\familydefault}{\sfdefault}
+% The sans-serif font has no small caps, so acronyms like \textsc{Avl} are printed in capitals.
+\renewcommand{\textsc}[1]{\MakeUppercase{#1}}
 
 \fancyfoot[C]{--- \thepage/\pageref{LastPage} ---}
 
@@ -46,8 +48,10 @@
 
 \renewcommand{\chaptermark}[1]{\markboth{\chaptername \ \thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection. \ #1}{}}
-\fancyhead[R]{\leftmark}
-\fancyhead[L]{\rightmark}
+% Chapter on the outer edge of even pages, section on the outer edge of odd pages.
+\fancyhead{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
 
 \definecolor{darkgreen}{rgb}{0.4, 0.6, 0.2}
 \definecolor{darkred}{rgb}{0.5, 0.0, 0.0} 
@@ -55,11 +59,18 @@
 \definecolor{violet}{rgb}{0.6, 0.0, 0.6} 
 \definecolor{amethyst}{rgb}{0.2, 0.4, 0.6}
 \definecolor{orange}{rgb}{1, 0.9, 0.0}
-\definecolor{sepia}{rgb}{1.0,1.0,0.9}
+\definecolor{sepia}{rgb}{1.0,0.97,0.82}
 \usemintedstyle{colorful}
 
 
 \setlength{\mathindent}{1.3cm}
+% Two-sided layout for print: the wider margin is always on the binding side.
+\setlength{\oddsidemargin}{\dimexpr 3.5cm - 1in\relax}
+\setlength{\evensidemargin}{\dimexpr \paperwidth - \textwidth - 3.5cm - 1in\relax}
+% Allow slightly looser lines instead of letting long code words stick into the margin.
+\setlength{\emergencystretch}{2em}
+% Twoside would switch to \flushbottom; keep pages with large listings from being stretched.
+\raggedbottom
 \theoremstyle{plain}
 \newcounter{aufgabe}
 \hyphenation{Warte-schlan-ge}
@@ -70,9 +81,9 @@
 {\theorembodyfont{\sf} \newtheorem{Lemma}[Definition]{Lemma}}
 {\theorembodyfont{\sf} \newtheorem{Proposition}[Definition]{Proposition}}
 {\theorembodyfont{\sf} \newtheorem{Theorem}[Definition]{Theorem}}
-\title{\epsfig{file=Abbildungen/dhbw-logo.eps, scale=1.2}\\[0.3cm]  
-       An Introduction to Algorithms  \\[0.5cm]
-      --- Lecture Notes for the Winter Term 2022 ---}
+\title{Theoretical Computer Science \\
+       Algorithms and Complexity \\[0.3cm]
+       {\large Python Edition}}
 \author{Prof.~Dr.~Karl Stroetmann}
 
 
@@ -83,37 +94,7 @@
 %\renewcommand{\ttdefault}{inconsolatag}
 
 
-\date{\today\\[0.2cm]
-\begin{minipage}[t]{1.0\linewidth} 
-These lecture notes, their \LaTeX\ sources, and the programs discussed in these lecture notes are all available at
-\\[0.2cm]
-\hspace*{1.3cm}
-\href{https://github.com/karlstroetmann/Algorithms}{\texttt{https://github.com/karlstroetmann/Algorithms}}.
-\\[0.2cm]
-The lecture notes itself can then be found in the file 
-\\[0.2cm]
-\hspace*{1.3cm}
-\href{https://github.com/karlstroetmann/Algorithms/blob/master/Lecture-Notes/algorithms.pdf}{\texttt{Lecture-Notes/algorithms.pdf}}.
-\\[0.2cm]
-These lecture notes are still subject to some changes.
-Provided the program \href{http://git-scm.com/download}{\texttt{git}} 
-is installed on your computer, the repository containing the lecture notes and all of the accompanying programs
-can be cloned using the command 
-\\[0.2cm]
-\hspace*{1.3cm}
-\textcolor{amethyst}{\texttt{git clone https://github.com/karlstroetmann/Algorithms.git}}.
-\\[0.2cm]
-Once you have cloned the repository, the command
-\\[0.2cm]
-\hspace*{1.3cm}
-\textcolor{amethyst}{\texttt{git pull}}
-\\[0.2cm]
-can be used to load the current version of these lecture notes from \href{https://github.com}{\texttt{github}}.
-If you find any errors or typos in these lecture notes I would be grateful if you could report these errors via
-email or, if you are one of my students, via discord.  Alternatively, you are welcome to send a pull request
-via \href{https://github.com}{GitHub}. \\[0.2cm]
-\end{minipage}
-}
+\date{October 22, 2026}
 
 \newcommand{\exercise}{\vspace*{0.3cm}
   
@@ -217,6 +198,27 @@ via \href{https://github.com}{GitHub}. \\[0.2cm]
 
 \begin{document}
 \maketitle
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\noindent
+Copyright \copyright\ 2014--2026 Karl Stroetmann
+\\[0.3cm]
+The text of these lecture notes is licensed under the
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License} (CC BY-NC-SA 4.0).
+You may copy, distribute, and adapt the text for non-commercial purposes, provided that
+you give appropriate credit and distribute your contributions under the same license.
+\\[0.3cm]
+The programs discussed in these lecture notes are licensed under the
+\href{https://opensource.org/license/mit}{MIT License}.  They are provided ``as is'',
+without warranty of any kind.
+\\[0.3cm]
+The sources of these lecture notes and the programs are available at
+\\[0.2cm]
+\hspace*{\fill}
+\href{https://github.com/karlstroetmann/Algorithms}{\texttt{https://github.com/karlstroetmann/Algorithms}}.
+\hspace*{\fill}
 \tableofcontents
 \include{introduction}
 \include{python}
