@@ -1,0 +1,16 @@
+How fast can a list of numbers be sorted, and why can no method that compares the numbers do much better? How can you tell in advance whether a program will still finish in time when its input grows a thousandfold? How does a navigation system find the shortest route? This book answers these questions with precise definitions, complete proofs, and working Python programs.
+
+Every algorithm becomes code. You implement insertion sort, merge sort, quicksort, radix sort, and heapsort, build AVL trees, tries, and hash tables, write a calculator for arithmetic expressions with the shunting-yard algorithm, compress text with Huffman codes, and compute minimum spanning trees and shortest paths with the algorithms of Kruskal, Bellman-Ford, and Dijkstra.
+
+Topics include
+- the big O notation, recurrence equations, and the master theorem
+- correctness proofs by computational induction and symbolic execution
+- sorting, and why about n log n comparisons are unavoidable
+- abstract data types, sets, maps, and priority queues
+- graph algorithms and the Monte Carlo method
+
+Along the way you recognize handwritten digits with the k-nearest-neighbours algorithm, approximate pi by throwing virtual grains of sand, and settle the Monty Hall problem by simulation.
+
+Written for students of computer science and for every programmer who wants to know why some programs are fast and others are not. All programs are available as Jupyter notebooks at github.com/karlstroetmann/Algorithms.
+
+Karl Stroetmann is a professor at the Baden-Wuerttemberg Cooperative State University (DHBW), where this book grew out of a course on algorithms. Until 2002 the author worked on hardware verification at the Siemens Research Center.
