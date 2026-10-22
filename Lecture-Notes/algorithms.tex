@@ -67,6 +67,9 @@
 % Two-sided layout for print: the wider margin is always on the binding side.
 \setlength{\oddsidemargin}{\dimexpr 3.5cm - 1in\relax}
 \setlength{\evensidemargin}{\dimexpr \paperwidth - \textwidth - 3.5cm - 1in\relax}
+% The text height of a4wide is meant for A4: on Letter paper the page numbers would be only 0.1in
+% above the bottom edge (KDP requires at least 0.25in).  Moving the page body up by 1cm leaves 0.5in.
+\addtolength{\topmargin}{-1cm}
 % Allow slightly looser lines instead of letting long code words stick into the margin.
 \setlength{\emergencystretch}{2em}
 % Twoside would switch to \flushbottom; keep pages with large listings from being stretched.
